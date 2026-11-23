@@ -255,14 +255,73 @@ test('an existing target must verify against its pin; an existing cache target m
   assert.ok(!exists(root, '.phase1'));
 });
 
-test('apply stops at the first failure and leaves later rows in place', t => {
+test('a target parent that is not a folder is refused by the dry run, and --apply changes nothing', t => {
   const {root} = repository(t);
   write(root, '.local/downloads', 'a file where a folder belongs');
+  const dry = invoke(root);
+  assert.equal(dry.code, 1, dry.out);
+  assert.match(dry.out, /^refuse: \.phase1\/cache\/Godot_fixture_win64\.zip: \.local\/downloads is not a folder/m);
+  const before = snapshot(root);
   const result = invoke(root, ['--apply']);
   assert.equal(result.code, 1);
-  assert.match(result.err, /migration stopped/);
-  assert.ok(!exists(root, '.phase1/tools/linux-vm'), 'the first row ran');
-  for (const later of ['.phase1/cache/Godot_fixture_win64.zip', '.phase1/feed', '.phase1/packages']) assert.ok(exists(root, later), later);
+  assert.deepEqual(snapshot(root), before, 'a refusal deletes and moves nothing');
+  assert.ok(exists(root, '.phase1/tools/linux-vm/system.qcow2'), 'the VM is kept');
+});
+
+test('a move source that fails its pin is refused by the dry run, before the VM deletion can run', t => {
+  for (const [legacy, file, data] of [
+    ['.phase1/cache/phase4-exports', '.phase1/cache/phase4-exports/templates.tpz', 'truncated templates'],
+    ['.phase1/tools/Godot_fixture_win64', '.phase1/tools/Godot_fixture_win64/godot_console.exe', 'other editor'],
+    ['.phase1/cache/Godot_fixture_win64.zip', '.phase1/cache/Godot_fixture_win64.zip', 'partial download'],
+    ['.phase1/cache/SHA512-SUMS.txt', '.phase1/cache/SHA512-SUMS.txt', 'no matching line\n'],
+    ['.phase1/feed', '.phase1/feed/Fixture.Package.1.0.0.nupkg', 'other package'],
+  ]) {
+    const {root} = repository(t);
+    write(root, file, data);
+    const dry = invoke(root);
+    assert.equal(dry.code, 1, legacy);
+    assert.match(dry.out, new RegExp(`^refuse: ${legacy.replaceAll('.', '\\.')} does not verify against its pin`, 'm'), legacy);
+    const before = snapshot(root);
+    assert.equal(invoke(root, ['--apply']).code, 1, legacy);
+    assert.deepEqual(snapshot(root), before, legacy);
+  }
+});
+
+test('apply verifies every row first, then moves, then deletes, and deletes the VM last', t => {
+  const {root} = repository(t);
+  const result = invoke(root, ['--apply']);
+  assert.equal(result.code, 0, result.out + result.err);
+  const steps = result.lines.filter(line => /^ {2}(moved|deleted) /.test(line) && !line.endsWith('(empty)'));
+  const lastMove = steps.findLastIndex(line => line.startsWith('  moved'));
+  const firstDelete = steps.findIndex(line => line.startsWith('  deleted'));
+  assert.ok(lastMove >= 0 && firstDelete > lastMove, steps.join('\n'));
+  assert.equal(steps.at(-1), '  deleted  .phase1/tools/linux-vm');
+});
+
+test('a rerun after an interrupted apply skips the completed rows and finishes', t => {
+  const {root} = repository(t);
+  const rename = fs.renameSync;
+  let calls = 0;
+  fs.renameSync = (...args) => {
+    if (++calls === 3) throw Object.assign(new Error('simulated interruption'), {code: 'EIO'});
+    return rename(...args);
+  };
+  let interrupted;
+  try {
+    interrupted = invoke(root, ['--apply']);
+  } finally {
+    fs.renameSync = rename;
+  }
+  assert.equal(interrupted.code, 1);
+  assert.match(interrupted.err, /migration stopped: simulated interruption/);
+  assert.ok(exists(root, '.phase1/tools/linux-vm/system.qcow2'), 'the VM deletion has not run');
+  assert.ok(exists(root, '.local/downloads/godot/Godot_fixture_win64.zip'), 'the first move completed');
+  const rerun = invoke(root, ['--apply']);
+  assert.equal(rerun.code, 0, rerun.out + rerun.err);
+  assert.match(rerun.out, /^skip \.phase1\/cache\/Godot_fixture_win64\.zip -> \.local\/downloads\/godot\/Godot_fixture_win64\.zip \(already migrated\)$/m);
+  for (const gone of ['.phase1', '.phase2']) assert.ok(!exists(root, gone), gone);
+  for (const kept of ['.local/downloads/export-templates/templates.tpz', '.local/tools/godot/Godot_fixture_win64/godot_console.exe',
+    '.local/nuget/feed/Fixture.Package.1.0.0.nupkg', '.local/nuget/http/v3/index.json']) assert.ok(exists(root, kept), kept);
 });
 
 test('the process lister sees this process, sizes read as numbers, and arguments are validated', () => {

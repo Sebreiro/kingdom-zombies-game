@@ -1,7 +1,9 @@
 'use strict';
 // One-time migration of the main checkout's legacy per-phase folders into the shared `.local/` root.
-// A dry run is the default and writes nothing. --apply deletes or renames one row at a time (one same-volume rename
-// per moved row) and stops at the first failure. A rerun reports migrated rows and changes nothing.
+// A dry run is the default and writes nothing. Planning checks every row before anything changes: each move source
+// against its pin, each target's parent folders, and every refusal rule; the dry run runs exactly these checks. --apply
+// then moves (one same-volume rename per row), then deletes, and deletes the legacy VM last. A rerun after an
+// interrupted --apply skips the rows already done and continues.
 // Rules: docs/workflow/setup.md and docs/workflow/cleanup.md
 const fs = require('node:fs');
 const path = require('node:path');
@@ -17,7 +19,9 @@ const EXPORT_TOOLCHAIN = 'src/godot-game/production/assets/export-toolchain.json
 const USAGE = `Usage: node src/godot-game/tools/workspace-migrate.cjs [--apply]
 
 Moves the main checkout's legacy .phase1 caches into its .local/ folder, found through the Git common dir from any
-working directory. Without --apply, only lists each row and its size; it exits 0 only when nothing would be refused.
+working directory. Without --apply, only lists each row and its size after checking every move source against its pin,
+every target and every refusal rule; it exits 0 only when --apply would not be refused. --apply moves first, then
+deletes, and deletes the legacy VM last.
 Stop build servers first (dotnet build-server shutdown); they can hold files inside the package cache.`;
 
 class UsageError extends Error {}
@@ -96,7 +100,7 @@ function sumsList(file, sha512, name) {
 
 /** Rows in order: the legacy VM deletion first, then moves with their pin checks, then deletions of stray state. */
 function rowsFor(main, toolchain, exportToolchain) {
-  const rows = [{legacy: '.phase1/tools/linux-vm', action: 'delete',
+  const rows = [{legacy: '.phase1/tools/linux-vm', action: 'delete', last: true,
     note: 'the phase that needs a VM recreates it under .local/tools/linux-vm'}];
   for (const archive of Object.values(toolchain.archives)) {
     rows.push({legacy: `.phase1/cache/${archive.file}`, action: 'move', kind: 'file',
@@ -148,6 +152,16 @@ function unsafeSource(main, row, worktreePaths) {
   return null;
 }
 
+/** Why a move target cannot be created: an existing parent below the main checkout that is not a folder, or null. */
+function blockedTarget(main, target) {
+  const parents = [];
+  for (let parent = path.dirname(target); parent.length > main.length; parent = path.dirname(parent)) parents.unshift(parent);
+  for (const parent of parents) {
+    if (present(parent) && !fs.lstatSync(parent).isDirectory()) return `${slashed(path.relative(main, parent))} is not a folder`;
+  }
+  return null;
+}
+
 /** Classifies one row: delete, move, skip or refuse, with the line to print. */
 function classify(main, row, worktreePaths) {
   const relativeTarget = row.target && slashed(path.relative(main, row.target));
@@ -169,6 +183,11 @@ function classify(main, row, worktreePaths) {
       return {...row, decision: 'refuse', line: `refuse: ${relativeTarget} already exists and does not verify against its pin`};
     }
     return {...row, decision: 'delete', line: `delete ${row.legacy} (${bytes}; duplicate of the verified ${relativeTarget})`};
+  }
+  const blocked = blockedTarget(main, row.target);
+  if (blocked) return {...row, decision: 'refuse', line: `refuse: ${row.legacy}: ${blocked}`};
+  if (row.verify && !row.verify(row.source)) {
+    return {...row, decision: 'refuse', line: `refuse: ${row.legacy} does not verify against its pin`};
   }
   return {...row, decision: 'move', line: `move ${arrow} (${bytes})`};
 }
@@ -310,20 +329,21 @@ function pruneEmpty(main, log) {
   }
 }
 
+/** Runs a fully checked plan: every move, then every deletion, with the irreversible VM deletion last. */
 function apply(planned, log) {
-  for (const row of planned.rows) {
-    if (row.decision === 'delete') {
-      fs.rmSync(row.source, {recursive: true, force: false, maxRetries: 3});
-      log(`  deleted  ${row.legacy}`);
-    } else if (row.decision === 'move') {
-      fs.mkdirSync(path.dirname(row.target), {recursive: true});
-      fs.renameSync(row.source, row.target);
-      if (row.verify && !row.verify(row.target)) {
-        fs.renameSync(row.target, row.source);
-        throw new Error(`${row.legacy} does not verify against its pin after the move; it was moved back`);
-      }
-      log(`  moved    ${row.legacy} -> ${slashed(path.relative(planned.main, row.target))}`);
+  const deletes = planned.rows.filter(row => row.decision === 'delete');
+  for (const row of planned.rows.filter(item => item.decision === 'move')) {
+    fs.mkdirSync(path.dirname(row.target), {recursive: true});
+    fs.renameSync(row.source, row.target);
+    if (row.verify && !row.verify(row.target)) {
+      fs.renameSync(row.target, row.source);
+      throw new Error(`${row.legacy} does not verify against its pin after the move; it was moved back`);
     }
+    log(`  moved    ${row.legacy} -> ${slashed(path.relative(planned.main, row.target))}`);
+  }
+  for (const row of [...deletes.filter(item => !item.last), ...deletes.filter(item => item.last)]) {
+    fs.rmSync(row.source, {recursive: true, force: false, maxRetries: 3});
+    log(`  deleted  ${row.legacy}`);
   }
   pruneEmpty(planned.main, log);
 }
