@@ -3,8 +3,8 @@
 // The one resolver for the ignored, regenerable workspace root `.local/`.
 // Shared (once per repository, in the main checkout): tools, downloads, nuget packages/http/scratch, toolchain and
 // desktop locks. Per checkout: runs, temp, the verified package feed and the check lock.
-// KZ_SHARED_LOCAL (absolute) overrides the shared root for CI, extra clones, bare repositories and source copies.
-// Requiring this module spawns no process and creates no folder.
+// KZ_SHARED_LOCAL overrides the shared root for CI, extra clones, bare repositories and source copies; overrideProblem
+// holds the one rule it must meet. Requiring this module spawns no process and creates no folder.
 const fs = require('node:fs');
 const path = require('node:path');
 const {spawnSync} = require('node:child_process');
@@ -18,6 +18,36 @@ function checkoutRoot() {
   return path.resolve(__dirname, '../../..');
 }
 
+// A path for comparison only: on Windows backslashes become '/'; repeated separators collapse except a leading '//';
+// trailing separators are dropped.
+function normalOverride(value, windows) {
+  let text = windows ? value.replaceAll('\\', '/') : value;
+  const unc = text.startsWith('//');
+  text = text.replace(/\/{2,}/g, '/');
+  if (unc) text = '/' + text;
+  return text.replace(/\/+$/, '');
+}
+
+// The one KZ_SHARED_LOCAL rule. node-setup/shared-root.sh, node-setup/shared-root.ps1 and WorkspacePaths.cs hold the
+// same rule with the same messages, and node-setup/session-path.test.cjs runs one case table through each script.
+// On Windows the value is drive-qualified or UNC (a root-relative or MSYS /d/... form is refused, never converted);
+// elsewhere it starts with '/'. It has no '.' or '..' segment, is not a filesystem or drive root, and is neither the
+// checkout nor inside it, except the checkout's own .local folder. Returns the reason it is refused, or null.
+function overrideProblem(value, checkout, windows = process.platform === 'win32') {
+  const absolute = windows ? /^([A-Za-z]:[\\/]|[\\/]{2}[^\\/]+[\\/][^\\/]+)/.test(value) : value.startsWith('/');
+  if (!absolute) {
+    return windows ? 'must be a drive-qualified or UNC path, not a root-relative or MSYS /d/... form'
+      : 'must be an absolute path';
+  }
+  const normal = normalOverride(value, windows);
+  if (/(^|\/)\.\.?(\/|$)/.test(normal)) return 'must not contain . or .. segments';
+  if (windows ? /^[A-Za-z]:$|^\/\/[^/]+\/[^/]+$/.test(normal) : normal === '') return 'must not be a filesystem or drive root';
+  const fold = text => windows ? text.toLowerCase() : text;
+  const target = fold(normal) + '/', base = fold(normalOverride(checkout, windows)) + '/';
+  if (target.startsWith(base + '.local/')) return null;
+  return target.startsWith(base) ? 'must not be the checkout or inside it, except its .local folder' : null;
+}
+
 // Resolution order: KZ_SHARED_LOCAL, then the git common dir's parent, then the checkout's own `.local`.
 function roots(root = checkoutRoot(), env = process.env) {
   const checkout = path.resolve(root);
@@ -27,7 +57,8 @@ function roots(root = checkoutRoot(), env = process.env) {
   const local = path.join(checkout, '.local');
   let result;
   if (override) {
-    if (!path.isAbsolute(override)) fail('SHARED_ROOT_INVALID', OVERRIDE + ' must be an absolute path: ' + override);
+    const problem = overrideProblem(override, checkout);
+    if (problem) fail('SHARED_ROOT_INVALID', OVERRIDE + ' ' + problem + ': ' + override);
     result = {checkout, local, shared: path.resolve(override), source: 'override'};
   } else {
     const git = spawnSync('git', ['-C', checkout, 'rev-parse', '--path-format=absolute', '--git-common-dir'],
@@ -207,8 +238,8 @@ function main(args) {
 }
 
 module.exports = {
-  OVERRIDE, LEGACY_MAP, ISOLATION_KEYS, checkoutRoot, roots, locations, isolationEnv, legacyPath, insideShared,
-  linkedComponent, ensure, printEnv,
+  OVERRIDE, LEGACY_MAP, ISOLATION_KEYS, checkoutRoot, overrideProblem, roots, locations, isolationEnv, legacyPath,
+  insideShared, linkedComponent, ensure, printEnv,
 };
 
 if (require.main === module) {

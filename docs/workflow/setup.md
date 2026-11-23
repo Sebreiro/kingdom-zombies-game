@@ -31,6 +31,14 @@ Every checkout keeps ignored, regenerable state in one root folder, `.local/`. [
 
 Set the environment variable `KZ_SHARED_LOCAL` to an absolute folder to choose the shared root explicitly. CI, extra clones that should not use another checkout's caches, source copies and checkouts whose Git common folder is not a `.git` folder (a bare repository or a submodule) need it; the helper stops with `SHARED_ROOT_UNRESOLVED` in the last case. A folder that is not a Git checkout uses its own `.local/`.
 
+One rule applies to `KZ_SHARED_LOCAL` everywhere: in `workspace-paths.cjs`, the Node setup scripts, both session hooks and the C# tests.
+
+- On Windows the value must be drive-qualified (`<drive>:/kz-shared` or `<drive>:\kz-shared`) or a UNC path (`\\<server>\<share>\kz-shared`). A root-relative value (`\kz-shared`, `/kz-shared`) and the Git Bash form `/<drive>/kz-shared` are refused, not converted; in Git Bash, write `<drive>:/kz-shared`. Elsewhere the value must start with `/`.
+- It must not contain a `.` or `..` segment and must not be a filesystem or drive root.
+- It must not be the checkout or a folder inside it, except the checkout's own `.local/` and the folders below it.
+
+Setup, bootstrap and the runners stop with `SHARED_ROOT_INVALID` and the reason. The session hooks treat an invalid value as no shared Node: they write nothing and never fail the session.
+
 On Windows, allow long paths in this repository once, because worktree and build paths can exceed the Windows path limit and removal then fails with "Filename too long":
 
 ```sh

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KingdomZombies.Phase1.Tests;
@@ -118,6 +119,48 @@ internal static class WorkspacePaths
         start.Environment[key: "KZ_SHARED_LOCAL"] = Shared;
     }
 
+    /// <summary>Returns why a <c>KZ_SHARED_LOCAL</c> value is refused, or <see langword="null"/> when it is
+    /// accepted.</summary>
+    /// <remarks>
+    /// The one rule, with the same messages as <c>overrideProblem</c> in <c>workspace-paths.cjs</c> and the
+    /// <c>node-setup/shared-root</c> scripts. On Windows the value is drive-qualified or UNC (a root-relative or MSYS
+    /// <c>/d/...</c> form is refused, never converted); elsewhere it starts with <c>/</c>. It has no <c>.</c> or
+    /// <c>..</c> segment, is not a filesystem or drive root, and is neither the checkout nor inside it, except the
+    /// checkout's own <c>.local</c> folder.
+    /// </remarks>
+    internal static string? OverrideProblem(string value, string checkout, bool windows)
+    {
+        bool absolute = windows ? Matches(input: value, pattern: @"^([A-Za-z]:[\\/]|[\\/]{2}[^\\/]+[\\/][^\\/]+)")
+                : value.StartsWith(value: '/');
+        if (!absolute)
+        {
+            return windows ? "must be a drive-qualified or UNC path, not a root-relative or MSYS /d/... form"
+                    : "must be an absolute path";
+        }
+
+        string normal = NormalOverride(value: value, windows: windows);
+        if (Matches(input: normal, pattern: @"(^|/)\.\.?(/|$)"))
+        {
+            return "must not contain . or .. segments";
+        }
+
+        if (windows ? Matches(input: normal, pattern: "^[A-Za-z]:$|^//[^/]+/[^/]+$") : normal.Length == 0)
+        {
+            return "must not be a filesystem or drive root";
+        }
+
+        string target = (windows ? normal.ToLowerInvariant() : normal) + "/";
+        string normalCheckout = NormalOverride(value: checkout, windows: windows);
+        string root = (windows ? normalCheckout.ToLowerInvariant() : normalCheckout) + "/";
+        if (target.StartsWith(value: root + ".local/", comparisonType: StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        return target.StartsWith(value: root, comparisonType: StringComparison.Ordinal)
+                ? "must not be the checkout or inside it, except its .local folder" : null;
+    }
+
     // Ordered most specific first, so the first matching row is the longest legacy prefix.
     private static readonly (string Legacy, bool Shared, string Current)[] _legacy =
     [
@@ -148,14 +191,33 @@ internal static class WorkspacePaths
 
     private static readonly Lazy<string> _shared = new(valueFactory: ResolveShared);
 
+    // A path for comparison only: on Windows backslashes become '/'; repeated separators collapse except a leading
+    // '//'; trailing separators are dropped.
+    private static string NormalOverride(string value, bool windows)
+    {
+        string text = windows ? value.Replace(oldChar: '\\', newChar: '/') : value;
+        bool unc = text.StartsWith(value: "//", comparisonType: StringComparison.Ordinal);
+        text = Regex.Replace(input: text, pattern: "/{2,}", replacement: "/", options: RegexOptions.CultureInvariant,
+                matchTimeout: TimeSpan.FromSeconds(value: 1));
+        return ((unc ? "/" : string.Empty) + text).TrimEnd(trimChar: '/');
+    }
+
+    private static bool Matches(string input, string pattern)
+    {
+        return Regex.IsMatch(input: input, pattern: pattern, options: RegexOptions.CultureInvariant,
+                matchTimeout: TimeSpan.FromSeconds(value: 1));
+    }
+
     private static string ResolveShared()
     {
         string? configured = Environment.GetEnvironmentVariable(variable: "KZ_SHARED_LOCAL");
         if (!string.IsNullOrEmpty(value: configured))
         {
-            return Path.IsPathFullyQualified(path: configured) ? Path.GetFullPath(path: configured)
-                    : throw new InvalidOperationException(message: "SHARED_ROOT_INVALID: KZ_SHARED_LOCAL must be "
-                            + "an absolute path");
+            string? problem = OverrideProblem(value: configured, checkout: ProofProtocol.Root,
+                    windows: OperatingSystem.IsWindows());
+            return problem is null ? Path.GetFullPath(path: configured)
+                    : throw new InvalidOperationException(message: "SHARED_ROOT_INVALID: KZ_SHARED_LOCAL " + problem
+                            + ": " + configured);
         }
 
         string? common = GitCommonDirectory();

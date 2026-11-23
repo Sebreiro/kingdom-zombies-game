@@ -5,7 +5,8 @@
 #   --check    verify the pinned archive and the installed Node; download and write nothing.
 # The archive SHA-256 is verified before extraction. Downloads and extraction go to nonce-named siblings that are
 # renamed into place, under the shared .local/locks/toolchain.lock. A second run downloads nothing.
-# Messages go to stderr; stdout carries only the PATH line. KZ_SHARED_LOCAL (absolute) overrides the shared root.
+# Messages go to stderr; stdout carries only the PATH line. KZ_SHARED_LOCAL overrides the shared root;
+# shared-root.ps1 holds the rule it must meet.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2.0
 
@@ -62,9 +63,11 @@ if ($pin.directory -ne "node-v$version-win-x64" -or $pin.file -ne "node-v$versio
 if ($pin.sha256 -notmatch '^[0-9a-f]{64}$') { Fail 'PINS_MISSING' 'nodeArchives.win32-x64 sha256' }
 if (-not $pin.url.StartsWith('https://')) { Fail 'PINS_MISMATCH' 'the Node archive URL must use HTTPS' }
 
+. (Join-Path $here 'shared-root.ps1')
 $shared = $env:KZ_SHARED_LOCAL
 if ($shared) {
-  if (-not [System.IO.Path]::IsPathRooted($shared)) { Fail 'SHARED_ROOT_INVALID' "KZ_SHARED_LOCAL must be an absolute path: $shared" }
+  $problem = Get-KzOverrideProblem $shared $top
+  if ($problem) { Fail 'SHARED_ROOT_INVALID' "KZ_SHARED_LOCAL ${problem}: $shared" }
 } else {
   $common = Read-Git @('-C', $top, 'rev-parse', '--path-format=absolute', '--git-common-dir')
   if ($common) {

@@ -8,7 +8,7 @@
 # Linux uses curl or wget, sha256sum and tar. Git Bash verifies an existing install itself and otherwise delegates
 # installation to setup.ps1. The archive SHA-256 is verified before extraction; downloads and extraction go to
 # nonce-named siblings that are renamed into place under the shared .local/locks/toolchain.lock.
-# Messages go to stderr. KZ_SHARED_LOCAL (absolute) overrides the shared root.
+# Messages go to stderr. KZ_SHARED_LOCAL overrides the shared root; shared-root.sh holds the rule it must meet.
 set -eu
 
 fail() { printf '%s: %s\n' "$1" "$2" >&2; exit 1; }
@@ -30,14 +30,16 @@ here=$(cd "$(dirname "$0")" && pwd)
 # Git for Windows is a native program: with MSYS_NO_PATHCONV set it cannot read an MSYS /c/... path.
 if command -v cygpath >/dev/null 2>&1; then here=$(cygpath -m "$here"); fi
 top=$(git -C "$here" rev-parse --show-toplevel 2>/dev/null) || top=$(cd "$here/../../../.." && pwd)
+if command -v cygpath >/dev/null 2>&1; then top=$(cygpath -m "$top"); fi
+. "$here/shared-root.sh"
 manifest=$top/src/godot-game/tools/verification/toolchain.json
 [ -f "$manifest" ] || fail PINS_MISSING "toolchain.json not found under $top"
 version=$(sed -n 's/^ *"node": *"\([0-9.]*\)".*/\1/p' "$manifest" | head -n 1)
 [ -n "$version" ] || fail PINS_MISSING 'toolchain.json node'
 
-native=''
+native='' windows=0
 case $(uname -s) in
-  MINGW*|MSYS*|CYGWIN*) native=win32-x64 ;;
+  MINGW*|MSYS*|CYGWIN*) native=win32-x64 windows=1 ;;
   Linux) [ "$(uname -m)" = x86_64 ] && native=linux-x64 ;;
 esac
 target=${platform:-$native}
@@ -57,10 +59,9 @@ url=$(printf '%s\n' "$pinline" | sed -n 's/.*"url": *"\(https:\/\/[^"]*\)".*/\1/
 printf '%s\n' "$pinline" | grep -qF "\"directory\": \"$directory\"" || fail PINS_MISMATCH "the $file pin must name directory $directory"
 
 if [ -n "${KZ_SHARED_LOCAL:-}" ]; then
-  case $KZ_SHARED_LOCAL in
-    /*|[A-Za-z]:[/\\]*) shared=$KZ_SHARED_LOCAL ;;
-    *) fail SHARED_ROOT_INVALID "KZ_SHARED_LOCAL must be an absolute path: $KZ_SHARED_LOCAL" ;;
-  esac
+  problem=$(kz_override_problem "$KZ_SHARED_LOCAL" "$top" "$windows")
+  [ -z "$problem" ] || fail SHARED_ROOT_INVALID "KZ_SHARED_LOCAL $problem: $KZ_SHARED_LOCAL"
+  shared=$KZ_SHARED_LOCAL
 elif common=$(git -C "$top" rev-parse --path-format=absolute --git-common-dir 2>/dev/null); then
   [ "$(basename "$common")" = .git ] || fail SHARED_ROOT_UNRESOLVED "git common dir $common is not a .git folder; set KZ_SHARED_LOCAL"
   shared=$(dirname "$common")/.local

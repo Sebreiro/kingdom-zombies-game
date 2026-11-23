@@ -111,6 +111,23 @@ test('KZ_SHARED_LOCAL overrides the shared root and must be absolute', t => {
   assert.match(run.stderr, /SHARED_ROOT_INVALID/);
 });
 
+test('KZ_SHARED_LOCAL is refused inside the checkout except its .local, at a filesystem root, and in MSYS form', t => {
+  const base = scratch(t), main = repository(base);
+  const refused = value => assert.throws(() => paths.roots(main, {...isolated(base), KZ_SHARED_LOCAL: value}),
+    error => error.diagnostic === 'SHARED_ROOT_INVALID' && error.message.includes(value), value);
+  refused(main);
+  refused(path.join(main, 'src'));
+  refused(path.join(main, '.localx'));
+  refused(path.parse(main).root);
+  refused([base, '..', path.basename(base), 'shared'].join(path.sep));
+  if (process.platform === 'win32') {
+    refused('/' + main[0].toLowerCase() + main.slice(2).replaceAll('\\', '/'));
+    refused(main.slice(2));
+  }
+  for (const accepted of [path.join(main, '.local'), path.join(main, '.local', 'temp', 'x'), path.join(base, 'shared')])
+    same(paths.roots(main, {...isolated(base), KZ_SHARED_LOCAL: accepted}).shared, accepted, accepted);
+});
+
 test('a non-git copy is standalone', t => {
   const base = scratch(t), copy = path.join(base, 'copy');
   fs.mkdirSync(copy);

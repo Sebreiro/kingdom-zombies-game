@@ -49,7 +49,7 @@ function repository(base, manifestText = fs.readFileSync(MANIFEST, 'utf8')) {
   fs.mkdirSync(path.join(root, 'src/godot-game/tools/verification'), {recursive: true});
   fs.mkdirSync(path.join(root, 'src/godot-game/tools/node-setup'), {recursive: true});
   fs.writeFileSync(path.join(root, 'src/godot-game/tools/verification/toolchain.json'), manifestText);
-  for (const name of ['session-path.sh', 'session-path.ps1', 'setup.sh', 'setup.ps1'])
+  for (const name of ['session-path.sh', 'session-path.ps1', 'setup.sh', 'setup.ps1', 'shared-root.sh', 'shared-root.ps1'])
     fs.copyFileSync(path.join(__dirname, name), path.join(root, 'src/godot-game/tools/node-setup', name));
   fs.writeFileSync(path.join(root, '.gitignore'), '/.local/\n');
   git(root, 'init', '-q', '-b', 'main');
@@ -57,6 +57,113 @@ function repository(base, manifestText = fs.readFileSync(MANIFEST, 'utf8')) {
   git(root, 'commit', '-q', '-m', 'base');
   return root;
 }
+
+// The one KZ_SHARED_LOCAL rule, as a case table that every implementation must answer identically. Drive and UNC
+// paths are built from fragments so this file holds no machine-path text.
+const drive = rest => 'Q' + ':' + rest;
+const unc = (...parts) => ['', '', ...parts].join('\\');
+const REASON = {
+  windows: 'must be a drive-qualified or UNC path, not a root-relative or MSYS /d/... form',
+  absolute: 'must be an absolute path',
+  dots: 'must not contain . or .. segments',
+  root: 'must not be a filesystem or drive root',
+  inside: 'must not be the checkout or inside it, except its .local folder',
+};
+const WINDOWS_CHECKOUT = drive('/work/repo');
+const OVERRIDE_CASES = [
+  [drive('/shared'), WINDOWS_CHECKOUT, 1, null],
+  [drive('\\shared\\kz'), WINDOWS_CHECKOUT, 1, null],
+  [unc('host', 'share', 'kz'), WINDOWS_CHECKOUT, 1, null],
+  ['//host/share/kz', WINDOWS_CHECKOUT, 1, null],
+  [drive('/work'), WINDOWS_CHECKOUT, 1, null],
+  [drive('/work/repo2'), WINDOWS_CHECKOUT, 1, null],
+  [drive('/work/repo/.local'), WINDOWS_CHECKOUT, 1, null],
+  [drive('/WORK/Repo/.LOCAL/temp/x'), WINDOWS_CHECKOUT, 1, null],
+  [drive('\\work\\repo\\.local\\'), drive('\\work\\repo'), 1, null],
+  ['\\shared', WINDOWS_CHECKOUT, 1, REASON.windows],
+  ['/shared', WINDOWS_CHECKOUT, 1, REASON.windows],
+  ['/q/work/repo/.local', WINDOWS_CHECKOUT, 1, REASON.windows],
+  ['relative/shared', WINDOWS_CHECKOUT, 1, REASON.windows],
+  ['Q' + ':' + 'shared', WINDOWS_CHECKOUT, 1, REASON.windows],
+  [drive('/work/./shared'), WINDOWS_CHECKOUT, 1, REASON.dots],
+  [drive('/work/repo/../repo/src'), WINDOWS_CHECKOUT, 1, REASON.dots],
+  [drive('/'), WINDOWS_CHECKOUT, 1, REASON.root],
+  [drive('\\'), WINDOWS_CHECKOUT, 1, REASON.root],
+  [drive('//'), WINDOWS_CHECKOUT, 1, REASON.root],
+  [unc('host', 'share'), WINDOWS_CHECKOUT, 1, REASON.root],
+  [unc('host', 'share', ''), WINDOWS_CHECKOUT, 1, REASON.root],
+  [drive('/work/repo'), WINDOWS_CHECKOUT, 1, REASON.inside],
+  [drive('/work/repo/'), WINDOWS_CHECKOUT, 1, REASON.inside],
+  [drive('/WORK/Repo/src'), WINDOWS_CHECKOUT, 1, REASON.inside],
+  [drive('/work//repo/src'), WINDOWS_CHECKOUT, 1, REASON.inside],
+  [drive('/work/repo/.localx'), WINDOWS_CHECKOUT, 1, REASON.inside],
+  [drive('\\work\\repo\\src'), drive('\\work\\repo'), 1, REASON.inside],
+  ['/srv/shared', '/srv/repo', 0, null],
+  ['/srv/repo/.local/x', '/srv/repo', 0, null],
+  ['/SRV/repo/src', '/srv/repo', 0, null],
+  ['srv/shared', '/srv/repo', 0, REASON.absolute],
+  ['/srv/repo/../x', '/srv/repo', 0, REASON.dots],
+  ['/', '/srv/repo', 0, REASON.root],
+  ['//', '/srv/repo', 0, REASON.root],
+  ['/srv/repo', '/srv/repo', 0, REASON.inside],
+  ['/srv//repo/src', '/srv/repo', 0, REASON.inside],
+];
+
+test('KZ_SHARED_LOCAL follows one rule in workspace-paths.cjs, shared-root.sh and shared-root.ps1', t => {
+  const workspace = require('../workspace-paths.cjs');
+  for (const [value, checkout, windows, expected] of OVERRIDE_CASES)
+    assert.equal(workspace.overrideProblem(value, checkout, windows === 1), expected, 'workspace-paths.cjs ' + value);
+  const base = scratch(t), table = path.join(base, 'cases.tsv');
+  fs.writeFileSync(table, OVERRIDE_CASES.map(row => row.slice(0, 3).join('\t')).join('\n') + '\n');
+  const shell = sh(['-c', '. "$1"; tab=$(printf "\\t"); while IFS="$tab" read -r v c w; do printf "%s|\\n" "$(kz_override_problem "$v" "$c" "$w")"; done < "$2"',
+    'cases', path.join(__dirname, 'shared-root.sh'), table]);
+  assert.equal(shell.exit, 0, shell.stderr);
+  const shellAnswers = shell.stdout.split('\n').slice(0, -1).map(line => line.slice(0, -1) || null);
+  OVERRIDE_CASES.forEach((row, index) => assert.equal(shellAnswers[index], row[3], 'shared-root.sh ' + row[0]));
+  if (!WINDOWS) return;
+  const json = path.join(base, 'cases.json');
+  fs.writeFileSync(json, JSON.stringify(OVERRIDE_CASES.filter(row => row[2] === 1).map(([value, checkout]) => ({value, checkout}))));
+  const powershell = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command',
+    `. '${path.join(__dirname, 'shared-root.ps1')}'; (Get-Content -Raw '${json}' | ConvertFrom-Json) | ForEach-Object { `
+    + `[string](Get-KzOverrideProblem $_.value $_.checkout) + '|' }`], {encoding: 'utf8', windowsHide: true});
+  assert.equal(powershell.status, 0, powershell.stderr);
+  const answers = powershell.stdout.split(/\r?\n/).filter(Boolean).map(line => line.slice(0, -1) || null);
+  OVERRIDE_CASES.filter(row => row[2] === 1).forEach((row, index) => assert.equal(answers[index], row[3], 'shared-root.ps1 ' + row[0]));
+});
+
+test('the hooks write nothing and setup refuses for a KZ_SHARED_LOCAL inside the checkout, relative or in MSYS form', t => {
+  const base = scratch(t), main = repository(base), env = path.join(base, 'env.sh');
+  const inside = path.join(main, 'src');
+  fakeNode(inside);
+  const values = [inside, 'relative/shared'];
+  if (WINDOWS) {
+    const outside = path.join(base, 'outside');
+    fakeNode(outside);
+    values.push(sh(['-c', 'cygpath -u "$1"', 'msys', outside]).stdout.trim());
+  }
+  for (const value of values) {
+    const hook = sh([path.join(main, 'src/godot-game/tools/node-setup/session-path.sh')],
+      {cwd: base, env: {KZ_SHARED_LOCAL: value, CLAUDE_ENV_FILE: env, CLAUDE_PROJECT_DIR: main, MSYS_NO_PATHCONV: '1'}});
+    assert.equal(hook.exit, 0, value);
+    assert.equal(hook.stdout + hook.stderr, '', value);
+    assert.equal(fs.existsSync(env), false, 'session-path.sh wrote nothing for ' + value);
+    const setup = sh([path.join(main, 'src/godot-game/tools/node-setup/setup.sh'), '--check'],
+      {cwd: base, env: {KZ_SHARED_LOCAL: value, MSYS_NO_PATHCONV: '1'}});
+    assert.equal(setup.exit, 1, value);
+    assert.match(setup.stderr, /^SHARED_ROOT_INVALID: KZ_SHARED_LOCAL must /m, value);
+    if (WINDOWS) {
+      const run = (script, ...args) => spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
+        path.join(main, 'src/godot-game/tools/node-setup', script), ...args],
+      {cwd: main, encoding: 'utf8', windowsHide: true, env: {...process.env, KZ_SHARED_LOCAL: value}});
+      const codex = run('session-path.ps1');
+      assert.equal(codex.status, 0, value);
+      assert.equal(codex.stdout.trim(), '', 'session-path.ps1 printed nothing for ' + value);
+      const install = run('setup.ps1', '--check');
+      assert.equal(install.status, 1, value);
+      assert.match(install.stderr, /^SHARED_ROOT_INVALID: KZ_SHARED_LOCAL must /m, value);
+    }
+  }
+});
 
 test('each Node pin names node-v<node>-<platform> and the official release URL', () => {
   const expected = {'win32-x64': ['win-x64', '.zip', 'node.exe'], 'linux-x64': ['linux-x64', '.tar.xz', 'bin/node']};
