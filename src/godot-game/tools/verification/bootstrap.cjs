@@ -8,11 +8,14 @@ const https = require('node:https');
 const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
 const {launch}=require('../dotnet.cjs');
+const workspace = require('../workspace-paths.cjs');
 const root = path.resolve(__dirname, '../../../..');
-const home = path.join(root, '.phase1');
 const project = path.join(root, 'src/godot-game/game');
 const nonce = crypto.randomUUID();
-const runDirectory = path.join(home, 'runs', nonce);
+// Locations resolve on first use, so requiring this module spawns nothing.
+let resolved;
+const where = () => resolved ??= workspace.locations(root);
+const runDirectory = () => where().runs('verification', nonce);
 const manifestPath = path.join(__dirname, 'toolchain.json');
 const timeoutMs = 60_000;
 const fail = (id, message) => { const error = new Error(message); error.diagnostic = id; throw error; };
@@ -75,19 +78,20 @@ const resolveLocal = relative => {
   if (!target.startsWith(root + path.sep)) fail('PATH_OUTSIDE_WORKSPACE', relative);
   return target;
 };
+// The one exception to the checkout boundary: an absolute target inside the repository's shared .local root.
+const resolveShared = absolute => {
+  if (!workspace.insideShared(absolute, root)) fail('PATH_OUTSIDE_WORKSPACE', absolute);
+  return absolute;
+};
 
 function environment(extra = {}) {
-  return {
-    ...process.env,
-    DOTNET_CLI_HOME: path.join(home, 'cli-home'),
-    NUGET_PACKAGES: path.join(home, 'packages'),
-    NUGET_HTTP_CACHE_PATH: path.join(home, 'http-cache'),
-    TEMP: path.join(home, 'temp'), TMP: path.join(home, 'temp'), TMPDIR: path.join(home, 'temp'),
+  return workspace.isolationEnv(root, {
+    NUGET_PACKAGES: where().nuget.packages,
     DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_NOLOGO: '1',
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1',
     PHASE1_NONCE: nonce,
     ...extra,
-  };
+  });
 }
 
 async function command(label, executable, args, options = {}) {
@@ -123,11 +127,11 @@ async function command(label, executable, args, options = {}) {
       resolve({ executable, args, started, code, signal, timedOut, spawnError, stdout: output, stderr: error });
     });
   });
-  fs.writeFileSync(path.join(runDirectory, label + '.json'), JSON.stringify(result, null, 2));
-  fs.writeFileSync(path.join(runDirectory, label + '.log'), result.stdout + result.stderr);
+  fs.writeFileSync(path.join(runDirectory(), label + '.json'), JSON.stringify(result, null, 2));
+  fs.writeFileSync(path.join(runDirectory(), label + '.log'), result.stdout + result.stderr);
   if (result.timedOut) fail('CHILD_TIMEOUT', `${label}: exceeded ${options.timeoutMs ?? timeoutMs}ms; descendants terminated`);
   if (result.spawnError) fail(label.startsWith('engine') ? 'ENGINE_MISSING' : 'TOOL_MISSING', `${label}: ${result.spawnError}`);
-  if (result.code !== 0) fail(options.diagnostic ?? 'CHILD_FAILED', `${label}: exit ${result.code}; see ${runDirectory}`);
+  if (result.code !== 0) fail(options.diagnostic ?? 'CHILD_FAILED', `${label}: exit ${result.code}; see ${runDirectory()}`);
   return result.stdout.trim();
 }
 
@@ -207,7 +211,7 @@ function pinControls(manifest) {
   if (validateManifest(permutation) !== validateManifest(manifest)) fail('PINS_CONFLICT', 'Permutation changed selection');
   declarations(permutation, { ...inputs, global: JSON.stringify({ sdk: { allowPrerelease: false, rollForward: 'disable', version: manifest.sdk } }) });
   controls.push({ id: 'equivalent-permutation', status: 'pass' });
-  fs.writeFileSync(path.join(runDirectory, 'pins-controls.json'), JSON.stringify({ nonce, controls }, null, 2));
+  fs.writeFileSync(path.join(runDirectory(), 'pins-controls.json'), JSON.stringify({ nonce, controls }, null, 2));
 }
 
 // Node HTTPS uses a direct route, independent of inherited shell proxy variables.
@@ -236,7 +240,7 @@ function download(url, destination, redirects = 0) {
 async function acquireArchive(manifest, platform) {
   const archive = manifest.archives[platform];
   if (!archive) fail('PLATFORM_UNAVAILABLE', `${process.platform}-${process.arch}`);
-  const cache = path.join(home, 'cache', archive.file);
+  const cache = path.join(where().downloads('godot'), archive.file);
   if (!fs.existsSync(cache) || process.env.PHASE1_FORCE_DOWNLOAD === '1') {
     const local = process.env.PHASE1_ARCHIVE ?? path.join(os.homedir(), 'Downloads', archive.file);
     if (process.env.PHASE1_IGNORE_DOWNLOADS !== '1' && fs.existsSync(local)) fs.copyFileSync(local, cache);
@@ -248,18 +252,18 @@ async function acquireArchive(manifest, platform) {
     }
   }
   if (hash(cache, 'sha512') !== archive.sha512 || (archive.sha256 && hash(cache) !== archive.sha256)) fail('ARCHIVE_HASH', archive.file);
-  const checksums = path.join(home, 'cache', 'SHA512-SUMS.txt');
+  const checksums = path.join(where().downloads('godot'), 'SHA512-SUMS.txt');
   if (!fs.existsSync(checksums)) await download(manifest.releaseChecksums, checksums);
   const entries = fs.readFileSync(checksums, 'utf8').split(/\r?\n/).map(line => line.trim().split(/\s+/));
   if (entries.filter(row => row[1] === archive.file && row[0] === archive.sha512).length !== 1) fail('ARCHIVE_CHECKSUM_SOURCE', archive.file);
-  const engineDirectory = resolveLocal('.phase1/tools/' + archive.directory);
+  const engineDirectory = resolveShared(where().tools('godot', archive.directory));
   const executable = path.join(engineDirectory, archive.executable);
   if (!fs.existsSync(executable)) {
     if (process.platform === 'win32') {
       await command('extract-' + platform, 'powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', 'Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory($env:PHASE1_ZIP, $env:PHASE1_TOOLS)'],
-        { env: { PHASE1_ZIP: cache, PHASE1_TOOLS: path.join(home, 'tools') }, diagnostic: 'ARCHIVE_EXTRACT' });
+        { env: { PHASE1_ZIP: cache, PHASE1_TOOLS: where().tools('godot') }, diagnostic: 'ARCHIVE_EXTRACT' });
     } else {
-      await command('extract-' + platform, 'unzip', ['-o', cache, '-d', path.join(home, 'tools')], { diagnostic: 'ARCHIVE_EXTRACT' });
+      await command('extract-' + platform, 'unzip', ['-o', cache, '-d', where().tools('godot')], { diagnostic: 'ARCHIVE_EXTRACT' });
       fs.chmodSync(executable, 0o755);
     }
   }
@@ -267,7 +271,21 @@ async function acquireArchive(manifest, platform) {
   return { executable, engineDirectory };
 }
 
+// Acquisition writes the shared downloads and tools, so it runs under the repository-wide toolchain lock.
 async function acquire(manifest) {
+  const lock = where().locks.toolchain;
+  let lockFd;
+  try { lockFd = fs.openSync(lock, 'wx'); } catch (error) {
+    if (error.code === 'EEXIST') fail('TOOLCHAIN_LOCKED', 'Another acquisition owns .local/locks/toolchain.lock in the shared root; interrupted locks require inspection');
+    throw error;
+  }
+  try {
+    fs.writeFileSync(lockFd, JSON.stringify({ nonce, pid: process.pid, at: new Date().toISOString() }));
+    return await acquireLocked(manifest);
+  } finally { fs.closeSync(lockFd); fs.rmSync(lock, { force: true }); }
+}
+
+async function acquireLocked(manifest) {
   const platform = `${process.platform}-${process.arch}`;
   const native = await acquireArchive(manifest, platform);
   // The common locks and generated-source provenance pin the same managed package bytes on both OSes.
@@ -279,7 +297,7 @@ async function acquire(manifest) {
     const file = `${pkg.id}.${pkg.version}.nupkg`;
     const input = path.join(source, file);
     if (!fs.existsSync(input) || hash(input) !== pkg.sha256) fail('PACKAGE_HASH', file);
-    fs.copyFileSync(input, path.join(home, 'feed', file));
+    fs.copyFileSync(input, path.join(where().nuget.feed, file));
   }
   return native.executable;
 }
@@ -317,16 +335,16 @@ async function infrastructureControls(manifest) {
     }
     fail('INFRASTRUCTURE_CONTROL_FAILED', `${id} was accepted`);
   };
-  await reject('missing-engine', 'ENGINE_MISSING', () => command('engine-missing-control', path.join(runDirectory, 'nonexistent-engine'), []));
-  await reject('failed-restore', 'RESTORE_FAILED', () => command('restore-failed-control', 'dotnet', ['restore', path.join(runDirectory, 'nonexistent.csproj')], { diagnostic: 'RESTORE_FAILED' }));
-  const sdkList = fs.readFileSync(path.join(runDirectory, 'sdk-list.log'), 'utf8');
+  await reject('missing-engine', 'ENGINE_MISSING', () => command('engine-missing-control', path.join(runDirectory(), 'nonexistent-engine'), []));
+  await reject('failed-restore', 'RESTORE_FAILED', () => command('restore-failed-control', 'dotnet', ['restore', path.join(runDirectory(), 'nonexistent.csproj')], { diagnostic: 'RESTORE_FAILED' }));
+  const sdkList = fs.readFileSync(path.join(runDirectory(), 'sdk-list.log'), 'utf8');
   const sdkLine = sdkList.split(/\r?\n/).find(line => line.startsWith(manifest.sdk + ' ['));
   const sdkRoot = sdkLine.slice(sdkLine.indexOf('[') + 1, -1);
-  const runtimeConfig = path.join(runDirectory, 'incompatible.runtimeconfig.json');
+  const runtimeConfig = path.join(runDirectory(), 'incompatible.runtimeconfig.json');
   fs.writeFileSync(runtimeConfig, JSON.stringify({ runtimeOptions: { tfm: 'net99.0', rollForward: 'Disable', framework: { name: 'Microsoft.NETCore.App', version: '99.0.0' } } }));
   await reject('incompatible-runtime', 'RUNTIME_INCOMPATIBLE', () => command('runtime-incompatible-control', 'dotnet', ['exec', '--runtimeconfig', runtimeConfig, path.join(sdkRoot, manifest.sdk, 'Roslyn/bincore/csc.dll'), '-version'], { diagnostic: 'RUNTIME_INCOMPATIBLE' }));
   await reject('child-timeout', 'CHILD_TIMEOUT', () => command('timeout-control', process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { timeoutMs: 200 }));
-  fs.writeFileSync(path.join(runDirectory, 'infrastructure-controls.json'), JSON.stringify({ nonce, controls }, null, 2));
+  fs.writeFileSync(path.join(runDirectory(), 'infrastructure-controls.json'), JSON.stringify({ nonce, controls }, null, 2));
 }
 
 function validateEnginePackages(manifest, locked) {
@@ -345,11 +363,13 @@ function validateEnginePackages(manifest, locked) {
 async function engineProbe(manifest, engine) {
   const identity = await tools(manifest, engine);
   await infrastructureControls(manifest);
-  const config = path.join(runDirectory, 'NuGet.config');
+  const config = path.join(runDirectory(), 'NuGet.config');
   // Godot payloads come from the verified archive; shared analyzers use the mapped official feed.
   fs.copyFileSync(path.join(root, 'src/godot-game/NuGet.config'), config);
   // The copied configuration is run-local, so preserve the repository-relative feed identity explicitly.
-  fs.writeFileSync(config, fs.readFileSync(config, 'utf8').replace('value="../../.phase1/feed"', `value="${path.join(home, 'feed')}"`));
+  const feed = 'value="../../.local/nuget/feed"', text = fs.readFileSync(config, 'utf8');
+  if (text.split(feed).length !== 2) fail('NUGET_FEED_REWRITE', 'NuGet.config must declare ' + feed + ' exactly once');
+  fs.writeFileSync(config, text.replace(feed, `value="${where().nuget.feed}"`));
   const args = ['src/godot-game/game/KingdomZombies.csproj', '--configfile', config, '--disable-parallel', '-p:NuGetAudit=false'];
   await command('restore', 'dotnet', ['restore', ...args], { diagnostic: 'RESTORE_FAILED' });
   const locked = readJson(path.join(project, 'packages.lock.json')).dependencies[manifest.framework];
@@ -362,7 +382,7 @@ async function engineProbe(manifest, engine) {
   if (assertions.length !== expected.length || assertions.some((value, i) => value.nonce !== nonce || value.assertion !== expected[i])) fail('ENGINE_EVIDENCE', 'Expected exactly one fresh construction/ready/exit sequence');
   const identities = output.split(/\r?\n/).filter(line => line.startsWith('PHASE1_IDENTITY ')).map(line => JSON.parse(line.slice(16)));
   if (identities.length !== 1 || identities[0].nonce !== nonce || identities[0].runtime !== manifest.runtime) fail('RUNTIME_INCOMPATIBLE', 'Engine runtime identity missing or incompatible');
-  fs.writeFileSync(path.join(runDirectory, 'compatibility.json'), JSON.stringify({ nonce, kind: 'raw-compatibility-only', identity, engineIdentity: identities[0], assertions, inputSha256: hash(manifestPath), executableSha256: hash(engine), scriptSha256: hash(path.join(project, 'proofs/Phase1.cs')) }, null, 2));
+  fs.writeFileSync(path.join(runDirectory(), 'compatibility.json'), JSON.stringify({ nonce, kind: 'raw-compatibility-only', identity, engineIdentity: identities[0], assertions, inputSha256: hash(manifestPath), executableSha256: hash(engine), scriptSha256: hash(path.join(project, 'proofs/Phase1.cs')) }, null, 2));
   return assertions;
 }
 
@@ -374,8 +394,9 @@ async function boundariesProbe() {
 }
 
 async function main() {
-  for (const directory of ['tools', 'cache', 'cli-home', 'packages', 'http-cache', 'temp', 'feed']) fs.mkdirSync(path.join(home, directory), { recursive: true });
-  fs.mkdirSync(runDirectory, { recursive: true });
+  const at = where();
+  workspace.ensure(at.tools('godot'), at.downloads('godot'), at.cliHome, at.nuget.packages, at.nuget.http, at.nuget.scratch,
+    at.temp(), at.nuget.feed, path.dirname(at.locks.toolchain), runDirectory());
   const args = process.argv.slice(2);
   if (args.length !== 2 || args[0] !== '--probe' || !['engine', 'pins', 'boundaries'].includes(args[1])) fail('USAGE', 'node src/godot-game/tools/verification/bootstrap.cjs --probe engine|pins|boundaries');
   const manifest = readJson(manifestPath);
@@ -386,13 +407,15 @@ async function main() {
     if (args[1] === 'engine') await engineProbe(manifest, engine);
     else { pinControls(manifest); await tools(manifest, engine); }
   }
-  console.log(JSON.stringify({ nonce, probe: args[1], status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory) }));
+  console.log(JSON.stringify({ nonce, probe: args[1], status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory()) }));
 }
 
 module.exports = { parseJson, validateManifest, declarations, observedIdentity, validateEnginePackages };
 if (require.main === module) main().catch(error => {
-  const result = { nonce, status: 'fail', diagnostic: error.diagnostic ?? 'BOOTSTRAP_FAILED', message: error.message, logs: path.relative(root, runDirectory) };
-  if (fs.existsSync(runDirectory)) fs.writeFileSync(path.join(runDirectory, 'failure.json'), JSON.stringify(result, null, 2));
+  let logs = null;
+  try { logs = runDirectory(); } catch {}
+  const result = { nonce, status: 'fail', diagnostic: error.diagnostic ?? 'BOOTSTRAP_FAILED', message: error.message, logs: logs && path.relative(root, logs) };
+  if (logs && fs.existsSync(logs)) fs.writeFileSync(path.join(logs, 'failure.json'), JSON.stringify(result, null, 2));
   console.error(JSON.stringify(result));
   process.exitCode = 1;
 });

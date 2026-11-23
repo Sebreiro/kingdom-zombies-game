@@ -52,7 +52,7 @@ public sealed class ConfigurationTests
             ("src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/KingdomZ"
                     + "ombies.Multiplayer.Abstractions.dll"),
             "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll",
-            ".phase1/packages/godotsharp/4.7.2/lib/net8.0/GodotSharp.dll"];
+            Path.Combine(path1: WorkspacePaths.NuGetPackages, path2: "godotsharp/4.7.2/lib/net8.0/GodotSharp.dll")];
         var frameworkUnification = new AnalyzerVerifier.Expected(id: "CS1701", severity: DiagnosticSeverity
                 .Warning, file: "", line: 1, column: 1, endLine: 1, endColumn: 1);
         await AnalyzerVerifier.VerifyAsync(
@@ -177,8 +177,7 @@ public sealed class ConfigurationTests
                     analyzerProject: false)).Message.ShouldContain(expected: "POLICY_DRIFT");
         }
 
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/configuration-" + Guid
-                .NewGuid().ToString(format: "N"));
+        string directory = WorkspacePaths.Temp(purpose: "configuration-" + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string targets = Path.Combine(path1: directory, path2: "Changed.targets");
         foreach (string? metadata in new[]
@@ -310,8 +309,7 @@ public sealed class ConfigurationTests
                     path: path))));
         }
 
-        string cleanRoot = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/clean-restore-" + Guid
-                .NewGuid().ToString(format: "N"));
+        string cleanRoot = WorkspacePaths.Temp(purpose: "clean-restore-" + Guid.NewGuid().ToString(format: "N"));
         var copyFiles = new List<string>
         {
             "src/godot-game/KingdomZombies.slnx",
@@ -340,8 +338,8 @@ public sealed class ConfigurationTests
 
         string config = Path.Combine(path1: cleanRoot, path2: "src/godot-game/NuGet.config");
         File.WriteAllText(path: config, contents: File.ReadAllText(path: config).Replace(
-                oldValue: "value=\"../../.phase1/feed\"", newValue: "value=\"" + Path.Combine(path1: ProofProtocol
-                        .Root, path2: ".phase1/feed") + "\"", comparisonType: StringComparison.Ordinal));
+                oldValue: "value=\"../../.local/nuget/feed\"", newValue: "value=\"" + WorkspacePaths.NuGetFeed + "\"",
+                comparisonType: StringComparison.Ordinal));
         Directory.EnumerateFiles(path: cleanRoot, searchPattern: "project.assets.json",
                 searchOption: SearchOption.AllDirectories).ShouldBeEmpty();
         (int Exit, string Output) restore = Dotnet("restore", Path.Combine(path1: cleanRoot,
@@ -368,8 +366,7 @@ public sealed class ConfigurationTests
         (int Exit, string Output) build = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false",
                 "-t:Rebuild");
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
-        string package = Path.Combine(path1: ProofProtocol.Root,
-                path2: ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg");
+        string package = Path.Combine(path1: WorkspacePaths.NuGetFeed, path2: "Godot.SourceGenerators.4.7.2.nupkg");
         Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: package))).ShouldBe(
                 expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
         (int Exit, string Output) resolve = Dotnet("msbuild", Projects[2], "-nologo",
@@ -463,8 +460,7 @@ public sealed class ConfigurationTests
 
     internal static string BuildGameWithSource(string source)
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/game-boundary-" + Guid
-                .NewGuid().ToString(format: "N"));
+        string directory = WorkspacePaths.Temp(purpose: "game-boundary-" + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string subject = Path.Combine(path1: directory, path2: "Main.cs");
         File.WriteAllText(path: subject, contents: source);

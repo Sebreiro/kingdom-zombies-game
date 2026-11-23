@@ -32,8 +32,8 @@ internal sealed class EngineRun
         string tool = OperatingSystem.IsWindows()
                 ? "Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64_console.exe"
                 : "Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64";
-        var start = new ProcessStartInfo(fileName: Path.Combine(path1: ProofProtocol.Root,
-                path2: ".phase1/tools/" + tool))
+        var start = new ProcessStartInfo(fileName: Path.Combine(path1: WorkspacePaths.Tools(name: "godot"),
+                path2: tool))
         {
             WorkingDirectory = ProofProtocol.Root,
             UseShellExecute = false,
@@ -62,7 +62,7 @@ internal sealed class EngineRun
 
         string text = output.GetAwaiter().GetResult() + error.GetAwaiter().GetResult();
         string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
-                ?? Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp");
+                ?? WorkspacePaths.TempFolder;
         string log = Path.Combine(path1: directory, path2: "engine-" + mode + "-" + nonce + ".log");
         File.WriteAllText(path: log, contents: text);
         return new() { Exit = process.ExitCode, Output = text, Nonce = nonce, Log = log };

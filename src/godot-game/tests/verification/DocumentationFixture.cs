@@ -43,7 +43,7 @@ internal static class DocumentationFixture
     /// <summary>Materializes a subject under ignored workspace output for host-filesystem mutation checks.</summary>
     internal static string Write(IReadOnlyDictionary<string, byte[]> files)
     {
-        string root = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/docs-" + Guid.NewGuid());
+        string root = WorkspacePaths.Temp(purpose: "docs-" + Guid.NewGuid());
         foreach ((string path, byte[] content) in files)
         {
             string target = Path.Combine(path1: root, path2: path);

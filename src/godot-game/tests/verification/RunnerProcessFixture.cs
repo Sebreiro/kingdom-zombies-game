@@ -90,7 +90,7 @@ public sealed class RunnerProcessFixture : IDisposable
     /// <summary>Reads the newest summary published by this isolated fixture.</summary>
     public JsonNode Summary()
     {
-        string[] reports = Directory.GetFiles(path: Path.Combine(path1: Root, path2: ".phase1", path3: "runs"),
+        string[] reports = Directory.GetFiles(path: Path.Combine(path1: Root, path2: WorkspacePaths.VerificationRuns),
                 searchPattern: "summary.json", searchOption: SearchOption.AllDirectories);
         return (JsonNode.Parse(json: File.ReadAllText(path: reports.OrderBy(keySelector: File
                 .GetLastWriteTimeUtc).Last())) ?? throw new System.InvalidOperationException(
@@ -146,8 +146,8 @@ public sealed class RunnerProcessFixture : IDisposable
     private RunnerProcessFixture(string mode)
     {
         Mode = mode;
-        string parent = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY") ?? Path.Combine(
-                path1: ProofProtocol.Root, path2: ".phase1", path3: "temp");
+        string parent = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
+                ?? WorkspacePaths.TempFolder;
         Root = Path.GetFullPath(path: Path.Combine(path1: parent, path2: "fixture-" + Guid.NewGuid()));
         CopyFixtureInputs();
         WriteFixtureManifest(mode: mode);
@@ -174,8 +174,13 @@ public sealed class RunnerProcessFixture : IDisposable
         }
 
         Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "src/godot-game"));
-        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools/dotnet.cjs"),
-                destFileName: Path.Combine(path1: Root, path2: "src/godot-game/tools/dotnet.cjs"));
+        foreach (string tool in new[] { "dotnet.cjs", "workspace-paths.cjs" })
+        {
+            File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools",
+                    path3: tool), destFileName: Path.Combine(path1: Root, path2: "src/godot-game/tools", path3: tool));
+        }
+
+
         File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/global.json"),
                 destFileName: Path.Combine(path1: Root, path2: "src/godot-game/global.json"));
         Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "fixture"));

@@ -23,8 +23,7 @@ internal sealed class BuildFixture
             throw new ArgumentException(message: "Select one actual consumer project", paramName: nameof(game));
         }
 
-        _directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/build-" + Guid.NewGuid()
-                .ToString(format: "N"));
+        _directory = WorkspacePaths.Temp(purpose: "build-" + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: _directory);
         foreach (string file in _sharedFiles)
         {
@@ -173,8 +172,7 @@ internal sealed class BuildFixture
             }
         }
 
-        start.Environment[key: "DOTNET_CLI_HOME"] = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/cli-home");
-        start.Environment[key: "NUGET_PACKAGES"] = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/packages");
+        WorkspacePaths.Isolate(start: start);
         start.Environment[key: "MSBUILDDISABLENODEREUSE"] = "1";
         foreach (string argument in arguments)
         {

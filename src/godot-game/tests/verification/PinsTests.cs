@@ -71,7 +71,7 @@ public sealed class PinsTests
     public void ValidatePins_WrongGeneratorPayloadIdentity_Rejected()
     {
         Reject(id: "pins.observed-generator",
-                mutation: ("const r=fs.readFileSync('.phase1/feed/Godot.SourceGener"
+                mutation: ("const r=fs.readFileSync('.local/nuget/feed/Godot.SourceGener"
                         + "ators.4.7.2.nupkg');const h=require('node:crypto').crea"
                         + "teHash('sha256').update(r).digest('hex');b.observedIden"
                         + "tity('generator-payload',h,'0'.repeat(64))"), diagnostic: "PINS_MISMATCH");

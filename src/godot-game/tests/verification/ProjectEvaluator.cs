@@ -197,7 +197,7 @@ internal static class ProjectEvaluator
                 searchOption: SearchOption.AllDirectories)
                 .Select(selector: path => Relative(root: root, path: path)).Where(predicate: path => !path.Split(
                         separator: '/').Any(predicate: part => part is "obj" or "bin" or ".godot" or ".phase1"
-                                or ".codex" or ".agents" or ".git"));
+                                or ".local" or ".codex" or ".agents" or ".git"));
     }
 
     private static IEnumerable<string> DiscoverProjects(string root)

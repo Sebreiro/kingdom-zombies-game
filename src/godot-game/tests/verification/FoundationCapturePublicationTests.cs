@@ -11,8 +11,8 @@ internal static class FoundationCapturePublicationTests
 {
     internal static void Check()
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase3/controls/" + Guid.NewGuid()
-                .ToString(format: "N"));
+        string directory = Path.Combine(path1: WorkspacePaths.Temp(purpose: "lan-checks"), path2: "controls",
+                path3: Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string file = Path.Combine(path1: directory, path2: "checkpoint.json");
         const string Record = "{\"complete\":true}";

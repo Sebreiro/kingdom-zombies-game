@@ -13,7 +13,7 @@ public sealed class AnalyzerInputIdentityTests
     [Fact, Trait("Case", "rules.analyzer-input-identity")]
     public void Fingerprint_ChangedAnalyzerSource_InvalidatesInputIdentity()
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/analyzer-identity-"
+        string directory = WorkspacePaths.Temp(purpose: "analyzer-identity-"
                 + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: Path.Combine(path1: directory, path2: "src/godot-game/tools/code-rules"));
         string source = Path.Combine(path1: ProofProtocol.Root, path2:

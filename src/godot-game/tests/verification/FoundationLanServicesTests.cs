@@ -36,8 +36,8 @@ public sealed class FoundationLanServicesTests
     [Fact]
     public void Profiles_PersistedValues_AreAtomicAndExact()
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase3/profile-tests/"
-                + Guid.NewGuid().ToString(format: "N"));
+        string directory = Path.Combine(path1: WorkspacePaths.Temp(purpose: "lan-checks"),
+                path2: "profile-tests", path3: Guid.NewGuid().ToString(format: "N"));
         var service = new LocalProfileService(directory: directory);
         service.Load().ShouldBeTrue();
         string first = service.Selected?.PlayerId ?? throw new InvalidOperationException(message: "PROFILE");

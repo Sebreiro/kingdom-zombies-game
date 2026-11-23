@@ -318,7 +318,8 @@ public sealed class EngineGeneratedTests
             Hash(bytes: File.ReadAllBytes(path: file)).ShouldBe(expected: Text(row: row, name: "sha256"));
             string source = File.ReadAllText(path: file);
             Hash(bytes: Encoding.UTF8.GetBytes(s: source)).ShouldBe(expected: Text(row: row, name: "textSha256"));
-            Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: row, name: "package")))).ShouldBe(
+            string packagePath = WorkspacePaths.Physical(identity: Text(row: row, name: "package"));
+            Hash(bytes: File.ReadAllBytes(path: Local(path: packagePath))).ShouldBe(
                     expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
             Text(row: row, name: "producer").ShouldBe(expected: "Godot.SourceGenerators/4.7.2");
             SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: file,
@@ -763,7 +764,9 @@ public sealed class EngineGeneratedTests
     {
         ProducerProgress(status: "verify-producer", detail: Text(row: inventory, name: "id"));
         string producer = Text(row: inventory, name: "producer");
-        string package = SafePath(root: ProofProtocol.Root, path: Text(row: inventory, name: "package"));
+        string logical = Text(row: inventory, name: "package");
+        _ = SafePath(root: ProofProtocol.Root, path: logical);
+        string package = Path.Combine(path1: ProofProtocol.Root, path2: WorkspacePaths.Physical(identity: logical));
         Hash(bytes: File.ReadAllBytes(path: package)).ShouldBe(expected: Text(row: inventory, name: "packageSha256"));
         if (StringComparer.Ordinal.Equals(x: producer, y: "Godot.SourceGenerators/4.7.2"))
         {

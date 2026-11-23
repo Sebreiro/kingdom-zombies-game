@@ -89,7 +89,7 @@ public sealed class GeneratedCallSiteAdapterTests
 
     private static string RebuildWithSource(string source)
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/generated-callsite-"
+        string directory = WorkspacePaths.Temp(purpose: "generated-callsite-"
                 + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string file = Path.Combine(path1: directory, path2: "Subject.cs");

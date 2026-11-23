@@ -17,8 +17,8 @@ internal static class FoundationServiceSubstitutionProof
     internal static void Run()
     {
         Dictionary<string, string> before = CoreHashes();
-        string root = Path.Combine(path1: ProofProtocol.Root, path2: ".phase3/substitution-profiles/"
-                + Guid.NewGuid().ToString(format: "N"));
+        string root = Path.Combine(path1: WorkspacePaths.Temp(purpose: "lan-checks"),
+                path2: "substitution-profiles", path3: Guid.NewGuid().ToString(format: "N"));
         var persisted = new LocalProfileService(directory: root);
         persisted.Load().ShouldBeTrue();
         persisted.Rename(displayName: "Equal 生存者").ShouldBeTrue();

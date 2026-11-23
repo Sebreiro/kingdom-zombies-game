@@ -63,8 +63,8 @@ public sealed class ContentInspectorTests
                     }).ToArray(),
         }).Where(predicate: file => file.diagnostics.Length > 0).ToArray();
         files.Sum(selector: file => file.diagnostics.Length).ShouldBeGreaterThan(expected: 0);
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/observed26/"
-                + Guid.NewGuid().ToString(format: "N"));
+        string directory = Path.Combine(path1: WorkspacePaths.Temp(purpose: "asset-pipeline"),
+                path2: "observed26", path3: Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "diagnostics.json"), contents:
                 JsonSerializer.Serialize(value: files));
@@ -876,8 +876,8 @@ public sealed class ContentInspectorTests
 
     private static void CheckVisibilityRegistry(ConsumerCompilation consumer, string source, string path, string type)
     {
-        string root = Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/hub-policy-controls/"
-                + Guid.NewGuid().ToString(format: "N"));
+        string root = Path.Combine(path1: WorkspacePaths.Temp(purpose: "asset-pipeline"),
+                path2: "hub-policy-controls", path3: Guid.NewGuid().ToString(format: "N"));
         string directory = Path.Combine(path1: root, path2: "docs/code");
         Directory.CreateDirectory(path: directory);
         string file = Path.Combine(path1: directory, path2: "visibility-exemptions.json");

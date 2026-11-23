@@ -11,7 +11,7 @@
   "editorRuntime": "8.0.16",
   "coverageTool": "18.12.0",
   "roslynPackages": { "Microsoft.CodeAnalysis.CSharp": "5.0.0", "Microsoft.CodeAnalysis.Analyzers": "5.9.0" },
-  "feeds": ["https://api.nuget.org/v3/index.json", "../../.phase1/feed"],
+  "feeds": ["https://api.nuget.org/v3/index.json", "../../.local/nuget/feed"],
   "releaseChecksums": "https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/SHA512-SUMS.txt",
   "archives": {
     "win32-x64": {
