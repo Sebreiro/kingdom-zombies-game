@@ -53,15 +53,16 @@ function sharedFile(kind,...parts){
     where.tools('godot',...parts):kind==='packages'?path.join(where.nuget.packages,...parts):null;
   need(file&&parts.every(part=>typeof part==='string'&&part.length>0&&!part.includes('..'))&&workspace.insideShared(file),
     'SHARED_PATH_DENIED',kind+' '+parts.join('/'));
-  need(!fs.existsSync(file)||!fs.lstatSync(file).isSymbolicLink(),'PATH_REPARSE',file);
+  need(!workspace.linkedComponent(where.shared,file),'PATH_REPARSE',file);
   return file;
 }
 function legacyShared(identity){
   const absolute=workspace.legacyPath(identity);need(absolute&&workspace.insideShared(absolute),'LEGACY_PATH_NOT_SHARED',identity);
-  need(!fs.existsSync(absolute)||!fs.lstatSync(absolute).isSymbolicLink(),'PATH_REPARSE',identity);return absolute;
+  need(!workspace.linkedComponent(workspace.locations().shared,absolute),'PATH_REPARSE',identity);return absolute;
 }
+// Shared files obey the same single-link rule as bytes(): no hard link to another name.
 function sharedBytes(file,limit){
-  const stat=fs.statSync(file);need(stat.isFile()&&stat.size>0&&stat.size<=limit,'FILE_INVALID',file);
+  const stat=fs.statSync(file);need(stat.isFile()&&stat.nlink===1&&stat.size>0&&stat.size<=limit,'FILE_INVALID',file);
   const value=fs.readFileSync(file);need(value.length===stat.size,'FILE_CHANGED',file);return value;
 }
 function bytes(root,name){
