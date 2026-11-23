@@ -37,10 +37,10 @@
       "implementation": "csharp",
       "test": "*FoundationPermissionTests.EventAccess_ProductionCalls_RequireAuthenticPrecedingGuard",
       "callerStages": {
-        "catalog": "tools/phase2/required-cases.json",
+        "catalog": "src/godot-game/tools/gameplay-checks/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXACT_PRODUCTION_EVENT_GUARD",
-        "repositorySha256": "810bd84a9d95249cf291f231d290aa95e7f469f36312449d5d9546fb1c624f49",
+        "repositorySha256": "5447fc0e5397218dc2fba227c416429de38036bd4e845a1799b4af289e31191a",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 3636000,
