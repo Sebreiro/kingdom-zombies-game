@@ -12,7 +12,7 @@ public sealed class FoundationLanLifecycleTests
 {
     /// <summary>Repeated closure cannot retain a projection or close native ownership more than once.</summary>
     [Fact]
-    public void LifetimeCleanupAndDeadlineBoundaries()
+    public void Lifetime_CleanupAndDeadline_RespectBoundaries()
     {
         var port = new FoundationHarnessConnection();
         var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);

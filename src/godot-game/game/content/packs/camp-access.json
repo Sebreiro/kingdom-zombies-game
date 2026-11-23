@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 1,
+  "id": "camp-access",
+  "version": 1,
+  "scope": "Inspection samples; no gameplay inventories, filters, purchases or transactions",
+  "stash": {
+    "id": "shared-camp-stash",
+    "marker": "STASH",
+    "markerStyle": "native-label",
+    "closedPart": "chest-closed",
+    "openPart": "chest-open",
+    "selectedPart": "boxes",
+    "physicalLidExclusive": false,
+    "capacityMeaning": "shared-access marker; art does not encode storage capacity",
+    "accessTiers": [
+      1,
+      2,
+      3
+    ],
+    "sampleConcurrentViewers": [
+      "sample.actor-a",
+      "sample.actor-b"
+    ]
+  },
+  "layouts": [
+    {
+      "tier": 1,
+      "capacity": 8,
+      "seats": [
+        {
+          "id": "seat-1",
+          "position": [
+            -26,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-2",
+          "position": [
+            26,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-3",
+          "position": [
+            -39,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-4",
+          "position": [
+            39,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-5",
+          "position": [
+            -52,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-6",
+          "position": [
+            52,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-7",
+          "position": [
+            -65,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-8",
+          "position": [
+            65,
+            106
+          ],
+          "occupied": false
+        }
+      ],
+      "overflow": {
+        "position": [
+          0,
+          126
+        ],
+        "reserved": false,
+        "remainsValid": true
+      },
+      "stashId": "shared-camp-stash",
+      "firePart": "fire"
+    },
+    {
+      "tier": 2,
+      "capacity": 12,
+      "seats": [
+        {
+          "id": "seat-1",
+          "position": [
+            -26,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-2",
+          "position": [
+            26,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-3",
+          "position": [
+            -39,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-4",
+          "position": [
+            39,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-5",
+          "position": [
+            -52,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-6",
+          "position": [
+            52,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-7",
+          "position": [
+            -65,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-8",
+          "position": [
+            65,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-9",
+          "position": [
+            -78,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-10",
+          "position": [
+            78,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-11",
+          "position": [
+            -91,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-12",
+          "position": [
+            91,
+            106
+          ],
+          "occupied": false
+        }
+      ],
+      "overflow": {
+        "position": [
+          0,
+          126
+        ],
+        "reserved": false,
+        "remainsValid": true
+      },
+      "stashId": "shared-camp-stash",
+      "firePart": "fire"
+    },
+    {
+      "tier": 3,
+      "capacity": 16,
+      "seats": [
+        {
+          "id": "seat-1",
+          "position": [
+            -26,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-2",
+          "position": [
+            26,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-3",
+          "position": [
+            -39,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-4",
+          "position": [
+            39,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-5",
+          "position": [
+            -52,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-6",
+          "position": [
+            52,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-7",
+          "position": [
+            -65,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-8",
+          "position": [
+            65,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-9",
+          "position": [
+            -78,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-10",
+          "position": [
+            78,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-11",
+          "position": [
+            -91,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-12",
+          "position": [
+            91,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-13",
+          "position": [
+            -104,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-14",
+          "position": [
+            104,
+            98
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-15",
+          "position": [
+            -117,
+            106
+          ],
+          "occupied": false
+        },
+        {
+          "id": "seat-16",
+          "position": [
+            117,
+            106
+          ],
+          "occupied": false
+        }
+      ],
+      "overflow": {
+        "position": [
+          0,
+          126
+        ],
+        "reserved": false,
+        "remainsValid": true
+      },
+      "stashId": "shared-camp-stash",
+      "firePart": "fire"
+    }
+  ],
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "completedObligations": []
+  }
+}

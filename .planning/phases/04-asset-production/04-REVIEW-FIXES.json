@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "reviewReport": "b62211f5278e5a7214e08446302b6fbf27bed02f3b9068f82ad9da5ce2fb04ac",
+  "originalReport": "30906a2738d7548229438c342c53b4e71e04bf25ba4acd192fe191d1dd1f41e4",
+  "findings": [
+    {
+      "id": "CR-01",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "ef9e58c84087a5a533e37499949cc96dbb4e18dd",
+        "cases": [
+          {
+            "id": "runner.prelaunch-source",
+            "result": {
+              "path": ".phase4/runs/db12bfda-4737-4b2e-b1a6-4ff4aad0b653/result.json",
+              "bytes": 5688,
+              "sha256": "df92df679b0e8d0bb5a053a32dccefec3ecbf25412277f3d227510fa9b20900f"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-02",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "53146c11b43a736d8becd8d14db85a6db62ffc82",
+        "cases": [
+          {
+            "id": "runner.prelaunch-source",
+            "result": {
+              "path": ".phase4/runs/db12bfda-4737-4b2e-b1a6-4ff4aad0b653/result.json",
+              "bytes": 5688,
+              "sha256": "df92df679b0e8d0bb5a053a32dccefec3ecbf25412277f3d227510fa9b20900f"
+            }
+          },
+          {
+            "id": "export.portability",
+            "result": {
+              "path": ".phase4/runs/b0111601-0bf8-43e3-bcb7-d12ca022f111/result.json",
+              "bytes": 128031,
+              "sha256": "d0522a65a099a4f2e909d20edf9acf1e3974e8bd897597c6d5492abfc69fd40a"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-03",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "1e76a95bbcc8fadbc324ce3c562735b1019690d8",
+        "cases": [
+          {
+            "id": "runner.prelaunch-source",
+            "result": {
+              "path": ".phase4/runs/db12bfda-4737-4b2e-b1a6-4ff4aad0b653/result.json",
+              "bytes": 5688,
+              "sha256": "df92df679b0e8d0bb5a053a32dccefec3ecbf25412277f3d227510fa9b20900f"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-04",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "3f835b67e0d8564357043b37abd53c9961759a07",
+        "cases": [
+          {
+            "id": "runner.prelaunch-source",
+            "result": {
+              "path": ".phase4/runs/db12bfda-4737-4b2e-b1a6-4ff4aad0b653/result.json",
+              "bytes": 5688,
+              "sha256": "df92df679b0e8d0bb5a053a32dccefec3ecbf25412277f3d227510fa9b20900f"
+            }
+          },
+          {
+            "id": "export.portability",
+            "result": {
+              "path": ".phase4/runs/b0111601-0bf8-43e3-bcb7-d12ca022f111/result.json",
+              "bytes": 128031,
+              "sha256": "d0522a65a099a4f2e909d20edf9acf1e3974e8bd897597c6d5492abfc69fd40a"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-05",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "ffe3cf8a47aa14e4013320bbcc000e8b5b992c9c",
+        "cases": [
+          {
+            "id": "runner.prelaunch-source",
+            "result": {
+              "path": ".phase4/runs/db12bfda-4737-4b2e-b1a6-4ff4aad0b653/result.json",
+              "bytes": 5688,
+              "sha256": "df92df679b0e8d0bb5a053a32dccefec3ecbf25412277f3d227510fa9b20900f"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-06",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "85100947e9ba7bb9964899b7a18bffaf4b1fb211",
+        "cases": [
+          {
+            "id": "acceptance.artifacts-source",
+            "result": {
+              "path": ".phase4/runs/2c0f60a2-d4f9-47dc-9188-959d23cd66cb/result.json",
+              "bytes": 1823,
+              "sha256": "a3fac8c1cc12c616564213529a38d600bc75146cb5bda0248655e20b536d6931"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-07",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "6e06ed2279dc35fce11b2e0f19021c52d003093e",
+        "cases": [
+          {
+            "id": "acceptance.judgments",
+            "result": {
+              "path": ".phase4/runs/941449d9-aa8c-4f19-aa8f-c424eb14e29d/result.json",
+              "bytes": 2007,
+              "sha256": "9e84d0a1fef8438f77d8e50f24f86eef8451374f41f1e96726ed5367905455a0"
+            }
+          },
+          {
+            "id": "audio.lifecycle",
+            "result": {
+              "path": ".phase4/runs/4eab9400-d32e-4d13-9752-70852b2e4594/result.json",
+              "bytes": 1095,
+              "sha256": "2ba81350d931ab4b60965dda461329d92e72e12e69bd5ba7babf61cbc4504631"
+            }
+          },
+          {
+            "id": "audio.heldout",
+            "result": {
+              "path": ".phase4/runs/109b37b5-92e2-482b-a3b7-73b1f75c900f/result.json",
+              "bytes": 1092,
+              "sha256": "71efd5aee8e4c8f822c49e9ef8d68de84a5ed8644d9192b642ecf72b1d67a7bf"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-08",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "a5f15093af2cd339fa0f542929bef981dc045538",
+        "cases": [
+          {
+            "id": "hub.source",
+            "result": {
+              "path": ".phase4/runs/7d0508ba-b049-4948-8725-f75cfaf8ecc8/result.json",
+              "bytes": 871,
+              "sha256": "25427e2d3e54b3326d6eea3ba9df315d7ac64d46f487fb2709aacdb95f11f153"
+            }
+          },
+          {
+            "id": "export.hub-consumer",
+            "result": {
+              "path": ".phase4/runs/943046fa-dde6-4920-a3bf-666504eb1da8/result.json",
+              "bytes": 79248,
+              "sha256": "570f95640bf659f679ef4b42de1c2e9c34c6f632a8775fafca57c4971b8f7609"
+            }
+          },
+          {
+            "id": "content.census",
+            "result": {
+              "path": ".phase4/runs/3c6064f1-e7df-44ff-8731-da97b149a108/result.json",
+              "bytes": 19185,
+              "sha256": "7a7d5b671f984cb0f039e0f2f2458a8b7a343d786d65b410e7db854091ce8f81"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CR-09",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "5597c6d0fd64e5cbd440e1e99faebbb19d4729bf",
+        "cases": [
+          {
+            "id": "source.publication",
+            "result": {
+              "path": ".phase4/runs/11eb6053-5226-4f3a-b4ac-b0eebb0ffb73/result.json",
+              "bytes": 8659,
+              "sha256": "7e101a61482c3ab81dafb26d6cff6dbb58e76f2c4a7504c03e224263c405efc1"
+            }
+          },
+          {
+            "id": "content.census",
+            "result": {
+              "path": ".phase4/runs/3c6064f1-e7df-44ff-8731-da97b149a108/result.json",
+              "bytes": 19185,
+              "sha256": "7a7d5b671f984cb0f039e0f2f2458a8b7a343d786d65b410e7db854091ce8f81"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "WR-01",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "0b8334cd85f29f9705cff27d48278eda8d6e5c02",
+        "cases": [
+          {
+            "id": "runner.prelaunch-source",
+            "result": {
+              "path": ".phase4/runs/db12bfda-4737-4b2e-b1a6-4ff4aad0b653/result.json",
+              "bytes": 5688,
+              "sha256": "df92df679b0e8d0bb5a053a32dccefec3ecbf25412277f3d227510fa9b20900f"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "WR-02",
+      "status": "resolved",
+      "reason": "Verified the committed repair and its affected cases on this source.",
+      "proof": {
+        "commit": "3a3c65f31c730ee9b7b9dc95a7e2ed9ccfea867e",
+        "cases": [
+          {
+            "id": "animation.bow",
+            "result": {
+              "path": ".phase4/runs/729c8317-a467-4618-9ee4-73d22cbc416f/result.json",
+              "bytes": 1530951,
+              "sha256": "36bbacba67de7d91f98120d7ee1262084eb785d35adc54db260455dbccaa77c4"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

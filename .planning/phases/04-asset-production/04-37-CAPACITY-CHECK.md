@@ -1,0 +1,19 @@
+# 04-37 — Bounded case-capacity proposal review
+
+## VERIFICATION PASSED
+
+**Result:** 0 blockers, 0 warnings. `issues: []`
+
+The observed workload supports the proposed case-specific capacity correction. Immutable diagnostic result/tests/assessment agree: the unchanged compiled engine.generated-boundary target passed 1/1, zero failures/skips, in 68,631 ms (69,394 ms outer), with unchanged source/input/assembly identities, nine retained child logs and zero remaining owned processes. This is evidence that the former 45-second capacity is insufficient for the complete observed source-proof workload. It is not canonical acceptance; ebf178ee remains failed CHILD_TIMEOUT.
+
+Actual check.cjs currently passes hardcoded MTP --timeout 45s and separately uses manifest.childTimeoutMs ?? 45000 for the outer child. Actual selection validates every case declaration before filtering, and current command execution kills the owned process tree on deadline, awaits child close, records command/log identities and rejects timeout. The proposal targets those exact mechanisms without changing assertions, selector, expected diagnostic or acceptance membership.
+
+Optional per-case childTimeoutMs with safe-positive-integer validation and a 120000-ms cap, coupled to a valid bounded MTP deadline with outer reporting/cleanup headroom, is a sufficient narrow route. The actual implementation must keep absence/default behavior unchanged, reject invalid declarations before process invocation, and derive both deadlines coherently rather than extending only the outer timer while leaving MTP at 45s. Existing global fallback behavior is not permission to increase all case deadlines.
+
+The three explicit existing files are the smallest coherent scope: runner, single existing case declaration and existing RunnerContractTests. Only engine.generated-boundary receives 120000. The coordinator expressly authorizes the cohesive twelve-file total exception; C2 itself remains three files and changes no producer/policy/frozen03 subject. No graph/PLAN rewrite or new case identity is necessary. Existing runner contract methods/fixtures can exercise default/valid/invalid budgets, actual selected execution and timeout/descendant cleanup without waiting for a real two-minute timeout. Tests should inspect the actual emitted MTP and outer budgets, including supported boundary values, and ensure an override does not leak into another case. They must preserve missing-report, zero-discovery, source-identity, failure and reconciliation behavior.
+
+Approval applies to one bounded C2 implementation attempt and focused verification only. R2's proof-design repair budget remains zero; neither this capacity change nor diagnostic success resets it. No permission/proof-content redesign, dropped control, global timeout increase, silent retry/deadline escalation or game-performance change is approved.
+
+A fresh canonical boundary invocation with the fingerprinted new declaration remains required. Only after its pass may the authorized fresh entire 18-case selection, affected runner controls, restored native/solution/Core positives and frozen-input verification establish completion. Preserve all earlier failures and diagnostic artifacts, disclose before/after measured capacity, and give no canonical or plan-completion credit to this review or the diagnostic pass. Actual asset, rendered, listening and judgment acceptance remain pending.
+
+Reviewed the capacity proposal, current runner/manifest/RunnerContractTests/fixture mechanisms, C1 direction, checkpoint/repair directions and immutable diagnostic result/tests/assessment. Only this report was written. No source, plan, STATE, frozen subject, six-file WIP, external affc858 work, checkpoint, old evidence/report, build, commit or branch operation was changed or executed.

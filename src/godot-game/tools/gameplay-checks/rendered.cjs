@@ -46,7 +46,9 @@ function decodePng(file, width = 1280, height = 720) {
 }
 async function command(executable, args, options = {}, timeoutMilliseconds = 12000) {
   return new Promise((resolve, reject) => {
-    const child = spawn(executable, args, { ...options, shell: false, windowsHide: true, detached: process.platform !== 'win32' });
+    const {watchChild, ...launchOptions} = options;
+    const child = spawn(executable, args, { ...launchOptions, shell: false, windowsHide: true, detached: process.platform !== 'win32' });
+    watchChild?.(child);
     let stdout = '', stderr = '', timedOut = false;
     child.stdout?.on('data', chunk => { stdout += chunk; });
     child.stderr?.on('data', chunk => { stderr += chunk; });
@@ -82,11 +84,13 @@ function ownedInput(dispatch) {
 function createSession(context) {
   const { root, directory, nonce, engine, env } = context;
   const width = 1280, height = 720;
-  const game = spawn(engine, ['--path', path.join(root, 'src/godot-game/game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
-    cwd: root, env: { ...env, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
+  const launch = context.beforeGame?.('solo',directory,engine);
+  const game = spawn(engine, ['--path', context.project ?? path.join(root, 'src/godot-game/game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
+    cwd: root, env: { ...(launch?.env ?? env), PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
       PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
       ...(context.includeMenu?{PHASE2_FAIL_ENTRY_ONCE:nonce}:{}) }, shell: false, windowsHide: false, detached:process.platform !== 'win32',
   });
+  context.watchChild?.(game,launch);
   let log = '', exited = false, exitCode;
   game.stdout.on('data', chunk => { log += chunk; }); game.stderr.on('data', chunk => { log += chunk; });
   game.on('error', error => { log += error.stack; exited = true; });
@@ -97,7 +101,8 @@ function createSession(context) {
     const windows = process.platform === 'win32';
     const result = await command(windows ? 'powershell.exe' : '/bin/sh', windows
       ? ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(root, 'src/godot-game/tools/gameplay-checks/windows-input.ps1'), '-OwnedPid', String(game.pid), '-Action', action, '-X', String(x), '-Y', String(y), '-Key', String(key)]
-      : [path.join(root, 'src/godot-game/tools/gameplay-checks/linux-input.sh'), String(game.pid), action, String(x), String(y), String(key)], { cwd: root, env });
+      : [path.join(root, 'src/godot-game/tools/gameplay-checks/linux-input.sh'), String(game.pid), action, String(x), String(y), String(key)],
+      { cwd:root,env,watchChild:context.watchChild },context.budget?.(12000) ?? 12000);
     const acknowledgement = JSON.parse(result.stdout.trim());
     requireTrue(acknowledgement.pid === game.pid && acknowledgement.focused === true && acknowledgement.action === action, 'INPUT_ACKNOWLEDGEMENT');
     inputs.push(acknowledgement);
@@ -110,7 +115,7 @@ function createSession(context) {
     fs.appendFileSync(path.join(directory,'requests.jsonl'),JSON.stringify({checkpoint,request,at:new Date().toISOString()})+'\n');
     fs.writeFileSync(path.join(directory, 'observe.request.tmp'), request, { flag: 'wx' });
     fs.renameSync(path.join(directory, 'observe.request.tmp'), path.join(directory, 'observe.request'));
-    const target = path.join(directory, requestId + '.json'), deadline = Date.now() + 12000;
+    const target = path.join(directory, requestId + '.json'), deadline = Date.now() + (context.budget?.(12000) ?? 12000);
     while (!fs.existsSync(target)) {
       requireTrue(!exited && Date.now() < deadline, 'OBSERVATION_DEADLINE ' + checkpoint + ': ' + log);
       await delay(50);
@@ -295,24 +300,60 @@ async function tracer(context, scenario, session, logStart = session.log.length)
 function validateResources(context) {
   const isolated=path.join(context.directory,'isolated-input');
   fs.mkdirSync(isolated,{recursive:true});
-  const inputs=['src/godot-game/game/project.godot','src/godot-game/game/icon.svg',
-    ...fs.readdirSync(path.join(context.root,'src/godot-game/game/foundation')).filter(name=>/\.(cs|tscn)$/.test(name)).map(name=>'src/godot-game/game/foundation/'+name),
-    'src/godot-game/tools/gameplay-checks/windows-input.ps1','src/godot-game/tools/gameplay-checks/linux-input.sh'];
+  const game='src/godot-game/game/', project=game+'project.godot';
+  const source=fs.readFileSync(path.join(context.root,project),'utf8');
+  const current=source.match(/^\s*run\/main_scene\.asset_inspection\s*=/m)!==null;
+  const roles={
+    'run/main_scene':'foundation/Foundation.tscn',
+    'config/icon':current?'assets/ui/kingdom-zombies-icon.png':'icon.svg',
+    ...(current?{'run/main_scene.asset_inspection':'inspection/Inspection.tscn'}:{})
+  };
+  const projectBindings=[...source.matchAll(/^\s*([^\s=;]+)\s*=\s*"res:\/\/([^"\r\n]+)"\s*$/gm)];
+  for(const [,role,resource] of projectBindings) {
+    requireTrue(Object.hasOwn(roles,role)&&roles[role]===resource,'UNDECLARED_RESOURCE '+resource);
+  }
+  for(const role of Object.keys(roles)) {
+    requireTrue(projectBindings.filter(binding=>binding[1]===role).length===1,'PROJECT_RESOURCE_ROLE '+role);
+  }
+  for(const [,resource] of source.matchAll(/res:\/\/([^"\s]+)/g)) {
+    requireTrue(Object.values(roles).includes(resource),'UNDECLARED_RESOURCE '+resource);
+  }
+
+  const foundation=fs.readdirSync(path.join(context.root,game,'foundation')).filter(name=>/\.(cs|tscn)$/.test(name))
+    .map(name=>'foundation/'+name);
+  const inspection=current?['inspection/Inspection.tscn','inspection/InspectionRoot.cs','assets/common/bow.png',
+    'assets/ui/InspectionTheme.tres','assets/common/donor-kit.png','assets/ui/Fallback.ttf',
+    'assets/ui/LiberationSans.ttf','assets/ui/PerfectDOSVGA437.ttf']:[];
+  const inputs=[project,...new Set([...Object.values(roles),...foundation,...inspection].map(file=>game+file)),
+    'src/godot-game/tools/gameplay-checks/windows-input.ps1',
+    'src/godot-game/tools/gameplay-checks/linux-input.sh'];
   const resources=[];
   for(const file of inputs) {
     const bytes=fs.readFileSync(path.join(context.root,file));
-    requireTrue(!/LangProj|Downloads|[A-Za-z]:\\|\/home\//.test(bytes.toString('utf8')),'ABSOLUTE_OR_DONOR_RESOURCE '+file);
+    if(!/\.(png|ttf)$/.test(file)) {
+      requireTrue(!/LangProj|Downloads|[A-Za-z]:\\|\/home\//.test(bytes.toString('utf8')),'ABSOLUTE_OR_DONOR_RESOURCE '+file);
+    }
     fs.mkdirSync(path.dirname(path.join(isolated,file)),{recursive:true});
     fs.writeFileSync(path.join(isolated,file),bytes);
-    resources.push({path:file,origin:'repository-authored',sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
+    resources.push({path:file,origin:inspection.includes(file.slice(game.length))?'repository-tracked':'repository-authored',
+      sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
   }
-  const declared = new Set(inputs);
-  for (const resource of resources) {
-    const source = fs.readFileSync(path.join(isolated,resource.path),'utf8');
-    for (const match of source.matchAll(/res:\/\/([^"\s]+)/g)) requireTrue(declared.has('src/godot-game/game/'+match[1]),'UNDECLARED_RESOURCE '+match[1]);
+  function validateReferences(files,declared) {
+    for(const file of files) {
+      const content=fs.readFileSync(path.join(isolated,game,file),'utf8');
+      for(const [,resource] of content.matchAll(/res:\/\/([^"\s]+)/g)) {
+        requireTrue(declared.includes(resource),'UNDECLARED_RESOURCE '+resource);
+      }
+    }
+  }
+  validateReferences(foundation,foundation);
+  // The inspection scene and theme declare their static dependencies. InspectionRoot owns its dynamic pack separately.
+  if(current)validateReferences(['inspection/Inspection.tscn','assets/ui/InspectionTheme.tres'],inspection);
+  for(const resource of resources) {
     requireTrue(crypto.createHash('sha256').update(fs.readFileSync(path.join(isolated,resource.path))).digest('hex')===resource.sha256,'RESOURCE_COPY_HASH');
   }
-  return {isolatedInputRoot:isolated,resources,donorInputs:[],validation:'declared-resource-closure-and-byte-identical-copy; shared live scene supplies runtime evidence'};
+  return {isolatedInputRoot:isolated,resources,donorInputs:[],projectResourceRoles:roles,
+    validation:'declared-resource-closure-and-byte-identical-copy; shared live scene supplies runtime evidence'};
 }
 async function rendered(context,items) {
   const session=createSession({...context,includeMenu:items.some(row=>row.id==='rendered.menu')});

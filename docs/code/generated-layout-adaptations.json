@@ -219,5 +219,175 @@
         "rules.generated-layout-boundary"
       ]
     }
+  ],
+  "exportSources": [
+    {
+      "id": "KZ-EX-SDK-EXPORT-ExportDebug-core",
+      "platform": "win32-x64",
+      "sdk": "10.0.404",
+      "owner": "src/core",
+      "configuration": "ExportDebug",
+      "surface": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug/source/src/core/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "path": "src/core/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "bytes": 200,
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "textSha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "line": 4,
+      "lineLength": 135,
+      "suffix": "/src/core/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "lines": [
+        4
+      ],
+      "origin": "sdk/10.0.404/Microsoft.Common.CurrentVersion.targets",
+      "originSha256": "428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe",
+      "originSymbol": "GenerateTargetFrameworkMonikerAttribute",
+      "diagnostic": "SCR0007",
+      "proofs": [
+        "rules.export-layout-origin",
+        "rules.export-layout-boundary"
+      ],
+      "generation": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug-generate.command.json",
+      "compilerAttempt": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug-publish.command.json"
+    },
+    {
+      "id": "KZ-EX-SDK-EXPORT-ExportDebug-godot-game",
+      "platform": "win32-x64",
+      "sdk": "10.0.404",
+      "owner": "src/godot-game",
+      "configuration": "ExportDebug",
+      "surface": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug/source/src/godot-game/.godot/mono/temp/obj/ExportDebug/win-x64/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "path": "src/godot-game/.godot/mono/temp/obj/ExportDebug/win-x64/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "bytes": 200,
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "textSha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "line": 4,
+      "lineLength": 135,
+      "suffix": "/src/godot-game/.godot/mono/temp/obj/ExportDebug/win-x64/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "lines": [
+        4
+      ],
+      "origin": "sdk/10.0.404/Microsoft.Common.CurrentVersion.targets",
+      "originSha256": "428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe",
+      "originSymbol": "GenerateTargetFrameworkMonikerAttribute",
+      "diagnostic": "SCR0007",
+      "proofs": [
+        "rules.export-layout-origin",
+        "rules.export-layout-boundary"
+      ],
+      "generation": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug-generate.command.json",
+      "compilerAttempt": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug-publish.command.json"
+    },
+    {
+      "id": "KZ-EX-SDK-EXPORT-ExportDebug-multiplayer-abstractions",
+      "platform": "win32-x64",
+      "sdk": "10.0.404",
+      "owner": "src/multiplayer-abstractions",
+      "configuration": "ExportDebug",
+      "surface": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug/source/src/multiplayer-abstractions/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "path": "src/multiplayer-abstractions/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "bytes": 200,
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "textSha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "line": 4,
+      "lineLength": 135,
+      "suffix": "/src/multiplayer-abstractions/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "lines": [
+        4
+      ],
+      "origin": "sdk/10.0.404/Microsoft.Common.CurrentVersion.targets",
+      "originSha256": "428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe",
+      "originSymbol": "GenerateTargetFrameworkMonikerAttribute",
+      "diagnostic": "SCR0007",
+      "proofs": [
+        "rules.export-layout-origin",
+        "rules.export-layout-boundary"
+      ],
+      "generation": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug-generate.command.json",
+      "compilerAttempt": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportDebug-publish.command.json"
+    },
+    {
+      "id": "KZ-EX-SDK-EXPORT-ExportRelease-core",
+      "platform": "win32-x64",
+      "sdk": "10.0.404",
+      "owner": "src/core",
+      "configuration": "ExportRelease",
+      "surface": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease/source/src/core/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "path": "src/core/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "bytes": 200,
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "textSha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "line": 4,
+      "lineLength": 135,
+      "suffix": "/src/core/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "lines": [
+        4
+      ],
+      "origin": "sdk/10.0.404/Microsoft.Common.CurrentVersion.targets",
+      "originSha256": "428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe",
+      "originSymbol": "GenerateTargetFrameworkMonikerAttribute",
+      "diagnostic": "SCR0007",
+      "proofs": [
+        "rules.export-layout-origin",
+        "rules.export-layout-boundary"
+      ],
+      "generation": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease-generate.command.json",
+      "compilerAttempt": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease-publish.command.json"
+    },
+    {
+      "id": "KZ-EX-SDK-EXPORT-ExportRelease-godot-game",
+      "platform": "win32-x64",
+      "sdk": "10.0.404",
+      "owner": "src/godot-game",
+      "configuration": "ExportRelease",
+      "surface": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease/source/src/godot-game/.godot/mono/temp/obj/ExportRelease/win-x64/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "path": "src/godot-game/.godot/mono/temp/obj/ExportRelease/win-x64/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "bytes": 200,
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "textSha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "line": 4,
+      "lineLength": 135,
+      "suffix": "/src/godot-game/.godot/mono/temp/obj/ExportRelease/win-x64/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "lines": [
+        4
+      ],
+      "origin": "sdk/10.0.404/Microsoft.Common.CurrentVersion.targets",
+      "originSha256": "428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe",
+      "originSymbol": "GenerateTargetFrameworkMonikerAttribute",
+      "diagnostic": "SCR0007",
+      "proofs": [
+        "rules.export-layout-origin",
+        "rules.export-layout-boundary"
+      ],
+      "generation": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease-generate.command.json",
+      "compilerAttempt": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease-publish.command.json"
+    },
+    {
+      "id": "KZ-EX-SDK-EXPORT-ExportRelease-multiplayer-abstractions",
+      "platform": "win32-x64",
+      "sdk": "10.0.404",
+      "owner": "src/multiplayer-abstractions",
+      "configuration": "ExportRelease",
+      "surface": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease/source/src/multiplayer-abstractions/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "path": "src/multiplayer-abstractions/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "bytes": 200,
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "textSha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "line": 4,
+      "lineLength": 135,
+      "suffix": "/src/multiplayer-abstractions/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "lines": [
+        4
+      ],
+      "origin": "sdk/10.0.404/Microsoft.Common.CurrentVersion.targets",
+      "originSha256": "428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe",
+      "originSymbol": "GenerateTargetFrameworkMonikerAttribute",
+      "diagnostic": "SCR0007",
+      "proofs": [
+        "rules.export-layout-origin",
+        "rules.export-layout-boundary"
+      ],
+      "generation": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease-generate.command.json",
+      "compilerAttempt": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/ExportRelease-publish.command.json"
+    }
   ]
 }

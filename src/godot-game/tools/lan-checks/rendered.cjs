@@ -25,6 +25,7 @@ function lines(file){
 function draws(peer){return lines(path.join(peer.directory,'draws.ndjson'));}
 function actor(draw,id){return draw?.actors?.find(row=>row.actorId===id);}
 async function until(peers,predicate,label,milliseconds=12000){
+  milliseconds=peers.find(peer=>peer.budget)?.budget(milliseconds)??milliseconds;
   const deadline=now()+BigInt(milliseconds)*1000000n;
   while(now()<deadline){for(const peer of peers)e.requireTrue(!peer.error&&!peer.exit,'RENDERED_PROCESS_LOST '+peer.role+' '+peer.output?.slice(-1000));
     const result=predicate();if(result)return result;await delay(2);}
@@ -32,8 +33,10 @@ async function until(peers,predicate,label,milliseconds=12000){
 }
 function driver(context,peers){
   e.requireTrue(process.platform==='win32','WINDOWS_ONLY');
+  context.budget?.();
   const child=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(context.root,'src/godot-game/tools/lan-checks/windows-input.ps1'),
     '-OwnedPids',peers.map(row=>row.pid).join(','),'-Nonce',context.nonce],{cwd:context.root,env:context.env,windowsHide:true,stdio:['pipe','pipe','pipe']});
+  context.watchChild?.(child);
   let buffer='',stderr='',sequence=0,ended=false,error,closed=false;const pending=new Map(),records=[];
   let readyResolve;const ready=new Promise(resolve=>readyResolve=resolve);
   child.stdout.on('data',bytes=>{buffer+=bytes;let boundary;while((boundary=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,boundary);buffer=buffer.slice(boundary+1);try{
@@ -43,14 +46,14 @@ function driver(context,peers){
   async function deliver(peer,request){
     const start=now(),index=++sequence;const ackPromise=new Promise(resolve=>pending.set(index,{resolve}));
     child.stdin.write(JSON.stringify({nonce:context.nonce,sequence:index,pid:peer.pid,...request})+'\n');
-    const row=await Promise.race([ackPromise,delay(8000).then(()=>{throw new Error('DRIVER_ACK_TIMEOUT '+stderr);})]);
+    const row=await Promise.race([ackPromise,delay(context.budget?.(8000)??8000).then(()=>{throw new Error('DRIVER_ACK_TIMEOUT '+stderr);})]);
     e.requireTrue(!error&&!ended&&row.ok&&row.nonce===context.nonce&&row.pid===peer.pid&&row.driverPid===child.pid,'DRIVER_ACK '+JSON.stringify(row));
     const record={...row,deliveryBefore:String(start),deliveryAfter:String(now()),clock:'coordinator-hrtime'};records.push(record);return record;
   }
   async function send(peer,request){
     return request.method==='physical-SendInput'?require('./foreground.cjs').run(()=>deliver(peer,request)):deliver(peer,request);
   }
-  async function start(){const row=await Promise.race([ready,delay(10000).then(()=>{throw new Error('DRIVER_START_TIMEOUT '+stderr);})]);
+  async function start(){const row=await Promise.race([ready,delay(context.budget?.(10000)??10000).then(()=>{throw new Error('DRIVER_START_TIMEOUT '+stderr);})]);
     e.requireTrue(row.nonce===context.nonce&&row.pid===child.pid,'DRIVER_READY');e.exact(peers.map(row=>row.pid),row.owned,'driver owned PIDs');return row;}
   async function close(){
     if(closed)return;closed=true;

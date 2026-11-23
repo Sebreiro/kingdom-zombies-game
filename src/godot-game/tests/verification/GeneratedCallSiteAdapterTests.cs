@@ -18,15 +18,14 @@ public sealed class GeneratedCallSiteAdapterTests
         using var register = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
         JsonElement[] rows = [.. register.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        rows.Length.ShouldBe(expected: 18);
+        EngineGeneratedTests.VerifyInventories(registry: register.RootElement, baselineCount: 18,
+                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
         foreach (JsonElement row in rows)
         {
             string adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: (row
                     .GetProperty(propertyName: "path").GetString()
                     ?? throw new System.InvalidOperationException(message: "Required proof value is null"))));
-            string path = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(
-                    propertyName: "surface").GetString() ?? throw new System.InvalidOperationException(
-                            message: "Required proof value is null")));
+            string path = EngineGeneratedTests.Surface(row: row, registry: register.RootElement);
             bool variant = row.TryGetProperty(propertyName: "linuxSha256", value: out JsonElement linux);
             string hashName = OperatingSystem.IsLinux() && variant ? "linuxSha256" : "sha256";
             Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: path))).ShouldBe(

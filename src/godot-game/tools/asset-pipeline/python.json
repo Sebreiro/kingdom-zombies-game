@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Exact CPython build that runs the Phase 4 media, archive and pixel scripts. Override the location with KZ_PHASE4_PYTHON; the bytes must still match.",
+  "executable": "C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+  "version": "3.12.14",
+  "executableSha256": "5699bdfd4b6924c69d0a1f6b1d75d7760698567ce81b92d4fcc8bb2af4eeba84",
+  "runtimeLibrary": "python312.dll",
+  "runtimeLibrarySha256": "091cfaffba5da38cea075b310399799bc2025a365f6ed266d94c92e6fc91f3c3",
+  "libraries": {
+    "pillow": "13.0.0"
+  }
+}

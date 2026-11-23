@@ -1,0 +1,628 @@
+{
+  "schemaVersion": 1,
+  "phase": "04",
+  "status": "Planning complete; independent typed checker pending",
+  "prerequisite": "04-37",
+  "counts": {
+    "plans": 37,
+    "tasks": 74,
+    "waves": 31,
+    "completedPlans": 6,
+    "plannedPaths": 229
+  },
+  "ownership": {
+    "plan37Files": 9,
+    "task37Files": [
+      5,
+      4
+    ],
+    "plan03Files": 7,
+    "task03Files": [
+      5,
+      3
+    ],
+    "plan26Files": 9,
+    "task26Files": [
+      5,
+      5
+    ],
+    "nativePositiveAndFullSuite": "37 Task2 after five-consumer Task1 migration/compile; no Task1 native GREEN"
+  },
+  "commands": {
+    "frontmatter": "node .codex/gsd-core/bin/gsd-tools.cjs query frontmatter.validate PLAN --schema plan",
+    "structure": "node .codex/gsd-core/bin/gsd-tools.cjs query verify.plan-structure PLAN",
+    "decisions": "node .codex/gsd-core/bin/gsd-tools.cjs query check.decision-coverage-plan .planning/phases/04-asset-production .planning/phases/04-asset-production/04-CONTEXT.md",
+    "consistency": "node .planning/phases/04-asset-production/04-GENERATED-PLAN-PROBE.cjs",
+    "phaseIndex": "node .codex/gsd-core/bin/gsd-tools.cjs query phase-plan-index 04",
+    "diff": "git diff --check"
+  },
+  "schemaAndStructure": [
+    {
+      "plan": "04-01-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-02-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-03-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-04-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-05-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-06-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-07-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-08-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-09-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-10-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-11-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-12-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-13-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-14-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-15-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-16-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-17-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-18-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-19-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-20-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-21-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-22-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-23-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-24-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-25-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-26-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-27-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-28-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-29-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-30-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-31-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-32-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-33-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-34-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-35-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-36-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-37-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    }
+  ],
+  "decisionCoverage": {
+    "passed": true,
+    "skipped": false,
+    "total": 32,
+    "covered": 32,
+    "uncovered": [],
+    "message": "All trackable CONTEXT.md decisions are covered by plans."
+  },
+  "consistency": {
+    "generatedOwnership": {
+      "plan37Files": 9,
+      "taskFiles": [
+        5,
+        4
+      ],
+      "plan03Files": 7,
+      "plan26Files": 9,
+      "frozen": 5,
+      "observedDiagnostics": 177,
+      "fullNativeGateTask": 2
+    },
+    "consumerOwnership": {
+      "plan31Files": 9,
+      "taskFiles": [
+        5,
+        5
+      ],
+      "codePaths": [
+        "tools/phase4/export.cjs",
+        "tools/phase4/native-observer.cjs",
+        "tools/phase4/check.cjs",
+        "tools/phase4/cases/export-profile.cjs",
+        "tools/phase4/cases/export-portability.cjs"
+      ],
+      "finalGroupTask": 2,
+      "newCase": "export.hub-consumer"
+    },
+    "identityHashes": {
+      "obligations": "e8a67a3b9b9685804e3db8c5d5d2f391758a568f2e055b9218120267496871ea",
+      "acceptance": "aac9a226fe8053d42d54de6b5a5d09bf4520540f7794afe9e7f5d033bb328a9e",
+      "heldout": "8c74c8f335e127a26e6525488b4509737b37d592b6e61b8635258d54b2049fa5",
+      "ui": "dd61ffeaf10f9236b51210a63e44a5e27ba740dafec6ec8560a9883d00c5041a",
+      "decisions": "dd93009703b6cd3bfe36a61010002228d664c81fe973b791c078ff41f55c7424",
+      "prohibitions": "543e037a4c0bfbbe75d1a6c380da2b1e6f741df0def50ac92810c504660322d4"
+    },
+    "plans": 37,
+    "tasks": 74,
+    "waves": 31,
+    "maxFilesPerPlan": 9,
+    "new36Files": 7,
+    "plan03Files": 7,
+    "backstops": 104,
+    "prohibitions": 4,
+    "threats": 111,
+    "plannedFiles": 229,
+    "coverage": {
+      "plans": 37,
+      "tasks": 74,
+      "waves": 31,
+      "obligations": 180,
+      "acceptance": 24,
+      "heldout": 34,
+      "ui": 70,
+      "decisions": 32,
+      "prohibitions": 4
+    },
+    "expectedHash": "a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5",
+    "protectedHashes": {
+      "tools/phase4/check.cjs": "3a5d276359095e0927fff173b99bdcc86e1cb87675ac23d6a4ee60806f695842",
+      "tools/phase4/content.cjs": "096ca3e4af7a1ffea0995569405a03d2203cb99101c0a237ae71e637329a2318",
+      "tools/phase4/expected-obligations.json": "a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5",
+      "src/godot-game/content/pack-index.json": "cca59a20691e75e874f7ed4b229e838e43190b683f0885cc2aa5717f6ed92739",
+      "src/godot-game/project.godot": "f5378d9a802aee409cd71ddda626ea78be62e431ffbfbac8f8447d69082b09d0",
+      "src/godot-game/export_presets.cfg": "97bef0a40ca36b6bf564fce9195e875181ca2acfc6cd15753ecd52d90400939e",
+      "src/godot-game/inspection/Inspection.tscn": "c13d30b08861868268e96cc1ecc120eaec45bcbd0725e737feea8bf783390d4f",
+      ".planning/phases/04-asset-production/04-01-SUMMARY.md": "976f38ea3bec3c998589b3d4b4deece72e34790f3fdf842a9df78cdb9d8732d0",
+      ".planning/phases/04-asset-production/04-25-SUMMARY.md": "356169c1d779868356353a02360aa86d8579fb9d927bf8e38410928aeb696eae",
+      ".planning/phases/04-asset-production/04-34-SUMMARY.md": "8afb749e4fde63bfbe50b7588963e355a752a927b9a83d590a9a01729c1365b6",
+      ".planning/phases/04-asset-production/04-35-SUMMARY.md": "cfb4ea810f6614cf8390ddaad61bb3876a3daff5cfdcef95bf0662d744a3c3c7",
+      ".planning/phases/04-asset-production/04-02-SUMMARY.md": "f9f6a0cd7ab416cb0d9a5e51af5b5173be610f249a6bba353a60bca719336ab3",
+      ".planning/phases/04-asset-production/04-PLAN-CHECK.md": "51031a523eed16d469d045cd237b83f2cf480ea3d38acccb5522f16bbcdeccdd",
+      ".planning/phases/04-asset-production/04-PLAN-CHECK-INSPECTION-PROFILE.md": "b3697ce81f134598309a378d33b1543226528ed5099809f4226d36f230eba06a"
+    },
+    "errors": []
+  },
+  "exactCoverageArraysUnchanged": {
+    "obligations": true,
+    "acceptance": true,
+    "heldout": true,
+    "ui": true,
+    "decisions": true,
+    "prohibitions": true
+  },
+  "inputs": "04-GENERATED-PLANNING-INPUTS.json",
+  "freshIndex": {
+    "record": "04-GENERATED-PLAN-INDEX.json",
+    "readyPlans": [
+      "04-37"
+    ],
+    "plan03": {
+      "id": "04-03",
+      "wave": 8,
+      "depends_on": [
+        "04-37"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Live inspection shell, validated loader and exact native permissions.",
+      "files_modified": [
+        "src/core/ContentPack.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "src/godot-game/inspection/Inspection.tscn",
+        "tests/phase1/ContentInspectorTests.cs",
+        "tools/phase4/cases/hub.cjs",
+        "tests/phase1/EngineAccessPolicy.cs",
+        "docs/code/visibility-exemptions.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-37"
+      ]
+    },
+    "plan26": {
+      "id": "04-26",
+      "wave": 9,
+      "depends_on": [
+        "04-03"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Inspection input/lifetime expansion with immediate exact native permission proofs.",
+      "files_modified": [
+        "src/godot-game/inspection/InspectionInput.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "src/godot-game/inspection/InspectionShell.cs",
+        "tests/phase1/ContentInspectorTests.cs",
+        "tools/phase4/cases/hub.cjs",
+        "tests/phase1/EngineAccessPolicy.cs",
+        "tools/code-rules/EngineGeneratedSyntax.cs",
+        "docs/code/engine-generated-spans.json",
+        "docs/code/generated-callsite-adaptations.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-03"
+      ]
+    },
+    "plan37": {
+      "id": "04-37",
+      "wave": 7,
+      "depends_on": [
+        "04-36"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Clear the concrete generated-authentication ownership gap blocking partial03. Retained invocation3c94852a-37dd-4af5-9439-8025fee9bf76 has177 generated errors, zero authored-source diagnostics and four actual emitted surfaces. Extend the executable mechanism and every affected existing proof consumer within one cohesive9-file/two-task prerequisite. This supports existing ASSET-05 and D-25/D-28 only; it creates no new content/acceptance identity or product choice.",
+      "files_modified": [
+        "tools/code-rules/EngineGeneratedSyntax.cs",
+        "src/godot-game/GeneratedCallSiteAdapters.cs",
+        "docs/code/engine-generated-spans.json",
+        "docs/code/generated-callsite-adaptations.json",
+        "tests/phase1/EngineGeneratedTests.cs",
+        "tests/phase1/GeneratedCallSiteAdapterTests.cs",
+        "tests/phase1/GodotCallSiteAdapterTests.cs",
+        "tests/phase1/ExemptionValidator.cs",
+        "tests/phase1/ExemptionTests.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": true
+    }
+  },
+  "preservation": {
+    "head": "4aa8f7d7970085c1c8b660642c620fa07f49f0cc",
+    "frozenHashesMatch": true,
+    "retainedRawTextHashesMatch": true,
+    "productionOrCompletedSummaryOrGeneratedCheckpointDiffPaths": [],
+    "parentOwnedStateContinuationCheckpointEditedByPlanner": false,
+    "oldReviewProbeRecordsOverwritten": false
+  },
+  "evidenceLimit": "Schema/structure/read-only identity/ownership/dependency/frozen-evidence checks only. No production build/new source case/native hub/window/listening/judgment/Linux execution by planner.177-error invocation and Core-only26 pass retain their exact original credit; all ASSET requirements remain pending.",
+  "sourceTrace": {
+    "additionalActualConsumers": [
+      "tests/phase1/ExemptionValidator.cs",
+      "tests/phase1/ExemptionTests.cs"
+    ],
+    "unchangedConsumers": [
+      "tools/code-rules/GeneratedSyntax.cs",
+      "tests/phase1/GeneratedSurfaceScanner.cs",
+      "tests/phase1/RuleMatrix.cs",
+      "tests/phase1/FoundationPermissionTests.cs"
+    ],
+    "baselineAssertions": [
+      220,
+      18,
+      16,
+      26
+    ],
+    "newSourceScopeReduction": false
+  }
+}
+

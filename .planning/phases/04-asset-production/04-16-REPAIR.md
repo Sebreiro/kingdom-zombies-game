@@ -1,0 +1,29 @@
+# Plan04-16 bounded parser repair
+
+Recorded prospectively on 2026-11-17 at HEAD a1a556e, before further implementation changes. This is coordinator-authorized technical repair under the active Phase04 autonomous invocation. The original Task1 corrective budget remains exhausted at3/3; Task2 has not begun. No original attempt is reset and no obligation is pruned.
+
+## Strategy and immutable starting evidence
+
+DECOMPOSE Task1 into two sequential, more specific substeps: (R1.1) authenticate and parse the existing map dependency with an exact bounded field allowance and independent rejection controls; (R1.2) verify the complete original camp behavior/compositions and unchanged affected regressions, commit Task1, then execute its fresh committed same-case tracer. Each substep has its initial implementation/verification followed by at most two corrective attempts. Record actual attempts separately; an exhausted substep returns a durable checkpoint before any further source correction.
+
+Preserve 04-16-CHECKPOINT.md, RED commit309da52, all original reports including d8f14e5e-9863-445e-aeaa-ebdc48f00267, and `.phase4/checkpoints/04-16-task1-original-exhausted/manifest.json` SHA256355bbc52ec2b93ca0a2af2c20345e5b96c3218d54a86b82198e07085857ec070 with its five exact source copies. The observed constructor-aborted native run is not a camp pass or a clean teardown proof.
+
+## R1.1 exact parser boundary
+
+The actual dependency `content/world/map.json` contains275 entries at `$.native.nodes`; this is the sole bound array above256. Permit at most512 entries only at that exact JSON field in the exact map dependency after the existing `Bind` has authenticated every ordered path and input SHA256. The strict generic `Read(byte[])` entry point must retain256 for every array. Do not expose a general caller-controlled relaxed parser, permit another dependency path, or authorize nested/lookalike fields. Keep all other arrays at256, authored samples/unique rows at128, document bytes1MiB, depth20, document nodes30000, UTF8/NFC/control/key/finite-number checks, binding size/path/hash/domain validation and native lifecycle boundaries intact.
+
+Ownership for this repair is only `src/godot-game/inspection/CampLayouts.cs`, `tests/phase1/CampLayoutTests.cs`, and `tools/phase4/cases/ui-camp.cjs`. The authored camp JSON and pack bytes stay fixed unless a concrete original done-criteria failure establishes a necessary change within R1.2. Do not modify map.json or any prior dependency to fit this reader.
+
+Prove the actual275-node dependency loads; exact512 accepted and513 rejected at the authenticated field; generic256 accepted and257 rejected; wrong sibling/nested/lookalike map arrays above256 rejected; an authored oversized array remains rejected. Rebind legitimate mutated fixture hashes independently where needed to reach the intended parser boundary. Separately prove a wrong input hash fails before the map exception and a restored current positive passes. Acceptance or rejection must come from the actual production implementation and the intended specific diagnostic, not a reflection bridge failure, catch-all exception, missing assembly, observed-value substitution, or native abort. Retain exact original outcomes and add distinct IDs.
+
+## R1.2 complete Task1 and resume Task2
+
+Run the original complete `layouts.camp` source/strict-build/three compiled tests/native contract after R1.1. Resolve only concrete remaining original camp done-criteria failures within the original first-five Task1 path union and the declared two-correction substep budget. All31 authored examples and four distinct compositions must actually project. Preserve truthful stash food/money, old completed capacity, current fixed-fee repair semantics, modal/focus, domain, ownership/epoch/disposal and original assertions. Select all active Critical cases, new/changed cases and affected regressions; retain the exact frozen inputs, ordered compatible source/headless groups and explicit integration-blocked omissions. Do not rerun an unchanged known-blocked provenance/publication case or claim it passes.
+
+Commit the exact Task1 union only after GREEN, then pass a fresh committed `layouts.camp` tracer before starting Task2. Task2 retains its own original TDD RED/GREEN/corrective budget and original five paths/`layouts.map-warnings` contract. Complete its independently reordered H23 definitions AND events, hidden unknown portals at all layers/text/focus, four canonical identities, muted full warning and every fixture-preview backstop. No actual game window, appearance/readability/listening approval, gameplay implementation, requirement completion or phase acceptance is authorized by a source/headless pass.
+
+## Integration handoff and shared checkout
+
+Plan04-19 owns the upcoming jobs/economy/world data; it must use the creator's current initial-spec§8.3 fixed50% tier-valuation fee, full-health completion, paid additional-damage coverage and replacement-builder payment/progress continuity. Plan04-23 owns reconciling the older main/defense presentation artifacts and consumers before04-24 independent review. The obsolete main repairPrice30/60/210 versus current50/150/400 is recorded, not accepted; exact affected file/consumer scope must be written prospectively before that integration edit. This16 repair does not change those dependencies.
+
+You are not alone in this shared checkout. Preserve other agents' edits, especially the five unstaged creator Phase07 files PROJECT/REQUIREMENTS/ROADMAP/STATE/initial-spec. Never recreate removed06-DISCUSS-CHECKPOINT.json. Parent owns global progress, wave20, PR5 updates and push. Reuse feature/04-asset-production and draftPR5 todev; no switch, merge, blanket stage, reset, stash or tooling update. Preserve pending WINDOWS29/30/31, current-index0/180 and full policy/producer integration work for23/31. No canonical complete SUMMARY until both original tasks and their checks succeed.

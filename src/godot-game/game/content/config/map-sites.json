@@ -1,0 +1,999 @@
+{
+  "id": "DT-09",
+  "version": 1,
+  "mapResource": "content/world/map.json",
+  "units": "u",
+  "pixelsPerUnit": 8,
+  "edges": [
+    -320,
+    320
+  ],
+  "terrain": [
+    {
+      "id": "ground",
+      "from": -320,
+      "to": 320,
+      "height": 0,
+      "collisionPolygon": [
+        [
+          -320,
+          0
+        ],
+        [
+          320,
+          0
+        ],
+        [
+          320,
+          6
+        ],
+        [
+          -320,
+          6
+        ]
+      ],
+      "navigation": [
+        [
+          -320,
+          0
+        ],
+        [
+          320,
+          0
+        ]
+      ],
+      "art": "ground",
+      "artTileWidth": 16
+    }
+  ],
+  "portals": [
+    {
+      "id": "left.portal.1",
+      "side": "left",
+      "sourceIndex": 1,
+      "x": -100,
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "left.portal.2",
+      "side": "left",
+      "sourceIndex": 2,
+      "x": -190,
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "left.portal.3",
+      "side": "left",
+      "sourceIndex": 3,
+      "x": -280,
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "right.portal.1",
+      "side": "right",
+      "sourceIndex": 1,
+      "x": 100,
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "right.portal.2",
+      "side": "right",
+      "sourceIndex": 2,
+      "x": 190,
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "right.portal.3",
+      "side": "right",
+      "sourceIndex": 3,
+      "x": 280,
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        2,
+        0
+      ]
+    }
+  ],
+  "walls": [
+    {
+      "id": "left.wall.1",
+      "side": "left",
+      "x": -25,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.wall.2",
+      "side": "left",
+      "x": -75,
+      "clearing": "left.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.wall.3",
+      "side": "left",
+      "x": -155,
+      "clearing": "left.clearing.2",
+      "requiresDestroyedPortals": [
+        "left.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.wall.4",
+      "side": "left",
+      "x": -245,
+      "clearing": "left.clearing.3",
+      "requiresDestroyedPortals": [
+        "left.portal.1",
+        "left.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.1",
+      "side": "right",
+      "x": 25,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.2",
+      "side": "right",
+      "x": 75,
+      "clearing": "right.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.3",
+      "side": "right",
+      "x": 155,
+      "clearing": "right.clearing.2",
+      "requiresDestroyedPortals": [
+        "right.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.4",
+      "side": "right",
+      "x": 245,
+      "clearing": "right.clearing.3",
+      "requiresDestroyedPortals": [
+        "right.portal.1",
+        "right.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    }
+  ],
+  "towers": [
+    {
+      "id": "left.tower.1",
+      "side": "left",
+      "x": -21,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.tower.2",
+      "side": "left",
+      "x": -71,
+      "clearing": "left.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.tower.3",
+      "side": "left",
+      "x": -151,
+      "clearing": "left.clearing.2",
+      "requiresDestroyedPortals": [
+        "left.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.tower.4",
+      "side": "left",
+      "x": -241,
+      "clearing": "left.clearing.3",
+      "requiresDestroyedPortals": [
+        "left.portal.1",
+        "left.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.1",
+      "side": "right",
+      "x": 21,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.2",
+      "side": "right",
+      "x": 71,
+      "clearing": "right.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.3",
+      "side": "right",
+      "x": 151,
+      "clearing": "right.clearing.2",
+      "requiresDestroyedPortals": [
+        "right.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.4",
+      "side": "right",
+      "x": 241,
+      "clearing": "right.clearing.3",
+      "requiresDestroyedPortals": [
+        "right.portal.1",
+        "right.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    }
+  ],
+  "clearings": [
+    {
+      "id": "left.clearing.1",
+      "side": "left",
+      "x": -50,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "left.wall.2",
+        "left.tower.2"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "left.clearing.2",
+      "side": "left",
+      "x": -125,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "left.wall.3",
+        "left.tower.3"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "left.clearing.3",
+      "side": "left",
+      "x": -215,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "left.wall.4",
+        "left.tower.4"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "right.clearing.1",
+      "side": "right",
+      "x": 50,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "right.wall.2",
+        "right.tower.2"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "right.clearing.2",
+      "side": "right",
+      "x": 125,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "right.wall.3",
+        "right.tower.3"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "right.clearing.3",
+      "side": "right",
+      "x": 215,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "right.wall.4",
+        "right.tower.4"
+      ],
+      "foodIndependent": true
+    }
+  ],
+  "plants": [
+    {
+      "id": "left.berry.1",
+      "side": "left",
+      "kind": "berry",
+      "x": -10,
+      "dawnStock": 8,
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "artBase": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ]
+    },
+    {
+      "id": "left.berry.2",
+      "side": "left",
+      "kind": "berry",
+      "x": -50,
+      "dawnStock": 8,
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "artBase": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ]
+    },
+    {
+      "id": "left.fruit.1",
+      "side": "left",
+      "kind": "fruit",
+      "x": -16,
+      "dawnStock": 6,
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "artBase": "fruit-base",
+      "stockLayers": [
+        "fruit-stock",
+        "fruit-front-stock"
+      ]
+    },
+    {
+      "id": "right.berry.1",
+      "side": "right",
+      "kind": "berry",
+      "x": 10,
+      "dawnStock": 8,
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "artBase": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ]
+    },
+    {
+      "id": "right.berry.2",
+      "side": "right",
+      "kind": "berry",
+      "x": 50,
+      "dawnStock": 8,
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "artBase": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ]
+    },
+    {
+      "id": "right.fruit.1",
+      "side": "right",
+      "kind": "fruit",
+      "x": 16,
+      "dawnStock": 6,
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "artBase": "fruit-base",
+      "stockLayers": [
+        "fruit-stock",
+        "fruit-front-stock"
+      ]
+    }
+  ],
+  "wildlifeZones": [
+    {
+      "id": "left.wildlife.1",
+      "side": "left",
+      "center": -45,
+      "width": 15,
+      "batch": {
+        "rabbit": 2,
+        "deer": 1
+      },
+      "placement": "vary-within-authored-zone",
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "left.wildlife.2",
+      "side": "left",
+      "center": -130,
+      "width": 15,
+      "batch": {
+        "rabbit": 2,
+        "deer": 1
+      },
+      "placement": "vary-within-authored-zone",
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "left.wildlife.3",
+      "side": "left",
+      "center": -230,
+      "width": 15,
+      "batch": {
+        "rabbit": 2,
+        "deer": 1
+      },
+      "placement": "vary-within-authored-zone",
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "right.wildlife.1",
+      "side": "right",
+      "center": 45,
+      "width": 15,
+      "batch": {
+        "rabbit": 2,
+        "deer": 1
+      },
+      "placement": "vary-within-authored-zone",
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "right.wildlife.2",
+      "side": "right",
+      "center": 130,
+      "width": 15,
+      "batch": {
+        "rabbit": 2,
+        "deer": 1
+      },
+      "placement": "vary-within-authored-zone",
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "right.wildlife.3",
+      "side": "right",
+      "center": 230,
+      "width": 15,
+      "batch": {
+        "rabbit": 2,
+        "deer": 1
+      },
+      "placement": "vary-within-authored-zone",
+      "retainExisting": true,
+      "visibleBorder": false
+    }
+  ],
+  "rallies": [
+    {
+      "id": "left.rally",
+      "side": "left",
+      "borderSource": "outermost-completed-living-wall",
+      "fallbackBorder": -12,
+      "offsetInward": 5,
+      "offsetAppliesTo": "living-wall-only",
+      "noWallPosition": "beside-main-refuge",
+      "interactionRadius": 3,
+      "states": [
+        "idle",
+        "ready",
+        "launching",
+        "assault-active",
+        "recalling",
+        "returning",
+        "no-target",
+        "insufficient-squad"
+      ]
+    },
+    {
+      "id": "right.rally",
+      "side": "right",
+      "borderSource": "outermost-completed-living-wall",
+      "fallbackBorder": 12,
+      "offsetInward": -5,
+      "offsetAppliesTo": "living-wall-only",
+      "noWallPosition": "beside-main-refuge",
+      "interactionRadius": 3,
+      "states": [
+        "idle",
+        "ready",
+        "launching",
+        "assault-active",
+        "recalling",
+        "returning",
+        "no-target",
+        "insufficient-squad"
+      ]
+    }
+  ],
+  "interaction": {
+    "targetKinds": [
+      "character",
+      "corpse",
+      "site",
+      "plant",
+      "stash",
+      "rally"
+    ],
+    "selection": {
+      "steady": true,
+      "outlinePixels": 1,
+      "markerPixels": 3,
+      "color": [
+        0.95,
+        0.94,
+        0.85,
+        1
+      ]
+    },
+    "overlapSample": [
+      {
+        "id": "corpse.same-x",
+        "kind": "corpse",
+        "x": 0,
+        "label": "Corpse"
+      },
+      {
+        "id": "stash.same-x",
+        "kind": "stash",
+        "x": 0,
+        "label": "Stash"
+      }
+    ],
+    "selectorUsesStableId": true,
+    "panelOcclusion": "outside-clipped-world-viewport"
+  },
+  "reveal": {
+    "radiusUnits": 24,
+    "shared": true,
+    "perPlayerCamera": true,
+    "preserveKnownTerrain": true,
+    "unknownPortalsVisible": false,
+    "liveEnemiesThroughUnexplored": false,
+    "teammateIdentity": [
+      "color",
+      "player-number"
+    ],
+    "saveAndLateJoin": [
+      "exploration",
+      "known-portal-destruction",
+      "known-defenses"
+    ]
+  },
+  "rules": {
+    "authored": [
+      "terrain",
+      "sites",
+      "plants",
+      "portal-positions"
+    ],
+    "variable": [
+      "loot",
+      "wildlife-within-zones",
+      "attack-composition"
+    ],
+    "mandatoryNpcPlatformingGaps": false,
+    "designUnit": "approximately-standing-survivor-width-not-engine-or-pixel-prescription",
+    "firstSitePairs": "available-without-clearing",
+    "outerSites": "associated-clearing-and-all-intervening-portals-destroyed",
+    "forestBlocksWalking": false,
+    "clearingCreatesWood": false,
+    "clearingRemovesPlants": false,
+    "activePortal": "uncrossable-survivor-boundary-all-jump-heights",
+    "zombiePortal": "own-faction-passable",
+    "destroyedPortal": "permanent-passable-site"
+  },
+  "boundaries": {
+    "source": "outermost-completed-living-wall-per-side",
+    "towerExpands": false,
+    "wallLoss": "next-living-inner-wall-or-main-refuge",
+    "refugeUnits": 12,
+    "oldWallsRemain": true
+  }
+}

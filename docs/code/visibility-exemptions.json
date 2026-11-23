@@ -3,6 +3,26 @@
   "rule": "R-34",
   "permissions": [
     {
+      "path": "src/godot-game/core/AppearanceState.cs",
+      "type": "KingdomZombies.Core.AppearanceState",
+      "reason": "The internal native corpse preview consumes this exact sealed framework-only current appearance and explicit-clock transient contract across the Core boundary; detached snapshots grant no gameplay or engine authority."
+    },
+    {
+      "path": "src/godot-game/core/CharacterPresentation.cs",
+      "type": "KingdomZombies.Core.CharacterPresentation",
+      "reason": "The internal native character preview consumes this sealed engine-independent explicit-clock composition contract across the Core assembly boundary; detached samples retain logical hands and never create gameplay hits."
+    },
+    {
+      "path": "src/godot-game/core/ContentPack.cs",
+      "type": "KingdomZombies.Core.ContentPack",
+      "reason": "The native inspection assembly consumes this exact immutable detached pack-definition, diagnostic and independent-census contract across the Core assembly boundary. No engine or concrete service type belongs in this contract."
+    },
+    {
+      "path": "src/godot-game/game/inspection/InspectionRoot.cs",
+      "type": "KingdomZombies.Inspection.InspectionRoot",
+      "reason": "The actual Inspection.tscn native scene instantiates this exact Godot Node2D script and its observed authenticated generated partial. Its synchronous native access requires the captured gateway at each invocation; no adjacent inspection type is authorized."
+    },
+    {
       "path": "src/godot-game/game/foundation/FoundationRoot.cs",
       "type": "KingdomZombies.Foundation.FoundationRoot",
       "reason": "The ordinary authored main scene requires this exact Godot engine-facing root and its authenticated generated partial."

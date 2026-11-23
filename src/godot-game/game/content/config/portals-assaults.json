@@ -1,0 +1,2274 @@
+{
+  "id": "DT-15",
+  "version": 1,
+  "worldRef": "content/world/portal-assemblies.json",
+  "mapRef": "content/config/map-sites.json",
+  "progressionRef": "content/config/zombie-progression.json",
+  "profiles": [
+    {
+      "position": "nearest",
+      "health": 2500,
+      "defenders": 6,
+      "minimumStage": 0,
+      "activeDefenderCap": 40
+    },
+    {
+      "position": "middle",
+      "health": 5000,
+      "defenders": 10,
+      "minimumStage": 1,
+      "activeDefenderCap": 60
+    },
+    {
+      "position": "farthest",
+      "health": 8000,
+      "defenders": 14,
+      "minimumStage": 2,
+      "activeDefenderCap": 80
+    }
+  ],
+  "defense": {
+    "stage": "max-current-day-stage-and-portal-minimum",
+    "trigger": "actual-damage-day-or-night-including-grace",
+    "proximityTriggers": false,
+    "warningSeconds": 2,
+    "releaseSeconds": 10,
+    "cooldownSeconds": 30,
+    "continuedDamage": "may-trigger-again-after-cooldown"
+  },
+  "retaliation": {
+    "trigger": "each-distinct-portal-destruction",
+    "sources": "every-surviving-portal",
+    "warningTo": "all-players",
+    "warningSeconds": 10,
+    "releaseSeconds": 60,
+    "daytime": true,
+    "openingGrace": true,
+    "replacesRegular": false,
+    "mergeEvents": false,
+    "duplicateEvents": false,
+    "destroyedSource": "cancel-unspawned",
+    "overlap": "queue-per-source-distinct-event-identities"
+  },
+  "regular": {
+    "releaseSeconds": 90,
+    "start": "eligible-nightfall",
+    "source": "every-surviving-portal"
+  },
+  "blocking": {
+    "survivors": "blocked-at-all-jump-heights",
+    "zombies": "pass",
+    "destroyed": "permanent-open-route-no-revival"
+  },
+  "rally": {
+    "price": 25,
+    "currencyItemRef": "IT-01",
+    "payer": "acting-player-carried-inventory",
+    "squadSize": 8,
+    "preferredMelee": 4,
+    "preferredArchers": 4,
+    "shortage": "fill-with-other-ready-warriors",
+    "simultaneousPerSide": 1,
+    "recallPrice": 0,
+    "locationInsideWallUnits": 5,
+    "noWall": "beside-main-refuge",
+    "interactionDistanceUnits": 3,
+    "threatEngagementUnits": 15,
+    "archerFiringUnits": 16,
+    "rebalanceSeconds": 20,
+    "rebalance": "not-in-immediate-combat-or-assault",
+    "side": "fewer-stationed-then-shorter-travel",
+    "station": "outermost-intact-wall-fall-back-on-breach",
+    "noWallDefense": "main-refuge",
+    "target": "next-surviving-portal-on-selected-side",
+    "unavailable": [
+      "insufficient-ready-warriors",
+      "existing-assault-on-side",
+      "no-surviving-portal"
+    ],
+    "failedCharge": 0,
+    "directPlayerAttack": true,
+    "nightfall": "continue-combat-mission",
+    "combat": "nearby-enemies-before-portal",
+    "targetDestroyed": "return-original-side-never-advance-next-portal",
+    "recall": "at-side-rally-no-teleport-no-refund",
+    "returning": "resume-role-resupply-safely-rejoin-allocation"
+  },
+  "fieldDocumentation": {
+    "id": "fields-portals-assaults",
+    "version": 1,
+    "sourceRevision": "524b311",
+    "sourceSections": [
+      {
+        "id": "9.5",
+        "sha256": "0c3f9bb395a7c461ee1e1ec64b61624bc8c91b7a659fa57ba5baddee4bac51bd",
+        "text": "### 9.5 Portal health, defense, and retaliation — proposed baseline\n\n| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |\n| --- | ---: | ---: | ---: | ---: |\n| Nearest | 2,500 | 6 | 0 | 40 |\n| Middle | 5,000 | 10 | 1 | 60 |\n| Farthest | 8,000 | 14 | 2 | 80 |\n\nPortal defense uses the higher of the current day stage and that portal's minimum defensive stage. This gives distant portals tougher defenders even if attacked early.\n\nA damage event can trigger a defensive wave during day or night, including opening grace. **Proposed timing:** a two-second warning, ten-second spawn duration, and a 30-second cooldown between defensive triggers. Continued damage may trigger another wave after cooldown; mere proximity does not spawn one.\n\nDestroying a portal triggers a warning to all players, then **one additional retaliation wave from every surviving portal**, even during daytime or grace. **Proposed timing:** ten-second warning, then a 60-second release duration per portal.\n\nRetaliation does not replace a regular nightly wave. Multiple portal destructions create distinct retaliation events. Queue overlapping releases at each source portal; do not silently merge them or duplicate the originating event. A source destroyed before release cannot spawn its queued wave.\n"
+      },
+      {
+        "id": "9.4",
+        "sha256": "bb00a9ce3a8f086a2b003455b4cad2bd15c52dd3f6a2c0c70b3aa363efb24030",
+        "text": "### 9.4 Scheduled waves and retreat\n\nEach surviving portal receives one regular wave on an eligible night. **Proposed timing:** start at nightfall and distribute its spawns over 90 seconds. Composition is randomized from that stage's weights. Every generated zombie has its own actual inventory.\n\nAt dawn, surviving zombies retreat toward a surviving portal. On reaching it, they leave the map with their remaining belongings. This creates no corpse or dropped loot. Future waves create new zombies, not returning survivors.\n\n**Proposed supporting rules:**\n\n- Prefer the nearest surviving portal on the same side, otherwise the nearest remaining portal anywhere on the map.\n- A retreating zombie can defend itself or attack an obstructing defense to escape. It never teleports through camp walls.\n- When all portals are gone, retreat stops; living zombies stay dangerous until killed.\n- Cancel the unspawned remainder of a regular nightly wave at dawn. Living zombies are unaffected by that cancellation except for their retreat order.\n- Existing corpses are never cleared at dawn.\n- If a portal is destroyed during spawning, cancel its unspawned enemies; already living enemies remain.\n- A daytime defensive or retaliation spawn is allowed after dawn and follows the next applicable dawn retreat, unless the portals have all been destroyed.\n"
+      },
+      {
+        "id": "3.1",
+        "sha256": "44b5a96a6c1c23c897f96abdaebfa9e36c996642352708f2998bfa969729fe0a",
+        "text": "### 3.1 Handcrafted map\n\nThe terrain, sites, plants, and portal positions are authored content. Loot, wildlife placement within authored zones, and attack composition vary between runs. The map has no mandatory platforming gaps for NPCs. The player's jump cannot bypass an active portal.\n\nDistances below use **u**, a design unit approximately equal to a standing survivor's body width. This unit does not prescribe a pixel resolution or engine measurement.\n\n**Proposed baseline — mirrored left/right layout:**\n\n| Feature | Distance from the main building on each side |\n| --- | --- |\n| Map edge | 320 u |\n| Portals, nearest to farthest | 100 / 190 / 280 u |\n| Wall sites | 25 / 75 / 155 / 245 u |\n| Standalone tower sites | 21 / 71 / 151 / 241 u |\n| Tree-clearing groups unlocking the outer site pairs | 50 / 125 / 215 u |\n| Berry plants | 10 and 50 u |\n| Fruit plant | 16 u |\n| Wildlife zones | Centered at 45 / 130 / 230 u, each 15 u wide |\n\nThis provides eight wall sites and eight standalone tower sites in total. The first pair on each side is available without clearing. Each farther pair requires its associated trees cleared and all intervening portals destroyed. Forest visuals do not obstruct horizontal walking; their clearing gates construction, creates no wood, and does not remove food plants.\n\nA portal is an uncrossable boundary for survivors while alive, regardless of jump height. Zombies can cross active portals belonging to their faction. A destroyed portal leaves a permanently passable site.\n"
+      },
+      {
+        "id": "7.4",
+        "sha256": "bee2d956eab431cde9c7b82ef49b4da385703e0f3546c1e7ca87bcb1521075b0",
+        "text": "### 7.4 Defense and rally assaults — proposed baseline\n\nWarriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge.\n\n| Setting | Proposed value |\n| --- | --- |\n| Rebalance interval | 20 seconds, only for warriors not in immediate combat or an assault |\n| Side selection | Prefer the side with fewer stationed warriors; break ties by shorter travel |\n| Rally location | 5 u inside the current outer wall, or beside the refuge if no wall |\n| Assault price | 25 money from the acting player's inventory |\n| Squad size | 8 combat-ready warriors |\n| Preferred mix | 4 melee and 4 archers; fill shortages with other ready warriors |\n| Simultaneous assaults | One per side |\n| Recall price | Free |\n| Warrior threat-engagement distance | 15 u |\n| Archer preferred firing distance | 16 u |\n\nPaying at a side's rally point sends that side's selected squad against its next surviving portal. A shortage of ready warriors, an existing assault on that side, or no remaining portal makes the action unavailable without charging. Players can always attack a reachable portal directly.\n\nSquads remain on their mission through nightfall; they are combatants, not exterior civilian workers. They defend themselves against nearby enemies, then attack the portal. After destroying the target, they automatically return to their camp side. They do not advance to another portal.\n\nPlayers may recall the squad at its rally point. Recall does not teleport units or refund the launch fee. If another group destroys the target before arrival, the squad returns. Returning warriors resume their job, resupply when safe, and rejoin automatic side allocation.\n"
+      }
+    ],
+    "files": [
+      {
+        "path": "src/godot-game/content/config/portals-assaults.json",
+        "fields": [
+          {
+            "id": "portals-assaults:/",
+            "path": "",
+            "type": "object",
+            "meaning": "portals-assaults document baseline",
+            "unit": "record",
+            "default": {
+              "id": "DT-15",
+              "version": 1,
+              "worldRef": "content/world/portal-assemblies.json",
+              "mapRef": "content/config/map-sites.json",
+              "progressionRef": "content/config/zombie-progression.json",
+              "profiles": [
+                {
+                  "position": "nearest",
+                  "health": 2500,
+                  "defenders": 6,
+                  "minimumStage": 0,
+                  "activeDefenderCap": 40
+                },
+                {
+                  "position": "middle",
+                  "health": 5000,
+                  "defenders": 10,
+                  "minimumStage": 1,
+                  "activeDefenderCap": 60
+                },
+                {
+                  "position": "farthest",
+                  "health": 8000,
+                  "defenders": 14,
+                  "minimumStage": 2,
+                  "activeDefenderCap": 80
+                }
+              ],
+              "defense": {
+                "stage": "max-current-day-stage-and-portal-minimum",
+                "trigger": "actual-damage-day-or-night-including-grace",
+                "proximityTriggers": false,
+                "warningSeconds": 2,
+                "releaseSeconds": 10,
+                "cooldownSeconds": 30,
+                "continuedDamage": "may-trigger-again-after-cooldown"
+              },
+              "retaliation": {
+                "trigger": "each-distinct-portal-destruction",
+                "sources": "every-surviving-portal",
+                "warningTo": "all-players",
+                "warningSeconds": 10,
+                "releaseSeconds": 60,
+                "daytime": true,
+                "openingGrace": true,
+                "replacesRegular": false,
+                "mergeEvents": false,
+                "duplicateEvents": false,
+                "destroyedSource": "cancel-unspawned",
+                "overlap": "queue-per-source-distinct-event-identities"
+              },
+              "regular": {
+                "releaseSeconds": 90,
+                "start": "eligible-nightfall",
+                "source": "every-surviving-portal"
+              },
+              "blocking": {
+                "survivors": "blocked-at-all-jump-heights",
+                "zombies": "pass",
+                "destroyed": "permanent-open-route-no-revival"
+              },
+              "rally": {
+                "price": 25,
+                "currencyItemRef": "IT-01",
+                "payer": "acting-player-carried-inventory",
+                "squadSize": 8,
+                "preferredMelee": 4,
+                "preferredArchers": 4,
+                "shortage": "fill-with-other-ready-warriors",
+                "simultaneousPerSide": 1,
+                "recallPrice": 0,
+                "locationInsideWallUnits": 5,
+                "noWall": "beside-main-refuge",
+                "interactionDistanceUnits": 3,
+                "threatEngagementUnits": 15,
+                "archerFiringUnits": 16,
+                "rebalanceSeconds": 20,
+                "rebalance": "not-in-immediate-combat-or-assault",
+                "side": "fewer-stationed-then-shorter-travel",
+                "station": "outermost-intact-wall-fall-back-on-breach",
+                "noWallDefense": "main-refuge",
+                "target": "next-surviving-portal-on-selected-side",
+                "unavailable": [
+                  "insufficient-ready-warriors",
+                  "existing-assault-on-side",
+                  "no-surviving-portal"
+                ],
+                "failedCharge": 0,
+                "directPlayerAttack": true,
+                "nightfall": "continue-combat-mission",
+                "combat": "nearby-enemies-before-portal",
+                "targetDestroyed": "return-original-side-never-advance-next-portal",
+                "recall": "at-side-rally-no-teleport-no-refund",
+                "returning": "resume-role-resupply-safely-rejoin-allocation"
+              }
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/id",
+            "path": "/id",
+            "type": "string",
+            "meaning": "portals-assaults /id baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "DT-15",
+            "allowed": {
+              "choices": [
+                "DT-15"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/id"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/version",
+            "path": "/version",
+            "type": "number",
+            "meaning": "portals-assaults /version baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/version"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/worldRef",
+            "path": "/worldRef",
+            "type": "string",
+            "meaning": "portals-assaults /worldRef baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/world/portal-assemblies.json",
+            "allowed": {
+              "choices": [
+                "content/world/portal-assemblies.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/worldRef"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "portals-assaults:/mapRef",
+            "path": "/mapRef",
+            "type": "string",
+            "meaning": "portals-assaults /mapRef baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/map-sites.json",
+            "allowed": {
+              "choices": [
+                "content/config/map-sites.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/mapRef"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "portals-assaults:/progressionRef",
+            "path": "/progressionRef",
+            "type": "string",
+            "meaning": "portals-assaults /progressionRef baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/zombie-progression.json",
+            "allowed": {
+              "choices": [
+                "content/config/zombie-progression.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/progressionRef"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "portals-assaults:/profiles",
+            "path": "/profiles",
+            "type": "array",
+            "meaning": "portals-assaults /profiles baseline",
+            "unit": "ordered-list",
+            "default": [
+              {
+                "position": "nearest",
+                "health": 2500,
+                "defenders": 6,
+                "minimumStage": 0,
+                "activeDefenderCap": 40
+              },
+              {
+                "position": "middle",
+                "health": 5000,
+                "defenders": 10,
+                "minimumStage": 1,
+                "activeDefenderCap": 60
+              },
+              {
+                "position": "farthest",
+                "health": 8000,
+                "defenders": 14,
+                "minimumStage": 2,
+                "activeDefenderCap": 80
+              }
+            ],
+            "allowed": {
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/0",
+            "path": "/profiles/0",
+            "type": "object",
+            "meaning": "portals-assaults /profiles/0 baseline",
+            "unit": "record",
+            "default": {
+              "position": "nearest",
+              "health": 2500,
+              "defenders": 6,
+              "minimumStage": 0,
+              "activeDefenderCap": 40
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/0/position",
+            "path": "/profiles/0/position",
+            "type": "string",
+            "meaning": "portals-assaults /profiles/0/position baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "nearest",
+            "allowed": {
+              "choices": [
+                "nearest"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/0/health",
+            "path": "/profiles/0/health",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/0/health baseline",
+            "unit": "health",
+            "default": 2500,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/0/defenders",
+            "path": "/profiles/0/defenders",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/0/defenders baseline",
+            "unit": "count",
+            "default": 6,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/0/minimumStage",
+            "path": "/profiles/0/minimumStage",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/0/minimumStage baseline",
+            "unit": "count",
+            "default": 0,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/0/activeDefenderCap",
+            "path": "/profiles/0/activeDefenderCap",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/0/activeDefenderCap baseline",
+            "unit": "count",
+            "default": 40,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/1",
+            "path": "/profiles/1",
+            "type": "object",
+            "meaning": "portals-assaults /profiles/1 baseline",
+            "unit": "record",
+            "default": {
+              "position": "middle",
+              "health": 5000,
+              "defenders": 10,
+              "minimumStage": 1,
+              "activeDefenderCap": 60
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/1/position",
+            "path": "/profiles/1/position",
+            "type": "string",
+            "meaning": "portals-assaults /profiles/1/position baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "middle",
+            "allowed": {
+              "choices": [
+                "middle"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/1/health",
+            "path": "/profiles/1/health",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/1/health baseline",
+            "unit": "health",
+            "default": 5000,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/1/defenders",
+            "path": "/profiles/1/defenders",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/1/defenders baseline",
+            "unit": "count",
+            "default": 10,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/1/minimumStage",
+            "path": "/profiles/1/minimumStage",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/1/minimumStage baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/1/activeDefenderCap",
+            "path": "/profiles/1/activeDefenderCap",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/1/activeDefenderCap baseline",
+            "unit": "count",
+            "default": 60,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/2",
+            "path": "/profiles/2",
+            "type": "object",
+            "meaning": "portals-assaults /profiles/2 baseline",
+            "unit": "record",
+            "default": {
+              "position": "farthest",
+              "health": 8000,
+              "defenders": 14,
+              "minimumStage": 2,
+              "activeDefenderCap": 80
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/2/position",
+            "path": "/profiles/2/position",
+            "type": "string",
+            "meaning": "portals-assaults /profiles/2/position baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "farthest",
+            "allowed": {
+              "choices": [
+                "farthest"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/2/health",
+            "path": "/profiles/2/health",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/2/health baseline",
+            "unit": "health",
+            "default": 8000,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/2/defenders",
+            "path": "/profiles/2/defenders",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/2/defenders baseline",
+            "unit": "count",
+            "default": 14,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/2/minimumStage",
+            "path": "/profiles/2/minimumStage",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/2/minimumStage baseline",
+            "unit": "count",
+            "default": 2,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/profiles/2/activeDefenderCap",
+            "path": "/profiles/2/activeDefenderCap",
+            "type": "number",
+            "meaning": "portals-assaults /profiles/2/activeDefenderCap baseline",
+            "unit": "count",
+            "default": 80,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/profiles"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense",
+            "path": "/defense",
+            "type": "object",
+            "meaning": "portals-assaults /defense baseline",
+            "unit": "record",
+            "default": {
+              "stage": "max-current-day-stage-and-portal-minimum",
+              "trigger": "actual-damage-day-or-night-including-grace",
+              "proximityTriggers": false,
+              "warningSeconds": 2,
+              "releaseSeconds": 10,
+              "cooldownSeconds": 30,
+              "continuedDamage": "may-trigger-again-after-cooldown"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/stage",
+            "path": "/defense/stage",
+            "type": "string",
+            "meaning": "portals-assaults /defense/stage baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "max-current-day-stage-and-portal-minimum",
+            "allowed": {
+              "choices": [
+                "max-current-day-stage-and-portal-minimum"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/trigger",
+            "path": "/defense/trigger",
+            "type": "string",
+            "meaning": "portals-assaults /defense/trigger baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "actual-damage-day-or-night-including-grace",
+            "allowed": {
+              "choices": [
+                "actual-damage-day-or-night-including-grace"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/proximityTriggers",
+            "path": "/defense/proximityTriggers",
+            "type": "boolean",
+            "meaning": "portals-assaults /defense/proximityTriggers baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/warningSeconds",
+            "path": "/defense/warningSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /defense/warningSeconds baseline",
+            "unit": "seconds",
+            "default": 2,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/releaseSeconds",
+            "path": "/defense/releaseSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /defense/releaseSeconds baseline",
+            "unit": "seconds",
+            "default": 10,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/cooldownSeconds",
+            "path": "/defense/cooldownSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /defense/cooldownSeconds baseline",
+            "unit": "seconds",
+            "default": 30,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/defense/continuedDamage",
+            "path": "/defense/continuedDamage",
+            "type": "string",
+            "meaning": "portals-assaults /defense/continuedDamage baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "may-trigger-again-after-cooldown",
+            "allowed": {
+              "choices": [
+                "may-trigger-again-after-cooldown"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/defense"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation",
+            "path": "/retaliation",
+            "type": "object",
+            "meaning": "portals-assaults /retaliation baseline",
+            "unit": "record",
+            "default": {
+              "trigger": "each-distinct-portal-destruction",
+              "sources": "every-surviving-portal",
+              "warningTo": "all-players",
+              "warningSeconds": 10,
+              "releaseSeconds": 60,
+              "daytime": true,
+              "openingGrace": true,
+              "replacesRegular": false,
+              "mergeEvents": false,
+              "duplicateEvents": false,
+              "destroyedSource": "cancel-unspawned",
+              "overlap": "queue-per-source-distinct-event-identities"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/trigger",
+            "path": "/retaliation/trigger",
+            "type": "string",
+            "meaning": "portals-assaults /retaliation/trigger baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "each-distinct-portal-destruction",
+            "allowed": {
+              "choices": [
+                "each-distinct-portal-destruction"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/sources",
+            "path": "/retaliation/sources",
+            "type": "string",
+            "meaning": "portals-assaults /retaliation/sources baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "every-surviving-portal",
+            "allowed": {
+              "choices": [
+                "every-surviving-portal"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/warningTo",
+            "path": "/retaliation/warningTo",
+            "type": "string",
+            "meaning": "portals-assaults /retaliation/warningTo baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "all-players",
+            "allowed": {
+              "choices": [
+                "all-players"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/warningSeconds",
+            "path": "/retaliation/warningSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /retaliation/warningSeconds baseline",
+            "unit": "seconds",
+            "default": 10,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/releaseSeconds",
+            "path": "/retaliation/releaseSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /retaliation/releaseSeconds baseline",
+            "unit": "seconds",
+            "default": 60,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/daytime",
+            "path": "/retaliation/daytime",
+            "type": "boolean",
+            "meaning": "portals-assaults /retaliation/daytime baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/openingGrace",
+            "path": "/retaliation/openingGrace",
+            "type": "boolean",
+            "meaning": "portals-assaults /retaliation/openingGrace baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/replacesRegular",
+            "path": "/retaliation/replacesRegular",
+            "type": "boolean",
+            "meaning": "portals-assaults /retaliation/replacesRegular baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/mergeEvents",
+            "path": "/retaliation/mergeEvents",
+            "type": "boolean",
+            "meaning": "portals-assaults /retaliation/mergeEvents baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/duplicateEvents",
+            "path": "/retaliation/duplicateEvents",
+            "type": "boolean",
+            "meaning": "portals-assaults /retaliation/duplicateEvents baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/destroyedSource",
+            "path": "/retaliation/destroyedSource",
+            "type": "string",
+            "meaning": "portals-assaults /retaliation/destroyedSource baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "cancel-unspawned",
+            "allowed": {
+              "choices": [
+                "cancel-unspawned"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/retaliation/overlap",
+            "path": "/retaliation/overlap",
+            "type": "string",
+            "meaning": "portals-assaults /retaliation/overlap baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "queue-per-source-distinct-event-identities",
+            "allowed": {
+              "choices": [
+                "queue-per-source-distinct-event-identities"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.5",
+              "src/godot-game/content/config/portals-assaults.json/retaliation"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.5",
+              "evidence": "| Portal position on either side | Health | Defensive wave size | Minimum defensive stage | Maximum active defenders from this portal |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/regular",
+            "path": "/regular",
+            "type": "object",
+            "meaning": "portals-assaults /regular baseline",
+            "unit": "record",
+            "default": {
+              "releaseSeconds": 90,
+              "start": "eligible-nightfall",
+              "source": "every-surviving-portal"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.4",
+              "src/godot-game/content/config/portals-assaults.json/regular"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.4",
+              "evidence": "Each surviving portal receives one regular wave on an eligible night. **Proposed timing:** start at nightfall and distribute its spawns over 90 seconds. Composition is randomized from that stage's weights. Every generated zombie has its own actual inventory."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/regular/releaseSeconds",
+            "path": "/regular/releaseSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /regular/releaseSeconds baseline",
+            "unit": "seconds",
+            "default": 90,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.4",
+              "src/godot-game/content/config/portals-assaults.json/regular"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.4",
+              "evidence": "Each surviving portal receives one regular wave on an eligible night. **Proposed timing:** start at nightfall and distribute its spawns over 90 seconds. Composition is randomized from that stage's weights. Every generated zombie has its own actual inventory."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/regular/start",
+            "path": "/regular/start",
+            "type": "string",
+            "meaning": "portals-assaults /regular/start baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "eligible-nightfall",
+            "allowed": {
+              "choices": [
+                "eligible-nightfall"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.4",
+              "src/godot-game/content/config/portals-assaults.json/regular"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.4",
+              "evidence": "Each surviving portal receives one regular wave on an eligible night. **Proposed timing:** start at nightfall and distribute its spawns over 90 seconds. Composition is randomized from that stage's weights. Every generated zombie has its own actual inventory."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/regular/source",
+            "path": "/regular/source",
+            "type": "string",
+            "meaning": "portals-assaults /regular/source baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "every-surviving-portal",
+            "allowed": {
+              "choices": [
+                "every-surviving-portal"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#9.4",
+              "src/godot-game/content/config/portals-assaults.json/regular"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "9.4",
+              "evidence": "Each surviving portal receives one regular wave on an eligible night. **Proposed timing:** start at nightfall and distribute its spawns over 90 seconds. Composition is randomized from that stage's weights. Every generated zombie has its own actual inventory."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/blocking",
+            "path": "/blocking",
+            "type": "object",
+            "meaning": "portals-assaults /blocking baseline",
+            "unit": "record",
+            "default": {
+              "survivors": "blocked-at-all-jump-heights",
+              "zombies": "pass",
+              "destroyed": "permanent-open-route-no-revival"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#3.1",
+              "src/godot-game/content/config/portals-assaults.json/blocking"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "3.1",
+              "evidence": "The terrain, sites, plants, and portal positions are authored content. Loot, wildlife placement within authored zones, and attack composition vary between runs. The map has no mandatory platforming gaps for NPCs. The player's jump cannot bypass an active portal."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/blocking/survivors",
+            "path": "/blocking/survivors",
+            "type": "string",
+            "meaning": "portals-assaults /blocking/survivors baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "blocked-at-all-jump-heights",
+            "allowed": {
+              "choices": [
+                "blocked-at-all-jump-heights"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#3.1",
+              "src/godot-game/content/config/portals-assaults.json/blocking"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "3.1",
+              "evidence": "The terrain, sites, plants, and portal positions are authored content. Loot, wildlife placement within authored zones, and attack composition vary between runs. The map has no mandatory platforming gaps for NPCs. The player's jump cannot bypass an active portal."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/blocking/zombies",
+            "path": "/blocking/zombies",
+            "type": "string",
+            "meaning": "portals-assaults /blocking/zombies baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "pass",
+            "allowed": {
+              "choices": [
+                "pass"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#3.1",
+              "src/godot-game/content/config/portals-assaults.json/blocking"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "3.1",
+              "evidence": "The terrain, sites, plants, and portal positions are authored content. Loot, wildlife placement within authored zones, and attack composition vary between runs. The map has no mandatory platforming gaps for NPCs. The player's jump cannot bypass an active portal."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/blocking/destroyed",
+            "path": "/blocking/destroyed",
+            "type": "string",
+            "meaning": "portals-assaults /blocking/destroyed baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "permanent-open-route-no-revival",
+            "allowed": {
+              "choices": [
+                "permanent-open-route-no-revival"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#3.1",
+              "src/godot-game/content/config/portals-assaults.json/blocking"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "3.1",
+              "evidence": "The terrain, sites, plants, and portal positions are authored content. Loot, wildlife placement within authored zones, and attack composition vary between runs. The map has no mandatory platforming gaps for NPCs. The player's jump cannot bypass an active portal."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally",
+            "path": "/rally",
+            "type": "object",
+            "meaning": "portals-assaults /rally baseline",
+            "unit": "record",
+            "default": {
+              "price": 25,
+              "currencyItemRef": "IT-01",
+              "payer": "acting-player-carried-inventory",
+              "squadSize": 8,
+              "preferredMelee": 4,
+              "preferredArchers": 4,
+              "shortage": "fill-with-other-ready-warriors",
+              "simultaneousPerSide": 1,
+              "recallPrice": 0,
+              "locationInsideWallUnits": 5,
+              "noWall": "beside-main-refuge",
+              "interactionDistanceUnits": 3,
+              "threatEngagementUnits": 15,
+              "archerFiringUnits": 16,
+              "rebalanceSeconds": 20,
+              "rebalance": "not-in-immediate-combat-or-assault",
+              "side": "fewer-stationed-then-shorter-travel",
+              "station": "outermost-intact-wall-fall-back-on-breach",
+              "noWallDefense": "main-refuge",
+              "target": "next-surviving-portal-on-selected-side",
+              "unavailable": [
+                "insufficient-ready-warriors",
+                "existing-assault-on-side",
+                "no-surviving-portal"
+              ],
+              "failedCharge": 0,
+              "directPlayerAttack": true,
+              "nightfall": "continue-combat-mission",
+              "combat": "nearby-enemies-before-portal",
+              "targetDestroyed": "return-original-side-never-advance-next-portal",
+              "recall": "at-side-rally-no-teleport-no-refund",
+              "returning": "resume-role-resupply-safely-rejoin-allocation"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/price",
+            "path": "/rally/price",
+            "type": "number",
+            "meaning": "portals-assaults /rally/price baseline",
+            "unit": "money",
+            "default": 25,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/currencyItemRef",
+            "path": "/rally/currencyItemRef",
+            "type": "string",
+            "meaning": "portals-assaults /rally/currencyItemRef baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "IT-01",
+            "allowed": {
+              "choices": [
+                "IT-01"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "item"
+          },
+          {
+            "id": "portals-assaults:/rally/payer",
+            "path": "/rally/payer",
+            "type": "string",
+            "meaning": "portals-assaults /rally/payer baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "acting-player-carried-inventory",
+            "allowed": {
+              "choices": [
+                "acting-player-carried-inventory"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/squadSize",
+            "path": "/rally/squadSize",
+            "type": "number",
+            "meaning": "portals-assaults /rally/squadSize baseline",
+            "unit": "count",
+            "default": 8,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/preferredMelee",
+            "path": "/rally/preferredMelee",
+            "type": "number",
+            "meaning": "portals-assaults /rally/preferredMelee baseline",
+            "unit": "count",
+            "default": 4,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/preferredArchers",
+            "path": "/rally/preferredArchers",
+            "type": "number",
+            "meaning": "portals-assaults /rally/preferredArchers baseline",
+            "unit": "count",
+            "default": 4,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/shortage",
+            "path": "/rally/shortage",
+            "type": "string",
+            "meaning": "portals-assaults /rally/shortage baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "fill-with-other-ready-warriors",
+            "allowed": {
+              "choices": [
+                "fill-with-other-ready-warriors"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/simultaneousPerSide",
+            "path": "/rally/simultaneousPerSide",
+            "type": "number",
+            "meaning": "portals-assaults /rally/simultaneousPerSide baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/recallPrice",
+            "path": "/rally/recallPrice",
+            "type": "number",
+            "meaning": "portals-assaults /rally/recallPrice baseline",
+            "unit": "money",
+            "default": 0,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/locationInsideWallUnits",
+            "path": "/rally/locationInsideWallUnits",
+            "type": "number",
+            "meaning": "portals-assaults /rally/locationInsideWallUnits baseline",
+            "unit": "u",
+            "default": 5,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/noWall",
+            "path": "/rally/noWall",
+            "type": "string",
+            "meaning": "portals-assaults /rally/noWall baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "beside-main-refuge",
+            "allowed": {
+              "choices": [
+                "beside-main-refuge"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/interactionDistanceUnits",
+            "path": "/rally/interactionDistanceUnits",
+            "type": "number",
+            "meaning": "portals-assaults /rally/interactionDistanceUnits baseline",
+            "unit": "u",
+            "default": 3,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/threatEngagementUnits",
+            "path": "/rally/threatEngagementUnits",
+            "type": "number",
+            "meaning": "portals-assaults /rally/threatEngagementUnits baseline",
+            "unit": "u",
+            "default": 15,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/archerFiringUnits",
+            "path": "/rally/archerFiringUnits",
+            "type": "number",
+            "meaning": "portals-assaults /rally/archerFiringUnits baseline",
+            "unit": "u",
+            "default": 16,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/rebalanceSeconds",
+            "path": "/rally/rebalanceSeconds",
+            "type": "number",
+            "meaning": "portals-assaults /rally/rebalanceSeconds baseline",
+            "unit": "seconds",
+            "default": 20,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/rebalance",
+            "path": "/rally/rebalance",
+            "type": "string",
+            "meaning": "portals-assaults /rally/rebalance baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "not-in-immediate-combat-or-assault",
+            "allowed": {
+              "choices": [
+                "not-in-immediate-combat-or-assault"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/side",
+            "path": "/rally/side",
+            "type": "string",
+            "meaning": "portals-assaults /rally/side baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "fewer-stationed-then-shorter-travel",
+            "allowed": {
+              "choices": [
+                "fewer-stationed-then-shorter-travel"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/station",
+            "path": "/rally/station",
+            "type": "string",
+            "meaning": "portals-assaults /rally/station baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "outermost-intact-wall-fall-back-on-breach",
+            "allowed": {
+              "choices": [
+                "outermost-intact-wall-fall-back-on-breach"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/noWallDefense",
+            "path": "/rally/noWallDefense",
+            "type": "string",
+            "meaning": "portals-assaults /rally/noWallDefense baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "main-refuge",
+            "allowed": {
+              "choices": [
+                "main-refuge"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/target",
+            "path": "/rally/target",
+            "type": "string",
+            "meaning": "portals-assaults /rally/target baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "next-surviving-portal-on-selected-side",
+            "allowed": {
+              "choices": [
+                "next-surviving-portal-on-selected-side"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/unavailable",
+            "path": "/rally/unavailable",
+            "type": "array",
+            "meaning": "portals-assaults /rally/unavailable baseline",
+            "unit": "ordered-list",
+            "default": [
+              "insufficient-ready-warriors",
+              "existing-assault-on-side",
+              "no-surviving-portal"
+            ],
+            "allowed": {
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/unavailable/0",
+            "path": "/rally/unavailable/0",
+            "type": "string",
+            "meaning": "portals-assaults /rally/unavailable/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "insufficient-ready-warriors",
+            "allowed": {
+              "choices": [
+                "insufficient-ready-warriors"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/unavailable/1",
+            "path": "/rally/unavailable/1",
+            "type": "string",
+            "meaning": "portals-assaults /rally/unavailable/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "existing-assault-on-side",
+            "allowed": {
+              "choices": [
+                "existing-assault-on-side"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/unavailable/2",
+            "path": "/rally/unavailable/2",
+            "type": "string",
+            "meaning": "portals-assaults /rally/unavailable/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "no-surviving-portal",
+            "allowed": {
+              "choices": [
+                "no-surviving-portal"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/failedCharge",
+            "path": "/rally/failedCharge",
+            "type": "number",
+            "meaning": "portals-assaults /rally/failedCharge baseline",
+            "unit": "money",
+            "default": 0,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/directPlayerAttack",
+            "path": "/rally/directPlayerAttack",
+            "type": "boolean",
+            "meaning": "portals-assaults /rally/directPlayerAttack baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/nightfall",
+            "path": "/rally/nightfall",
+            "type": "string",
+            "meaning": "portals-assaults /rally/nightfall baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "continue-combat-mission",
+            "allowed": {
+              "choices": [
+                "continue-combat-mission"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/combat",
+            "path": "/rally/combat",
+            "type": "string",
+            "meaning": "portals-assaults /rally/combat baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "nearby-enemies-before-portal",
+            "allowed": {
+              "choices": [
+                "nearby-enemies-before-portal"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/targetDestroyed",
+            "path": "/rally/targetDestroyed",
+            "type": "string",
+            "meaning": "portals-assaults /rally/targetDestroyed baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "return-original-side-never-advance-next-portal",
+            "allowed": {
+              "choices": [
+                "return-original-side-never-advance-next-portal"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/recall",
+            "path": "/rally/recall",
+            "type": "string",
+            "meaning": "portals-assaults /rally/recall baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "at-side-rally-no-teleport-no-refund",
+            "allowed": {
+              "choices": [
+                "at-side-rally-no-teleport-no-refund"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "portals-assaults:/rally/returning",
+            "path": "/rally/returning",
+            "type": "string",
+            "meaning": "portals-assaults /rally/returning baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "resume-role-resupply-safely-rejoin-allocation",
+            "allowed": {
+              "choices": [
+                "resume-role-resupply-safely-rejoin-allocation"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#7.4",
+              "src/godot-game/content/config/portals-assaults.json/rally"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "7.4",
+              "evidence": "Warriors automatically divide between the two sides. They station near that side's outermost intact wall, falling back when it is breached. With no wall, they defend the main-building refuge."
+            },
+            "referenceKind": "none"
+          }
+        ]
+      }
+    ],
+    "productionChoices": "Existing pinned effect/map resources and explicit authoring choices; exact palette and ambience gains are configurable, not creator-selected hues"
+  }
+}

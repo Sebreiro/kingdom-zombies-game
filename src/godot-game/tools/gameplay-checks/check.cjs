@@ -29,6 +29,19 @@ function acquireLock(root,nonce) {
   };
 }
 async function csharp(context,item) {
+  if (item.callerStages) {
+    requireTrue(item.id==='core.permissions','STAGED_CASE_UNKNOWN');
+    baseline.callerPlan(item,context.root);
+    const directory=inside(context.directory,item.id);fs.mkdirSync(directory);
+    const child={...context,directory,children:new Set(),commands:[]},assembly=inside(context.root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
+    const beforeBinary=hash(fs.readFileSync(assembly));
+    try {
+      const build=await baseline.command('dotnet',['build','tests/phase1/KingdomZombies.Phase1.Tests.csproj','--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],child,'caller-setup-build',60000);
+      requireTrue(build.code===0,'STAGED_BUILD_FAILED');
+      requireTrue(hash(fs.readFileSync(assembly))===beforeBinary,'STAGED_BINARY_CHANGED');
+      return await baseline.runProducerStages(item,child,'dotnet',assembly);
+    } finally {for(const process of child.children)baseline.killTree(process);}
+  }
   const env={...context.env,PHASE1_ROOT:context.root,PHASE1_RESULT_DIRECTORY:context.directory,PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};
   let run;
   try {
@@ -72,19 +85,15 @@ async function main(root,args) {
   const directory=inside(root,'.phase2/runs/'+platform+'/'+nonce);
   fs.mkdirSync(directory,{recursive:true});
   const started=Date.now(),results=[],failures=[];
-  const manifest={inputs:['src','.editorconfig','docs/code']};
-  const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
+  const manifest=inputManifest(selection.selected);
+  const env=environment(root);
   const context={root,directory,nonce,platform,input:null,tool:null,env};
   let unlock;
   try {
     const snapshot=baseline.snapshot(root,manifest);context.input=snapshot.sha256;
     fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(snapshot,null,2));
     // Pure checks need no native executable, display, VM or renderer probe.
-    const version=spawnSync('dotnet',['--version'],{cwd:dotnetLaunch(root,'dotnet',[]).cwd,env,encoding:'utf8',windowsHide:true,timeout:12000});
-    requireTrue(version.status===0,'DOTNET_MISSING');
-    context.tool=hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
-      pins:hash(fs.readFileSync(path.join(root,'src/godot-game/tools/verification/toolchain.json'))),
-      testBinary:hash(fs.readFileSync(path.join(root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
+    context.tool=toolIdentity(root,env);
     for(const item of selection.selected.filter(row=>row.implementation==='csharp')) {
       console.log('Checking '+item.id);
       try {const result=await csharp(context,item);reconcile([item],[result],context);results.push(result);}
@@ -125,5 +134,21 @@ async function main(root,args) {
   for(const failure of failures)console.error(failure.message);
   if(status!=='pass')process.exitCode=1;return summary;
 }
-module.exports={main,select,reconcile,acquireLock};
+// The input scope and tool identity are recorded in every summary; later consumers recompute them from these definitions.
+// Caller-stage inputs (the verification runner, its catalog and bootstrap) already sit under src, so every selection
+// uses the same three roots; listing them again would overlap and fail INPUT_DUPLICATE.
+function inputManifest(selected){
+  return {inputs:['src','.editorconfig','docs/code']};
+}
+function environment(root){
+  return {...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
+}
+function toolIdentity(root,env=environment(root)){
+  const version=spawnSync('dotnet',['--version'],{cwd:dotnetLaunch(root,'dotnet',[]).cwd,env,encoding:'utf8',windowsHide:true,timeout:12000});
+  requireTrue(version.status===0,'DOTNET_MISSING');
+  return hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
+    pins:hash(fs.readFileSync(path.join(root,'src/godot-game/tools/verification/toolchain.json'))),
+    testBinary:hash(fs.readFileSync(path.join(root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
+}
+module.exports={main,select,reconcile,acquireLock,inputManifest,environment,toolIdentity};
 if(require.main===module)main(path.resolve(__dirname,'../../../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

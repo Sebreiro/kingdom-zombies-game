@@ -11,7 +11,7 @@ public sealed class FoundationLanRunnerTests
 {
     /// <summary>Rejects fabricated, substituted and stale case/peer/image evidence.</summary>
     [Fact]
-    public void ExactEvidenceRejectsMalformedSubjects()
+    public void Evidence_MalformedSubjects_AreRejected()
     {
         FoundationCapturePublicationTests.Check();
         Check(mode: "integrity", id: "runner.integrity");
@@ -19,14 +19,14 @@ public sealed class FoundationLanRunnerTests
 
     /// <summary>Exercises actual child exits, crashes and timeout descendant cleanup.</summary>
     [Fact]
-    public void ActualChildFailuresCannotPass()
+    public void Child_ActualFailures_CannotPass()
     {
         Check(mode: "processes", id: "runner.processes");
     }
 
     /// <summary>Preserves immutable reports and refuses an overlapping desktop owner.</summary>
     [Fact]
-    public void FreshRunsRetainExactOwnership()
+    public void Runs_FreshSessions_RetainExactOwnership()
     {
         Check(mode: "repeatability", id: "runner.repeatability");
     }

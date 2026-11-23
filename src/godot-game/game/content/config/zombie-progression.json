@@ -1,0 +1,174 @@
+{
+  "id": "DT-14",
+  "version": 1,
+  "intervalDays": 3,
+  "originDay": 1,
+  "stageRule": "floor((day-originDay)/intervalDays)-clamp-to-last-row",
+  "extendStages": true,
+  "affects": [
+    "future-counts",
+    "future-quality",
+    "future-variant-mix"
+  ],
+  "mutateLivingStats": false,
+  "playerCountScaling": false,
+  "stages": [
+    {
+      "stageId": 0,
+      "days": [
+        1,
+        3
+      ],
+      "regularPerPortal": 6,
+      "retaliationPerPortal": 6,
+      "qualityRef": "Q0",
+      "variantWeights": [
+        75,
+        20,
+        0,
+        0,
+        0,
+        5,
+        0
+      ]
+    },
+    {
+      "stageId": 1,
+      "days": [
+        4,
+        6
+      ],
+      "regularPerPortal": 12,
+      "retaliationPerPortal": 10,
+      "qualityRef": "Q1",
+      "variantWeights": [
+        55,
+        20,
+        5,
+        5,
+        5,
+        8,
+        2
+      ]
+    },
+    {
+      "stageId": 2,
+      "days": [
+        7,
+        9
+      ],
+      "regularPerPortal": 24,
+      "retaliationPerPortal": 16,
+      "qualityRef": "Q2",
+      "variantWeights": [
+        35,
+        20,
+        12,
+        10,
+        8,
+        10,
+        5
+      ]
+    },
+    {
+      "stageId": 3,
+      "days": [
+        10,
+        12
+      ],
+      "regularPerPortal": 40,
+      "retaliationPerPortal": 24,
+      "qualityRef": "Q3",
+      "variantWeights": [
+        25,
+        20,
+        15,
+        15,
+        10,
+        10,
+        5
+      ]
+    },
+    {
+      "stageId": 4,
+      "days": [
+        13,
+        "onward"
+      ],
+      "regularPerPortal": 50,
+      "retaliationPerPortal": 32,
+      "qualityRef": "Q4",
+      "variantWeights": [
+        20,
+        15,
+        20,
+        20,
+        10,
+        10,
+        5
+      ]
+    }
+  ],
+  "variantOrder": [
+    "shambler",
+    "runner",
+    "brute",
+    "armored",
+    "spitter",
+    "archer",
+    "bloater"
+  ],
+  "regular": {
+    "source": "each-surviving-portal",
+    "frequency": "once-per-eligible-night",
+    "start": "nightfall",
+    "releaseSeconds": 90,
+    "composition": "randomized-stage-weights",
+    "inventory": "actual-per-generated-zombie",
+    "openingGraceRef": "content/config/time.json"
+  },
+  "retreat": {
+    "start": "dawn",
+    "destinationPriority": [
+      "nearest-surviving-same-side",
+      "nearest-surviving-any-side"
+    ],
+    "arrival": "leave-map-with-belongings-no-corpse-or-loot",
+    "selfDefense": true,
+    "attackBlockingDefense": true,
+    "teleport": false,
+    "allPortalsDestroyed": "stop-retreat-living-enemies-remain-dangerous",
+    "futureWaves": "new-zombies-not-returning-survivors",
+    "clearCorpses": false,
+    "daytimeSpawns": "retreat-at-next-applicable-dawn-unless-all-portals-destroyed"
+  },
+  "queues": {
+    "activeLivingCap": 300,
+    "includes": [
+      "regular",
+      "defense",
+      "retaliation"
+    ],
+    "corpseCap": false,
+    "full": "wait-never-delete-living-enemies-or-possessions",
+    "priority": [
+      "defense",
+      "retaliation",
+      "regular"
+    ],
+    "concurrentPerPortal": 1,
+    "regularExpires": "dawn",
+    "defenseRetaliationExpires": "source-destruction",
+    "destroyedSource": "cancel-unspawned-keep-living",
+    "dawn": "cancel-regular-unspawned-keep-living-and-order-retreat",
+    "saved": [
+      "spawning",
+      "queues",
+      "warnings",
+      "event-identities",
+      "created-inventories",
+      "random-progression"
+    ],
+    "load": "no-repeat-wave-no-reroll"
+  }
+}

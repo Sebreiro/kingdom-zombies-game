@@ -8,21 +8,21 @@ public sealed class FoundationRunnerTests
 {
     /// <summary>Rejects missing, duplicate, stale and corrupt foundation evidence.</summary>
     [Fact]
-    public void InvalidEvidenceCannotPass()
+    public void Evidence_InvalidRecords_CannotPass()
     {
         Check(mode: "integrity", id: "runner.integrity");
     }
 
     /// <summary>Observes actual failing children and verifies timeout descendant cleanup.</summary>
     [Fact]
-    public void FailingChildrenCannotPass()
+    public void Child_FailingProcesses_CannotPass()
     {
         Check(mode: "processes", id: "runner.processes");
     }
 
     /// <summary>Preserves original evidence while ordering and focused repair runs remain explicit.</summary>
     [Fact]
-    public void RepairedEvidenceRetainsOriginalIdentity()
+    public void Evidence_RepairedRuns_RetainOriginalIdentity()
     {
         Check(mode: "repeatability", id: "runner.repeatability");
     }

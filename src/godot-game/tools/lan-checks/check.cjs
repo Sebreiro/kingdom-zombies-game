@@ -35,9 +35,11 @@ function createIdentity(root){
 async function csharp(context,item){
   const env={...context.env,PHASE1_ROOT:context.root,PHASE1_RESULT_DIRECTORY:context.directory,
     PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};
+  const timeout=item.csharpTimeoutMs??180000;
+  requireTrue(Number.isSafeInteger(timeout)&&timeout>0&&timeout<=600000,'CSHARP_CASE_TIMEOUT '+item.id);
   let run;
   try{run=await command('dotnet',[path.join(context.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),
-    '--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:dotnetLaunch(context.root,'dotnet',[]).cwd,env},180000);}
+    '--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:dotnetLaunch(context.root,'dotnet',[]).cwd,env},timeout);}
   catch(error){fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),JSON.stringify(error.record??{error:error.stack},null,2),{flag:'wx'});throw error;}
   fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),run.stdout+run.stderr,{flag:'wx'});
   const report=e.read(path.join(context.directory,item.id+'.ctrf.json'));

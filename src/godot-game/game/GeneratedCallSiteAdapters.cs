@@ -118,3 +118,44 @@ using System.Diagnostics.CodeAnalysis;
         Target = ("~M:KingdomZombies.Foundation.FoundationRoot.RestoreGodotObjectData(Godot" +
                 ".Bridge.GodotSerializationInfo)"),
         Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-16 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.GetGodotMethodList"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-1 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.HasGodotClassMethod(Godot.Na" +
+                "tiveInterop.godot_string_name@)"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-2 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.InvokeGodotClassMethod(Godot" +
+                ".NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrAr" +
+                "gs,Godot.NativeInterop.godot_variant@)"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-3 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.SetGodotClassPropertyValue(G" +
+                "odot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@" +
+                ")"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-4 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.GetGodotClassPropertyValue(G" +
+                "odot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@" +
+                ")"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-5 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.GetGodotPropertyList"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-6 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.SaveGodotObjectData(Godot.Br" +
+                "idge.GodotSerializationInfo)"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-7 exact frozen generator origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.RestoreGodotObjectData(Godot" +
+                ".Bridge.GodotSerializationInfo)"),
+        Justification = "KZ-EX-INSPECTION03-CALLS-8 exact frozen generator origin and boundary proofs")]

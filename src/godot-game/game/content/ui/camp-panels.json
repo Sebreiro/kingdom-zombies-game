@@ -1,0 +1,962 @@
+{
+  "schemaVersion": 1,
+  "id": "camp-panels",
+  "sampleDataOnly": true,
+  "gameplayTransactions": false,
+  "definitions": {
+    "recruitPrice": 12,
+    "totalCap": 100,
+    "fireside": [
+      8,
+      12,
+      16
+    ],
+    "roles": [
+      {
+        "id": "unassigned",
+        "label": "Unassigned",
+        "price": 5,
+        "equipment": "No tool required"
+      },
+      {
+        "id": "gatherer",
+        "label": "Gatherer",
+        "price": 8,
+        "equipment": "No tool required"
+      },
+      {
+        "id": "hunter",
+        "label": "Hunter",
+        "price": 15,
+        "equipment": "Usable bow and arrows"
+      },
+      {
+        "id": "melee",
+        "label": "Melee warrior",
+        "price": 15,
+        "equipment": "Usable one-handed melee weapon"
+      },
+      {
+        "id": "archer",
+        "label": "Warrior archer",
+        "price": 15,
+        "equipment": "Usable bow and arrows"
+      }
+    ],
+    "foods": [
+      {
+        "id": "IT-08",
+        "label": "Berries",
+        "price": 1
+      },
+      {
+        "id": "IT-09",
+        "label": "Fruit",
+        "price": 2
+      },
+      {
+        "id": "IT-10",
+        "label": "Meat",
+        "price": 4
+      }
+    ],
+    "structures": [
+      {
+        "id": "main-1",
+        "kind": "main",
+        "tier": 1,
+        "health": 600,
+        "price": 0,
+        "work": 0,
+        "rebuild": 0,
+        "valuation": 100,
+        "repair": 50
+      },
+      {
+        "id": "main-2",
+        "kind": "main",
+        "tier": 2,
+        "health": 1400,
+        "price": 200,
+        "work": 90,
+        "rebuild": 0,
+        "valuation": 300,
+        "repair": 150
+      },
+      {
+        "id": "main-3",
+        "kind": "main",
+        "tier": 3,
+        "health": 3200,
+        "price": 500,
+        "work": 150,
+        "rebuild": 0,
+        "valuation": 800,
+        "repair": 400
+      },
+      {
+        "id": "wall-1",
+        "kind": "wall",
+        "tier": 1,
+        "health": 250,
+        "price": 20,
+        "work": 20,
+        "rebuild": 20,
+        "valuation": 20,
+        "repair": 10
+      },
+      {
+        "id": "wall-2",
+        "kind": "wall",
+        "tier": 2,
+        "health": 900,
+        "price": 60,
+        "work": 35,
+        "rebuild": 80,
+        "valuation": 80,
+        "repair": 40
+      },
+      {
+        "id": "wall-3",
+        "kind": "wall",
+        "tier": 3,
+        "health": 2200,
+        "price": 140,
+        "work": 50,
+        "rebuild": 220,
+        "valuation": 220,
+        "repair": 110
+      },
+      {
+        "id": "tower-1",
+        "kind": "tower",
+        "tier": 1,
+        "health": 300,
+        "price": 40,
+        "work": 30,
+        "rebuild": 40,
+        "valuation": 40,
+        "repair": 20
+      },
+      {
+        "id": "tower-2",
+        "kind": "tower",
+        "tier": 2,
+        "health": 800,
+        "price": 90,
+        "work": 45,
+        "rebuild": 130,
+        "valuation": 130,
+        "repair": 65
+      },
+      {
+        "id": "tower-3",
+        "kind": "tower",
+        "tier": 3,
+        "health": 1600,
+        "price": 180,
+        "work": 60,
+        "rebuild": 310,
+        "valuation": 310,
+        "repair": 155
+      }
+    ],
+    "assault": {
+      "price": 25,
+      "squad": 8,
+      "melee": 4,
+      "archer": 4
+    },
+    "source": "Current initial-spec sections6-8, creator amendment2026-11-17. Inspection values only; later04-19 config is not yet delivered."
+  },
+  "samples": [
+    {
+      "id": "people.normal",
+      "surface": "people",
+      "state": "normal",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Ready",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 8,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-elodie",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.cap",
+      "surface": "people",
+      "state": "cap",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Total recruited-survivor limit100 reached. No charge.",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 100,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-elodie",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.fireside",
+      "surface": "people",
+      "state": "fireside",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Unassigned capacity8 reached; pending upgrade unlocks nothing.",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 10,
+      "unassigned": 8,
+      "fireside": 8,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-elodie",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.cash",
+      "surface": "people",
+      "state": "cash",
+      "name": "People and jobs",
+      "personalCash": 5,
+      "reason": "Need12 carried money. Withdraw stash money first.",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 8,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-elodie",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.controlled",
+      "surface": "people",
+      "state": "controlled",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Controlled survivors cannot change role.",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 8,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "player-alex",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.remote",
+      "surface": "people",
+      "state": "remote",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Return to the main building; deposit cargo and obsolete role gear before new duties.",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 8,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-jerome",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.waiting",
+      "surface": "people",
+      "state": "waiting",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Role remains assigned. Waiting for a usable bow and arrows at the stash.",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 8,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-elodie",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "people.pending",
+      "surface": "people",
+      "state": "pending",
+      "name": "People and jobs",
+      "personalCash": 100,
+      "reason": "Ready",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "total": 8,
+      "unassigned": 6,
+      "fireside": 6,
+      "controlled": 2,
+      "people": [
+        {
+          "id": "npc-elodie",
+          "name": "Élodie",
+          "role": "hunter",
+          "activity": "Waiting for equipment",
+          "controlled": false,
+          "atMain": true
+        },
+        {
+          "id": "npc-jerome",
+          "name": "Jérôme",
+          "role": "unassigned",
+          "activity": "Paid main repair · 170 health restored",
+          "controlled": false,
+          "atMain": false
+        },
+        {
+          "id": "player-alex",
+          "name": "Alex",
+          "role": "unassigned",
+          "activity": "Controlled by P3",
+          "controlled": true,
+          "atMain": true
+        }
+      ],
+      "selected": "npc-elodie",
+      "selectedRole": "hunter"
+    },
+    {
+      "id": "sale.normal",
+      "surface": "sale",
+      "state": "normal",
+      "name": "Sell stored food",
+      "personalCash": 100,
+      "reason": "Ready",
+      "stock": [
+        {
+          "id": "IT-08",
+          "quantity": 17
+        },
+        {
+          "id": "IT-09",
+          "quantity": 7
+        },
+        {
+          "id": "IT-10",
+          "quantity": 3
+        }
+      ],
+      "food": "IT-09",
+      "selected": 3,
+      "stashMoney": 31,
+      "carriedFood": 99,
+      "stockRevision": 4,
+      "quotedRevision": 4
+    },
+    {
+      "id": "sale.empty",
+      "surface": "sale",
+      "state": "empty",
+      "name": "Sell stored food",
+      "personalCash": 100,
+      "reason": "Nothing to sell. Deposit carried food in the shared stash first.",
+      "stock": [
+        {
+          "id": "IT-08",
+          "quantity": 0
+        },
+        {
+          "id": "IT-09",
+          "quantity": 0
+        },
+        {
+          "id": "IT-10",
+          "quantity": 0
+        }
+      ],
+      "food": "IT-09",
+      "selected": 0,
+      "stashMoney": 31,
+      "carriedFood": 99,
+      "stockRevision": 4,
+      "quotedRevision": 4
+    },
+    {
+      "id": "sale.stock-changed",
+      "surface": "sale",
+      "state": "stock-changed",
+      "name": "Sell stored food",
+      "personalCash": 100,
+      "reason": "Stash stock changed. Recheck quantity; no food sold and no money moved.",
+      "stock": [
+        {
+          "id": "IT-08",
+          "quantity": 17
+        },
+        {
+          "id": "IT-09",
+          "quantity": 7
+        },
+        {
+          "id": "IT-10",
+          "quantity": 3
+        }
+      ],
+      "food": "IT-09",
+      "selected": 3,
+      "stashMoney": 31,
+      "carriedFood": 99,
+      "stockRevision": 5,
+      "quotedRevision": 4
+    },
+    {
+      "id": "sale.quantity",
+      "surface": "sale",
+      "state": "quantity",
+      "name": "Sell stored food",
+      "personalCash": 100,
+      "reason": "Ready",
+      "stock": [
+        {
+          "id": "IT-08",
+          "quantity": 17
+        },
+        {
+          "id": "IT-09",
+          "quantity": 7
+        },
+        {
+          "id": "IT-10",
+          "quantity": 3
+        }
+      ],
+      "food": "IT-09",
+      "selected": 7,
+      "stashMoney": 31,
+      "carriedFood": 99,
+      "stockRevision": 4,
+      "quotedRevision": 4
+    },
+    {
+      "id": "site.repair-low",
+      "surface": "site",
+      "state": "repair-low",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Ready",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 90,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.repair-high",
+      "surface": "site",
+      "state": "repair-high",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Ready",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 890,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.repair-active",
+      "surface": "site",
+      "state": "repair-active",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Paid40 once. Further damage is covered until full900 health; no extra charge.",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 620,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": true,
+      "progress": 170,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.no-worker",
+      "surface": "site",
+      "state": "no-worker",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Paid order retained. Waiting for an eligible unassigned worker; buyer need not remain connected.",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 450,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": true,
+      "progress": 170,
+      "workers": 0,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.unsafe",
+      "surface": "site",
+      "state": "unsafe",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Unsafe or night: civilians wait. Paid progress is retained without another purchase.",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 450,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": true,
+      "progress": 170,
+      "workers": 2,
+      "safe": false,
+      "ruin": false
+    },
+    {
+      "id": "site.upgrade",
+      "surface": "site",
+      "state": "upgrade",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Old completed tier1 stays functional with capacity8 until completion. Completion restores full1400 health at the original200 price and90 work.",
+      "structure": "main-1",
+      "completedTier": 1,
+      "pendingTier": 2,
+      "health": 420,
+      "mainTier": 1,
+      "action": "upgrade",
+      "paid": true,
+      "progress": 36,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.build",
+      "surface": "site",
+      "state": "build",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Unfinished frame gives no attacks. Completion restores full300 health at original40 price and30 work.",
+      "structure": "tower-1",
+      "completedTier": 0,
+      "pendingTier": 0,
+      "health": 75,
+      "mainTier": 1,
+      "action": "build",
+      "paid": true,
+      "progress": 12,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.locked",
+      "surface": "site",
+      "state": "locked",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Requires completed main tier3. A paid pending upgrade does not unlock it.",
+      "structure": "wall-3",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 700,
+      "mainTier": 2,
+      "action": "upgrade",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.cash",
+      "surface": "site",
+      "state": "cash",
+      "name": "Site and paid work",
+      "personalCash": 3,
+      "reason": "Need40 personal carried money; shared stash is not charged.",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 450,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.ruin",
+      "surface": "site",
+      "state": "ruin",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Previous completed wall tier2 is retained. Rebuild80 /35 worker-seconds; no border until full900-health completion.",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 0,
+      "mainTier": 2,
+      "action": "rebuild",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": true
+    },
+    {
+      "id": "site.complete",
+      "surface": "site",
+      "state": "complete",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Full health. Repair order closed; later damage requires a new explicit purchase.",
+      "structure": "wall-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 900,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": false
+    },
+    {
+      "id": "site.destroyed-main",
+      "surface": "site",
+      "state": "destroyed-main",
+      "name": "Site and paid work",
+      "personalCash": 100,
+      "reason": "Main building destroyed: defeat. No repair or rebuild after destruction.",
+      "structure": "main-2",
+      "completedTier": 2,
+      "pendingTier": 0,
+      "health": 0,
+      "mainTier": 2,
+      "action": "repair",
+      "paid": false,
+      "progress": 0,
+      "workers": 2,
+      "safe": true,
+      "ruin": true
+    },
+    {
+      "id": "rally.ready",
+      "surface": "rally",
+      "state": "ready",
+      "name": "Rally assault",
+      "personalCash": 100,
+      "reason": "Ready",
+      "side": "left",
+      "stationed": 12,
+      "ready": 8,
+      "melee": 4,
+      "archer": 4,
+      "portal": "left.portal.1",
+      "active": false,
+      "returning": false
+    },
+    {
+      "id": "rally.no-target",
+      "surface": "rally",
+      "state": "no-target",
+      "name": "Rally assault",
+      "personalCash": 100,
+      "reason": "Ready",
+      "side": "left",
+      "stationed": 12,
+      "ready": 8,
+      "melee": 4,
+      "archer": 4,
+      "portal": null,
+      "active": false,
+      "returning": false
+    },
+    {
+      "id": "rally.insufficient",
+      "surface": "rally",
+      "state": "insufficient",
+      "name": "Rally assault",
+      "personalCash": 100,
+      "reason": "Ready",
+      "side": "left",
+      "stationed": 12,
+      "ready": 7,
+      "melee": 3,
+      "archer": 4,
+      "portal": "left.portal.1",
+      "active": false,
+      "returning": false
+    },
+    {
+      "id": "rally.active",
+      "surface": "rally",
+      "state": "active",
+      "name": "Rally assault",
+      "personalCash": 100,
+      "reason": "Ready",
+      "side": "left",
+      "stationed": 12,
+      "ready": 8,
+      "melee": 4,
+      "archer": 4,
+      "portal": "left.portal.1",
+      "active": true,
+      "returning": false
+    },
+    {
+      "id": "rally.returning",
+      "surface": "rally",
+      "state": "returning",
+      "name": "Rally assault",
+      "personalCash": 100,
+      "reason": "Ready",
+      "side": "left",
+      "stationed": 12,
+      "ready": 8,
+      "melee": 4,
+      "archer": 4,
+      "portal": "left.portal.1",
+      "active": true,
+      "returning": true
+    },
+    {
+      "id": "rally.cash",
+      "surface": "rally",
+      "state": "cash",
+      "name": "Rally assault",
+      "personalCash": 10,
+      "reason": "Ready",
+      "side": "left",
+      "stationed": 12,
+      "ready": 8,
+      "melee": 4,
+      "archer": 4,
+      "portal": "left.portal.1",
+      "active": false,
+      "returning": false
+    },
+    {
+      "id": "rally.right",
+      "surface": "rally",
+      "state": "right",
+      "name": "Rally assault",
+      "personalCash": 100,
+      "reason": "Ready",
+      "side": "right",
+      "stationed": 10,
+      "ready": 8,
+      "melee": 4,
+      "archer": 4,
+      "portal": "right.portal.1",
+      "active": false,
+      "returning": false
+    }
+  ]
+}

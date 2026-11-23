@@ -1,0 +1,3030 @@
+{
+  "schemaVersion": 1,
+  "id": "map-spectator-warnings",
+  "sampleDataOnly": true,
+  "gameplayTransactions": false,
+  "definitions": {
+    "portals": [
+      {
+        "id": "left.portal.1",
+        "x": -100,
+        "side": "left"
+      },
+      {
+        "id": "left.portal.2",
+        "x": -190,
+        "side": "left"
+      },
+      {
+        "id": "left.portal.3",
+        "x": -280,
+        "side": "left"
+      },
+      {
+        "id": "right.portal.1",
+        "x": 100,
+        "side": "right"
+      },
+      {
+        "id": "right.portal.2",
+        "x": 190,
+        "side": "right"
+      },
+      {
+        "id": "right.portal.3",
+        "x": 280,
+        "side": "right"
+      }
+    ],
+    "players": [
+      {
+        "id": "player-1",
+        "number": "P1",
+        "name": "Élodie",
+        "shape": "square",
+        "color": "#F0C46A",
+        "state": "Host"
+      },
+      {
+        "id": "player-2",
+        "number": "P2",
+        "name": "Jérôme",
+        "shape": "triangle",
+        "color": "#74BDE0",
+        "state": "Guest"
+      },
+      {
+        "id": "player-3",
+        "number": "P3",
+        "name": "Alex",
+        "shape": "diamond",
+        "color": "#DB91B8",
+        "state": "Controller"
+      },
+      {
+        "id": "player-4",
+        "number": "P4",
+        "name": "Alex",
+        "shape": "cross",
+        "color": "#A3CC83",
+        "state": "Spectator"
+      }
+    ],
+    "defenses": [
+      {
+        "id": "left.wall.1",
+        "x": -25
+      },
+      {
+        "id": "left.tower.1",
+        "x": -21
+      }
+    ],
+    "notifications": [
+      {
+        "id": "nightfall",
+        "text": "Nightfall: civilians return to safe reachable camp work.",
+        "critical": true
+      },
+      {
+        "id": "retaliation",
+        "text": "Retaliation: every surviving known portal releases an additional wave after10 seconds.",
+        "critical": true
+      },
+      {
+        "id": "damage",
+        "text": "Main building damaged: paid repairs required; no passive health recovery.",
+        "critical": true
+      },
+      {
+        "id": "portal",
+        "text": "Known left portal destroyed permanently; its barrier is now passable.",
+        "critical": true
+      },
+      {
+        "id": "order",
+        "text": "Paid wall repair paused: unsafe. Payment and completed work retained for replacement workers.",
+        "critical": false
+      },
+      {
+        "id": "cash",
+        "text": "Insufficient personal carried money. Withdraw stash money explicitly before buying.",
+        "critical": false
+      },
+      {
+        "id": "equipment",
+        "text": "Waiting for equipment: hunter needs a bow and arrows from the stash.",
+        "critical": false
+      },
+      {
+        "id": "inventory",
+        "text": "Inventory full: destination footprint does not fit; no item moved.",
+        "critical": false
+      },
+      {
+        "id": "target",
+        "text": "Target unavailable: the selected corpse moved out of interaction range.",
+        "critical": false
+      },
+      {
+        "id": "save",
+        "text": "Save failed: previous successful save retained. Retry when storage is available.",
+        "critical": false
+      },
+      {
+        "id": "connection",
+        "text": "Connection lost: reconnect to the same run; no new survivor or equipment created.",
+        "critical": false
+      }
+    ]
+  },
+  "samples": [
+    {
+      "id": "map.minimap",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "fixture.empty",
+      "mode": "minimap",
+      "fixture": "empty",
+      "reason": "No shared exploration data yet; zero known objects.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": 0,
+      "exploredTo": 0,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": false,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [],
+      "defenses": [],
+      "notifications": [],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "fixture.loading",
+      "mode": "minimap",
+      "fixture": "loading",
+      "reason": "Loading shared exploration data… previous state is not presented as current.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": false,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [],
+      "defenses": [],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "fixture.error",
+      "mode": "minimap",
+      "fixture": "error",
+      "reason": "Map load failed: authenticated source unavailable. Retry inspection; gameplay is unchanged.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "connection"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "fixture.partial",
+      "mode": "minimap",
+      "fixture": "partial",
+      "reason": "Partial data:2 of4 current teammate positions available; missing entries are omitted.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "fixture.overflow",
+      "mode": "expanded",
+      "fixture": "overflow",
+      "reason": "Overflow: map details and warning details scroll independently.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        },
+        {
+          "id": "retaliation"
+        },
+        {
+          "id": "damage"
+        },
+        {
+          "id": "portal"
+        },
+        {
+          "id": "order"
+        },
+        {
+          "id": "cash"
+        },
+        {
+          "id": "equipment"
+        },
+        {
+          "id": "inventory"
+        },
+        {
+          "id": "target"
+        },
+        {
+          "id": "save"
+        },
+        {
+          "id": "connection"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "fixture.long-text",
+      "mode": "minimap",
+      "fixture": "long-text",
+      "reason": "Expanded text: Shared exploration and known identities remain readable with complete reasons and unchanged bindings. Shared exploration and known identities remain readable with complete reasons and unchanged bindings. Shared exploration and known identities remain readable with complete reasons and unchanged bindings. Shared exploration and known identities remain readable with complete reasons and unchanged bindings. Shared exploration and known identities remain readable with complete reasons and unchanged bindings. Shared exploration and known identities remain readable with complete reasons and unchanged bindings. ",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "map.expanded",
+      "mode": "expanded",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "spectator.follow",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-2",
+      "succession": "Following teammate P2 Jérôme. Previous/Next changes only inspection follow target.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "spectator.waiting",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": false,
+      "follow": "player-2",
+      "succession": "No eligible survivor. Request waits in request order; no inventory or ownership action enabled.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "spectator.requested",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": false,
+      "follow": "player-2",
+      "succession": "Respawn requested after the one-second delay. Waiting request remains queued until an eligible survivor is available.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "spectator.transfer",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-3",
+      "succession": "Requested transfer completed: P3 Alex diamond. Existing survivor health, possessions and role remain unchanged.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "spectator.unavailable",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": false,
+      "follow": "player-2",
+      "succession": "No living teammate to follow in this unavailable example. Ownership actions remain disabled.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "warning.nightfall.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "warning.nightfall.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "nightfall"
+        }
+      ],
+      "ordinaryPanel": "People"
+    },
+    {
+      "id": "warning.retaliation.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "retaliation"
+        }
+      ],
+      "ordinaryPanel": "Sale"
+    },
+    {
+      "id": "warning.retaliation.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "retaliation"
+        }
+      ],
+      "ordinaryPanel": "Site"
+    },
+    {
+      "id": "warning.damage.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "damage"
+        }
+      ],
+      "ordinaryPanel": "Rally"
+    },
+    {
+      "id": "warning.damage.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "damage"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "warning.portal.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "portal"
+        }
+      ],
+      "ordinaryPanel": "People"
+    },
+    {
+      "id": "warning.portal.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "portal"
+        }
+      ],
+      "ordinaryPanel": "Sale"
+    },
+    {
+      "id": "warning.order.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "order"
+        }
+      ],
+      "ordinaryPanel": "Site"
+    },
+    {
+      "id": "warning.order.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "order"
+        }
+      ],
+      "ordinaryPanel": "Rally"
+    },
+    {
+      "id": "warning.cash.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "cash"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "warning.cash.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "cash"
+        }
+      ],
+      "ordinaryPanel": "People"
+    },
+    {
+      "id": "warning.equipment.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "equipment"
+        }
+      ],
+      "ordinaryPanel": "Sale"
+    },
+    {
+      "id": "warning.equipment.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "equipment"
+        }
+      ],
+      "ordinaryPanel": "Site"
+    },
+    {
+      "id": "warning.inventory.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "inventory"
+        }
+      ],
+      "ordinaryPanel": "Rally"
+    },
+    {
+      "id": "warning.inventory.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "inventory"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "warning.target.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "target"
+        }
+      ],
+      "ordinaryPanel": "People"
+    },
+    {
+      "id": "warning.target.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "target"
+        }
+      ],
+      "ordinaryPanel": "Sale"
+    },
+    {
+      "id": "warning.save.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "save"
+        }
+      ],
+      "ordinaryPanel": "Site"
+    },
+    {
+      "id": "warning.save.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "save"
+        }
+      ],
+      "ordinaryPanel": "Rally"
+    },
+    {
+      "id": "warning.connection.audible",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": false,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "connection"
+        }
+      ],
+      "ordinaryPanel": "Inventory"
+    },
+    {
+      "id": "warning.connection.muted",
+      "mode": "minimap",
+      "fixture": "populated",
+      "reason": "Shared explored terrain; known objects only.",
+      "muted": true,
+      "eligible": true,
+      "follow": "player-1",
+      "succession": "Requested transfer example: P1 Élodie retains the chosen survivors equipment and health.",
+      "exploredFrom": -120,
+      "exploredTo": 120,
+      "portals": [
+        {
+          "id": "left.portal.1",
+          "known": true,
+          "state": "destroyed"
+        },
+        {
+          "id": "left.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "left.portal.3",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.1",
+          "known": true,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.2",
+          "known": false,
+          "state": "active"
+        },
+        {
+          "id": "right.portal.3",
+          "known": false,
+          "state": "active"
+        }
+      ],
+      "players": [
+        {
+          "id": "player-1",
+          "x": -15,
+          "quantity": 1
+        },
+        {
+          "id": "player-2",
+          "x": -5,
+          "quantity": 2
+        },
+        {
+          "id": "player-3",
+          "x": 5,
+          "quantity": 3
+        },
+        {
+          "id": "player-4",
+          "x": 15,
+          "quantity": 4
+        }
+      ],
+      "defenses": [
+        {
+          "id": "left.wall.1",
+          "x": -25,
+          "quantity": 2
+        },
+        {
+          "id": "left.tower.1",
+          "x": -21,
+          "quantity": 3
+        }
+      ],
+      "notifications": [
+        {
+          "id": "connection"
+        }
+      ],
+      "ordinaryPanel": "People"
+    }
+  ],
+  "backstops": {
+    "UIH.UI-FIXTURE-PREVIEW.empty": "fixture.empty",
+    "UIH.UI-FIXTURE-PREVIEW.loading": "fixture.loading",
+    "UIH.UI-FIXTURE-PREVIEW.error": "fixture.error",
+    "UIH.UI-FIXTURE-PREVIEW.populated": "map.minimap",
+    "UIH.UI-FIXTURE-PREVIEW.partial": "fixture.partial",
+    "UIH.UI-FIXTURE-PREVIEW.overflow": "fixture.overflow",
+    "UIH.UI-FIXTURE-PREVIEW.long-text": "fixture.long-text"
+  },
+  "heldout": {
+    "id": "heldout.H23",
+    "definitionsOrder": "independently reversed per collection",
+    "eventsOrder": "independently reversed per sample collection",
+    "identity": "ordinal stable IDs; canonical number/name/shape/color",
+    "quantity": "event quantities retained"
+  }
+}

@@ -1,0 +1,907 @@
+{
+  "schemaVersion": 1,
+  "authority": "specs/0.1/assets-and-resources.md",
+  "scope": "Required obligations independent of produced output enumeration; V/M/C are historical observations only",
+  "obligations": [
+    {
+      "id": "CH-01",
+      "name": "Shared survivor body, neutral uncovered areas, appearance palette",
+      "source": "specs/0.1/assets-and-resources.md#CH-01"
+    },
+    {
+      "id": "CH-02",
+      "name": "Shambler",
+      "source": "specs/0.1/assets-and-resources.md#CH-02"
+    },
+    {
+      "id": "CH-03",
+      "name": "Runner",
+      "source": "specs/0.1/assets-and-resources.md#CH-03"
+    },
+    {
+      "id": "CH-04",
+      "name": "Brute",
+      "source": "specs/0.1/assets-and-resources.md#CH-04"
+    },
+    {
+      "id": "CH-05",
+      "name": "Armored zombie",
+      "source": "specs/0.1/assets-and-resources.md#CH-05"
+    },
+    {
+      "id": "CH-06",
+      "name": "Spitter",
+      "source": "specs/0.1/assets-and-resources.md#CH-06"
+    },
+    {
+      "id": "CH-07",
+      "name": "Zombie archer",
+      "source": "specs/0.1/assets-and-resources.md#CH-07"
+    },
+    {
+      "id": "CH-08",
+      "name": "Acid bloater",
+      "source": "specs/0.1/assets-and-resources.md#CH-08"
+    },
+    {
+      "id": "CH-09",
+      "name": "Structural tower archer",
+      "source": "specs/0.1/assets-and-resources.md#CH-09"
+    },
+    {
+      "id": "CH-10",
+      "name": "Rabbit",
+      "source": "specs/0.1/assets-and-resources.md#CH-10"
+    },
+    {
+      "id": "CH-11",
+      "name": "Deer",
+      "source": "specs/0.1/assets-and-resources.md#CH-11"
+    },
+    {
+      "id": "CH-12",
+      "name": "Leadership/player identifiers",
+      "source": "specs/0.1/assets-and-resources.md#CH-12"
+    },
+    {
+      "id": "CH-13",
+      "name": "Persistent ordinary corpses and loot piles",
+      "source": "specs/0.1/assets-and-resources.md#CH-13"
+    },
+    {
+      "id": "AN-01",
+      "name": "Neutral idle, combat-ready idle, turning left/right",
+      "source": "specs/0.1/assets-and-resources.md#AN-01"
+    },
+    {
+      "id": "AN-02",
+      "name": "Walk and faster movement",
+      "source": "specs/0.1/assets-and-resources.md#AN-02"
+    },
+    {
+      "id": "AN-03",
+      "name": "Jump takeoff, airborne up/down, landing",
+      "source": "specs/0.1/assets-and-resources.md#AN-03"
+    },
+    {
+      "id": "AN-04",
+      "name": "Empty-hand/fist strike",
+      "source": "specs/0.1/assets-and-resources.md#AN-04"
+    },
+    {
+      "id": "AN-05",
+      "name": "One-handed melee",
+      "source": "specs/0.1/assets-and-resources.md#AN-05"
+    },
+    {
+      "id": "AN-06",
+      "name": "Two one-handed weapons together",
+      "source": "specs/0.1/assets-and-resources.md#AN-06"
+    },
+    {
+      "id": "AN-07",
+      "name": "Bow preparation, mouse/AI aim, release, recovery",
+      "source": "specs/0.1/assets-and-resources.md#AN-07"
+    },
+    {
+      "id": "AN-08",
+      "name": "Empty arrow hand, replacement stack, broken weapon fallback",
+      "source": "specs/0.1/assets-and-resources.md#AN-08"
+    },
+    {
+      "id": "AN-09",
+      "name": "Hit reaction and death, persistent final pose",
+      "source": "specs/0.1/assets-and-resources.md#AN-09"
+    },
+    {
+      "id": "AN-10",
+      "name": "Sit near fire, stand, return to idle",
+      "source": "specs/0.1/assets-and-resources.md#AN-10"
+    },
+    {
+      "id": "AN-11",
+      "name": "Gather/reach/pick/put away",
+      "source": "specs/0.1/assets-and-resources.md#AN-11"
+    },
+    {
+      "id": "AN-12",
+      "name": "Build, hammer/repair, chop trees",
+      "source": "specs/0.1/assets-and-resources.md#AN-12"
+    },
+    {
+      "id": "AN-13",
+      "name": "Pick up loot, carry, deliver, stash/equip interaction",
+      "source": "specs/0.1/assets-and-resources.md#AN-13"
+    },
+    {
+      "id": "AN-14",
+      "name": "Eat food / food-use feedback",
+      "source": "specs/0.1/assets-and-resources.md#AN-14"
+    },
+    {
+      "id": "AN-15",
+      "name": "Spit wind-up, release, recovery",
+      "source": "specs/0.1/assets-and-resources.md#AN-15"
+    },
+    {
+      "id": "AN-16",
+      "name": "Bloater burst and corpse settle",
+      "source": "specs/0.1/assets-and-resources.md#AN-16"
+    },
+    {
+      "id": "AN-17",
+      "name": "Prey idle, move/flee, hit, death, final carcass",
+      "source": "specs/0.1/assets-and-resources.md#AN-17"
+    },
+    {
+      "id": "AN-18",
+      "name": "Structural guard idle/aim/fire",
+      "source": "specs/0.1/assets-and-resources.md#AN-18"
+    },
+    {
+      "id": "IT-01",
+      "name": "Money, 1×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-01"
+    },
+    {
+      "id": "IT-02",
+      "name": "Arrows, 1×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-02"
+    },
+    {
+      "id": "IT-03",
+      "name": "Knife, 1×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-03"
+    },
+    {
+      "id": "IT-04",
+      "name": "Wooden club, 1×3",
+      "source": "specs/0.1/assets-and-resources.md#IT-04"
+    },
+    {
+      "id": "IT-05",
+      "name": "Machete, 1×3",
+      "source": "specs/0.1/assets-and-resources.md#IT-05"
+    },
+    {
+      "id": "IT-06",
+      "name": "Metal bat, 1×4",
+      "source": "specs/0.1/assets-and-resources.md#IT-06"
+    },
+    {
+      "id": "IT-07",
+      "name": "Bow, 2×4",
+      "source": "specs/0.1/assets-and-resources.md#IT-07"
+    },
+    {
+      "id": "IT-08",
+      "name": "Berries, 1×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-08"
+    },
+    {
+      "id": "IT-09",
+      "name": "Fruit, 1×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-09"
+    },
+    {
+      "id": "IT-10",
+      "name": "Meat, 1×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-10"
+    },
+    {
+      "id": "IT-11",
+      "name": "Basic shirt, 2×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-11"
+    },
+    {
+      "id": "IT-12",
+      "name": "Trousers, 2×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-12"
+    },
+    {
+      "id": "IT-13",
+      "name": "Coat, 2×3",
+      "source": "specs/0.1/assets-and-resources.md#IT-13"
+    },
+    {
+      "id": "IT-14",
+      "name": "Cap, 2×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-14"
+    },
+    {
+      "id": "IT-15",
+      "name": "Face covering, 1×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-15"
+    },
+    {
+      "id": "IT-16",
+      "name": "Gloves, 1×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-16"
+    },
+    {
+      "id": "IT-17",
+      "name": "Boots, 1×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-17"
+    },
+    {
+      "id": "IT-18",
+      "name": "Protective helmet, 2×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-18"
+    },
+    {
+      "id": "IT-19",
+      "name": "Improvised body armor, 2×3",
+      "source": "specs/0.1/assets-and-resources.md#IT-19"
+    },
+    {
+      "id": "IT-20",
+      "name": "Plated body armor, 3×3",
+      "source": "specs/0.1/assets-and-resources.md#IT-20"
+    },
+    {
+      "id": "IT-21",
+      "name": "Belt with pouches, 2×1",
+      "source": "specs/0.1/assets-and-resources.md#IT-21"
+    },
+    {
+      "id": "IT-22",
+      "name": "Small pouch, 1×2",
+      "source": "specs/0.1/assets-and-resources.md#IT-22"
+    },
+    {
+      "id": "IT-23",
+      "name": "Small backpack, 2×3",
+      "source": "specs/0.1/assets-and-resources.md#IT-23"
+    },
+    {
+      "id": "IT-24",
+      "name": "Field backpack, 3×4",
+      "source": "specs/0.1/assets-and-resources.md#IT-24"
+    },
+    {
+      "id": "BL-01",
+      "name": "Main tier 1: campfire, boxes, accessible stash, seating",
+      "source": "specs/0.1/assets-and-resources.md#BL-01"
+    },
+    {
+      "id": "BL-02",
+      "name": "Main tier 2: wooden shelter with fire/stash access",
+      "source": "specs/0.1/assets-and-resources.md#BL-02"
+    },
+    {
+      "id": "BL-03",
+      "name": "Main tier 3: metal-reinforced shelter and two attached guard towers",
+      "source": "specs/0.1/assets-and-resources.md#BL-03"
+    },
+    {
+      "id": "BL-04",
+      "name": "Wall tier 1: wood",
+      "source": "specs/0.1/assets-and-resources.md#BL-04"
+    },
+    {
+      "id": "BL-05",
+      "name": "Wall tier 2: reinforced wood",
+      "source": "specs/0.1/assets-and-resources.md#BL-05"
+    },
+    {
+      "id": "BL-06",
+      "name": "Wall tier 3: metal-reinforced",
+      "source": "specs/0.1/assets-and-resources.md#BL-06"
+    },
+    {
+      "id": "BL-07",
+      "name": "Standalone tower tier 1: wooden platform / one archer",
+      "source": "specs/0.1/assets-and-resources.md#BL-07"
+    },
+    {
+      "id": "BL-08",
+      "name": "Standalone tower tier 2: reinforced wood / two archers",
+      "source": "specs/0.1/assets-and-resources.md#BL-08"
+    },
+    {
+      "id": "BL-09",
+      "name": "Standalone tower tier 3: metal-reinforced / three archers",
+      "source": "specs/0.1/assets-and-resources.md#BL-09"
+    },
+    {
+      "id": "BL-10",
+      "name": "Fixed wall/tower site markings and locks",
+      "source": "specs/0.1/assets-and-resources.md#BL-10"
+    },
+    {
+      "id": "BL-11",
+      "name": "Construction/upgrade/repair component kit",
+      "source": "specs/0.1/assets-and-resources.md#BL-11"
+    },
+    {
+      "id": "BL-12",
+      "name": "Destruction/rebuild kit",
+      "source": "specs/0.1/assets-and-resources.md#BL-12"
+    },
+    {
+      "id": "BL-13",
+      "name": "Stash access marker and chest/boxes",
+      "source": "specs/0.1/assets-and-resources.md#BL-13"
+    },
+    {
+      "id": "BL-14",
+      "name": "Fireside seating layout",
+      "source": "specs/0.1/assets-and-resources.md#BL-14"
+    },
+    {
+      "id": "BL-15",
+      "name": "Left/right rally point",
+      "source": "specs/0.1/assets-and-resources.md#BL-15"
+    },
+    {
+      "id": "BL-16",
+      "name": "Portal set, six placed instances",
+      "source": "specs/0.1/assets-and-resources.md#BL-16"
+    },
+    {
+      "id": "EN-01",
+      "name": "One authored map composition",
+      "source": "specs/0.1/assets-and-resources.md#EN-01"
+    },
+    {
+      "id": "EN-02",
+      "name": "Ground surface, terrain edge/fill, foreground dressing",
+      "source": "specs/0.1/assets-and-resources.md#EN-02"
+    },
+    {
+      "id": "EN-03",
+      "name": "Near forest, middle forest, distant hills/sky",
+      "source": "specs/0.1/assets-and-resources.md#EN-03"
+    },
+    {
+      "id": "EN-04",
+      "name": "Day/night lighting and sky treatment",
+      "source": "specs/0.1/assets-and-resources.md#EN-04"
+    },
+    {
+      "id": "EN-05",
+      "name": "Six tree-clearing groups",
+      "source": "specs/0.1/assets-and-resources.md#EN-05"
+    },
+    {
+      "id": "EN-06",
+      "name": "Four berry plants",
+      "source": "specs/0.1/assets-and-resources.md#EN-06"
+    },
+    {
+      "id": "EN-07",
+      "name": "Two fruit plants",
+      "source": "specs/0.1/assets-and-resources.md#EN-07"
+    },
+    {
+      "id": "EN-08",
+      "name": "Six wildlife zones and prey placements",
+      "source": "specs/0.1/assets-and-resources.md#EN-08"
+    },
+    {
+      "id": "EN-09",
+      "name": "Interaction/selection markers in the world",
+      "source": "specs/0.1/assets-and-resources.md#EN-09"
+    },
+    {
+      "id": "EN-10",
+      "name": "Explored-map representation",
+      "source": "specs/0.1/assets-and-resources.md#EN-10"
+    },
+    {
+      "id": "EN-11",
+      "name": "Environmental prop kit",
+      "source": "specs/0.1/assets-and-resources.md#EN-11"
+    },
+    {
+      "id": "FX-01",
+      "name": "Arrow projectile and shot/impact feedback",
+      "source": "specs/0.1/assets-and-resources.md#FX-01"
+    },
+    {
+      "id": "FX-02",
+      "name": "Melee swing and hit feedback",
+      "source": "specs/0.1/assets-and-resources.md#FX-02"
+    },
+    {
+      "id": "FX-03",
+      "name": "Construction, repair, tree cutting/fall, structure collapse",
+      "source": "specs/0.1/assets-and-resources.md#FX-03"
+    },
+    {
+      "id": "FX-04",
+      "name": "Fire, smoke, embers, local light",
+      "source": "specs/0.1/assets-and-resources.md#FX-04"
+    },
+    {
+      "id": "FX-05",
+      "name": "Portal interior, warning, spawn, hit, destruction",
+      "source": "specs/0.1/assets-and-resources.md#FX-05"
+    },
+    {
+      "id": "FX-06",
+      "name": "Spit projectile and first-hit splash",
+      "source": "specs/0.1/assets-and-resources.md#FX-06"
+    },
+    {
+      "id": "FX-07",
+      "name": "Bloater death splash and stains",
+      "source": "specs/0.1/assets-and-resources.md#FX-07"
+    },
+    {
+      "id": "FX-08",
+      "name": "Character hit, death, recovery/food feedback",
+      "source": "specs/0.1/assets-and-resources.md#FX-08"
+    },
+    {
+      "id": "FX-09",
+      "name": "Selection, valid/invalid placement, ownership feedback",
+      "source": "specs/0.1/assets-and-resources.md#FX-09"
+    },
+    {
+      "id": "FX-10",
+      "name": "Crown/control transition and player identity",
+      "source": "specs/0.1/assets-and-resources.md#FX-10"
+    },
+    {
+      "id": "FX-11",
+      "name": "Condition/damage/palette material profiles",
+      "source": "specs/0.1/assets-and-resources.md#FX-11"
+    },
+    {
+      "id": "FX-12",
+      "name": "Warning and outcome presentation",
+      "source": "specs/0.1/assets-and-resources.md#FX-12"
+    },
+    {
+      "id": "UI-01",
+      "name": "Buttons, panel borders/backgrounds, tabs, lists, scrollbars, text inputs, sliders, checkboxes, tooltips, modal/toast framing",
+      "source": "specs/0.1/assets-and-resources.md#UI-01"
+    },
+    {
+      "id": "UI-02",
+      "name": "Fonts, typography sizes, color/contrast palette",
+      "source": "specs/0.1/assets-and-resources.md#UI-02"
+    },
+    {
+      "id": "UI-03",
+      "name": "Cursor, aim reticle, interaction cursor, keyboard/mouse prompts",
+      "source": "specs/0.1/assets-and-resources.md#UI-03"
+    },
+    {
+      "id": "UI-04",
+      "name": "Status icon set",
+      "source": "specs/0.1/assets-and-resources.md#UI-04"
+    },
+    {
+      "id": "UI-05",
+      "name": "Item-grid/equipment kit",
+      "source": "specs/0.1/assets-and-resources.md#UI-05"
+    },
+    {
+      "id": "UI-06",
+      "name": "Legacy inventory treatment",
+      "source": "specs/0.1/assets-and-resources.md#UI-06"
+    },
+    {
+      "id": "UI-07",
+      "name": "Player and multiplayer identity kit",
+      "source": "specs/0.1/assets-and-resources.md#UI-07"
+    },
+    {
+      "id": "UI-08",
+      "name": "Game identity and launch icon",
+      "source": "specs/0.1/assets-and-resources.md#UI-08"
+    },
+    {
+      "id": "UI-09",
+      "name": "Main menu",
+      "source": "specs/0.1/assets-and-resources.md#UI-09"
+    },
+    {
+      "id": "UI-10",
+      "name": "Host/lobby and LAN browser",
+      "source": "specs/0.1/assets-and-resources.md#UI-10"
+    },
+    {
+      "id": "UI-11",
+      "name": "Join/loading/reconnect flow",
+      "source": "specs/0.1/assets-and-resources.md#UI-11"
+    },
+    {
+      "id": "UI-12",
+      "name": "In-run HUD",
+      "source": "specs/0.1/assets-and-resources.md#UI-12"
+    },
+    {
+      "id": "UI-13",
+      "name": "Own character inventory",
+      "source": "specs/0.1/assets-and-resources.md#UI-13"
+    },
+    {
+      "id": "UI-14",
+      "name": "Shared stash",
+      "source": "specs/0.1/assets-and-resources.md#UI-14"
+    },
+    {
+      "id": "UI-15",
+      "name": "NPC/corpse/ground-loot panel",
+      "source": "specs/0.1/assets-and-resources.md#UI-15"
+    },
+    {
+      "id": "UI-16",
+      "name": "People/recruitment/job menu",
+      "source": "specs/0.1/assets-and-resources.md#UI-16"
+    },
+    {
+      "id": "UI-17",
+      "name": "Food sale",
+      "source": "specs/0.1/assets-and-resources.md#UI-17"
+    },
+    {
+      "id": "UI-18",
+      "name": "Site/building/repair panel",
+      "source": "specs/0.1/assets-and-resources.md#UI-18"
+    },
+    {
+      "id": "UI-19",
+      "name": "Rally panel",
+      "source": "specs/0.1/assets-and-resources.md#UI-19"
+    },
+    {
+      "id": "UI-20",
+      "name": "Minimap and expanded map",
+      "source": "specs/0.1/assets-and-resources.md#UI-20"
+    },
+    {
+      "id": "UI-21",
+      "name": "Spectator and succession",
+      "source": "specs/0.1/assets-and-resources.md#UI-21"
+    },
+    {
+      "id": "UI-22",
+      "name": "Save/load/run list",
+      "source": "specs/0.1/assets-and-resources.md#UI-22"
+    },
+    {
+      "id": "UI-23",
+      "name": "Exit/save failure and session end",
+      "source": "specs/0.1/assets-and-resources.md#UI-23"
+    },
+    {
+      "id": "UI-24",
+      "name": "Victory/defeat",
+      "source": "specs/0.1/assets-and-resources.md#UI-24"
+    },
+    {
+      "id": "UI-25",
+      "name": "In-run menu/settings/controls",
+      "source": "specs/0.1/assets-and-resources.md#UI-25"
+    },
+    {
+      "id": "UI-26",
+      "name": "Notifications and transactional errors",
+      "source": "specs/0.1/assets-and-resources.md#UI-26"
+    },
+    {
+      "id": "UI-27",
+      "name": "Configuration/content error report",
+      "source": "specs/0.1/assets-and-resources.md#UI-27"
+    },
+    {
+      "id": "AU-01",
+      "name": "Survivor footsteps, walking/sprinting, NPC carrying/retreat",
+      "source": "specs/0.1/assets-and-resources.md#AU-01"
+    },
+    {
+      "id": "AU-02",
+      "name": "Jump takeoff/landing",
+      "source": "specs/0.1/assets-and-resources.md#AU-02"
+    },
+    {
+      "id": "AU-03",
+      "name": "Fist/melee swings, including two weapons",
+      "source": "specs/0.1/assets-and-resources.md#AU-03"
+    },
+    {
+      "id": "AU-04",
+      "name": "Hits on survivor/zombie flesh and armor",
+      "source": "specs/0.1/assets-and-resources.md#AU-04"
+    },
+    {
+      "id": "AU-05",
+      "name": "Equipment reaches zero condition",
+      "source": "specs/0.1/assets-and-resources.md#AU-05"
+    },
+    {
+      "id": "AU-06",
+      "name": "Bow release, ordinary and tower archers",
+      "source": "specs/0.1/assets-and-resources.md#AU-06"
+    },
+    {
+      "id": "AU-07",
+      "name": "Arrow impact on terrain, wood/metal, prey, portal",
+      "source": "specs/0.1/assets-and-resources.md#AU-07"
+    },
+    {
+      "id": "AU-08",
+      "name": "Spit wind-up/release/direct impact",
+      "source": "specs/0.1/assets-and-resources.md#AU-08"
+    },
+    {
+      "id": "AU-09",
+      "name": "Zombie movement, attack, hit, death",
+      "source": "specs/0.1/assets-and-resources.md#AU-09"
+    },
+    {
+      "id": "AU-10",
+      "name": "Survivor/player damage and death; control succession",
+      "source": "specs/0.1/assets-and-resources.md#AU-10"
+    },
+    {
+      "id": "AU-11",
+      "name": "Prey flee/hit/death",
+      "source": "specs/0.1/assets-and-resources.md#AU-11"
+    },
+    {
+      "id": "AU-12",
+      "name": "Wood/metal building and paid repair",
+      "source": "specs/0.1/assets-and-resources.md#AU-12"
+    },
+    {
+      "id": "AU-13",
+      "name": "Tree marking/chopping/fall",
+      "source": "specs/0.1/assets-and-resources.md#AU-13"
+    },
+    {
+      "id": "AU-14",
+      "name": "Build/upgrade begins and completes",
+      "source": "specs/0.1/assets-and-resources.md#AU-14"
+    },
+    {
+      "id": "AU-15",
+      "name": "Wood/metal defenses hit and collapse",
+      "source": "specs/0.1/assets-and-resources.md#AU-15"
+    },
+    {
+      "id": "AU-16",
+      "name": "Money pickup/drop, payment, food-sale proceeds",
+      "source": "specs/0.1/assets-and-resources.md#AU-16"
+    },
+    {
+      "id": "AU-17",
+      "name": "Recruit appears / job assigned / equipment acquired",
+      "source": "specs/0.1/assets-and-resources.md#AU-17"
+    },
+    {
+      "id": "AU-18",
+      "name": "Inventory/stash/container open/close, move, split, rotate, equip",
+      "source": "specs/0.1/assets-and-resources.md#AU-18"
+    },
+    {
+      "id": "AU-19",
+      "name": "Food consumed; food sold",
+      "source": "specs/0.1/assets-and-resources.md#AU-19"
+    },
+    {
+      "id": "AU-20",
+      "name": "Day/night transition, retaliation warning, assault/recall",
+      "source": "specs/0.1/assets-and-resources.md#AU-20"
+    },
+    {
+      "id": "AU-21",
+      "name": "Active portal ambience/open/spawn",
+      "source": "specs/0.1/assets-and-resources.md#AU-21"
+    },
+    {
+      "id": "AU-22",
+      "name": "Portal destruction",
+      "source": "specs/0.1/assets-and-resources.md#AU-22"
+    },
+    {
+      "id": "AU-23",
+      "name": "Victory and defeat",
+      "source": "specs/0.1/assets-and-resources.md#AU-23"
+    },
+    {
+      "id": "AU-24",
+      "name": "Guest joins/leaves, connection failure",
+      "source": "specs/0.1/assets-and-resources.md#AU-24"
+    },
+    {
+      "id": "AU-25",
+      "name": "Save success/failure, invalid action/content error",
+      "source": "specs/0.1/assets-and-resources.md#AU-25"
+    },
+    {
+      "id": "AU-26",
+      "name": "UI hover/confirm/cancel",
+      "source": "specs/0.1/assets-and-resources.md#AU-26"
+    },
+    {
+      "id": "AU-27",
+      "name": "Day/night ambient beds",
+      "source": "specs/0.1/assets-and-resources.md#AU-27"
+    },
+    {
+      "id": "AU-28",
+      "name": "Local fire and environmental wind",
+      "source": "specs/0.1/assets-and-resources.md#AU-28"
+    },
+    {
+      "id": "AU-29",
+      "name": "Cosmetic bloater splash",
+      "source": "specs/0.1/assets-and-resources.md#AU-29"
+    },
+    {
+      "id": "AU-30",
+      "name": "Gathering, loot pickup/carry delivery, cloth/bag handling",
+      "source": "specs/0.1/assets-and-resources.md#AU-30"
+    },
+    {
+      "id": "DT-01",
+      "name": "Run setup",
+      "source": "specs/0.1/assets-and-resources.md#DT-01"
+    },
+    {
+      "id": "DT-02",
+      "name": "Time",
+      "source": "specs/0.1/assets-and-resources.md#DT-02"
+    },
+    {
+      "id": "DT-03",
+      "name": "Survivor definitions",
+      "source": "specs/0.1/assets-and-resources.md#DT-03"
+    },
+    {
+      "id": "DT-04",
+      "name": "Item definitions",
+      "source": "specs/0.1/assets-and-resources.md#DT-04"
+    },
+    {
+      "id": "DT-05",
+      "name": "Combat/armor/projectiles",
+      "source": "specs/0.1/assets-and-resources.md#DT-05"
+    },
+    {
+      "id": "DT-06",
+      "name": "Inventory/access/cleanup",
+      "source": "specs/0.1/assets-and-resources.md#DT-06"
+    },
+    {
+      "id": "DT-07",
+      "name": "Recruitment/jobs/work",
+      "source": "specs/0.1/assets-and-resources.md#DT-07"
+    },
+    {
+      "id": "DT-08",
+      "name": "Food/plants/wildlife",
+      "source": "specs/0.1/assets-and-resources.md#DT-08"
+    },
+    {
+      "id": "DT-09",
+      "name": "Map/site content",
+      "source": "specs/0.1/assets-and-resources.md#DT-09"
+    },
+    {
+      "id": "DT-10",
+      "name": "Structure definitions",
+      "source": "specs/0.1/assets-and-resources.md#DT-10"
+    },
+    {
+      "id": "DT-11",
+      "name": "Tower/guard presentation and attack profiles",
+      "source": "specs/0.1/assets-and-resources.md#DT-11"
+    },
+    {
+      "id": "DT-12",
+      "name": "Zombie archetypes",
+      "source": "specs/0.1/assets-and-resources.md#DT-12"
+    },
+    {
+      "id": "DT-13",
+      "name": "Zombie loot",
+      "source": "specs/0.1/assets-and-resources.md#DT-13"
+    },
+    {
+      "id": "DT-14",
+      "name": "Zombie progression, independent file",
+      "source": "specs/0.1/assets-and-resources.md#DT-14"
+    },
+    {
+      "id": "DT-15",
+      "name": "Portals/assaults",
+      "source": "specs/0.1/assets-and-resources.md#DT-15"
+    },
+    {
+      "id": "DT-16",
+      "name": "Session/save defaults",
+      "source": "specs/0.1/assets-and-resources.md#DT-16"
+    },
+    {
+      "id": "DT-17",
+      "name": "Presentation",
+      "source": "specs/0.1/assets-and-resources.md#DT-17"
+    },
+    {
+      "id": "DT-18",
+      "name": "English translation catalog",
+      "source": "specs/0.1/assets-and-resources.md#DT-18"
+    },
+    {
+      "id": "DT-19",
+      "name": "Asset provenance/export manifest",
+      "source": "specs/0.1/assets-and-resources.md#DT-19"
+    },
+    {
+      "id": "DT-20",
+      "name": "Animation and fitting library",
+      "source": "specs/0.1/assets-and-resources.md#DT-20"
+    },
+    {
+      "id": "DT-21",
+      "name": "World assembly and interaction metadata",
+      "source": "specs/0.1/assets-and-resources.md#DT-21"
+    },
+    {
+      "id": "DT-22",
+      "name": "UI layouts/themes",
+      "source": "specs/0.1/assets-and-resources.md#DT-22"
+    },
+    {
+      "id": "DT-23",
+      "name": "Sound bank definitions",
+      "source": "specs/0.1/assets-and-resources.md#DT-23"
+    },
+    {
+      "id": "DT-24",
+      "name": "Save/content schema and compatibility resources",
+      "source": "specs/0.1/assets-and-resources.md#DT-24"
+    },
+    {
+      "id": "DT-25",
+      "name": "Local preferences/default bindings",
+      "source": "specs/0.1/assets-and-resources.md#DT-25"
+    },
+    {
+      "id": "DT-26",
+      "name": "Validation fixtures / inspection scenes",
+      "source": "specs/0.1/assets-and-resources.md#DT-26"
+    },
+    {
+      "id": "DT-27",
+      "name": "Desktop delivery resources",
+      "source": "specs/0.1/assets-and-resources.md#DT-27"
+    },
+    {
+      "id": "TXT-01",
+      "name": "Complete English message catalog",
+      "source": "specs/0.1/assets-and-resources.md#9.3"
+    },
+    {
+      "id": "TXT-02",
+      "name": "Current binding labels, help and expanded text",
+      "source": "specs/0.1/assets-and-resources.md#9.3"
+    }
+  ]
+}

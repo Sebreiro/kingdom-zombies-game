@@ -1,0 +1,1177 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "id": "work-special",
+  "obligations": [
+    "AN-10",
+    "AN-11",
+    "AN-12",
+    "AN-13",
+    "AN-14",
+    "AN-15",
+    "AN-16"
+  ],
+  "clock": "explicit-elapsed-only",
+  "atlas": {
+    "path": "src/godot-game/assets/characters/work-special.png",
+    "sha256": "b029ec9acaf0e18959c9d65c9c2abf726518fae6216271b15a0b0eff0368a1bc",
+    "width": 128,
+    "height": 64
+  },
+  "components": [
+    {
+      "key": "spit.0",
+      "atlasRect": [
+        4,
+        12,
+        8,
+        4
+      ],
+      "pivot": [
+        4,
+        2
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        0,
+        0,
+        319,
+        307
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        103,
+        142,
+        217,
+        198
+      ],
+      "nativeSize": [
+        8,
+        4
+      ],
+      "rgbaSha256": "5cb52108f60a93f32d69bb57e204baf585afd6931d37db0b45774510ffa19ea4",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "spit.1",
+      "atlasRect": [
+        20,
+        13,
+        8,
+        3
+      ],
+      "pivot": [
+        4,
+        1
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        319,
+        0,
+        639,
+        307
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        83,
+        141,
+        229,
+        195
+      ],
+      "nativeSize": [
+        8,
+        3
+      ],
+      "rgbaSha256": "2323d7d1a401d705e6c1845bfb83bf87f105ac05baa39644e986a1e0cc3376b3",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "spit.2",
+      "atlasRect": [
+        36,
+        14,
+        8,
+        2
+      ],
+      "pivot": [
+        4,
+        1
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        639,
+        0,
+        958,
+        307
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        72,
+        144,
+        238,
+        192
+      ],
+      "nativeSize": [
+        8,
+        2
+      ],
+      "rgbaSha256": "cab7b7b72f7e2591c5d9e6e01c06527002cace802c2421463ed2b1d518fd847d",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "spit.3",
+      "atlasRect": [
+        52,
+        14,
+        8,
+        2
+      ],
+      "pivot": [
+        4,
+        1
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        958,
+        0,
+        1278,
+        307
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        75,
+        148,
+        242,
+        185
+      ],
+      "nativeSize": [
+        8,
+        2
+      ],
+      "rgbaSha256": "1060d10607216c80f6966d65864f581c60a385ee710157315a8d0330e1331f7d",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "splash.0",
+      "atlasRect": [
+        0,
+        21,
+        16,
+        11
+      ],
+      "pivot": [
+        8,
+        5
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        0,
+        307,
+        319,
+        615
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        83,
+        187,
+        234,
+        290
+      ],
+      "nativeSize": [
+        16,
+        11
+      ],
+      "rgbaSha256": "74640d0e89f6cdc7044291e67c7399ad9fb3d4169542dd57311b5a8c9aeca5f1",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "splash.1",
+      "atlasRect": [
+        16,
+        19,
+        16,
+        13
+      ],
+      "pivot": [
+        8,
+        6
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        319,
+        307,
+        639,
+        615
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        58,
+        128,
+        260,
+        290
+      ],
+      "nativeSize": [
+        16,
+        13
+      ],
+      "rgbaSha256": "8a4898215f4576c6ff67c5763fcc0d1e05e53d8c95157b666b6e4f875a8c5e62",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "splash.2",
+      "atlasRect": [
+        32,
+        21,
+        16,
+        11
+      ],
+      "pivot": [
+        8,
+        5
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        639,
+        307,
+        958,
+        615
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        56,
+        143,
+        262,
+        290
+      ],
+      "nativeSize": [
+        16,
+        11
+      ],
+      "rgbaSha256": "e9423a7fc774c2d1b6421e6792613a04c5160a9476ab854a6f9cbf0b12d53f7a",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "splash.3",
+      "atlasRect": [
+        48,
+        21,
+        16,
+        11
+      ],
+      "pivot": [
+        8,
+        5
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        958,
+        307,
+        1278,
+        615
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        67,
+        171,
+        244,
+        290
+      ],
+      "nativeSize": [
+        16,
+        11
+      ],
+      "rgbaSha256": "d312d07fcb9be857ec2d19474a07b6e699f4c474f0967349c00494416ba8daed",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "stain.0",
+      "atlasRect": [
+        0,
+        44,
+        16,
+        4
+      ],
+      "pivot": [
+        8,
+        3
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        0,
+        615,
+        319,
+        922
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        32,
+        162,
+        282,
+        226
+      ],
+      "nativeSize": [
+        16,
+        4
+      ],
+      "rgbaSha256": "c485ac3995806fc3da1f7c796369d6854ecc209f8cbe46fa6163a0747b0efa24",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "stain.1",
+      "atlasRect": [
+        16,
+        45,
+        16,
+        3
+      ],
+      "pivot": [
+        8,
+        2
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        319,
+        615,
+        639,
+        922
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        39,
+        173,
+        278,
+        224
+      ],
+      "nativeSize": [
+        16,
+        3
+      ],
+      "rgbaSha256": "3859dc1580415002809c5b75606d005a37f73c86755986a34b1c0f72bc33a5a0",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "stain.2",
+      "atlasRect": [
+        32,
+        45,
+        16,
+        3
+      ],
+      "pivot": [
+        8,
+        2
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        639,
+        615,
+        958,
+        922
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        48,
+        189,
+        262,
+        224
+      ],
+      "nativeSize": [
+        16,
+        3
+      ],
+      "rgbaSha256": "70ea283e265dad350cb730ff0ca1142e7a30d38e9dc8c1d67504d3dc7f75b8d9",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "stain.3",
+      "atlasRect": [
+        48,
+        46,
+        16,
+        2
+      ],
+      "pivot": [
+        8,
+        1
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        958,
+        615,
+        1278,
+        922
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        95,
+        200,
+        230,
+        219
+      ],
+      "nativeSize": [
+        16,
+        2
+      ],
+      "rgbaSha256": "1779a6bd448cbfec4c86340e2fd57546a78f75f524f61032f707d57211d12727",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "axe.0",
+      "atlasRect": [
+        4,
+        48,
+        8,
+        16
+      ],
+      "pivot": [
+        4,
+        8
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        0,
+        922,
+        319,
+        1230
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        126,
+        44,
+        231,
+        268
+      ],
+      "nativeSize": [
+        8,
+        16
+      ],
+      "rgbaSha256": "b062ae5d58ecedb724a2165090364080167dfcc36d962c374c092d08179ef70e",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "axe.1",
+      "atlasRect": [
+        19,
+        54,
+        10,
+        10
+      ],
+      "pivot": [
+        5,
+        5
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        319,
+        922,
+        639,
+        1230
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        69,
+        75,
+        252,
+        259
+      ],
+      "nativeSize": [
+        10,
+        10
+      ],
+      "rgbaSha256": "f34701750f5c48aee00bf132cf7e609409a7fec5141f60d700652de48631031f",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "axe.2",
+      "atlasRect": [
+        35,
+        59,
+        10,
+        5
+      ],
+      "pivot": [
+        5,
+        2
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        639,
+        922,
+        958,
+        1230
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        57,
+        179,
+        243,
+        279
+      ],
+      "nativeSize": [
+        10,
+        5
+      ],
+      "rgbaSha256": "b745c20b0e03b5036c872e1ed9d82c7e34bcfea35dab64a25166e8b925ddd612",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "axe.3",
+      "atlasRect": [
+        51,
+        55,
+        10,
+        9
+      ],
+      "pivot": [
+        5,
+        4
+      ],
+      "source": "generated/work-effects-master.png",
+      "cell": [
+        958,
+        922,
+        1278,
+        1230
+      ],
+      "alphaThreshold": 128,
+      "crop": [
+        67,
+        83,
+        254,
+        250
+      ],
+      "nativeSize": [
+        10,
+        9
+      ],
+      "rgbaSha256": "307feeb688075d285a0a8e6e76f2008c6ddfa6d3dacf9b0e23ba4b20c11e614b",
+      "filter": "nearest",
+      "rgbRetained": true
+    },
+    {
+      "key": "hammer",
+      "atlasRect": [
+        64,
+        0,
+        8,
+        16
+      ],
+      "pivot": [
+        2,
+        8
+      ],
+      "source": "retained/common/images/sharedassets0.assets/6853.png",
+      "rgbaSha256": "8323bb44b117f36a4c21deb03d04aa3061343a71e035ea8a7c77895c4fb679c1",
+      "filter": "nearest",
+      "rgbRetained": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "Sit",
+      "obligation": "AN-10",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "idle",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "sit",
+          "duration": 0.28,
+          "angle": 0
+        },
+        {
+          "pose": "sit",
+          "duration": 0.6,
+          "angle": 0
+        }
+      ],
+      "duration": 1.0,
+      "loop": false,
+      "persistent": true,
+      "tool": null,
+      "event": null,
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Stand",
+      "obligation": "AN-10",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "sit",
+          "duration": 0.1,
+          "angle": 0
+        },
+        {
+          "pose": "recover",
+          "duration": 0.15,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 0.15,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": null,
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Gather",
+      "obligation": "AN-11",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "gather",
+          "duration": 0.2,
+          "angle": 0
+        },
+        {
+          "pose": "gather",
+          "duration": 0.2,
+          "angle": 0
+        },
+        {
+          "pose": "carry",
+          "duration": 0.2,
+          "angle": 0
+        }
+      ],
+      "duration": 0.6000000000000001,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.4,
+        "sound": "AU-30"
+      },
+      "sourceClip": "common.clip.915",
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Put away",
+      "obligation": "AN-11",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "carry",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "gather",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 0.16,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.24,
+        "sound": "AU-30"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Build",
+      "obligation": "AN-12",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "windup",
+          "duration": 0.25,
+          "angle": -1.1
+        },
+        {
+          "pose": "strike",
+          "duration": 0.25,
+          "angle": 0.7
+        },
+        {
+          "pose": "recover",
+          "duration": 0.25,
+          "angle": 0.4
+        },
+        {
+          "pose": "idle",
+          "duration": 0.25,
+          "angle": 0
+        }
+      ],
+      "duration": 1.0,
+      "loop": true,
+      "persistent": false,
+      "tool": "hammer",
+      "event": {
+        "time": 0.5,
+        "sound": "AU-12"
+      },
+      "sourceClip": "common.clip.1245",
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Hammer",
+      "obligation": "AN-12",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "windup",
+          "duration": 0.25,
+          "angle": -1.1
+        },
+        {
+          "pose": "strike",
+          "duration": 0.25,
+          "angle": 0.7
+        },
+        {
+          "pose": "recover",
+          "duration": 0.25,
+          "angle": 0.4
+        },
+        {
+          "pose": "idle",
+          "duration": 0.25,
+          "angle": 0
+        }
+      ],
+      "duration": 1.0,
+      "loop": true,
+      "persistent": false,
+      "tool": "hammer",
+      "event": {
+        "time": 0.5,
+        "sound": "AU-12"
+      },
+      "sourceClip": "common.clip.1245",
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Repair",
+      "obligation": "AN-12",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "windup",
+          "duration": 0.25,
+          "angle": -1.1
+        },
+        {
+          "pose": "strike",
+          "duration": 0.25,
+          "angle": 0.7
+        },
+        {
+          "pose": "recover",
+          "duration": 0.25,
+          "angle": 0.4
+        },
+        {
+          "pose": "idle",
+          "duration": 0.25,
+          "angle": 0
+        }
+      ],
+      "duration": 1.0,
+      "loop": true,
+      "persistent": false,
+      "tool": "hammer",
+      "event": {
+        "time": 0.5,
+        "sound": "AU-12"
+      },
+      "sourceClip": "common.clip.1245",
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Chop",
+      "obligation": "AN-12",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "windup",
+          "duration": 0.25,
+          "angle": -1.1
+        },
+        {
+          "pose": "strike",
+          "duration": 0.2,
+          "angle": 0.7
+        },
+        {
+          "pose": "recover",
+          "duration": 0.25,
+          "angle": 0.4
+        },
+        {
+          "pose": "idle",
+          "duration": 0.3,
+          "angle": 0
+        }
+      ],
+      "duration": 1.0,
+      "loop": true,
+      "persistent": false,
+      "tool": "axe",
+      "event": {
+        "time": 0.45,
+        "sound": "AU-13"
+      },
+      "sourceClip": "common.s0.4399",
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Pickup",
+      "obligation": "AN-13",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "gather",
+          "duration": 0.15,
+          "angle": 0
+        },
+        {
+          "pose": "carry",
+          "duration": 0.15,
+          "angle": 0
+        }
+      ],
+      "duration": 0.3,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.15,
+        "sound": "AU-30"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Carry",
+      "obligation": "AN-13",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "carry",
+          "duration": 0.4,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": true,
+      "persistent": false,
+      "tool": null,
+      "event": null,
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Deliver",
+      "obligation": "AN-13",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "carry",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "gather",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 0.16,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.24,
+        "sound": "AU-30"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Stash",
+      "obligation": "AN-13",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "carry",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "gather",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 0.16,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.24,
+        "sound": "AU-18"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Equip",
+      "obligation": "AN-13",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "gather",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "carry",
+          "duration": 0.12,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 0.16,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.24,
+        "sound": "AU-18"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Eat",
+      "obligation": "AN-14",
+      "body": "CH-01",
+      "samples": [
+        {
+          "pose": "eat",
+          "duration": 0.2,
+          "angle": 0
+        },
+        {
+          "pose": "recover",
+          "duration": 0.1,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 0.1,
+          "angle": 0
+        }
+      ],
+      "duration": 0.4,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0,
+        "sound": "AU-19"
+      },
+      "sourceClip": "common.clip.823",
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Spit",
+      "obligation": "AN-15",
+      "body": "CH-06",
+      "samples": [
+        {
+          "pose": "windup",
+          "duration": 0.3,
+          "angle": 0
+        },
+        {
+          "pose": "aim",
+          "duration": 0.3,
+          "angle": 0
+        },
+        {
+          "pose": "strike",
+          "duration": 0.2,
+          "angle": 0
+        },
+        {
+          "pose": "recover",
+          "duration": 0.4,
+          "angle": 0
+        },
+        {
+          "pose": "idle",
+          "duration": 1.8,
+          "angle": 0
+        }
+      ],
+      "duration": 3.0,
+      "loop": false,
+      "persistent": false,
+      "tool": null,
+      "event": {
+        "time": 0.6,
+        "sound": "AU-08"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    },
+    {
+      "id": "Burst",
+      "obligation": "AN-16",
+      "body": "CH-08",
+      "samples": [
+        {
+          "pose": "hit",
+          "duration": 0.1,
+          "angle": 0
+        },
+        {
+          "pose": "collapse-a",
+          "duration": 0.2,
+          "angle": 0
+        },
+        {
+          "pose": "collapse-b",
+          "duration": 0.2,
+          "angle": 0
+        },
+        {
+          "pose": "corpse",
+          "duration": 2.5,
+          "angle": 0
+        }
+      ],
+      "duration": 3.0,
+      "loop": false,
+      "persistent": true,
+      "tool": null,
+      "event": {
+        "time": 0.1,
+        "sound": "AU-29"
+      },
+      "sourceClip": null,
+      "clothing": "fixed-fitted-anchors",
+      "inventoryMutation": false
+    }
+  ],
+  "spit": {
+    "projectileId": "spit",
+    "speedUnitsPerSecond": 8,
+    "lifetimeSeconds": 3,
+    "targetRangeUnits": 16,
+    "stopAtTerrain": true,
+    "stopAtFirstEligibleHit": true,
+    "alliedPassThrough": true,
+    "recoverable": false,
+    "areaDamage": false,
+    "lingeringEffect": false,
+    "intervalSeconds": 3,
+    "releaseSeconds": 0.6,
+    "pixelsPerUnit": 2,
+    "firstContactUnits": 4,
+    "mouthOffsetFromFace": [
+      1,
+      1
+    ],
+    "sound": "AU-08",
+    "impactSound": "AU-08"
+  },
+  "burst": {
+    "stainSeconds": 1.5,
+    "damage": 0,
+    "slowdown": 0,
+    "blocksMovement": false,
+    "corpseIndependent": true,
+    "lootRetained": true
+  },
+  "fixtures": {
+    "transfer": [
+      "Empty",
+      "Plant",
+      "Carried",
+      "Delivered",
+      "Equipped"
+    ],
+    "payloadItem": "IT-08",
+    "freeCapacity": false,
+    "toolInventoryItems": false,
+    "gameplayEvents": 0
+  },
+  "provenance": {
+    "generationTool": "built-in image_gen",
+    "master": "generated/work-effects-master.png",
+    "masterSha256": "9c34abd5879e2f778572dd9616f201f6926ed9239984d007b7f41e76a47f0315",
+    "prompt": "prompts/work-effects.txt",
+    "promptSha256": "dc5f61a5a91aef36bf7b5aaaa5f90418f7eb02f85074043fd5d2b1a8789b77d9",
+    "recipe": "recipes/produce.py",
+    "sourceReview": "source-component inspection only; actual appearance/listening/acceptance pending04-32/33"
+  }
+}

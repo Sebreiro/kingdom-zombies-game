@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "phase": "04",
+  "plan": "27",
+  "status": "checkpoint",
+  "completedTasks": 1,
+  "totalTasks": 2,
+  "testedHead": "a2eb2b7849ec8e2164d14d1077006f16543c0c5a",
+  "branch": "feature/04-asset-production",
+  "reason": "shared_root_read_cache_and_diagnostic_regressions_outside_task2_scope",
+  "files": [
+    {
+      "file": "src/godot-game/inspection/WorldPreview.cs",
+      "bytes": 84130,
+      "sha256": "c787e7ff6e06fb71fae6315ebd2c45f817b626ee6a23e0492e5f363327341e53",
+      "backup": ".phase4/checkpoints/04-27-task2-root-freshness/src/godot-game/inspection/WorldPreview.cs"
+    },
+    {
+      "file": "src/godot-game/inspection/InspectionRoot.cs",
+      "bytes": 22880,
+      "sha256": "cef388d3d4b9be8ef21081dc1d329071b368e04dfbd6cc4e2dbec298ae62fa86",
+      "backup": ".phase4/checkpoints/04-27-task2-root-freshness/src/godot-game/inspection/InspectionRoot.cs"
+    },
+    {
+      "file": "src/godot-game/content/fixtures/world-states.json",
+      "bytes": 3010,
+      "sha256": "1154a45993810868138b8b206d154aa095be7c7260c9c3b7daffaf0e03a20ff7",
+      "backup": ".phase4/checkpoints/04-27-task2-root-freshness/src/godot-game/content/fixtures/world-states.json"
+    },
+    {
+      "file": "tools/phase4/cases/world.cjs",
+      "bytes": 103857,
+      "sha256": "d7601c5249c42b5bdb49495cee54fa9dd1f4a0671c02534802436b0fa0032b95",
+      "backup": ".phase4/checkpoints/04-27-task2-root-freshness/tools/phase4/cases/world.cjs"
+    },
+    {
+      "file": "tests/phase1/WorldInspectorTests.cs",
+      "bytes": 6157,
+      "sha256": "20913f0395a5ed05687072de6b825208b925f3c58e3c07ab8a60333d0a923673",
+      "backup": ".phase4/checkpoints/04-27-task2-root-freshness/tests/phase1/WorldInspectorTests.cs"
+    }
+  ],
+  "task1": [
+    {
+      "task": 1,
+      "commit": "5aa0a1e",
+      "tracer": "9c74a702-22dd-4e04-9e9e-939642dc6fea",
+      "outcomes": 519
+    }
+  ],
+  "task2": {
+    "preRed": "f4e4b73",
+    "redCommit": "a2eb2b7",
+    "redEvidence": ".phase4/04-27-task2-red/evidence.json",
+    "redVerdict": "RED_EVIDENCE_OK",
+    "focusedGreen": "f4cb6f9c-5ba8-49ef-9fa2-858afbcbd149",
+    "nativeOutcomes": 566,
+    "compiledTests": 6,
+    "correctiveBudget": {
+      "maximum": 3,
+      "consumed": 2
+    },
+    "greenCommitted": false
+  },
+  "originalTask1Budget": {
+    "maximum": 3,
+    "consumed": 3
+  },
+  "r1Budgets": [
+    {
+      "substep": 1,
+      "maximum": 2,
+      "consumed": 1,
+      "complete": true
+    },
+    {
+      "substep": 2,
+      "maximum": 2,
+      "consumed": 2,
+      "complete": true
+    }
+  ],
+  "finalSelection": {
+    "file": ".phase4/04-27-final/completion.json",
+    "groups": 37,
+    "passed": 33,
+    "failed": 4,
+    "frozenInputs": 441,
+    "drift": [],
+    "durationMs": 1399804,
+    "fullPhaseSelectedSetPass": false
+  },
+  "failures": [
+    {
+      "case": "animation.replacement",
+      "run": "257efb10-f2a5-4755-9a2d-9b0399720749",
+      "status": "fail",
+      "code": 1,
+      "durationMs": 21530
+    },
+    {
+      "case": "animation.melee",
+      "run": "b88221a9-3644-440f-a851-c8d0ee97ca01",
+      "status": "fail",
+      "code": 1,
+      "durationMs": 21494
+    },
+    {
+      "case": "hub.source",
+      "run": "11af47a9-6145-4f2e-878b-d8ee76c73eb2",
+      "status": "fail",
+      "code": 1,
+      "durationMs": 365959
+    },
+    {
+      "case": "hub.lifecycle",
+      "run": "5035a793-580a-4fd8-81b5-ad7b02c282e3",
+      "status": "fail",
+      "code": 1,
+      "durationMs": 367020
+    }
+  ],
+  "backupManifest": ".phase4/checkpoints/04-27-task2-root-freshness/manifest.json",
+  "repairScopeRequired": [
+    "Root.Read inherited consumer freshness",
+    "Root.Read successful-only cache publication",
+    "Root.Read non-destructive visible diagnostics"
+  ],
+  "summaryCreated": false,
+  "globalStateAdvanced": false
+}

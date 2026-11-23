@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "engine": "4.7.2.stable.mono",
+  "framework": "net10.0",
+  "runtime": "10.0.15",
+  "preset": "Phase4 Windows inspection",
+  "archive": {
+    "path": ".phase1/cache/phase4-exports/Godot_v4.7.2-stable_mono_export_templates.tpz",
+    "bytes": 1202598411,
+    "sha512": "bb5c41d72370ed743660361f6228006f808ab04ca33abdc545d740b044f3fe057f32ae8cb7873a1bc86ddcd82ae683b9f6dfdfe4179852f2c0f1acde2ff6bd5a",
+    "checksums": ".phase1/cache/phase4-exports/SHA512-SUMS.txt",
+    "source": "https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable"
+  },
+  "templates": ["windows_debug_x86_64.exe", "windows_debug_x86_64_console.exe", "windows_release_x86_64.exe", "windows_release_x86_64_console.exe"],
+  "templateMembers": {
+    "windows_debug_x86_64.exe": {"bytes":103418880,"sha256":"4526aac3ac47c65de66f99f715f56b35a2e2e4446fcb23e6d280a830cd97fdea"},
+    "windows_debug_x86_64_console.exe": {"bytes":188928,"sha256":"f78703ba3a05dd51a3464f8c90d4c72f54f95d5a8669993e7a5c3ce522b30c52"},
+    "windows_release_x86_64.exe": {"bytes":109513728,"sha256":"16e0ec3cfd398b938f514de95ff2474b532b5061ada78f92226dba3f7584d55d"},
+    "windows_release_x86_64_console.exe": {"bytes":188928,"sha256":"7895a7873947deaff6c8c859c1f77be051023413035048e2db74ceba07a65017"}
+  },
+  "requiredDependencies": ["KingdomZombies.dll", "KingdomZombies.Core.dll", "KingdomZombies.Multiplayer.Abstractions.dll", "GodotSharp.dll", "KingdomZombies.runtimeconfig.json", "KingdomZombies.deps.json", "hostfxr.dll", "hostpolicy.dll", "coreclr.dll", "System.Private.CoreLib.dll"],
+  "scope": "Source/headless feasibility only; complete pack and rendered/listening acceptance remain 04-31/04-32/04-33",
+  "documentation": ["https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_windows.html", "https://github.com/godotengine/godot/blob/4.7.2-stable/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs"]
+}

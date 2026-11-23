@@ -90,21 +90,11 @@ internal static class BoundaryFixture
                 location: project + "\n" + string.Join(separator: "\n", values: errors));
     }
 
-    /// <summary>Requires a compiled service contract to reject Core values, Core enums and engine identities.</summary>
+    /// <summary>Requires a compiled service contract to reject Core values, enums and real built game types.</summary>
     internal static void Port(string id, string dependency)
     {
         var fixture = new GraphFixture();
         bool engine = StringComparer.Ordinal.Equals(x: dependency, y: "engine");
-        if (engine)
-        {
-            string game = Path.Combine(path1: fixture.Root, path2: ProjectEvaluator.Expected[2]);
-            fixture.Write(relative: ProjectEvaluator.Expected[2], content: File.ReadAllText(path: game).Replace(
-                    oldValue: "    <ProjectReference Include=\"../multiplayer-abstractions/"
-                            + "KingdomZombies.Multiplayer.Abstractions.csproj\" />\n", newValue: "",
-                    comparisonType: StringComparison.Ordinal));
-        }
-
-        string target = engine ? "../game/KingdomZombies.csproj" : "../core/KingdomZombies.Core.csproj";
         if (StringComparer.Ordinal.Equals(x: dependency, y: "enum"))
         {
             fixture.Write(relative: "src/godot-game/core/BoundaryKind.cs", content: File.ReadAllText(path: Path.Combine(
@@ -118,8 +108,12 @@ internal static class BoundaryFixture
 
         string type = engine ? "KingdomZombies.Proofs.Phase1" : dependency is "enum"
                 ? "KingdomZombies.Phase1.Tests.Models.BoundaryKind" : "KingdomZombies.Core.ProofValue";
-        fixture.Append(project: ProjectEvaluator.Expected[1], xml: "<ItemGroup><ProjectReference Include=\""
-                + target + "\"/></ItemGroup>");
+        string reference = engine
+                ? "<Reference Include=\"KingdomZombies\"><HintPath>"
+                        + "../game/.godot/mono/temp/bin/Debug/KingdomZombies.dll</HintPath>"
+                        + "<Private>false</Private></Reference>"
+                : "<ProjectReference Include=\"../core/KingdomZombies.Core.csproj\"/>";
+        fixture.Append(project: ProjectEvaluator.Expected[1], xml: "<ItemGroup>" + reference + "</ItemGroup>");
         fixture.Write(relative: "src/godot-game/multiplayer-abstractions/Subject.cs", content:
                 "namespace Boundary;\n\ninternal interface Subject\n{\n    " + type + " Read();\n}\n");
         fixture.Compile(project: ProjectEvaluator.Expected[1], restore: true);

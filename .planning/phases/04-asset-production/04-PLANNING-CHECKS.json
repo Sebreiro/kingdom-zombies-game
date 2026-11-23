@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "phase": "04",
+  "status": "Frozen03 generated-authentication prerequisite planned; all37 schema/structure/decision/identity/ownership/frozen-source probes pass; independent typed checker pending",
+  "checks": {
+    "frontmatter": {
+      "plans": 37,
+      "valid": 37
+    },
+    "planStructure": {
+      "plans": 37,
+      "valid": 37,
+      "errors": 0,
+      "warnings": 0
+    },
+    "coverage": {
+      "obligations": 180,
+      "acceptance": 24,
+      "domainBackstops": 34,
+      "uiBackstops": 70,
+      "lockedDecisions": 32,
+      "judgmentProhibitions": 4,
+      "structuredBackstopTruths": 104
+    },
+    "ownership": {
+      "plans": 37,
+      "tasks": 74,
+      "waves": 31,
+      "maximumFilesPerPlan": 9,
+      "maximumFilesPerTask": 5,
+      "sameWaveFileOverlap": 0,
+      "plannedDistinctPaths": 229
+    },
+    "security": {
+      "uniqueThreatIds": 111,
+      "supplyChainId": "T-04-SC reserved/repeated",
+      "asvsLevel": 1,
+      "blockOn": "high"
+    },
+    "canonicalFileTails": {
+      "closedOutputTag": 37,
+      "continuationSentinel": 0
+    },
+    "research": {
+      "unresolvedOpenQuestions": 0,
+      "routeStatus": "RESOLVED; actual export/listening/production evidence remains pending"
+    }
+  },
+  "evidenceLimit": "Planning/schema/identity checks only. No production media, new source test, listening, export execution or native window run was performed by the planner. Parent's template acquisition observation is separate.",
+  "commit": "Not committed by planner; parent owns commits/PR lifecycle.",
+  "revision": 1,
+  "history": [
+    {
+      "iteration": 0,
+      "plans": 24,
+      "tasks": 54,
+      "waves": 19,
+      "frontmatterValid": 24,
+      "structureValid": 24,
+      "coverage": {
+        "obligations": 180,
+        "acceptance": 24,
+        "heldout": 34,
+        "ui": 70,
+        "decisions": 32,
+        "prohibitions": 4
+      },
+      "originalIndependentReport": "04-PLAN-CHECK.md"
+    },
+    {
+      "kind": "revision1-before-SDK-export-prerequisite",
+      "plans": 33,
+      "tasks": 66,
+      "waves": 27,
+      "record": "04-REVISION-1-CHECKS.json"
+    },
+    {
+      "kind": "before-permanent-inspection-export-profile",
+      "plans": 34,
+      "tasks": 68,
+      "waves": 28,
+      "record": "04-EXPORT-PREREQUISITE.md",
+      "completedSDKPrerequisiteSummary": "04-34-SUMMARY.md"
+    },
+    {
+      "kind": "before-case-discovery-and-packaged-expectations",
+      "plans": 35,
+      "tasks": 70,
+      "waves": 29,
+      "record": "04-INSPECTION-EXPORT-PROFILE.md",
+      "completedSummaries": [
+        "04-01-SUMMARY.md",
+        "04-25-SUMMARY.md",
+        "04-34-SUMMARY.md",
+        "04-35-SUMMARY.md",
+        "04-02-SUMMARY.md"
+      ]
+    },
+    {
+      "kind": "before-integration-consumer-revision1",
+      "plans": 36,
+      "tasks": 72,
+      "waves": 30,
+      "record": "04-INTEGRATION-PLANNING-CHECKS.json",
+      "index": "04-INTEGRATION-PLAN-INDEX.json",
+      "report": "04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md"
+    },
+    {
+      "kind": "before-frozen03-generated-authentication",
+      "plans": 36,
+      "tasks": 72,
+      "waves": 30,
+      "record": "04-INTEGRATION-REVISION-1-CHECKS.json",
+      "completedSourcePlans": 6,
+      "partial03": "04-03-GENERATED-CHECKPOINT.md"
+    }
+  ],
+  "prerequisite": "04-37",
+  "exportPrerequisiteCheck": {
+    "newPlan": "04-34",
+    "tasks": 2,
+    "files": 7,
+    "dependsOn": "04-25",
+    "precedesUnfinished": "04-02 Task 1",
+    "protectedFiles": 6,
+    "protectedHashesUnchanged": true,
+    "actualNewSourceProofs": "not executed",
+    "newASSETRequirements": 0,
+    "newContentAcceptance": 0,
+    "planningSnapshot": "Historical34 planning snapshot; actual executed result is in immutable04-34-SUMMARY.md."
+  },
+  "profilePrerequisiteCheck": {
+    "newPlan": "04-35",
+    "tasks": 2,
+    "files": 5,
+    "dependsOn": "04-34",
+    "precedesUnfinished": "04-02 Task 1",
+    "presetOwnership": "transferred from02 to35; actual single named preset retained",
+    "caseMetadata": {
+      "runGroup": "G0-export-profile",
+      "orders": [
+        350,
+        351
+      ]
+    },
+    "protectedFiles": 9,
+    "protectedHashesUnchanged": true,
+    "newSourceCases": "not executed",
+    "actualNativeInspectionConsumer": "pending04-02 Task1",
+    "newAcceptanceIdentities": 0
+  },
+  "integrationPrerequisiteCheck": {
+    "newPlan": "04-36",
+    "tasks": 2,
+    "files": 7,
+    "dependsOn": [
+      "04-02",
+      "04-25"
+    ],
+    "precedesUnstarted": "04-03",
+    "caseMetadata": {
+      "runGroup": "G0-integration",
+      "orders": [
+        360,
+        361
+      ]
+    },
+    "readyPlans": [
+      "04-36"
+    ],
+    "originalIdentityArraysUnchanged": {
+      "obligations": true,
+      "acceptance": true,
+      "heldout": true,
+      "ui": true,
+      "decisions": true,
+      "prohibitions": true
+    },
+    "sourceCases": "pending creation/execution",
+    "productionSourceEdited": false,
+    "completedSummariesEdited": false,
+    "newAcceptanceIdentities": 0,
+    "record": "04-INTEGRATION-PLANNING-CHECKS.json"
+  },
+  "integrationConsumerRevision1": {
+    "report": "04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md",
+    "blockersAddressed": 1,
+    "blockersRemaining": 0,
+    "record": "04-INTEGRATION-REVISION-1-CHECKS.json",
+    "inputs": "04-INTEGRATION-REVISION-1-INPUTS.json",
+    "probe": "04-INTEGRATION-REVISION-1-PROBE.cjs",
+    "index": "04-INTEGRATION-REVISION-1-PLAN-INDEX.json",
+    "plan31Files": 9,
+    "task31Files": [
+      5,
+      5
+    ],
+    "codeOwner": "04-31 Task1",
+    "finalGroupOwner": "04-31 Task2",
+    "sourceIdentityFieldsUnchanged": {
+      "obligations": true,
+      "acceptance": true,
+      "heldout": true,
+      "ui": true,
+      "decisions": true,
+      "prohibitions": true
+    },
+    "readyPlans": [
+      "04-36"
+    ],
+    "scopeIdentityChanges": 0
+  },
+  "generatedAuthenticationPrerequisite": {
+    "plan": "04-37",
+    "depends_on": [
+      "04-36"
+    ],
+    "partialSubject": "08035ba frozen five-path precondition; no03 SUMMARY dependency",
+    "files": 9,
+    "tasks": 2,
+    "taskFileCounts": [
+      5,
+      4
+    ],
+    "nativeGateTask": 2,
+    "plan03Files": 7,
+    "plan26Files": 9,
+    "record": "04-GENERATED-PLANNING-CHECKS.json",
+    "inputs": "04-GENERATED-PLANNING-INPUTS.json",
+    "probe": "04-GENERATED-PLAN-PROBE.cjs",
+    "index": "04-GENERATED-PLAN-INDEX.json",
+    "readyPlans": [
+      "04-37"
+    ],
+    "allSixCoverageArraysUnchanged": {
+      "obligations": true,
+      "acceptance": true,
+      "heldout": true,
+      "ui": true,
+      "decisions": true,
+      "prohibitions": true
+    },
+    "productionEdited": false,
+    "newAcceptanceIdentities": 0
+  }
+}

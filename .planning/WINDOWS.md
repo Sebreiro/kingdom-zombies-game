@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 2
+open_count: 5
 waived_count: 0
 fixed_count: 26
-total_count: 28
-last_updated: 2026-11-14T16:47:55.807Z
+total_count: 31
+last_updated: 2026-11-17T03:31:25.883Z
 ---
 
 # Broken Windows Ledger
@@ -42,7 +42,10 @@ last_updated: 2026-11-14T16:47:55.807Z
 | 25 | 01 | deviation | tools/phase1/bootstrap.cjs |  | 01-16 clean setup required supported Windows ZIP extraction and exact canonical managed archive packages on both native platforms; verified by clean bootstrap, locked builds and final 670 accepted controls. | fixed |  | 2026-11-14T15:42:03.004Z | 2026-11-14T15:43:30.009Z |
 | 26 | 01 | deviation | tools/code-rules/GeneratedLayout.cs |  | 01-16 actual Linux SDK emits distinct exact assembly-attribute bytes; authenticated two Linux source variants and producer identity at unchanged suffix/line boundaries, with actual builds and passing origin/boundary controls. | fixed |  | 2026-11-14T15:42:03.428Z | 2026-11-14T15:43:30.385Z |
 | 27 | 01 | deviation | tests/phase1/ExemptionValidator.cs |  | 01-16 actual Linux testing-platform helper has one MSBuild-hook newline variant; authenticated its exact raw source at the same member/package scope, with actual permission reader and passing origin/collision controls. | fixed |  | 2026-11-14T15:42:03.803Z | 2026-11-14T15:43:30.753Z |
-| 28 | 01 | unmet-truth | docs/workflow/platform-proof.md |  | 01-17 actual same-source Linux selection accepts seven of sixteen cases; nine required analyzer/graph/project/native selectors hit unchanged 45-second limits on TCG. Clean locked restore, strict build and raw native bootstrap pass; a longer diagnostic is not acceptance. Linux capacity remains blocking. | open |  | 2026-11-14T16:47:55.807Z |  |
+| 28 | 01 | unmet-truth | docs/workflow/platform-proof.md |  | 01-17 final complete 676-case Linux-VM acceptance remains pending for repaired source 59f032c. Matching clean source/input and authenticated tools/cache are prepared; owned TCG guest shut down cleanly, but HypervisorPresent remains false until the creator restarts Windows and actual WHPX startup is verified. Historical f4658bb representative run accepted seven of sixteen cases with nine unchanged-deadline TCG timeouts; longer diagnostics supply no acceptance. Keep this gap open until complete current Linux scope passes under unchanged checks/deadlines. | open |  | 2026-11-14T16:47:55.807Z |  |
+| 29 | 04 | deviation | src/godot-game/content/pack-index.json |  | 04-04 extra source.provenance adb38f27-592b-4700-880c-3fa1d65d0c15 on committed1ffe807 failed PARTIAL_PACK_REQUIRED: common.bow has a stale Inspection.tscn hash binding. Upstream snapshot/index/tracer inputs are unchanged across5533fff..1ffe807; new media conversion/scale/discovery gates pass independently. Active within-phase repair owner04-23 for current shard/index/provenance adoption and04-31 for current-hub tracer/export reconciliation, required before final review and acceptance. Preserve historical hashes and failed evidence; authenticate current bindings and publish metadata atomically. Common/scale-pilot remain pending runtime adoption. | open |  | 2026-11-16T23:33:25.806Z |  |
+| 30 | 04 | deviation | tests/phase1/EngineAccessPolicy.cs |  | 04-06 fresh source-policy cc21a87b fails 290 actual operations:166 BuildingPreview/17 methods and124 CharacterPreview/11 methods. Exact operations recorded in04-06-r4-policy-observation; final exact native permissions/positive-negative guard controls belong04-23 per04-06 plan. Required open phase integration failure before independent review, no waiver or policy pass. | open |  | 2026-11-17T03:31:20.745Z |  |
+| 31 | 04 | deviation | tests/phase1/EngineGeneratedTests.cs | 751 | 04-06 generated-boundary ae38be89 fails CurrentProducer Single(no matching current source-path/hash cohort),102s not timeout. Original cohorts/controls unchanged; generated-origin and hub current capture pass. Final04-23 must authenticate final actual producer inputs/output and retain historical replay/negative controls before independent review; no test/permission relaxation or inferred pass. | open |  | 2026-11-17T03:31:25.883Z |  |
 
 ````json
 [
@@ -407,6 +410,45 @@ last_updated: 2026-11-14T16:47:55.807Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-14T16:47:55.807Z",
+    "resolved_at": null,
+    "milestone": "v0.1"
+  },
+  {
+    "id": 29,
+    "kind": "deviation",
+    "phase": "04",
+    "file": "src/godot-game/content/pack-index.json",
+    "line": null,
+    "description": "04-04 extra source.provenance adb38f27-592b-4700-880c-3fa1d65d0c15 on committed1ffe807 failed PARTIAL_PACK_REQUIRED: common.bow has a stale Inspection.tscn hash binding. Upstream snapshot/index/tracer inputs are unchanged across5533fff..1ffe807; new media conversion/scale/discovery gates pass independently. Active within-phase repair owner04-23 for current shard/index/provenance adoption and04-31 for current-hub tracer/export reconciliation, required before final review and acceptance. Preserve historical hashes and failed evidence; authenticate current bindings and publish metadata atomically. Common/scale-pilot remain pending runtime adoption.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-11-16T23:33:25.806Z",
+    "resolved_at": null,
+    "milestone": "v0.1"
+  },
+  {
+    "id": 30,
+    "kind": "deviation",
+    "phase": "04",
+    "file": "tests/phase1/EngineAccessPolicy.cs",
+    "line": null,
+    "description": "04-06 fresh source-policy cc21a87b fails 290 actual operations:166 BuildingPreview/17 methods and124 CharacterPreview/11 methods. Exact operations recorded in04-06-r4-policy-observation; final exact native permissions/positive-negative guard controls belong04-23 per04-06 plan. Required open phase integration failure before independent review, no waiver or policy pass.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-11-17T03:31:20.745Z",
+    "resolved_at": null,
+    "milestone": "v0.1"
+  },
+  {
+    "id": 31,
+    "kind": "deviation",
+    "phase": "04",
+    "file": "tests/phase1/EngineGeneratedTests.cs",
+    "line": 751,
+    "description": "04-06 generated-boundary ae38be89 fails CurrentProducer Single(no matching current source-path/hash cohort),102s not timeout. Original cohorts/controls unchanged; generated-origin and hub current capture pass. Final04-23 must authenticate final actual producer inputs/output and retain historical replay/negative controls before independent review; no test/permission relaxation or inferred pass.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-11-17T03:31:25.883Z",
     "resolved_at": null,
     "milestone": "v0.1"
   }

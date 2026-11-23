@@ -1,0 +1,4159 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "id": "fits-c",
+  "logicalPixelsPerWorldPixel": 1,
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "humanApproval": null,
+    "completedObligations": []
+  },
+  "bindings": [
+    {
+      "path": "content/packs/bodies-c.json",
+      "sha256": "b0320abb367f4667a304830450354c4a608edc65803b2626205ab36ab8a5680a"
+    },
+    {
+      "path": "content/packs/items-01-10.json",
+      "sha256": "9402295cc6457d42d53a7b4a8ada19bc06711d6db8f600386f49b05a238686b7"
+    },
+    {
+      "path": "content/packs/items-11-24.json",
+      "sha256": "78761a40c0e0b7a22ef9885ee847338fd7315ce69014756608a0bc965fe0a826"
+    }
+  ],
+  "slots": [
+    {
+      "id": "headwear",
+      "label": "Headwear",
+      "items": [
+        "IT-14",
+        "IT-18"
+      ]
+    },
+    {
+      "id": "face",
+      "label": "Face",
+      "items": [
+        "IT-15"
+      ]
+    },
+    {
+      "id": "torso",
+      "label": "Torso",
+      "items": [
+        "IT-11",
+        "IT-13"
+      ]
+    },
+    {
+      "id": "legs",
+      "label": "Legs",
+      "items": [
+        "IT-12"
+      ]
+    },
+    {
+      "id": "armor",
+      "label": "Body armor",
+      "items": [
+        "IT-19",
+        "IT-20"
+      ]
+    },
+    {
+      "id": "gloves",
+      "label": "Gloves",
+      "items": [
+        "IT-16"
+      ]
+    },
+    {
+      "id": "boots",
+      "label": "Boots",
+      "items": [
+        "IT-17"
+      ]
+    },
+    {
+      "id": "backpack",
+      "label": "Backpack",
+      "items": [
+        "IT-23",
+        "IT-24"
+      ]
+    },
+    {
+      "id": "belt",
+      "label": "Belt",
+      "items": [
+        "IT-21"
+      ]
+    },
+    {
+      "id": "left",
+      "label": "Left hand",
+      "items": [
+        "IT-02",
+        "IT-03",
+        "IT-04",
+        "IT-05",
+        "IT-06",
+        "IT-07",
+        "IT-08",
+        "IT-09",
+        "IT-10"
+      ]
+    },
+    {
+      "id": "right",
+      "label": "Right hand",
+      "items": [
+        "IT-02",
+        "IT-03",
+        "IT-04",
+        "IT-05",
+        "IT-06",
+        "IT-07",
+        "IT-08",
+        "IT-09",
+        "IT-10"
+      ]
+    }
+  ],
+  "bodies": [
+    {
+      "id": "CH-06",
+      "width": 5,
+      "componentWidths": {
+        "sleeve-left-front": 3,
+        "sleeve-left-rear": 3,
+        "sleeve-right-front": 3,
+        "sleeve-right-rear": 3,
+        "waist": 7,
+        "leg-left": 3,
+        "leg-right": 3,
+        "hem": 7,
+        "belt-front": 7,
+        "belt-rear": 7,
+        "pouch-left": 7,
+        "pouch-right": 7
+      },
+      "poses": [
+        {
+          "id": "idle",
+          "bodyParts": {
+            "full": "CH-06.idle.full",
+            "head": "CH-06.idle.head",
+            "upper": "CH-06.idle.upper",
+            "lower": "CH-06.idle.lower"
+          },
+          "anchors": {
+            "head": [
+              30,
+              11
+            ],
+            "face": [
+              31,
+              13
+            ],
+            "torso": [
+              25,
+              17
+            ],
+            "hips": [
+              24,
+              27
+            ],
+            "backpack": [
+              23,
+              19
+            ],
+            "leftShoulder": [
+              24,
+              18
+            ],
+            "rightShoulder": [
+              26,
+              18
+            ],
+            "leftHand": [
+              25,
+              30
+            ],
+            "rightHand": [
+              28,
+              29
+            ],
+            "leftFoot": [
+              22,
+              37
+            ],
+            "rightFoot": [
+              27,
+              37
+            ]
+          },
+          "torsoLength": 10,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            31,
+            13
+          ]
+        },
+        {
+          "id": "walk-near",
+          "bodyParts": {
+            "full": "CH-06.walk-near.full",
+            "head": "CH-06.walk-near.head",
+            "upper": "CH-06.walk-near.upper",
+            "lower": "CH-06.walk-near.lower"
+          },
+          "anchors": {
+            "head": [
+              31,
+              11
+            ],
+            "face": [
+              32,
+              13
+            ],
+            "torso": [
+              25,
+              17
+            ],
+            "hips": [
+              24,
+              26
+            ],
+            "backpack": [
+              22,
+              19
+            ],
+            "leftShoulder": [
+              24,
+              18
+            ],
+            "rightShoulder": [
+              26,
+              18
+            ],
+            "leftHand": [
+              22,
+              27
+            ],
+            "rightHand": [
+              29,
+              30
+            ],
+            "leftFoot": [
+              20,
+              37
+            ],
+            "rightFoot": [
+              31,
+              36
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            32,
+            13
+          ]
+        },
+        {
+          "id": "walk-far",
+          "bodyParts": {
+            "full": "CH-06.walk-far.full",
+            "head": "CH-06.walk-far.head",
+            "upper": "CH-06.walk-far.upper",
+            "lower": "CH-06.walk-far.lower"
+          },
+          "anchors": {
+            "head": [
+              30,
+              11
+            ],
+            "face": [
+              31,
+              13
+            ],
+            "torso": [
+              24,
+              17
+            ],
+            "hips": [
+              24,
+              26
+            ],
+            "backpack": [
+              22,
+              19
+            ],
+            "leftShoulder": [
+              23,
+              18
+            ],
+            "rightShoulder": [
+              26,
+              18
+            ],
+            "leftHand": [
+              28,
+              28
+            ],
+            "rightHand": [
+              22,
+              29
+            ],
+            "leftFoot": [
+              30,
+              37
+            ],
+            "rightFoot": [
+              18,
+              35
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            31,
+            13
+          ]
+        },
+        {
+          "id": "run",
+          "bodyParts": {
+            "full": "CH-06.run.full",
+            "head": "CH-06.run.head",
+            "upper": "CH-06.run.upper",
+            "lower": "CH-06.run.lower"
+          },
+          "anchors": {
+            "head": [
+              34,
+              13
+            ],
+            "face": [
+              36,
+              15
+            ],
+            "torso": [
+              27,
+              20
+            ],
+            "hips": [
+              23,
+              27
+            ],
+            "backpack": [
+              23,
+              22
+            ],
+            "leftShoulder": [
+              25,
+              20
+            ],
+            "rightShoulder": [
+              29,
+              21
+            ],
+            "leftHand": [
+              17,
+              24
+            ],
+            "rightHand": [
+              32,
+              23
+            ],
+            "leftFoot": [
+              15,
+              32
+            ],
+            "rightFoot": [
+              34,
+              37
+            ]
+          },
+          "torsoLength": 8,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            36,
+            15
+          ]
+        },
+        {
+          "id": "windup",
+          "bodyParts": {
+            "full": "CH-06.windup.full",
+            "head": "CH-06.windup.head",
+            "upper": "CH-06.windup.upper",
+            "lower": "CH-06.windup.lower"
+          },
+          "anchors": {
+            "head": [
+              27,
+              11
+            ],
+            "face": [
+              28,
+              13
+            ],
+            "torso": [
+              24,
+              16
+            ],
+            "hips": [
+              23,
+              26
+            ],
+            "backpack": [
+              21,
+              19
+            ],
+            "leftShoulder": [
+              23,
+              17
+            ],
+            "rightShoulder": [
+              25,
+              18
+            ],
+            "leftHand": [
+              20,
+              22
+            ],
+            "rightHand": [
+              28,
+              24
+            ],
+            "leftFoot": [
+              20,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 10,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            28,
+            13
+          ]
+        },
+        {
+          "id": "strike",
+          "bodyParts": {
+            "full": "CH-06.strike.full",
+            "head": "CH-06.strike.head",
+            "upper": "CH-06.strike.upper",
+            "lower": "CH-06.strike.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              13
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              22,
+              18
+            ],
+            "hips": [
+              20,
+              27
+            ],
+            "backpack": [
+              19,
+              21
+            ],
+            "leftShoulder": [
+              20,
+              19
+            ],
+            "rightShoulder": [
+              24,
+              20
+            ],
+            "leftHand": [
+              33,
+              18
+            ],
+            "rightHand": [
+              35,
+              20
+            ],
+            "leftFoot": [
+              18,
+              37
+            ],
+            "rightFoot": [
+              26,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            30,
+            14
+          ]
+        },
+        {
+          "id": "recover",
+          "bodyParts": {
+            "full": "CH-06.recover.full",
+            "head": "CH-06.recover.head",
+            "upper": "CH-06.recover.upper",
+            "lower": "CH-06.recover.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              12
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              24,
+              18
+            ],
+            "hips": [
+              22,
+              26
+            ],
+            "backpack": [
+              21,
+              20
+            ],
+            "leftShoulder": [
+              23,
+              18
+            ],
+            "rightShoulder": [
+              26,
+              19
+            ],
+            "leftHand": [
+              28,
+              23
+            ],
+            "rightHand": [
+              33,
+              26
+            ],
+            "leftFoot": [
+              19,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 8,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            30,
+            14
+          ]
+        },
+        {
+          "id": "aim",
+          "bodyParts": {
+            "full": "CH-06.aim.full",
+            "head": "CH-06.aim.head",
+            "upper": "CH-06.aim.upper",
+            "lower": "CH-06.aim.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              12
+            ],
+            "face": [
+              29,
+              14
+            ],
+            "torso": [
+              22,
+              18
+            ],
+            "hips": [
+              20,
+              27
+            ],
+            "backpack": [
+              19,
+              20
+            ],
+            "leftShoulder": [
+              21,
+              18
+            ],
+            "rightShoulder": [
+              24,
+              19
+            ],
+            "leftHand": [
+              36,
+              18
+            ],
+            "rightHand": [
+              27,
+              16
+            ],
+            "leftFoot": [
+              18,
+              37
+            ],
+            "rightFoot": [
+              27,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            29,
+            14
+          ]
+        },
+        {
+          "id": "hit",
+          "bodyParts": {
+            "full": "CH-06.hit.full",
+            "head": "CH-06.hit.head",
+            "upper": "CH-06.hit.upper",
+            "lower": "CH-06.hit.lower"
+          },
+          "anchors": {
+            "head": [
+              21,
+              13
+            ],
+            "face": [
+              22,
+              15
+            ],
+            "torso": [
+              23,
+              19
+            ],
+            "hips": [
+              26,
+              27
+            ],
+            "backpack": [
+              20,
+              21
+            ],
+            "leftShoulder": [
+              21,
+              19
+            ],
+            "rightShoulder": [
+              24,
+              20
+            ],
+            "leftHand": [
+              24,
+              26
+            ],
+            "rightHand": [
+              31,
+              24
+            ],
+            "leftFoot": [
+              25,
+              37
+            ],
+            "rightFoot": [
+              31,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            22,
+            15
+          ]
+        },
+        {
+          "id": "collapse-a",
+          "bodyParts": {
+            "full": "CH-06.collapse-a.full",
+            "head": "CH-06.collapse-a.head",
+            "upper": "CH-06.collapse-a.upper",
+            "lower": "CH-06.collapse-a.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              20
+            ],
+            "face": [
+              31,
+              21
+            ],
+            "torso": [
+              24,
+              24
+            ],
+            "hips": [
+              21,
+              30
+            ],
+            "backpack": [
+              22,
+              25
+            ],
+            "leftShoulder": [
+              23,
+              24
+            ],
+            "rightShoulder": [
+              26,
+              25
+            ],
+            "leftHand": [
+              26,
+              32
+            ],
+            "rightHand": [
+              28,
+              34
+            ],
+            "leftFoot": [
+              21,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 7,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            31,
+            21
+          ]
+        },
+        {
+          "id": "collapse-b",
+          "bodyParts": {
+            "full": "CH-06.collapse-b.full",
+            "head": "CH-06.collapse-b.head",
+            "upper": "CH-06.collapse-b.upper",
+            "lower": "CH-06.collapse-b.lower"
+          },
+          "anchors": {
+            "head": [
+              32,
+              24
+            ],
+            "face": [
+              33,
+              25
+            ],
+            "torso": [
+              24,
+              28
+            ],
+            "hips": [
+              19,
+              32
+            ],
+            "backpack": [
+              21,
+              29
+            ],
+            "leftShoulder": [
+              23,
+              28
+            ],
+            "rightShoulder": [
+              26,
+              28
+            ],
+            "leftHand": [
+              30,
+              37
+            ],
+            "rightHand": [
+              35,
+              37
+            ],
+            "leftFoot": [
+              16,
+              38
+            ],
+            "rightFoot": [
+              22,
+              38
+            ]
+          },
+          "torsoLength": 6,
+          "persistent": false,
+          "unlinkedRotation": 1.5707963267948966,
+          "mouthRelease": [
+            33,
+            25
+          ]
+        },
+        {
+          "id": "corpse",
+          "bodyParts": {
+            "full": "CH-06.corpse.full",
+            "head": "CH-06.corpse.head",
+            "upper": "CH-06.corpse.upper",
+            "lower": "CH-06.corpse.lower"
+          },
+          "anchors": {
+            "head": [
+              38,
+              35
+            ],
+            "face": [
+              40,
+              35
+            ],
+            "torso": [
+              31,
+              34
+            ],
+            "hips": [
+              24,
+              35
+            ],
+            "backpack": [
+              27,
+              35
+            ],
+            "leftShoulder": [
+              29,
+              35
+            ],
+            "rightShoulder": [
+              34,
+              35
+            ],
+            "leftHand": [
+              31,
+              37
+            ],
+            "rightHand": [
+              36,
+              36
+            ],
+            "leftFoot": [
+              12,
+              36
+            ],
+            "rightFoot": [
+              16,
+              36
+            ]
+          },
+          "torsoLength": 7,
+          "persistent": true,
+          "unlinkedRotation": 1.5707963267948966,
+          "mouthRelease": [
+            40,
+            35
+          ]
+        },
+        {
+          "id": "sit",
+          "bodyParts": {
+            "full": "CH-06.sit.full",
+            "head": "CH-06.sit.head",
+            "upper": "CH-06.sit.upper",
+            "lower": "CH-06.sit.lower"
+          },
+          "anchors": {
+            "head": [
+              26,
+              20
+            ],
+            "face": [
+              27,
+              21
+            ],
+            "torso": [
+              22,
+              25
+            ],
+            "hips": [
+              21,
+              31
+            ],
+            "backpack": [
+              19,
+              26
+            ],
+            "leftShoulder": [
+              21,
+              25
+            ],
+            "rightShoulder": [
+              23,
+              25
+            ],
+            "leftHand": [
+              27,
+              27
+            ],
+            "rightHand": [
+              29,
+              28
+            ],
+            "leftFoot": [
+              26,
+              37
+            ],
+            "rightFoot": [
+              30,
+              37
+            ]
+          },
+          "torsoLength": 6,
+          "persistent": false,
+          "unlinkedRotation": 0.0,
+          "mouthRelease": [
+            27,
+            21
+          ]
+        },
+        {
+          "id": "gather",
+          "bodyParts": {
+            "full": "CH-06.gather.full",
+            "head": "CH-06.gather.head",
+            "upper": "CH-06.gather.upper",
+            "lower": "CH-06.gather.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              22
+            ],
+            "face": [
+              29,
+              23
+            ],
+            "torso": [
+              24,
+              25
+            ],
+            "hips": [
+              21,
+              32
+            ],
+            "backpack": [
+              21,
+              27
+            ],
+            "leftShoulder": [
+              22,
+              26
+            ],
+            "rightShoulder": [
+              25,
+              26
+            ],
+            "leftHand": [
+              25,
+              32
+            ],
+            "rightHand": [
+              33,
+              37
+            ],
+            "leftFoot": [
+              20,
+              37
+            ],
+            "rightFoot": [
+              24,
+              37
+            ]
+          },
+          "torsoLength": 8,
+          "persistent": false,
+          "unlinkedRotation": 0.0,
+          "mouthRelease": [
+            29,
+            23
+          ]
+        },
+        {
+          "id": "eat",
+          "bodyParts": {
+            "full": "CH-06.eat.full",
+            "head": "CH-06.eat.head",
+            "upper": "CH-06.eat.upper",
+            "lower": "CH-06.eat.lower"
+          },
+          "anchors": {
+            "head": [
+              30,
+              14
+            ],
+            "face": [
+              31,
+              15
+            ],
+            "torso": [
+              24,
+              19
+            ],
+            "hips": [
+              23,
+              27
+            ],
+            "backpack": [
+              21,
+              21
+            ],
+            "leftShoulder": [
+              23,
+              20
+            ],
+            "rightShoulder": [
+              25,
+              20
+            ],
+            "leftHand": [
+              24,
+              29
+            ],
+            "rightHand": [
+              31,
+              17
+            ],
+            "leftFoot": [
+              21,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 8,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            31,
+            15
+          ]
+        },
+        {
+          "id": "carry",
+          "bodyParts": {
+            "full": "CH-06.carry.full",
+            "head": "CH-06.carry.head",
+            "upper": "CH-06.carry.upper",
+            "lower": "CH-06.carry.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              13
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              23,
+              18
+            ],
+            "hips": [
+              22,
+              27
+            ],
+            "backpack": [
+              21,
+              21
+            ],
+            "leftShoulder": [
+              22,
+              19
+            ],
+            "rightShoulder": [
+              25,
+              20
+            ],
+            "leftHand": [
+              29,
+              23
+            ],
+            "rightHand": [
+              32,
+              22
+            ],
+            "leftFoot": [
+              20,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": [
+            30,
+            14
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CH-07",
+      "width": 5,
+      "componentWidths": {
+        "sleeve-left-front": 3,
+        "sleeve-left-rear": 3,
+        "sleeve-right-front": 3,
+        "sleeve-right-rear": 3,
+        "waist": 7,
+        "leg-left": 3,
+        "leg-right": 3,
+        "hem": 7,
+        "belt-front": 7,
+        "belt-rear": 7,
+        "pouch-left": 7,
+        "pouch-right": 7
+      },
+      "poses": [
+        {
+          "id": "idle",
+          "bodyParts": {
+            "full": "CH-07.idle.full",
+            "head": "CH-07.idle.head",
+            "upper": "CH-07.idle.upper",
+            "lower": "CH-07.idle.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              11
+            ],
+            "face": [
+              30,
+              13
+            ],
+            "torso": [
+              24,
+              17
+            ],
+            "hips": [
+              23,
+              27
+            ],
+            "backpack": [
+              22,
+              19
+            ],
+            "leftShoulder": [
+              23,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              18
+            ],
+            "leftHand": [
+              24,
+              30
+            ],
+            "rightHand": [
+              28,
+              29
+            ],
+            "leftFoot": [
+              21,
+              37
+            ],
+            "rightFoot": [
+              26,
+              37
+            ]
+          },
+          "torsoLength": 10,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "walk-near",
+          "bodyParts": {
+            "full": "CH-07.walk-near.full",
+            "head": "CH-07.walk-near.head",
+            "upper": "CH-07.walk-near.upper",
+            "lower": "CH-07.walk-near.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              11
+            ],
+            "face": [
+              30,
+              13
+            ],
+            "torso": [
+              24,
+              17
+            ],
+            "hips": [
+              23,
+              26
+            ],
+            "backpack": [
+              21,
+              19
+            ],
+            "leftShoulder": [
+              23,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              18
+            ],
+            "leftHand": [
+              21,
+              27
+            ],
+            "rightHand": [
+              27,
+              30
+            ],
+            "leftFoot": [
+              19,
+              37
+            ],
+            "rightFoot": [
+              30,
+              36
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "walk-far",
+          "bodyParts": {
+            "full": "CH-07.walk-far.full",
+            "head": "CH-07.walk-far.head",
+            "upper": "CH-07.walk-far.upper",
+            "lower": "CH-07.walk-far.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              11
+            ],
+            "face": [
+              30,
+              13
+            ],
+            "torso": [
+              24,
+              17
+            ],
+            "hips": [
+              23,
+              26
+            ],
+            "backpack": [
+              21,
+              19
+            ],
+            "leftShoulder": [
+              23,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              18
+            ],
+            "leftHand": [
+              27,
+              28
+            ],
+            "rightHand": [
+              22,
+              29
+            ],
+            "leftFoot": [
+              28,
+              37
+            ],
+            "rightFoot": [
+              18,
+              35
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "run",
+          "bodyParts": {
+            "full": "CH-07.run.full",
+            "head": "CH-07.run.head",
+            "upper": "CH-07.run.upper",
+            "lower": "CH-07.run.lower"
+          },
+          "anchors": {
+            "head": [
+              33,
+              12
+            ],
+            "face": [
+              35,
+              13
+            ],
+            "torso": [
+              26,
+              18
+            ],
+            "hips": [
+              23,
+              26
+            ],
+            "backpack": [
+              22,
+              21
+            ],
+            "leftShoulder": [
+              24,
+              19
+            ],
+            "rightShoulder": [
+              28,
+              19
+            ],
+            "leftHand": [
+              16,
+              23
+            ],
+            "rightHand": [
+              31,
+              22
+            ],
+            "leftFoot": [
+              14,
+              32
+            ],
+            "rightFoot": [
+              33,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "windup",
+          "bodyParts": {
+            "full": "CH-07.windup.full",
+            "head": "CH-07.windup.head",
+            "upper": "CH-07.windup.upper",
+            "lower": "CH-07.windup.lower"
+          },
+          "anchors": {
+            "head": [
+              26,
+              12
+            ],
+            "face": [
+              28,
+              14
+            ],
+            "torso": [
+              23,
+              17
+            ],
+            "hips": [
+              23,
+              27
+            ],
+            "backpack": [
+              21,
+              19
+            ],
+            "leftShoulder": [
+              22,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              18
+            ],
+            "leftHand": [
+              19,
+              22
+            ],
+            "rightHand": [
+              28,
+              25
+            ],
+            "leftFoot": [
+              20,
+              37
+            ],
+            "rightFoot": [
+              27,
+              37
+            ]
+          },
+          "torsoLength": 10,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "strike",
+          "bodyParts": {
+            "full": "CH-07.strike.full",
+            "head": "CH-07.strike.head",
+            "upper": "CH-07.strike.upper",
+            "lower": "CH-07.strike.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              12
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              22,
+              18
+            ],
+            "hips": [
+              19,
+              26
+            ],
+            "backpack": [
+              18,
+              20
+            ],
+            "leftShoulder": [
+              20,
+              18
+            ],
+            "rightShoulder": [
+              23,
+              19
+            ],
+            "leftHand": [
+              33,
+              17
+            ],
+            "rightHand": [
+              37,
+              19
+            ],
+            "leftFoot": [
+              17,
+              37
+            ],
+            "rightFoot": [
+              26,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "recover",
+          "bodyParts": {
+            "full": "CH-07.recover.full",
+            "head": "CH-07.recover.head",
+            "upper": "CH-07.recover.upper",
+            "lower": "CH-07.recover.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              12
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              24,
+              18
+            ],
+            "hips": [
+              22,
+              26
+            ],
+            "backpack": [
+              21,
+              20
+            ],
+            "leftShoulder": [
+              22,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              19
+            ],
+            "leftHand": [
+              27,
+              23
+            ],
+            "rightHand": [
+              33,
+              26
+            ],
+            "leftFoot": [
+              19,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 8,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "aim",
+          "bodyParts": {
+            "full": "CH-07.aim.full",
+            "head": "CH-07.aim.head",
+            "upper": "CH-07.aim.upper",
+            "lower": "CH-07.aim.lower"
+          },
+          "anchors": {
+            "head": [
+              27,
+              12
+            ],
+            "face": [
+              29,
+              14
+            ],
+            "torso": [
+              22,
+              18
+            ],
+            "hips": [
+              19,
+              27
+            ],
+            "backpack": [
+              18,
+              20
+            ],
+            "leftShoulder": [
+              20,
+              18
+            ],
+            "rightShoulder": [
+              23,
+              19
+            ],
+            "leftHand": [
+              36,
+              18
+            ],
+            "rightHand": [
+              26,
+              16
+            ],
+            "leftFoot": [
+              17,
+              37
+            ],
+            "rightFoot": [
+              26,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "hit",
+          "bodyParts": {
+            "full": "CH-07.hit.full",
+            "head": "CH-07.hit.head",
+            "upper": "CH-07.hit.upper",
+            "lower": "CH-07.hit.lower"
+          },
+          "anchors": {
+            "head": [
+              20,
+              13
+            ],
+            "face": [
+              22,
+              15
+            ],
+            "torso": [
+              22,
+              19
+            ],
+            "hips": [
+              26,
+              27
+            ],
+            "backpack": [
+              19,
+              21
+            ],
+            "leftShoulder": [
+              21,
+              19
+            ],
+            "rightShoulder": [
+              23,
+              20
+            ],
+            "leftHand": [
+              23,
+              26
+            ],
+            "rightHand": [
+              31,
+              24
+            ],
+            "leftFoot": [
+              24,
+              37
+            ],
+            "rightFoot": [
+              30,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "collapse-a",
+          "bodyParts": {
+            "full": "CH-07.collapse-a.full",
+            "head": "CH-07.collapse-a.head",
+            "upper": "CH-07.collapse-a.upper",
+            "lower": "CH-07.collapse-a.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              18
+            ],
+            "face": [
+              29,
+              19
+            ],
+            "torso": [
+              23,
+              22
+            ],
+            "hips": [
+              21,
+              29
+            ],
+            "backpack": [
+              21,
+              24
+            ],
+            "leftShoulder": [
+              22,
+              23
+            ],
+            "rightShoulder": [
+              25,
+              23
+            ],
+            "leftHand": [
+              25,
+              31
+            ],
+            "rightHand": [
+              27,
+              33
+            ],
+            "leftFoot": [
+              20,
+              37
+            ],
+            "rightFoot": [
+              26,
+              37
+            ]
+          },
+          "torsoLength": 7,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "collapse-b",
+          "bodyParts": {
+            "full": "CH-07.collapse-b.full",
+            "head": "CH-07.collapse-b.head",
+            "upper": "CH-07.collapse-b.upper",
+            "lower": "CH-07.collapse-b.lower"
+          },
+          "anchors": {
+            "head": [
+              30,
+              26
+            ],
+            "face": [
+              32,
+              27
+            ],
+            "torso": [
+              24,
+              29
+            ],
+            "hips": [
+              19,
+              32
+            ],
+            "backpack": [
+              21,
+              30
+            ],
+            "leftShoulder": [
+              22,
+              29
+            ],
+            "rightShoulder": [
+              25,
+              29
+            ],
+            "leftHand": [
+              29,
+              37
+            ],
+            "rightHand": [
+              33,
+              37
+            ],
+            "leftFoot": [
+              16,
+              38
+            ],
+            "rightFoot": [
+              21,
+              38
+            ]
+          },
+          "torsoLength": 6,
+          "persistent": false,
+          "unlinkedRotation": 1.5707963267948966,
+          "mouthRelease": null
+        },
+        {
+          "id": "corpse",
+          "bodyParts": {
+            "full": "CH-07.corpse.full",
+            "head": "CH-07.corpse.head",
+            "upper": "CH-07.corpse.upper",
+            "lower": "CH-07.corpse.lower"
+          },
+          "anchors": {
+            "head": [
+              38,
+              35
+            ],
+            "face": [
+              40,
+              35
+            ],
+            "torso": [
+              31,
+              34
+            ],
+            "hips": [
+              23,
+              35
+            ],
+            "backpack": [
+              26,
+              35
+            ],
+            "leftShoulder": [
+              29,
+              35
+            ],
+            "rightShoulder": [
+              33,
+              35
+            ],
+            "leftHand": [
+              31,
+              37
+            ],
+            "rightHand": [
+              36,
+              36
+            ],
+            "leftFoot": [
+              11,
+              36
+            ],
+            "rightFoot": [
+              16,
+              36
+            ]
+          },
+          "torsoLength": 8,
+          "persistent": true,
+          "unlinkedRotation": 1.5707963267948966,
+          "mouthRelease": null
+        },
+        {
+          "id": "sit",
+          "bodyParts": {
+            "full": "CH-07.sit.full",
+            "head": "CH-07.sit.head",
+            "upper": "CH-07.sit.upper",
+            "lower": "CH-07.sit.lower"
+          },
+          "anchors": {
+            "head": [
+              26,
+              20
+            ],
+            "face": [
+              27,
+              21
+            ],
+            "torso": [
+              22,
+              25
+            ],
+            "hips": [
+              20,
+              31
+            ],
+            "backpack": [
+              19,
+              26
+            ],
+            "leftShoulder": [
+              20,
+              25
+            ],
+            "rightShoulder": [
+              23,
+              25
+            ],
+            "leftHand": [
+              27,
+              27
+            ],
+            "rightHand": [
+              29,
+              28
+            ],
+            "leftFoot": [
+              26,
+              37
+            ],
+            "rightFoot": [
+              31,
+              37
+            ]
+          },
+          "torsoLength": 6,
+          "persistent": false,
+          "unlinkedRotation": 0.0,
+          "mouthRelease": null
+        },
+        {
+          "id": "gather",
+          "bodyParts": {
+            "full": "CH-07.gather.full",
+            "head": "CH-07.gather.head",
+            "upper": "CH-07.gather.upper",
+            "lower": "CH-07.gather.lower"
+          },
+          "anchors": {
+            "head": [
+              28,
+              21
+            ],
+            "face": [
+              30,
+              22
+            ],
+            "torso": [
+              24,
+              25
+            ],
+            "hips": [
+              21,
+              31
+            ],
+            "backpack": [
+              21,
+              26
+            ],
+            "leftShoulder": [
+              22,
+              25
+            ],
+            "rightShoulder": [
+              25,
+              25
+            ],
+            "leftHand": [
+              25,
+              32
+            ],
+            "rightHand": [
+              34,
+              37
+            ],
+            "leftFoot": [
+              19,
+              37
+            ],
+            "rightFoot": [
+              24,
+              37
+            ]
+          },
+          "torsoLength": 7,
+          "persistent": false,
+          "unlinkedRotation": 0.0,
+          "mouthRelease": null
+        },
+        {
+          "id": "eat",
+          "bodyParts": {
+            "full": "CH-07.eat.full",
+            "head": "CH-07.eat.head",
+            "upper": "CH-07.eat.upper",
+            "lower": "CH-07.eat.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              12
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              24,
+              18
+            ],
+            "hips": [
+              23,
+              27
+            ],
+            "backpack": [
+              21,
+              20
+            ],
+            "leftShoulder": [
+              22,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              19
+            ],
+            "leftHand": [
+              23,
+              28
+            ],
+            "rightHand": [
+              29,
+              15
+            ],
+            "leftFoot": [
+              21,
+              37
+            ],
+            "rightFoot": [
+              27,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        },
+        {
+          "id": "carry",
+          "bodyParts": {
+            "full": "CH-07.carry.full",
+            "head": "CH-07.carry.head",
+            "upper": "CH-07.carry.upper",
+            "lower": "CH-07.carry.lower"
+          },
+          "anchors": {
+            "head": [
+              29,
+              12
+            ],
+            "face": [
+              30,
+              14
+            ],
+            "torso": [
+              23,
+              18
+            ],
+            "hips": [
+              22,
+              27
+            ],
+            "backpack": [
+              20,
+              20
+            ],
+            "leftShoulder": [
+              22,
+              18
+            ],
+            "rightShoulder": [
+              25,
+              19
+            ],
+            "leftHand": [
+              29,
+              22
+            ],
+            "rightHand": [
+              32,
+              21
+            ],
+            "leftFoot": [
+              19,
+              37
+            ],
+            "rightFoot": [
+              28,
+              37
+            ]
+          },
+          "torsoLength": 9,
+          "persistent": false,
+          "unlinkedRotation": 0,
+          "mouthRelease": null
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "IT-02",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_02_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            8,
+            4
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            2,
+            2
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-03",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_03_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            4,
+            12
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            2,
+            9
+          ]
+        }
+      ],
+      "broken": "IT_03_broken"
+    },
+    {
+      "id": "IT-04",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_04_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            5,
+            18
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            2,
+            15
+          ]
+        }
+      ],
+      "broken": "IT_04_broken"
+    },
+    {
+      "id": "IT-05",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_05_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            5,
+            20
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            2,
+            17
+          ]
+        }
+      ],
+      "broken": "IT_05_broken"
+    },
+    {
+      "id": "IT-06",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_06_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            4,
+            24
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            2,
+            21
+          ]
+        }
+      ],
+      "broken": "IT_06_broken"
+    },
+    {
+      "id": "IT-07",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_07_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            16,
+            18
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            7,
+            9
+          ]
+        }
+      ],
+      "broken": "IT_07_broken"
+    },
+    {
+      "id": "IT-08",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_08_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            6,
+            5
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-09",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_09_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            6,
+            7
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-10",
+      "slot": "hand",
+      "atlas": "assets/equipment/items-01-10.png",
+      "layers": [
+        {
+          "component": "held",
+          "part": "IT_10_master",
+          "anchor": "hand",
+          "end": null,
+          "size": [
+            7,
+            5
+          ],
+          "z": 80,
+          "surface": "both",
+          "side": "logical",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-11",
+      "slot": "torso",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "torso-front",
+          "part": "IT_11_torso_front",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            5,
+            8
+          ],
+          "z": 20,
+          "surface": "front",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "torso-rear",
+          "part": "IT_11_torso_rear",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            5,
+            8
+          ],
+          "z": 20,
+          "surface": "rear",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-left-front",
+          "part": "IT_11_sleeve_left_front",
+          "anchor": "leftShoulder",
+          "end": "leftHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "front",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-left-rear",
+          "part": "IT_11_sleeve_left_rear",
+          "anchor": "leftShoulder",
+          "end": "leftHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-right-front",
+          "part": "IT_11_sleeve_right_front",
+          "anchor": "rightShoulder",
+          "end": "rightHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "front",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-right-rear",
+          "part": "IT_11_sleeve_right_rear",
+          "anchor": "rightShoulder",
+          "end": "rightHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-12",
+      "slot": "legs",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "waist",
+          "part": "IT_12_waist",
+          "anchor": "hips",
+          "end": null,
+          "size": [
+            7,
+            2
+          ],
+          "z": 25,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "leg-left",
+          "part": "IT_12_leg_left",
+          "anchor": "hips",
+          "end": "leftFoot",
+          "size": [
+            3,
+            10
+          ],
+          "z": 15,
+          "surface": "both",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "leg-right",
+          "part": "IT_12_leg_right",
+          "anchor": "hips",
+          "end": "rightFoot",
+          "size": [
+            3,
+            10
+          ],
+          "z": 15,
+          "surface": "both",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-13",
+      "slot": "torso",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "torso-front",
+          "part": "IT_13_torso_front",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            5,
+            8
+          ],
+          "z": 20,
+          "surface": "front",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "torso-rear",
+          "part": "IT_13_torso_rear",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            5,
+            8
+          ],
+          "z": 20,
+          "surface": "rear",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "hem",
+          "part": "IT_13_hem",
+          "anchor": "hips",
+          "end": null,
+          "size": [
+            7,
+            6
+          ],
+          "z": 25,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-left-front",
+          "part": "IT_13_sleeve_left_front",
+          "anchor": "leftShoulder",
+          "end": "leftHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "front",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-left-rear",
+          "part": "IT_13_sleeve_left_rear",
+          "anchor": "leftShoulder",
+          "end": "leftHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-right-front",
+          "part": "IT_13_sleeve_right_front",
+          "anchor": "rightShoulder",
+          "end": "rightHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "front",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "sleeve-right-rear",
+          "part": "IT_13_sleeve_right_rear",
+          "anchor": "rightShoulder",
+          "end": "rightHand",
+          "size": [
+            3,
+            8
+          ],
+          "z": 45,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-14",
+      "slot": "headwear",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "head",
+          "part": "IT_14_head",
+          "anchor": "head",
+          "end": null,
+          "size": [
+            7,
+            4
+          ],
+          "z": 70,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-15",
+      "slot": "face",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "face",
+          "part": "IT_15_face",
+          "anchor": "face",
+          "end": null,
+          "size": [
+            5,
+            3
+          ],
+          "z": 72,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-16",
+      "slot": "gloves",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "hand-left-front",
+          "part": "IT_16_hand_left_front",
+          "anchor": "leftHand",
+          "end": null,
+          "size": [
+            3,
+            3
+          ],
+          "z": 65,
+          "surface": "front",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "hand-left-rear",
+          "part": "IT_16_hand_left_rear",
+          "anchor": "leftHand",
+          "end": null,
+          "size": [
+            3,
+            3
+          ],
+          "z": 65,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "hand-right-front",
+          "part": "IT_16_hand_right_front",
+          "anchor": "rightHand",
+          "end": null,
+          "size": [
+            3,
+            3
+          ],
+          "z": 65,
+          "surface": "front",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "hand-right-rear",
+          "part": "IT_16_hand_right_rear",
+          "anchor": "rightHand",
+          "end": null,
+          "size": [
+            3,
+            3
+          ],
+          "z": 65,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-17",
+      "slot": "boots",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "foot-left",
+          "part": "IT_17_foot_left",
+          "anchor": "leftFoot",
+          "end": null,
+          "size": [
+            4,
+            3
+          ],
+          "z": 18,
+          "surface": "both",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "foot-right",
+          "part": "IT_17_foot_right",
+          "anchor": "rightFoot",
+          "end": null,
+          "size": [
+            4,
+            3
+          ],
+          "z": 18,
+          "surface": "both",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-18",
+      "slot": "headwear",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "head",
+          "part": "IT_18_head",
+          "anchor": "head",
+          "end": null,
+          "size": [
+            7,
+            6
+          ],
+          "z": 70,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": "IT_18_broken"
+    },
+    {
+      "id": "IT-19",
+      "slot": "armor",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "torso-front",
+          "part": "IT_19_torso_front",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            7,
+            10
+          ],
+          "z": 50,
+          "surface": "front",
+          "side": "center",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "torso-rear",
+          "part": "IT_19_torso_rear",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            7,
+            10
+          ],
+          "z": 50,
+          "surface": "rear",
+          "side": "center",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-front",
+          "part": "IT_19_strap_left_front",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "left",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-rear",
+          "part": "IT_19_strap_left_rear",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-front",
+          "part": "IT_19_strap_right_front",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "right",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-rear",
+          "part": "IT_19_strap_right_rear",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": "IT_19_broken"
+    },
+    {
+      "id": "IT-20",
+      "slot": "armor",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "torso-front",
+          "part": "IT_20_torso_front",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            7,
+            10
+          ],
+          "z": 50,
+          "surface": "front",
+          "side": "center",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "torso-rear",
+          "part": "IT_20_torso_rear",
+          "anchor": "torso",
+          "end": null,
+          "size": [
+            7,
+            10
+          ],
+          "z": 50,
+          "surface": "rear",
+          "side": "center",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-front",
+          "part": "IT_20_strap_left_front",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "left",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-rear",
+          "part": "IT_20_strap_left_rear",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-front",
+          "part": "IT_20_strap_right_front",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "right",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-rear",
+          "part": "IT_20_strap_right_rear",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [
+            "torso"
+          ],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": "IT_20_broken"
+    },
+    {
+      "id": "IT-21",
+      "slot": "belt",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "belt-front",
+          "part": "IT_21_belt_front",
+          "anchor": "hips",
+          "end": null,
+          "size": [
+            7,
+            2
+          ],
+          "z": 60,
+          "surface": "front",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "belt-rear",
+          "part": "IT_21_belt_rear",
+          "anchor": "hips",
+          "end": null,
+          "size": [
+            7,
+            2
+          ],
+          "z": 60,
+          "surface": "rear",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "pouch-left",
+          "part": "IT_21_pouch_left",
+          "anchor": "hips",
+          "end": null,
+          "size": [
+            3,
+            4
+          ],
+          "z": 60,
+          "surface": "both",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "pouch-right",
+          "part": "IT_21_pouch_right",
+          "anchor": "hips",
+          "end": null,
+          "size": [
+            3,
+            4
+          ],
+          "z": 60,
+          "surface": "both",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-23",
+      "slot": "backpack",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "bag-body",
+          "part": "IT_23_bag_body",
+          "anchor": "backpack",
+          "end": null,
+          "size": [
+            6,
+            10
+          ],
+          "z": 5,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-front",
+          "part": "IT_23_strap_left_front",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-rear",
+          "part": "IT_23_strap_left_rear",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-front",
+          "part": "IT_23_strap_right_front",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-rear",
+          "part": "IT_23_strap_right_rear",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    },
+    {
+      "id": "IT-24",
+      "slot": "backpack",
+      "atlas": "assets/equipment/items-11-24.png",
+      "layers": [
+        {
+          "component": "bag-body",
+          "part": "IT_24_bag_body",
+          "anchor": "backpack",
+          "end": null,
+          "size": [
+            7,
+            10
+          ],
+          "z": 5,
+          "surface": "both",
+          "side": "center",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "pocket-left",
+          "part": "IT_24_pocket_left",
+          "anchor": "backpack",
+          "end": null,
+          "size": [
+            3,
+            4
+          ],
+          "z": 5,
+          "surface": "both",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "pocket-right",
+          "part": "IT_24_pocket_right",
+          "anchor": "backpack",
+          "end": null,
+          "size": [
+            3,
+            4
+          ],
+          "z": 5,
+          "surface": "both",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-front",
+          "part": "IT_24_strap_left_front",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-left-rear",
+          "part": "IT_24_strap_left_rear",
+          "anchor": "leftShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "left",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-front",
+          "part": "IT_24_strap_right_front",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "front",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        },
+        {
+          "component": "strap-right-rear",
+          "part": "IT_24_strap_right_rear",
+          "anchor": "rightShoulder",
+          "end": "hips",
+          "size": [
+            1,
+            8
+          ],
+          "z": 55,
+          "surface": "rear",
+          "side": "right",
+          "occludes": [],
+          "pivot": [
+            0,
+            0
+          ]
+        }
+      ],
+      "broken": null
+    }
+  ],
+  "facings": [
+    -1,
+    1
+  ],
+  "layerRules": {
+    "selectedTorsoSurvivesArmor": true,
+    "logicalHandsNeverSwap": true,
+    "replacement": "retire-all-old-layers-before-project",
+    "clothSway": false,
+    "occlusion": "actual-opaque-armor-pixels-cover-selected-torso",
+    "imageSampling": "nearest",
+    "corpse": "same-selected-equipment-at-authored-endpoint"
+  },
+  "sourceAdaptation": {
+    "coordinateSpace": "48x40 registered density1; facing reflects X about24",
+    "landmarks": "recipes/landmarks.json; separately authored per body/pose from retained sources",
+    "itemSizing": "Actual24 item masters:22 wearable/held presentations; IT-01 money and IT-22 pouch remain inventory/container only, never invented worn bags",
+    "sampling": "nearest",
+    "unlinkedRotation": "corpse/collapse/task alignment follows authored torso; held item master size is unchanged"
+  },
+  "heldOutReview": {
+    "id": "H13",
+    "owner": "04-32",
+    "selection": "independent test client chooses different coat/armor/belt/backpack/hands and nearby body IDs, not author presets",
+    "required": [
+      "overlap",
+      "nearby-body-identity",
+      "both-facing",
+      "replacement",
+      "corpse"
+    ]
+  },
+  "applicability": [
+    {
+      "item": "IT-01",
+      "presentation": "inventory-container-only",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [],
+      "facings": [],
+      "reason": "Money has no wearable slot; portable pouch contents do not create a worn bag"
+    },
+    {
+      "item": "IT-02",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-03",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-04",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-05",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-06",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-07",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-08",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-09",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-10",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-11",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-12",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-13",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-14",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-15",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-16",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-17",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-18",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-19",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-20",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-21",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-22",
+      "presentation": "inventory-container-only",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [],
+      "facings": [],
+      "reason": "Money has no wearable slot; portable pouch contents do not create a worn bag"
+    },
+    {
+      "item": "IT-23",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    },
+    {
+      "item": "IT-24",
+      "presentation": "worn-held",
+      "bodies": [
+        "CH-06",
+        "CH-07"
+      ],
+      "poses": [
+        "idle",
+        "walk-near",
+        "walk-far",
+        "run",
+        "windup",
+        "strike",
+        "recover",
+        "aim",
+        "hit",
+        "collapse-a",
+        "collapse-b",
+        "corpse",
+        "sit",
+        "gather",
+        "eat",
+        "carry"
+      ],
+      "facings": [
+        -1,
+        1
+      ],
+      "reason": "Every legal slot and pose, including equipped persistent corpse"
+    }
+  ]
+}

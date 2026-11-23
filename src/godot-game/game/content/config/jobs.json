@@ -1,0 +1,314 @@
+{
+  "id": "DT-07",
+  "version": 1,
+  "money": {
+    "itemRef": "IT-01",
+    "physical": true,
+    "globalTreasury": false,
+    "payer": "acting-player-carried-inventory",
+    "combineAccessibleStacks": true,
+    "wholeAmount": true,
+    "change": "original-stacks",
+    "stashWithdrawal": "explicit",
+    "otherActorFunding": false,
+    "quote": "price-and-eligibility",
+    "atomicRecheck": [
+      "funds",
+      "capacity",
+      "distance",
+      "target-state"
+    ],
+    "failedOrDuplicateCharge": 0,
+    "acceptedWorkCancelable": false,
+    "destructionRefund": false,
+    "expenses": [
+      "recruitment",
+      "job-change",
+      "clearing",
+      "construction",
+      "upgrade",
+      "repair",
+      "rebuild",
+      "assault"
+    ]
+  },
+  "recruitment": {
+    "price": 12,
+    "unassignedCapByMainTier": [
+      8,
+      12,
+      16
+    ],
+    "populationCap": 100,
+    "includesControlledSurvivors": true,
+    "towerGuardsCount": false,
+    "location": "main-building-fire",
+    "externalCamps": false,
+    "creation": "immediate-after-success",
+    "initialRole": "unassigned",
+    "initialJobCharge": 0,
+    "outfitRefs": [
+      "IT-11",
+      "IT-12",
+      "IT-17"
+    ],
+    "newSupplies": false,
+    "unassignedAwayCounts": true,
+    "assignedWaitingCounts": false,
+    "controlledFiresideCounts": false,
+    "limitFailureCharge": 0,
+    "capacityRequiresCompletedTier": true,
+    "voluntaryUnassignOverCap": false,
+    "involuntaryOverCap": "preserve-survivor-and-belongings-block-purchases-and-unassignments",
+    "waitingPlayer": "normal-succession-may-immediately-control"
+  },
+  "roles": [
+    {
+      "roleId": "unassigned",
+      "price": 5,
+      "requiredItems": [],
+      "work": [
+        "construction",
+        "repair",
+        "clearing",
+        "idle-hauling"
+      ]
+    },
+    {
+      "roleId": "gatherer",
+      "price": 8,
+      "requiredItems": [],
+      "work": [
+        "gather-food",
+        "deliver"
+      ]
+    },
+    {
+      "roleId": "hunter",
+      "price": 15,
+      "requiredItems": [
+        "IT-07",
+        "IT-02"
+      ],
+      "work": [
+        "hunt",
+        "collect-meat",
+        "deliver"
+      ]
+    },
+    {
+      "roleId": "melee-warrior",
+      "price": 15,
+      "requiredItems": [
+        "IT-03",
+        "IT-04",
+        "IT-05",
+        "IT-06"
+      ],
+      "work": [
+        "defend",
+        "assault"
+      ]
+    },
+    {
+      "roleId": "warrior-archer",
+      "price": 15,
+      "requiredItems": [
+        "IT-07",
+        "IT-02"
+      ],
+      "work": [
+        "defend",
+        "assault"
+      ]
+    }
+  ],
+  "assignment": {
+    "eligible": "living-uncontrolled-npc-recruit-returned-to-main-fireside",
+    "menu": "local-main-people",
+    "remoteAssignment": false,
+    "controlledAssignment": false,
+    "price": "destination-role",
+    "sameRoleCharge": 0,
+    "recurringWages": false,
+    "beforeDuties": [
+      "deposit-collected-cargo",
+      "return-obsolete-role-gear"
+    ],
+    "preserve": [
+      "personal-equipment",
+      "applicable-reserves",
+      "contents",
+      "condition"
+    ],
+    "missingEquipment": "Waiting for equipment",
+    "retainAssignedRole": true,
+    "createMissingGear": false
+  },
+  "equipment": {
+    "stashVisitRequired": true,
+    "automaticBetterGear": true,
+    "playerSelectionLocked": false,
+    "decisionIntervalSeconds": 20,
+    "outsideImmediateDanger": true,
+    "meleePreference": [
+      "IT-06",
+      "IT-05",
+      "IT-04",
+      "IT-03"
+    ],
+    "bowPreference": [
+      "IT-07"
+    ],
+    "meleePrimaryBow": false,
+    "protectionPreference": "better",
+    "storagePreference": "larger",
+    "resultingLoad": "below-severe-threshold",
+    "equivalentPreference": "higher-remaining-durability",
+    "dualWield": true,
+    "hunterArrowReserve": 30,
+    "archerArrowReserve": 60,
+    "arrowHandIncluded": true,
+    "reserveLimitedByCapacity": true,
+    "emptyHandRefill": "actual-carried-arrows",
+    "fallback": "usable-carried-weapon-or-fists",
+    "fallbackStowFirst": true,
+    "noStowSpace": "persistent-loot-pile-before-replacement",
+    "deleteGear": false,
+    "playersManageOwnChanges": true,
+    "replacedGearDestination": "stash",
+    "brokenGearRetained": true,
+    "storageContents": "preserve-or-safe-transfer",
+    "civilianFleeFirstRetained": true,
+    "restockNoHostileSeconds": 5,
+    "restockEnemyClearanceUnits": 12
+  },
+  "safety": {
+    "border": "outermost-completed-living-wall-per-side",
+    "towerExpandsBorder": false,
+    "noWallRefugeUnits": 12,
+    "wallLoss": "next-living-inner-wall-or-refuge",
+    "interior": "inside-current-borders-and-no-zombie-at-or-within-clearance",
+    "enemyClearanceUnits": 12,
+    "daylightExteriorJobs": "all-civilian-roles",
+    "exteriorRequirements": [
+      "daylight",
+      "reachable-route",
+      "reachable-work-location",
+      "no-active-portal-crossing",
+      "route-clear-of-zombies-at-or-within-clearance",
+      "work-location-clear-of-zombies-at-or-within-clearance"
+    ],
+    "exteriorNaturalHealing": false,
+    "nightfall": "stop-exterior-work-retreat-safe-interior-allow-safe-interior-tasks",
+    "daytimeDanger": "abandon-task-and-flee",
+    "fight": "only-if-escape-blocked-resume-flee-when-open",
+    "warriorsRetainCombatWhileHauling": true,
+    "retreatTeleport": false,
+    "retreatDeletesCargo": false,
+    "retreatInvulnerability": false,
+    "campWallPass": "allies",
+    "campWallBlock": "zombies",
+    "alliesObstructTravel": false,
+    "alliesObstructArrows": false
+  },
+  "work": {
+    "overridePriority": [
+      "safety-escape",
+      "immediate-self-defense",
+      "necessary-food",
+      "essential-restocking"
+    ],
+    "unassignedPriority": [
+      "paid-main-repair",
+      "paid-outer-wall-repair",
+      "other-paid-repair",
+      "paid-construction-upgrade",
+      "paid-clearing",
+      "corpse-hauling",
+      "fireside-idle"
+    ],
+    "tieBreak": "nearest-reachable-eligible",
+    "retainCompletedWork": true,
+    "retainItems": true,
+    "interruptedReservation": "release-without-reversing-pickup-or-duplicating-order",
+    "specialistPriority": "primary-role-before-hauling",
+    "idleSpecialistsBuild": false,
+    "warriorPriority": "defense-or-current-assault-before-hauling",
+    "maximumWorkers": 3,
+    "workerRole": "unassigned",
+    "dispatch": "automatic-shared-paid-orders-by-priority",
+    "constructionClearingUnit": "worker-seconds",
+    "repairUnit": "actual-health-restored",
+    "continuousSave": true,
+    "resumeInterrupted": true,
+    "replacement": "same-paid-order-retained-payment-work-items",
+    "purchaserDeathDisconnect": "retain-order-payment-progress-items",
+    "unavailableWorkersComplete": false
+  },
+  "hauling": {
+    "eligible": "any-non-busy-ordinary-npc",
+    "primaryAndSafetyFirst": true,
+    "daylightExteriorOnly": true,
+    "reserveBeforePickup": true,
+    "removeOnlyAfterPickup": true,
+    "capacity": "actual-grid-and-load",
+    "returnSoftLoadFraction": 0.8,
+    "softLoadKilograms": 20,
+    "returnKilograms": 16,
+    "returnWhenNoFit": true,
+    "priority": [
+      "money",
+      "ammunition",
+      "usable-combat-gear",
+      "food",
+      "containers",
+      "clothing",
+      "broken-gear"
+    ],
+    "allEventuallyEligible": true,
+    "unfitting": "leave-for-other-carrier-or-player",
+    "arrival": "cargo-to-shared-stash-keep-personal-gear-and-reserves",
+    "retainRole": true,
+    "towerGuardsHaul": false,
+    "bag": "actual-suitable-available-wearable-container",
+    "death": "cargo-on-new-corpse-never-restored-to-original",
+    "nonemptyExpires": false,
+    "emptyDelaySeconds": 180,
+    "addingItemCancelsCleanup": true,
+    "cosmeticFadeDeletesLoot": false
+  },
+  "army": {
+    "allocation": "two-sides-outermost-intact-wall-fall-back-on-breach",
+    "noWall": "defend-main-refuge",
+    "rebalanceIntervalSeconds": 20,
+    "rebalanceEligible": "not-immediate-combat-or-assault",
+    "sidePreference": "fewer-stationed-then-shorter-travel",
+    "rallyInsideWallUnits": 5,
+    "noWallRally": "beside-refuge",
+    "assaultPrice": 25,
+    "payer": "acting-player-inventory",
+    "squadSize": 8,
+    "preferredMelee": 4,
+    "preferredArchers": 4,
+    "shortageMix": "other-ready-warriors",
+    "simultaneousPerSide": 1,
+    "recallPrice": 0,
+    "threatEngagementUnits": 15,
+    "archerFiringUnits": 16,
+    "target": "that-side-next-surviving-portal",
+    "unavailable": [
+      "not-enough-ready",
+      "assault-already-on-side",
+      "no-surviving-portal"
+    ],
+    "unavailableCharge": 0,
+    "playerDirectAttack": true,
+    "nightfall": "continue-mission-as-combatants",
+    "combatPriority": "nearby-enemies-before-target-portal",
+    "targetDestroyed": "return-to-original-side-no-next-portal",
+    "recall": "at-rally-no-teleport-no-refund",
+    "targetDestroyedByOthers": "return",
+    "returning": "resume-role-safe-resupply-automatic-allocation"
+  }
+}

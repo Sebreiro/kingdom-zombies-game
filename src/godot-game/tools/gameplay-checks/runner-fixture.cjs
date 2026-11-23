@@ -8,7 +8,7 @@ const zlib=require('node:zlib');
 const {spawn}=require('node:child_process');
 const assert=require('node:assert/strict');
 const e=require('./evidence.cjs');
-const {command,runScenarios,closeSession,ownedInput}=require('./rendered.cjs');
+const {command,runScenarios,closeSession,ownedInput,validateResources}=require('./rendered.cjs');
 const {acquireLock,select}=require('./check.cjs');
 const delay=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds));
 function rejects(action,pattern){assert.throws(action,pattern);}
@@ -22,6 +22,36 @@ function png() {
 async function run(mode) {
   const root=path.resolve(__dirname,'../../../..'),directory=path.join(root,'.phase2/controls',crypto.randomUUID());
   fs.mkdirSync(directory,{recursive:true});
+  if(mode==='resource-roles') {
+    const current=validateResources({root,directory});
+    assert.deepEqual(current.projectResourceRoles,{
+      'run/main_scene':'foundation/Foundation.tscn',
+      'run/main_scene.asset_inspection':'inspection/Inspection.tscn',
+      'config/icon':'assets/ui/kingdom-zombies-icon.png'
+    });
+    const project=path.join(current.isolatedInputRoot,'src/godot-game/project.godot');
+    const source=fs.readFileSync(project,'utf8');
+    for(const [setting,resource] of [['config/undeclared_fixture','assets/ui/undeclared-fixture.png'],
+      ['config/extra_icon','assets/ui/kingdom-zombies-icon.png']]) {
+      fs.writeFileSync(project,source.replace('[application]','[application]\n'+setting+'="res://'+resource+'"'));
+      const target=path.join(path.dirname(project),resource);
+      if(!fs.existsSync(target))fs.writeFileSync(target,Buffer.from('existing file'),{flag:'wx'});
+      try {
+        rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'rejected')}),
+          error=>error.message==='UNDECLARED_RESOURCE '+resource);
+      } finally {
+        fs.writeFileSync(project,source);
+      }
+    }
+    fs.copyFileSync(path.join(root,'src/godot-game/icon.svg'),path.join(path.dirname(project),'icon.svg'));
+    const historical=source.replace(/^run\/main_scene\.asset_inspection=.*\r?\n/m,'')
+      .replace('res://assets/ui/kingdom-zombies-icon.png','res://icon.svg');
+    fs.writeFileSync(project,historical);
+    const foundation=validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'foundation')});
+    assert.deepEqual(foundation.projectResourceRoles,{'run/main_scene':'foundation/Foundation.tscn','config/icon':'icon.svg'});
+    console.log('PASS current three resource roles, historical Foundation roles and two undeclared resource controls');
+    return {directory,mode};
+  }
   const context={directory,nonce:crypto.randomUUID(),input:'input',tool:'tool',platform:process.platform+'-'+process.arch};
   const selected=[{id:'rendered.tracer',implementation:'native',images:['launch-menu']},{id:'core.authority',implementation:'csharp'}];
   const image=png();fs.writeFileSync(path.join(directory,'image.png'),image);

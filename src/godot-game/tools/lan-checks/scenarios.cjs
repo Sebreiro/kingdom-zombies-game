@@ -63,7 +63,7 @@ async function resetFour(state){
 }
 async function create(context,group,roles,launches,retained={}){
   const directory=path.join(context.directory,group);fs.mkdirSync(directory,{recursive:true});
-  const local={...context,directory,runRoot:context.directory,rendered:true},port=await net.allocatePort();
+  const local={...context,directory,runRoot:context.runRoot??context.directory,rendered:true},port=await net.allocatePort();
   const peers=[];let input;
   try{
     for(const role of roles){const peer=net.launch(local,role,port,retained[role]);peers.push(peer);
@@ -327,7 +327,7 @@ async function close(state){
   if(errors.length)throw new Error('OWNED_SCENARIO_CLEANUP '+errors.join('; '));
 }
 async function run(context,items){
-  const unlock=acquireLock(context.root,context.nonce),results=[],launches=[],states=[];
+  const unlock=context.ownsDesktopLock?()=>{}:acquireLock(context.root,context.nonce),results=[],launches=[],states=[];
   const identity={nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,revision:context.revision,osFingerprint:context.osFingerprint};
   try{
     for(const group of ['G2','G3','G4']){
