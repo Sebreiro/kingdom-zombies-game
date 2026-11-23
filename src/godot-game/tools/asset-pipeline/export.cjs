@@ -235,8 +235,7 @@ function packaged(directory,contract=sourceContract()){
   const authority=files.get('content/expected-obligations.json');
   need(authority?.sha256===contract.index.expectedObligations.sha256&&authority.data.equals(bytes(ROOT,content.EXPECTED)),
     'PACKAGED_EXPECTED_AUTHORITY');
-  need([...files.keys()].every(name=>!/(^|\/)(?:override\.cfg|packages\.lock\.json|production|\.phase1|\.phase4|\.local\/(?:nuget|tools|downloads))(?:$|\/)/i.test(name)),
-    'PACKAGED_AUTHORING_MEMBER');
+  need([...files.keys()].every(name=>!authoringMember(name)),'PACKAGED_AUTHORING_MEMBER');
   const links=new Map();
   for(const [name,entry] of files)if(name.endsWith('.import')||name.endsWith('.remap')){
     const targets=[...entry.data.toString('utf8').matchAll(/^path(?:\.[\w]+)?="res:\/\/([^"\r\n]+)"/gm)].map(match=>match[1]);
@@ -368,6 +367,20 @@ async function portable(context,name,directory,contract){
   need(await digest(inside(directory,PCK))===packageSha256,'PORTABLE_PACKAGE_CHANGED',name);
   return {...observation,runtimeResolution:hostTrace(context,name,directory)};
 }
+// A packaged member that is authoring state: an override, a lock file, production sources, a legacy workspace folder or
+// anything under a checkout's .local (runs, temp, locks, nuget, tools and downloads).
+function authoringMember(name){
+  return /(^|\/)(?:override\.cfg|packages\.lock\.json|production|\.phase1|\.phase4|\.local)(?:$|\/)/i.test(name);
+}
+// A host trace that resolves from an authoring location: the donor, an SDK, a legacy workspace folder, a .local tools,
+// downloads or NuGet folder, or those folders of the resolved shared root whatever its name (KZ_SHARED_LOCAL included).
+// Run folders under .local/runs stay allowed: the exported build itself lives there.
+function authoringTrace(trace,shared=workspace.locations().shared){
+  if(/KindomCrown|[\\/]sdk[\\/]|[\\/]\.phase1[\\/]|[\\/]\.local[\\/](?:nuget|tools|downloads)[\\/]/i.test(trace))return true;
+  const fold=value=>value.replaceAll('\\','/').toLowerCase(),text=fold(trace);
+  const roots=new Set([path.resolve(shared),...(fs.existsSync(shared)?[fs.realpathSync.native(shared)]:[])]);
+  return [...roots].some(root=>['tools','downloads','nuget'].some(name=>text.includes(fold(path.join(root,name))+'/')));
+}
 function hostTrace(context,name,directory){
   const trace=fs.readFileSync(inside(context.directory,name+'-host.log'),'utf8');need(trace.length<16777216,'HOST_TRACE_SIZE');
   need(trace.includes('Executing as a self-contained app as per config file'),'HOST_SELF_CONTAINED');
@@ -375,8 +388,7 @@ function hostTrace(context,name,directory){
   const native=[...trace.matchAll(/native_search_paths: '([^']*)'/g)].flatMap(x=>x[1].split(';').filter(Boolean));
   const base=path.resolve(directory).toLowerCase()+path.sep;
   need(assembly.length>0&&native.length>0&&[...assembly,...native].every(x=>path.resolve(x).toLowerCase().startsWith(base)),'HOST_EXTERNAL_RESOLUTION');
-  need(!/KindomCrown|[\\/]sdk[\\/]|[\\/]\.phase1[\\/]|[\\/]\.local[\\/](?:nuget|tools|downloads)[\\/]/i.test(trace),
-    'HOST_AUTHORING_RESOLUTION');
+  need(!authoringTrace(trace),'HOST_AUTHORING_RESOLUTION');
   return {assemblyPaths:[...new Set(assembly)],nativeSearchPaths:[...new Set(native)],
     registeredInstallationProbe:trace.includes('Found registered install location'),sharedStoreDiscovery:trace.includes('Shared store (global)'),
     limit:'Installed SDK/registry exists; resolved local dependencies do not claim a machine without those installations'};
@@ -567,4 +579,4 @@ async function exportTracer(context){
 module.exports={EXPORT_PATHSPEC,feedConfig,digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,
   RENDERED_FIXTURES,renderedFixture,verifyRenderedFixture,packaged,probe,packagedProbe,mountPackage,portable,hostTrace,validatePortableReceipt,
   validatePortableEnvironment,cloneOutput,missingCoreClr,
-  negatives,exportTracer,buildPackage,verifyInputs,sourceContract};
+  negatives,exportTracer,buildPackage,verifyInputs,sourceContract,authoringMember,authoringTrace};
