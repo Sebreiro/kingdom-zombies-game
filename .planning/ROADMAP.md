@@ -585,7 +585,7 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 5. Repository instructions distinguish reduced phase-end testing, nightly full regression and distinct release procedures. The configured schedule/environment and actual execution are recorded; scheduling configuration alone is not a passing nightly run.
 6. Real analyzer code and applicable handwritten production code separately meet inclusive 90% line and 80% branch coverage, with a native-hosted engine callback actually measured, and all eight transferred certification identities pass with their original exhaustive meanings.
 7. The complete declared scope, including rendered input, four-process LAN and coverage, runs successfully on the actual Windows and Linux environments chosen in this phase's planning; configuration alone is not a pass. The Phase 1 follow-ups (complete Linux suite, graph capacity case, fourteen human reviews) are executed or explicitly closed by the creator.
-8. The remaining runner certification passes: evidence reuse validation, permutation, repeat, overlapping-run, interruption and Unicode-identity trials, the staged failure exercise, strict per-file provenance for nightly and release evidence, and the 17 deferred Phase 4 rendered cases with their driver declaration.
+8. The remaining runner certification passes: evidence reuse validation, permutation, repeat, overlapping-run, interruption and Unicode-identity trials, the staged failure exercise, strict per-file provenance for nightly and release evidence, the renewed Phase 4 review-bound gates on the relocated tree, and the 17 deferred Phase 4 rendered cases with their driver declaration.
 
 **Plans:** TBD
 **UI hint:** no

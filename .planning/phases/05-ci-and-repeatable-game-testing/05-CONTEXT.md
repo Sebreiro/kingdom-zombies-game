@@ -9,7 +9,7 @@
 <domain>
 ## Phase Boundary
 
-**Scope amendment, approved by the creator on 2026-11-23:** Phase 5 delivers what Phases 6–10 use: one shared runner and catalog, three test tiers, basic Windows/Linux PR checks and the existing solo/LAN rendered scenarios running through the shared runner. Coverage certification with the eight transferred IDs, full hosted runs, evidence reuse and exhaustive runner certification move to Phase 11 under TEST-12, with no pass credit. Decisions D-35–D-45 below record this and the five cheaper rules for Phases 6–10. Where they conflict with earlier decisions, D-35–D-45 govern.
+**Scope amendment, approved by the creator on 2026-11-23:** Phase 5 delivers what Phases 6–10 use: one shared runner and catalog, three test tiers, basic Windows/Linux PR checks and the existing solo/LAN rendered scenarios running through the shared runner. Coverage certification with the eight transferred IDs, full hosted runs, evidence reuse and exhaustive runner certification move to Phase 11 under TEST-12, with no pass credit. Decisions D-35–D-46 below record this and the five cheaper rules for Phases 6–10. Where they conflict with earlier decisions, D-35–D-46 govern.
 
 **Current local policy, effective immediately:** Every phase follows [local testing strategy](../../../docs/workflow/local-testing.md): finish implementation, review/fix code, then use development-OS-only 1280×720 shared game runs without a VM. Select every active Critical case plus all new/changed cases and affected regressions. Collect failures, batch repairs, check failed/blocked/newly affected scenarios, then rerun the entire selected set on the repaired build. Every phase saves reusable scenarios with importance and ordered run groups. Phase 5 must not reinstate local VM/extra-resolution catch-up. Hosted and release procedures retain their separate actual-evidence obligations.
 
@@ -124,6 +124,7 @@ The creator's 2026-11-15 decisions supersede earlier complete-catalog closure, t
 - **D-43:** For Phases 5–10 the evidence is the tested commit, the run report and its logs, observations and images. Keep failed runs and never rewrite a report. Per-file hash bindings, receipts and rebind commits are not required; Phase 11 restores strict provenance for nightly and release evidence. This narrows D-09 and D-31.
 - **D-44:** From the Phase 4 closure exception, Phase 5 keeps the 21 inherited rendered regressions, one inspection-hub smoke scenario with AI image review and the four judgments P1–P4, and the `world.replacement` fix with its engine-defect record.
 - **D-45:** Accepted risks. Coverage gaps surface late; tier 1 may print a non-gating coverage number if the pinned collector works without extra effort. Linux rendering and input are first exercised at Phase 10, with only the headless scenario running on Linux before then. Phase 10 release gates count the cases active in Phases 1–10; TEST-11 and TEST-12 cases stay pending until Phase 11, as INV-14 does until Phase 12.
+- **D-46:** After PR #6 moved the tools, the creator moved the renewal of the Phase 4 review-bound gates (`runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts` and `--verify-completion`) against the relocated tree to Phase 11 under TEST-12, with the other hash-bound provenance work in D-43. The gates stay expected-blocked, with no pass credit, until then. Phase 5 still makes the Phase 4 checks it runs work in the relocated tree, including the pinned recipes that assume the original checkout's `.phase4` folder (the export tracer and audio assembly), because its inherited regressions need them.
 
 ### Agent's Discretion
 
@@ -252,7 +253,7 @@ These are exhaustive proof-group costs, not a mandate to place those whole group
 <deferred>
 ## Deferred Ideas
 
-Phase 11 owns scheduled nightly full regression testing (TEST-11) and, under the 2026-11-23 amendment, the deferred certification (TEST-12): measured coverage with the eight transferred IDs, full hosted Windows/Linux runs, evidence reuse validation, exhaustive runner trials, the other 17 Phase 4 rendered cases and the Phase 1 follow-ups. Its schedule, runner/environment and failure-publication details need its own planning. Later feature cases remain planned with their original owners. Physical mixed-OS LAN, supported-display, reference-PC rendering/performance, endurance, complete campaigns and release exports retain distinct acceptance requirements.
+Phase 11 owns scheduled nightly full regression testing (TEST-11) and, under the 2026-11-23 amendment, the deferred certification (TEST-12): measured coverage with the eight transferred IDs, full hosted Windows/Linux runs, evidence reuse validation, exhaustive runner trials, the other 17 Phase 4 rendered cases, the renewal of the Phase 4 review-bound gates (D-46) and the Phase 1 follow-ups. Its schedule, runner/environment and failure-publication details need its own planning. Later feature cases remain planned with their original owners. Physical mixed-OS LAN, supported-display, reference-PC rendering/performance, endurance, complete campaigns and release exports retain distinct acceptance requirements.
 
 </deferred>
 
