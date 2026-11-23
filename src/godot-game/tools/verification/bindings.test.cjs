@@ -179,10 +179,14 @@ test('residue judge: a hit outside --allow, an =N entry off by one and a git fai
   const hits = [{path: 'src/a.cjs', line: 1}, {path: 'src/a.cjs', line: 2}, {path: 'src/b.cjs', line: 5},
     {path: '.planning/phases/x.md', line: 1}, {path: 'docs/kept.md', line: 1}];
   const options = allow => ({keep: ['docs/kept.md'], allow});
-  passes(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src/a.cjs', count: 2}, {spec: 'src/b.cjs', count: null}])));
+  passes(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src/a.cjs', count: 2}, {spec: 'src/b.cjs', count: 1}])));
   fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src/a.cjs', count: 2}])), 'src/b.cjs');
-  fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src', count: null}, {spec: 'src/a.cjs', count: 1}])), 'retains 2', 'expected 1');
-  fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src', count: null}, {spec: 'src/a.cjs', count: 3}])), 'retains 2', 'expected 3');
+  fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src/b.cjs', count: 1}, {spec: 'src/a.cjs', count: 1}])), 'retains 2', 'expected 1');
+  fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src/b.cjs', count: 1}, {spec: 'src/a.cjs', count: 3}])), 'retains 2', 'expected 3');
+  // Every --allow entry must carry =N: an uncounted entry would let its file gain any number of lines.
+  fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src/a.cjs', count: 2}, {spec: 'src/b.cjs', count: null}])),
+    '--allow entry without =N', 'src/b.cjs');
+  fails(gates.judgeResidue({unknown: [], hits}, options([{spec: 'src', count: null}])), '--allow entry without =N', 'src');
   fails(gates.judgeResidue({unknown: ['--scope nope'], hits: []}, options([])), 'unknown pathspec');
   const collect = gates.GATES.residue.collect;
   gates.GATES.residue.collect = () => { throw new gates.GateFailure('git grep exit 2'); };

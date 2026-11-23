@@ -2,6 +2,7 @@
 // Gates for rebinding work: each gate collects facts fail-closed, then a pure judge decides PASS or FAIL.
 //   node src/godot-game/tools/verification/rebind-gates.cjs --base <revision> [--keep a,b] [--allow path[=N],...]
 //     [--scope a,b] [--pattern <regex>] [--repo <directory>] <gate>...
+// residue requires =N on every --allow entry: the exact number of matching lines each allowed path keeps.
 // Gates: history newhost residue lists tests roots build assets ac08 docs. Each prints "PASS <gate> <counts>" or
 // "FAIL <gate>: <reason>"; the exit code is 1 when any gate fails.
 const fs = require('node:fs');
@@ -178,6 +179,9 @@ function collectResidue(context) {
 
 function judgeResidue(facts, options) {
   if (facts.unknown.length) return fail('unknown pathspec ' + facts.unknown.join(' '));
+  // An uncounted entry would let its files gain any number of matching lines; every entry names its exact count.
+  const uncounted = options.allow.filter(entry => entry.count === null).map(entry => entry.spec);
+  if (uncounted.length) return fail(uncounted.length + ' --allow entry without =N: ' + uncounted.join(' '));
   const counted = facts.hits.filter(hit => !historical(hit.path) && !options.keep.some(spec => matches(hit.path, spec)));
   const perFile = new Map();
   for (const hit of counted) perFile.set(hit.path, (perFile.get(hit.path) || 0) + 1);
