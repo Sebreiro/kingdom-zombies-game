@@ -52,3 +52,20 @@ kz_override_problem() {
   esac
   return 0
 }
+
+# kz_ignore_problem SHARED: before anything writes the shared root, prints why Git does not ignore SHARED in the
+# checkout that holds it, or nothing. A shared root outside every Git working tree needs no check. SHARED must be a
+# form native Git reads. The same check is assertSharedIgnored in workspace-paths.cjs; nothing edits info/exclude.
+kz_ignore_problem() {
+  kz_existing=$1
+  while [ ! -d "$kz_existing" ]; do
+    kz_parent=$(dirname "$kz_existing")
+    case $kz_parent in [A-Za-z]:) kz_parent=$kz_parent/ ;; esac
+    [ "$kz_parent" != "$kz_existing" ] || break
+    kz_existing=$kz_parent
+  done
+  kz_top=$(git -C "$kz_existing" rev-parse --show-toplevel 2>/dev/null) || return 0
+  git -C "$kz_top" check-ignore -q -- "$1/" 2>/dev/null && return 0
+  echo "$1 is not ignored by Git in $kz_top; on a branch older than the .local layout, add the line /.local/ to that" \
+    "checkout's .git/info/exclude (docs/workflow/setup.md)"
+}

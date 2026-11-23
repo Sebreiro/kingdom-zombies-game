@@ -44,14 +44,15 @@ function git(cwd, ...args) {
   return result.stdout.trim();
 }
 // A temporary repository carrying the tracked toolchain.json and node-setup scripts at their tracked locations.
-function repository(base, manifestText = fs.readFileSync(MANIFEST, 'utf8')) {
+// ignore is the .gitignore text; an older branch of the main checkout has none for .local/.
+function repository(base, manifestText = fs.readFileSync(MANIFEST, 'utf8'), ignore = '/.local/\n') {
   const root = path.join(base, 'main');
   fs.mkdirSync(path.join(root, 'src/godot-game/tools/verification'), {recursive: true});
   fs.mkdirSync(path.join(root, 'src/godot-game/tools/node-setup'), {recursive: true});
   fs.writeFileSync(path.join(root, 'src/godot-game/tools/verification/toolchain.json'), manifestText);
   for (const name of ['session-path.sh', 'session-path.ps1', 'setup.sh', 'setup.ps1', 'shared-root.sh', 'shared-root.ps1'])
     fs.copyFileSync(path.join(__dirname, name), path.join(root, 'src/godot-game/tools/node-setup', name));
-  fs.writeFileSync(path.join(root, '.gitignore'), '/.local/\n');
+  fs.writeFileSync(path.join(root, '.gitignore'), ignore);
   git(root, 'init', '-q', '-b', 'main');
   git(root, 'add', '.');
   git(root, 'commit', '-q', '-m', 'base');
@@ -434,4 +435,35 @@ test('setup.sh refuses a mismatched archive before extraction and a held toolcha
   result = sh([script, '--platform', 'linux-x64'], {cwd: base, env: {KZ_SHARED_LOCAL: 'relative/shared'}});
   assert.equal(result.exit, 1);
   assert.match(result.stderr, /^SHARED_ROOT_INVALID: /);
+});
+
+// A main checkout on a branch older than the .local layout: neither setup script writes its shared root, and neither
+// edits info/exclude. With the documented info/exclude line the same run installs.
+test('both setup scripts refuse to write a shared root that Git does not ignore', t => {
+  const base = scratch(t, 'kz-node-setup-'), archive = fakeArchive(base, pins.node);
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
+  const text = fs.readFileSync(MANIFEST, 'utf8').replace(manifest.nodeArchives['linux-x64'].sha256, sha(archive));
+  const main = repository(base, text, 'README.md.orig\n'), linked = path.join(base, 'linked');
+  git(main, 'worktree', 'add', '-q', '-b', 'task', linked);
+  const exclude = path.join(main, '.git', 'info', 'exclude'), before = fs.readFileSync(exclude, 'utf8');
+  const script = path.join(linked, 'src/godot-game/tools/node-setup/setup.sh');
+  const run = () => sh([script, '--platform', 'linux-x64', '--archive', archive], {cwd: base, env: {MSYS_NO_PATHCONV: '1'}});
+  let result = run();
+  assert.equal(result.exit, 1, result.stderr);
+  assert.match(result.stderr, /^SHARED_ROOT_NOT_IGNORED: .*\/\.local\/ to that checkout's \.git\/info\/exclude/m);
+  assert.equal(result.stdout, '');
+  assert.equal(fs.existsSync(path.join(main, '.local')), false, 'setup.sh wrote nothing');
+  if (WINDOWS) {
+    const powershell = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
+      path.join(linked, 'src/godot-game/tools/node-setup/setup.ps1'), '--archive', archive],
+    {cwd: base, encoding: 'utf8', windowsHide: true, env: {...process.env, KZ_SHARED_LOCAL: ''}});
+    assert.equal(powershell.status, 1, powershell.stderr);
+    assert.match(powershell.stderr, /^SHARED_ROOT_NOT_IGNORED: /m);
+    assert.equal(fs.existsSync(path.join(main, '.local')), false, 'setup.ps1 wrote nothing');
+  }
+  assert.equal(fs.readFileSync(exclude, 'utf8'), before, 'info/exclude is never edited');
+  fs.appendFileSync(exclude, '/.local/\n');
+  result = run();
+  assert.equal(result.exit, 0, result.stderr);
+  assert.ok(fs.statSync(path.join(main, '.local/tools/node', `node-v${pins.node}-linux-x64`, 'bin', 'node')).isFile());
 });

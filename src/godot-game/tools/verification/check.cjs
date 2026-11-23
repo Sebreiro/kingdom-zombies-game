@@ -710,6 +710,7 @@ async function main(root, args) {
   const selection = select(manifest, args);
   if (selection.list) { console.log(JSON.stringify(selection.selected, null, 2)); return; }
   const nonce = crypto.randomUUID(), where = workspace.locations(root);
+  workspace.assertSharedIgnored(root);
   const lock = where.locks.check;
   fs.mkdirSync(path.dirname(lock), { recursive: true });
   let lockFd;

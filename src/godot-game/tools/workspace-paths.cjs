@@ -41,7 +41,8 @@ function overrideProblem(value, checkout, windows = process.platform === 'win32'
   }
   const normal = normalOverride(value, windows);
   if (/(^|\/)\.\.?(\/|$)/.test(normal)) return 'must not contain . or .. segments';
-  if (windows ? /^[A-Za-z]:$|^\/\/[^/]+\/[^/]+$/.test(normal) : normal === '') return 'must not be a filesystem or drive root';
+  const root = windows ? /^[A-Za-z]:$|^\/\/[^/]+\/[^/]+$/.test(normal) : normal === '';
+  if (root) return 'must not be a filesystem or drive root';
   const fold = text => windows ? text.toLowerCase() : text;
   const target = fold(normal) + '/', base = fold(normalOverride(checkout, windows)) + '/';
   if (target.startsWith(base + '.local/')) return null;
@@ -64,8 +65,10 @@ function roots(root = checkoutRoot(), env = process.env) {
     const git = spawnSync('git', ['-C', checkout, 'rev-parse', '--path-format=absolute', '--git-common-dir'],
       {encoding: 'utf8', windowsHide: true, env});
     // Without Git a linked worktree would silently become standalone and download its own toolchain; refuse instead.
-    if (git.error) fail('GIT_MISSING', 'git could not start (' + git.error.code + '), so the shared .local root cannot be '
-      + 'resolved; put Git on PATH or set ' + OVERRIDE);
+    if (git.error) {
+      fail('GIT_MISSING', 'git could not start (' + git.error.code + '), so the shared .local root cannot be resolved; '
+        + 'put Git on PATH or set ' + OVERRIDE);
+    }
     const common = git.status === 0 ? String(git.stdout).trim() : '';
     if (common) {
       if (path.basename(common) !== '.git')
@@ -103,8 +106,10 @@ function locations(root, env) {
 }
 
 // Child-process isolation: CLI home, NuGet folders, temp and the resolved shared root, so children and source
-// copies agree. Callers add their own flags (telemetry opt-outs, nonces).
+// copies agree. Callers add their own flags (telemetry opt-outs, nonces). Children write the shared NuGet folders,
+// so the shared root must be ignored first.
 function isolationEnv(root, extra = {}) {
+  assertSharedIgnored(root);
   const where = locations(root);
   const temp = where.temp();
   return {
@@ -192,7 +197,9 @@ function insideShared(absolute, root) {
 function linkedComponent(base, target) {
   const relative = path.relative(base, target);
   if (relative === '') return null;
-  if (relative.split(path.sep)[0] === '..' || path.isAbsolute(relative)) throw new Error(target + ' is not inside ' + base);
+  if (relative.split(path.sep)[0] === '..' || path.isAbsolute(relative)) {
+    throw new Error(target + ' is not inside ' + base);
+  }
   const parts = relative.split(path.sep);
   let current = base;
   for (let index = 0; index < parts.length; index++) {
@@ -204,6 +211,35 @@ function linkedComponent(base, target) {
   return null;
 }
 
+const ignoredShared = new Set();
+
+// Before anything writes the shared root, Git must ignore it in the checkout that holds it, so its binaries can never
+// be committed there, even while that checkout is on a branch older than the .local layout. A shared root outside
+// every Git working tree needs no check. This never edits info/exclude; the refusal names the line to add.
+function assertSharedIgnored(root, env = process.env) {
+  const {shared} = roots(root, env);
+  if (ignoredShared.has(shared)) return shared;
+  let existing = shared;
+  while (!fs.existsSync(existing) && path.dirname(existing) !== existing) existing = path.dirname(existing);
+  const git = args => {
+    const result = spawnSync('git', args, {encoding: 'utf8', windowsHide: true, env});
+    if (result.error) {
+      fail('GIT_MISSING', 'git could not start (' + result.error.code + '), so the shared root cannot be checked');
+    }
+    return result;
+  };
+  const top = git(['-C', existing, 'rev-parse', '--show-toplevel']);
+  if (top.status === 0) {
+    const checkout = String(top.stdout).trim();
+    if (git(['-C', checkout, 'check-ignore', '-q', '--', shared + '/']).status !== 0) {
+      fail('SHARED_ROOT_NOT_IGNORED', shared + ' is not ignored by Git in ' + checkout + '; on a branch older than the '
+        + '.local layout, add the line /.local/ to that checkout\'s .git/info/exclude (docs/workflow/setup.md)');
+    }
+  }
+  ignoredShared.add(shared);
+  return shared;
+}
+
 function ensure(...directories) {
   for (const directory of directories) fs.mkdirSync(directory, {recursive: true});
   return directories;
@@ -213,6 +249,7 @@ const ISOLATION_KEYS = ['DOTNET_CLI_HOME', 'NUGET_PACKAGES', 'NUGET_HTTP_CACHE_P
   'TMPDIR', OVERRIDE];
 
 function printEnv(shell, root) {
+  assertSharedIgnored(root);
   const where = locations(root);
   ensure(where.temp(), where.cliHome, where.nuget.packages, where.nuget.http, where.nuget.scratch, where.nuget.feed,
     path.dirname(where.locks.check), path.dirname(where.locks.toolchain));
@@ -242,7 +279,7 @@ function main(args) {
 
 module.exports = {
   OVERRIDE, LEGACY_MAP, ISOLATION_KEYS, checkoutRoot, overrideProblem, roots, locations, isolationEnv, legacyPath,
-  insideShared, linkedComponent, ensure, printEnv,
+  insideShared, linkedComponent, assertSharedIgnored, ensure, printEnv,
 };
 
 if (require.main === module) {

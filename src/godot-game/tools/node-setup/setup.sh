@@ -70,6 +70,7 @@ elif common=$(git -C "$top" rev-parse --path-format=absolute --git-common-dir 2>
 else
   shared=$top/.local
 fi
+native_shared=$shared
 if command -v cygpath >/dev/null 2>&1; then shared=$(cygpath -u "$shared"); fi
 downloads=$shared/downloads/node
 tools=$shared/tools/node
@@ -113,6 +114,10 @@ if [ -d "$install" ]; then
   path_line
   exit 0
 fi
+
+# Nothing writes the shared root unless Git ignores it in the checkout that holds it.
+problem=$(kz_ignore_problem "$native_shared")
+[ -z "$problem" ] || fail SHARED_ROOT_NOT_IGNORED "$problem"
 
 if [ "$target" = win32-x64 ]; then
   # Git Bash: Windows PowerShell owns the download and the zip extraction.

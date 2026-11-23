@@ -395,6 +395,7 @@ async function boundariesProbe() {
 
 async function main() {
   const at = where();
+  workspace.assertSharedIgnored(root);
   workspace.ensure(at.tools('godot'), at.downloads('godot'), at.cliHome, at.nuget.packages, at.nuget.http, at.nuget.scratch,
     at.temp(), at.nuget.feed, path.dirname(at.locks.toolchain), runDirectory());
   const args = process.argv.slice(2);

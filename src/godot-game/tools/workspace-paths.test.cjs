@@ -253,6 +253,55 @@ test('isolationEnv and --print-env export the shared root and per-checkout folde
   assert.equal(cli(script, [], base, env).exit, 2);
 });
 
+// A main checkout on a branch older than the .local layout: its .gitignore does not ignore .local/.
+function olderBranch(base) {
+  const main = path.join(base, 'main');
+  fs.mkdirSync(main);
+  git(main, 'init', '-q', '-b', 'main');
+  fs.writeFileSync(path.join(main, 'README.md'), 'older branch\n');
+  git(main, 'add', 'README.md');
+  git(main, 'commit', '-q', '-m', 'base');
+  const linked = path.join(base, 'linked');
+  git(main, 'worktree', 'add', '-q', '-b', 'task', linked);
+  return {main, linked, exclude: path.join(main, '.git', 'info', 'exclude')};
+}
+
+test('nothing writes a shared root that Git does not ignore, and info/exclude is never edited', t => {
+  const base = scratch(t), {main, linked, exclude} = olderBranch(base);
+  const before = fs.readFileSync(exclude, 'utf8');
+  const script = install(linked);
+  const refused = cli(script, ['--print-env', 'sh'], base, isolated(base));
+  assert.equal(refused.exit, 1, refused.stdout);
+  assert.match(refused.stderr, /^SHARED_ROOT_NOT_IGNORED: .*\/\.local\/ to that checkout's \.git\/info\/exclude/);
+  assert.equal(fs.existsSync(path.join(main, '.local')), false, 'the shared root was not created');
+  assert.equal(fs.existsSync(path.join(linked, '.local')), false, 'nothing was created before the check');
+  withShared(t, '');
+  assert.throws(() => paths.isolationEnv(linked), error => error.diagnostic === 'SHARED_ROOT_NOT_IGNORED');
+  assert.equal(fs.readFileSync(exclude, 'utf8'), before, 'info/exclude is never edited');
+
+  const outside = cli(script, ['--print-env', 'sh'], base, {...isolated(base), KZ_SHARED_LOCAL: path.join(base, 'outside')});
+  assert.equal(outside.exit, 0, 'a shared root outside every working tree needs no check: ' + outside.stderr);
+  fs.appendFileSync(exclude, '/.local/\n');
+  const allowed = cli(script, ['--print-env', 'sh'], base, isolated(base));
+  assert.equal(allowed.exit, 0, allowed.stderr);
+  assert.ok(fs.existsSync(path.join(main, '.local', 'nuget', 'scratch')));
+});
+
+test('bootstrap refuses before its first write when the shared root is not ignored', t => {
+  const base = scratch(t), {main, linked} = olderBranch(base);
+  for (const file of ['src/godot-game/tools/verification/bootstrap.cjs', 'src/godot-game/tools/dotnet.cjs']) {
+    fs.mkdirSync(path.dirname(path.join(linked, file)), {recursive: true});
+    fs.copyFileSync(path.join(__dirname, '../../..', file), path.join(linked, file));
+  }
+  install(linked);
+  const run = cli(path.join(linked, 'src/godot-game/tools/verification/bootstrap.cjs'), ['--probe', 'pins'], base,
+    isolated(base));
+  assert.equal(run.exit, 1, run.stdout);
+  assert.equal(JSON.parse(run.stderr.trim().split('\n').pop()).diagnostic, 'SHARED_ROOT_NOT_IGNORED');
+  assert.equal(fs.existsSync(path.join(main, '.local')), false);
+  assert.equal(fs.existsSync(path.join(linked, '.local')), false);
+});
+
 test('requiring the helper creates no folder and spawns no process', t => {
   const base = scratch(t);
   const probe = `

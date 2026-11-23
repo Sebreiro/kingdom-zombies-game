@@ -122,6 +122,9 @@ if (Test-Path -LiteralPath $install -PathType Container) {
   exit 0
 }
 
+# Nothing writes the shared root unless Git ignores it in the checkout that holds it.
+$ignoreProblem = Get-KzIgnoreProblem $shared
+if ($ignoreProblem) { Fail 'SHARED_ROOT_NOT_IGNORED' $ignoreProblem }
 New-Item -ItemType Directory -Force -Path $downloads, $toolsRoot, (Split-Path -Parent $lockPath) | Out-Null
 try { $lock = [System.IO.File]::Open($lockPath, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write) }
 catch { Fail 'TOOLCHAIN_LOCKED' 'Another acquisition owns .local/locks/toolchain.lock in the shared root; interrupted locks require inspection' }

@@ -19,6 +19,7 @@ function select(catalog, args) {
 function acquireLock(root,nonce) {
   // One machine has one desktop, so every checkout of the repository shares this lock.
   const file=workspace.locations(root).locks.desktop;
+  workspace.assertSharedIgnored(root);
   fs.mkdirSync(path.dirname(file),{recursive:true});
   let fd;
   try { fd=fs.openSync(file,'wx'); } catch(error) {if(error.code==='EEXIST')throw new Error('DESKTOP_LOCKED: another run or interrupted-run lock; inspect recorded owner before removing');throw error;}

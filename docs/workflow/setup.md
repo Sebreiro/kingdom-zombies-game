@@ -39,6 +39,12 @@ One rule applies to `KZ_SHARED_LOCAL` everywhere: in `workspace-paths.cjs`, the 
 
 Setup, bootstrap and the runners stop with `SHARED_ROOT_INVALID` and the reason. The session hooks treat an invalid value as no shared Node: they write nothing and never fail the session.
 
+Nothing writes the shared root unless Git ignores it in the checkout that holds it. The Node setup, bootstrap, the runners, `--print-env` and the C# tests first run `git check-ignore` there and otherwise stop with `SHARED_ROOT_NOT_IGNORED`. Branches from before the `.local/` layout do not ignore it. While the main checkout is on such a branch, add this line to its repository-local exclude file, `.git/info/exclude`; no tool adds it for you:
+
+```text
+/.local/
+```
+
 On Windows, allow long paths in this repository once, because worktree and build paths can exceed the Windows path limit and removal then fails with "Filename too long":
 
 ```sh

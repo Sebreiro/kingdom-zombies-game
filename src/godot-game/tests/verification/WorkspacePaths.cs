@@ -110,6 +110,7 @@ internal static class WorkspacePaths
     /// child process.</summary>
     internal static void Isolate(ProcessStartInfo start)
     {
+        _ = _ignoredShared.Value;
         Directory.CreateDirectory(path: CliHome);
         Directory.CreateDirectory(path: NuGetHttp);
         Directory.CreateDirectory(path: NuGetScratch);
@@ -191,6 +192,33 @@ internal static class WorkspacePaths
     ];
 
     private static readonly Lazy<string> _shared = new(valueFactory: ResolveShared);
+
+    private static readonly Lazy<string> _ignoredShared = new(valueFactory: CheckSharedIgnored);
+
+    // Before anything writes the shared root, Git must ignore it in the checkout that holds it, as assertSharedIgnored
+    // in workspace-paths.cjs requires; a shared root outside every Git working tree needs no check.
+    private static string CheckSharedIgnored()
+    {
+        string existing = Shared;
+        while (!Directory.Exists(path: existing) && Path.GetDirectoryName(path: existing) is { } parent)
+        {
+            existing = parent;
+        }
+
+        string[] topArguments = ["-C", existing, "rev-parse", "--show-toplevel"];
+        (int topExit, string topOutput) = RunGit(arguments: topArguments);
+        string checkout = topOutput.Trim();
+        if (topExit != 0 || checkout.Length == 0)
+        {
+            return Shared;
+        }
+
+        string[] ignoreArguments = ["-C", checkout, "check-ignore", "-q", "--", Shared + "/"];
+        (int ignoreExit, _) = RunGit(arguments: ignoreArguments);
+        return ignoreExit == 0 ? Shared : throw new InvalidOperationException(message: "SHARED_ROOT_NOT_IGNORED: "
+                + Shared + " is not ignored by Git in " + checkout + "; on a branch older than the .local layout, add "
+                + "the line /.local/ to that checkout's .git/info/exclude (docs/workflow/setup.md)");
+    }
 
     // A path for comparison only: on Windows backslashes become '/'; repeated separators collapse except a leading
     // '//'; trailing separators are dropped.
