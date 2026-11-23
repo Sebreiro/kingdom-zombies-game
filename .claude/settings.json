@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$CLAUDE_PROJECT_DIR\"/src/godot-game/tools/node-setup/session-path.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

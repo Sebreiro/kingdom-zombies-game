@@ -9,6 +9,16 @@
             "commandWindows": "\"D:/Work/Games/KingdomZombies/.codex/hooks/gsd-check-update.cmd\""
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$(git rev-parse --show-toplevel)/src/godot-game/tools/node-setup/session-path.sh\" --codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'src/godot-game/tools/node-setup/session-path.ps1')\"",
+            "timeout": 10
+          }
+        ]
       }
     ]
   }
