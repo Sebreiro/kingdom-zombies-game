@@ -2392,7 +2392,7 @@
         "id": "appearance.corpses",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-        "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+        "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2458,7 +2458,7 @@
         "id": "appearance.crowds",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-        "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+        "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5892,14 +5892,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7770,14 +7770,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7853,14 +7853,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8305,14 +8305,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -9435,14 +9435,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9837,14 +9837,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -10030,7 +10030,7 @@
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/corpses.cjs",
-          "moduleSha256": "2027d56169ae8208d6e5acb018f4e0ab31f2ad9d594f785e12650de132edb49e",
+          "moduleSha256": "99869165be6911d33d3d2ea9019dc679608c294051d6e76aef126f841de80f9b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
