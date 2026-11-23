@@ -40,7 +40,7 @@
         "catalog": "src/godot-game/tools/gameplay-checks/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXACT_PRODUCTION_EVENT_GUARD",
-        "repositorySha256": "0fd6bc36c75c001ad9e7a4ecaf268c1cc160176bd201fb59f9fe313f4aa06f1e",
+        "repositorySha256": "3c14e9803cbf9452bf26310385b1cc2fd9cf579ac8bc80dba4b285eba0285d97",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 3636000,
