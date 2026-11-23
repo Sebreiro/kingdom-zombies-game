@@ -526,3 +526,28 @@ test('setup.ps1 rechecks the install after taking the toolchain lock and nests n
     assert.deepEqual(fs.readdirSync(path.join(shared, 'downloads/node')), [], 'nothing was copied or downloaded');
     assert.deepEqual(fs.readdirSync(path.join(shared, 'locks')), [], 'the lock is released');
   });
+
+// The tracked Codex hook commands themselves, run through the platform shell as a hook runner does: outside a
+// repository or without git they print nothing and exit 0; inside one they print the advisory line.
+test('the Codex SessionStart commands fail open and print the line only inside the repository', t => {
+  const hooks = JSON.parse(fs.readFileSync(path.join(ROOT, '.codex/hooks.json'), 'utf8')).hooks.SessionStart
+    .flatMap(group => group.hooks).filter(hook => hook.command.includes('session-path'));
+  assert.equal(hooks.length, 1);
+  const base = scratch(t), shared = path.join(base, 'shared'), plain = path.join(base, 'plain');
+  fs.mkdirSync(plain);
+  fakeNode(shared);
+  const env = {...process.env, KZ_SHARED_LOCAL: shared, GIT_CEILING_DIRECTORIES: base};
+  const runners = [['command', cwd => spawnSync('sh', ['-c', hooks[0].command], {cwd, encoding: 'utf8', windowsHide: true, env})]];
+  if (WINDOWS) {
+    runners.push(['commandWindows', cwd => spawnSync(hooks[0].commandWindows, {cwd, shell: true, encoding: 'utf8',
+      windowsHide: true, env})]);
+  }
+  for (const [name, run] of runners) {
+    const outside = run(plain);
+    assert.equal(outside.status, 0, name + ': ' + outside.stderr);
+    assert.equal(outside.stdout.trim(), '', name);
+    const inside = run(ROOT);
+    assert.equal(inside.status, 0, name + ': ' + inside.stderr);
+    assert.ok(inside.stdout.startsWith(`Shared Node ${pins.node} for this repository. `), name + ': ' + inside.stdout);
+  }
+});
