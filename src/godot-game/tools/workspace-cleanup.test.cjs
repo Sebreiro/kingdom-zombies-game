@@ -7,7 +7,11 @@ const assert = require('node:assert/strict');
 const {execFileSync} = require('node:child_process');
 const cleanup = require('./workspace-cleanup.cjs');
 
-const IGNORE = ['/.phase1/', '/.phase2/', '/.phase4/', '**/bin/', '**/obj/', '**/.godot/', '/.planning/tmp/', ''].join('\n');
+// Every fixture repository resolves its own shared root from its Git common dir, never an inherited override.
+delete process.env.KZ_SHARED_LOCAL;
+
+const IGNORE = ['/.local/', '/.phase1/', '/.phase2/', '/.phase4/', '**/bin/', '**/obj/', '**/.godot/', '/.planning/tmp/', '']
+  .join('\n');
 
 function git(cwd, ...args) {
   return execFileSync('git', args, {cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe']});
@@ -65,7 +69,7 @@ test('dry run lists task outputs, keeps pinned caches and deletes nothing', t =>
   assert.match(result.out, /delete\s+\.phase1\/runs/);
   assert.match(result.out, /delete\s+\.phase4\/checkpoints/);
   assert.match(result.out, /delete\s+\.planning\/tmp\/init\.json/);
-  assert.match(result.out, /keep\s+\.phase1\/cache\s+\(pinned toolchain cache\)/);
+  assert.match(result.out, /keep\s+\.phase1\/cache\s+\(legacy toolchain cache; run workspace-migrate\.cjs\)/);
   assert.match(result.out, /3 output\(s\) would be deleted/);
   for (const file of ['.phase1/runs/a/summary.json', '.phase4/checkpoints/m.json', '.planning/tmp/init.json']) {
     assert.ok(exists(root, file), file);
@@ -242,4 +246,103 @@ test('--worktrees-only removes a worktree and leaves the current checkout output
   assert.equal(result.code, 0, result.err);
   assert.ok(!fs.existsSync(target));
   assert.ok(exists(context.root, '.phase4/runs/r.txt'));
+});
+
+test('the .local root keeps tools, downloads and nuget and deletes runs, temp and every other entry', t => {
+  const {root} = repository(t);
+  write(root, '.local/tools/node/node.exe');
+  write(root, '.local/downloads/godot/godot.zip');
+  write(root, '.local/nuget/packages/p.nupkg');
+  write(root, '.local/nuget/feed/f.nupkg');
+  write(root, '.local/runs/verification/a/summary.json');
+  write(root, '.local/temp/cli-home/x.txt');
+  write(root, '.local/other/y.txt');
+  const dry = invoke(root);
+  assert.equal(dry.code, 0, dry.err);
+  for (const name of ['tools', 'downloads', 'nuget']) {
+    assert.match(dry.out, new RegExp('keep\\s+\\.local/' + name + '\\s+\\(shared toolchain, download or NuGet cache\\)'));
+  }
+  for (const name of ['runs', 'temp', 'other']) assert.match(dry.out, new RegExp('delete\\s+\\.local/' + name + '\\s'));
+  assert.match(dry.out, /3 output\(s\) would be deleted/);
+  assert.ok(exists(root, '.local/runs/verification/a/summary.json'), 'a dry run deletes nothing');
+  const applied = invoke(root, '--apply');
+  assert.equal(applied.code, 0, applied.err);
+  for (const gone of ['.local/runs', '.local/temp', '.local/other']) assert.ok(!exists(root, gone), gone);
+  for (const kept of ['.local/tools/node/node.exe', '.local/downloads/godot/godot.zip', '.local/nuget/packages/p.nupkg',
+    '.local/nuget/feed/f.nupkg']) assert.ok(exists(root, kept), kept);
+});
+
+test('a lock in this checkout or in the shared root stops all deletion', t => {
+  const context = repository(t);
+  write(context.root, '.local/runs/r.txt');
+  write(context.root, '.local/locks/check.lock');
+  const local = invoke(context.root, '--apply');
+  assert.equal(local.code, 1);
+  assert.match(local.err, /check\.lock exists/);
+  assert.ok(exists(context.root, '.local/runs/r.txt'));
+  fs.rmSync(path.join(context.root, '.local/locks/check.lock'));
+  const target = addWorktree(context, 'shared-lock');
+  write(target, '.local/runs/w.txt');
+  for (const name of ['desktop.lock', 'toolchain.lock']) {
+    write(context.root, '.local/locks/' + name);
+    const shared = invoke(target, '--apply');
+    assert.equal(shared.code, 1, name);
+    assert.match(shared.err, new RegExp(name.replace('.', '\\.') + ' exists'));
+    assert.ok(exists(target, '.local/runs/w.txt'), name);
+    assert.ok(exists(context.root, '.local/runs/r.txt'), name);
+    fs.rmSync(path.join(context.root, '.local/locks/' + name));
+  }
+  const released = invoke(target, '--apply');
+  assert.equal(released.code, 0, released.err);
+  assert.ok(!exists(target, '.local/runs'));
+  assert.ok(exists(context.root, '.local/runs/r.txt'), 'cleanup in a worktree never touches the shared root');
+});
+
+test('legacy folders keep their caches, delete the rest and their runner locks still block', t => {
+  const {root} = repository(t);
+  write(root, '.phase1/cache/godot.zip');
+  write(root, '.phase1/runs/a/summary.json');
+  write(root, '.phase2/runs/b/summary.json');
+  write(root, '.phase2/desktop.lock');
+  const blocked = invoke(root, '--apply');
+  assert.equal(blocked.code, 1);
+  assert.match(blocked.err, /desktop\.lock exists/);
+  assert.ok(exists(root, '.phase1/runs/a/summary.json'));
+  fs.rmSync(path.join(root, '.phase2/desktop.lock'));
+  const applied = invoke(root, '--apply');
+  assert.equal(applied.code, 0, applied.err);
+  assert.match(applied.out, /keep\s+\.phase1\/cache\s+\(legacy toolchain cache; run workspace-migrate\.cjs\)/);
+  assert.ok(exists(root, '.phase1/cache/godot.zip'));
+  assert.ok(!exists(root, '.phase1/runs') && !exists(root, '.phase2/runs'));
+});
+
+test('the build filter skips build-named folders inside .local', t => {
+  const {root} = repository(t);
+  write(root, '.local/tools/sdk/bin/tool.dll');
+  write(root, '.local/nuget/packages/p/obj/x.json');
+  write(root, 'src/game/obj/project.assets.json');
+  const result = invoke(root, '--apply', '--build');
+  assert.equal(result.code, 0, result.err);
+  assert.ok(!exists(root, 'src/game/obj'));
+  assert.ok(exists(root, '.local/tools/sdk/bin/tool.dll'));
+  assert.ok(exists(root, '.local/nuget/packages/p/obj/x.json'));
+});
+
+test('removing a worktree never follows a link into the shared root', t => {
+  const context = repository(t);
+  write(context.root, '.local/tools/node/node.exe');
+  const target = addWorktree(context, 'shared-link');
+  git(target, 'push', '-q', 'origin', 'feature/shared-link');
+  fs.mkdirSync(path.join(target, '.local'));
+  fs.symlinkSync(path.join(context.root, '.local', 'tools'), path.join(target, '.local', 'tools'), 'junction');
+  const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', target);
+  assert.equal(result.code, 0, result.err);
+  assert.ok(!fs.existsSync(target));
+  assert.ok(exists(context.root, '.local/tools/node/node.exe'), 'the shared root survives');
+});
+
+test('the migration reuses the exported safety helpers', () => {
+  for (const name of ['keepReason', 'isIgnored', 'hasTrackedFiles', 'isRealDirectory']) {
+    assert.equal(typeof cleanup[name], 'function', name);
+  }
 });

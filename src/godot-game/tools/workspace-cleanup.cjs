@@ -4,14 +4,22 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {execFileSync} = require('node:child_process');
+const workspace = require('./workspace-paths.cjs');
 
-const DURABLE_PHASE1 = new Set(['cache', 'cli-home', 'dotnet-home', 'feed', 'http-cache', 'packages', 'tools']);
+// The regenerable workspace root keeps its toolchain, downloads and NuGet caches; runs, temp and anything else go.
+const KEPT_LOCAL = new Set(['tools', 'downloads', 'nuget']);
+const KEPT_LOCAL_REASON = 'shared toolchain, download or NuGet cache';
+// Legacy per-phase folders keep today's rule until workspace-migrate.cjs retires them.
+const LEGACY_DURABLE = new Set(['cache', 'cli-home', 'dotnet-home', 'feed', 'http-cache', 'packages', 'tools']);
+const LEGACY_REASON = 'legacy toolchain cache; run workspace-migrate.cjs';
+const LEGACY_LOCKS = ['.phase1/check.lock', '.phase2/desktop.lock'];
 const BUILD_NAMES = new Set(['bin', 'obj', '.godot']);
-const RUNNER_LOCKS = ['.phase1/check.lock', '.phase2/desktop.lock'];
 const NESTED_REASON = 'contains a Git worktree or repository';
 const USAGE = `Usage: node src/godot-game/tools/workspace-cleanup.cjs [--apply] [--build] [--worktrees-only] [--remove-worktree <path>]...
 
-Without --apply, only reports what would be deleted.
+Without --apply, only reports what would be deleted. Keeps .local/tools, .local/downloads and .local/nuget;
+deletes .local/runs, .local/temp and every other .local entry. Nothing is deleted while a file exists in this
+checkout's .local/locks, the shared root's locks folder or a legacy runner lock.
   --apply                   Delete the listed task outputs and prune missing worktrees.
   --build                   Also delete ignored bin/, obj/ and .godot/ build outputs.
   --worktrees-only          Leave this checkout's outputs alone; only handle worktrees.
@@ -122,9 +130,21 @@ function keepReason(target, worktreePaths, {ownGit = false} = {}) {
   return null;
 }
 
-/** Returns the first fixed-path runner lock under dir (a dangling link counts), or null; unexpected errors throw. */
+/** Returns the first entry of a locks folder (a dangling link counts), or null when it is missing or empty. */
+function lockIn(directory) {
+  let names;
+  try {
+    names = fs.readdirSync(directory);
+  } catch (failure) {
+    if (failure.code === 'ENOENT' || failure.code === 'ENOTDIR') return null;
+    throw failure;
+  }
+  return names.length ? path.join(directory, names.sort()[0]) : null;
+}
+
+/** Returns the first runner lock of the checkout at dir: legacy fixed paths, then .local/locks; unexpected errors throw. */
 function findLock(dir) {
-  for (const entry of RUNNER_LOCKS) {
+  for (const entry of LEGACY_LOCKS) {
     const lock = path.join(dir, entry);
     try {
       fs.lstatSync(lock);
@@ -133,11 +153,16 @@ function findLock(dir) {
       if (failure.code !== 'ENOENT' && failure.code !== 'ENOTDIR') throw failure;
     }
   }
-  return null;
+  return lockIn(path.join(dir, '.local', 'locks'));
+}
+
+/** Returns the first lock in the shared root (toolchain, desktop), or null; in the main checkout it is .local/locks. */
+function findSharedLock(root) {
+  return lockIn(path.dirname(workspace.locations(root).locks.toolchain));
 }
 
 /** Classifies children of one ignored output root; unsafe roots and children are kept whole. */
-function classifyRoot(root, relative, reason, durable, worktreePaths) {
+function classifyRoot(root, relative, reason, durable, durableReason, worktreePaths) {
   const directory = path.join(root, relative);
   if (!isRealDirectory(directory)) return [];
   if (hasTrackedFiles(root, relative)) return [{path: relative, action: 'keep', reason: 'contains tracked files'}];
@@ -148,7 +173,7 @@ function classifyRoot(root, relative, reason, durable, worktreePaths) {
   }
   return names.sort().map(name => {
     const child = `${relative}/${name}`, absolute = path.join(root, child);
-    if (durable.has(name.toLowerCase())) return {path: child, action: 'keep', reason: 'pinned toolchain cache'};
+    if (durable.has(name.toLowerCase())) return {path: child, action: 'keep', reason: durableReason};
     const kept = keepReason(absolute, worktreePaths);
     if (kept) return {path: child, action: 'keep', reason: kept};
     return {path: child, action: 'delete', reason};
@@ -160,7 +185,7 @@ function buildOutputs(root, worktreePaths) {
     .split('\0')
     .filter(entry => entry.endsWith('/'))
     .map(entry => entry.slice(0, -1))
-    .filter(entry => BUILD_NAMES.has(entry.split('/').pop()) && !/^\.phase\d+(\/|$)/.test(entry))
+    .filter(entry => BUILD_NAMES.has(entry.split('/').pop()) && !/^(?:\.local|\.phase\d+)(\/|$)/.test(entry))
     .sort()
     .map(entry => {
       const kept = keepReason(path.join(root, entry), worktreePaths);
@@ -171,12 +196,13 @@ function buildOutputs(root, worktreePaths) {
 /** Returns keep/delete decisions for ignored outputs in the checkout at root. */
 function planArtifacts(root, {build = false, worktreePaths = []} = {}) {
   const entries = [];
-  const phases = fs.readdirSync(root).filter(name => /^\.phase\d+$/.test(name)).sort();
-  for (const name of phases) {
-    const durable = name === '.phase1' ? DURABLE_PHASE1 : new Set();
-    entries.push(...classifyRoot(root, name, 'phase output', durable, worktreePaths));
+  entries.push(...classifyRoot(root, '.local', 'regenerable output', KEPT_LOCAL, KEPT_LOCAL_REASON, worktreePaths));
+  const legacy = fs.readdirSync(root).filter(name => /^\.phase\d+$/.test(name)).sort();
+  for (const name of legacy) {
+    const durable = name === '.phase1' ? LEGACY_DURABLE : new Set();
+    entries.push(...classifyRoot(root, name, 'legacy phase output', durable, LEGACY_REASON, worktreePaths));
   }
-  entries.push(...classifyRoot(root, '.planning/tmp', 'workflow scratch', new Set(), worktreePaths));
+  entries.push(...classifyRoot(root, '.planning/tmp', 'workflow scratch', new Set(), '', worktreePaths));
   if (build) entries.push(...buildOutputs(root, worktreePaths));
   return entries;
 }
@@ -242,7 +268,7 @@ function removeInside(root, relative) {
   fs.rmSync(target, {recursive: true, force: true, maxRetries: 3});
 }
 
-/** Removes a worktree; links (such as junctions to shared caches) are unlinked, never followed. */
+/** Removes a worktree; links (such as junctions to the shared root) are unlinked, never followed. */
 function removeWorktree(root, worktreePath) {
   git(root, ['worktree', 'remove', worktreePath]);
   // Git leaves folders it cannot fully delete; Node's rmSync unlinks junctions and symlinks without following them.
@@ -288,7 +314,7 @@ function execute(options, {cwd, log, error}) {
   let failures = 0;
 
   log(`Workspace cleanup ${options.apply ? '(apply)' : '(dry run)'}: ${root}`);
-  const lock = findLock(root);
+  const lock = findLock(root) ?? findSharedLock(root);
   if (lock) {
     error(`  ${lock} exists: a runner is active or stopped uncleanly. Inspect it; nothing is deleted while it exists.`);
     if (options.apply) return 1;
@@ -342,6 +368,7 @@ function execute(options, {cwd, log, error}) {
   return failures ? 1 : 0;
 }
 
-module.exports = {parseArgs, parseWorktrees, planArtifacts, planWorktrees, run, UsageError};
+module.exports = {parseArgs, parseWorktrees, planArtifacts, planWorktrees, run, UsageError, keepReason, isIgnored,
+  hasTrackedFiles, isRealDirectory, findLock, findSharedLock};
 
 if (require.main === module) process.exitCode = run(process.argv.slice(2));
