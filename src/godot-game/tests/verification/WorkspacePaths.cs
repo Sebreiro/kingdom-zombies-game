@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -234,6 +235,15 @@ internal static class WorkspacePaths
 
     private static string? GitCommonDirectory()
     {
+        string[] arguments = ["-C", ProofProtocol.Root, "rev-parse", "--path-format=absolute", "--git-common-dir"];
+        (int exitCode, string output) = RunGit(arguments: arguments);
+        string common = output.Trim();
+        return exitCode == 0 && common.Length > 0 ? Path.GetFullPath(path: common) : null;
+    }
+
+    // Without Git a linked worktree would silently fall back to its own .local; a missing git is a named refusal.
+    private static (int ExitCode, string Output) RunGit(string[] arguments)
+    {
         var start = new ProcessStartInfo(fileName: "git")
         {
             RedirectStandardOutput = true,
@@ -241,13 +251,23 @@ internal static class WorkspacePaths
             UseShellExecute = false,
             CreateNoWindow = true,
         };
-        foreach (string argument in new[] { "-C", ProofProtocol.Root, "rev-parse", "--path-format=absolute",
-                "--git-common-dir" })
+        foreach (string argument in arguments)
         {
             start.ArgumentList.Add(item: argument);
         }
 
-        using Process process = Process.Start(startInfo: start)
+        Process? started;
+        try
+        {
+            started = Process.Start(startInfo: start);
+        }
+        catch (Win32Exception exception)
+        {
+            throw new InvalidOperationException(message: "GIT_MISSING: git could not start, so the shared .local root "
+                    + "cannot be resolved; put Git on PATH or set KZ_SHARED_LOCAL", innerException: exception);
+        }
+
+        using Process process = started
                 ?? throw new InvalidOperationException(message: "SHARED_ROOT_UNRESOLVED: git failed to start");
         Task<string> output = process.StandardOutput.ReadToEndAsync();
         Task<string> error = process.StandardError.ReadToEndAsync();
@@ -259,7 +279,6 @@ internal static class WorkspacePaths
         }
 
         _ = error.GetAwaiter().GetResult();
-        string common = output.GetAwaiter().GetResult().Trim();
-        return process.ExitCode == 0 && common.Length > 0 ? Path.GetFullPath(path: common) : null;
+        return (process.ExitCode, output.GetAwaiter().GetResult());
     }
 }

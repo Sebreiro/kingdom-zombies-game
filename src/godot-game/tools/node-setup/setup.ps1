@@ -49,6 +49,10 @@ function Read-Git([string[]]$arguments) {
 }
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
+# Without Git the shared root cannot be found; never fall back to this checkout's own .local and download there.
+if (-not (Get-Command git -CommandType Application -ErrorAction SilentlyContinue)) {
+  Fail 'GIT_MISSING' 'git is not on PATH, so the shared .local root cannot be resolved; put Git on PATH and rerun'
+}
 $top = Read-Git @('-C', $here, 'rev-parse', '--show-toplevel')
 if (-not $top) { $top = [System.IO.Path]::GetFullPath((Join-Path $here '../../../..')) }
 $manifestPath = Join-Path $top 'src/godot-game/tools/verification/toolchain.json'

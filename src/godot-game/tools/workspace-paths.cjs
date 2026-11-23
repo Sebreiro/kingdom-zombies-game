@@ -63,6 +63,9 @@ function roots(root = checkoutRoot(), env = process.env) {
   } else {
     const git = spawnSync('git', ['-C', checkout, 'rev-parse', '--path-format=absolute', '--git-common-dir'],
       {encoding: 'utf8', windowsHide: true, env});
+    // Without Git a linked worktree would silently become standalone and download its own toolchain; refuse instead.
+    if (git.error) fail('GIT_MISSING', 'git could not start (' + git.error.code + '), so the shared .local root cannot be '
+      + 'resolved; put Git on PATH or set ' + OVERRIDE);
     const common = git.status === 0 ? String(git.stdout).trim() : '';
     if (common) {
       if (path.basename(common) !== '.git')

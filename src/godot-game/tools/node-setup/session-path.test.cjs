@@ -165,6 +165,29 @@ test('the hooks write nothing and setup refuses for a KZ_SHARED_LOCAL inside the
   }
 });
 
+test('without git on PATH both setup scripts refuse with GIT_MISSING and write nothing', t => {
+  const base = scratch(t), main = repository(base), bin = path.join(base, 'empty-bin');
+  fs.mkdirSync(bin);
+  const shell = sh(['-c', 'command -v sh']).stdout.trim();
+  const executable = WINDOWS ? sh(['-c', 'cygpath -w "$1"', 'path', shell]).stdout.trim() : shell;
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => key.toLowerCase() !== 'path'));
+  const result = spawnSync(executable, [path.join(main, 'src/godot-game/tools/node-setup/setup.sh')],
+    {cwd: base, encoding: 'utf8', windowsHide: true, env: {...env, KZ_SHARED_LOCAL: '', PATH: bin}});
+  assert.equal(result.status, 1, result.stderr);
+  assert.match(result.stderr, /^GIT_MISSING: /);
+  assert.equal(result.stdout, '');
+  assert.equal(fs.existsSync(path.join(main, '.local')), false, 'setup.sh wrote nothing');
+  if (!WINDOWS) return;
+  const system = path.join(process.env.SystemRoot, 'System32');
+  const powershell = spawnSync(path.join(system, 'WindowsPowerShell', 'v1.0', 'powershell.exe'), ['-NoProfile',
+    '-ExecutionPolicy', 'Bypass', '-File', path.join(main, 'src/godot-game/tools/node-setup/setup.ps1')],
+  {cwd: base, encoding: 'utf8', windowsHide: true, env: {...env, KZ_SHARED_LOCAL: '', PATH: system}});
+  assert.equal(powershell.status, 1, powershell.stderr);
+  assert.match(powershell.stderr, /^GIT_MISSING: /m);
+  assert.equal(powershell.stdout, '');
+  assert.equal(fs.existsSync(path.join(main, '.local')), false, 'setup.ps1 wrote nothing');
+});
+
 test('each Node pin names node-v<node>-<platform> and the official release URL', () => {
   const expected = {'win32-x64': ['win-x64', '.zip', 'node.exe'], 'linux-x64': ['linux-x64', '.tar.xz', 'bin/node']};
   assert.deepEqual(Object.keys(pins.nodeArchives).sort(), Object.keys(expected).sort());

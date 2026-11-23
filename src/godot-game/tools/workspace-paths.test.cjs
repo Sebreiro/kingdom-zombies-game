@@ -128,6 +128,17 @@ test('KZ_SHARED_LOCAL is refused inside the checkout except its .local, at a fil
     same(paths.roots(main, {...isolated(base), KZ_SHARED_LOCAL: accepted}).shared, accepted, accepted);
 });
 
+test('without git on PATH the helper refuses with GIT_MISSING and never falls back to the checkout .local', t => {
+  const base = scratch(t), main = repository(base), bin = path.join(base, 'empty-bin');
+  fs.mkdirSync(bin);
+  const env = Object.fromEntries(Object.entries(isolated(base)).filter(([key]) => key.toLowerCase() !== 'path'));
+  const run = cli(MODULE, ['--print-roots', '--root', main], base, {...env, PATH: bin});
+  assert.equal(run.exit, 1, run.stdout);
+  assert.match(run.stderr, /^GIT_MISSING: /);
+  assert.throws(() => paths.roots(main, {...env, PATH: bin}), error => error.diagnostic === 'GIT_MISSING');
+  assert.equal(fs.existsSync(path.join(main, '.local')), false);
+});
+
 test('a non-git copy is standalone', t => {
   const base = scratch(t), copy = path.join(base, 'copy');
   fs.mkdirSync(copy);

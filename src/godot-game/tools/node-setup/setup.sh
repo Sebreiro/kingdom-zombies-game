@@ -26,6 +26,8 @@ while [ $# -gt 0 ]; do
 done
 [ -z "$platform" ] || [ "$platform" = linux-x64 ] || fail USAGE '--platform accepts only linux-x64'
 
+# Without Git the shared root cannot be found; never fall back to this checkout's own .local and download there.
+command -v git >/dev/null 2>&1 || fail GIT_MISSING 'git is not on PATH, so the shared .local root cannot be resolved; put Git on PATH and rerun'
 here=$(cd "$(dirname "$0")" && pwd)
 # Git for Windows is a native program: with MSYS_NO_PATHCONV set it cannot read an MSYS /c/... path.
 if command -v cygpath >/dev/null 2>&1; then here=$(cygpath -m "$here"); fi
