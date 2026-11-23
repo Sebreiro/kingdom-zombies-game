@@ -237,6 +237,50 @@ test('the migration refuses a linked, tracked, unignored or repository-holding s
   assert.match(invoke(nested.root).out, /^refuse: \.phase1\/dotnet-home is not empty: it holds data/m);
 });
 
+// Replaces a folder of the fixture by a junction (a symbolic link outside Windows) to a copy outside the checkout.
+// Returns false when this OS cannot create the link, so the caller skips with that reason.
+function linkFolder(root, relative, outside) {
+  const folder = path.join(root, ...relative.split('/'));
+  fs.mkdirSync(path.dirname(outside), {recursive: true});
+  if (fs.existsSync(folder)) fs.renameSync(folder, outside);
+  else fs.mkdirSync(outside, {recursive: true});
+  fs.mkdirSync(path.dirname(folder), {recursive: true});
+  try {
+    fs.symlinkSync(outside, folder, 'junction');
+    return true;
+  } catch {
+    fs.renameSync(outside, folder);
+    return false;
+  }
+}
+
+test('the migration refuses any source or target with a linked folder from the checkout root down', t => {
+  const cases = [
+    ['.phase1', 'refuse: .phase1/feed has a linked folder .phase1'],
+    ['.phase1/tools', 'refuse: .phase1/tools/linux-vm has a linked folder .phase1/tools'],
+    ['.phase1/cache', 'refuse: .phase1/cache/SHA512-SUMS.txt has a linked folder .phase1/cache'],
+    ['.local', 'refuse: .phase1/feed: .local is a link'],
+    ['.local/downloads', 'refuse: .phase1/cache/Godot_fixture_win64.zip: .local/downloads is a link'],
+    ['.local/nuget', 'refuse: .phase1/packages: .local/nuget is a link'],
+  ];
+  for (const [relative, refusal] of cases) {
+    const {base, root} = repository(t);
+    const outside = path.join(base, 'outside', relative.replaceAll('/', '-'));
+    if (!linkFolder(root, relative, outside)) {
+      t.skip('this OS cannot create a junction or symbolic link');
+      return;
+    }
+    const witness = snapshot(outside);
+    const dry = invoke(root);
+    assert.equal(dry.code, 1, relative);
+    assert.ok(dry.lines.includes(refusal), relative + '\n' + dry.out);
+    const applied = invoke(root, ['--apply']);
+    assert.equal(applied.code, 1, relative);
+    assert.deepEqual(snapshot(outside), witness, relative + ': nothing outside the checkout changes');
+    assert.ok(exists(root, '.phase1/tools/linux-vm/system.qcow2'), relative);
+  }
+});
+
 test('an existing target must verify against its pin; an existing cache target makes the legacy copy a duplicate', t => {
   const {root} = repository(t);
   write(root, '.local/downloads/godot/Godot_fixture_win64.zip', 'not the pinned bytes');

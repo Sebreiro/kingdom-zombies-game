@@ -341,6 +341,32 @@ test('removing a worktree never follows a link into the shared root', t => {
   assert.ok(exists(context.root, '.local/tools/node/node.exe'), 'the shared root survives');
 });
 
+test('cleanup keeps every output reached through a link and never deletes through one', t => {
+  const {base, root} = repository(t);
+  const outside = path.join(base, 'outside');
+  for (const [relative, file] of [['temp', 'temp/scratch.txt'], ['planning', 'planning/tmp/state.json'], ['local', 'local/runs/r.txt']])
+    write(outside, file, relative);
+  try {
+    fs.mkdirSync(path.join(root, '.phase1'));
+    fs.symlinkSync(path.join(outside, 'temp'), path.join(root, '.phase1', 'temp'), 'junction');
+    fs.symlinkSync(path.join(outside, 'planning'), path.join(root, '.planning'), 'junction');
+  } catch {
+    t.skip('this OS cannot create a junction or symbolic link');
+    return;
+  }
+  const result = invoke(root, '--apply');
+  assert.equal(result.code, 0, result.err);
+  assert.match(result.out, /keep\s+\.phase1\/temp\s+\(\.phase1\/temp is a link\)/);
+  assert.match(result.out, /keep\s+\.planning\/tmp\s+\(\.planning is a link\)/);
+  assert.ok(fs.existsSync(path.join(outside, 'temp/scratch.txt')), 'the linked legacy entry keeps its target');
+  assert.ok(fs.existsSync(path.join(outside, 'planning/tmp/state.json')), 'a linked ancestor keeps its target');
+  fs.symlinkSync(path.join(outside, 'local'), path.join(root, '.local'), 'junction');
+  const local = invoke(root, '--apply');
+  assert.equal(local.code, 0, local.err);
+  assert.match(local.out, /keep\s+\.local\s+\(\.local is a link\)/);
+  assert.ok(fs.existsSync(path.join(outside, 'local/runs/r.txt')), 'a linked .local keeps its target');
+});
+
 test('the migration reuses the exported safety helpers', () => {
   for (const name of ['keepReason', 'isIgnored', 'hasTrackedFiles', 'isRealDirectory']) {
     assert.equal(typeof cleanup[name], 'function', name);

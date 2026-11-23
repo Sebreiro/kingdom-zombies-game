@@ -139,6 +139,8 @@ function rowsFor(main, toolchain, exportToolchain) {
 
 /** Why the source cannot be migrated, or null. */
 function unsafeSource(main, row, worktreePaths) {
+  const linked = workspace.linkedComponent(main, row.source);
+  if (linked && linked !== row.legacy) return `has a linked folder ${linked}`;
   const stat = fs.lstatSync(row.source);
   if (stat.isSymbolicLink() || (row.kind === 'file' ? !stat.isFile() : row.kind === 'directory' && !stat.isDirectory()) ||
     (!row.kind && !stat.isDirectory() && !stat.isFile())) return 'is a link or not a real file or folder';
@@ -152,8 +154,10 @@ function unsafeSource(main, row, worktreePaths) {
   return null;
 }
 
-/** Why a move target cannot be created: an existing parent below the main checkout that is not a folder, or null. */
+/** Why a target cannot be used: a link from the main checkout down, or an existing parent that is not a folder; or null. */
 function blockedTarget(main, target) {
+  const linked = workspace.linkedComponent(main, target);
+  if (linked) return `${linked} is a link`;
   const parents = [];
   for (let parent = path.dirname(target); parent.length > main.length; parent = path.dirname(parent)) parents.unshift(parent);
   for (const parent of parents) {
@@ -172,6 +176,8 @@ function classify(main, row, worktreePaths) {
   }
   const unsafe = unsafeSource(main, row, worktreePaths);
   if (unsafe) return {...row, decision: 'refuse', line: `refuse: ${row.legacy} ${unsafe}`};
+  const blocked = row.target && blockedTarget(main, row.target);
+  if (blocked) return {...row, decision: 'refuse', line: `refuse: ${row.legacy}: ${blocked}`};
   const bytes = formatSize(size(row.source));
   if (row.action === 'delete') return {...row, decision: 'delete', line: `delete ${row.legacy} (${bytes}; ${row.note})`};
   if (present(row.target)) {
@@ -184,8 +190,6 @@ function classify(main, row, worktreePaths) {
     }
     return {...row, decision: 'delete', line: `delete ${row.legacy} (${bytes}; duplicate of the verified ${relativeTarget})`};
   }
-  const blocked = blockedTarget(main, row.target);
-  if (blocked) return {...row, decision: 'refuse', line: `refuse: ${row.legacy}: ${blocked}`};
   if (row.verify && !row.verify(row.source)) {
     return {...row, decision: 'refuse', line: `refuse: ${row.legacy} does not verify against its pin`};
   }

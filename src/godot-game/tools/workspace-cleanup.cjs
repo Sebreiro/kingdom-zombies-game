@@ -164,6 +164,8 @@ function findSharedLock(root) {
 /** Classifies children of one ignored output root; unsafe roots and children are kept whole. */
 function classifyRoot(root, relative, reason, durable, durableReason, worktreePaths) {
   const directory = path.join(root, relative);
+  const linked = workspace.linkedComponent(root, directory);
+  if (linked) return [{path: relative, action: 'keep', reason: `${linked} is a link`}];
   if (!isRealDirectory(directory)) return [];
   if (hasTrackedFiles(root, relative)) return [{path: relative, action: 'keep', reason: 'contains tracked files'}];
   if (!isIgnored(root, relative + '/')) return [{path: relative, action: 'keep', reason: 'not ignored by Git'}];
@@ -174,6 +176,7 @@ function classifyRoot(root, relative, reason, durable, durableReason, worktreePa
   return names.sort().map(name => {
     const child = `${relative}/${name}`, absolute = path.join(root, child);
     if (durable.has(name.toLowerCase())) return {path: child, action: 'keep', reason: durableReason};
+    if (fs.lstatSync(absolute).isSymbolicLink()) return {path: child, action: 'keep', reason: `${child} is a link`};
     const kept = keepReason(absolute, worktreePaths);
     if (kept) return {path: child, action: 'keep', reason: kept};
     return {path: child, action: 'delete', reason};
@@ -188,6 +191,8 @@ function buildOutputs(root, worktreePaths) {
     .filter(entry => BUILD_NAMES.has(entry.split('/').pop()) && !/^(?:\.local|\.phase\d+)(\/|$)/.test(entry))
     .sort()
     .map(entry => {
+      const linked = workspace.linkedComponent(root, path.join(root, entry));
+      if (linked) return {path: entry, action: 'keep', reason: `${linked} is a link`};
       const kept = keepReason(path.join(root, entry), worktreePaths);
       return kept ? {path: entry, action: 'keep', reason: kept} : {path: entry, action: 'delete', reason: 'build output'};
     });
@@ -265,6 +270,8 @@ function removeInside(root, relative) {
   if (!inside || inside.startsWith('..') || path.isAbsolute(inside)) {
     throw new Error(`refusing to delete outside the checkout: ${target}`);
   }
+  const linked = workspace.linkedComponent(root, target);
+  if (linked) throw new Error(`refusing to delete through the link ${linked}`);
   fs.rmSync(target, {recursive: true, force: true, maxRetries: 3});
 }
 

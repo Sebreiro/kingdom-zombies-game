@@ -153,6 +153,23 @@ function insideShared(absolute, root) {
   return relative !== '' && !path.isAbsolute(relative) && relative.split(path.sep)[0] !== '..';
 }
 
+// The first existing component of target, from just below base down to target itself, that is a symbolic link or a
+// junction, as a base-relative path with forward slashes; null when there is none. A missing component ends the walk.
+function linkedComponent(base, target) {
+  const relative = path.relative(base, target);
+  if (relative === '') return null;
+  if (relative.split(path.sep)[0] === '..' || path.isAbsolute(relative)) throw new Error(target + ' is not inside ' + base);
+  const parts = relative.split(path.sep);
+  let current = base;
+  for (let index = 0; index < parts.length; index++) {
+    current = path.join(current, parts[index]);
+    let stat;
+    try { stat = fs.lstatSync(current); } catch { return null; }
+    if (stat.isSymbolicLink()) return parts.slice(0, index + 1).join('/');
+  }
+  return null;
+}
+
 function ensure(...directories) {
   for (const directory of directories) fs.mkdirSync(directory, {recursive: true});
   return directories;
@@ -190,8 +207,8 @@ function main(args) {
 }
 
 module.exports = {
-  OVERRIDE, LEGACY_MAP, ISOLATION_KEYS, checkoutRoot, roots, locations, isolationEnv, legacyPath, insideShared, ensure,
-  printEnv,
+  OVERRIDE, LEGACY_MAP, ISOLATION_KEYS, checkoutRoot, roots, locations, isolationEnv, legacyPath, insideShared,
+  linkedComponent, ensure, printEnv,
 };
 
 if (require.main === module) {
