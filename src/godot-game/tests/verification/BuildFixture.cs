@@ -80,11 +80,11 @@ internal sealed class BuildFixture
             "-nodeReuse:false", "-p:UseSharedCompilation=false", "-p:NuGetAudit=false", "-v:minimal", ..overrides]);
     }
 
-    /// <summary>Runs the pinned real formatter against only this exact isolated subject.</summary>
+    /// <summary>Runs the pinned real formatter against the isolated Core project without changing files.</summary>
     internal (int Exit, string Output) Format()
     {
         return Run("format", "whitespace", "src/godot-game/core/KingdomZombies.Core.csproj", "--no-restore",
-                "--verify-no-changes", "--include", "src/godot-game/core/Subject.cs", "--verbosity", "diagnostic");
+                "--verify-no-changes", "--verbosity", "diagnostic");
     }
 
     /// <summary>Returns actual evaluated import/target order without compiling a running proof assembly.</summary>

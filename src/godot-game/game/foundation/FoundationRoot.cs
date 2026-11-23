@@ -32,9 +32,12 @@ public sealed partial class FoundationRoot : Control
         GetNode<Button>(path: "Menu/Host").Pressed += Host;
         GetNode<Button>(path: "Menu/Join").Pressed += Browse;
         GetNode<Button>(path: "Browser/JoinAddress").Pressed += JoinAddress;
-        _services = new FoundationServices(identity: new LocalProfileService(directory:
-                System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE_ROOT")
-                        ?? Path.Combine(path1: OS.GetUserDataDir(), path2: "profiles")),
+        string profileDirectory = Path.Combine(path1: OS.GetUserDataDir(), path2: "profiles");
+#if DEBUG
+        profileDirectory = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE_ROOT")
+                ?? profileDirectory;
+#endif
+        _services = new FoundationServices(identity: new LocalProfileService(directory: profileDirectory),
                 discovery: new LanDiscoveryService(), connection: () => new EnetConnectionService(gateway: _gateway));
         _menu = new FoundationMenu(root: this, gateway: _gateway, services: _services, join: JoinAddress,
                 back: ReturnToMenu, coordinator: () => _coordinator, replace: value =>
@@ -94,7 +97,9 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
+#if DEBUG
         FoundationAutomation.Tick(root: this, gateway: _gateway);
+#endif
         PollKeys();
         double exact = delta * 1000 + _remainder;
         long elapsed = checked((long)exact);
@@ -206,12 +211,14 @@ public sealed partial class FoundationRoot : Control
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: host, nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Start(host: host, port: Port());
+#if DEBUG
             if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
                     is string fault && StringComparer.Ordinal.Equals(x: fault,
                             y: System.Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE")))
             {
                 throw new InvalidOperationException(message: "Scoped one-shot scene construction fixture");
             }
+#endif
 
             _remainder = 0;
             _lastDirection = int.MinValue;
@@ -335,8 +342,11 @@ public sealed partial class FoundationRoot : Control
 
     private static int Port()
     {
-        string? value = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PORT");
-        return value is null ? 47778 : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
+#if DEBUG
+        return FoundationAutomation.Port(fallback: 47778);
+#else
+        return 47778;
+#endif
     }
 
     private void ReturnToMenu()

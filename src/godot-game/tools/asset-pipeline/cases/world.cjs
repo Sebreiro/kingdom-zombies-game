@@ -97,7 +97,14 @@ for part in p['parts']:
   for source in [record['source'],*record.get('dependencies',[])]:
    if 'rawMember' in source:m.need(d[source['rawMember']]==commonzip[source['rawMember']] and m.sha(d[source['rawMember']])==source['rawSha256'],'WORLD_RAW_SOURCE')
 gen=p['sources']['generated'];master=Image.open(io.BytesIO(d[gen['master']])).convert('RGBA');m.need(gen['sha256']==m.sha(d[gen['master']]) and gen['promptSha256']==m.sha(d[gen['prompt']]) and master.getchannel('A').getextrema()==(0,255) and b'D-13 LOW-RESOLUTION' in d[gen['prompt']],'WORLD_GENERATED')
-m.need(p['recipe']['sha256']==m.sha(d['recipes/build-world.py']),'WORLD_RECIPE_HASH');ns={'__name__':'retained_recipe','__file__':str(root/'.phase4/04-13-authoring/build-world.py')};exec(compile(d['recipes/build-world.py'],'retained-world.py','exec'),ns);rp,rw,replayed=ns['build'](d)
+recipe=d['recipes/build-world.py']
+m.need(p['recipe']['sha256']==m.sha(recipe),'WORLD_RECIPE_HASH')
+# Rebind only the import path in the executable copy. The archive and inputs still hold the original bytes.
+legacy_import=b"ROOT/'tools/phase4/extract-media.py'"
+m.need(recipe.count(legacy_import)==1,'WORLD_RECIPE_IMPORT_BINDING')
+ns={'__name__':'retained_recipe','__file__':str(root/'.phase4/04-13-authoring/build-world.py'),'_current_media_path':pathlib.Path(m.__file__)}
+exec(compile(recipe.replace(legacy_import,b'_current_media_path'),'retained-world.py','exec'),ns)
+rp,rw,replayed=ns['build'](d)
 m.need(rp==p and rw==w,'WORLD_REPLAY_DEFINITIONS')
 for n in ['world.json','map.json','environment.png',*[part['member'] for part in p['parts']]]:m.need(replayed[n]==d[n],'WORLD_REPLAY_BYTES '+n)
 print(json.dumps({'parts':len(p['parts']),'nodes':len(w['native']['nodes']),'members':len(d),'rawSources':len([n for n in d if n.startswith('raw/')]),'replayed':45,'alpha':'binary; zero RGB outside; source raw PNGs retained'}))

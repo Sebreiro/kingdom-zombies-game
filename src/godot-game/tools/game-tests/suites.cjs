@@ -2,7 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const {randomUUID} = require('node:crypto');
+const {randomUUID, createHash} = require('node:crypto');
 const workspace = require('../workspace-paths.cjs');
 const {run} = require('../lan-checks/processes.cjs');
 const {exact, reconcile, relative, requiredFile, writeJson} = require('./report.cjs');
@@ -25,7 +25,9 @@ function tasks(selected) {
     if (!batches.has(key)) batches.set(key, []);
     batches.get(key).push(row);
   }
-  return [...batches].sort(([left], [right]) => Number(right === 'basic') - Number(left === 'basic'));
+  // Use the prepared game build before standalone verification runs.
+  const order = ([id, rows]) => id === 'basic' ? 0 : rows[0].adapter === 'verification' ? 2 : 1;
+  return [...batches].sort((left, right) => order(left) - order(right));
 }
 
 function childArgs(adapter, rows) {
@@ -80,11 +82,14 @@ async function legacy(context, adapter, rows) {
     return rows.map(row => {
       const members = details.filter(result => (row.legacyIds ?? [row.legacyId]).includes(result.id));
       const failure = members.find(result => result.status !== 'pass');
-      const status = failure?.status ?? (record.code === 0 && report.status === 'pass' ? 'pass' : 'fail');
-      if (!failure && members.every(result => result.status === 'pass') && !report.failures?.some(result => result.id === 'inputs')
-          && details.some(result => result.status !== 'pass')) return {id: row.id, status: 'pass', artifacts: [log], legacyReport: reportPath, members};
+      const independentFailure = details.some(result => result.status !== 'pass') &&
+        !report.failures?.some(result => result.id === 'inputs');
+      const status = failure?.status ?? (independentFailure || record.code === 0 && report.status === 'pass' ? 'pass' : 'fail');
+      const launchCount = adapter === 'lan-checks' && row.tier === 2
+        ? members.reduce((count, result) => count + (result.peers?.length ?? 0), 0)
+        : report.launches?.length ?? Number(members.some(result => result.nativeLog));
       return {id: row.id, status, message: status === 'pass' ? undefined : failure?.message ?? failure?.diagnostic ?? 'Suite reported non-success',
-        artifacts: [log], legacyReport: reportPath, members, launchCount: report.launches?.length ?? Number(members.some(result => result.nativeLog))};
+        artifacts: [log], legacyReport: reportPath, members, launchCount, durationMilliseconds: members[0]?.durationMilliseconds};
     });
   } catch (error) {
     return blocked(rows, error, [log]);
@@ -128,7 +133,9 @@ function assetResults(context, rows, output, record, log, started) {
     if (report.id !== row.legacyId && report.caseId !== row.legacyId) throw new Error('Asset case identity mismatch: ' + row.legacyId);
     const status = report.status === 'pass' && record.code !== 0 && receipts.every(match => match[0].startsWith('PASS '))
       ? 'fail' : report.status;
-    return {id: row.id, status, message: report.message, artifacts: [log], legacyReport: reportPath};
+    return {id: row.id, status, message: report.message, artifacts: [log], legacyReport: reportPath,
+      launchCount: report.observations?.pid ? 1 : undefined,
+      durationMilliseconds: Date.parse(report.finishedAt) - Date.parse(report.startedAt)};
   });
 }
 
@@ -178,15 +185,36 @@ async function scenarioGroup(context, rows) {
   return results.map(row => ({...row, artifacts: [...(row.artifacts ?? []).map(file => prefix + '/' + file), log]}));
 }
 
+function runtimeBuildIdentity(root) {
+  const directory = path.join(root, 'src/godot-game/game/.godot/mono/temp/bin/Debug');
+  const families = ['KingdomZombies.dll', 'KingdomZombies.Core.dll', 'KingdomZombies.Multiplayer.Abstractions.dll',
+    'KingdomZombies.deps.json', 'KingdomZombies.runtimeconfig.json'];
+  if (families.some(file => !fs.existsSync(path.join(directory, file)))) return null;
+  const hash = createHash('sha256');
+  for (const file of families) hash.update(fs.readFileSync(path.join(directory, file)));
+  return hash.digest('hex');
+}
+
+async function refreshRuntime(context, group) {
+  const directory = path.join(context.directory, 'runtime-' + randomUUID());
+  fs.mkdirSync(directory);
+  const {results, prepared} = await require('./basic.cjs').executeBasic({...context, directory}, ['basic.strict-build']);
+  const prefix = relative(context.directory, directory);
+  const result = results[0];
+  return {group, prepared, result: {...result, artifacts: result.artifacts.map(file => prefix + '/' + file)}};
+}
+
 async function runGroups(context, selected) {
   const results = [];
   const groups = [];
   const batches = tasks(selected);
-  let preparation;
+  let preparation, runtimeIdentity;
+  const runtimeRefreshes = [];
   if (batches[0]?.[0] !== 'basic') {
     try {
       const {results: bootstrap, prepared} = await require('./basic.cjs').executeBasic(context, ['basic.strict-build']);
       preparation = {prepared, result: bootstrap[0]};
+      if (prepared) runtimeIdentity = runtimeBuildIdentity(context.root);
     } catch (error) {
       preparation = {prepared: false, message: error.message};
     }
@@ -199,20 +227,29 @@ async function runGroups(context, selected) {
         const execution = await require('./basic.cjs').executeBasic(context, rows.map(row => row.id));
         groupResults = execution.results;
         preparation = {prepared: execution.prepared};
+        if (execution.prepared) runtimeIdentity = runtimeBuildIdentity(context.root);
       } else if (!preparation?.prepared) {
         groupResults = blocked(rows, new Error('The current-source build prerequisite failed.'));
-      } else if (id === 'lan-checks.rendered') groupResults = await renderedLan(context, rows);
-      else if (rows[0].adapter === 'scenario') groupResults = await scenarioGroup(context, rows);
-      else groupResults = await legacy(context, rows[0].adapter, rows);
+      } else if (rows[0].adapter !== 'verification' && rows.some(row => row.tier >= 2)
+          && (!runtimeIdentity || runtimeBuildIdentity(context.root) !== runtimeIdentity)) {
+        const refresh = await refreshRuntime(context, id);
+        runtimeRefreshes.push(refresh);
+        runtimeIdentity = refresh.prepared ? runtimeBuildIdentity(context.root) : null;
+        if (!runtimeIdentity) throw new Error('Runtime assembly refresh failed: ' + (refresh.result.message ?? 'missing build output'));
+      }
+      if (!groupResults && id === 'lan-checks.rendered') groupResults = await renderedLan(context, rows);
+      else if (!groupResults && rows[0].adapter === 'scenario') groupResults = await scenarioGroup(context, rows);
+      else if (!groupResults) groupResults = await legacy(context, rows[0].adapter, rows);
       reconcile(context.directory, rows, groupResults);
     } catch (error) {
       groupResults = blocked(rows, error);
     }
     results.push(...groupResults);
     groups.push({id, ids: rows.map(row => row.id), durationMilliseconds: Date.now() - started,
-      launchCount: Math.max(0, ...groupResults.map(row => row.launchCount ?? 0))});
+      launchCount: id.endsWith('.rendered') ? Math.max(0, ...groupResults.map(row => row.launchCount ?? 0))
+        : groupResults.reduce((total, row) => total + (row.launchCount ?? 0), 0)});
   }
-  return {results, groups, preparation};
+  return {results, groups, preparation, runtimeRefreshes};
 }
 
 module.exports = {runGroups, tasks};

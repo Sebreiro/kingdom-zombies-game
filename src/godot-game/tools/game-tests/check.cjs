@@ -79,8 +79,18 @@ function repairOptions(root, filename, catalog) {
   if (previous.schemaVersion !== 1 || path.basename(path.dirname(file)) !== previous.invocation) {
     throw new Error('This report does not identify a shared test run.');
   }
-  const ids = previous.results.filter(row => row.status === 'fail' || row.status === 'blocked').map(row => row.id);
-  return {selection: select(catalog, {mode: 'case', value: ids.join(',')}), repairOf: previous.invocation};
+  const failures = previous.results.filter(row => row.status === 'fail' || row.status === 'blocked');
+  const selection = select(catalog, {mode: 'case', value: failures.map(row => row.id).join(',')});
+  for (const selected of selection.selected.filter(row => row.adapter === 'verification')) {
+    const failed = failures.find(row => row.id === selected.id);
+    const repairIds = failed.members?.filter(row => row.status !== 'pass' && selected.legacyIds.includes(row.id))
+      .map(row => row.id);
+    if (repairIds?.length) {
+      selected.legacyIds = repairIds;
+      selected.reason = 'Failed members of the previous verification group';
+    }
+  }
+  return {selection, repairOf: previous.invocation};
 }
 
 async function main(root, args) {
@@ -112,7 +122,7 @@ async function main(root, args) {
     command: [process.execPath, entry, ...args]};
   writeJson(directory, 'selection.json', plan);
   console.log('Selected ' + selected.length + ' required checks. See ' + path.join(directory, 'selection.json'));
-  const {results, groups, preparation} = await runGroups(context, selected);
+  const {results, groups, preparation, runtimeRefreshes} = await runGroups(context, selected);
   const actual = source(root);
   const sourceChanged = actual.revision !== tested.revision || actual.changes !== tested.changes;
   if (sourceChanged) {
@@ -124,11 +134,17 @@ async function main(root, args) {
   reconcile(directory, selected, results);
   for (const result of results.filter(row => row.status !== 'pass')) {
     result.replay = [process.execPath, entry, '--case', result.id, ...(options.review ? ['--review', options.review] : [])];
-    console.error(result.status.toUpperCase() + ' ' + result.id + ' ' + result.message);
+    const casePlan = selected.find(row => row.id === result.id);
+    const message = result.message ?? 'Required check returned a non-success outcome.';
+    result.failureBrief = {expected: casePlan.expected, observed: message, excerpt: message.slice(0, 1200),
+      evidence: result.artifacts ?? [], suiteReport: result.legacyReport, replay: result.replay};
+    console.error(result.status.toUpperCase() + ' ' + result.id + ' ' + message);
+    console.error('  Expected ' + [].concat(casePlan.expected).join(' '));
   }
   const pendingReview = results.flatMap(row => row.judgments ?? []).filter(row => row.status === 'pending-review');
   const status = results.some(row => row.status !== 'pass') ? 'fail' : pendingReview.length ? 'needs_review' : 'pass';
-  const report = {...plan, status, pendingReview, sourceChanged, preparation, groups, results, finishedAt: new Date().toISOString(),
+  const failures = results.filter(row => row.status !== 'pass').map(row => ({id: row.id, ...row.failureBrief}));
+  const report = {...plan, status, failures, pendingReview, sourceChanged, preparation, runtimeRefreshes, groups, results, finishedAt: new Date().toISOString(),
     durationMilliseconds: Date.now() - started};
   writeJson(directory, 'summary.json', report);
   console.log(status.toUpperCase() + ' ' + results.filter(row => row.status === 'pass').length + '/' + selected.length

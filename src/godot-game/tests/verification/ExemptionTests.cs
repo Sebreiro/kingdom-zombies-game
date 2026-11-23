@@ -380,9 +380,13 @@ public sealed class ExemptionTests
     public void Configure_OwnedTargetBypass_RejectsGeneratedViolation()
     {
         BuildFixture fixture = CleanTestConsumer();
+        GeneratedSurfaceScanner.ValidateEffectiveTarget(source: fixture.Preprocess());
         string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/Directory.Build.targets");
-        string[] lines = [..File.ReadAllLines(path: file).Where(predicate: line => !line.Contains(
-                value: "src/godot-game/build/Directory.Xunit.targets", comparisonType: StringComparison.Ordinal))];
+        const string Import = "<Import Project=\"$(MSBuildThisFileDirectory)build/Directory.Xunit.targets\"";
+        string[] original = File.ReadAllLines(path: file);
+        string[] lines = [.. original.Where(predicate: line => !line.TrimStart().StartsWith(value: Import,
+                comparisonType: StringComparison.Ordinal))];
+        lines.Length.ShouldBe(expected: original.Length - 1, customMessage: "Remove exactly the owned xUnit import");
         File.WriteAllLines(path: file, contents: lines);
         Should.Throw<InvalidDataException>(actual: () => GeneratedSurfaceScanner.ValidateEffectiveTarget(
                 source: fixture.Preprocess())).Message.ShouldContain(expected: "XUNIT_TARGET_SHAPE");
@@ -1366,8 +1370,9 @@ public sealed class ExemptionTests
         int line = Array.FindIndex(array: lines, match: text => text.Contains(value: "Code=\"" + code + "\"",
                 comparisonType: StringComparison.Ordinal)) + 1;
         line.ShouldBeGreaterThan(expected: 0);
-        BuildFixture.HasDiagnostic(result: result, id: code, line: line, column: 5,
-                file: "src/godot-game/build/Directory.Xunit.targets").ShouldBeTrue(customMessage: result.Output);
+        string normalized = file.Replace(oldChar: '\\', newChar: '/');
+        BuildFixture.HasDiagnostic(result: (result.Exit, result.Output.Replace(oldChar: '\\', newChar: '/')),
+                id: code, line: line, column: 5, file: normalized).ShouldBeTrue(customMessage: result.Output);
         result.Output.ShouldContain(expected: message);
     }
 }

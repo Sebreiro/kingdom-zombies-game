@@ -16,6 +16,17 @@ const idPattern = /^[A-Za-z][A-Za-z0-9._-]*$/;
 const deferredAssetGates = new Set([
   'runner.prelaunch', 'runner.selection', 'acceptance.judgments', 'acceptance.artifacts'
 ]);
+const deferredCertification = new Set([
+  'ac-02.complete', 'ac-06.complete', 'ac-07.complete', 'ac-09.complete',
+  'R-49.positive', 'R-49.negative', 'R-82.positive', 'R-82.negative'
+]);
+const lanHeadlessIsolation = {
+  'network.tracer': 'A fresh host and guest prove independent native lifetimes and baseline installation.',
+  'network.four-peer': 'A fresh session and two simultaneous challengers isolate the final-slot admission race.',
+  'network.lifecycle': 'The scenario deliberately ends and replaces owned guest and host processes.',
+  'network.idle-poll': 'An idle host without any guests isolates native ENet polling and update progress.',
+  'runner.tracer': 'Fresh host and guest observations establish the proof runner’s independent evidence.'
+};
 const criticalSmoke = new Set([
   'gameplay-checks.rendered.tracer',
   'lan-checks.rendered.walkers'
@@ -101,7 +112,7 @@ function verificationRows(manifest) {
   return Object.entries(ruleInputs).map(([name, inputs], order) => {
     const entries = manifest.cases.filter(item => item.group === name);
     requireValue(entries.length > 0, 'CATALOG_EMPTY_VERIFICATION_GROUP ' + name);
-    const active = entries.filter(item => item.implementation !== 'pending');
+    const active = entries.filter(item => !isDeferredCertification(item));
     return row({
       id: 'verification.' + name, adapter: 'verification', legacyId: name,
       legacyIds: active.map(item => item.id), deferredIds: entries.filter(item => !active.includes(item)).map(item => item.id),
@@ -120,6 +131,10 @@ function verificationRows(manifest) {
       roles: ['verification process'], evidence: ['verification summary', 'test reports', 'subject logs']
     });
   });
+}
+
+function isDeferredCertification(item) {
+  return deferredCertification.has(item.id) && item.implementation === 'pending';
 }
 
 function gameplayRows(manifest) {
@@ -160,7 +175,8 @@ function lanRows(manifest) {
     const native = item.implementation === 'native-headless';
     const critical = criticalSmoke.has('lan-checks.' + item.id);
     return legacy('lan-checks', 3, item, {
-      order: rendered ? item.order : index + 1,
+      runGroup: native ? 'lan-checks.headless.' + item.id : 'lan-checks.' + item.runGroup,
+      order: native ? 1 : rendered ? item.order : index + 1,
       acceptancePhase: rendered ? 5 : undefined,
       tier: rendered ? 3 : native ? 2 : 1,
       needsGameWindow: rendered,
@@ -168,7 +184,11 @@ function lanRows(manifest) {
       rationale: critical ? 'A host and three guests must be able to play and observe the same state.' : item.rationale,
       tags: rendered ? ['foundation', 'lan', 'lan-rendered'] : ['foundation', 'lan', 'lan-proof'],
       scenario: phase3Scenarios,
-      freshProcessReason: !rendered ? undefined : item.runGroup === 'G2' ?
+      setup: item.id === 'network.discovery-profile' ?
+        'Use an owned pinned headless host and two successive profile processes sharing the same isolated profile root.' : item.setup,
+      evidence: native ? [...item.evidence, 'subject durationMilliseconds and per-role launch records'] : item.evidence,
+      freshProcessReason: native ? item.freshProcessReason ?? lanHeadlessIsolation[item.id] :
+        !rendered ? undefined : item.runGroup === 'G2' ?
         'Discovery and browser errors use roles and state distinct from live four-player play.' :
         item.runGroup === 'G4' ? 'Reuse live G3 peers if present. An isolated G4 replay needs four fresh processes.' :
         'The full play group uses an owned host and three guest processes.'
@@ -287,8 +307,26 @@ function validList(value) {
   return Array.isArray(value) && value.length > 0 && value.every(validText) && new Set(value).size === value.length;
 }
 
+function existingProcedure(repository, procedure) {
+  const [file] = procedure.split('#', 1);
+  if (/[:\\\u0000]/.test(file) || file.split('/').some(segment => !segment || segment === '.' || segment === '..')) {
+    return false;
+  }
+  try {
+    const target = fs.realpathSync(path.join(repository, file));
+    const relative = path.relative(repository, target);
+    return relative !== '..' && !relative.startsWith('..' + path.sep) &&
+      !path.isAbsolute(relative) && fs.statSync(target).isFile();
+  } catch (error) {
+    if (!['ENOENT', 'ENOTDIR'].includes(error.code)) throw error;
+    return false;
+  }
+}
+
 function validateCatalog(catalog) {
   const ids = new Set(), runOrders = new Set(), groupIds = new Set();
+  const repository = fs.realpathSync(catalog.root);
+  const checkedProcedures = new Set();
   requireValue(catalog.impact && catalog.impactsByTag && validList(catalog.neutralPaths) &&
     Object.values(catalog.impact).every(validList) && Object.values(catalog.impactsByTag).every(validList), 'CATALOG_IMPACT');
   for (const group of catalog.groups) {
@@ -308,11 +346,17 @@ function validateCatalog(catalog) {
     for (const field of ['title', 'rationale', 'adapter', 'procedure', 'setup', 'reset']) {
       requireValue(validText(item[field]), 'CATALOG_METADATA ' + item.id + ' ' + field);
     }
+    if (!checkedProcedures.has(item.procedure)) {
+      requireValue(existingProcedure(repository, item.procedure), 'CATALOG_PROCEDURE ' + item.id);
+      checkedProcedures.add(item.procedure);
+    }
     for (const field of ['requirements', 'tags', 'actions', 'roles', 'evidence']) {
       requireValue(validList(item[field]), 'CATALOG_METADATA ' + item.id + ' ' + field);
     }
     requireValue(validText(item.expected) || validList(item.expected), 'CATALOG_METADATA ' + item.id + ' expected');
     requireValue(item.requirements.every(id => catalog.requirementOwners.has(id)), 'CATALOG_REQUIREMENT ' + item.id);
+    requireValue(item.sourceIds === undefined || validList(item.sourceIds) &&
+      item.sourceIds.every(id => catalog.sources.has(id)), 'CATALOG_SOURCE_REFERENCE ' + item.id);
     requireValue(Number.isSafeInteger(item.owner) && item.owner > 0 &&
       (item.acceptancePhase === undefined || Number.isSafeInteger(item.acceptancePhase) && item.acceptancePhase >= item.owner),
     'CATALOG_OWNER ' + item.id);
@@ -330,6 +374,10 @@ function validateCatalog(catalog) {
     'CATALOG_STATUS ' + item.id);
     requireValue([1, 2, 3].includes(item.tier) && item.needsGameWindow === (item.tier === 3) &&
       (!item.needsGameWindow || validText(item.freshProcessReason)), 'CATALOG_TIER ' + item.id);
+    if (item.adapter === 'lan-checks' && item.tier === 2) {
+      requireValue(item.runGroup === 'lan-checks.headless.' + item.legacyId && validText(item.freshProcessReason),
+        'CATALOG_LAN_HEADLESS_GROUP ' + item.id);
+    }
     const group = catalog.groups.find(candidate => candidate.id === item.group);
     requireValue(group?.adapter === item.adapter && group.cases.includes(item.id) &&
       catalog.runGroups.some(entry => entry.id === item.runGroup && entry.cases.includes(item.id)),
@@ -378,7 +426,7 @@ function changedVerificationGroups(before, after) {
     return new Set(Object.keys(ruleInputs));
   }
   const active = (manifest, group) => manifest.cases.filter(row =>
-    row.group === group && row.implementation !== 'pending');
+    row.group === group && !isDeferredCertification(row));
   return new Set(Object.keys(ruleInputs).filter(group =>
     JSON.stringify(active(before, group)) !== JSON.stringify(active(after, group))));
 }
@@ -469,4 +517,4 @@ function select(catalog, {mode, value, changes = [], baseCommit}) {
   return {selected, omitted};
 }
 
-module.exports = {changedVerificationGroups, loadCatalog, select, validateCatalog};
+module.exports = {changedVerificationGroups, loadCatalog, select, validateCatalog, verificationRows};

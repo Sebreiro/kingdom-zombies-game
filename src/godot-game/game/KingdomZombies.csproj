@@ -11,4 +11,7 @@
     <ProjectReference Include="../core/KingdomZombies.Core.csproj" />
     <ProjectReference Include="../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' != 'Debug' and '$(Configuration)' != 'ExportDebug'">
+    <Compile Remove="foundation/FoundationAutomation.cs;foundation/FoundationNativeRegression.cs" />
+  </ItemGroup>
 </Project>

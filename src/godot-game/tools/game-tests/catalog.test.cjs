@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const {test} = require('node:test');
-const {changedVerificationGroups, loadCatalog, select, validateCatalog} = require('./catalog.cjs');
+const {changedVerificationGroups, loadCatalog, select, validateCatalog, verificationRows} = require('./catalog.cjs');
 
 const root = path.resolve(__dirname, '../../../..');
 const ids = rows => rows.map(row => row.id);
@@ -29,6 +29,40 @@ test('PR scope has exactly four checks and tier 1 runs the one pure test command
   assert.deepEqual(ids(select(catalog, {mode: 'pr'}).selected),
     ['basic.strict-build', 'basic.repository', 'basic.pure', 'basic.headless']);
   assert.deepEqual(ids(select(catalog, {mode: 'tier', value: '1'}).selected), ['basic.pure']);
+});
+
+test('Phase 10 tracks distinct planned release procedures without replacing A-47', () => {
+  const catalog = loadCatalog(root);
+  const procedures = catalog.cases.filter(row => row.group === 'release.environments');
+  assert.deepEqual(procedures.map(row => [row.id, row.owner, row.status, row.requirements[0], row.sourceIds[0]]), [
+    ['release.physical-lan', 10, 'planned', 'REL-02', 'A-38'],
+    ['release.reference-pc', 10, 'planned', 'REL-04', 'A-47'],
+    ['release.endurance', 10, 'planned', 'REL-05', 'A-47']
+  ]);
+  assert.equal(new Set(procedures.map(row => row.runGroup)).size, 3);
+  assert.equal(catalog.cases.filter(row => row.id === 'A-47').length, 1);
+  assert(!select(catalog, {mode: 'full'}).selected.some(row => row.group === 'release.environments'));
+});
+
+test('headless LAN process groups declare their independent roles and keep the existing suite selectors', () => {
+  const catalog = loadCatalog(root);
+  const native = catalog.cases.filter(row => row.adapter === 'lan-checks' && row.tier === 2);
+  assert.deepEqual(native.map(row => [row.legacyId, row.roles]), [
+    ['network.tracer', ['host', 'guest']],
+    ['network.four-peer', ['four-host', 'four-guest1', 'four-guest2', 'challenger1', 'challenger2']],
+    ['network.lifecycle', ['life-host', 'life-guest1', 'life-guest2', 'life-replacement']],
+    ['network.idle-poll', ['idle-host']],
+    ['network.discovery-profile', ['discovery-host', 'profile-before-restart', 'profile-after-restart']],
+    ['runner.tracer', ['host', 'guest']]
+  ]);
+  assert.equal(new Set(native.map(row => row.runGroup)).size, native.length);
+  for (const scenario of native) {
+    assert.equal(scenario.needsGameWindow, false);
+    assert(scenario.freshProcessReason);
+    assert(scenario.evidence.some(item => item.includes('durationMilliseconds')));
+    assert.deepEqual(ids(select(catalog, {mode: 'group', value: scenario.runGroup}).selected), [scenario.id]);
+    assert(select(catalog, {mode: 'group', value: scenario.group}).selected.some(row => row.id === scenario.id));
+  }
 });
 
 test('full scope includes active low-priority checks without selecting planned procedures', () => {
@@ -86,6 +120,17 @@ test('pending ownership changes exercise the selector without expanding all Phas
   assert.deepEqual([...changedVerificationGroups(prior, current)], ['rules']);
 });
 
+test('an unexpected pending Phase 1 declaration remains in required group selection', () => {
+  const current = require('../verification/required-cases.json');
+  const unexpected = {id: 'unexpected.required-proof', group: 'rules', implementation: 'pending'};
+  const modified = {...current, cases: [...current.cases, unexpected]};
+  const [rules] = verificationRows(modified).filter(row => row.legacyId === 'rules');
+  assert.equal(rules.status, 'required');
+  assert(rules.legacyIds.includes(unexpected.id));
+  assert(!rules.deferredIds.includes(unexpected.id));
+  assert.deepEqual([...changedVerificationGroups(current, modified)], ['rules']);
+});
+
 test('unknown impact and empty, duplicate, conflicting or malformed selections fail', () => {
   const catalog = loadCatalog(root);
   assert.throws(() => select(catalog, {mode: 'phase-end', changes: ['src/unknown/component.cs']}), /UNKNOWN_IMPACT/);
@@ -102,8 +147,12 @@ test('catalog validation rejects malformed importance, duplicate order, referenc
     [catalog => catalog.cases[0].order = catalog.cases[1].order, /CATALOG_RUN_ORDER/],
     [catalog => catalog.cases[0].group = 'rogue', /CATALOG_DANGLING_GROUP/],
     [catalog => catalog.cases[0].requirements = ['TEST-99'], /CATALOG_REQUIREMENT/],
+    [catalog => catalog.cases[0].sourceIds = ['A-99'], /CATALOG_SOURCE_REFERENCE/],
+    [catalog => catalog.cases[0].procedure = 'docs/missing.md#scope', /CATALOG_PROCEDURE/],
+    [catalog => catalog.cases[0].procedure = '../reference.md#scope', /CATALOG_PROCEDURE/],
+    [catalog => catalog.cases[0].procedure = 'C:/reference.md', /CATALOG_PROCEDURE/],
     [catalog => catalog.cases[0].actions = [], /CATALOG_METADATA/],
-    [catalog => catalog.sources.delete('A-47'), /CATALOG_SOURCE_A01_A47/]
+    [catalog => catalog.sources.delete('A-46'), /CATALOG_SOURCE_A01_A47/]
   ]) {
     const catalog = loadCatalog(root);
     change(catalog);

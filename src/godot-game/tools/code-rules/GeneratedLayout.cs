@@ -50,18 +50,18 @@ internal static class GeneratedLayout
         ("/src/godot-game/core/obj/ExportDebug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
             "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b", [4]),
         ("/src/godot-game/game/.godot/mono/temp/obj/ExportDebug/win-x64/"
-            + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+                + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
             "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b", [4]),
         ("/src/godot-game/multiplayer-abstractions/obj/ExportDebug/net10.0/"
-            + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+                + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
             "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b", [4]),
         ("/src/godot-game/core/obj/ExportRelease/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
             "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b", [4]),
         ("/src/godot-game/game/.godot/mono/temp/obj/ExportRelease/win-x64/"
-            + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+                + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
             "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b", [4]),
         ("/src/godot-game/multiplayer-abstractions/obj/ExportRelease/net10.0/"
-            + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+                + ".NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
             "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b", [4]),
         ("/xunit.v3.core.mtp-v2/4.0.2/_content/DefaultRunnerReporters.cs",
             "e110bb9fe21ca6c3120a00382c773a086d62a008a0b0d2b76d08416f27d92bf2", [4]),

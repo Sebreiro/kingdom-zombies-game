@@ -351,9 +351,10 @@ internal sealed class FoundationMenu
                 && _services.Identity.Selected is PlayerProfile profile)
         {
             int count = snapshot.Participants.Length;
-            string? configuredPort = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PORT");
-            int port = configuredPort is null ? 47778 : int.Parse(s: configuredPort,
-                    provider: CultureInfo.InvariantCulture);
+            int port = 47778;
+#if DEBUG
+            port = FoundationAutomation.Port(fallback: port);
+#endif
             _services.Discovery.Advertise(advertisement: new SessionAdvertisement(sessionId: snapshot.SessionId,
                     sessionName: FoundationDisplay.Label(value: profile.DisplayName + "'s camp"),
                     hostLabel: FoundationDisplay.Label(value: profile.DisplayName), address: "",

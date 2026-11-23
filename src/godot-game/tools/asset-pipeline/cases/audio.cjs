@@ -1576,7 +1576,7 @@ function audioHubImportControls(){
 async function audioHub(context,sourceInputs,heldout=false){
  const project=inside(context.directory,'native-audio-hub');fs.mkdirSync(project);
  for(const file of ['project.godot','inspection','foundation','icon.svg','content','assets','.godot/mono/temp/bin/Debug'])
-  fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
+  fs.cpSync(inside(ROOT,'src/godot-game/game/'+file),inside(project,file),{recursive:true});
  const legacy=require('./provenance.cjs').legacyFixture(),inspection=fs.readFileSync(inside(project,'inspection/Inspection.tscn'));
  for(const output of legacy.index.outputs)for(const dependency of output.dependencies)if(dependency.path==='src/godot-game/inspection/Inspection.tscn'){dependency.bytes=inspection.length;dependency.sha256=hash(inspection);}
  fs.writeFileSync(inside(project,'content/pack-index.json'),JSON.stringify(legacy.index,null,2)+'\n');

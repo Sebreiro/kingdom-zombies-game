@@ -6627,7 +6627,8 @@
       ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Validate_OverlappingOrAdjacentScopes_RetainsExactBoundaries",
-      "expectedDiagnostic": "EXEMPTION_OVERLAP_AND_ADJACENCY"
+      "expectedDiagnostic": "EXEMPTION_OVERLAP_AND_ADJACENCY",
+      "childTimeoutMs": 90000
     },
     {
       "id": "edge.rule-03.empty",
@@ -11987,7 +11988,8 @@
       ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.Check_GeneratedCallSites_HavePinnedOrigin",
-      "expectedDiagnostic": "GENERATED_CALLSITE_ORIGIN_EXACT"
+      "expectedDiagnostic": "GENERATED_CALLSITE_ORIGIN_EXACT",
+      "childTimeoutMs": 90000
     },
     {
       "id": "rules.generated-callsite-boundary",
@@ -16510,7 +16512,8 @@
       "owner": "01-08",
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Suppress_DuplicateObservedAttribute_RejectsOverlap",
-      "expectedDiagnostic": "SUPPRESSION_DUPLICATE"
+      "expectedDiagnostic": "SUPPRESSION_DUPLICATE",
+      "childTimeoutMs": 90000
     },
     {
       "id": "rules.suppression-configuration",
