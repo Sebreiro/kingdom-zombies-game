@@ -7,9 +7,9 @@ current_phase_name: CI and repeatable game testing
 current_plan: 0
 status: ready_to_plan
 stopped_at: "Phase 04 complete under the creator's closure exception (2026-11-22). Next: plan Phase 05."
-last_updated: "2026-11-23T12:00:10.000Z"
+last_updated: "2026-11-23T13:18:23.000Z"
 last_activity: 2026-11-23
-last_activity_desc: "Completed quick task 261123-fsu: PR #6 integrated dev (Phase 4 and PR #7) into the relocated repository layout."
+last_activity_desc: "Creator approved the Phase 05 test-scope amendment and moved the Phase 04 review-bound gate renewal to Phase 11 under TEST-12."
 state_head: 64217702c329d9adcc711a1d116b9b4a45077fe6
 progress:
   total_phases: 12
@@ -37,11 +37,11 @@ Phase: 05 — CI and repeatable game testing
 Current Plan: Not planned
 Total Plans in Phase: TBD
 Status: Ready to plan
-Last activity: 2026-11-23 - Completed quick task 261123-fsu: PR #6 integrated dev (Phase 4 and PR #7) into the relocated repository layout (strict build, layout tests and documentation checks; Phase 4 review-bound gates expected-blocked until Phase 5 renews them).
+Last activity: 2026-11-23 — Creator approved the Phase 5 test-scope amendment (lean Phase 5; certification to Phase 11 under TEST-12).
 
 Progress: [███░░░░░░░] 33%
 
-Milestone progress: 4 of 12 phases, 62 of 62 currently planned plans (two Phase 4 plans waived), and 19 of 135 requirements complete.
+Milestone progress: 4 of 12 phases, 62 of 62 currently planned plans (two Phase 4 plans waived), and 19 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -189,6 +189,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04 partial checkpoint,2026-11-19]: All180 source-ready/native-reached+4worldviews, currentpolicy2654/251, authenticated57input32emission producer, freshgovernance28 and current-binary358 pass. CURRENT67:67assertionPASS/66clean-qualified/1animationimportUnicodeFAIL.69localimplementationfiles copied immutably, uncommitted; formal04-23 remains0/2 andPhase04 remains31/37. No budget/debug reset, acceptance or phase advance.
 - [Phase 08]: Context gathered on 2026-11-21 and ready for planning. See [08-CONTEXT.md](phases/08-zombie-campaign-and-outcomes/08-CONTEXT.md) and the [amended specification](phases/08-zombie-campaign-and-outcomes/08-SPEC.md). — Capture the creator-approved campaign interfaces and immediate retaliation without interrupting the current implementation session.
 - [Phase 05]: Approved shared test preparation, focused checks and automatic scratch cleanup after durable evidence is saved. Exact builds are kept only for diagnosis or handoff. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md). — Reduce the disk footprint and repeated setup measured in Phase 4 while retaining required verification.
+- [Phase 05, 2026-11-23]: The creator approved the test-scope amendment. Phase 5 is reduced to a shared runner and catalog, three tiers, basic PR checks and the existing solo/LAN scenarios. Coverage certification with the eight IDs, full hosted runs, evidence reuse and exhaustive runner trials move to Phase 11 under the new TEST-12, and five cheaper testing rules apply to Phases 6–10. See the amended [05-SPEC.md](phases/05-ci-and-repeatable-game-testing/05-SPEC.md#acceptance-disposition) and [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-35–D-46. Plan Phase 5 from the amended specification and context.
+- [Phase 05, 2026-11-23]: After PR #6 moved the tools, the creator moved the renewal of the Phase 4 review-bound gates (`runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts`, `--verify-completion`) to Phase 11 under TEST-12. They stay expected-blocked without pass credit until then. Phase 5 still makes the Phase 4 checks it runs work in the relocated tree, including the recipes that assume the original `.phase4` folder. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-46.
 
 ### Pending Todos
 
@@ -203,14 +205,15 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 - Phase 11 added: Nightly full regression testing (TEST-11) after Phase 10; immediate reduced local testing and saved scenario/run-group metadata are not deferred.
 - Phase 05 edited: Creator local testing amendment: no VM, development OS/1280x720 only after whole implementation and review; Critical/new/changed/affected selection now; grouped repair checks followed by the full selected-set pass.
 - Phase 12 added: Stash and inventory filtering deferred from Phase 6 by creator on 2026-11-16; INV-14 owns filtering, while INV-10 retains pages/access/transfers. Current scope: 135 requirements across 12 phases, 14 complete and 121 pending.
+- Phase 05 and Phase 11 edited: Creator-approved test-scope amendment on 2026-11-23. Phase 5 delivers one shared runner and catalog, three tiers, basic PR checks and the existing solo/LAN scenarios. Measured coverage with the eight transferred IDs, full hosted Windows/Linux runs, evidence reuse validation, exhaustive runner trials, the other 17 Phase 4 rendered cases and the Phase 1 follow-ups move to Phase 11 under the new TEST-12. Five cheaper local testing rules apply to Phases 6–10. Current scope: 136 requirements across 12 phases, 19 complete and 117 pending. The Phase 7 plans need a revision pass before execution.
 
 ### Blockers/Concerns
 
 - [Cleanup 2026-11-22] The Phase 1-4 ignored artifacts were deleted (quick task 261122-ub4). Until their inputs are tracked or regenerated, `export.profile`, `export.layout`, `rules.export-layout-origin`/`-boundary`, the `ContentNativePermissionTests` model tests and Phase 2 `--verify-completion` fail. The Phase 1 catalog also needs rows for the PR 7 files. See the [task summary](quick/261122-ub4-prepare-for-merge-pr-7/261122-ub4-SUMMARY.md).
-- [PR #6 relocation] After PR #6 integrated dev, the Phase 4 review-bound gates `runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts` and `--verify-completion` are expected-blocked against the relocated tree. Phase 4 records keep their bytes; renewing these gates is owned by Phase 5. Pinned Phase 4 recipes also assert the original checkout's ignored `.phase4` folder, so the export tracer and the audio assembly steps run only there until Phase 5 renews them. See the [task summary](quick/261123-fsu-resolve-conflict-https-github-com-sebrei/261123-fsu-SUMMARY.md).
+- [PR #6 relocation] After PR #6 integrated dev, the Phase 4 review-bound gates `runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts` and `--verify-completion` are expected-blocked against the relocated tree. Phase 4 records keep their bytes; renewing these gates is owned by Phase 11 under TEST-12 (moved from Phase 5 by the creator on 2026-11-23; Phase 5 CONTEXT D-46). Pinned Phase 4 recipes also assert the original checkout's ignored `.phase4` folder, so the export tracer and the audio assembly steps run only there until Phase 5 renews them. See the [task summary](quick/261123-fsu-resolve-conflict-https-github-com-sebrei/261123-fsu-SUMMARY.md).
 - [Phase 1 follow-ups] Full Linux execution and the original graph case remain unaccepted; fourteen individual human reviews remain Pending. See the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) for actual evidence limits and timing. These are disclosed follow-ups under the creator exception, not current closure gates.
 - [Local VM] The guest is cleanly stopped and preserved. Hardware acceleration is not active in the current Windows session; a creator-chosen restart is needed before attempting the accelerated follow-up. No restart is required for this completed run.
-- [Phase 5] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets.
+- [Phase 11] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets. The 2026-11-23 amendment moved them from Phase 5 to Phase 11 under TEST-12.
 - [Process history] WINDOWS item 1 retains the missing original bootstrap RED record; later successful evidence does not recreate it. All original plan reports and failed attempts remain historical records. One-shot refactoring/binding utilities must not be reapplied.
 - [Release] Reference-PC hardware and required real mixed-OS LAN/endurance environments need actual recording and measurements before release acceptance.
 - [Phase 3 diagnostics] The completion CLI reports six supposed missing file references in 03-01-SUMMARY: four are executable command strings, and two are phase-relative `tdd/03-01-task*-red.json` paths. Both actual phase-local RED files exist. Independent verification checked the real artifacts and source links; the generic summary-path diagnostic remains disclosed without changing immutable summary metadata.
@@ -230,13 +233,13 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 
 ## Deferred Items
 
-The [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains measured analyzer/production coverage, advanced reconciliation and eight aggregate/coverage cases. The current manifest contains 686 declarations: 676 Phase 1 cases, two Phase 4 Windows export-layout proofs and eight separately pending Phase 5 cases. The original 684-declaration baseline and its Windows 676/focused both-OS evidence remain immutable and distinct from these new Phase 4 proofs and the limited composed Linux evidence.
+The [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains measured analyzer/production coverage, advanced reconciliation and eight aggregate/coverage cases. The current manifest contains 686 declarations: 676 Phase 1 cases, two Phase 4 Windows export-layout proofs and eight separately pending Phase 5 cases. The original 684-declaration baseline and its Windows 676/focused both-OS evidence remain immutable and distinct from these new Phase 4 proofs and the limited composed Linux evidence. Under the 2026-11-23 amendment Phase 11 owns that handoff through TEST-12; the manifest names Phase 5 until Phase 5 re-owns the eight declarations under its AC-45.
 
 Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md). Its [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) remain unperformed/unaccepted. Current routine local verification follows the development-OS-only, 1280×720, no-VM policy. Preserve immutable reports and distinct identities for changed code and metadata.
 
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
-| Phase 5 certification | Measured 90%/80% coverage, advanced platform reconciliation and eight pending aggregate/coverage cases | Required; implementation/acceptance pending | Creator-approved 2026-11-14 amendments | v0.1 Phase 5 |
+| Certification (TEST-12) | Measured 90%/80% coverage, advanced platform reconciliation and eight pending aggregate/coverage cases | Required; implementation/acceptance pending | Creator-approved 2026-11-14 amendments; moved from Phase 5 by the creator-approved 2026-11-23 amendment | v0.1 Phase 11 |
 | Phase 1 closure follow-ups | Full Linux suite, original graph-case capacity and fourteen individual human reviews | Unperformed/unaccepted; not passed | Creator no-restart exception, 2026-11-14 | v0.1; see closure register |
 | Future platform work | PLAT-01 and PLAT-02 Steam/Epic implementations | Outside v0.1; no next-release commitment | Initial scope | v0.1 |
 
@@ -248,6 +251,6 @@ Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners. PR #5 from `feature/04-asset-production` to `dev` is ready for review; marking it ready does not authorize the merge.
 
-Next action: plan Phase 5. Its [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and [specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) exist. Phase 5 imports the open Phase 4 rendered IDs, the four judgments and the engine-race follow-up into its selection. Phase 5 work starts on its own branch from `dev`; PR #5 is merged as `1a14684`. Phase 5 also renews the Phase 4 review-bound gates against the relocated tree (see the PR #6 relocation concern above).
+Next action: plan Phase 5. Its [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and [specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) exist and carry the creator-approved 2026-11-23 scope amendment. Phase 5 keeps the 21 inherited rendered regressions, one inspection-hub smoke scenario with the four judgments, and the engine-race follow-up; the other 17 Phase 4 rendered cases and the driver declaration belong to Phase 11. PR #5 is merged as `1a14684`. The amendment merges to `dev` through its own planning PR from `feature/05-ci-and-repeatable-game-testing`. Phase 5 implementation starts a fresh phase branch from `dev` after that merge and opens its own draft PR. Phase 5 makes the Phase 4 checks it runs work in the relocated tree; renewing the Phase 4 review-bound gates belongs to Phase 11 (see the PR #6 relocation concern above).
 
 Repository layout continuation: [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) (`feature/quick-repository-layout`, quick tasks 261116-k3u, 261116-m0w and 261121-jmu) integrated `dev` (Phase 4 and PR #7) by quick task 261123-fsu, with every Phase 4 and PR #7 file at its [current layout location](../docs/architecture/repository-layout.md#historical-paths).
