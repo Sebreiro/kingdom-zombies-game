@@ -2,10 +2,16 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const e=require('./evidence.cjs'),inherited=require('./inherited.cjs'),workspace=require('../workspace-paths.cjs');
 // Control roots live in this checkout's temp folder; a temporary shared root keeps them off the real one.
-const controls=workspace.locations().temp('lan-checks');fs.mkdirSync(controls,{recursive:true});
-process.env.KZ_SHARED_LOCAL=fs.mkdtempSync(path.join(controls,'shared-'));
-function fixture(mode){
-  const root=fs.mkdtempSync(path.join(controls,'inherited-control-'));
+// Each control is removed after its test; the shared root, an emptied controls folder and the variable after the file.
+const controls=workspace.locations().temp('lan-checks'),remove=directory=>fs.rmSync(directory,{recursive:true,force:true,maxRetries:3});
+function control(prefix){for(;;){fs.mkdirSync(controls,{recursive:true});try{return fs.mkdtempSync(path.join(controls,prefix));}catch(error){if(error.code!=='ENOENT')throw error;}}}
+const shared=control('shared-'),priorShared=process.env.KZ_SHARED_LOCAL;process.env.KZ_SHARED_LOCAL=shared;
+test.after(()=>{
+  remove(shared);if(priorShared===undefined)delete process.env.KZ_SHARED_LOCAL;else process.env.KZ_SHARED_LOCAL=priorShared;
+  try{fs.rmdirSync(controls);}catch(error){if(!['ENOENT','ENOTEMPTY','EEXIST','EBUSY','EPERM'].includes(error.code))throw error;}
+});
+function fixture(t,mode){
+  const root=control('inherited-control-');t.after(()=>remove(root));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
   const phase1=[{id:'ordinary.failure',group:'rules'},{id:'ordinary.success',group:'rules'},{id:'engine.source-policy',group:'engine'}];
   const phase2=[{id:'core.control',group:'core'},{id:'runner.control',group:'runner'},{id:'rendered.control',group:'rendered'}];
@@ -36,8 +42,8 @@ console.log(status.toUpperCase()+' '+directory+'/summary.json');process.exitCode
   const directory=workspace.locations(root).runs('lan-checks','run');fs.mkdirSync(directory,{recursive:true});
   return {root,context:{root,directory,env:{...process.env,CONTROL_MODE:mode}},selection:{selected:{phase1:phase1.map(row=>row.id),phase2:phase2.map(row=>row.id)}}};
 }
-test('real inherited assertion failure retains immutable failed report and later independent successes',async()=>{
-  const f=fixture('ordinary'),result=await inherited.run(f.context,f.selection);
+test('real inherited assertion failure retains immutable failed report and later independent successes',async t=>{
+  const f=fixture(t,'ordinary'),result=await inherited.run(f.context,f.selection);
   assert.equal(result.status,'fail');assert.equal(result.nativeAllowed,true);assert.equal(result.commands.length,6);
   assert.equal(result.phase1.length,3);assert.equal(result.phase2.length,3);
   const failed=result.commands.find(row=>row.selected.includes('ordinary.failure'));
@@ -51,8 +57,8 @@ test('real inherited assertion failure retains immutable failed report and later
   for(const row of result.commands){assert.equal(row.executed,true);e.artifact({directory:f.root},row.process);e.artifact({directory:f.root},row.record);}
   assert.throws(()=>e.verifyInherited(f.root,{inherited:result},f.selection,[]),/INHERITED_AGGREGATE_FAILED/);
 });
-test('actual outer coordinator preserves inherited references and fails after an independent native group',async()=>{
-  const f=fixture('ordinary'),catalog=require('./catalog.cjs'),scenarios=require('./scenarios.cjs'),check=require('./check.cjs');
+test('actual outer coordinator preserves inherited references and fails after an independent native group',async t=>{
+  const f=fixture(t,'ordinary'),catalog=require('./catalog.cjs'),scenarios=require('./scenarios.cjs'),check=require('./check.cjs');
   const originalGate=catalog.prelaunch,originalNative=scenarios.run,originalExit=process.exitCode;
   const cases=[{id:'rendered.control',needsGameWindow:true,group:'control',implementation:'control'}];
   fs.writeFileSync(path.join(f.root,'src/godot-game/tools/lan-checks/required-cases.json'),JSON.stringify({cases}));let nativeRuns=0;
@@ -72,9 +78,9 @@ test('actual outer coordinator preserves inherited references and fails after an
     assert.deepEqual(e.read(file).inherited,JSON.parse(JSON.stringify(summary.inherited)));
   }finally{catalog.prelaunch=originalGate;scenarios.run=originalNative;process.exitCode=originalExit;}
 });
-test('integrity or setup failures block dependent native selections while pure commands continue',async()=>{
+test('integrity or setup failures block dependent native selections while pure commands continue',async t=>{
   for(const mode of ['integrity','setup','missing-report']){
-    const f=fixture(mode),result=await inherited.run(f.context,f.selection);
+    const f=fixture(t,mode),result=await inherited.run(f.context,f.selection);
     assert.equal(result.status,'fail');assert.equal(result.commands.find(row=>row.args[1]==='runner').status,'pass');
     const native=result.commands.find(row=>row.args[1]==='rendered');
     if(mode==='missing-report'){

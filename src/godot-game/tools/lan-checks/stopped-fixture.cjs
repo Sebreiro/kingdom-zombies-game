@@ -2,8 +2,9 @@
 // Counterfeit artifacts exercise the full reconciler's rejection paths, never production acceptance.
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
 const e=require('./evidence.cjs'),workspace=require('../workspace-paths.cjs');
-function run(){
-  const root=path.resolve(__dirname,'../../../..'),directory=workspace.locations(root).temp('lan-checks','controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+// A caller may supply the control folder, so a test can remove it afterwards.
+function run(directory){
+  const root=path.resolve(__dirname,'../../../..');directory??=workspace.locations(root).temp('lan-checks','controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   const fixture=require('./runner-fixture.cjs').fixture(directory),context={...fixture.context,root},result=fixture.results[0];
   result.id='rendered.timing';result.timings=[];result.stopped=[];
   const roles=result.peers.map(peer=>peer.role),item={id:result.id,group:'rendered',implementation:'native-rendered',needsGameWindow:true,roles,imagesByRole:{}};
