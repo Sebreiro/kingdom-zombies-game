@@ -7,7 +7,7 @@ current_phase_name: CI and repeatable game testing
 current_plan: 0
 status: ready_to_plan
 stopped_at: "Quick task 261123-ltj (one ignored .local folder) committed on its branch. Next: plan Phase 05."
-last_updated: "2026-11-23T19:14:15.000Z"
+last_updated: "2026-11-23T22:40:00.000Z"
 last_activity: 2026-11-23
 last_activity_desc: "Quick task 261123-ltj replaced the ignored .phaseN folders with one .local folder, pinned the shared Node 24 and fixed the PR #11 contradictions."
 state_head: 64217702c329d9adcc711a1d116b9b4a45077fe6
@@ -247,8 +247,8 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-23T19:14:15.000Z
-Stopped at: Quick task 261123-ltj (one ignored `.local/` folder) verified and opened as a pull request to `dev`; after it merges, the creator migrates the main checkout. Phase 5 is ready to plan.
+Last session: 2026-11-23T22:40:00.000Z
+Stopped at: Quick task 261123-ltj (one ignored `.local/` folder) verified; its pull request to `dev` also carries the tools-test fixture cleanup and the worktree-removal fix, formerly separate pull requests. After it merges, the creator migrates the main checkout. Phase 5 is ready to plan.
 Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
