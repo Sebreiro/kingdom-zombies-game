@@ -21,7 +21,7 @@ The values change from run to run, and most imports print nothing. A batch of 64
 
 **Affected.**
 
-- The pinned engine in [toolchain.json](../../tools/phase1/toolchain.json): Godot 4.7.2 .NET, official Windows x64 build, source commit `ed1daf0bf001b61586d9930840f2f1394092c079`.
+- The pinned engine in [toolchain.json](../../src/godot-game/tools/verification/toolchain.json): Godot 4.7.2 .NET, official Windows x64 build, source commit `ed1daf0bf001b61586d9930840f2f1394092c079`.
 - Windows only. The defect is in `DirAccessWindows`. Linux was not checked.
 - Imports that use worker threads. The project setting `editor/import/use_multiple_threads` defaults to `true`, and fonts import on worker threads because `ResourceImporterDynamicFont::can_import_threaded()` returns true.
 
@@ -41,7 +41,7 @@ The values change from run to run, and most imports print nothing. A batch of 64
 
 Both modes made the same 6912 calls and 1142 size/fill pairs. The 44 imported files were byte-identical across threaded runs, single-threaded runs and the original failing run. Identical output does not make the errors harmless, because the affected `DirAccess` works from a corrupt directory string.
 
-**Workaround.** In [tools/phase4/check.cjs](../../tools/phase4/check.cjs), `command()` starts every Phase 4 harness process. For each command that contains `--import`, it calls `editorImportPolicy()` before it creates the environment or spawns anything:
+**Workaround.** In [src/godot-game/tools/asset-pipeline/check.cjs](../../src/godot-game/tools/asset-pipeline/check.cjs), `command()` starts every Phase 4 harness process. For each command that contains `--import`, it calls `editorImportPolicy()` before it creates the environment or spawns anything:
 
 - `--path` must name one run-owned project below the run directory that contains `project.godot`. These are rejected with `EDITOR_IMPORT_PROJECT`: a missing, unowned or file-less `--path`, a `project.binary` (Godot would load it instead of `project.godot`), a hard-linked `project.godot`, `--main-pack` and a positional project file.
 - It appends `[editor]` with `import/use_multiple_threads=false` as the last block of that `project.godot`. Godot keeps the last value it reads, so this block wins. A file that already ends with the block is left unchanged, so importing the same project twice changes nothing.
@@ -50,11 +50,11 @@ Both modes made the same 6912 calls and 1142 size/fill pairs. The 44 imported fi
 
 `override.cfg` cannot carry the setting because the editor ignores it. The engine binary stays official and unpatched.
 
-Run `node tools/phase4/check.cjs --self-test-editor-import` to test the policy. It uses a Node stand-in for Godot and does not need the engine. With the policy in place, all four affected cases passed with empty import stderr.
+Run `node src/godot-game/tools/asset-pipeline/check.cjs --self-test-editor-import` to test the policy. It uses a Node stand-in for Godot and does not need the engine. With the policy in place, all four affected cases passed with empty import stderr.
 
 **Not covered.**
 
-- Developer editor sessions on the game project still use threaded import and can still print these errors. Changing [project.godot](../../src/godot-game/project.godot) needs separate approval.
+- Developer editor sessions on the game project still use threaded import and can still print these errors. Changing [project.godot](../../src/godot-game/game/project.godot) needs separate approval.
 - Any other harness that starts a Godot import must apply the same setting itself. Today only the Phase 4 harness runs `--import`.
 - The defect has not been reported to Godot.
 

@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="src/core/KingdomZombies.Core.csproj" />
-  <Project Path="src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj" />
-  <Project Path="src/godot-game/KingdomZombies.csproj" />
-  <Project Path="tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj" />
-  <Project Path="tests/phase1/KingdomZombies.Phase1.Tests.csproj" />
-</Solution>

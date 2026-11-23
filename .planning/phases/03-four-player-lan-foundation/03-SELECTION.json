@@ -1580,16 +1580,16 @@
   ],
   "omissionScope": "No hosted/Linux, physical mixed-computer LAN, full A-38/A-45 campaign, packaging, hardware or endurance claim. Phases 5, 10 and 11 retain their obligations.",
   "impactSources": [
-    "tools/code-rules/BodyLengthAnalyzer.cs",
-    "tools/code-rules/EngineGeneratedSyntax.cs",
+    "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs",
+    "src/godot-game/tools/code-rules/EngineGeneratedSyntax.cs",
     "docs/code/register.json",
     "docs/code/engine-generated-spans.json",
     "docs/code/generated-callsite-adaptations.json",
     "docs/code/exemptions.json",
     "docs/code/visibility-exemptions.json",
-    "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
-    "tests/phase1/BuildFixture.cs",
-    "tests/phase1/ExemptionValidator.cs",
-    "tests/phase1/ExemptionTests.cs"
+    "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj",
+    "src/godot-game/tests/verification/BuildFixture.cs",
+    "src/godot-game/tests/verification/ExemptionValidator.cs",
+    "src/godot-game/tests/verification/ExemptionTests.cs"
   ]
 }

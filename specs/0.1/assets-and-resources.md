@@ -249,10 +249,10 @@ Food-use, loot, and equip presentation must not delay operations the specificati
 
 | Existing local material | Use |
 | --- | --- |
-| `D:/Work/Games/KingdomZombies/examples/zombie/zombie-idle-original-size.png` and `zombie-idle.png` | Reviewed zombie palette/silhouette reference; adapt into modular body and clothing layers |
+| `D:/Work/Games/KingdomZombies/src/godot-game/references/zombie/zombie-idle-original-size.png` and `zombie-idle.png` | Reviewed zombie palette/silhouette reference; adapt into modular body and clothing layers |
 | Same directory: `zombie-walk-strip.png`, `zombie-walk-sheet.png`, `walk-frames/walk-01.png` through `walk-08.png` | Existing candidate walk frames; choose one canonical export and verify registration, scale, duplicate frames, and loops before reuse |
 | Same directory: `zombie-attack-strip.png`, `zombie-attack-sheet.png`, `attack-frames/attack-01.png` through `attack-08.png` | Existing candidate attack frames; validate against the new hand/weapon action set; not evidence that every required animation exists |
-| `D:/Work/Games/KingdomZombies/examples/bases/main-base-tier-1.png`, `main-base-tier-2.png`, `main-base-tier-3.png` | Wood, reinforcement, metal, and mood references. The required tier 1 is fire/boxes, and tier 3 needs two attached towers; do not copy the example silhouettes as the final progression |
+| `D:/Work/Games/KingdomZombies/src/godot-game/references/bases/main-base-tier-1.png`, `main-base-tier-2.png`, `main-base-tier-3.png` | Wood, reinforcement, metal, and mood references. The required tier 1 is fire/boxes, and tier 3 needs two attached towers; do not copy the example silhouettes as the final progression |
 
 The zombie idle image and base tier-3 image were visually reviewed during this audit. Animation candidates were located, not declared production-ready.
 

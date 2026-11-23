@@ -1,0 +1,2160 @@
+{
+  "taskId": "261116-k3u",
+  "recordedAt": "2026-11-16T14:28:06.401Z",
+  "sourceRevision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+  "branch": "feature/quick-repository-layout",
+  "pullRequest": {
+    "url": "https://github.com/Sebreiro/kingdom-zombies-game/pull/6",
+    "base": "dev",
+    "readyObserved": true,
+    "merged": false
+  },
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "release": "10.0.19044",
+    "node": "v24.22.1",
+    "cache": "fresh linked checkout using pre-existing verified package and engine caches; no cold acquisition timing claimed"
+  },
+  "strict": {
+    "started": "2026-11-16T14:19:20.8768752+00:00",
+    "finished": "2026-11-16T14:19:33.1254723+00:00",
+    "durationMilliseconds": 12250.2854,
+    "restoreExit": 0,
+    "buildExit": 0,
+    "cache": "existing verified packages and engine",
+    "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0"
+  },
+  "required": {
+    "status": "pass",
+    "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+    "selectionLog": ".phase1/maintenance/verification-b29c3de0-7236-4e68-9183-227c8a385f98/selection.json",
+    "selectionLogSha256": "6a7ca15ee0233c6d57ac9ec0bf7429005cc724424cfd9a9b1898c32c0b04f4fc",
+    "durationMilliseconds": 229053,
+    "counts": {
+      "selected": 73,
+      "passed": 73,
+      "failures": 0
+    },
+    "reports": [
+      {
+        "path": ".phase1/runs/19de180d-686c-4108-8e03-f96d9f719778/summary.json",
+        "sha256": "606348a9d3eea04951d498080d8639289651565f8b41ce72c743bb1c7e6b2a51",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-10.complete",
+          "ac-11.complete",
+          "edge.rule-04.adjacency",
+          "edge.rule-04.empty",
+          "edge.rule-04.encoding",
+          "edge.rule-04.ordering",
+          "edge.rule-04.concurrency",
+          "docs.navigation",
+          "docs.portable",
+          "docs.empty",
+          "docs.target",
+          "docs.anchor",
+          "docs.ambiguous-anchor",
+          "docs.explicit-anchor",
+          "docs.ambiguous-reference",
+          "docs.reference",
+          "docs.missing-reference",
+          "docs.invalid-utf8",
+          "docs.percent",
+          "docs.percent-utf8",
+          "docs.escape",
+          "docs.singleton",
+          "docs.scope",
+          "docs.workflow",
+          "docs.directory-collision",
+          "docs.anchor-collision",
+          "docs.heading-suffix",
+          "docs.unicode-distinct",
+          "docs.projects",
+          "docs.projects.missing",
+          "docs.projects.empty",
+          "docs.projects.unreachable",
+          "docs.projects.edges",
+          "docs.projects.output-item",
+          "docs.projects.reference-output",
+          "docs.projects.ambiguous"
+        ],
+        "passed": [
+          "ac-10.complete",
+          "ac-11.complete",
+          "edge.rule-04.adjacency",
+          "edge.rule-04.empty",
+          "edge.rule-04.encoding",
+          "edge.rule-04.ordering",
+          "edge.rule-04.concurrency",
+          "docs.navigation",
+          "docs.portable",
+          "docs.empty",
+          "docs.target",
+          "docs.anchor",
+          "docs.ambiguous-anchor",
+          "docs.explicit-anchor",
+          "docs.ambiguous-reference",
+          "docs.reference",
+          "docs.missing-reference",
+          "docs.invalid-utf8",
+          "docs.percent",
+          "docs.percent-utf8",
+          "docs.escape",
+          "docs.singleton",
+          "docs.scope",
+          "docs.workflow",
+          "docs.directory-collision",
+          "docs.anchor-collision",
+          "docs.heading-suffix",
+          "docs.unicode-distinct",
+          "docs.projects",
+          "docs.projects.missing",
+          "docs.projects.empty",
+          "docs.projects.unreachable",
+          "docs.projects.edges",
+          "docs.projects.output-item",
+          "docs.projects.reference-output",
+          "docs.projects.ambiguous"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "docs"
+        ],
+        "durationMilliseconds": 67614
+      },
+      {
+        "path": ".phase1/runs/b4714ab2-ef3d-45b3-91fe-76d1163fc523/summary.json",
+        "sha256": "646f9fb2b1fde003c431279767eb9bb0f92e18422b0476f8c239d61a1f4078f5",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-01.complete",
+          "edge.rule-01.adjacency",
+          "edge.rule-01.empty",
+          "edge.rule-01.ordering",
+          "edge.rule-01.idempotency",
+          "edge.rule-01.concurrency",
+          "pins.missing",
+          "pins.duplicate-identical",
+          "pins.duplicate-conflicting",
+          "pins.duplicate-candidate",
+          "pins.generator",
+          "pins.observed-engine",
+          "pins.observed-compiler",
+          "pins.observed-generator",
+          "pins.permutation",
+          "pins.composition",
+          "pins.consumer",
+          "pins.verifier",
+          "pins.banned-inputs",
+          "pins.evaluated",
+          "pins.configuration-drift",
+          "pins.banned-production",
+          "pins.banned-tests",
+          "pins.banned-severity",
+          "pins.async-permission",
+          "pins.generated-report",
+          "pins.generated-report-boundary"
+        ],
+        "passed": [
+          "ac-01.complete",
+          "edge.rule-01.adjacency",
+          "edge.rule-01.empty",
+          "edge.rule-01.ordering",
+          "edge.rule-01.idempotency",
+          "edge.rule-01.concurrency",
+          "pins.missing",
+          "pins.duplicate-identical",
+          "pins.duplicate-conflicting",
+          "pins.duplicate-candidate",
+          "pins.generator",
+          "pins.observed-engine",
+          "pins.observed-compiler",
+          "pins.observed-generator",
+          "pins.permutation",
+          "pins.composition",
+          "pins.consumer",
+          "pins.verifier",
+          "pins.banned-inputs",
+          "pins.evaluated",
+          "pins.configuration-drift",
+          "pins.banned-production",
+          "pins.banned-tests",
+          "pins.banned-severity",
+          "pins.async-permission",
+          "pins.generated-report",
+          "pins.generated-report-boundary"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "pins"
+        ],
+        "durationMilliseconds": 81381
+      },
+      {
+        "path": ".phase1/runs/79842f81-eeab-4dc2-a0e7-30c9f69b2270/summary.json",
+        "sha256": "b035a1ef422588b994d0bdc9049a926dced9a9e279cc91209fbafb4f66b4108a",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-12.complete"
+        ],
+        "passed": [
+          "ac-12.complete"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "ac-12.complete"
+        ],
+        "durationMilliseconds": 10498
+      },
+      {
+        "path": ".phase1/runs/470a6ea7-ec70-407e-a1f1-8208bf8e2c03/summary.json",
+        "sha256": "87503913608360586854e62a1d3000e2782a2814091c8c9257b800b0139d5a83",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-13.complete"
+        ],
+        "passed": [
+          "ac-13.complete"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "ac-13.complete"
+        ],
+        "durationMilliseconds": 26061
+      },
+      {
+        "path": ".phase1/runs/693418f1-7d15-4031-be8b-dc62af8ea0ff/summary.json",
+        "sha256": "f449b5bcacea39e57cba5dc6b947b164613bd2228e67f5655cb277980d982c6a",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "register.capture"
+        ],
+        "passed": [
+          "register.capture"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "register.capture"
+        ],
+        "durationMilliseconds": 3480
+      },
+      {
+        "path": ".phase1/runs/29727b2b-2bd2-47cb-8cb9-72e20469c2de/summary.json",
+        "sha256": "d0d7f168c2431bb8c84eaed97594f48b55bd6164dec0c1b278e4a187810b2169",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "register.binding-precoverage"
+        ],
+        "passed": [
+          "register.binding-precoverage"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "register.binding-precoverage"
+        ],
+        "durationMilliseconds": 6387
+      },
+      {
+        "path": ".phase1/runs/b9fdfbf9-2020-4e7d-9d84-dc395dc8fabe/summary.json",
+        "sha256": "38cdc9b40f2c59324dd3fc659d6a75134fc3390138580c9b648ac5ed1f96085b",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "rules.source-format"
+        ],
+        "passed": [
+          "rules.source-format"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "rules.source-format"
+        ],
+        "durationMilliseconds": 3284
+      },
+      {
+        "path": ".phase1/runs/b6bd1c15-a01c-4de1-920f-9d4053ad8088/summary.json",
+        "sha256": "6eeb8766f37aeb2b13405a1acc4911d33a98e645369fbcf0ec2e3e0b3bee7948",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-67.positive"
+        ],
+        "passed": [
+          "R-67.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-67.positive"
+        ],
+        "durationMilliseconds": 9801
+      },
+      {
+        "path": ".phase1/runs/082e346c-1a8f-43e6-a7a2-5238dad561bc/summary.json",
+        "sha256": "2983f0cc3668246b73c3d3b9cc31f96fdfa28b9995bfbe82ae7456fad2f6f11a",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-67.negative"
+        ],
+        "passed": [
+          "R-67.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-67.negative"
+        ],
+        "durationMilliseconds": 5671
+      },
+      {
+        "path": ".phase1/runs/75287402-4998-44ee-9d81-a8003e697e8e/summary.json",
+        "sha256": "10ed77b5f524bd3aae21e780aa8262697ce3d98f488d7421a1375ee3a4b7f97c",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "rules.suppression-conditional"
+        ],
+        "passed": [
+          "rules.suppression-conditional"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "rules.suppression-conditional"
+        ],
+        "durationMilliseconds": 4866
+      },
+      {
+        "path": ".phase1/runs/882f115d-db62-47a4-81ba-e97495a3b5f3/summary.json",
+        "sha256": "d8fcf1fa70c5cd38f0b150cf9be639bde7becdc04ed8cc9822df51915c1ec761",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.lifecycle"
+        ],
+        "passed": [
+          "engine.lifecycle"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.lifecycle"
+        ],
+        "durationMilliseconds": 4737
+      },
+      {
+        "path": ".phase1/runs/0a7746fd-4144-47d4-9258-d9dda5ab44a4/summary.json",
+        "sha256": "cee7774566e7a551ac1d102690b0f4b84881ecb864046cdf4dfe63e63dc267fb",
+        "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+        "input": "9e32e32a7bdadfb17db33579fb10839992a980f85c92fe7442740e90b799ed87",
+        "tool": "67c9b4a737de1dcc3351fbac642a99407e95698cce86063c48932abbd0192b1d",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.generated-origin"
+        ],
+        "passed": [
+          "engine.generated-origin"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.generated-origin"
+        ],
+        "durationMilliseconds": 5251
+      }
+    ]
+  },
+  "tooling": {
+    "selected": 23,
+    "passed": 23,
+    "failed": 0,
+    "durationMilliseconds": 29785.6442,
+    "log": ".phase1/maintenance/node-tests-accepted.log",
+    "sha256": "b6ac2495ba7171f49f1469ff2bb58773eb9ca5acca64cbaabfc6e109d1446345"
+  },
+  "preservation": {
+    "base": "origin/dev",
+    "preserved": [
+      {
+        "old": "BannedSymbols.Pure.txt",
+        "next": "src/godot-game/build/BannedSymbols.Pure.txt",
+        "sha256": "355c2f5471feb283516a48b9763778961386bca413adaee73cb74a6bf29bd15c"
+      },
+      {
+        "old": "BannedSymbols.Tests.txt",
+        "next": "src/godot-game/build/BannedSymbols.Tests.txt",
+        "sha256": "5733d341d2d7b7266ef0e683dd57a191970e247e6b67910f2153f7966142a17f"
+      },
+      {
+        "old": "BannedSymbols.txt",
+        "next": "src/godot-game/build/BannedSymbols.txt",
+        "sha256": "ac8399a0a8469f592371b81c822541989cb0d48935ae672376291a2bd26ab6ad"
+      },
+      {
+        "old": "Directory.Xunit.targets",
+        "next": "src/godot-game/build/Directory.Xunit.targets",
+        "sha256": "5aa0815970f1e834c4aac8e8448bdbee3788989847849940fa14ee2e9923daf1"
+      },
+      {
+        "old": "src/core/ExampleState.cs",
+        "next": "src/godot-game/core/ExampleState.cs",
+        "sha256": "5ee4c321766f0e045df33c10068966a34f5696ea24ba41233e9dfabcb875812b"
+      },
+      {
+        "old": "src/core/ExampleStateStore.cs",
+        "next": "src/godot-game/core/ExampleStateStore.cs",
+        "sha256": "18d0c3808e8fb149d77bb2646a2ffe816c6e34528e676f9b3a6d2a9e21e26724"
+      },
+      {
+        "old": "src/core/FoundationActorState.cs",
+        "next": "src/godot-game/core/FoundationActorState.cs",
+        "sha256": "ca4eeb34f1ea4f5aa467cc29a7c29515a54d19ad04bfcfa919beea35af39eb33"
+      },
+      {
+        "old": "src/core/FoundationHeldIntent.cs",
+        "next": "src/godot-game/core/FoundationHeldIntent.cs",
+        "sha256": "86297a536f69c6bcc4dcc8e750bfaa543990ccc2b4bccdf44f4c99536bd43444"
+      },
+      {
+        "old": "src/core/FoundationMovementCommand.cs",
+        "next": "src/godot-game/core/FoundationMovementCommand.cs",
+        "sha256": "73e2e09d4b90a05e702f8e9e4b6ad0b975a29907875ef438e402d05e70e55bc9"
+      },
+      {
+        "old": "src/core/FoundationParticipantState.cs",
+        "next": "src/godot-game/core/FoundationParticipantState.cs",
+        "sha256": "69bbdc8370457a50d87198e9d47899074c6732adf58a29361de52cb5764f5b03"
+      },
+      {
+        "old": "src/core/FoundationSession.cs",
+        "next": "src/godot-game/core/FoundationSession.cs",
+        "sha256": "38a514aeebd08c485c84e4eb2bff4738a780bea72765abac828730a29d710e0f"
+      },
+      {
+        "old": "src/core/FoundationSnapshot.cs",
+        "next": "src/godot-game/core/FoundationSnapshot.cs",
+        "sha256": "3e1b0299a5d9de621e29a28f9a0be48a568ab2a0f961091f251fae5e8bb5a380"
+      },
+      {
+        "old": "src/core/IElapsedInput.cs",
+        "next": "src/godot-game/core/IElapsedInput.cs",
+        "sha256": "f3cd8955435f6927ab22f9d10893de2b59f054535efca475f4ecf6410417dcd1"
+      },
+      {
+        "old": "src/core/IRandomInput.cs",
+        "next": "src/godot-game/core/IRandomInput.cs",
+        "sha256": "dc33899daa78e9ddb58be4113f021c3e03bfbdf83d84e2d869578e619b63971d"
+      },
+      {
+        "old": "src/core/ProofKind.cs",
+        "next": "src/godot-game/core/ProofKind.cs",
+        "sha256": "e2d53c17758c56c94d90d99373444c4a1f6733f1645e3d1093a679196d47a43f"
+      },
+      {
+        "old": "src/core/ProofValue.cs",
+        "next": "src/godot-game/core/ProofValue.cs",
+        "sha256": "901b4be6139869da971f4d58e933665ad66d683995c798f07c7c1a04f3ba6492"
+      },
+      {
+        "old": "src/core/ReplayRandom.cs",
+        "next": "src/godot-game/core/ReplayRandom.cs",
+        "sha256": "d946bb2bceecbec44f5a2b23e5fbde0f8d41a57969e8b93affff59c78f975226"
+      },
+      {
+        "old": "src/core/SnapshotCodec.cs",
+        "next": "src/godot-game/core/SnapshotCodec.cs",
+        "sha256": "e07d37b802a99bfdc73367f291444e3f58616b6cfcb79a448315dc888a63e255"
+      },
+      {
+        "old": "src/core/SnapshotDto.cs",
+        "next": "src/godot-game/core/SnapshotDto.cs",
+        "sha256": "541fbd54ed08c261fb4219a3d7fde25ffdc9d1824893c84b98b35d5af4058247"
+      },
+      {
+        "old": "src/core/SnapshotJson.cs",
+        "next": "src/godot-game/core/SnapshotJson.cs",
+        "sha256": "c468ba979b0a0651f3beb9a72d5f684775d3e38373ca2b4806c5eb3ba717f290"
+      },
+      {
+        "old": "src/core/SnapshotWriter.cs",
+        "next": "src/godot-game/core/SnapshotWriter.cs",
+        "sha256": "01a634338af626da192116ee59cb83a30b056e29e9c3a61cd1ff10f48b07f2af"
+      },
+      {
+        "old": "src/core/StableIdentity.cs",
+        "next": "src/godot-game/core/StableIdentity.cs",
+        "sha256": "36afb0a57398b9ef2972db41281520e8aaf4c18d95e7cc37dc43a3cb0aa5df0a"
+      },
+      {
+        "old": "src/core/packages.lock.json",
+        "next": "src/godot-game/core/packages.lock.json",
+        "sha256": "544c78b555d97fd9b1a26d0e047518a2482ebd0ea44c84c562be6ed4ddf98df1"
+      },
+      {
+        "old": "src/godot-game/GeneratedCallSiteAdapters.cs",
+        "next": "src/godot-game/game/GeneratedCallSiteAdapters.cs",
+        "sha256": "caa6e00d944754ce4cf487c52f9c0057901c8e748051b78754ea98f960198d7a"
+      },
+      {
+        "old": "src/godot-game/GeneratedReportAdapter.cs",
+        "next": "src/godot-game/game/GeneratedReportAdapter.cs",
+        "sha256": "eb320d524bab395c1a774fe9837afa20f7733ab4bf806b93d7fd7460a57c0a7b"
+      },
+      {
+        "old": "src/godot-game/foundation/DiscoveryCodec.cs",
+        "next": "src/godot-game/game/foundation/DiscoveryCodec.cs",
+        "sha256": "72857d3b68db6e13f1c6050cf4c5d59cfa04dc8c2e5c16e894e518ef94eb68c6"
+      },
+      {
+        "old": "src/godot-game/foundation/EnetConnectionService.cs",
+        "next": "src/godot-game/game/foundation/EnetConnectionService.cs",
+        "sha256": "172d8aeb844ef6ce3b3877f27daccf9fc02a08399e66bd50bac7de5205135805"
+      },
+      {
+        "old": "src/godot-game/foundation/Foundation.tscn",
+        "next": "src/godot-game/game/foundation/Foundation.tscn",
+        "sha256": "d4ed284d8bf53503fe560060527fbfc85d998c607750555fc905008177bf346e"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationActorNode.cs",
+        "next": "src/godot-game/game/foundation/FoundationActorNode.cs",
+        "sha256": "1660a842a73628c3ae0ec910516442a124c689d07756b12217942d7d97069756"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationAdmissionHistory.cs",
+        "next": "src/godot-game/game/foundation/FoundationAdmissionHistory.cs",
+        "sha256": "8c502be32d853f84bd1a7367bd17268db32864542e1da364c971ac2a36059f25"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationAutomation.cs",
+        "next": "src/godot-game/game/foundation/FoundationAutomation.cs",
+        "sha256": "f08fd4ab9b7e0b5db493d1ec1ca794c559b219bf81d81ea13fe94a0e325df338"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationBrowser.cs",
+        "next": "src/godot-game/game/foundation/FoundationBrowser.cs",
+        "sha256": "bd2de94bf7df9924edaef2473846cfa9d318ea6e0a812f0383b3b3cc13b65117"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationCapturePublication.cs",
+        "next": "src/godot-game/game/foundation/FoundationCapturePublication.cs",
+        "sha256": "40631cd1678cea9d74e3e91d24c5cb70a48c36e190b5858090db2a4b9f00be87"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationCoordinator.Admission.cs",
+        "next": "src/godot-game/game/foundation/FoundationCoordinator.Admission.cs",
+        "sha256": "2663a9811ebf6c58c5e063906006c3ff0ac542fba8d54861048d6527bc60ffc5"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationCoordinator.GuestPublication.cs",
+        "next": "src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs",
+        "sha256": "d35c8a3178ffe95d3f1310a9f625abaacee52a30d9cd941ba88a7df139983a54"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationCoordinator.Lifetime.cs",
+        "next": "src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs",
+        "sha256": "0c2338fc168043a838254c8c6dd1f4b2ff1aed4a5037fa1732957b5fe3c5fc73"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationCoordinator.cs",
+        "next": "src/godot-game/game/foundation/FoundationCoordinator.cs",
+        "sha256": "22888110aeda742bbed897384aa4e4fef5904422706f49ad86663024e1ee9297"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationCopy.cs",
+        "next": "src/godot-game/game/foundation/FoundationCopy.cs",
+        "sha256": "0044b494115a9d4eaa30dc0503c4490ae86f937e0b9999ff300e67ef869ed21e"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationDiagnostics.cs",
+        "next": "src/godot-game/game/foundation/FoundationDiagnostics.cs",
+        "sha256": "ccf43cd946e547c87ed41f39eb078c166fb4c5534e68c683d7d0778fc512cba3"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationDisplay.cs",
+        "next": "src/godot-game/game/foundation/FoundationDisplay.cs",
+        "sha256": "d27504cc202552f2a6075532818d8182272e3ecad885e03869c8aa0914a1e572"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationDrawObserver.cs",
+        "next": "src/godot-game/game/foundation/FoundationDrawObserver.cs",
+        "sha256": "a6dc2c920c57c1a40e0c78109fbebd565608e551199f53ff48b358a207030e73"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationDrawRequest.cs",
+        "next": "src/godot-game/game/foundation/FoundationDrawRequest.cs",
+        "sha256": "7c2eda11f400c0c91cafee1df5c4ac7101f110af9d45b43bb97b77bf755ff3d1"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationEndpoint.cs",
+        "next": "src/godot-game/game/foundation/FoundationEndpoint.cs",
+        "sha256": "b7a198d1e12079a51456503d5d2df6efa065c76f06310989a1b8bdabd564a7fb"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationEnvelope.cs",
+        "next": "src/godot-game/game/foundation/FoundationEnvelope.cs",
+        "sha256": "0bf12d1d94212dc30a1e8e57f665e79ca8c3eb2180d62d472860caac77e9a4a6"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationEphemeralProfile.cs",
+        "next": "src/godot-game/game/foundation/FoundationEphemeralProfile.cs",
+        "sha256": "cb29d363e9fab9d5887ab1675ccd7421664498da80e9f518438bcc47741b49eb"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationHud.cs",
+        "next": "src/godot-game/game/foundation/FoundationHud.cs",
+        "sha256": "f59a5e31b8aed2f7b1d267c34c90c7478ca9cb69aae08bee46c24e78090ec63d"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationInput.cs",
+        "next": "src/godot-game/game/foundation/FoundationInput.cs",
+        "sha256": "caed7f7b5cd0eca46813aa7a0909f99307cf33d155407a063263cf3fca528b63"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationMenu.cs",
+        "next": "src/godot-game/game/foundation/FoundationMenu.cs",
+        "sha256": "71c5cf2f909a6849d768abc0109ae0fd34a35a57cc860ad119e782320d28328d"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationNativeRegression.cs",
+        "next": "src/godot-game/game/foundation/FoundationNativeRegression.cs",
+        "sha256": "9bfbd09eaf77d280d10c631f22a4528f00eaf19babe6a6687eb8fc7f34c60416"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationObservationScope.cs",
+        "next": "src/godot-game/game/foundation/FoundationObservationScope.cs",
+        "sha256": "ab9972b6888c0cedce0ac374421cb0554ef45e8b5596cd0b18e4fe149dcd425b"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationPeerBinding.cs",
+        "next": "src/godot-game/game/foundation/FoundationPeerBinding.cs",
+        "sha256": "4c0749cc0221f2d5dc5f7ed479be67ffa78b660e0a3e55f86871f66cd52ef153"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationPresentation.cs",
+        "next": "src/godot-game/game/foundation/FoundationPresentation.cs",
+        "sha256": "df4a59a0f74055375fce7b671b8fd4d1db98f3697f397ab3cdfe2045452f6928"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationProtocol.cs",
+        "next": "src/godot-game/game/foundation/FoundationProtocol.cs",
+        "sha256": "185359ce9cefb0296b946665aefe35f6d37929a363497130111bb20a8e9c9f78"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationRegressionDiscovery.cs",
+        "next": "src/godot-game/game/foundation/FoundationRegressionDiscovery.cs",
+        "sha256": "42f45ef67cd60cdc4e9e37b6c49d9a8fb6a951e8122477dc69ecac9b068f65d2"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationRoot.cs",
+        "next": "src/godot-game/game/foundation/FoundationRoot.cs",
+        "sha256": "530adae080b9d0811c9f48af7d1c92f3006f6e2bbabf01bd8303ec328040f8f8"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationRuntimeState.cs",
+        "next": "src/godot-game/game/foundation/FoundationRuntimeState.cs",
+        "sha256": "783e69efc179f5dfab2906c3e53ffaa22ff6d257d7248e744e0e2627ab717442"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationServices.cs",
+        "next": "src/godot-game/game/foundation/FoundationServices.cs",
+        "sha256": "d5e6dbd4148027feacbee4bfdfb332171e8fc48ab1a3709a3b8d23a238f3a444"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationView.cs",
+        "next": "src/godot-game/game/foundation/FoundationView.cs",
+        "sha256": "ad0bad27bee096ccbc13add9135bfd2347dc183ede6dfe325d088c85c92eb9bc"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationWireFrame.cs",
+        "next": "src/godot-game/game/foundation/FoundationWireFrame.cs",
+        "sha256": "8fde7f8dbf7288915ff9dfcf1e606a5e4bd85f4ad937c8a0ee8db53a9a56d144"
+      },
+      {
+        "old": "src/godot-game/foundation/FoundationWorld.tscn",
+        "next": "src/godot-game/game/foundation/FoundationWorld.tscn",
+        "sha256": "25012bd1d98dd0af3dce445ff9f84aed50a41663b9ffbd7a4f601c105b7ea89d"
+      },
+      {
+        "old": "src/godot-game/foundation/LanDiscoveryService.cs",
+        "next": "src/godot-game/game/foundation/LanDiscoveryService.cs",
+        "sha256": "1b92977b0071f157cdabef27417910f6272be1347e9a59034c064690acf51fac"
+      },
+      {
+        "old": "src/godot-game/foundation/LocalProfileService.cs",
+        "next": "src/godot-game/game/foundation/LocalProfileService.cs",
+        "sha256": "bcba74a53d69d7912b7af509f54e0beaa3e2fa7a9b69047794c42b125bf2b444"
+      },
+      {
+        "old": "src/godot-game/foundation/LocalProfileStorage.cs",
+        "next": "src/godot-game/game/foundation/LocalProfileStorage.cs",
+        "sha256": "bef4ab51e6fb6f7d1bc5e4cfbe699d3df1ed04cf9d44207e49dbd6c7c04869ce"
+      },
+      {
+        "old": "src/godot-game/icon.svg",
+        "next": "src/godot-game/game/icon.svg",
+        "sha256": "6c80384360a5b269d1054bfb27241258154e2cc8167c522016fdc1820e84e0f8"
+      },
+      {
+        "old": "src/godot-game/packages.lock.json",
+        "next": "src/godot-game/game/packages.lock.json",
+        "sha256": "acd696bafb0f3f9bfb560e65cf10e77f98bf8632a74e28147b7906bb53693bba"
+      },
+      {
+        "old": "src/godot-game/proofs/InvalidFixture.tscn",
+        "next": "src/godot-game/game/proofs/InvalidFixture.tscn",
+        "sha256": "6050564eeef1164211dd9e2660a8c48b68afd525ccb4da18bb846fc0873e5aaa"
+      },
+      {
+        "old": "src/godot-game/proofs/LifecycleFixture.cs",
+        "next": "src/godot-game/game/proofs/LifecycleFixture.cs",
+        "sha256": "dd78f93caa8fc443da1a87818a60bc9f0005778720f9c68b65a3c6246235aa1b"
+      },
+      {
+        "old": "src/godot-game/proofs/LifetimeToken.cs",
+        "next": "src/godot-game/game/proofs/LifetimeToken.cs",
+        "sha256": "1370aa0786f4c0451402f67ac8e183676fc3b2d4bedc582c7eae44ccdd704750"
+      },
+      {
+        "old": "src/godot-game/proofs/MainThreadGateway.cs",
+        "next": "src/godot-game/game/proofs/MainThreadGateway.cs",
+        "sha256": "1f51d27e0b9fcec988dff88d1895cb05dd17cf9f8eeb13f68ab17743c67c182a"
+      },
+      {
+        "old": "src/godot-game/proofs/Phase1.cs",
+        "next": "src/godot-game/game/proofs/Phase1.cs",
+        "sha256": "24cd0f38eb493bd2909176691c05a866833797238cca57b35cdcefd4af3dbbeb"
+      },
+      {
+        "old": "src/godot-game/proofs/Phase1.tscn",
+        "next": "src/godot-game/game/proofs/Phase1.tscn",
+        "sha256": "81818f9ae39d10e861707a0dcbae9d4244351fcbc50c94a717e3e9ed106f8b60"
+      },
+      {
+        "old": "src/godot-game/proofs/ProofResource.cs",
+        "next": "src/godot-game/game/proofs/ProofResource.cs",
+        "sha256": "acb1ff36821a5300369e8b38e869ddc05f993d7c09a879ee8c19c43bf9474dde"
+      },
+      {
+        "old": "src/godot-game/proofs/ProofResource.tres",
+        "next": "src/godot-game/game/proofs/ProofResource.tres",
+        "sha256": "f277b647be2ccbe1fb1dd940efada13d55979fe6c257b1372833520939c570a8"
+      },
+      {
+        "old": "src/godot-game/proofs/ProofSequence.cs",
+        "next": "src/godot-game/game/proofs/ProofSequence.cs",
+        "sha256": "eea9be87a9f9007a818de45360e3424c734d7c5526ab83a057e2cf885045a7a8"
+      },
+      {
+        "old": "src/godot-game/proofs/ValidFixture.tscn",
+        "next": "src/godot-game/game/proofs/ValidFixture.tscn",
+        "sha256": "db7b170c40846a1bb40803530f9cc6aa0cf2be665f2eab0a964d449727176162"
+      },
+      {
+        "old": "src/multiplayer-abstractions/ConnectionPacket.cs",
+        "next": "src/godot-game/multiplayer-abstractions/ConnectionPacket.cs",
+        "sha256": "6eb92b6a8ee1c5dd71728a2f8bb9c4f01535cddb874e6946d279354fecd07474"
+      },
+      {
+        "old": "src/multiplayer-abstractions/IConnectionService.cs",
+        "next": "src/godot-game/multiplayer-abstractions/IConnectionService.cs",
+        "sha256": "c132da48c7553434f9eff10e0f8c59b716e414b53df4eaad2534b03ad91cdbe8"
+      },
+      {
+        "old": "src/multiplayer-abstractions/IDiscoveryService.cs",
+        "next": "src/godot-game/multiplayer-abstractions/IDiscoveryService.cs",
+        "sha256": "7489ca52540f98fe515fa0c3f673c8034e95a87da7b71637295079c9b8471e99"
+      },
+      {
+        "old": "src/multiplayer-abstractions/IIdentityService.cs",
+        "next": "src/godot-game/multiplayer-abstractions/IIdentityService.cs",
+        "sha256": "63db5b760f90b10e3347fc8becd1a5f6a9548d06e857eea552dbb4f3ebd7c007"
+      },
+      {
+        "old": "src/multiplayer-abstractions/IProofService.cs",
+        "next": "src/godot-game/multiplayer-abstractions/IProofService.cs",
+        "sha256": "a52c23d962bd0398dfca192b79873b260b2ebc3b6341bfd5396b10d62d8c01d7"
+      },
+      {
+        "old": "src/multiplayer-abstractions/PlayerProfile.cs",
+        "next": "src/godot-game/multiplayer-abstractions/PlayerProfile.cs",
+        "sha256": "89af7ba495ef4433c6ddd39b81e85f0325260da406e719d3fcc0450ee6adcf96"
+      },
+      {
+        "old": "src/multiplayer-abstractions/SessionAdvertisement.cs",
+        "next": "src/godot-game/multiplayer-abstractions/SessionAdvertisement.cs",
+        "sha256": "2a459fc9294fb977cc10baef4b13e029aef011828b30b84f0417524bfb33561d"
+      },
+      {
+        "old": "src/multiplayer-abstractions/packages.lock.json",
+        "next": "src/godot-game/multiplayer-abstractions/packages.lock.json",
+        "sha256": "544c78b555d97fd9b1a26d0e047518a2482ebd0ea44c84c562be6ed4ddf98df1"
+      },
+      {
+        "old": "tests/phase1/packages.lock.json",
+        "next": "src/godot-game/tests/verification/packages.lock.json",
+        "sha256": "c4bcdea95c967010c66aedf8ee10a5631f8824ceae85e36b98b6ae77175e4cf4"
+      },
+      {
+        "old": "examples/bases/main-base-tier-1.png",
+        "next": "src/godot-game/references/bases/main-base-tier-1.png",
+        "sha256": "98b25b78a6368c16cc5868dc13e432b78cef1965148b6dc3f7c9a845633fb419"
+      },
+      {
+        "old": "examples/bases/main-base-tier-2.png",
+        "next": "src/godot-game/references/bases/main-base-tier-2.png",
+        "sha256": "afa249b87f0e8cbab4adea0357f168aa254ca02e9a7646b0bcd8446d178a5fcb"
+      },
+      {
+        "old": "examples/bases/main-base-tier-3.png",
+        "next": "src/godot-game/references/bases/main-base-tier-3.png",
+        "sha256": "57a2c0381eab583591a6a606395076936cce9671a1690fc6ff14cbaae02fab74"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-01.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-01.png",
+        "sha256": "e4112cb5c94a832e6404739e3602482ddd64591dc5db4b7c5a8849e32a182ab4"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-02.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-02.png",
+        "sha256": "d2fb74ec82d7fc9381a2ceb59a52e46098d18111da36c41a4aac921bc9f29ca8"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-03.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-03.png",
+        "sha256": "45d5f5a60ad1263f858df7036622528ae7244758af23a0c04f66407f7619fa2a"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-04.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-04.png",
+        "sha256": "19ac2806c14964a3ab9fffaf98a4d062a251519f6ab7b96a3fe21743ecfe0c2f"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-05.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-05.png",
+        "sha256": "be70522455362b9abf60a4456e0d6ed333568f22134b0a293c8af55c88b0b4cc"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-06.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-06.png",
+        "sha256": "ef1b6c9687abbe847423301f4ec7b2669ffbad302374a03e2d5de49242108752"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-07.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-07.png",
+        "sha256": "b5a49b39bdec940c281f20be9887954f9fa6150fa89a15f7f8a53a68b53c0079"
+      },
+      {
+        "old": "examples/zombie/attack-frames/attack-08.png",
+        "next": "src/godot-game/references/zombie/attack-frames/attack-08.png",
+        "sha256": "edf203ebf2ff1d19ddd711a160a29041efd1c644da009e9efcd2c13161899669"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-01.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-01.png",
+        "sha256": "aee65805d815d1c0a77f473ef8a1e7c00382b60ca1e78fa153ba914ad9769264"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-02.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-02.png",
+        "sha256": "3334285d459a826151e11de4f7a24cf3782eea04b42b396427079ca317701f0f"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-03.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-03.png",
+        "sha256": "da2cf671cf42af688dc8387e21410041c297784e76dfae63918c8aff81aa5ff4"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-04.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-04.png",
+        "sha256": "666fc33df12cbf11cafd615800b13ef22462d69b1c6efc040c334113dc305dc1"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-05.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-05.png",
+        "sha256": "476f7116bcf844ae1e73625e45d1c5572ae4421ea04e200547e6b1c9e796bcf9"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-06.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-06.png",
+        "sha256": "59ccc86c27478d16856dde5e404989278ca125191adad0df78e4865a6dd7fffc"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-07.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-07.png",
+        "sha256": "1ccb82756865b97e3e6040ddec6d59c8a9f15ec76e362710c17bc9ebc82dea48"
+      },
+      {
+        "old": "examples/zombie/walk-frames/walk-08.png",
+        "next": "src/godot-game/references/zombie/walk-frames/walk-08.png",
+        "sha256": "0346ea23c412da86ca8acd100ef3db49176487df33773783344459dec26106b6"
+      },
+      {
+        "old": "examples/zombie/zombie-attack-sheet.png",
+        "next": "src/godot-game/references/zombie/zombie-attack-sheet.png",
+        "sha256": "5e295ad745b9657b992c3bc1365ee7302303e38a3402c2c6d4ae93e77e92b73e"
+      },
+      {
+        "old": "examples/zombie/zombie-attack-strip.png",
+        "next": "src/godot-game/references/zombie/zombie-attack-strip.png",
+        "sha256": "0c948ee77a14002cd434de53b3d96bd840524db0ee70bd0d21a594b4f68a1975"
+      },
+      {
+        "old": "examples/zombie/zombie-idle-original-size.png",
+        "next": "src/godot-game/references/zombie/zombie-idle-original-size.png",
+        "sha256": "4ee3de061acfde95a0c92f36c42167b19b4a4c7a1eac716ba73c039a6289b26f"
+      },
+      {
+        "old": "examples/zombie/zombie-idle.png",
+        "next": "src/godot-game/references/zombie/zombie-idle.png",
+        "sha256": "d4c7e90ca7eada9f99e39cae51625390dcabbce06ddc063eebf6798457c69b89"
+      },
+      {
+        "old": "examples/zombie/zombie-walk-sheet.png",
+        "next": "src/godot-game/references/zombie/zombie-walk-sheet.png",
+        "sha256": "ca8778cc5e5ebfebbb31439900f51f08a19ee7356237a1386eded32e56374c2d"
+      },
+      {
+        "old": "examples/zombie/zombie-walk-strip.png",
+        "next": "src/godot-game/references/zombie/zombie-walk-strip.png",
+        "sha256": "4e164aef66674bc63b6f75e4d31059b87955fc1fd7afffa864a49e3ccfb2e380"
+      }
+    ],
+    "analyzerImplementations": 16,
+    "status": "pass"
+  },
+  "diagnostics": {
+    "status": "fail",
+    "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+    "selectionLog": ".phase1/maintenance/verification-d769b850-6800-4201-97a4-415524220db0/selection.json",
+    "selectionLogSha256": "02eb25b7b2051b1d9c160673d6c93476379a3f00ccb17d2bf951faba0d47f552",
+    "durationMilliseconds": 1300880,
+    "counts": {
+      "selected": 203,
+      "passed": 200,
+      "failures": 3
+    },
+    "reports": [
+      {
+        "path": ".phase1/runs/df47f474-1904-4ca7-afa2-0b94ffbd937b/summary.json",
+        "sha256": "1c52d4720d4429de7cd3cca067f380299fd96f76b214ac183fb99643384f9297",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-10.complete",
+          "ac-11.complete",
+          "edge.rule-04.adjacency",
+          "edge.rule-04.empty",
+          "edge.rule-04.encoding",
+          "edge.rule-04.ordering",
+          "edge.rule-04.concurrency",
+          "docs.navigation",
+          "docs.portable",
+          "docs.empty",
+          "docs.target",
+          "docs.anchor",
+          "docs.ambiguous-anchor",
+          "docs.explicit-anchor",
+          "docs.ambiguous-reference",
+          "docs.reference",
+          "docs.missing-reference",
+          "docs.invalid-utf8",
+          "docs.percent",
+          "docs.percent-utf8",
+          "docs.escape",
+          "docs.singleton",
+          "docs.scope",
+          "docs.workflow",
+          "docs.directory-collision",
+          "docs.anchor-collision",
+          "docs.heading-suffix",
+          "docs.unicode-distinct",
+          "docs.projects",
+          "docs.projects.missing",
+          "docs.projects.empty",
+          "docs.projects.unreachable",
+          "docs.projects.edges",
+          "docs.projects.output-item",
+          "docs.projects.reference-output",
+          "docs.projects.ambiguous"
+        ],
+        "passed": [
+          "ac-10.complete",
+          "ac-11.complete",
+          "edge.rule-04.adjacency",
+          "edge.rule-04.empty",
+          "edge.rule-04.encoding",
+          "edge.rule-04.ordering",
+          "edge.rule-04.concurrency",
+          "docs.navigation",
+          "docs.portable",
+          "docs.empty",
+          "docs.target",
+          "docs.anchor",
+          "docs.ambiguous-anchor",
+          "docs.explicit-anchor",
+          "docs.ambiguous-reference",
+          "docs.reference",
+          "docs.missing-reference",
+          "docs.invalid-utf8",
+          "docs.percent",
+          "docs.percent-utf8",
+          "docs.escape",
+          "docs.singleton",
+          "docs.scope",
+          "docs.workflow",
+          "docs.directory-collision",
+          "docs.anchor-collision",
+          "docs.heading-suffix",
+          "docs.unicode-distinct",
+          "docs.projects",
+          "docs.projects.missing",
+          "docs.projects.empty",
+          "docs.projects.unreachable",
+          "docs.projects.edges",
+          "docs.projects.output-item",
+          "docs.projects.reference-output",
+          "docs.projects.ambiguous"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "docs"
+        ],
+        "durationMilliseconds": 73196
+      },
+      {
+        "path": ".phase1/runs/39a4e465-cf40-4d86-9311-8449802fdc62/summary.json",
+        "sha256": "e1c0b4e20f0bb0446ebd212a8d1021350fdea3ae2ace5e44134e6d6521d56e05",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "fail",
+        "selected": [
+          "ac-01.complete",
+          "edge.rule-01.adjacency",
+          "edge.rule-01.empty",
+          "edge.rule-01.ordering",
+          "edge.rule-01.idempotency",
+          "edge.rule-01.concurrency",
+          "pins.missing",
+          "pins.duplicate-identical",
+          "pins.duplicate-conflicting",
+          "pins.duplicate-candidate",
+          "pins.generator",
+          "pins.observed-engine",
+          "pins.observed-compiler",
+          "pins.observed-generator",
+          "pins.permutation",
+          "pins.composition",
+          "pins.consumer",
+          "pins.verifier",
+          "pins.banned-inputs",
+          "pins.evaluated",
+          "pins.configuration-drift",
+          "pins.banned-production",
+          "pins.banned-tests",
+          "pins.banned-severity",
+          "pins.async-permission",
+          "pins.generated-report",
+          "pins.generated-report-boundary"
+        ],
+        "passed": [
+          "ac-01.complete",
+          "edge.rule-01.adjacency",
+          "edge.rule-01.empty",
+          "edge.rule-01.ordering",
+          "edge.rule-01.idempotency",
+          "edge.rule-01.concurrency",
+          "pins.missing",
+          "pins.duplicate-identical",
+          "pins.duplicate-conflicting",
+          "pins.duplicate-candidate",
+          "pins.generator",
+          "pins.observed-engine",
+          "pins.observed-compiler",
+          "pins.observed-generator",
+          "pins.composition",
+          "pins.consumer",
+          "pins.verifier",
+          "pins.banned-inputs",
+          "pins.evaluated",
+          "pins.configuration-drift",
+          "pins.banned-production",
+          "pins.banned-tests",
+          "pins.banned-severity",
+          "pins.async-permission",
+          "pins.generated-report",
+          "pins.generated-report-boundary"
+        ],
+        "failures": [
+          {
+            "id": "pins.permutation",
+            "status": "fail",
+            "diagnostic": "TEST_FAILED",
+            "message": "pins.permutation: Shouldly.ShouldAssertException : result.Exit\r\n    should be\r\n0\r\n    but was\r\n1",
+            "log": "pins.permutation/test.process.log"
+          }
+        ],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "pins"
+        ],
+        "durationMilliseconds": 79532
+      },
+      {
+        "path": ".phase1/runs/973e55b6-807a-4789-9d7e-efdf71346fea/summary.json",
+        "sha256": "01bbdb7a72aa4cf3006d5ba7c82dfdd725bb07b21e66b5e1d1a8c5711c858a70",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "graph.visibility-inventory",
+          "ac-12.complete",
+          "ac-13.complete",
+          "edge.rule-05.adjacency",
+          "edge.rule-05.empty",
+          "edge.rule-05.ordering",
+          "graph.allowed-and-direct",
+          "graph.props",
+          "graph.targets",
+          "graph.wildcard",
+          "graph.semicolon",
+          "graph.transitive",
+          "graph.undeclared",
+          "graph.duplicate",
+          "graph.type-base",
+          "graph.type-interface",
+          "graph.type-generic",
+          "graph.type-attribute",
+          "graph.type-signature",
+          "graph.type-field",
+          "graph.type-body",
+          "graph.type-lambda",
+          "graph.type-async",
+          "graph.type-iterator",
+          "graph.policy-selectors",
+          "graph.allowed-composition",
+          "graph.transitive-compiler"
+        ],
+        "passed": [
+          "graph.visibility-inventory",
+          "ac-12.complete",
+          "ac-13.complete",
+          "edge.rule-05.adjacency",
+          "edge.rule-05.empty",
+          "edge.rule-05.ordering",
+          "graph.allowed-and-direct",
+          "graph.props",
+          "graph.targets",
+          "graph.wildcard",
+          "graph.semicolon",
+          "graph.transitive",
+          "graph.undeclared",
+          "graph.duplicate",
+          "graph.type-base",
+          "graph.type-interface",
+          "graph.type-generic",
+          "graph.type-attribute",
+          "graph.type-signature",
+          "graph.type-field",
+          "graph.type-body",
+          "graph.type-lambda",
+          "graph.type-async",
+          "graph.type-iterator",
+          "graph.policy-selectors",
+          "graph.allowed-composition",
+          "graph.transitive-compiler"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "graph"
+        ],
+        "durationMilliseconds": 635627
+      },
+      {
+        "path": ".phase1/runs/ae46c470-d753-49e8-8c0a-e85376df7e1a/summary.json",
+        "sha256": "3caf28c8fb8fe7548bd267893895e06058f25058a74e1e9611dfdd36ec708785",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "fail",
+        "selected": [
+          "ac-05.complete",
+          "ac-06.complete",
+          "edge.rule-02.adjacency",
+          "edge.rule-02.empty",
+          "edge.rule-02.encoding",
+          "edge.rule-02.ordering",
+          "R-43.register-resolution",
+          "R-57.register-resolution",
+          "R-76.register-resolution",
+          "R-79.register-resolution",
+          "R-80.register-resolution",
+          "R-85.register-resolution",
+          "register.capture",
+          "register.omit-heading",
+          "register.omit-matrix",
+          "register.omit-exemption",
+          "register.duplicate",
+          "register.r37-trace",
+          "register.schema",
+          "register.reference-case",
+          "register.reference-unicode",
+          "register.proof-reverse",
+          "register.severity",
+          "register.diagnostic",
+          "register.documentation",
+          "register.numeric",
+          "register.review",
+          "register.exemption-duplicate",
+          "register.exemption-overlap",
+          "register.exemption-broad",
+          "register.pending",
+          "register.symbol",
+          "register.source-field",
+          "register.proof-path",
+          "register.numeric-semantics",
+          "register.boundary-proof",
+          "register.missing-relation-field",
+          "register.binding-precoverage",
+          "register.binding-missing",
+          "register.binding-reversed",
+          "register.binding-ambiguous",
+          "register.binding-config",
+          "register.binding-symbol",
+          "register.binding-scope",
+          "register.binding-pending",
+          "register.binding-index",
+          "register.binding-order"
+        ],
+        "passed": [
+          "ac-05.complete",
+          "edge.rule-02.adjacency",
+          "edge.rule-02.empty",
+          "edge.rule-02.encoding",
+          "edge.rule-02.ordering",
+          "R-43.register-resolution",
+          "R-57.register-resolution",
+          "R-76.register-resolution",
+          "R-79.register-resolution",
+          "R-80.register-resolution",
+          "R-85.register-resolution",
+          "register.capture",
+          "register.omit-heading",
+          "register.omit-matrix",
+          "register.omit-exemption",
+          "register.duplicate",
+          "register.r37-trace",
+          "register.schema",
+          "register.reference-case",
+          "register.reference-unicode",
+          "register.proof-reverse",
+          "register.severity",
+          "register.diagnostic",
+          "register.documentation",
+          "register.numeric",
+          "register.review",
+          "register.exemption-duplicate",
+          "register.exemption-overlap",
+          "register.exemption-broad",
+          "register.pending",
+          "register.symbol",
+          "register.source-field",
+          "register.proof-path",
+          "register.numeric-semantics",
+          "register.boundary-proof",
+          "register.missing-relation-field",
+          "register.binding-precoverage",
+          "register.binding-missing",
+          "register.binding-reversed",
+          "register.binding-ambiguous",
+          "register.binding-config",
+          "register.binding-symbol",
+          "register.binding-scope",
+          "register.binding-pending",
+          "register.binding-index",
+          "register.binding-order"
+        ],
+        "failures": [
+          {
+            "id": "ac-06.complete",
+            "status": "blocked",
+            "diagnostic": "IMPLEMENTATION_PENDING",
+            "owner": "Phase 5"
+          }
+        ],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "register"
+        ],
+        "durationMilliseconds": 72804
+      },
+      {
+        "path": ".phase1/runs/f428d902-58f8-4195-99a5-288339205d90/summary.json",
+        "sha256": "ee087a061290b51c90bd81e86a7037a10b252ae760b8d1eff137fe078dbf9785",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "runner.missing-result",
+          "runner.assertion-pass",
+          "runner.duplicate-result",
+          "runner.unknown-result",
+          "runner.wrong-nonce",
+          "runner.changed-input",
+          "runner.wrong-tool",
+          "runner.wrong-platform",
+          "runner.skipped-result",
+          "runner.blocked-result",
+          "runner.empty-evidence",
+          "runner.escaping-evidence",
+          "runner.unrelated-diagnostic",
+          "runner.missing-prerequisite",
+          "runner.selection",
+          "runner.process.missing-executable",
+          "runner.process.zero-discovery",
+          "runner.process.wrong-filter",
+          "runner.process.skip",
+          "runner.process.crash",
+          "runner.process.timeout",
+          "runner.process.deleted-log",
+          "runner.process.deleted-result",
+          "runner.process.duplicate",
+          "runner.process.nonce",
+          "runner.process.source",
+          "runner.process.document",
+          "runner.process.repeat",
+          "runner.process.stale",
+          "runner.process.concurrent",
+          "runner.process.interrupted",
+          "runner.process.assertion",
+          "runner.phase-membership",
+          "runner.phase-declarations",
+          "runner.phase-summary",
+          "runner.phase-required"
+        ],
+        "passed": [
+          "runner.missing-result",
+          "runner.assertion-pass",
+          "runner.duplicate-result",
+          "runner.unknown-result",
+          "runner.wrong-nonce",
+          "runner.changed-input",
+          "runner.wrong-tool",
+          "runner.wrong-platform",
+          "runner.skipped-result",
+          "runner.blocked-result",
+          "runner.empty-evidence",
+          "runner.escaping-evidence",
+          "runner.unrelated-diagnostic",
+          "runner.missing-prerequisite",
+          "runner.selection",
+          "runner.process.missing-executable",
+          "runner.process.zero-discovery",
+          "runner.process.wrong-filter",
+          "runner.process.skip",
+          "runner.process.crash",
+          "runner.process.timeout",
+          "runner.process.deleted-log",
+          "runner.process.deleted-result",
+          "runner.process.duplicate",
+          "runner.process.nonce",
+          "runner.process.source",
+          "runner.process.document",
+          "runner.process.repeat",
+          "runner.process.stale",
+          "runner.process.concurrent",
+          "runner.process.interrupted",
+          "runner.process.assertion",
+          "runner.phase-membership",
+          "runner.phase-declarations",
+          "runner.phase-summary",
+          "runner.phase-required"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--group",
+          "runner"
+        ],
+        "durationMilliseconds": 58834
+      },
+      {
+        "path": ".phase1/runs/9d3b97fc-474c-4344-884b-f4990bd6be96/summary.json",
+        "sha256": "db95b13709c14943c38e5e152df86299fc1e1d2b2de876a302bed17a7daff6cd",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "rules.source-format"
+        ],
+        "passed": [
+          "rules.source-format"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "rules.source-format"
+        ],
+        "durationMilliseconds": 3306
+      },
+      {
+        "path": ".phase1/runs/2579f77c-2663-4ee8-b8a7-9c384edb7a82/summary.json",
+        "sha256": "bcb585ac43adc322c40c57ed23c5919a48220004119b69ab569e97870465e20b",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-01.positive"
+        ],
+        "passed": [
+          "R-01.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-01.positive"
+        ],
+        "durationMilliseconds": 13090
+      },
+      {
+        "path": ".phase1/runs/0b1f775f-c3c6-495a-81b0-1018b8da9f25/summary.json",
+        "sha256": "bab5d64a960cdda83e4a01cb7cd0300adb55eb643ba2b79ef5d90d8c308c38df",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-01.negative"
+        ],
+        "passed": [
+          "R-01.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-01.negative"
+        ],
+        "durationMilliseconds": 13113
+      },
+      {
+        "path": ".phase1/runs/87b3c2e1-0c87-4178-9322-3e0f1c29de61/summary.json",
+        "sha256": "dea3fe5e083ed79081f539e1f029759d8081305d430d3c2d0fe5b5cd4fe0ed48",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-04.positive"
+        ],
+        "passed": [
+          "R-04.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-04.positive"
+        ],
+        "durationMilliseconds": 3325
+      },
+      {
+        "path": ".phase1/runs/f0944629-1d21-4317-a13d-abc3d9891b5c/summary.json",
+        "sha256": "85eb5ee7ea689a793eb262a1fe4ad41cff96bc288c574dd653f18327d5db0208",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-04.negative"
+        ],
+        "passed": [
+          "R-04.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-04.negative"
+        ],
+        "durationMilliseconds": 3820
+      },
+      {
+        "path": ".phase1/runs/a8432296-1576-47b5-8c34-4691cc471406/summary.json",
+        "sha256": "f9da31edd0c8cbd373d6f70bc4dc0236f0dd17281d04fd18cf3f671138a399ae",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-45.positive"
+        ],
+        "passed": [
+          "R-45.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-45.positive"
+        ],
+        "durationMilliseconds": 14310
+      },
+      {
+        "path": ".phase1/runs/6743d3f7-4229-4280-b58b-2a830ba56943/summary.json",
+        "sha256": "6a88e8a7ea65cfba7db70ba00fdff31b8ed797f61a5066ca2a9b038e921c0ba2",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-45.negative"
+        ],
+        "passed": [
+          "R-45.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-45.negative"
+        ],
+        "durationMilliseconds": 12187
+      },
+      {
+        "path": ".phase1/runs/bdf484d8-0340-4f2d-8c4a-9666e504a692/summary.json",
+        "sha256": "3318dca77d41601f3197f8eecb5bfd27e7c78f1f9acecc1f487eceb1e30493a7",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-46.positive"
+        ],
+        "passed": [
+          "R-46.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-46.positive"
+        ],
+        "durationMilliseconds": 21687
+      },
+      {
+        "path": ".phase1/runs/e050a1d1-c965-4747-8737-48a49157b83c/summary.json",
+        "sha256": "f4f745069a4ddac81d03f1bfa9279db4b145bcc96006e0d93cc1a845da36b245",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-46.negative"
+        ],
+        "passed": [
+          "R-46.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-46.negative"
+        ],
+        "durationMilliseconds": 21563
+      },
+      {
+        "path": ".phase1/runs/0efb3abc-2e10-4457-aff3-37d1df5f2d4c/summary.json",
+        "sha256": "e058d814996ad8a5ee610423e994a0f6cfdec70bfe4f6757d1538a09dc18fec8",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-50.positive"
+        ],
+        "passed": [
+          "R-50.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-50.positive"
+        ],
+        "durationMilliseconds": 10460
+      },
+      {
+        "path": ".phase1/runs/d5c7f424-ae14-4ed7-8cdd-6f1654a291e0/summary.json",
+        "sha256": "fe11e0ea1e7277df9609c4cbacabe3926de3c1dc236a0355ac86339c5757f810",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-50.negative"
+        ],
+        "passed": [
+          "R-50.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-50.negative"
+        ],
+        "durationMilliseconds": 16785
+      },
+      {
+        "path": ".phase1/runs/90afd5a0-b441-4060-803e-14f95ed1e912/summary.json",
+        "sha256": "1f6c8778a00756f132b748b9a904fe65b3506a45cd92169a8d2f3504f575aa06",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-53.positive"
+        ],
+        "passed": [
+          "R-53.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-53.positive"
+        ],
+        "durationMilliseconds": 8715
+      },
+      {
+        "path": ".phase1/runs/8496d64b-7611-4e74-8e21-6ffdf226dc3f/summary.json",
+        "sha256": "2501019519c3a6281736d37a27ae4ada6e084a9f848539faa97c428ae31896c0",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-53.negative"
+        ],
+        "passed": [
+          "R-53.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-53.negative"
+        ],
+        "durationMilliseconds": 12936
+      },
+      {
+        "path": ".phase1/runs/45cb8b4f-8e45-4e25-bba8-a8ffa5fa8c39/summary.json",
+        "sha256": "d25d652f9a40abb36cbe0c9b6f5fe016333c6eb4050ad8c1638e085871212f6b",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-54.positive"
+        ],
+        "passed": [
+          "R-54.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-54.positive"
+        ],
+        "durationMilliseconds": 9357
+      },
+      {
+        "path": ".phase1/runs/030697b5-135c-4a6f-8f60-d32b4521b69d/summary.json",
+        "sha256": "cd21f1702e3bb0b9c27a44c9427d47a7df92234888eee4b592dd5c87d773d9e1",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-54.negative"
+        ],
+        "passed": [
+          "R-54.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-54.negative"
+        ],
+        "durationMilliseconds": 19894
+      },
+      {
+        "path": ".phase1/runs/4d1afa13-5c10-4663-9f8c-cab50da850ee/summary.json",
+        "sha256": "a8e7cc9f455c72dff59c67ab8bc4660c2d8a9dbaff7d796331fef91f71fce5c2",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-60.positive"
+        ],
+        "passed": [
+          "R-60.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-60.positive"
+        ],
+        "durationMilliseconds": 14595
+      },
+      {
+        "path": ".phase1/runs/fee282b2-6456-4e21-810e-bf330723b5fe/summary.json",
+        "sha256": "74db62f371f5a406adeb6e0167d56c86d0ad85e95e7630425961df0b5a4cec4d",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-60.negative"
+        ],
+        "passed": [
+          "R-60.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-60.negative"
+        ],
+        "durationMilliseconds": 14086
+      },
+      {
+        "path": ".phase1/runs/e7a9131f-f047-4879-9fe8-da86c1cc1b32/summary.json",
+        "sha256": "e6a25c47a3e3067f90f5572b62e37d0d290e8a50f7bbda0d86f3ff7f5569a384",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-61.positive"
+        ],
+        "passed": [
+          "R-61.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-61.positive"
+        ],
+        "durationMilliseconds": 21170
+      },
+      {
+        "path": ".phase1/runs/2682ce5e-6c9a-40ed-a7b5-30f37d3b5a87/summary.json",
+        "sha256": "2f498844ad20f14807813b1649174c7184856646e99d79bf58dacedb93e70755",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-61.negative"
+        ],
+        "passed": [
+          "R-61.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-61.negative"
+        ],
+        "durationMilliseconds": 27328
+      },
+      {
+        "path": ".phase1/runs/bfc1b4de-c986-4fdb-b07b-416d52104b28/summary.json",
+        "sha256": "a6fcd88efb8a9b944fa9de628aa820979d5cf0c90045d4a024a7b5ba384466a2",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-62.positive"
+        ],
+        "passed": [
+          "R-62.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-62.positive"
+        ],
+        "durationMilliseconds": 18977
+      },
+      {
+        "path": ".phase1/runs/a56ed2c7-05f9-4d87-bf36-b05d347b680c/summary.json",
+        "sha256": "d2c6d1f8eafdb7b1a07254d8304af784f16f7572ecb83fa95c8486b1d6dabfe7",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-62.negative"
+        ],
+        "passed": [
+          "R-62.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-62.negative"
+        ],
+        "durationMilliseconds": 25245
+      },
+      {
+        "path": ".phase1/runs/815d50ba-d306-49fb-bcb3-0da388edf0d8/summary.json",
+        "sha256": "f6db3fdb5595cd5897ded412918e486ad8591327b2a34e35d301dae52a4808c0",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-66.positive"
+        ],
+        "passed": [
+          "R-66.positive"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-66.positive"
+        ],
+        "durationMilliseconds": 8724
+      },
+      {
+        "path": ".phase1/runs/25fd28e9-441d-4f7b-9335-5a9731afd2d4/summary.json",
+        "sha256": "5fe09257c0500d6bc16292424116f48057cb450ebe666f58d10f9a72895d80fd",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-66.negative"
+        ],
+        "passed": [
+          "R-66.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-66.negative"
+        ],
+        "durationMilliseconds": 11747
+      },
+      {
+        "path": ".phase1/runs/71ba1fb5-dbbe-4e6f-b8a2-3ecdf020f170/summary.json",
+        "sha256": "c1733611a197666b405501a634f07b5493c778b4e1bda154e2c5ade14205920e",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "fail",
+        "selected": [
+          "R-67.positive"
+        ],
+        "passed": [],
+        "failures": [
+          {
+            "id": "R-67.positive",
+            "status": "fail",
+            "diagnostic": "TEST_FAILED",
+            "message": "R-67.positive: Shouldly.ShouldAssertException : actual.Order(comparer: StringComparer.Ordinal)\r\n    should be\r\n[\"src/godot-game/game/foundation/DiscoveryCodec.cs\", \"src/godot-game/game/foundation/FoundationActorNode.cs\", \"src/godot-game/game/foundation/FoundationAdmissionHistory.cs\", \"src/godot-game/game/foundation/FoundationBrowser.cs\", \"src/godot-game/game/foundation/FoundationCapturePublication.cs\", \"src/godot-game/game/foundation/FoundationCoordinator.Admission.cs\", \"src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs\", \"src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs\", \"src/godot-game/game/foundation/FoundationCoordinator.cs\", \"src/godot-game/game/foundation/FoundationDisplay.cs\", \"src/godot-game/game/foundation/FoundationDrawRequest.cs\", \"src/godot-game/game/foundation/FoundationEndpoint.cs\", \"src/godot-game/game/foundation/FoundationEnvelope.cs\", \"src/godot-game/game/foundation/FoundationInput.cs\", \"src/godot-game/game/foundation/FoundationObservationScope.cs\", \"src/godot-game/game/foundation/FoundationPeerBinding.cs\", \"src/godot-game/game/foundation/FoundationPresentation.cs\", \"src/godot-game/game/foundation/FoundationProtocol.cs\", \"src/godot-game/game/foundation/FoundationServices.cs\", \"src/godot-game/game/foundation/FoundationWireFrame.cs\", \"src/godot-game/game/foundation/LanDiscoveryService.cs\", \"src/godot-game/game/foundation/LocalProfileService.cs\", \"src/godot-game/game/foundation/LocalProfileStorage.cs\", \"src/godot-game/multiplayer-abstractions/ConnectionPacket.cs\", \"src/godot-game/multiplayer-abstractions/IConnectionService.cs\", \"src/godot-game/multiplayer-abstractions/IDiscoveryService.cs\", \"src/godot-game/multiplayer-abstractions/IIdentityService.cs\", \"src/godot-game/multiplayer-abstractions/PlayerProfile.cs\", \"src/godot-game/multiplayer-abstractions/SessionAdvertisement.cs\"]\r\n    but was (case sensitive comparison)\r\n[\"game/foundation/DiscoveryCodec.cs\", \"game/foundation/FoundationActorNode.cs\", \"game/foundation/FoundationAdmissionHistory.cs\", \"game/foundation/FoundationBrowser.cs\", \"game/foundation/FoundationCapturePublication.cs\", \"game/foundation/FoundationCoordinator.Admission.cs\", \"game/foundation/FoundationCoordinator.GuestPublication.cs\", \"game/foundation/FoundationCoordinator.Lifetime.cs\", \"game/foundation/FoundationCoordinator.cs\", \"game/foundation/FoundationDisplay.cs\", \"game/foundation/FoundationDrawRequest.cs\", \"game/foundation/FoundationEndpoint.cs\", \"game/foundation/FoundationEnvelope.cs\", \"game/foundation/FoundationInput.cs\", \"game/foundation/FoundationObservationScope.cs\", \"game/foundation/FoundationPeerBinding.cs\", \"game/foundation/FoundationPresentation.cs\", \"game/foundation/FoundationProtocol.cs\", \"game/foundation/FoundationServices.cs\", \"game/foundation/FoundationWireFrame.cs\", \"game/foundation/LanDiscoveryService.cs\", \"game/foundation/LocalProfileService.cs\", \"game/foundation/LocalProfileStorage.cs\", \"multiplayer-abstractions/ConnectionPacket.cs\", \"multiplayer-abstractions/IConnectionService.cs\", \"multiplayer-abstractions/IDiscoveryService.cs\", \"multiplayer-abstractions/IIdentityService.cs\", \"multiplayer-abstractions/PlayerProfile.cs\", \"multiplayer-abstractions/SessionAdvertisement.cs\"]\r\n    difference\r\n[*\"game/foundation/DiscoveryCodec.cs\"*, *\"game/foundation/FoundationActorNode.cs\"*, *\"game/foundation/FoundationAdmissionHistory.cs\"*, *\"game/foundation/FoundationBrowser.cs\"*, *\"game/foundation/FoundationCapturePublication.cs\"*, *\"game/foundation/FoundationCoordinator.Admission.cs\"*, *\"game/foundation/FoundationCoordinator.GuestPublication.cs\"*, *\"game/foundation/FoundationCoordinator.Lifetime.cs\"*, *\"game/foundation/FoundationCoordinator.cs\"*, *\"game/foundation/FoundationDisplay.cs\"*, *\"game/foundation/FoundationDrawRequest.cs\"*, *\"game/foundation/FoundationEndpoint.cs\"*, *\"game/foundation/FoundationEnvelope.cs\"*, *\"game/foundation/FoundationInput.cs\"*, *\"game/foundation/FoundationObservationScope.cs\"*, *\"game/foundation/FoundationPeerBinding.cs\"*, *\"game/foundation/FoundationPresentation.cs\"*, *\"game/foundation/FoundationProtocol.cs\"*, *\"game/foundation/FoundationServices.cs\"*, *\"game/foundation/FoundationWireFrame.cs\"*, *\"game/foundation/LanDiscoveryService.cs\"*, *\"game/foundation/LocalProfileService.cs\"*, *\"game/foundation/LocalProfileStorage.cs\"*, *\"multiplayer-abstractions/ConnectionPacket.cs\"*, *\"multiplayer-abstractions/IConnectionService.cs\"*, *\"multiplayer-abstractions/IDiscoveryService.cs\"*, *\"multiplayer-abstractions/IIdentityService.cs\"*, *\"multiplayer-abstractions/PlayerProfile.cs\"*, *\"multiplayer-abstractions/SessionAdvertisement.cs\"*]",
+            "log": "R-67.positive/test.process.log"
+          }
+        ],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-67.positive"
+        ],
+        "durationMilliseconds": 3252
+      },
+      {
+        "path": ".phase1/runs/afa93d2e-1f95-4fa7-b393-79117b330955/summary.json",
+        "sha256": "4195dea1ed4b28add22cb2bd76e01c7e253468af869fd939b12b8e33b93f2cf6",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-67.negative"
+        ],
+        "passed": [
+          "R-67.negative"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "R-67.negative"
+        ],
+        "durationMilliseconds": 5614
+      },
+      {
+        "path": ".phase1/runs/d3c91cfa-b8fa-49e5-85e2-add21e265fa8/summary.json",
+        "sha256": "c2c11c7338932ad27be4374e9b83d78f384913efce31e56dd883bee674ceda2d",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.lifecycle"
+        ],
+        "passed": [
+          "engine.lifecycle"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.lifecycle"
+        ],
+        "durationMilliseconds": 4657
+      },
+      {
+        "path": ".phase1/runs/01f5ead6-72e9-40a0-8ce7-811f0ee7a307/summary.json",
+        "sha256": "e688ade761393fc8a64a1bb2ca2f77f81473d20afe9ec35b8dd2886634dffa80",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.source-policy"
+        ],
+        "passed": [
+          "engine.source-policy"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.source-policy"
+        ],
+        "durationMilliseconds": 11017
+      },
+      {
+        "path": ".phase1/runs/d69e9c19-6ca7-4be6-a790-06eb1296fcd1/summary.json",
+        "sha256": "414ef7b71742ac9ddeeab6a745d62ed6a327f6ad5b63adc535082b2cb1241733",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.core-independence"
+        ],
+        "passed": [
+          "engine.core-independence"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.core-independence"
+        ],
+        "durationMilliseconds": 3560
+      },
+      {
+        "path": ".phase1/runs/a631b6f2-f73c-44b1-b3f5-39bcbac87d7c/summary.json",
+        "sha256": "62d7aec5fb68b9ee24d7bd93f65820f3bf617aaeb4bae44f71c5866394b91d13",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.generated-origin"
+        ],
+        "passed": [
+          "engine.generated-origin"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.generated-origin"
+        ],
+        "durationMilliseconds": 6356
+      },
+      {
+        "path": ".phase1/runs/1dcea7b7-0f6a-4e7b-9515-6abd208f6956/summary.json",
+        "sha256": "19c015fcaa3c964826f46fa16bfe85f04450c4c71dd07e60e1cfb9a835c1c188",
+        "revision": "6825036108c3511a5c29f447e3dc6ca91531c080",
+        "input": "7bf3e036da0555a0da84b66f8a7d96515c1a1d482b2942bb6b28a71590eb9127",
+        "tool": "05833d4d75a1d1f4f2c0ab1424760cc48d816f27a6d946e97adc608777c83f2f",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.generated-boundary"
+        ],
+        "passed": [
+          "engine.generated-boundary"
+        ],
+        "failures": [],
+        "command": [
+          "tools/phase1/check.cjs",
+          "--case",
+          "engine.generated-boundary"
+        ],
+        "durationMilliseconds": 20006
+      }
+    ]
+  },
+  "scopeLimits": [
+    "No rendered game or complete LAN execution",
+    "No Linux execution",
+    "No measured coverage certification",
+    "No human qualitative acceptance",
+    "Phase 5 ac-06.complete remains pending and is outside this quick task",
+    "Diagnostic failures retain their original source revision and are not republished as passes"
+  ],
+  "earlierRuns": [
+    {
+      "path": ".phase1/runs/353bcde4-0c4f-4941-9f98-337bdca025c0/summary.json",
+      "result": "35/36 docs; linked-worktree index assumption repaired"
+    },
+    {
+      "path": ".phase1/runs/d6a0d050-4d7e-4162-a6b4-0ae23a955f4a/summary.json",
+      "result": "24/27 pins; config-relative feed and filename/path assumptions repaired"
+    }
+  ],
+  "metadataNavigation": {
+    "path": ".phase1/runs/a0861ed6-b496-4583-8264-92150a3615cd/summary.json",
+    "sha256": "f2ec97164da217ec7c7fcaede0ba7ae0bb24e1ba9092cb2b6b3213f14b220bc2",
+    "revision": "de5f40f81e2737e4097c25cd57a17e44643136a0",
+    "input": "80ee09dde418bb9ce7d891716b33718d5431bca858fb250f78719c7a859fe9f6",
+    "status": "pass",
+    "selected": [
+      "docs.navigation"
+    ]
+  },
+  "strictFailureBeforeFormattingRepair": {
+    "record": ".phase1/maintenance/strict-final.json",
+    "log": ".phase1/maintenance/build-final.log",
+    "disposition": "failed continuation indent; repaired by de5f40f; accepted build remains separately recorded"
+  }
+}

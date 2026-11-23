@@ -2,7 +2,7 @@
 
 **Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. Current routine local testing uses the development OS only, without a VM; see [local testing strategy](local-testing.md).
 
-The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Preserve the implemented runner and rules. The original Phase 1 full-baseline procedure below is historical; its closure exception and the current local testing strategy govern what is required now. Measured coverage and the eight explicit later-phase declarations remain Phase 5 obligations. [Verification](verification.md) owns current commands and evidence interpretation; VM setup below is optional historical preparation, not a routine phase-completion gate.
+The exact baseline is [toolchain.json](../../src/godot-game/tools/verification/toolchain.json). The existing [Godot project](../../src/godot-game/game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Preserve the implemented runner and rules. The original Phase 1 full-baseline procedure below is historical; its closure exception and the current local testing strategy govern what is required now. Measured coverage and the eight explicit later-phase declarations remain Phase 5 obligations. [Verification](verification.md) owns current commands and evidence interpretation; VM setup below is optional historical preparation, not a routine phase-completion gate.
 
 | Prerequisite | Exact version | Source |
 | --- | --- | --- |
@@ -14,9 +14,9 @@ The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The e
 | C# / target | 14.0 / net10.0 | Explicit project declarations; compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)` comes from SDK 10.0.404 |
 | Local coverage tool | 18.12.0 | [Microsoft dotnet-coverage](https://www.nuget.org/packages/dotnet-coverage/18.12.0), pinned in the repository tool manifest; collection is proved in a later plan |
 | PowerShell, x64 | 7 (`pwsh` on `PATH`; 7.6.9 verified) | [Microsoft PowerShell releases](https://github.com/PowerShell/PowerShell/releases); the Phase 4 `content.native-permissions` check runs its test discovery through `pwsh` and fails with `spawn pwsh ENOENT` without it |
-| CPython, x64 | 3.12.14 | Runs the Phase 4 media, archive and pixel scripts. [python.json](../../tools/phase4/python.json) pins the executable, `python312.dll` and Pillow 13.0.0, and every launch verifies them. Set `KZ_PHASE4_PYTHON` when the same build is installed elsewhere. UnityPy 1.23.0 loads from the donor resource folder and each script checks its version |
+| CPython, x64 | 3.12.14 | Runs the Phase 4 media, archive and pixel scripts. [python.json](../../src/godot-game/tools/asset-pipeline/python.json) pins the executable, `python312.dll` and Pillow 13.0.0, and every launch verifies them. Set `KZ_PHASE4_PYTHON` when the same build is installed elsewhere. UnityPy 1.23.0 loads from the donor resource folder and each script checks its version |
 
-The installed SDK is a prerequisite. [global.json](../../global.json) disables SDK roll-forward and prerelease selection. The bootstrap checks actual Node, SDK, compiler, engine and managed runtime identities instead of treating declarations as proof. Roslyn NuGet development packages have separate version numbers; they are not the SDK compiler version.
+The installed SDK is a prerequisite. [global.json](../../src/godot-game/global.json) disables SDK roll-forward and prerelease selection. The bootstrap checks actual Node, SDK, compiler, engine and managed runtime identities instead of treating declarations as proof. Roslyn NuGet development packages have separate version numbers; they are not the SDK compiler version.
 
 | OS / architecture | Exact official archive | SHA-512 |
 | --- | --- | --- |
@@ -29,7 +29,7 @@ Confirmed defects in this engine version, with the workaround each one has in th
 
 Bootstrap acquisition happens as part of the later proof commands. It checks `.phase1/cache` first, may seed that cache from the matching archive in Downloads, then downloads the exact official release if absent. Downloads and the LangProj/recovered donor directories are never required. To require official acquisition, set `PHASE1_IGNORE_DOWNLOADS=1` and `PHASE1_FORCE_DOWNLOAD=1` for that invocation. An optional `PHASE1_ARCHIVE` names a local archive cache seed; the same pinned hashes apply. Node HTTPS uses a task-local direct connection when inherited proxy settings are broken. No machine-wide proxy or NuGet configuration changes are made.
 
-All child processes receive workspace-local `DOTNET_CLI_HOME`, `NUGET_PACKAGES`, `NUGET_HTTP_CACHE_PATH`, `TEMP` and `TMP` under ignored `.phase1/`. The native engine comes from the actual OS archive. The common managed feed uses the exact four packages from the verified Windows archive on both operating systems, explicitly selected by `managedPackageArchive` in the toolchain manifest. Linux therefore caches both official archives. Their inner SDK, generator and managed DLL contents match, but package relationship/core metadata and raw nupkg hashes differ. Linux archive packages must not replace the canonical bytes pinned by the five common locks and generated-source provenance. Bootstrap verifies both archive identities and the canonical package hashes before copying to `.phase1/feed`; it never executes the Windows binary on Linux. [NuGet.config](../../NuGet.config) maps those exact IDs to that feed and other pinned dependencies to NuGet.org. The archive packages are unsigned. Their provenance is the official archive checksum, package payload hashes and inspected publisher/repository metadata; no successful NuGet signature verdict is claimed. Each controlled child has a 60-second deadline and descendant cleanup. Windows extraction uses the installed .NET `ZipFile` implementation through PowerShell, avoiding a dependency on Archive-module autoload.
+All child processes receive workspace-local `DOTNET_CLI_HOME`, `NUGET_PACKAGES`, `NUGET_HTTP_CACHE_PATH`, `TEMP` and `TMP` under ignored `.phase1/`. The native engine comes from the actual OS archive. The common managed feed uses the exact four packages from the verified Windows archive on both operating systems, explicitly selected by `managedPackageArchive` in the toolchain manifest. Linux therefore caches both official archives. Their inner SDK, generator and managed DLL contents match, but package relationship/core metadata and raw nupkg hashes differ. Linux archive packages must not replace the canonical bytes pinned by the five common locks and generated-source provenance. Bootstrap verifies both archive identities and the canonical package hashes before copying to `.phase1/feed`; it never executes the Windows binary on Linux. [NuGet.config](../../src/godot-game/NuGet.config) maps those exact IDs to that feed and other pinned dependencies to NuGet.org. The archive packages are unsigned. Their provenance is the official archive checksum, package payload hashes and inspected publisher/repository metadata; no successful NuGet signature verdict is claimed. Each controlled child has a 60-second deadline and descendant cleanup. Windows extraction uses the installed .NET `ZipFile` implementation through PowerShell, avoiding a dependency on Archive-module autoload.
 
 For direct CLI setup commands outside the bootstrap, first establish the same isolation. PowerShell:
 
@@ -43,7 +43,9 @@ $env:NUGET_PACKAGES = Join-Path $phase1Root '.phase1/packages'
 $env:NUGET_HTTP_CACHE_PATH = Join-Path $phase1Root '.phase1/http-cache'
 $env:TEMP = Join-Path $phase1Root '.phase1/temp'
 $env:TMP = $env:TEMP
+Push-Location -LiteralPath 'src/godot-game'
 dotnet tool restore --configfile NuGet.config
+Pop-Location
 ```
 
 Linux, from the checkout root (requires `unzip` and the x64 prerequisites):
@@ -54,12 +56,13 @@ export DOTNET_CLI_HOME="$PWD/.phase1/cli-home"
 export NUGET_PACKAGES="$PWD/.phase1/packages"
 export NUGET_HTTP_CACHE_PATH="$PWD/.phase1/http-cache"
 export TMPDIR="$PWD/.phase1/temp" TEMP="$PWD/.phase1/temp" TMP="$PWD/.phase1/temp"
-dotnet tool restore --configfile NuGet.config
+(cd src/godot-game && dotnet tool restore --configfile NuGet.config)
 ```
 
 Tool restore uses only the declared official NuGet source. The bootstrap's initial engine slice needs only the four archive packages; additional phase tools are restored when their owning plans establish their proofs. After the native bootstrap command in the [verification reference](verification.md) has populated the verified engine feed, restore exactly the five committed project lock files from the checkout root on either platform:
 
 ```sh
+cd src/godot-game
 dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false
 ```
 

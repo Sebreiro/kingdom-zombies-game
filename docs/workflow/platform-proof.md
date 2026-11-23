@@ -19,7 +19,7 @@ The separately labeled **direct graph-mechanism smoke**, nonce `6eebf5c4-80f6-4f
 The compliant fixture built strictly with zero warnings/errors in `00:03:27.44`, then the existing validator returned **zero errors**. The exact `AddDirectEngineEdge` XML delta removed game-to-Core and added Core-to-game. Its original-sequence force-evaluate restore, locked restore and single changed-Core strict build all exited zero; the changed build had zero warnings/errors in `00:01:56.88`. The existing validator then returned exactly:
 
 ```text
-GRAPH_FORBIDDEN: src/core/KingdomZombies.Core.csproj -> src/godot-game/KingdomZombies.csproj defined by src/core/KingdomZombies.Core.csproj
+GRAPH_FORBIDDEN: src/godot-game/core/KingdomZombies.Core.csproj -> src/godot-game/game/KingdomZombies.csproj defined by src/godot-game/core/KingdomZombies.Core.csproj
 ```
 
 The existing predicate also returned true. All eight direct-proof commands exited zero without timeout/signal. Ordinary setup/build bounds were 1200 seconds and validator-host bounds 600 seconds; all internal source query/compiler limits remain unchanged. Validator assembly SHA-256 is `de05b6a138780912c7c103c69aea3f53442088215d54db48fbc6656f455de83f`, matching the amended Linux test assembly. The direct receipt, actual mutations, strict build logs, source inventory, existing evaluator's raw query logs, host source/binary/compiler identities and returned results are under `.phase1/direct-graph/6eebf5c4-80f6-4fb0-9bbb-da7cbcfc6365/`; receipt SHA-256 `3c512d37162931e4f14666b130eaa21534046f592f256e60674a6e26899dfaaf`. Its explicit `originalCaseCredited: false` preserves the original `graph.allowed-and-direct` failure as follow-up.
@@ -38,7 +38,7 @@ The existing owned Ubuntu 24.04.5 LTS / kernel `6.8.0-147-generic` / x86_64 gues
 | --- | --- |
 | Locked five-project restore, ordinary 1200-second outer bound | Exit 0; all five projects restored |
 | Strict whole-solution build with original flags and `-m:1`, 1200-second outer bound | Exit 0; **zero warnings/errors**, `00:06:07.66` |
-| Unchanged `node tools/phase1/bootstrap.cjs --probe engine` after ordinary build | Exit 0; nonce `c9059bcc-b8fa-499d-82e3-6612c20dfbe7`; original 60-second child limits unchanged |
+| Unchanged `node src/godot-game/tools/verification/bootstrap.cjs --probe engine` after ordinary build | Exit 0; nonce `c9059bcc-b8fa-499d-82e3-6612c20dfbe7`; original 60-second child limits unchanged |
 
 Fresh native evidence contains construction/ready/exit and 21 surface/cycle records across distinct instances `27279754708` / `27581744596` on captured managed thread `1`: callbacks, process, signals, teardown, resources, exports, null validation, binding, late-work fencing, prohibited-worker rejection and main-thread delivery were inspected. Observed tools match Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, Godot `4.7.2.stable.mono.official.ed1daf0bf`, and runtimes `8.0.16` / `10.0.15`. Actual executable/compiler/test-assembly hashes are retained in `tools.json` and the original receipt.
 
@@ -66,10 +66,10 @@ On 2026-11-14, the clean frozen validation checkout `.phase1/temp/17-windows-59f
 
 | Actual command | Actual result |
 | --- | --- |
-| `node tools/phase1/bootstrap.cjs --probe engine` | Exit 0; fresh native Windows engine, raw compatibility nonce `27a26937-02f2-4085-b9d2-254b5700f25c` |
+| `node src/godot-game/tools/verification/bootstrap.cjs --probe engine` | Exit 0; fresh native Windows engine, raw compatibility nonce `27a26937-02f2-4085-b9d2-254b5700f25c` |
 | `dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false` | Exit 0; all five projects restored with unchanged committed locks |
 | `dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q` | Exit 0; zero warnings/errors, `00:00:06.15` |
-| `node tools/phase1/check.cjs --phase 1` | Exit 0; **676/676 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations; eight separate Phase 5 deferrals |
+| `node src/godot-game/tools/verification/check.cjs --phase 1` | Exit 0; **676/676 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations; eight separate Phase 5 deferrals |
 
 | Identity | Actual value |
 | --- | --- |
@@ -91,7 +91,7 @@ The new clean guest checkout `/home/phase1/phase1-final-17` is pinned to the exa
 
 After positive live process/executable/parent/disk/known-host verification, only the owned old TCG guest received `sync; sudo -n poweroff` at `2026-11-14T18:43:22Z`. At `18:43:33.5437334Z`, QEMU 21752 and launcher 23576 were exited, loopback SSH/QMP listeners were absent, and the preserved disk allowed an exclusive read-open. The ignored process record now marks confirmed shutdown and clears live PIDs while retaining the old identities. The [environment record](../../.planning/phases/01-code-rules-and-documentation/01-ENVIRONMENT.md) names the original receipts and exact prepared paths. No unrelated process, host setting or disk was changed.
 
-The host still reported `HypervisorPresent: false`; Windows was not restarted by the agent. The creator has enabled Windows Hypervisor Platform and must complete the host restart. After restart, verify the active hypervisor, start only this owned guest with the prepared WHPX-default launcher, verify actual WHPX startup and genuine Linux access, then execute native bootstrap, clean locked five-project restore, strict zero-warning/error build and the complete `node tools/phase1/check.cjs --phase 1` selection on this frozen candidate. Unchanged deadlines apply. Keep WINDOWS 28 open until complete current Linux acceptance actually passes. Plan 01-17 remains halted at **0/2 accepted tasks**; all fourteen human components and RULE-01–RULE-07 remain Pending.
+The host still reported `HypervisorPresent: false`; Windows was not restarted by the agent. The creator has enabled Windows Hypervisor Platform and must complete the host restart. After restart, verify the active hypervisor, start only this owned guest with the prepared WHPX-default launcher, verify actual WHPX startup and genuine Linux access, then execute native bootstrap, clean locked five-project restore, strict zero-warning/error build and the complete `node src/godot-game/tools/verification/check.cjs --phase 1` selection on this frozen candidate. Unchanged deadlines apply. Keep WINDOWS 28 open until complete current Linux acceptance actually passes. Plan 01-17 remains halted at **0/2 accepted tasks**; all fourteen human components and RULE-01–RULE-07 remain Pending.
 
 ## Same managed payloads and native platforms
 
@@ -107,10 +107,10 @@ On 2026-11-14, the donor-independent clean checkout `D:/Work/Games/KingdomZombie
 
 | Evidence | Actual result |
 | --- | --- |
-| `node tools/phase1/bootstrap.cjs --probe engine` | Pass; raw compatibility nonce `59a72fa8-cb62-43ba-aae8-c378f78bf813`, fresh construction/ready/exit and hosted runtime `10.0.15` |
+| `node src/godot-game/tools/verification/bootstrap.cjs --probe engine` | Pass; raw compatibility nonce `59a72fa8-cb62-43ba-aae8-c378f78bf813`, fresh construction/ready/exit and hosted runtime `10.0.15` |
 | `dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false` | All five projects restored; committed locks unchanged |
 | `dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q` | Exit 0; zero warnings and errors |
-| `node tools/phase1/check.cjs --phase 1` | Exit 0; **670/670 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations |
+| `node src/godot-game/tools/verification/check.cjs --phase 1` | Exit 0; **670/670 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations |
 
 The [plan summary](../../.planning/phases/01-code-rules-and-documentation/01-16-SUMMARY.md) records the unaltered canonical report at `.phase1/temp/16-windows-f4658bb/.phase1/runs/030dd8f9-c5e7-4d52-9b03-505948e8755c/summary.json`. That report retains every case's fresh test report, subject evidence, actual command, exit and identity. Completed groups: runner 36, pins 27, register 46, rules 447, docs 36, graph 26, engine 19 and state 33. All 670 case processes exited zero; no test was skipped. The runner verified unchanged frozen inputs through publication.
 
@@ -149,7 +149,7 @@ The actual environment is QEMU TCG with four virtual CPUs and 4096 MB RAM. Obser
 
 | Actual command | Result and retained evidence |
 | --- | --- |
-| `PHASE1_IGNORE_DOWNLOADS=1 node tools/phase1/bootstrap.cjs --probe engine` (cold attempt) | Exit 1, `CHILD_TIMEOUT` at the existing 60-second game-build limit; nonce `4b95c9b1-ad41-485e-98c9-3ee05ed5f778`. Both restore steps passed. `/home/phase1/17-bootstrap.log` and `.exit` retain the failure. |
+| `PHASE1_IGNORE_DOWNLOADS=1 node src/godot-game/tools/verification/bootstrap.cjs --probe engine` (cold attempt) | Exit 1, `CHILD_TIMEOUT` at the existing 60-second game-build limit; nonce `4b95c9b1-ad41-485e-98c9-3ee05ed5f778`. Both restore steps passed. `/home/phase1/17-bootstrap.log` and `.exit` retain the failure. |
 | `timeout 900s dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false` | Exit 0; all five projects restored with unchanged locks. `/home/phase1/17-restore.log` and `.exit`. |
 | `timeout 900s dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q -m:1` | Exit 0; zero warnings/errors, `00:05:10.06`. Single-node scheduling changes no strict property. `/home/phase1/17-build.log`, `.exit`, `.start` and `.end`. |
 | Unchanged native bootstrap command after ordinary build | Exit 0; raw compatibility nonce `0d50ef94-b2e3-4e38-b583-e9345283a7df`, game build `00:00:27.52`, zero warnings/errors. Actual native engine exit 0, runtime `10.0.15`, Linux/headless/`gl_compatibility`. `/home/phase1/17-bootstrap2.log` and `.exit`. |
@@ -162,7 +162,7 @@ A separate direct diagnostic used an explicit 180-second outer bound and 120-sec
 
 ## Historical predeclared Linux representative selection
 
-This selection was declared before the earlier 01-17 representative execution and is retained to explain its actual outcomes. Each exact ID used `node tools/phase1/check.cjs --case <ID>` after native bootstrap, locked whole-solution restore and strict build. That earlier selection is superseded for final acceptance: run the complete current `node tools/phase1/check.cjs --phase 1` scope on both Windows and the local Linux VM, with the common vectors and deadlines unchanged.
+This selection was declared before the earlier 01-17 representative execution and is retained to explain its actual outcomes. Each exact ID used `node src/godot-game/tools/verification/check.cjs --case <ID>` after native bootstrap, locked whole-solution restore and strict build. That earlier selection is superseded for final acceptance: run the complete current `node src/godot-game/tools/verification/check.cjs --phase 1` scope on both Windows and the local Linux VM, with the common vectors and deadlines unchanged.
 
 | Exact case ID | Representative obligation | Actual result / exit | Invocation nonce |
 | --- | --- | --- | --- |

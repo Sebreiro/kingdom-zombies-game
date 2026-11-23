@@ -6,18 +6,18 @@ Status: Pending. This is the phase-end human checklist required by D-04 and plan
 
 | Exact rule | Human component | Inspect |
 | --- | --- | --- |
-| R-24 | Class-based DTO/engine initialization expresses required values and suitable semantics | [Snapshot DTO](../../src/core/SnapshotDto.cs), [engine scene](../../src/godot-game/proofs/Phase1.cs) |
+| R-24 | Class-based DTO/engine initialization expresses required values and suitable semantics | [Snapshot DTO](../../src/godot-game/core/SnapshotDto.cs), [engine scene](../../src/godot-game/game/proofs/Phase1.cs) |
 | R-34 | Every public API is necessary and minimal | [Exact visibility permissions](visibility-exemptions.json), public C# surfaces |
-| R-62 | Reusable tooling/package content is product-independent in intent | [Analyzer project](../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [compiled isolation](../../tests/phase1/GraphTests.cs) |
-| R-63 | Invariants and state-changing methods preserve intended domain meaning | [Example state](../../src/core/ExampleState.cs), [structural model policy](../../tests/phase1/ArchitecturePolicy.cs) |
-| R-65 | Handwritten mappings preserve semantic intent | [Mapping policy/proofs](../../tests/phase1/ArchitectureRuleTests.cs), changed mapping methods |
-| R-72 | Strict snapshot contract covers actual call sites and justified HTTP divergence | [Snapshot codec](../../src/core/SnapshotCodec.cs), [baseline decision](../architecture/decisions/0001-development-baseline.md) |
-| R-73 | Controlled time/random choices fit game semantics and replay compatibility | [State proofs](../../tests/phase1/StateInputTests.cs), [random contract](../../tests/phase1/RandomContractTests.cs) |
-| R-74 | Unknown sentinel rejection matches intended valid state | [ProofKind](../../src/core/ProofKind.cs), actual state validation |
-| R-77 | Enum evolution preserves meanings as well as pinned names/numbers | [Enum policy](../../tests/phase1/ArchitecturePolicy.cs), [snapshot proofs](../../tests/phase1/SnapshotTests.cs) |
-| R-78 | DTOs preserve independent values and exclude transient native/process/service identity | [Snapshot shape policy](../../tests/phase1/SnapshotShapePolicy.cs), actual DTO members |
+| R-62 | Reusable tooling/package content is product-independent in intent | [Analyzer project](../../src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [compiled isolation](../../src/godot-game/tests/verification/GraphTests.cs) |
+| R-63 | Invariants and state-changing methods preserve intended domain meaning | [Example state](../../src/godot-game/core/ExampleState.cs), [structural model policy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs) |
+| R-65 | Handwritten mappings preserve semantic intent | [Mapping policy/proofs](../../src/godot-game/tests/verification/ArchitectureRuleTests.cs), changed mapping methods |
+| R-72 | Strict snapshot contract covers actual call sites and justified HTTP divergence | [Snapshot codec](../../src/godot-game/core/SnapshotCodec.cs), [baseline decision](../architecture/decisions/0001-development-baseline.md) |
+| R-73 | Controlled time/random choices fit game semantics and replay compatibility | [State proofs](../../src/godot-game/tests/verification/StateInputTests.cs), [random contract](../../src/godot-game/tests/verification/RandomContractTests.cs) |
+| R-74 | Unknown sentinel rejection matches intended valid state | [ProofKind](../../src/godot-game/core/ProofKind.cs), actual state validation |
+| R-77 | Enum evolution preserves meanings as well as pinned names/numbers | [Enum policy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs), [snapshot proofs](../../src/godot-game/tests/verification/SnapshotTests.cs) |
+| R-78 | DTOs preserve independent values and exclude transient native/process/service identity | [Snapshot shape policy](../../src/godot-game/tests/verification/SnapshotShapePolicy.cs), actual DTO members |
 | R-79 | Remote health checks are reasonedly inapplicable to this phase | [Exact inapplicable disposition](register.json), five actual project responsibilities |
-| R-81 | Model/options naming, cohesion and initialization intent fit responsibilities | [Model policy](../../tests/phase1/ArchitecturePolicy.cs), actual selected types |
+| R-81 | Model/options naming, cohesion and initialization intent fit responsibilities | [Model policy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs), actual selected types |
 | R-83 | Focused names/indexes are accurate, concise and useful | [Agent guide](../../AGENTS.md), [code](README.md), [boundaries](../architecture/boundaries.md), five module pages |
 | R-84 | Decisions/adaptation reasons/consequences accurately describe actual evidence | [Architecture decisions](../architecture/README.md), [baseline](../architecture/decisions/0001-development-baseline.md), original register/provenance |
 

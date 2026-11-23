@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "feature": "asset_inspection",
+  "baseKey": "application/run/main_scene",
+  "overrideKey": "application/run/main_scene.asset_inspection",
+  "baseScene": "res://foundation/Foundation.tscn",
+  "inspectionScene": "res://inspection/Inspection.tscn",
+  "preset": "Phase4 Windows inspection",
+  "scope": "source/headless configuration/resource proof only; actual packaged Inspection startup pending 04-02 Task 1",
+  "nativeEntryComplete": false,
+  "sourceContract": {
+    "ordinaryProjectSha256": "1f7d242e12521a4866512b6017f25f1868cd6160e3c9efe0074ad498008b2a9d",
+    "presetBeforeFeatureSha256": "7fe9294d4a160582af981a9ec00167f8bf8bb407b6e86ce8b4bbde226bed3b00",
+    "projectGraphSha256": "8e7748d80497d3f4b499158be8c34ca98ae6f883b0306de7fbddd4a678880d64",
+    "checkpoint": ".phase4/checkpoints/04-02-entry-93386745/manifest.json",
+    "fullRunnerBeforeProfileSha256": "2e022d88b462d361bc1807fc54ed031245e93f167edd6c5c7b07837a49d0a021"
+  },
+  "resources": [
+    "src/godot-game/foundation/Foundation.tscn",
+    "src/godot-game/inspection/Inspection.tscn",
+    "src/godot-game/assets/common/bow.png",
+    "src/godot-game/content/pack-index.json",
+    "src/godot-game/content/packs/tracer.json",
+    "src/godot-game/assets/ui/kingdom-zombies-icon.png",
+    "src/godot-game/docs/README.md"
+  ],
+  "requiredPreset": {
+    "platform": "Windows Desktop",
+    "export_filter": "all_resources",
+    "include_filter": "*.json,*.md,*.txt,*.csv,*.ttf,*.otf,*.wav,*.ogg,*.png",
+    "custom_template/debug": "@WINDOWS_DEBUG_TEMPLATE@",
+    "custom_template/release": "@WINDOWS_RELEASE_TEMPLATE@",
+    "binary_format/architecture": "x86_64",
+    "binary_format/embed_pck": false,
+    "dotnet/include_scripts_content": false,
+    "dotnet/include_debug_symbols": true,
+    "dotnet/embed_build_outputs": false
+  },
+  "semantics": {
+    "ordinary": "Custom export tags are inactive in ordinary editor/source runs; actual-feature lookup retains Foundation.",
+    "explicit": "Pinned ProjectSettings explicit-feature getter lowercases the authored override suffix before membership lookup; it does not lowercase supplied feature strings. Canonical source spelling is validated before invocation.",
+    "actual": "Pinned actual-feature getter passes authored feature spelling to OS.has_feature; native startup uses GLOBAL_GET(application/run/main_scene).",
+    "resourceProof": "Owned temporary GDScript SceneTree queries actual bound APIs and loads the copied production Inspection PackedScene and bow texture through the pinned importer/resource loader. No production autoload or main rewrite.",
+    "consumer": "Fresh natural startup of the actual packaged Inspection binary/PCK/runtime remains 04-02 Task 1; prior Foundation frames, editor-mounted pack and this source probe cannot substitute."
+  },
+  "proofContract": {
+    "positiveCase": "export.profile",
+    "boundaryCase": "export.profile-boundaries",
+    "runGroup": "G0-export-profile",
+    "orders": [
+      350,
+      351
+    ],
+    "nativeQueries": [
+      "base",
+      "qualified",
+      "actual",
+      "empty",
+      "ordinary",
+      "inspection",
+      "wrongCase",
+      "active",
+      "foundationExists"
+    ],
+    "controls": "Independent missing/wrong/duplicate/case/path/profile/setting/scene/resource/preset/options/global activation copies; actual native normalization branches; bounded child env/cwd/default/deadline/output/exit/spawn/descendant controls; original case subsets and unique positions",
+    "evidence": "Fresh ignored run directories retain inputs, exact mutations/diagnostics, nonce, revision, engine/probe/source/config hashes, native command streams, ordered cases and all failed attempts.",
+    "nativeEntry": "Unfinished 04-02 Task 1 must consume this permanent profile and prove actual packaged Inspection natural startup with fresh binary/PCK/runtime identities."
+  },
+  "documentation": [
+    "https://docs.godotengine.org/en/stable/tutorials/export/feature_tags.html",
+    "https://raw.githubusercontent.com/godotengine/godot/4.7.2-stable/core/config/project_settings.cpp",
+    "https://raw.githubusercontent.com/godotengine/godot/4.7.2-stable/main/main.cpp"
+  ],
+  "currentSourceIcon": {
+    "path": "src/godot-game/assets/ui/kingdom-zombies-icon.png",
+    "sha256": "198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c",
+    "projectSha256": "ffd9437ea564f0dda510e738425c755b7344dcbaa60cfd078f21d36036209bb6",
+    "retainedArchive": "production/phase4/ui-identity.zip",
+    "member": "outputs/icon-256.png",
+    "appliedToCurrentExport": false
+  }
+}
