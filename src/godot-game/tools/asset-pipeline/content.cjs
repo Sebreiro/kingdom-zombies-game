@@ -468,7 +468,8 @@ function destination(root){
   const absolute=path.resolve(root),repo=fs.realpathSync.native(ROOT),rel=logical(path.relative(repo,absolute).split(path.sep).join('/'));
   need(rel.startsWith('.phase4/')||rel.startsWith('production/phase4/published/'),'PUBLICATION_ROOT_DENIED',rel);
   relative(rel);
-  inside(repo,rel);return absolute;
+  // Write where the reparse and escape walk ran: the physical folder layout.cjs resolves `rel` to.
+  return inside(repo,rel);
 }
 function write(root,name,value){
   const file=inside(root,name);fs.mkdirSync(path.dirname(file),{recursive:true});const fd=fs.openSync(file,'wx');
