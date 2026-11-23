@@ -3,7 +3,8 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {spawn,spawnSync}=require('node:child_process');
 const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
 const {createCaseRegistry,loadCaseModules}=require('./case-discovery.cjs');
-const ROOT='D:/Work/Games/KingdomZombies';
+const {physical}=require('./layout.cjs');
+const ROOT=path.resolve(__dirname,'../../../..');
 const {PYTHON,verifyPython,isPython}=require('./python.cjs');
 const DONOR='D:/Work/Games/KindomCrown/recovered/resources';
 const ID='common.bow';
@@ -96,9 +97,9 @@ function need(condition,code,detail=''){if(!condition)throw new Error(code+' '+I
 function inside(root,relative){
   need(typeof relative==='string'&&relative.length<240&&!relative.includes('\\')&&
     relative.split('/').every(x=>x.length>0&&x!=='.'&&x!=='..')&&!path.isAbsolute(relative)&&!relative.includes(':'),'PATH_INVALID',relative);
-  const resolved=path.resolve(root,relative);need(resolved.startsWith(path.resolve(root)+path.sep),'PATH_ESCAPE',relative);
+  const resolved=path.resolve(root,physical(relative));need(resolved.startsWith(path.resolve(root)+path.sep),'PATH_ESCAPE',relative);
   let current=root;
-  for(const segment of relative.split('/')){
+  for(const segment of physical(relative).split('/')){
     if(fs.existsSync(current))need(!fs.lstatSync(current).isSymbolicLink(),'PATH_REPARSE',relative);
     if(fs.existsSync(current))need(fs.readdirSync(current).includes(segment)||!fs.existsSync(path.join(current,segment)),'PATH_CASE',relative);
     current=path.join(current,segment);
@@ -568,7 +569,7 @@ registerCase('source.tracer-failures',{group:'source',title:'Bad real tracer sub
   reset:'Copies are run-owned; restore only missing media in its disposable copy; preserve all failure records; bounded descendant cleanup',
   evidence:['inputs.json','originals-before.json','originals-after.json','mutation.json','mutation.bin','native-loader.command.json','result.json']},tracerFailures);
 async function main(args,writeCompletion=console.log){
-  need(fs.realpathSync.native(ROOT).toLowerCase()===fs.realpathSync.native(path.resolve(__dirname,'../..')).toLowerCase(),'PROJECT_ROOT_PIN');
+  need(fs.realpathSync.native(ROOT).toLowerCase()===fs.realpathSync.native(path.resolve(__dirname,'../../../..')).toLowerCase(),'PROJECT_ROOT_PIN');
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
   caseModules??=loadCaseModules(path.join(__dirname,'cases'),registry);
   if(args.length===1&&args[0]==='--list'){console.log(JSON.stringify([...cases.values()].sort(caseOrder).map(({run,...item})=>item),null,2));return;}

@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
-const ROOT=path.resolve(__dirname,'../../..');
+const ROOT=path.resolve(__dirname,'../../../../..');
 const runner=require('../check.cjs');
 const PROFILE='production/phase4/export-profile.json',PROJECT='src/godot-game/project.godot',PRESET='src/godot-game/export_presets.cfg';
 const FEATURE='asset_inspection',BASE='application/run/main_scene',QUALIFIED=BASE+'.'+FEATURE;

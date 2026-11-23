@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {spawnSync} = require('node:child_process');
 
-const ROOT = path.resolve(__dirname, '../../..');
+const ROOT = path.resolve(__dirname, '../../../../..');
 const check = require('../check.cjs');
 
 function rejectsMissingCompletion() {

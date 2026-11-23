@@ -3,7 +3,8 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
 const {spawnSync}=require('node:child_process');
 const zlib=require('node:zlib'),{pipeline}=require('node:stream/promises'),{Readable}=require('node:stream');
-const ROOT=path.resolve(__dirname,'../..'),INDEX='src/godot-game/content/pack-index.json';
+const {physical,logical}=require('./layout.cjs');
+const ROOT=path.resolve(__dirname,'../../../..'),INDEX='src/godot-game/content/pack-index.json';
 const EXPECTED='tools/phase4/expected-obligations.json',MAX_FILE=32*1024*1024,MAX_TOTAL=256*1024*1024;
 const PACKAGED_EXPECTED='src/godot-game/content/expected-obligations.json',EXPECTED_BYTES=25345;
 const EXPECTED_SHA256='a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5';
@@ -21,7 +22,7 @@ function relative(value){
   'PATH_INVALID',value);return value;
 }
 function inside(root,name){
-  relative(name);const base=path.resolve(root),target=path.resolve(base,name);
+  relative(name);const base=path.resolve(root),target=path.resolve(base,physical(name));
   need(target.startsWith(base+path.sep),'PATH_ESCAPE',name);
   let current=path.parse(base).root;
   for(const segment of path.relative(current,target).split(path.sep)){
@@ -464,7 +465,7 @@ function merge(base,addition){
   return result;
 }
 function destination(root){
-  const absolute=path.resolve(root),repo=fs.realpathSync.native(ROOT),rel=path.relative(repo,absolute).split(path.sep).join('/');
+  const absolute=path.resolve(root),repo=fs.realpathSync.native(ROOT),rel=logical(path.relative(repo,absolute).split(path.sep).join('/'));
   need(rel.startsWith('.phase4/')||rel.startsWith('production/phase4/published/'),'PUBLICATION_ROOT_DENIED',rel);
   relative(rel);
   inside(repo,rel);return absolute;

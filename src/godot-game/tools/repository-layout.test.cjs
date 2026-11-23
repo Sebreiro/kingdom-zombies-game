@@ -53,16 +53,17 @@ test('authored C# and game resources stay in the workspace',()=>{
 });
 
 test('game-only tools use purpose names in the workspace without old forwarding entry points',()=>{
-  for(const folder of ['verification','gameplay-checks','lan-checks'])
+  for(const folder of ['verification','gameplay-checks','lan-checks','asset-pipeline'])
     assert.ok(fs.existsSync(path.join(workspace,'tools',folder,'check.cjs')),folder);
-  for(const folder of ['phase1','phase2','phase3'])
+  for(const folder of ['phase1','phase2','phase3','phase4'])
     assert.equal(fs.existsSync(path.join(root,'tools',folder,'check.cjs')),false,folder);
-  for(const file of ['dotnet.cjs','repository-layout.test.cjs'])
+  for(const file of ['dotnet.cjs','repository-layout.test.cjs','workspace-cleanup.cjs','workspace-cleanup.test.cjs'])
     assert.equal(fs.existsSync(path.join(root,'tools',file)),false,file);
+  assert.equal(fs.existsSync(path.join(workspace,'tools','phase4')),false,'asset pipeline keeps its purpose name');
 });
 
 test('check entry points resolve the current game catalogs from an unrelated working directory',()=>{
-  for(const folder of ['verification','gameplay-checks','lan-checks']){
+  for(const folder of ['verification','gameplay-checks','lan-checks','asset-pipeline']){
     const script=path.join(workspace,'tools',folder,'check.cjs');
     const run=spawnSync(process.execPath,[script,'--list'],{cwd:os.tmpdir(),encoding:'utf8',windowsHide:true,timeout:15000});
     assert.equal(run.status,0,folder+': '+run.stderr);
