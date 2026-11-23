@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const {execFileSync} = require('node:child_process');
+const {execFileSync, spawnSync} = require('node:child_process');
 const workspace = require('./workspace-paths.cjs');
 
 // The regenerable workspace root keeps its toolchain, downloads and NuGet caches; runs, temp and anything else go.
@@ -305,18 +305,26 @@ function removeIgnoredOutputs(worktreePath) {
   }
 }
 
-/** Moves the folder aside and back. Windows refuses while a process works in it or holds a file there without sharing. */
-function probeMovable(folder) {
+/**
+ * Moves the folder aside and back. Windows refuses while a process works in it or holds a file there without sharing.
+ * The worktree record is locked meanwhile, so no `git worktree prune` drops it while the folder is aside; a probe
+ * that cannot move the folder back leaves the record locked.
+ */
+function probeMovable(root, folder) {
   const aside = `${folder}.cleanup-probe-${process.pid}`;
+  git(root, ['worktree', 'lock', '--reason', `workspace-cleanup move probe; if ${path.basename(aside)} exists, ` +
+    'move it back and run git worktree unlock', folder]);
   try {
     fs.renameSync(folder, aside);
   } catch (failure) {
+    git(root, ['worktree', 'unlock', folder]);
     throw new Error(`the folder cannot be moved (${failure.code || failure.message}); ${IN_USE_HINT}`);
   }
   let last;
   for (let attempt = 0; attempt < 20; attempt++) {
     try {
       fs.renameSync(aside, folder);
+      git(root, ['worktree', 'unlock', folder]);
       return;
     } catch (failure) {
       last = failure;
@@ -324,13 +332,20 @@ function probeMovable(folder) {
     }
   }
   throw new Error(`moved the folder to ${aside} for a probe and could not move it back (${last.code || last.message}); ` +
-    'move it back by hand before anything else');
+    `the worktree record stays locked: move the folder back by hand, then run git worktree unlock ${folder}`);
+}
+
+/** Throws when a runner lock exists in folder; a runner may have started there since the plan was made. */
+function assertNoLock(folder) {
+  const lock = findLock(folder);
+  if (lock) throw new Error(`runner lock at ${relativeSlashed(folder, lock)}; nothing was deleted there`);
 }
 
 /** Removes a worktree; links (such as junctions to the shared root) are unlinked, never followed. */
 function removeWorktree(root, worktreePath) {
+  assertNoLock(worktreePath);
   removeIgnoredOutputs(worktreePath);
-  probeMovable(worktreePath);
+  probeMovable(root, worktreePath);
   const orphaned = failure => {
     const listed = parseWorktrees(git(root, ['worktree', 'list', '--porcelain'])).some(worktree => samePath(worktree.path, worktreePath));
     const detail = String(failure.stderr || failure.message).trim();
@@ -390,9 +405,14 @@ function listFiles(folder) {
 /** Paths the repository's .gitignore files ignore, judged in this checkout; info/exclude and core.excludesFile never count. */
 function ignoredByGitignore(root, files) {
   if (!files.length) return new Set();
-  const output = execFileSync('git', ['-c', 'core.excludesFile=', 'check-ignore', '--no-index', '-v', '-n', '-z', '--stdin'],
-    {cwd: root, input: files.join('\0') + '\0', encoding: 'utf8', maxBuffer: 256 * 1024 * 1024});
-  const fields = output.split('\0'), ignored = new Set();
+  const result = spawnSync('git', ['-c', 'core.excludesFile=', 'check-ignore', '--no-index', '-v', '-n', '-z', '--stdin'],
+    {cwd: root, input: files.join('\0') + '\0', encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, windowsHide: true});
+  // Exit 1 means no path is ignored, the usual state once removal deleted an orphan's ignored outputs.
+  if (result.error) throw result.error;
+  if (result.status !== 0 && result.status !== 1) {
+    throw new Error(`git check-ignore failed with exit ${result.status}: ${String(result.stderr).trim()}`);
+  }
+  const fields = result.stdout.split('\0'), ignored = new Set();
   for (let index = 0; index + 3 < fields.length; index += 4) {
     const [source, , pattern, file] = fields.slice(index, index + 4);
     if (source && path.basename(source) === '.gitignore' && !pattern.startsWith('!')) ignored.add(file);
@@ -409,8 +429,9 @@ function blobId(file, format) {
 
 /**
  * Decides whether an orphaned task worktree folder can go: it must sit in the task worktree folder, have no record,
- * repository, lock or scan error, and every remaining file must be ignored or equal its blob at one remote branch tip.
- * A failed removal deletes files, so a subset of the tree is enough; nothing that was not pushed is lost.
+ * repository, lock or scan error, and one remote branch tip must account for every remaining file. A file that tip
+ * tracks must equal its blob there, even when a .gitignore pattern matches it; a file it does not track must be
+ * ignored. A failed removal deletes files, so a subset of the tree is enough; nothing that was not pushed is lost.
  */
 function orphanState(root, folder, worktrees) {
   const home = worktreesHome(root);
@@ -421,32 +442,50 @@ function orphanState(root, folder, worktrees) {
   if (kept) return {removable: false, reason: kept};
   const lock = findLock(folder);
   if (lock) return {removable: false, reason: `runner lock at ${relativeSlashed(folder, lock)}`};
-  const files = listFiles(folder), ignored = ignoredByGitignore(root, files);
+  const files = listFiles(folder);
+  if (!files.length) return {removable: true, reason: 'no files remain'};
+  const ignored = ignoredByGitignore(root, files);
   const format = git(root, ['rev-parse', '--show-object-format']).trim();
-  const remaining = files.filter(file => !ignored.has(file)).map(file => ({file, id: blobId(path.join(folder, file), format)}));
-  if (!remaining.length) return {removable: true, reason: 'only ignored outputs remain'};
+  const ids = new Map();
+  const idOf = file => {
+    if (!ids.has(file)) ids.set(file, blobId(path.join(folder, file), format));
+    return ids.get(file);
+  };
   const tips = new Map();
-  for (const line of git(root, ['for-each-ref', '--format=%(objectname) %(refname:short)', 'refs/remotes']).split('\n')) {
-    const [id, name] = line.trim().split(' ');
-    if (id && name && !name.endsWith('/HEAD') && !tips.has(id)) tips.set(id, name);
+  for (const line of git(root, ['for-each-ref', '--format=%(objectname) %(refname)', 'refs/remotes']).split('\n')) {
+    const [id, ref] = line.trim().split(' ');
+    // A remote's HEAD only names another remote branch, which is listed under its own name.
+    if (id && ref && !ref.endsWith('/HEAD') && !tips.has(id)) tips.set(id, ref.replace(/^refs\/remotes\//, ''));
   }
-  let best = null;
-  for (const [id, name] of tips) {
+  const trees = [...tips].map(([id, name]) => {
     const tree = new Map();
     for (const row of git(root, ['ls-tree', '-r', '-z', '--full-tree', id]).split('\0').filter(Boolean)) {
       const tab = row.indexOf('\t');
       tree.set(row.slice(tab + 1), row.slice(0, tab).split(' ')[2]);
     }
-    const mismatched = remaining.filter(entry => tree.get(entry.file) !== entry.id).map(entry => entry.file);
-    if (!mismatched.length) return {removable: true, reason: `matches ${name}`};
+    return {name, tree};
+  });
+  // An ignored file is a disposable output only when no remote branch tracks its path; a tracked one is source.
+  const disposable = file => ignored.has(file) && !trees.some(({tree}) => tree.has(file));
+  let best = null;
+  for (const {name, tree} of trees) {
+    let compared = 0;
+    const mismatched = files.filter(file => {
+      if (!tree.has(file)) return !disposable(file);
+      compared++;
+      return tree.get(file) !== idOf(file);
+    });
+    if (!mismatched.length) return {removable: true, reason: compared ? `matches ${name}` : 'only ignored outputs remain'};
     if (!best || mismatched.length < best.length) best = mismatched;
   }
-  const missed = best ?? remaining.map(entry => entry.file);
+  const missed = best ?? files.filter(file => !disposable(file));
+  if (!missed.length) return {removable: true, reason: 'only ignored outputs remain'};
   return {removable: false, reason: `${missed.length} file(s) match no remote branch, such as ${missed[0]}`};
 }
 
 /** Deletes an orphaned folder; links inside are unlinked, never followed. */
 function removeOrphan(folder) {
+  assertNoLock(folder);
   try {
     fs.rmSync(folder, {recursive: true, force: true, maxRetries: 3});
   } catch (failure) {

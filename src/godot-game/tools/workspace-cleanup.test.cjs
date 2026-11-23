@@ -469,6 +469,112 @@ test('an orphaned task folder is removed only when every remaining file is pushe
   if (linked) assert.ok(exists(shared, 'node.exe'), 'a junction inside the orphan is unlinked, never followed');
 });
 
+/** Makes the pushed worktree at target an orphan as a failed `git worktree remove` leaves it: no record, no .git file. */
+function orphanize(context, target) {
+  fs.rmSync(path.join(target, '.git'));
+  git(context.root, 'worktree', 'prune');
+}
+
+/** A task worktree folder home with one pushed worktree on branch; returns its path. */
+function taskWorktree(context, name, branch) {
+  git(context.root, 'config', 'worktrees.root', path.join(context.base, 'worktrees'));
+  const target = path.join(context.base, 'worktrees', 'repo', name);
+  git(context.root, 'worktree', 'add', '-q', '-b', branch, target);
+  return target;
+}
+
+/** Runs the command and calls onHeader once its plan is printed, before anything is deleted or removed. */
+function invokeAfterPlan(cwd, onHeader, ...argv) {
+  const lines = [], errors = [];
+  const log = line => {
+    if (!lines.length) onHeader();
+    lines.push(line);
+  };
+  const code = cleanup.run(argv, {cwd, log, error: line => errors.push(line)});
+  return {code, out: lines.join('\n'), err: errors.join('\n')};
+}
+
+test('an orphan with no ignored file left is judged without stopping the run', t => {
+  const context = repository(t);
+  git(context.root, 'remote', 'set-head', 'origin', 'dev');
+  const target = taskWorktree(context, 'kz-plain', 'feature/plain');
+  git(target, 'push', '-q', 'origin', 'feature/plain');
+  orphanize(context, target);
+  const dry = invoke(context.root, '--worktrees-only', '--remove-orphan', target);
+  assert.equal(dry.code, 0, dry.err);
+  assert.match(dry.out, /would remove orphan\s+.*kz-plain \(matches origin\/(dev|feature\/plain)\)/);
+  const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-orphan', target);
+  assert.equal(result.code, 0, result.err);
+  assert.ok(!fs.existsSync(target));
+});
+
+test('an ignored path that a remote branch tracks must still match that branch', t => {
+  const context = repository(t);
+  const target = taskWorktree(context, 'kz-tracked-bin', 'feature/tracked-bin');
+  write(target, 'tools/bin/run.cjs', 'pushed\n');
+  git(target, 'add', '-f', 'tools/bin/run.cjs');
+  git(target, 'commit', '-q', '-m', 'tracked under an ignored pattern');
+  git(target, 'push', '-q', 'origin', 'feature/tracked-bin');
+  write(target, '.local/temp/out.txt');
+  orphanize(context, target);
+  write(target, 'tools/bin/run.cjs', 'edited, never pushed\n');
+  const refused = invoke(context.root, '--apply', '--worktrees-only', '--remove-orphan', target);
+  assert.equal(refused.code, 1);
+  assert.match(refused.err, /kz-tracked-bin \(1 file\(s\) match no remote branch, such as tools\/bin\/run\.cjs\)/);
+  assert.ok(exists(target, 'tools/bin/run.cjs'), 'the unpushed edit stays');
+  write(target, 'tools/bin/run.cjs', 'pushed\n');
+  const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-orphan', target);
+  assert.equal(result.code, 0, result.err);
+  assert.match(result.out, /removed orphan\s+.*kz-tracked-bin \(matches origin\/feature\/tracked-bin\)/);
+});
+
+test('a runner lock that appears after planning stops the removal of a worktree or orphan', t => {
+  const context = repository(t);
+  const listed = target => git(context.root, 'worktree', 'list', '--porcelain').includes(target.split(path.sep).join('/'));
+  const worktree = addWorktree(context, 'late-lock');
+  git(worktree, 'push', '-q', 'origin', 'feature/late-lock');
+  const late = invokeAfterPlan(context.root, () => write(worktree, '.local/locks/check.lock'),
+    '--apply', '--worktrees-only', '--remove-worktree', worktree);
+  assert.equal(late.code, 1);
+  assert.match(late.err, /failed\s+.*late-lock \(runner lock at \.local\/locks\/check\.lock/);
+  assert.ok(listed(worktree) && exists(worktree, '.local/locks/check.lock'), 'record, folder and lock stay');
+
+  const orphan = taskWorktree(context, 'kz-late-orphan', 'feature/late-orphan');
+  git(orphan, 'push', '-q', 'origin', 'feature/late-orphan');
+  orphanize(context, orphan);
+  const lateOrphan = invokeAfterPlan(context.root, () => write(orphan, '.local/locks/check.lock'),
+    '--apply', '--worktrees-only', '--remove-orphan', orphan);
+  assert.equal(lateOrphan.code, 1);
+  assert.match(lateOrphan.err, /failed\s+.*kz-late-orphan \(runner lock at \.local\/locks\/check\.lock/);
+  assert.ok(exists(orphan, '.local/locks/check.lock') && exists(orphan, 'README.md'), 'the orphan and its lock stay');
+});
+
+test('a probe that cannot move the folder back keeps the worktree record locked', t => {
+  const context = repository(t);
+  const worktree = addWorktree(context, 'stuck-probe');
+  git(worktree, 'push', '-q', 'origin', 'feature/stuck-probe');
+  const rename = fs.renameSync;
+  t.after(() => { fs.renameSync = rename; });
+  fs.renameSync = (from, to) => {
+    if (String(from).includes('.cleanup-probe-')) throw Object.assign(new Error('simulated busy folder'), {code: 'EBUSY'});
+    return rename(from, to);
+  };
+  const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', worktree);
+  fs.renameSync = rename;
+  assert.equal(result.code, 1);
+  assert.match(result.err, /could not move it back .*git worktree unlock/);
+  const aside = `${worktree}.cleanup-probe-${process.pid}`;
+  assert.ok(fs.existsSync(aside) && !fs.existsSync(worktree), 'the folder is still aside');
+  git(context.root, 'worktree', 'prune');
+  const record = git(context.root, 'worktree', 'list', '--porcelain').split(/\r?\n\r?\n/)
+    .find(block => block.includes(worktree.split(path.sep).join('/')));
+  assert.ok(record && /^locked/m.test(record), 'prune keeps the locked record of the folder that is aside');
+  fs.renameSync(aside, worktree);
+  git(context.root, 'worktree', 'unlock', worktree);
+  assert.equal(invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', worktree).code, 0);
+  assert.ok(!fs.existsSync(worktree));
+});
+
 test('the migration reuses the exported safety helpers', () => {
   for (const name of ['keepReason', 'isIgnored', 'hasTrackedFiles', 'isRealDirectory']) {
     assert.equal(typeof cleanup[name], 'function', name);
