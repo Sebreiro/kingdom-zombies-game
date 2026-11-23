@@ -1,6 +1,6 @@
 # Foundation checks
 
-The small Phase 2 runner checks the ordinary menu and playable foundation. The [temporary testing policy](pre-phase5-testing.md) governs Phases 2–4: implement the whole phase, review and fix its code, then run rendered cases on the development OS at 1280×720. Other-OS and 1920×1080 acceptance and dependency-aware reuse certification remain Phase 5 work. Prepared tools and historical reports supply no new pass.
+The small Phase 2 runner checks the ordinary menu and playable foundation. The [temporary testing policy](pre-phase5-testing.md) governs Phases 2–4: implement the whole phase, review and fix its code, then run rendered cases on the development OS at 1280×720. Since the 2026-11-23 amendment, full hosted Windows/Linux runs and evidence reuse validation are Phase 11 work under TEST-12, Phase 5 delivers dependency-aware selection, and 1920×1080 acceptance keeps its own owner under the [local testing strategy](local-testing.md). Prepared tools and historical reports supply no new pass.
 
 Use the pinned tools and workspace-local environment in [setup](setup.md). Build the existing solution before pure checks; no new project or package is required:
 
@@ -60,7 +60,7 @@ After collecting errors, batch repairs and rerun only failed or blocked cases fr
 node src/godot-game/tools/gameplay-checks/check.cjs --failed .local/runs/gameplay-checks/win32-x64/BASELINE-NONCE/summary.json
 ```
 
-A repair run keeps its own revision, fingerprint, nonce and images and binds the original report path/hash/revision in `repairOf`. If a repair still fails, use its report as the next `--failed` baseline. Earlier passes remain tied to their original reports even when repairs changed source fingerprints; this is the creator-authorized temporary policy, without Phase 5 reuse certification.
+A repair run keeps its own revision, fingerprint, nonce and images and binds the original report path/hash/revision in `repairOf`. If a repair still fails, use its report as the next `--failed` baseline. Earlier passes remain tied to their original reports even when repairs changed source fingerprints; this is the creator-authorized temporary policy, without the evidence reuse validation that Phase 11 delivers under TEST-12.
 
 Link the pure reports, initial rendered report and each focused repair in chronological order:
 
