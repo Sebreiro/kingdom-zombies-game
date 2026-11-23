@@ -143,7 +143,7 @@
     "lan": ["src/godot-game/multiplayer-abstractions/", "src/godot-game/tools/lan-checks/", ".planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md"],
     "inspection": ["src/godot-game/game/inspection/", "src/godot-game/game/assets/", "src/godot-game/game/content/", "src/godot-game/tools/asset-pipeline/scenarios.cjs", "src/godot-game/tools/asset-pipeline/phase5-hub.cjs", "src/godot-game/tools/asset-pipeline/rendered-contracts.cjs", ".planning/phases/04-asset-production/04-SCENARIOS.md"],
     "asset-world": ["src/godot-game/game/inspection/WorldPreview.cs", "src/godot-game/game/content/world/"],
-    "asset-source": ["src/godot-game/tools/asset-pipeline/required-cases.json", "src/godot-game/tools/asset-pipeline/evidence.cjs", "src/godot-game/tools/asset-pipeline/content.cjs", "src/godot-game/production/assets/"],
+    "asset-source": ["src/godot-game/tools/asset-pipeline/evidence.cjs", "src/godot-game/tools/asset-pipeline/content.cjs", "src/godot-game/production/assets/"],
     "asset-rendered": ["src/godot-game/tools/asset-pipeline/native-observer.cjs", "src/godot-game/tools/asset-pipeline/rendered-process.cjs", "src/godot-game/tools/asset-pipeline/handoff.json"],
     "build": ["src/godot-game/tools/dotnet.cjs", "src/godot-game/build/", "src/godot-game/tools/workspace-paths.cjs", "src/godot-game/Directory.Build.props", "src/godot-game/Directory.Build.targets"],
     "repository": ["src/godot-game/tools/game-tests/", "src/godot-game/tools/repository-layout.test.cjs", ".github/"]
@@ -160,7 +160,7 @@
     ".gitattributes", ".editorconfig", "AGENTS.md", "README.md", "src/README.md",
     "src/godot-game/README.md", "src/godot-game/game/docs/", "src/godot-game/game/icon.svg",
     "src/godot-game/game/packages.lock.json", "src/godot-game/references/",
-    "src/godot-game/tools/README.md", "src/godot-game/tools/node-setup/",
+    "src/godot-game/tools/README.md", "src/godot-game/tools/asset-pipeline/required-cases.json", "src/godot-game/tools/node-setup/",
     "src/godot-game/tools/workspace-cleanup.cjs", "src/godot-game/tools/workspace-cleanup.test.cjs",
     "src/godot-game/tools/workspace-migrate.cjs", "src/godot-game/tools/workspace-migrate.test.cjs"
   ]

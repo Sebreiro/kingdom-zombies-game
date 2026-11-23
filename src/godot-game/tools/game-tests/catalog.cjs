@@ -249,7 +249,7 @@ function loadCatalog(root) {
     ...data.cases.map(item => {
       requireValue(data.groups.includes(item.group) && data.runGroups.includes(item.runGroup),
         'CATALOG_DANGLING_GROUP ' + item.id);
-      return row({...item, inputs: [...new Set([catalogPath, ...(item.inputs ?? [])])]});
+      return row(item);
     }),
     ...verificationRows(manifests.verification),
     ...gameplayRows(manifests['gameplay-checks']),
@@ -273,7 +273,7 @@ function loadCatalog(root) {
     impactsByTag: data.impactsByTag, neutralPaths: data.neutralPaths};
   Object.defineProperties(catalog, {
     root: {value: root},
-    verificationManifest: {value: manifests.verification}
+    verificationManifest: {value: manifests.verification}, manifests: {value: manifests}, declared: {value: data}
   });
   validateCatalog(catalog);
   return catalog;
@@ -392,6 +392,28 @@ function verificationImpact(catalog, changes, baseCommit) {
   return changedVerificationGroups(before, catalog.verificationManifest);
 }
 
+function changedCaseIds(catalog, changes, baseCommit) {
+  const changed = new Set();
+  const declarations = [['basic', catalogPath, catalog.declared], ...scope.filter(name => name !== 'verification')
+    .map(name => [name, tools + name + '/required-cases.json', catalog.manifests[name]])];
+  const readAtBase = file => {
+    const git = args => execFileSync('git', args, {cwd: catalog.root, encoding: 'utf8', windowsHide: true, timeout: 30000});
+    if (!git(['ls-tree', '--name-only', baseCommit, '--', file]).trim()) return {};
+    return JSON.parse(git(['show', baseCommit + ':' + file]));
+  };
+  const shape = row => JSON.stringify(row, (key, value) => key === 'moduleSha256' ? undefined : value);
+  for (const [adapter, file, after] of declarations) {
+    if (!changes.includes(file)) continue;
+    const before = baseCommit === undefined ? {} : readAtBase(file);
+    const rows = manifest => [...manifest.cases ?? [], ...manifest.renderedCases ?? []];
+    const old = new Map(rows(before).map(row => [row.id, shape(row)]));
+    for (const row of rows(after)) {
+      if (old.get(row.id) !== shape(row)) changed.add(adapter === 'basic' ? row.id : adapter + '.' + row.id);
+    }
+  }
+  return changed;
+}
+
 function select(catalog, {mode, value, changes = [], baseCommit}) {
   const modes = ['pr', 'phase-end', 'full', 'case', 'group', 'tier'];
   requireValue(modes.includes(mode), 'SELECTION_MODE ' + mode);
@@ -414,11 +436,10 @@ function select(catalog, {mode, value, changes = [], baseCommit}) {
     catalog.cases.some(item => item.runGroup === value), 'SELECTION_GROUP ' + value);
   const affectedTags = mode === 'phase-end' ? affected(catalog, changes) : new Set();
   const verificationGroups = mode === 'phase-end' ? verificationImpact(catalog, changes, baseCommit) : new Set();
+  const changedDeclarations = mode === 'phase-end' ? changedCaseIds(catalog, changes, baseCommit) : new Set();
   const selected = [], omitted = [];
   for (const item of catalog.cases) {
-    const declaration = scope.includes(item.adapter) && item.adapter !== 'verification'
-      ? tools + item.adapter + '/required-cases.json' : ['basic', 'scenario'].includes(item.adapter) ? catalogPath : null;
-    const changed = changes.includes(declaration) || changes.includes(item.driver) || changes.some(file => item.inputs?.some(pattern => covers(pattern, file))) ||
+    const changed = changedDeclarations.has(item.id) || changes.includes(item.driver) || changes.some(file => item.inputs?.some(pattern => covers(pattern, file))) ||
       item.adapter === 'verification' && verificationGroups.has(item.legacyId);
     const impact = item.tags.filter(tag => affectedTags.has(tag));
     const picked = {
