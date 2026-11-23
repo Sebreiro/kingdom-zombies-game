@@ -1797,7 +1797,7 @@
       "id": "ac-02.complete",
       "group": "platform",
       "rule": "RULE-01",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1808,7 +1808,7 @@
         "actual-test-report"
       ],
       "implementation": "pending",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "ac-05.complete",
@@ -1832,7 +1832,7 @@
       "id": "ac-06.complete",
       "group": "register",
       "rule": "RULE-02",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1845,13 +1845,13 @@
       "implementation": "pending",
       "declaredOwner": "01-14",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "ac-07.complete",
       "group": "rules",
       "rule": "RULE-03",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1864,7 +1864,7 @@
       "implementation": "pending",
       "declaredOwner": "01-09",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "ac-08.complete",
@@ -6081,7 +6081,7 @@
       "id": "ac-09.complete",
       "group": "rules",
       "rule": "RULE-03",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -6094,7 +6094,7 @@
       "implementation": "pending",
       "declaredOwner": "01-07",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "ac-10.complete",
@@ -8828,7 +8828,7 @@
       "id": "R-49.positive",
       "group": "rules",
       "rule": "R-49",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -8842,13 +8842,13 @@
       "polarity": "positive",
       "declaredOwner": "01-05..01-09",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "R-49.negative",
       "group": "rules",
       "rule": "R-49",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -8862,7 +8862,7 @@
       "polarity": "negative",
       "declaredOwner": "01-05..01-09",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "R-50.positive",
@@ -10111,7 +10111,7 @@
       "id": "R-82.positive",
       "group": "rules",
       "rule": "R-82",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -10125,13 +10125,13 @@
       "polarity": "positive",
       "declaredOwner": "01-05..01-09",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "R-82.negative",
       "group": "rules",
       "rule": "R-82",
-      "owner": "Phase 5",
+      "owner": "Phase 11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -10145,7 +10145,7 @@
       "polarity": "negative",
       "declaredOwner": "01-05..01-09",
       "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
-      "acceptancePhase": 5
+      "acceptancePhase": 11
     },
     {
       "id": "R-83.positive",

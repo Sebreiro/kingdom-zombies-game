@@ -370,7 +370,7 @@ Plans:
 
 ### Phase 5: CI and repeatable game testing
 
-Include the rendered case IDs assigned to Phase ### Phase 5: CI and repeatable game testing in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+Include the rendered case IDs assigned to Phase 5 in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
 The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) assigned this phase the 18 rendered Phase 4 IDs due at the asset handoff, the 21 affected inherited rendered regressions, the four named judgments P1–P4, the physical driver declaration and the `world.replacement` engine-race follow-up. Under the 2026-11-23 amendment Phase 5 keeps the 21 inherited regressions, one inspection-hub smoke scenario with the four judgments, and the engine-race follow-up. The other 17 rendered IDs and the driver declaration move to Phase 11.
 
@@ -386,7 +386,12 @@ The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.
 4. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure using each run's report, failure brief, replay command, logs, state observations and required rendered images. Deliberate missing-dependency, zero-discovery, skipped-required-case, crash, timeout, missing-peer and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
 5. The reduced phase-end selection always includes the budgeted Critical smoke set, all new/changed cases and affected regressions, with explicit omissions and no false full-suite claim. Phase 1 rule-suite groups are selected only when their declared inputs change, and a check confirms that every specification edge ID has a unit test. The implementation → review/fix → grouped run/log → batch repair → failed-case checks → entire-selected-set pass is proven on the development OS at 1280×720 without a VM.
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+- [ ] [05-01](phases/05-ci-and-repeatable-game-testing/05-01-PLAN.md) Shared catalog, selection and report
+- [ ] [05-02](phases/05-ci-and-repeatable-game-testing/05-02-PLAN.md) Pure tests, headless smoke and basic CI
+- [ ] [05-03](phases/05-ci-and-repeatable-game-testing/05-03-PLAN.md) Inherited rendered groups and asset checks
+- [ ] [05-04](phases/05-ci-and-repeatable-game-testing/05-04-PLAN.md) Review, measured runs and verification
 **UI hint:** yes
 
 **Delivery boundary:** Build one shared runner over the existing Phase 2–4 scenario definitions and keep the Phase 1–4 runners (`verification`, `gameplay-checks`, `lan-checks` and `asset-pipeline` under `src/godot-game/tools/`) callable as suites instead of rewriting them. Prove exact discovery, execution, exit status and report reconciliation for the shared runner; use a bounded repository-owned scene harness if a candidate test adapter fails compatibility. Automate the delivered rules/menu/LAN/content foundations now and catalog later feature and release cases as planned. Test drivers exercise production input/commands, with observation separated from mutation and test-only authority controls excluded from release builds. Measured coverage, the eight transferred certification IDs, full hosted Windows/Linux runs, evidence reuse, exhaustive runner certification, the other 17 Phase 4 rendered cases and the Phase 1 follow-ups belong to Phase 11 and receive no pass credit here.
