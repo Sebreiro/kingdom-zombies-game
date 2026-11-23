@@ -8,6 +8,7 @@ const crypto = require('node:crypto');
 const { spawn, spawnSync } = require('node:child_process');
 const { parseJson } = require('./bootstrap.cjs');
 const {launch}=require('../dotnet.cjs');
+const workspace = require('../workspace-paths.cjs');
 const groups = ['pins', 'runner', 'register', 'rules', 'graph', 'state', 'engine', 'docs', 'coverage', 'platform'];
 const digest = data => crypto.createHash('sha256').update(data).digest('hex');
 const fileHash = file => digest(fs.readFileSync(file));
@@ -123,10 +124,7 @@ function killTree(child) {
   else { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }
 }
 function environment(root) {
-  const home = path.join(root, '.phase1');
-  return { ...process.env, DOTNET_CLI_HOME: path.join(home, 'cli-home'),
-    NUGET_PACKAGES: process.env.PHASE1_PACKAGE_CACHE ?? path.join(home, 'packages'),
-    NUGET_HTTP_CACHE_PATH: path.join(home, 'http-cache'), TEMP: path.join(home, 'temp'), TMP: path.join(home, 'temp'), TMPDIR: path.join(home, 'temp'),
+  return { ...workspace.isolationEnv(root),
     DOTNET_CLI_TELEMETRY_OPTOUT: '1', TESTINGPLATFORM_TELEMETRY_OPTOUT: '1', DOTNET_NOLOGO: '1', DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1',
     PHASE1_ROOT: root, PHASE1_NODE: process.execPath };
 }
@@ -711,18 +709,18 @@ async function main(root, args) {
   const manifest = read(path.join(root, 'src/godot-game/tools/verification/required-cases.json'));
   const selection = select(manifest, args);
   if (selection.list) { console.log(JSON.stringify(selection.selected, null, 2)); return; }
-  const nonce = crypto.randomUUID(), home = path.join(root, '.phase1');
-  fs.mkdirSync(home, { recursive: true });
-  const lock = path.join(home, 'check.lock');
+  const nonce = crypto.randomUUID(), where = workspace.locations(root);
+  workspace.assertSharedIgnored(root);
+  const lock = where.locks.check;
+  fs.mkdirSync(path.dirname(lock), { recursive: true });
   let lockFd;
   try { lockFd = fs.openSync(lock, 'wx'); } catch (error) {
-    if (error.code === 'EEXIST') reject('CHECK_LOCKED', 'Another check owns .phase1/check.lock; interrupted locks require inspection');
+    if (error.code === 'EEXIST') reject('CHECK_LOCKED', 'Another check owns .local/locks/check.lock; interrupted locks require inspection');
     throw error;
   }
   fs.writeFileSync(lockFd, JSON.stringify({ nonce, pid: process.pid, started: new Date().toISOString() }));
-  const directory = path.join(home, 'runs', nonce);
-  fs.mkdirSync(directory, { recursive: true });
-  for (const name of ['temp', 'cli-home', 'http-cache']) fs.mkdirSync(path.join(home, name), { recursive: true });
+  const directory = where.runs('verification', nonce);
+  workspace.ensure(directory, where.temp(), where.cliHome, where.nuget.http, where.nuget.scratch);
   const context = { root, directory, nonce, children: new Set(), commands: [], platform: `${process.platform}-${process.arch}-${os.release()}` };
   const failures = [], accepted = [];
   let before;

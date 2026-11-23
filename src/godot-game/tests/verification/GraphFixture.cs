@@ -128,8 +128,7 @@ internal sealed class GraphFixture
             }
         }
 
-        start.Environment[key: "DOTNET_CLI_HOME"] = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/cli-home");
-        start.Environment[key: "NUGET_PACKAGES"] = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/packages");
+        WorkspacePaths.Isolate(start: start);
         start.Environment[key: "MSBUILDDISABLENODEREUSE"] = "1";
         foreach (string argument in arguments)
         {
@@ -148,7 +147,7 @@ internal sealed class GraphFixture
         }
 
         string text = output.GetAwaiter().GetResult() + error.GetAwaiter().GetResult();
-        string logs = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp");
+        string logs = WorkspacePaths.TempFolder;
         Directory.CreateDirectory(path: logs);
         File.WriteAllText(path: Path.Combine(path1: logs, path2: "graph-" + Guid.NewGuid().ToString(format: "N")
                 + ".log"), contents: text);

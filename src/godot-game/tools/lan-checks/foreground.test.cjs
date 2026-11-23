@@ -1,8 +1,18 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),test=require('node:test'),assert=require('node:assert/strict');
 const scenarios=require('./scenarios.cjs'),delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-function fixture(){
-  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+const workspace=require('../workspace-paths.cjs');
+// Each control is removed after its test; the shared root, an emptied controls folder and the variable after the file.
+const controls=workspace.locations().temp('lan-checks'),remove=directory=>fs.rmSync(directory,{recursive:true,force:true,maxRetries:3});
+function control(prefix){for(;;){fs.mkdirSync(controls,{recursive:true});try{return fs.mkdtempSync(path.join(controls,prefix));}catch(error){if(error.code!=='ENOENT')throw error;}}}
+const shared=control('shared-'),priorShared=process.env.KZ_SHARED_LOCAL;process.env.KZ_SHARED_LOCAL=shared;
+test.after(()=>{
+  remove(shared);if(priorShared===undefined)delete process.env.KZ_SHARED_LOCAL;else process.env.KZ_SHARED_LOCAL=priorShared;
+  try{fs.rmdirSync(path.join(controls,'controls'));}catch(error){if(!['ENOENT','ENOTEMPTY','EEXIST','EBUSY','EPERM'].includes(error.code))throw error;}
+  try{fs.rmdirSync(controls);}catch(error){if(!['ENOENT','ENOTEMPTY','EEXIST','EBUSY','EPERM'].includes(error.code))throw error;}
+});
+function fixture(t){
+  const directory=path.join(controls,'controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});t.after(()=>remove(directory));
   let foreground=null;const trace=[],pending=[];
   const values=[1,2].map(pid=>{
     const local=path.join(directory,String(pid));fs.mkdirSync(local);
@@ -22,12 +32,12 @@ function fixture(){
     }};return {peer,input};
   });return {values,trace};
 }
-test('actual exported focus-plus-click operations serialize across independent helpers',async()=>{
-  const {values,trace}=fixture();await Promise.all(values.map(value=>scenarios.click(value.input,value.peer,'Browser/JoinAddress')));
+test('actual exported focus-plus-click operations serialize across independent helpers',async t=>{
+  const {values,trace}=fixture(t);await Promise.all(values.map(value=>scenarios.click(value.input,value.peer,'Browser/JoinAddress')));
   assert.deepEqual(trace.map(row=>row.slice(0,2)),[[1,'focus'],[1,'click'],[2,'focus'],[2,'click']]);
 });
-test('final-slot procedure prepares serially then concurrently delivers PID-targeted native events honestly',async()=>{
-  const {values,trace}=fixture(),delivery=await scenarios.raceJoins({},values);
+test('final-slot procedure prepares serially then concurrently delivers PID-targeted native events honestly',async t=>{
+  const {values,trace}=fixture(t),delivery=await scenarios.raceJoins({},values);
   assert.equal(delivery.method,'window-message');assert.equal(delivery.physicalInputCredit,false);
   assert.deepEqual(delivery.acknowledgments.map(ack=>ack.pid),[1,2]);
   assert.ok(delivery.acknowledgments.every(ack=>ack.nativeInputEvents>0&&ack.nativeDrawFrame>0&&ack.preparedControlDrawFrame>0));

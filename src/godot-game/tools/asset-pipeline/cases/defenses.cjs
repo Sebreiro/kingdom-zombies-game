@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need,sharedFile}=require('../content.cjs');
+const workspace=require('../../workspace-paths.cjs');
 const {PYTHON}=require('../python.cjs');
 const ART_FILES=['src/godot-game/assets/buildings/defenses.png','src/godot-game/content/packs/defenses.json','production/phase4/defenses.zip','tools/phase4/cases/defenses.cjs'];
 const ART_INPUTS=[...ART_FILES,'production/phase4/common-selected.zip','production/phase4/main-buildings.zip','src/godot-game/content/packs/common.json','src/godot-game/content/packs/main-buildings.json'];
@@ -129,7 +130,7 @@ const NEGATIVES=[
  ['frame-functional','assembly','samples/6/newConstruction',false,'SAMPLE_STATE'],
  ['restore-replay','assembly','restoration/replayAttack',true,'RESTORATION']
 ].map(([id,pack,path,value,code])=>({id,pack,path,value,code}));
-function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function isolated(){return {...workspace.isolationEnv(ROOT),PHASE1_ROOT:ROOT};}
 async function nativeState(context){
  const project=inside(context.directory,'native-defense');fs.mkdirSync(project);
  write(project,'Directory.Build.props',Buffer.from('<Project />'));write(project,'Directory.Build.targets',Buffer.from('<Project />'));
@@ -143,7 +144,7 @@ async function nativeState(context){
  const build=await runner.command(context,'defenses-harness-build','dotnet',['build',inside(project,'DefenseProof.csproj'),'--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-p:RestoreIgnoreFailedSources=true','-v:q'],{env:isolated()});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'DEFENSE_HARNESS_CLEAN');
  const tool=require('./items.cjs').engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
- const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'DEFENSE_ARCHIVE_PIN');
+ const archive=sharedFile('downloads',pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'DEFENSE_ARCHIVE_PIN');
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),entry=pin.directory+'/'+path.basename(executable);
  const auth=await runner.command(context,'defenses-engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); n=sys.argv[2]; rows=[r for r in z.infolist() if r.filename==n]; assert len(rows)==1 and 0<rows[0].file_size<=268435456; print(hashlib.sha256(z.read(n)).hexdigest())',archive,entry]);
  const nativeHash=hash(fs.readFileSync(executable));need(nativeHash===auth.stdout.trim(),'DEFENSE_NATIVE_ENTRY_PIN');

@@ -7,6 +7,7 @@ const { spawnSync } = require('node:child_process');
 const baseline = require('../verification/check.cjs');
 const { rendered, command } = require('./rendered.cjs');
 const evidence = require('./evidence.cjs');
+const workspace = require('../workspace-paths.cjs');
 const {hash,requireTrue,inside,read,reconcile,loadReport,aggregate,verifyCompletion} = evidence;
 function select(catalog, args) {
   requireTrue(args.length === 1 && ['--all','--list'].includes(args[0]) || args.length === 2 && ['--case','--group','--failed'].includes(args[0]), 'USAGE: --case ID | --group GROUP | --all | --failed REPORT | --list');
@@ -16,7 +17,9 @@ function select(catalog, args) {
   return {list:args[0]==='--list',selected};
 }
 function acquireLock(root,nonce) {
-  const file=inside(root,'.phase2/desktop.lock');
+  // One machine has one desktop, so every checkout of the repository shares this lock.
+  const file=workspace.locations(root).locks.desktop;
+  workspace.assertSharedIgnored(root);
   fs.mkdirSync(path.dirname(file),{recursive:true});
   let fd;
   try { fd=fs.openSync(file,'wx'); } catch(error) {if(error.code==='EEXIST')throw new Error('DESKTOP_LOCKED: another run or interrupted-run lock; inspect recorded owner before removing');throw error;}
@@ -67,7 +70,8 @@ async function main(root,args) {
     requireTrue(args.length>1,'COMPLETION_EMPTY');
     const references=args.slice(1).map(relative=>({path:relative,sha256:hash(fs.readFileSync(inside(root,relative)))}));
     const completion={schemaVersion:1,...aggregate(root,references,catalog.cases),reviews:[]};
-    const relative='.phase2/completions/'+crypto.randomUUID()+'.json',file=inside(root,relative);
+    const file=workspace.locations(root).runs('gameplay-checks','completions',crypto.randomUUID()+'.json');
+    const relative=path.relative(root,file).replaceAll('\\','/');
     fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(completion,null,2),{flag:'wx'});
     console.log(completion.status.toUpperCase()+' '+relative+'; appearance review required separately');
     if(completion.missing.length)process.exitCode=1;return completion;
@@ -82,7 +86,7 @@ async function main(root,args) {
     repairOf={path:original.path,sha256:original.sha256,revision:original.summary.revision};
   }
   const nonce=crypto.randomUUID(),platform=process.platform+'-'+process.arch;
-  const directory=inside(root,'.phase2/runs/'+platform+'/'+nonce);
+  const directory=workspace.locations(root).runs('gameplay-checks',platform,nonce);
   fs.mkdirSync(directory,{recursive:true});
   const started=Date.now(),results=[],failures=[];
   const manifest=inputManifest(selection.selected);
@@ -104,8 +108,8 @@ async function main(root,args) {
       unlock=acquireLock(root,nonce);
       const pins=read(path.join(root,'src/godot-game/tools/verification/toolchain.json')),archive=pins.archives[platform];
       requireTrue(archive,'PLATFORM_UNSUPPORTED');
-      const engine=inside(root,'.phase1/tools/'+archive.directory+'/'+archive.executable);
-      requireTrue(fs.existsSync(engine),'ENGINE_MISSING');
+      const engine=workspace.locations(root).tools('godot',archive.directory,archive.executable);
+      requireTrue(fs.existsSync(engine),'ENGINE_MISSING');requireTrue(workspace.insideShared(engine,root),'ENGINE_OUTSIDE_SHARED');
       const executableHash=hash(fs.readFileSync(engine));
       if(archive.executableSha256)requireTrue(executableHash===archive.executableSha256,'ENGINE_HASH');
       context.engine=process.platform==='win32'?engine.replace('_console.exe','.exe'):engine;
@@ -141,7 +145,7 @@ function inputManifest(selected){
   return {inputs:['src','.editorconfig','docs/code']};
 }
 function environment(root){
-  return {...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
+  return workspace.isolationEnv(root);
 }
 function toolIdentity(root,env=environment(root)){
   const version=spawnSync('dotnet',['--version'],{cwd:dotnetLaunch(root,'dotnet',[]).cwd,env,encoding:'utf8',windowsHide:true,timeout:12000});

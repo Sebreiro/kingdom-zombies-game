@@ -81,6 +81,7 @@ function exactHistoricalPayload(original,sample,wav){
   return {id:original.id,source:original.source,frames:mediaBytes.frames,pcmSha256:mediaBytes.pcmSha256,wavSha256:hash(wav)};
 }
 async function extract(context,executable=PYTHON){
+  runner.extractorRoot('extract-audio.py',inside(context.directory,IDS[0]),'audio-feasibility extract');
   const results=[];
   for(const id of IDS){
     const destination=inside(context.directory,id);

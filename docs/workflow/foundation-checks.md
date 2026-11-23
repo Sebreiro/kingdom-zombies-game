@@ -1,6 +1,6 @@
 # Foundation checks
 
-The small Phase 2 runner checks the ordinary menu and playable foundation. The [temporary testing policy](pre-phase5-testing.md) governs Phases 2–4: implement the whole phase, review and fix its code, then run rendered cases on the development OS at 1280×720. Other-OS and 1920×1080 acceptance and dependency-aware reuse certification remain Phase 5 work. Prepared tools and historical reports supply no new pass.
+The small Phase 2 runner checks the ordinary menu and playable foundation. The [temporary testing policy](pre-phase5-testing.md) governs Phases 2–4: implement the whole phase, review and fix its code, then run rendered cases on the development OS at 1280×720. Since the 2026-11-23 amendment, full hosted Windows/Linux runs and evidence reuse validation are Phase 11 work under TEST-12, Phase 5 delivers dependency-aware selection, and 1920×1080 acceptance keeps its own owner under the [local testing strategy](local-testing.md). Prepared tools and historical reports supply no new pass.
 
 Use the pinned tools and workspace-local environment in [setup](setup.md). Build the existing solution before pure checks; no new project or package is required:
 
@@ -50,17 +50,17 @@ All rendered cases require launch menu, initial scene, right-facing, left-facing
 
 ## Evidence and focused repairs
 
-Every run creates a new `.phase2/runs/<platform>/<nonce>/summary.json`, input snapshot, case results and logs. A shared native `session/` contains unique capture IDs, state JSON, PNGs, request audit, native input acknowledgements and game log. Reports record the tested Git revision, source fingerprint, tool identity, nonce, platform, timing and each selected case's pass/fail/blocked status. Never edit a run, replace an image or overwrite a failure. Legacy schema-1 runs remain historical and are not accepted as schema-2 repair baselines. Runs are deleted at task end; run repair, completion and validation commands before [cleanup](cleanup.md).
+Every run creates a new `.local/runs/gameplay-checks/<platform>/<nonce>/summary.json` in the checkout that ran it, input snapshot, case results and logs. A shared native `session/` contains unique capture IDs, state JSON, PNGs, request audit, native input acknowledgements and game log. Reports record the tested Git revision, source fingerprint, tool identity, nonce, platform, timing and each selected case's pass/fail/blocked status. Never edit a run, replace an image or overwrite a failure. Legacy schema-1 runs remain historical and are not accepted as schema-2 repair baselines. Runs are deleted at task end; run repair, completion and validation commands before [cleanup](cleanup.md).
 
 Scenario assertions are collected. When safe, the runner releases owned held keys and returns through Escape before continuing independent cases. A process crash or unsuccessful reset explicitly blocks remaining cases. Native input and observations each have a 12-second deadline; Quit has eight seconds; bound traversal has a 65-second wall-clock budget per side. Pure cases have 180 seconds. Timed-out owned child trees are terminated. The native game is cleaned up at the end, without terminating unrelated processes. A desktop lock refuses simultaneous rendered invocations; pure checks have separate invocation directories. After an interrupted runner leaves a lock, inspect its recorded PID and the owned game before removing that exact stale lock.
 
 After collecting errors, batch repairs and rerun only failed or blocked cases from the printed report path:
 
 ```sh
-node src/godot-game/tools/gameplay-checks/check.cjs --failed .phase2/runs/win32-x64/BASELINE-NONCE/summary.json
+node src/godot-game/tools/gameplay-checks/check.cjs --failed .local/runs/gameplay-checks/win32-x64/BASELINE-NONCE/summary.json
 ```
 
-A repair run keeps its own revision, fingerprint, nonce and images and binds the original report path/hash/revision in `repairOf`. If a repair still fails, use its report as the next `--failed` baseline. Earlier passes remain tied to their original reports even when repairs changed source fingerprints; this is the creator-authorized temporary policy, without Phase 5 reuse certification.
+A repair run keeps its own revision, fingerprint, nonce and images and binds the original report path/hash/revision in `repairOf`. If a repair still fails, use its report as the next `--failed` baseline. Earlier passes remain tied to their original reports even when repairs changed source fingerprints; this is the creator-authorized temporary policy, without the evidence reuse validation that Phase 11 delivers under TEST-12.
 
 Link the pure reports, initial rendered report and each focused repair in chronological order:
 
@@ -68,7 +68,7 @@ Link the pure reports, initial rendered report and each focused repair in chrono
 node src/godot-game/tools/gameplay-checks/check.cjs --complete CORE-REPORT RUNNER-REPORT RENDERED-REPORT REPAIR-REPORT
 ```
 
-The command writes a new `.phase2/completions/<nonce>.json` with immutable report references, hashes, latest per-case outcomes and missing cases. It requires all 16 distinct catalog cases for `coverage-complete`. A later failure supersedes an earlier pass; reordered/duplicate reports, missing repair baselines or wrong repair selections are rejected. Source fingerprints are preserved but are not required to match between authorized repair runs. This coverage record does not imply appearance approval.
+The command writes a new `.local/runs/gameplay-checks/completions/<nonce>.json` with immutable report references, hashes, latest per-case outcomes and missing cases. It requires all 16 distinct catalog cases for `coverage-complete`. A later failure supersedes an earlier pass; reordered/duplicate reports, missing repair baselines or wrong repair selections are rejected. Source fingerprints are preserved but are not required to match between authorized repair runs. This coverage record does not imply appearance approval.
 
 Copy the generated completion JSON into a new review record, preserve its `reports`, and add a `reviews` entry for each catalog-required image in the accepted case results. Additional observation images remain available for diagnosis:
 

@@ -4,7 +4,7 @@ const fs=require('node:fs'),path=require('node:path');
 const {isDeepStrictEqual:equal}=require('node:util');
 const {registerCase,cases,command}=require('../check.cjs');
 const tool=require('../export.cjs');
-const {ROOT,need,write,inside,parse,hash,document}=require('../content.cjs');
+const {ROOT,need,write,inside,parse,hash,document,sharedFile}=require('../content.cjs');
 const PACK='KingdomZombies.pck',INDEX='content/pack-index.json',AUTHORITY='content/expected-obligations.json';
 const MISSING='content/packs/items-11-24.json',MISSING_ID='IT-11',SIBLING_ID='IT-07';
 
@@ -91,9 +91,9 @@ func verify_items():
 async function fixtureEngine(context){
   const pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
   const name=pin.executable.replace('_console.exe','.exe'),entry=pin.directory+'/'+name;
-  const archive=inside(ROOT,'.phase1/cache/'+pin.file);
+  const archive=sharedFile('downloads',pin.file);
   need(await tool.digest(archive)===pin.sha256,'PORTABLE_FIXTURE_ENGINE_ARCHIVE');
-  const executable=inside(ROOT,'.phase1/tools/'+entry);
+  const executable=sharedFile('tools',pin.directory,name);
   const program="Add-Type -AssemblyName System.IO.Compression.FileSystem; "+
     "$zip=[IO.Compression.ZipFile]::OpenRead('"+archive.replaceAll("'","''")+"'); "+
     "try { $rows=@($zip.Entries | Where-Object { $_.FullName -ceq '"+entry+"' }); "+

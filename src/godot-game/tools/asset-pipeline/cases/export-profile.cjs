@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'../../../../..');
-const runner=require('../check.cjs');
+const runner=require('../check.cjs'),content=require('../content.cjs'),workspace=require('../../workspace-paths.cjs');
 const PROFILE='production/phase4/export-profile.json',PROJECT='src/godot-game/project.godot',PRESET='src/godot-game/export_presets.cfg';
 const FEATURE='asset_inspection',BASE='application/run/main_scene',QUALIFIED=BASE+'.'+FEATURE;
 const FOUNDATION='res://foundation/Foundation.tscn',INSPECTION='res://inspection/Inspection.tscn';
@@ -114,9 +114,8 @@ function productionSources(){
   for(const directory of ['src/godot-game/core','src/godot-game/multiplayer-abstractions','src/godot-game/game','src/godot-game/tools/code-rules'])walk(directory);
   return Object.fromEntries([...new Set(files)].sort().map(file=>[file,runner.hash(read(ROOT,file))]));
 }
-function buildEnvironment(context){const base=path.join(ROOT,'.phase1');return {...runner.environment(context.directory),
-  DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),
-  NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function buildEnvironment(context){const isolation=workspace.isolationEnv(ROOT);return {...runner.environment(context.directory),
+  ...Object.fromEntries(workspace.ISOLATION_KEYS.map(key=>[key,isolation[key]])),PHASE1_ROOT:ROOT};}
 function copyRuntime(project){
   const relative='src/godot-game/game/.godot/mono/temp/bin/Debug',source=runner.inside(ROOT,relative),files=fs.readdirSync(source).sort();
   need(files.length>0&&files.length<=32,'PROFILE_ASSEMBLY_COUNT',relative);const closure=[];let total=0;
@@ -185,9 +184,9 @@ func inspect():
 async function observe(root,context,name='profile',expected={qualified:INSPECTION,inspection:INSPECTION,active:false,actual:FOUNDATION}){
   const pins=runner.document(ROOT,'src/godot-game/tools/verification/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'PROFILE_PLATFORM','src/godot-game/tools/verification/toolchain.json');
-  const relative='.phase1/tools/'+pin.directory+'/'+pin.executable,console=runner.inside(ROOT,relative);
-  need(runner.hash(fs.readFileSync(console))===pin.executableSha256,'PROFILE_ENGINE_HASH',relative);
-  const archive=runner.inside(ROOT,'.phase1/cache/'+pin.file),nativeName=pin.executable.replace('_console.exe','.exe');
+  const console=content.sharedFile('tools',pin.directory,pin.executable);
+  need(runner.hash(fs.readFileSync(console))===pin.executableSha256,'PROFILE_ENGINE_HASH',console);
+  const archive=content.sharedFile('downloads',pin.file),nativeName=pin.executable.replace('_console.exe','.exe');
   need(runner.hash(fs.readFileSync(archive))===pin.sha256,'PROFILE_ARCHIVE_HASH',pin.file);
   const authentication=await runner.command(context,name+'-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
     "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+archive.replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.Name -ceq '"+nativeName+"' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
@@ -252,8 +251,9 @@ async function observe(root,context,name='profile',expected={qualified:INSPECTIO
   write(context.directory,name+'-observations.json',observation);return observation;
 }
 async function profileCase(context){const before=snapshot(ROOT);write(context.directory,'inputs.json',before);
-  const checkpoint=runner.document(ROOT,CONTRACT.checkpoint);for(const row of checkpoint)
-    need(runner.hash(read(ROOT,CONTRACT.checkpoint.replace('manifest.json','')+row.path))===row.sha256,'PROFILE_CHECKPOINT',row.path);
+  // The pinned checkpoint identity resolves through the workspace map; the inputs it names were declared lost.
+  const manifest=content.legacyLocal(CONTRACT.checkpoint),checkpoint=runner.document(ROOT,manifest);for(const row of checkpoint)
+    need(runner.hash(read(ROOT,manifest.replace('manifest.json','')+row.path))===row.sha256,'PROFILE_CHECKPOINT',row.path);
   need(checkpoint.some(row=>row.path==='tools/phase4/check.cjs'&&row.sha256===CONTRACT.fullRunnerBeforeProfileSha256),
     'PROFILE_CHECKPOINT','tools/phase4/check.cjs');
   const observation=await observe(ROOT,context);need(JSON.stringify(snapshot(ROOT))===JSON.stringify(before),'PROFILE_SOURCE_CHANGED',PROJECT);
@@ -456,7 +456,7 @@ function selfTest(){
 function helperSelfTest(){
   const {test}=require('node:test'),assert=require('node:assert/strict');
   test('bounded command rejects a deadline exceeding sixty seconds before spawning',async()=>{
-    const parent=path.join(ROOT,'.phase4/tdd/04-35');fs.mkdirSync(parent,{recursive:true});
+    const parent=path.join(ROOT,content.tempPath('tdd','04-35'));fs.mkdirSync(parent,{recursive:true});
     const directory=fs.mkdtempSync(path.join(parent,'helper-red-'));
     await assert.rejects(runner.command({directory},'oversized-deadline',process.execPath,['-e','process.exit(0)'],{timeout:60001}),
       /COMMAND_TIMEOUT_RANGE/,'a caller cannot extend the bounded child deadline');

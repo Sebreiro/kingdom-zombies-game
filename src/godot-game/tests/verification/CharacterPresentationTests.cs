@@ -207,7 +207,7 @@ public sealed class CharacterPresentationTests
     [Fact]
     public void PublicBoundary_ExpandedRegistry_IsRejected()
     {
-        string directory = Path.Combine(path1: Root(), path2: ".phase1/temp/animation-visibility-"
+        string directory = WorkspacePaths.Temp(purpose: "animation-visibility-"
                 + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: Path.Combine(path1: directory, path2: "docs/code"));
         JsonNode registry = JsonNode.Parse(json: File.ReadAllText(path: Path.Combine(path1: Root(),

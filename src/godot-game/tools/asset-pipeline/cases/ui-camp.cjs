@@ -1,10 +1,11 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const workspace=require('../../workspace-paths.cjs');
 const PACK='src/godot-game/content/packs/ui-camp.json',DATA='src/godot-game/content/ui/camp-panels.json';
 const CODE='src/godot-game/inspection/CampLayouts.cs',TEST='src/godot-game/tests/verification/CampLayoutTests.cs';
 const PATHS=['content/ui/camp-panels.json','content/config/items.json','content/world/main-assemblies.json','content/world/defense-assemblies.json','content/world/map.json','content/packs/ui-identity.json','assets/ui/InspectionTheme.tres','assets/ui/LiberationSans.ttf','assets/ui/PerfectDOSVGA437.ttf','assets/ui/Fallback.ttf','assets/equipment/items-01-10.png','assets/equipment/items-11-24.png','assets/common/donor-kit.png'];
-function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function isolated(){return {...workspace.isolationEnv(ROOT),PHASE1_ROOT:ROOT};}
 function sourceInputs(){const files=[PACK,DATA,CODE,TEST,'tools/phase4/cases/ui-camp.cjs',...PATHS.map(x=>'src/godot-game/'+x)];for(const folder of ['src/godot-game/core','src/godot-game/game','src/godot-game/multiplayer-abstractions']){function walk(dir){for(const row of fs.readdirSync(inside(ROOT,dir),{withFileTypes:true})){if(row.isDirectory()&&!['obj','bin','.godot'].includes(row.name))walk(dir+'/'+row.name);else if(row.isFile()&&/\.(cs|csproj)$/.test(row.name))files.push(dir+'/'+row.name);}}walk(folder);}return [...new Set(files)].sort().map(file=>({file,sha256:hash(bytes(ROOT,file))}));}
 function validateSource(pack,data){
  need(pack.id==='ui-camp'&&pack.sampleDataOnly===true&&pack.gameplayTransactions===false&&pack.visualReview===null&&equal(pack.completedObligations,[])&&equal(pack.obligations,['UI-16','UI-17','UI-18','UI-19']),'CAMP_SCOPE');

@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need,sharedFile}=require('../content.cjs');
 const {PYTHON}=require('../python.cjs');
 function prior(){return require('./bodies-a.cjs');}
 const profiles={b:['CH-04','CH-05','CH-08'],c:['CH-06','CH-07']};
@@ -122,8 +122,8 @@ print(json.dumps({'bodies':len(pack['bodies']),'poses':len(pack['bodies'])*16,'p
 async function art(context,profile){validate(profile);const name='verify-bodies-'+profile+'.py',script=inside(context.directory,name);write(context.directory,name,Buffer.from(verifier()));const result=await runner.command(context,'body-source-'+profile,PYTHON,[script,ROOT,profile]);return JSON.parse(result.stdout);}
 async function authenticate(context){
  const tool=require('./items.cjs').engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
- const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'BODY_ARCHIVE_PIN');
- const result=await runner.command(context,'body-native-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',"Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+ const archive=sharedFile('downloads',pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'BODY_ARCHIVE_PIN');
+ const result=await runner.command(context,'body-native-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',"Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+sharedFile('downloads','Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe'));need(hash(fs.readFileSync(executable))===result.stdout.trim()&&!executable.endsWith('_console.exe'),'BODY_NONCONSOLE_PIN');return executable;
 }
 function harness(ids){

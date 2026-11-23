@@ -188,7 +188,7 @@ public sealed class GeneratedExportLayoutTests
 
     private static string Local(string path)
     {
-        return Path.Combine(path1: ProofProtocol.Root, path2: path);
+        return Path.Combine(path1: ProofProtocol.Root, path2: WorkspacePaths.Physical(identity: path));
     }
 
     private static string Hash(byte[] bytes)

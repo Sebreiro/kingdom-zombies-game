@@ -1,9 +1,20 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
-const fs=require('node:fs');
-test('parallel PNG validation keeps observations responsive and preserves exact validation and hashes',async()=>{
-  const path=require('node:path'),crypto=require('node:crypto'),parallel=require('./png-worker.cjs');
-  const directory=fs.mkdtempSync(path.resolve(__dirname,'../../../../.phase3/png-worker-control-'));
+const fs=require('node:fs'),path=require('node:path');
+// Controls live in this checkout's temp folder; a temporary shared root keeps them off the real one.
+const workspace=require('../workspace-paths.cjs');
+// Each control is removed after its test; the shared root, an emptied controls folder and the variable after the file.
+const controls=workspace.locations().temp('lan-checks'),remove=directory=>fs.rmSync(directory,{recursive:true,force:true,maxRetries:3});
+function control(prefix){for(;;){fs.mkdirSync(controls,{recursive:true});try{return fs.mkdtempSync(path.join(controls,prefix));}catch(error){if(error.code!=='ENOENT')throw error;}}}
+const shared=control('shared-'),priorShared=process.env.KZ_SHARED_LOCAL;process.env.KZ_SHARED_LOCAL=shared;
+test.after(()=>{
+  remove(shared);if(priorShared===undefined)delete process.env.KZ_SHARED_LOCAL;else process.env.KZ_SHARED_LOCAL=priorShared;
+  try{fs.rmdirSync(path.join(controls,'controls'));}catch(error){if(!['ENOENT','ENOTEMPTY','EEXIST','EBUSY','EPERM'].includes(error.code))throw error;}
+  try{fs.rmdirSync(controls);}catch(error){if(!['ENOENT','ENOTEMPTY','EEXIST','EBUSY','EPERM'].includes(error.code))throw error;}
+});
+test('parallel PNG validation keeps observations responsive and preserves exact validation and hashes',async t=>{
+  const crypto=require('node:crypto'),parallel=require('./png-worker.cjs');
+  const directory=control('png-worker-control-');t.after(()=>remove(directory));
   const file=path.join(directory,'actual.png'),broken=path.join(directory,'broken.png');
   fs.writeFileSync(file,require('./runner-fixture.cjs').png());
   const bytes=fs.readFileSync(file),expected={...require('./png.cjs').validate(file),sha256:crypto.createHash('sha256').update(bytes).digest('hex')};
@@ -58,9 +69,9 @@ test('reversal requires later leftward drawn motion while still ahead of an olde
     assert.throws(()=>evaluate({...row,reversalWitness:{...row.reversalWitness,...delta}}));
   assert.throws(()=>evaluate({...row,reversalWitness:null}));
 });
-test('draw stream polling retains partial Unicode and refuses truncation',()=>{
+test('draw stream polling retains partial Unicode and refuses truncation',t=>{
   const path=require('node:path'),crypto=require('node:crypto'),{lines}=require('./rendered.cjs');
-  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const directory=path.join(controls,'controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});t.after(()=>remove(directory));
   const file=path.join(directory,'draws.ndjson'),row=Buffer.from(JSON.stringify({frame:1,label:'雪'})+'\n');
   const split=row.indexOf(Buffer.from('雪'))+1;fs.writeFileSync(file,row.subarray(0,split));assert.deepEqual(lines(file),[]);
   fs.appendFileSync(file,row.subarray(split));assert.deepEqual(lines(file),[{frame:1,label:'雪'}]);
@@ -68,13 +79,13 @@ test('draw stream polling retains partial Unicode and refuses truncation',()=>{
   fs.writeFileSync(file,'');assert.throws(()=>lines(file),/TRUNCATED/);
 });
 
-test('the full reconciler binds every stopped scalar to current release, authority and peer draws',()=>{
-  require('./stopped-fixture.cjs').run();
+test('the full reconciler binds every stopped scalar to current release, authority and peer draws',t=>{
+  const directory=control('stopped-control-');t.after(()=>remove(directory));require('./stopped-fixture.cjs').run(directory);
 });
 
-test('capture waits for atomic JSON publication and brackets the complete PNG read',async()=>{
+test('capture waits for atomic JSON publication and brackets the complete PNG read',async t=>{
   const path=require('node:path'),crypto=require('node:crypto'),r=require('./rendered.cjs');
-  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const directory=path.join(controls,'controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});t.after(()=>remove(directory));
   const context={directory,nonce:'atomic-control'},peer={directory,pid:123,role:'control',exit:null};
   const pending=r.capture(context,peer,'atomic');
   const request=JSON.parse(fs.readFileSync(path.join(directory,'draw.request'),'utf8')),file=path.join(directory,request.checkpoint+'.json');

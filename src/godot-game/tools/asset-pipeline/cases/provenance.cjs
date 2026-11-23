@@ -243,8 +243,8 @@ async function publication(context){
   need(hash(bytes(publicationRoot,'current.json'))===pointer,'MISSING_BYTES_PUBLISHED');
   failure(context,'original-root-denied','PUBLICATION_ROOT_DENIED',()=>content.destination('D:/Work/Games/KindomCrown/recovered'));
   failure(context,'root-escape-denied','PUBLICATION_ROOT_DENIED',()=>content.destination(path.join(ROOT,'../outside')));
-  failure(context,'encoding-escape-denied','PATH_INVALID',()=>content.inside(ROOT,'.phase4/%2e%2e/outside'));
-  failure(context,'windows-device-denied','PATH_INVALID',()=>content.inside(ROOT,'.phase4/con.txt'));
+  failure(context,'encoding-escape-denied','PATH_INVALID',()=>content.inside(ROOT,content.runsPath()+'/%2e%2e/outside'));
+  failure(context,'windows-device-denied','PATH_INVALID',()=>content.inside(ROOT,content.runsPath()+'/con.txt'));
   const junction=inside(context.directory,'reparse');fs.symlinkSync(publicationRoot,junction,process.platform==='win32'?'junction':'dir');
   try{failure(context,'reparse-denied','PATH_REPARSE',()=>content.destination(junction));}finally{fs.unlinkSync(junction);}
   const runs=[];

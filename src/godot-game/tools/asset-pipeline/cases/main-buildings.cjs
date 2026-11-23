@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need,sharedFile}=require('../content.cjs');
+const workspace=require('../../workspace-paths.cjs');
 const {PYTHON,engine}=require('./items.cjs');
 const ART_FILES=['src/godot-game/assets/buildings/main-tiers.png','src/godot-game/content/packs/main-buildings.json','production/phase4/main-buildings.zip','tools/phase4/cases/main-buildings.cjs'];
 function fingerprint(files){return files.map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}));}
@@ -205,7 +206,7 @@ public sealed partial class BuildingHarness : Node
  }
 }
 `;
-function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function isolated(){return {...workspace.isolationEnv(ROOT),PHASE1_ROOT:ROOT};}
 async function compiled(context){
  const assembly=inside(ROOT,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
  const discovery=await runner.command(context,'buildings-discovery','dotnet',[assembly,'--list-tests','--filter-class','*BuildingPresentationTests','--no-ansi'],{env:isolated()});
@@ -229,10 +230,10 @@ async function nativeState(context){
  const harnessBuild=await runner.command(context,'buildings-harness-build','dotnet',['build',inside(project,'MainBuildingProof.csproj'),'--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-p:RestoreIgnoreFailedSources=true','-v:q'],{env:isolated()});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(harnessBuild.stdout),'BUILDING_HARNESS_CLEAN_BUILD');
  const tool=engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
- const archive=inside(ROOT,'.phase1/cache/'+pin.file),name=pin.executable.replace('_console.exe','.exe');
+ const archive=sharedFile('downloads',pin.file),name=pin.executable.replace('_console.exe','.exe');
  need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'BUILDING_ARCHIVE_PIN');
  const authentication=await runner.command(context,'buildings-native-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
-  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1 -or $entry.Length -le 0 -or $entry.Length -gt 268435456){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+sharedFile('downloads','Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1 -or $entry.Length -le 0 -or $entry.Length -gt 268435456){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
  const executable=path.join(path.dirname(tool.executable),name),nativeHash=hash(fs.readFileSync(executable));need(/^[a-f0-9]{64}$/.test(authentication.stdout.trim())&&nativeHash===authentication.stdout.trim(),'BUILDING_NATIVE_ENTRY_PIN');
  write(context.directory,'engine.json',{...tool,consoleExecutable:tool.executable,executable,sha256:nativeHash,archiveSha256:pin.sha256,archiveEntry:pin.directory+'/'+name});
  const version=await runner.command(context,'buildings-engine-version',executable,['--headless','--version']);need(version.stdout.trim()===tool.version,'BUILDING_ENGINE_VERSION');

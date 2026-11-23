@@ -1597,7 +1597,7 @@ public sealed class ContinuationIndentAnalyzerTests
         """;
     private static async Task FormatterAgreesAsync(string caseId, string diagnostic, string source)
     {
-        string directory = System.IO.Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/format-"
+        string directory = WorkspacePaths.Temp(purpose: "format-"
                 + System.Guid.NewGuid().ToString(format: "N"));
         System.IO.Directory.CreateDirectory(path: directory);
         string standalone = source.EndsWith(value: "\n", comparisonType: Ordinal) ? source : source + "\n";

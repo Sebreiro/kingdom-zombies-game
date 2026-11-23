@@ -3,6 +3,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),zlib=require('node:zlib');
 const assert=require('node:assert/strict'),e=require('./evidence.cjs'),p=require('./processes.cjs');
 const {acquireLock}=require('../gameplay-checks/check.cjs'),{select}=require('./check.cjs');
+const workspace=require('../workspace-paths.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function png(){
   const {crc}=require('./png.cjs');
@@ -35,7 +36,7 @@ function fixture(directory){
   return {context,selected,results:[first,second],artifact};
 }
 async function run(mode){
-  const root=path.resolve(__dirname,'../../../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const root=path.resolve(__dirname,'../../../..'),directory=workspace.locations(root).temp('lan-checks','controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   if(mode==='integrity'){
     const controls=await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'src/godot-game/tools/lan-checks/navigation.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/selection.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/foreground.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/revisions.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/rendered-stream.test.cjs')],{cwd:root},35000);
     const controlFile=path.join(directory,'integrity-controls.process.json');fs.writeFileSync(controlFile,JSON.stringify(controls,null,2),{flag:'wx'});
@@ -93,11 +94,16 @@ async function run(mode){
     const original=e.hash(fs.readFileSync(file));assert.throws(()=>fs.writeFileSync(file,'replacement',{flag:'wx'}),/EEXIST/);
     const second=path.join(directory,'repeat');fs.mkdirSync(second);const fresh=fixture(second);assert.notEqual(fresh.context.nonce,context.nonce);e.reconcile(fresh.selected,fresh.results,fresh.context);
     assert.equal(e.hash(fs.readFileSync(file)),original);
-    const lockRoot=path.join(directory,'desktop');fs.mkdirSync(lockRoot);const unlock=acquireLock(lockRoot,context.nonce);
-    try{await assert.rejects(p.run(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs'),lockRoot],{cwd:root},1000),/CHILD_EXIT/);}
-    finally{unlock();}
-    const release=acquireLock(lockRoot,crypto.randomUUID()),lockFile=path.join(lockRoot,'.phase2/desktop.lock');
-    fs.writeFileSync(lockFile,'foreign-owner');assert.throws(release,/OWNERSHIP_CHANGED/);assert.equal(fs.readFileSync(lockFile,'utf8'),'foreign-owner');
+    // The desktop lock lives in the shared root; a temporary shared root keeps this control and its child off the real one.
+    const lockRoot=path.join(directory,'desktop'),previous=process.env.KZ_SHARED_LOCAL;fs.mkdirSync(lockRoot);
+    process.env.KZ_SHARED_LOCAL=path.join(lockRoot,'shared');
+    try{
+      const unlock=acquireLock(lockRoot,context.nonce);
+      try{await assert.rejects(p.run(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs'),lockRoot],{cwd:root},1000),/CHILD_EXIT/);}
+      finally{unlock();}
+      const release=acquireLock(lockRoot,crypto.randomUUID()),lockFile=workspace.locations(lockRoot).locks.desktop;
+      fs.writeFileSync(lockFile,'foreign-owner');assert.throws(release,/OWNERSHIP_CHANGED/);assert.equal(fs.readFileSync(lockFile,'utf8'),'foreign-owner');
+    }finally{if(previous===undefined)delete process.env.KZ_SHARED_LOCAL;else process.env.KZ_SHARED_LOCAL=previous;}
     console.log('PASS reordered exact evidence, distinct repeat nonces, immutable original and actual concurrent lock refusal; foreign lock retained');
   }else throw new Error('UNKNOWN_CONTROL');
   console.log('CONTROL_DIRECTORY '+directory);return {mode,directory};

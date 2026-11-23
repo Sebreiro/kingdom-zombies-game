@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {isDeepStrictEqual:equal}=require('node:util');
 const runner=require('../check.cjs');
-const {ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const {ROOT,inside,bytes,document,write,hash,need,tempPath,sharedFile}=require('../content.cjs');
 const {pcm}=require('./audio-feasibility.cjs');
 const {PYTHON}=require('../python.cjs');
 const PACK='src/godot-game/content/packs/audio-actions.json';
@@ -204,7 +204,8 @@ pack['bundleSha256']=sha((root/'audio-actions.zip').read_bytes())
 print(json.dumps({'samples':len(pack['samples']),'members':len(members),'sourceApproval':approval['id']}))
 `;
 async function promote(){
-  const context={directory:inside(ROOT,'.phase4/audio-approved/'+crypto.randomUUID())};fs.mkdirSync(context.directory,{recursive:true});
+  const context={directory:inside(ROOT,tempPath('audio-approved',crypto.randomUUID()))};
+  runner.capturedRoot(PROMOTE,context.directory,'audio --approve-actions');fs.mkdirSync(context.directory,{recursive:true});
   for(const [target,source]of [['presented-manifest.json',PACK],['presented.zip',ZIP],
     ['coordinator-record.md','.planning/phases/04-asset-production/04-21-APPROVAL-AND-RESUME.md']])fs.copyFileSync(inside(ROOT,source),inside(context.directory,target));
   write(context.directory,'approval.json',APPROVAL);fs.writeFileSync(inside(context.directory,'promote.py'),PROMOTE);
@@ -221,8 +222,8 @@ function validateApproval(pack){
 }
 function inputs(){return Object.fromEntries(['tools/phase4/cases/audio.cjs','tools/phase4/extract-audio.py',PACK,BANK,ZIP].map(x=>[x,hash(bytes(ROOT,x))]));}
 async function prepare(){
-  const context={directory:inside(ROOT,'.phase4/audio-candidates/'+crypto.randomUUID())};
-  fs.mkdirSync(context.directory,{recursive:true});
+  const context={directory:inside(ROOT,tempPath('audio-candidates',crypto.randomUUID()))};
+  runner.capturedRoot(ASSEMBLE,context.directory,'audio --prepare');fs.mkdirSync(context.directory,{recursive:true});
   fs.writeFileSync(inside(context.directory,'decode.py'),decoderRecipe());
   fs.writeFileSync(inside(context.directory,'assemble.py'),ASSEMBLE);
   write(context.directory,'selection.json',{candidates:CANDIDATES,coverage:COVERAGE});
@@ -419,8 +420,8 @@ function finishEvents(root,expected,state){
   return {...state,preservedExisting:state.existed,verifiedFinal:true};
 }
 async function publishInterface(directory){
-  const staged=path.resolve(directory);need(staged.startsWith(inside(ROOT,'.phase4')+path.sep),'INTERFACE_STAGING_ROOT');
-  const context={directory:inside(ROOT,'.phase4/audio-publication/'+crypto.randomUUID())};fs.mkdirSync(context.directory,{recursive:true});
+  const staged=path.resolve(directory);need(staged.startsWith(inside(ROOT,tempPath())+path.sep),'INTERFACE_STAGING_ROOT');
+  const context={directory:inside(ROOT,tempPath('audio-publication',crypto.randomUUID()))};fs.mkdirSync(context.directory,{recursive:true});
   const p=document(staged,'audio-interface-ambience.json'),e=eventCatalog(p),bank=bytes(staged,'interface-ambience.wav');
   validateInterface(p,bank,e);const expectedEvents=serializeEvents(e),eventState=preflightEvents(ROOT,expectedEvents);
   const known={
@@ -694,7 +695,8 @@ pack['bundleSha256']=sha((root/'audio-interface-ambience.zip').read_bytes())
 print(json.dumps({'sources':len(sources),'variants':len(samples),'zipBytes':(root/'audio-interface-ambience.zip').stat().st_size,'bankBytes':len(wav(bank.tobytes()))}))
 `;
 async function prepareInterface(){
-  const context={directory:inside(ROOT,'.phase4/audio-interface/'+crypto.randomUUID())};fs.mkdirSync(context.directory,{recursive:true});
+  const context={directory:inside(ROOT,tempPath('audio-interface',crypto.randomUUID()))};
+  runner.capturedRoot(INTERFACE_ASSEMBLE,context.directory,'audio --prepare-interface');fs.mkdirSync(context.directory,{recursive:true});
   fs.writeFileSync(inside(context.directory,'decode-interface.py'),interfaceDecoder());fs.writeFileSync(inside(context.directory,'assemble-interface.py'),INTERFACE_ASSEMBLE);
   write(context.directory,'selection.json',{candidates:INTERFACE_CANDIDATES,actionsZip:inside(ROOT,ZIP)});
   for(const [key,id]of INTERFACE_CANDIDATES)await runner.command(context,'decode-'+key+id,PYTHON,
@@ -846,7 +848,7 @@ module.exports={CANDIDATES,COVERAGE,ASSEMBLE,PROMOTE,APPROVAL,decoderRecipe,prep
   INTERFACE_CANDIDATES,INTERFACE_ASSEMBLE,interfaceDecoder,eventCatalog,prepareInterface,publishInterface,validateInterface,archiveBytes,publishArchive,bank};
 if(require.main===module){
   const command=process.argv[2];
-  (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--prepare-interface'?prepareInterface():command==='--publish-interface'?publishInterface(process.argv[3]):command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
+  (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--prepare-interface'?prepareInterface():command==='--publish-interface'?publishInterface(process.argv[3]):command==='--technical'?technical({directory:(fs.mkdirSync(inside(ROOT,tempPath()),{recursive:true}),fs.mkdtempSync(inside(ROOT,tempPath('audio-technical-'))))}):
     Promise.reject(new Error('USAGE --prepare | --technical'))).then(value=>{if(value)console.log(JSON.stringify(value));}).catch(error=>{console.error(error.stack);process.exitCode=1;});
 }
 
@@ -1553,7 +1555,7 @@ async function audioHub(context,sourceInputs,heldout=false){
  write(project,'audio-hub-probe.gd',Buffer.from(AUDIO_HUB_DRIVER.replace(' # AUDIO_HELDOUT_HUB',heldout?AUDIO_HELDOUT_HUB:'')));
  const engine=document(context.directory,'inventory-engine.json');
  const pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
- need(hash(fs.readFileSync(inside(ROOT,'.phase1/cache/'+pin.file)))===pin.sha256
+ need(hash(fs.readFileSync(sharedFile('downloads',pin.file)))===pin.sha256
   &&engine.archiveSha256===pin.sha256&&hash(fs.readFileSync(engine.executable))===engine.sha256,'AUDIO_HUB_ENGINE_AUTH');
  write(context.directory,'audio-hub-engine.json',engine);
  const nonce=context.nonce+'.hub',env={...require('./defenses.cjs').isolated(),AUDIO_HUB_NONCE:nonce};

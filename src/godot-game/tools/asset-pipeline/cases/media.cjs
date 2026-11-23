@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash,sharedFile}=require('../content.cjs');
 const {PYTHON}=require('../python.cjs');
 // The pinned extractor runs through the live entry point, which binds it to this checkout's root.
 const EXTRACT='tools/phase4/extract-media.py',RUN_EXTRACTOR='src/godot-game/tools/asset-pipeline/run-extractor.py',COMMON='src/godot-game/content/packs/common.json';
@@ -24,7 +24,7 @@ function validateCommon(pack){
 function engine(){
   const pins=document(ROOT,'src/godot-game/tools/verification/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'MEDIA_PLATFORM_PIN');
-  const executable=inside(ROOT,'.phase1/tools/'+pin.directory+'/'+pin.executable),stat=fs.statSync(executable);
+  const executable=sharedFile('tools',pin.directory,pin.executable),stat=fs.statSync(executable);
   need(stat.isFile()&&stat.size>0&&stat.size<=268435456,'MEDIA_ENGINE_FILE');
   need(hash(fs.readFileSync(executable))===pin.executableSha256,'MEDIA_ENGINE_HASH');
   return {executable,version:pins.engineFullVersion,sha256:pin.executableSha256};
@@ -101,6 +101,7 @@ async function nativeConversion(context){
   return {observed:run.stdout.trim(),headless:true};
 }
 async function conversion(context){
+  runner.extractorRoot('extract-media.py',inside(context.directory,'controls'),'media conversion-controls');
   const initial=inputs(FILES);write(context.directory,'inputs.json',initial);
   const pack=validateCommon(document(ROOT,COMMON));
   const verified=await runner.command(context,'portable-common',PYTHON,['-B',inside(ROOT,RUN_EXTRACTOR),'extract-media.py','--verify-common',

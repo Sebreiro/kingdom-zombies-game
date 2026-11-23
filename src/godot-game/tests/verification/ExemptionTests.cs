@@ -328,7 +328,7 @@ public sealed class ExemptionTests
     [Fact, Trait("Case", "rules.xunit-producer-root")]
     public void Generate_NormalCheckout_VerifiesExactProducer()
     {
-        string file = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/xunit-effective-"
+        string file = WorkspacePaths.Temp(purpose: "xunit-effective-"
                 + Guid.NewGuid().ToString(format: "N") + ".xml");
         (int Exit, string Output) result = ConfigurationTests.Dotnet("msbuild", ConfigurationTests.Projects[4],
                 "-nologo", "-preprocess:" + file);
@@ -422,8 +422,8 @@ public sealed class ExemptionTests
             string target = Path.Combine(path1: fake, path2: relative);
             Directory.CreateDirectory(path: Path.GetDirectoryName(path: target)
                     ?? throw new InvalidDataException(message: "Producer target parent missing"));
-            File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root,
-                    path2: ".phase1/packages/xunit.v3.core.mtp-v2/4.0.2", path3: relative), destFileName: target);
+            File.Copy(sourceFileName: Path.Combine(path1: WorkspacePaths.NuGetPackages,
+                    path2: "xunit.v3.core.mtp-v2/4.0.2", path3: relative), destFileName: target);
         }
 
         string task = Path.Combine(path1: fake, path2: _producerFiles[2]);

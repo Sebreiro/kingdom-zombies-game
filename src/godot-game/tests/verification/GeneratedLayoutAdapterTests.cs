@@ -115,7 +115,8 @@ public sealed class GeneratedLayoutAdapterTests
 
         )
         {
-            string path = Local(path: ".phase1/temp/invalid-source-" + Guid.NewGuid().ToString(format: "N") + ".cs");
+            string path = WorkspacePaths.Temp(purpose: "invalid-source-" + Guid.NewGuid().ToString(format: "N")
+                    + ".cs");
             File.WriteAllBytes(path: path, bytes: bytes);
             Should.Throw<DecoderFallbackException>(actual: () => InheritedAnalyzerVerifier.ReadUtf8(path: path));
         }
@@ -189,7 +190,7 @@ public sealed class GeneratedLayoutAdapterTests
 
     private static string Local(string path)
     {
-        return Path.Combine(path1: ProofProtocol.Root, path2: path);
+        return Path.Combine(path1: ProofProtocol.Root, path2: WorkspacePaths.Physical(identity: path));
     }
 
     private static string Hash(string path)

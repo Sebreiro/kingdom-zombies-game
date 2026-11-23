@@ -4,6 +4,7 @@ const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
 const {spawnSync}=require('node:child_process');
 const zlib=require('node:zlib'),{pipeline}=require('node:stream/promises'),{Readable}=require('node:stream');
 const {physical,logical}=require('./layout.cjs');
+const workspace=require('../workspace-paths.cjs');
 const ROOT=path.resolve(__dirname,'../../../..'),INDEX='src/godot-game/content/pack-index.json';
 const EXPECTED='tools/phase4/expected-obligations.json',MAX_FILE=32*1024*1024,MAX_TOTAL=256*1024*1024;
 const PACKAGED_EXPECTED='src/godot-game/content/expected-obligations.json',EXPECTED_BYTES=25345;
@@ -34,6 +35,35 @@ function inside(root,name){
     if(fs.existsSync(current))need(!fs.lstatSync(current).isSymbolicLink(),'PATH_REPARSE',name);
   }
   return target;
+}
+// This checkout's asset-pipeline runs and scratch, spelled relative to a checkout root for the in-checkout path checks.
+function workspacePath(absolute){return path.relative(workspace.checkoutRoot(),absolute).split(path.sep).join('/');}
+function runsPath(...parts){return workspacePath(workspace.locations().runs('asset-pipeline',...parts));}
+function tempPath(...parts){return workspacePath(workspace.locations().temp('asset-pipeline',...parts));}
+function feedPath(...parts){return workspacePath(path.join(workspace.locations().nuget.feed,...parts));}
+// Historical record identities resolve through the workspace map, still relative to the checkout.
+function legacyLocal(identity){
+  const absolute=workspace.legacyPath(identity);need(absolute,'LEGACY_PATH_UNKNOWN',identity);
+  const rel=workspacePath(absolute);need(!rel.startsWith('..')&&!path.isAbsolute(rel),'LEGACY_PATH_SHARED',identity);return rel;
+}
+// The narrow shared-root allowance: Godot downloads, the Godot editor and NuGet packages, read from the
+// repository's shared root by real path. Everything else stays inside the checkout.
+function sharedFile(kind,...parts){
+  const where=workspace.locations(),file=kind==='downloads'?where.downloads('godot',...parts):kind==='tools'?
+    where.tools('godot',...parts):kind==='packages'?path.join(where.nuget.packages,...parts):null;
+  need(file&&parts.every(part=>typeof part==='string'&&part.length>0&&!part.includes('..'))&&workspace.insideShared(file),
+    'SHARED_PATH_DENIED',kind+' '+parts.join('/'));
+  need(!workspace.linkedComponent(where.shared,file),'PATH_REPARSE',file);
+  return file;
+}
+function legacyShared(identity){
+  const absolute=workspace.legacyPath(identity);need(absolute&&workspace.insideShared(absolute),'LEGACY_PATH_NOT_SHARED',identity);
+  need(!workspace.linkedComponent(workspace.locations().shared,absolute),'PATH_REPARSE',identity);return absolute;
+}
+// Shared files obey the same single-link rule as bytes(): no hard link to another name.
+function sharedBytes(file,limit){
+  const stat=fs.statSync(file);need(stat.isFile()&&stat.nlink===1&&stat.size>0&&stat.size<=limit,'FILE_INVALID',file);
+  const value=fs.readFileSync(file);need(value.length===stat.size,'FILE_CHANGED',file);return value;
 }
 function bytes(root,name){
   const file=inside(root,name),stat=fs.statSync(file),limit=name==='production/phase4/audio-interface-ambience.zip'?64*1024*1024:MAX_FILE;
@@ -466,7 +496,8 @@ function merge(base,addition){
 }
 function destination(root){
   const absolute=path.resolve(root),repo=fs.realpathSync.native(ROOT),rel=logical(path.relative(repo,absolute).split(path.sep).join('/'));
-  need(rel.startsWith('.phase4/')||rel.startsWith('production/phase4/published/'),'PUBLICATION_ROOT_DENIED',rel);
+  need(rel.startsWith(runsPath()+'/')||rel.startsWith(tempPath()+'/')||rel.startsWith('production/phase4/published/'),
+    'PUBLICATION_ROOT_DENIED',rel);
   relative(rel);
   // Write where the reparse and escape walk ran: the physical folder layout.cjs resolves `rel` to.
   return inside(repo,rel);
@@ -620,5 +651,5 @@ async function worker(args){
   }});
   console.log(JSON.stringify(result));
 }
-module.exports={ROOT,INDEX,EXPECTED,PACKAGED_EXPECTED,EXPECTED_BYTES,EXPECTED_SHA256,hash,need,text,relative,inside,bytes,parse,document,expected,packagedExpected,sourceKey,resolveOrigin,validate,merge,destination,write,publish,readPublished,recoverPublication,worker,normalizeCurrent,archive,authenticateArchive,archiveBounds,validateCompletedSources,retainedCommon,retainedRecipe,retainedParts,retainedInterface,retainedFonts,retainedWork};
+module.exports={ROOT,INDEX,runsPath,tempPath,feedPath,legacyLocal,legacyShared,sharedFile,sharedBytes,EXPECTED,PACKAGED_EXPECTED,EXPECTED_BYTES,EXPECTED_SHA256,hash,need,text,relative,inside,bytes,parse,document,expected,packagedExpected,sourceKey,resolveOrigin,validate,merge,destination,write,publish,readPublished,recoverPublication,worker,normalizeCurrent,archive,authenticateArchive,archiveBounds,validateCompletedSources,retainedCommon,retainedRecipe,retainedParts,retainedInterface,retainedFonts,retainedWork};
 if(require.main===module)worker(process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

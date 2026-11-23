@@ -40,7 +40,8 @@ public sealed class PinEdgeTests
         (int Exit, string Output) result = fixture.Run();
         result.Exit.ShouldBe(expected: 1, customMessage: result.Output);
         result.Output.ShouldContain(expected: "MANIFEST_EMPTY");
-        Directory.Exists(path: Path.Combine(path1: fixture.Root, path2: ".phase1/runs")).ShouldBeFalse();
+        Directory.Exists(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.VerificationRuns))
+                .ShouldBeFalse();
         ProofProtocol.Record(id: "edge.rule-01.empty", diagnostic: "MANIFEST_EMPTY", location: path);
     }
 
@@ -107,7 +108,7 @@ public sealed class PinEdgeTests
         second.Output.ShouldContain(expected: "CHECK_LOCKED");
         RunnerProcessFixture.Finish(child: first).Exit.ShouldBe(expected: 0);
         fixture.Summary()["status"]?.GetValue<string>().ShouldBe(expected: "pass");
-        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: ".phase1/runs"),
+        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.VerificationRuns),
                 searchPattern: "summary.json", searchOption: SearchOption.AllDirectories).Length.ShouldBe(expected: 1);
         ProofProtocol.Record(id: "edge.rule-01.concurrency", diagnostic: "PINS_CONCURRENT_ISOLATION",
                 location: ready + ": competing coordinator CHECK_LOCKED, one complete fresh summary");

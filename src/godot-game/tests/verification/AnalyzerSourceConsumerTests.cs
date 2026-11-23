@@ -74,8 +74,7 @@ public sealed class AnalyzerSourceConsumerTests
 
     private static string CreateConsumer()
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/analyzer-source-" + Guid
-                .NewGuid().ToString(format: "N"));
+        string directory = WorkspacePaths.Temp(purpose: "analyzer-source-" + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string project = Path.Combine(path1: directory, path2: "AnalyzerConsumer.csproj");
         string sources = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools/code-rules").Replace(

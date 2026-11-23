@@ -48,7 +48,7 @@ public sealed class RunnerContractTests
         RequiredText(row: summary, name: "status").ShouldBe(expected: "pass");
         (summary["results"] ?? throw new InvalidDataException(message: "RESULTS_REQUIRED"))
                 .AsArray().Count.ShouldBe(expected: 1);
-        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: ".phase1/runs"),
+        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.VerificationRuns),
                 searchPattern: "summary.json", searchOption: SearchOption.AllDirectories).Length.ShouldBe(expected: 1);
         AssertPidsExited(fixture: fixture);
         ProofProtocol.Record(id: "edge.rule-03.concurrency", diagnostic: "CONCURRENT_CHECK_EVIDENCE_ISOLATED",
@@ -201,8 +201,8 @@ public sealed class RunnerContractTests
     {
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
         fixture.Run().Exit.ShouldBe(expected: 0);
-        string prior = Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: ".phase1",
-                path3: "runs"), searchPattern: "fixture.pass.proof.json", searchOption: SearchOption
+        string prior = Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths
+                .VerificationRuns), searchPattern: "fixture.pass.proof.json", searchOption: SearchOption
                         .AllDirectories).Single();
         File.Copy(sourceFileName: prior, destFileName: Path.Combine(path1: fixture.Root, path2: "prior.proof.json"));
         using Process child = fixture.StartMode(mode: "stale");
@@ -244,14 +244,14 @@ public sealed class RunnerContractTests
         AwaitReady(fixture: fixture);
         first.Kill(entireProcessTree: true);
         first.WaitForExit(milliseconds: 1000).ShouldBeTrue();
-        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: ".phase1", path3: "runs"),
+        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.VerificationRuns),
                 searchPattern: "summary.json", searchOption: SearchOption.AllDirectories).ShouldBeEmpty();
         AssertPidsExited(fixture: fixture);
         fixture.Run().Output.ShouldContain(expected: "CHECK_LOCKED");
-        File.Delete(path: Path.Combine(path1: fixture.Root, path2: ".phase1", path3: "check.lock"));
+        File.Delete(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.CheckLock));
         using Process next = fixture.StartMode(mode: "pass");
         RunnerProcessFixture.Finish(child: next).Exit.ShouldBe(expected: 0);
-        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: ".phase1", path3: "runs"),
+        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.VerificationRuns),
                 searchPattern: "summary.json", searchOption: SearchOption.AllDirectories).Length.ShouldBe(expected: 1);
         ProofProtocol.Record(id: "runner.process.interrupted", diagnostic: "NO_PARTIAL_PUBLICATION",
                 location: "killed real coordinator and fresh rerun");
@@ -558,7 +558,8 @@ public sealed class RunnerContractTests
         result.Exit.ShouldBe(expected: 1);
         result.Output.ShouldContain(expected: "MANIFEST_TIMEOUT");
         File.Exists(path: Path.Combine(path1: fixture.Root, path2: "child.pid")).ShouldBeFalse();
-        Directory.Exists(path: Path.Combine(path1: fixture.Root, path2: ".phase1/runs")).ShouldBeFalse();
+        Directory.Exists(path: Path.Combine(path1: fixture.Root, path2: WorkspacePaths.VerificationRuns))
+                .ShouldBeFalse();
     }
 
     private static void VerifyCapacityExecution()

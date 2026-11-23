@@ -8,11 +8,13 @@ const {spawnSync} = require('node:child_process');
 
 const ROOT = path.resolve(__dirname, '../../../../..');
 const check = require('../check.cjs');
+const content = require('../content.cjs');
+const workspace = require('../../workspace-paths.cjs');
 
 function rejectsMissingCompletion() {
   const result = spawnSync(process.execPath, [
     'tools/phase4/check.cjs', '--verify-completion',
-    '.phase4/missing-phase4-runner-negative-fixture/completion.json'
+    content.tempPath('missing-phase4-runner-negative-fixture','completion.json')
   ], {cwd:ROOT, encoding:'utf8', windowsHide:true, timeout:15000});
   assert.ifError(result.error);
   assert.equal(result.status, 1, result.stderr);
@@ -50,7 +52,7 @@ function baseFixture() {
 function rejectsInvalidWave() {
   const e = require('../evidence.cjs');
   const {current,review} = baseFixture();
-  const relative = '.phase4/tdd/04-30-wave-' + crypto.randomUUID();
+  const relative = content.tempPath('tdd','04-30-wave-' + crypto.randomUUID());
   const ref = e.writeExclusive(ROOT,relative+'/sample.wav',Buffer.from('An exact digest does not make text into a WAV.'));
   const sample = {id:'AU-01/test-wave', version:'1', sampleSha256:ref.sha256};
   const verdict = {...current,...sample,kind:'listening',reviewer:'Test Reviewer',reviewedAt:review.reviewedAt,
@@ -327,10 +329,18 @@ function buildIdentityControls(directory,reject) {
 // A hard-terminated attempt keeps start.json without a terminal. The receipt is refused while its runner or a journaled
 // owned launch survives, then records a failed interruption that the campaign history accepts.
 async function interruptionControls(directory,reject) {
+  // The desktop lock lives in the shared root; a temporary shared root keeps this control off the real one.
+  const previous = process.env.KZ_SHARED_LOCAL;
+  process.env.KZ_SHARED_LOCAL = path.join(directory,'hard-termination-shared');
+  try {await hardTermination(directory,reject);}
+  finally {if (previous === undefined) delete process.env.KZ_SHARED_LOCAL; else process.env.KZ_SHARED_LOCAL = previous;}
+}
+
+async function hardTermination(directory,reject) {
   const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
   const {current,report,item} = baseFixture();
   const root = path.join(directory,'hard-termination'), campaign = crypto.randomUUID(), invocation = crypto.randomUUID();
-  const relative = '.phase4/acceptance/'+invocation;
+  const relative = content.runsPath('acceptance',invocation), lock = workspace.locations(root).locks.desktop;
   const drivers = e.writeExclusive(root,relative+'/declared-drivers.json',{campaign});
   const opening = {...current,schemaVersion:1,invocation,campaign,startedAt:report.startedAt,previousInvocation:null,kind:'initial',
     selected:[item.id],drivers,reviewSha256:'a'.repeat(64),selectionSha256:'b'.repeat(64),gateRevision:'0'.repeat(40),
@@ -338,7 +348,8 @@ async function interruptionControls(directory,reject) {
   e.writeExclusive(root,relative+'/start.json',opening);
   e.writeExclusive(root,relative+'/owned-processes.ndjson',Buffer.from([{pid:910,trackedAt:2000},{pid:910,trackedAt:2000,exitedAt:3000},
     {pid:920,trackedAt:40000}].map(row => JSON.stringify(row)).join('\n')+'\n'));
-  e.writeExclusive(root,'.phase2/desktop.lock',{pid:900,nonce:invocation,at:report.startedAt});
+  fs.mkdirSync(path.dirname(lock),{recursive:true});
+  fs.writeFileSync(lock,JSON.stringify({pid:900,nonce:invocation,at:report.startedAt},null,2)+'\n',{flag:'wx'});
   const row = (pid, parent, created) => ({pid,parent,created});
   const record = (rows, cases = new Map([[item.id,item]])) => scenarios.recordInterruption(root,invocation,{rows:cases,
     observer:{inventory:() => ({self:999,rows}),kill:() => assert.fail('An interruption receipt never kills'),now:() => 100000}});
@@ -348,7 +359,7 @@ async function interruptionControls(directory,reject) {
   };
   // A refusal changes nothing: the lock stays with the attempt and no receipt is written, so the call can be retried.
   const untouched = () => {
-    assert.equal(fs.existsSync(path.join(root,'.phase2/desktop.lock')),true);
+    assert.equal(fs.existsSync(lock),true);
     assert.deepEqual(fs.readdirSync(path.join(root,relative)).sort(),['declared-drivers.json','owned-processes.ndjson','start.json']);
   };
   await rejectAsync('interruption-unresolved-case',/RENDERED_INTERRUPTION_CASE/,() => record([row(900,1,50000)],new Map()));
@@ -359,7 +370,7 @@ async function interruptionControls(directory,reject) {
   untouched();
   const recorded = await record([row(900,1,50000),row(910,4,60000),row(930,910,61000),row(920,4,70000),row(940,920,3000)]);
   assert.equal(recorded.releasedLock,true);
-  assert.equal(fs.existsSync(path.join(root,'.phase2/desktop.lock')),false);
+  assert.equal(fs.existsSync(lock),false);
   const history = e.historyDocuments(root,[recorded.report],campaign);
   assert.equal(history[0].status,'fail');
   assert.deepEqual(history[0].outcomes.map(row => row.status),['blocked']);
@@ -372,7 +383,7 @@ function campaignHistoryControls(directory,reject) {
   const {current,report} = baseFixture();
   const campaign = crypto.randomUUID();
   const create = (row,terminal) => {
-    const relative = '.phase4/acceptance/'+row.invocation;
+    const relative = content.runsPath('acceptance',row.invocation);
     const drivers = e.writeExclusive(directory,relative+'/declared-drivers.json',{campaign});
     const identity = {...current,...row,campaign,drivers};
     const start = e.writeExclusive(directory,relative+'/start.json',identity);
@@ -390,14 +401,14 @@ function campaignHistoryControls(directory,reject) {
   reject('submitted-campaign-terminal-mismatch',/EVIDENCE_CAMPAIGN_REFERENCE/,() =>
     e.historyDocuments(directory,[first,{...end,sha256:'f'.repeat(64)}],campaign));
   // A declaration that never wrote start.json launched nothing, even when its declared time was in the future.
-  e.writeExclusive(directory,'.phase4/acceptance/'+crypto.randomUUID()+'/declared-drivers.json',
+  e.writeExclusive(directory,content.runsPath('acceptance',crypto.randomUUID(),'declared-drivers.json'),
     {campaign,declaredAt:'2099-01-01T00:00:00.000Z'});
   const head = e.git(ROOT,['rev-parse','HEAD']).trim(), parent = e.git(ROOT,['rev-parse','HEAD~1']).trim();
   const scope = {head,reviewSha256:'a'.repeat(64),selectionSha256:'b'.repeat(64)};
   assert.equal(e.historyDocuments(directory,[first,end],campaign,scope).length,2);
   // A second campaign may not hide an attempt made under the same review, selection or gate lineage.
   const attempt = (base, owner, fields = {}) => {
-    const relative = '.phase4/acceptance/'+crypto.randomUUID();
+    const relative = content.runsPath('acceptance',crypto.randomUUID());
     const drivers = e.writeExclusive(base,relative+'/declared-drivers.json',{campaign:owner});
     const opening = {...current,...report,invocation:path.posix.basename(relative),campaign:owner,drivers,
       reviewSha256:'c'.repeat(64),selectionSha256:'d'.repeat(64),gateRevision:'0'.repeat(40),...fields};
@@ -475,7 +486,7 @@ function sourceHistoryControls(directory, reject) {
   const root = path.join(directory,'source-history');
   fs.mkdirSync(root);
   function invocation(revision, at, status, node = 'v24.22.1') {
-    const nonce = crypto.randomUUID(), prefix = '.phase4/runs/'+nonce+'/';
+    const nonce = crypto.randomUUID(), prefix = content.runsPath(nonce)+'/';
     const opened = {caseId:item.id,nonce,revision,startedAt:at,platform:'win32',node,scope:'source/headless; zero game windows'};
     e.writeExclusive(root,prefix+'invocation.json',opened);
     if (status !== null) e.writeExclusive(root,prefix+'result.json',{...opened,status,finishedAt:at,observations:{fixture:true}});
@@ -484,7 +495,7 @@ function sourceHistoryControls(directory, reject) {
   const old = invocation(current.revision,report.startedAt,'pass');
   const admitted = new Map([[item.id,old]]);
   e.writeExclusive(root,'src/godot-game/tools/verification/toolchain.json',{node:'24.22.1'});
-  const priorRef = e.reference(root,'.phase4/runs/'+old.nonce+'/result.json');
+  const priorRef = e.reference(root,content.runsPath(old.nonce,'result.json'));
   const latest = () => scenarios.latestPhase4Sources(root,admitted,current.revision,same).get(item.id);
   invocation(other,'2026-11-20T12:00:00.000Z','fail');
   invocation(current.revision,'2026-11-20T12:30:00.000Z','fail','v24.1.0');
@@ -509,7 +520,7 @@ function sourceHistoryControls(directory, reject) {
     reject('old-pass-hides-missing-current-result',/COMPLETION_LATER_SOURCE_FAILURE/,() => verify(priorRef));
     const repaired = invocation(current.revision,'2026-11-20T11:04:00.000Z','pass');
     reject('old-pass-cannot-claim-new-pass',/COMPLETION_SOURCE_REFERENCE_SUPERSEDED/,() => verify(priorRef));
-    const repairedRef = e.reference(root,'.phase4/runs/'+repaired.nonce+'/result.json');
+    const repairedRef = e.reference(root,content.runsPath(repaired.nonce,'result.json'));
     assert(verify(repairedRef).has(item.id),'fresh selected result can resolve prior failures');
   } finally {e.identifySource=originalIdentify;e.sameCommittedSource=originalSame;}
 }
@@ -529,7 +540,7 @@ function inheritedReceiptControls(directory,reject) {
     e.writeExclusive(root,'tools/'+family+'/required-cases.json',{cases:[item]});
     const nonce = crypto.randomUUID(), platform = family==='phase1'?'win32-x64-'+require('node:os').release():'win32-x64';
     const result = {id:item.id,status:'pass'};
-    const prefix = family==='phase1'?'.phase1/runs/':'.phase2/runs/win32-x64/';
+    const prefix = scenarios.familyRuns(family);
     const ref = e.writeExclusive(root,prefix+nonce+'/summary.json',{
       nonce,platform,revision:current.revision,startedAt:1,status:'pass',selected:[item.id],results:[result],
       input:'6'.repeat(64),tool:'7'.repeat(64)
@@ -579,7 +590,7 @@ function inheritedReceiptControls(directory,reject) {
   const report = {...current,revision:e.git(ROOT,['rev-parse','HEAD']).trim(),invocation:crypto.randomUUID()};
   const bindings = {nonce:report.invocation,input:report.source,tool:report.tool,revision:report.revision,platform:'win32-x64'};
   const subject = {bindings,result:{...bindings,id:original.id,status:'pass'},runtime:[]};
-  const owned = '.phase4/acceptance/'+report.invocation+'/'+item.runGroup+'/';
+  const owned = content.runsPath('acceptance',report.invocation,item.runGroup)+'/';
   const fixture = e.writeExclusive(root,owned+original.id+'-result.json',subject);
   const copied = e.writeExclusive(root,owned+'copied-result.json',subject);
   reject('historical-inherited-copied-receipt',/EVIDENCE_INHERITED_RESULT_PATH/,() =>
@@ -1043,7 +1054,7 @@ async function completionReceiptControls(context) {
   const qualification = {id:'acceptance.artifacts-source'}, prerequisite = {id:'source.publication'}, closure = {id:'acceptance.artifacts'};
   function invoke(item, minute, status) {
     const startedAt = `2026-11-20T11:${minute}:00.000Z`, nonce = crypto.randomUUID();
-    const directory = '.phase4/runs/'+nonce+'/';
+    const directory = content.runsPath(nonce)+'/';
     const opened = {caseId:item.id,nonce,revision:current.revision,startedAt,platform:'win32',node:'v24.22.1',
       scope:'source/headless; zero game windows'};
     e.writeExclusive(root,directory+'invocation.json',opened);

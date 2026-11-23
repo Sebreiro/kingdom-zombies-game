@@ -106,7 +106,7 @@ internal static class DocumentationValidator
     {
         string[] excluded =
         [
-            ".codex", ".agents", ".claude", ".git", ".phase1", "vendor", "plugins",
+            ".codex", ".agents", ".claude", ".git", ".local", ".phase1", "vendor", "plugins",
             "node_modules", "bin", "obj", ".godot"
         ];
         return !path.Split(separator: '/').Any(predicate: part => excluded.Contains(value: part,

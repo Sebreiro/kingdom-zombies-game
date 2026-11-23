@@ -162,8 +162,7 @@ public sealed class AppearanceStateTests
         const string Identity = "namespace KingdomZombies.Core; public sealed class AppearanceState { }";
         string registry = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
                 path2: "docs/code/visibility-exemptions.json"));
-        string temporary = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/appearance-" + Guid.NewGuid()
-                .ToString(format: "N"));
+        string temporary = WorkspacePaths.Temp(purpose: "appearance-" + Guid.NewGuid().ToString(format: "N"));
         string directory = Path.Combine(path1: temporary, path2: "docs/code");
         _ = Directory.CreateDirectory(path: directory);
         string file = Path.Combine(path1: directory, path2: "visibility-exemptions.json");

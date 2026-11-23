@@ -5,7 +5,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const {spawnSync} = require('node:child_process');
 const {isDeepStrictEqual:equal, TextDecoder} = require('node:util');
-const {inside, parse, hash} = require('./content.cjs');
+const {inside, parse, hash, runsPath, sharedFile} = require('./content.cjs');
 
 const PHASE = '.planning/phases/04-asset-production/';
 const REVIEW = PHASE + '04-REVIEW.json';
@@ -46,8 +46,17 @@ function exact(expected, actual, label, ordered = false) {
     (ordered ? equal(expected, actual) : expected.every(value => actual.includes(value))), 'EVIDENCE_SET', label);
 }
 
+// The Godot editor lives in the repository's shared root. Evidence names it by its place below that root, so the
+// spelling is the same in every checkout; every other evidence path stays inside the checkout.
+const SHARED_TOOLS = 'shared:tools/godot/';
+function located(root, relative) {
+  if (typeof relative === 'string' && relative.startsWith(SHARED_TOOLS))
+    return sharedFile('tools', ...relative.slice(SHARED_TOOLS.length).split('/'));
+  return inside(root, relative);
+}
+
 function safeFile(root, relative, limit = MAX_BYTES) {
-  const file = inside(root, relative);
+  const file = located(root, relative);
   need(fs.existsSync(file), 'EVIDENCE_PATH_MISSING', relative);
   const stat = fs.lstatSync(file);
   need(stat.isFile() && !stat.isSymbolicLink() && stat.nlink === 1 && stat.size <= limit, 'EVIDENCE_FILE', relative);
@@ -170,7 +179,7 @@ function identifyTool(root) {
   const pins = document(root, pinFile);
   need(platform === 'win32-x64' && process.version === 'v' + pins.node, 'EVIDENCE_ENVIRONMENT');
   const archive = pins.archives[platform];
-  const engine = reference(root, '.phase1/tools/' + archive.directory + '/' + archive.executable, MAX_BYTES);
+  const engine = reference(root, SHARED_TOOLS + archive.directory + '/' + archive.executable, MAX_BYTES);
   need(engine.sha256 === archive.executableSha256, 'EVIDENCE_ENGINE');
   const sdk = spawnSync('dotnet', ['--version'], {cwd:root, encoding:'utf8', windowsHide:true, timeout:10000});
   need(!sdk.error && sdk.status === 0 && sdk.stdout.trim() === pins.sdk, 'EVIDENCE_SDK');
@@ -294,7 +303,7 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
     need(process.startedAt >= report.startedAt && process.finishedAt <= report.finishedAt,'EVIDENCE_PROCESS_TIME',row.id);
     artifact(root,process.log,8*1024*1024);artifact(root,process.executable);
     if (build) {
-      const prefix='.phase4/acceptance/'+report.invocation+'/'+row.runGroup+'-launch-';
+      const prefix=runsPath('acceptance',report.invocation)+'/'+row.runGroup+'-launch-';
       const relative=path.posix.dirname(process.log.path);
       need(relative.startsWith(prefix) && /^\d+$/.test(relative.slice(prefix.length)) &&
         process.profile===relative+'/profile' && process.runtime?.path===relative+'/runtime.json' &&
@@ -308,7 +317,7 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
       need(process.role === 'packaged-inspection' && process.fixture === id,'EVIDENCE_PACKAGE_SUBJECT',row.id);
       artifact(root,process.package,64*1024*1024);
       if (id) {
-        const subject = '.phase4/acceptance/'+report.invocation+'/'+id+'-subject/';
+        const subject = runsPath('acceptance',report.invocation)+'/'+id+'-subject/';
         const approved = build.renderedFixtures[id];
         need(driver.fixture?.pckSha256 === approved.sha256 && process.package.path === subject+'KingdomZombies.pck' &&
           process.package.sha256 === approved.sha256 && process.package.bytes === approved.bytes &&
@@ -513,7 +522,7 @@ function auditionMedia(root, invocation, preparedAt, emit = false) {
   const {AUDIO_CASE} = require('./rendered-contracts.cjs');
   const expected = listeningExpectations(root).filter(row=>row.kind==='listening');
   need(UUID.test(invocation) && instant(preparedAt),'EVIDENCE_AUDIO_MEDIA_INVOCATION');
-  const prefix = '.phase4/acceptance/'+invocation+'/audio-media/';
+  const prefix = runsPath('acceptance',invocation)+'/audio-media/';
   const banks = new Map(), samples = new Map(), loops = new Map();
   const readPcm = require('./cases/audio-feasibility.cjs').pcm;
   function wave(header, pcm, repeats = 1) {
@@ -557,12 +566,12 @@ function auditionMedia(root, invocation, preparedAt, emit = false) {
 
 function writeAuditionMedia(root, invocation) {
   const data = auditionMedia(root,invocation,new Date().toISOString(),true);
-  return writeExclusive(root,'.phase4/acceptance/'+invocation+'/audio-media/index.json',data);
+  return writeExclusive(root,runsPath('acceptance',invocation)+'/audio-media/index.json',data);
 }
 
 function validateAudioMedia(root, outcome, final) {
   const ref = outcome.listeningMedia;
-  need(ref?.path==='.phase4/acceptance/'+final.invocation+'/audio-media/index.json','EVIDENCE_AUDIO_MEDIA_SCOPE');
+  need(ref?.path===runsPath('acceptance',final.invocation)+'/audio-media/index.json','EVIDENCE_AUDIO_MEDIA_SCOPE');
   const data = document(root,ref);
   need(equal(data,auditionMedia(root,final.invocation,data.preparedAt)),'EVIDENCE_AUDIO_MEDIA_CATALOG');
   return data;
@@ -682,12 +691,12 @@ function ancestor(root, revision, head) {
 function campaignAttempts(root, campaign, scope = null) {
   need(UUID.test(campaign),'EVIDENCE_CAMPAIGN');
   need(!scope || REVISION.test(scope.head) && HEX.test(scope.reviewSha256) && HEX.test(scope.selectionSha256),'EVIDENCE_CAMPAIGN_SCOPE');
-  const base = inside(root,'.phase4/acceptance');
+  const base = inside(root,runsPath('acceptance'));
   if (!fs.existsSync(base)) return [];
   const attempts = [], foreign = [];
   for (const row of fs.readdirSync(base,{withFileTypes:true})) {
     if (!row.isDirectory() || !UUID.test(row.name)) continue;
-    const directory = '.phase4/acceptance/'+row.name;
+    const directory = runsPath('acceptance',row.name);
     const startPath = directory+'/start.json', reportPath = directory+'/report.json', interruptionPath = directory+'/interrupted.json';
     const exists = relative => fs.existsSync(inside(root,relative));
     if (!exists(startPath)) {
@@ -779,7 +788,7 @@ function guardedHostTuples(root) {
 function validateNativeHostProof(root, record, result, expectedTuples) {
   need(record && result && result.path.endsWith('/result.json'),'EVIDENCE_NATIVE_HOST_RESULT');
   const subject = document(root,result);
-  const prefix = '.phase4/runs/'+subject.nonce+'/';
+  const prefix = runsPath(subject.nonce)+'/';
   need(result.path === prefix+'result.json' && subject.caseId === 'content.native-permissions' && subject.status === 'pass' &&
     subject.observations?.compiled?.selected === expectedTuples.length && subject.observations.compiled.passed === expectedTuples.length &&
     subject.observations.compiled.skipped === 0,'EVIDENCE_NATIVE_HOST_RESULT');
@@ -907,7 +916,7 @@ function freshFinal(selected, reports, expected) {
   return previous;
 }
 
-module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
+module.exports = {SHARED_TOOLS, located, PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
   read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, committedSnapshot,
   identifyTool, identity,
   textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,

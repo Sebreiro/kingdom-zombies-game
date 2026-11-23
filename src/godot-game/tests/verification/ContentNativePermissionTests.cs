@@ -117,7 +117,8 @@ public sealed class ContentNativePermissionTests
     [Fact]
     public void Load_CurrentTypedModel_PreservesIndependentDefinitionsAndPendingAcceptance()
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/04-23-current-model");
+        string directory = Path.Combine(path1: WorkspacePaths.Temp(purpose: "asset-pipeline"),
+                path2: "04-23-current-model");
         byte[] model = File.ReadAllBytes(path: Path.Combine(path1: directory, path2: "normalized-index.json"));
         var actual = ContentPack.Load(index: model, expectations: Read(path: ContentPack.ExpectedPath),
                 read: Read);
@@ -1686,7 +1687,8 @@ public sealed class ContentNativePermissionTests
     private static void GuardObservation(ContentPack actual, string path, string kind)
     {
         string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
-                ?? Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/04-23-current-model");
+                ?? Path.Combine(path1: WorkspacePaths.Temp(purpose: "asset-pipeline"),
+                        path2: "04-23-current-model");
         string file = Path.Combine(path1: directory,
                 path2: "font-native-" + Guid.NewGuid().ToString(format: "N") + ".json");
         using var stream = new FileStream(path: file, mode: FileMode.CreateNew, access: FileAccess.Write);
@@ -1859,7 +1861,8 @@ public sealed class ContentNativePermissionTests
             Dictionary<string, byte[]> replacements, List<string> fields)
     {
         string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
-                ?? Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/04-23-current-model");
+                ?? Path.Combine(path1: WorkspacePaths.Temp(purpose: "asset-pipeline"),
+                        path2: "04-23-current-model");
         string file = Path.Combine(path1: directory, path2: "header-positive-"
                 + Guid.NewGuid().ToString(format: "N") + ".json");
         var observation = new
@@ -1986,8 +1989,8 @@ public sealed class ContentNativePermissionTests
 
     private static JsonObject Model()
     {
-        JsonNode parsed = JsonNode.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: ".phase4/04-23-current-model/normalized-index.json")))
+        JsonNode parsed = JsonNode.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: WorkspacePaths.Temp(
+                purpose: "asset-pipeline"), path2: "04-23-current-model/normalized-index.json")))
                 ?? throw new InvalidOperationException(message: "Current model JSON missing");
         return parsed.AsObject();
     }

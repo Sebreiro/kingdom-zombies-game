@@ -5,6 +5,7 @@ const {spawnSync}=require('node:child_process');
 const baseline=require('../verification/check.cjs'),e=require('./evidence.cjs');
 const {run:command}=require('./processes.cjs');
 const {observed}=require('./network.cjs');
+const workspace=require('../workspace-paths.cjs');
 const {hash,requireTrue}=e;
 function select(catalog,args){
   requireTrue(args.length===1&&['--list','--all'].includes(args[0])||args.length===2&&['--case','--group','--failed'].includes(args[0]),'USAGE: --list | --all | --case ID[,ID] | --group GROUP | --failed REPORT');
@@ -18,9 +19,8 @@ function select(catalog,args){
   requireTrue(ids.every(id=>id.length>0&&known.has(id)),'SELECTION_EMPTY_OR_UNKNOWN');return {selected:ids.map(id=>known.get(id))};
 }
 function inputManifest(){return {inputs:['src','.editorconfig','docs/code','docs/architecture','docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md','.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
-function environment(root){return {...process.env,CustomAfterMicrosoftCommonTargets:path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets'),
-  DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
-  NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};}
+function environment(root){return {...workspace.isolationEnv(root),
+  CustomAfterMicrosoftCommonTargets:path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets')};}
 function createIdentity(root){
   const buildRevision=process.env.SourceRevisionId??null;
   requireTrue(buildRevision===null||/^[a-f0-9]{40}$/.test(buildRevision),'BUILD_REVISION_MALFORMED');
@@ -64,7 +64,7 @@ async function main(root,args){
     const ids=previous.results.filter(row=>row.status!=='pass').map(row=>row.id);requireTrue(ids.length>0,'NO_FAILED_CASES');
     selection.selected=select(catalog,['--case',ids.join(',')]).selected;repairOf={path:selection.repair,sha256:hash(fs.readFileSync(file)),nonce:previous.nonce};
   }
-  const nonce=crypto.randomUUID(),identity=createIdentity(root),directory=e.inside(root,'.phase3/runs/'+identity.platform+'/'+nonce);
+  const nonce=crypto.randomUUID(),identity=createIdentity(root),directory=workspace.locations(root).runs('lan-checks',identity.platform,nonce);
   fs.mkdirSync(directory,{recursive:true});fs.writeFileSync(path.join(directory,'observation.owner'),nonce,{flag:'wx'});
   const context={root,directory,nonce,...identity,env:environment(root)};
   fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(baseline.snapshot(root,inputManifest()),null,2),{flag:'wx'});

@@ -2,7 +2,9 @@
 .godot/
 /android/
 
-# Workspace-local pinned tools, verified feeds, CLI state, runs and mutation outputs.
+# The regenerable workspace root: shared tools, downloads and NuGet caches, locks, runs and temp.
+/.local/
+# Legacy per-phase workspace folders, ignored until workspace-migrate.cjs retires them.
 /.phase[0-9]*/
 **/bin/
 **/obj/

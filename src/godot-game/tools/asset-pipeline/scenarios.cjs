@@ -12,6 +12,8 @@ const e = require('./evidence.cjs');
 const owned = require('./rendered-process.cjs');
 const delivery = require('./export.cjs');
 const contracts = require('./rendered-contracts.cjs');
+const content = require('./content.cjs');
+const workspace = require('../workspace-paths.cjs');
 
 const CATALOG = 'tools/phase4/required-cases.json';
 const COVERAGE = e.PHASE + '04-ACCEPTANCE-COVERAGE.md';
@@ -332,13 +334,13 @@ const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 
 async function prepareSource(root,revision) {
   const source=e.identifySource(root,revision),tool=e.identifyTool(root);
-  const nonce=crypto.randomUUID(), ownership='.phase4/runs/'+nonce+'/', directory=path.resolve(root,ownership);
+  const nonce=crypto.randomUUID(), ownership=content.runsPath(nonce)+'/', directory=path.resolve(root,ownership);
   const copy=ownership+'source/', relative=copy+'src/godot-game/game', project=path.resolve(root,relative);
   const {command,environment}=require('./check.cjs');
   const context={directory,nonce,revision,caseId:'rendered-source-preparation'};
   const pin=e.document(root,'src/godot-game/tools/verification/toolchain.json');
   const win=pin.archives['win32-x64'];
-  const engine=e.reference(root,'.phase1/tools/'+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
+  const engine=e.reference(root,e.SHARED_TOOLS+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
   e.need(engine.sha256===NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
   e.committedRef(root,e.git(root,['rev-parse','HEAD']).trim(),e.reference(root,e.TARGETS));
   for (const ref of source.files.filter(row=>/^(?:src\/|tools\/code-rules\/|Directory\.|BannedSymbols|\.(?:editorconfig|gitattributes)$|global\.json$|NuGet\.config$|KingdomZombies\.slnx$)/.test(row.path))) {
@@ -346,19 +348,19 @@ async function prepareSource(root,revision) {
     e.need(stored.bytes===ref.bytes&&stored.sha256===ref.sha256,'RENDERED_SOURCE_COPY',ref.path);
   }
   const godotFeed=pin.godotPackages.map(pkg=>{
-    const file='.phase1/feed/'+pkg.id+'.'+pkg.version+'.nupkg';
+    const file=content.feedPath(pkg.id+'.'+pkg.version+'.nupkg');
     const packageFile=e.read(root,file);
     e.need(packageFile.sha256===pkg.sha256,'RENDERED_SOURCE_GODOT_FEED',file);
     return e.writeExclusive(root,copy+file,packageFile.data,packageFile.bytes);
   });
-  const env=environment(directory);
+  const env={...environment(directory),KZ_SHARED_LOCAL:workspace.locations().shared};
   const sdk=await command(context,'rendered-source-sdk',DOTNET,['--version'],{env});
   e.need(sdk.stdout.trim()===pin.sdk,'RENDERED_SOURCE_SDK');
   const importArgs=['--headless','--path',project,'--editor','--import'];
-  await command(context,'rendered-source-import',path.resolve(root,engine.path),importArgs,{env});
+  await command(context,'rendered-source-import',e.located(root,engine.path),importArgs,{env});
   const isolated=['--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
-    '-p:RestorePackagesPath='+path.join(root,'.phase1/packages'),
-    '-p:RestoreSources='+path.join(root,copy,'.phase1/feed'),'-v:minimal'];
+    '-p:RestorePackagesPath='+content.sharedFile('packages'),
+    '-p:RestoreSources='+path.join(root,copy,content.feedPath()),'-v:minimal'];
   await command(context,'rendered-source-build',DOTNET,['build',path.join(project,'KingdomZombies.csproj'),'-c','Debug',...isolated,
     '-p:SourceRevisionId='+revision,'-p:IncludeSourceRevisionInInformationalVersion=true',
     '-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)],{env});
@@ -377,14 +379,14 @@ function validateBuild(root,build,source,tool) {
   e.need(build.schemaVersion === 2 && build.status === 'pass' && build.revision === source.revision &&
     build.source === source.source && build.media === source.media && build.tool === tool,'REVIEW_BUILD');
   const pin = e.document(root,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
-  e.need(build.engine?.path === '.phase1/tools/'+pin.directory+'/'+pin.executable.replace('_console.exe','.exe') &&
+  e.need(build.engine?.path === e.SHARED_TOOLS+pin.directory+'/'+pin.executable.replace('_console.exe','.exe') &&
     build.engine.sha256 === NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
   e.artifact(root,build.engine);
   const item = loadCatalog(root).cases.find(row => row.id === 'export.portability');
   const {result} = phase4SourceReceipt(root,item,{result:build.deliveryResult},source);
   const receipt = e.document(root,build.delivery);
-  const directory = '.phase4/runs/'+result.nonce+'/portable/';
-  e.need(build.delivery.path === '.phase4/runs/'+result.nonce+'/portable-delivery.json' &&
+  const directory = content.runsPath(result.nonce)+'/portable/';
+  e.need(build.delivery.path === content.runsPath(result.nonce,'portable-delivery.json') &&
     build.package?.path === directory+'KingdomZombies.exe' && build.pck?.path === directory+'KingdomZombies.pck' &&
     equal(receipt,result.observations) && receipt.revision === result.revision && receipt.nonce === result.nonce &&
     equal(result.testedSource,{source:source.source,media:source.media}) && e.sameCommittedSource(root,result.revision,source.revision),
@@ -398,11 +400,23 @@ function validateBuild(root,build,source,tool) {
   return {...build,portable,sourceManaged};
 }
 
+// A prepared source project lives in an asset-pipeline run folder: <runs>/<nonce>/source/src/godot-game.
+function preparedOwner(relative) {
+  const prefix = content.runsPath()+'/';
+  return typeof relative === 'string' && relative.startsWith(prefix) ?
+    /^([a-f0-9-]+)\/source\/src\/godot-game$/.exec(relative.slice(prefix.length)) : null;
+}
+
+// Inherited families keep their historical names; their run folders come from the workspace map.
+function familyRuns(family) {
+  return content.legacyLocal('.'+family+'/runs')+'/'+(family==='phase1' ? '' : 'win32-x64/');
+}
+
 function validateSourceProject(root,build,source) {
   const prepared = build.sourceProject;
-  const match = /^\.phase4\/runs\/([a-f0-9-]+)\/source\/src\/godot-game$/.exec(prepared?.path ?? '');
+  const match = preparedOwner(prepared?.path);
   e.need(match && e.UUID.test(match[1]),'RENDERED_SOURCE_PROJECT');
-  const ownership = '.phase4/runs/'+match[1]+'/', copy = ownership+'source/';
+  const ownership = content.runsPath(match[1])+'/', copy = ownership+'source/';
   const project = path.resolve(root,prepared.path);
   const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/'));
   e.need(equal(prepared.importCompanions,sourceImportCompanions(root,prepared.path,source)),
@@ -429,7 +443,7 @@ function validateSourceProject(root,build,source) {
   const compiled=execution(prepared.build,'rendered-source-build');
   const sdk=execution(prepared.sdk,'rendered-source-sdk');
   const pin=e.document(root,'src/godot-game/tools/verification/toolchain.json');
-  const expectedFeed=pin.godotPackages.map(pkg=>({path:copy+'.phase1/feed/'+pkg.id+'.'+pkg.version+'.nupkg',sha256:pkg.sha256}));
+  const expectedFeed=pin.godotPackages.map(pkg=>({path:copy+content.feedPath(pkg.id+'.'+pkg.version+'.nupkg'),sha256:pkg.sha256}));
   e.need(Array.isArray(prepared.godotFeed)&&equal(prepared.godotFeed.map(({path,sha256})=>({path,sha256})),expectedFeed),
     'RENDERED_SOURCE_GODOT_FEED');
   for (const ref of prepared.godotFeed) e.artifact(root,ref);
@@ -437,11 +451,11 @@ function validateSourceProject(root,build,source) {
     path.resolve(row.executable)===path.resolve(DOTNET)),
     'RENDERED_SOURCE_SDK');
   e.need(equal(imported.args,['--headless','--path',project,'--editor','--import']) &&
-    path.resolve(imported.executable)===path.resolve(root,build.engine.path),'RENDERED_SOURCE_IMPORT_ENGINE');
+    path.resolve(imported.executable)===path.resolve(e.located(root,build.engine.path)),'RENDERED_SOURCE_IMPORT_ENGINE');
   e.need(compiled.args?.includes(path.join(project,'KingdomZombies.csproj')) &&
     compiled.args.includes('-p:SourceRevisionId='+source.revision) && compiled.args.includes('-p:IncludeSourceRevisionInInformationalVersion=true') &&
     compiled.args.includes('-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)) &&
-    compiled.args.includes('-p:RestoreSources='+path.join(root,copy,'.phase1/feed')),
+    compiled.args.includes('-p:RestoreSources='+path.join(root,copy,content.feedPath())),
     'RENDERED_SOURCE_COMPILED_REVISION');
   const imports=delivery.inventory(path.join(project,'.godot','imported'));
   e.need(imports.length>0 && equal(imports,prepared.imports),'RENDERED_SOURCE_IMPORT_CLOSURE');
@@ -450,7 +464,7 @@ function validateSourceProject(root,build,source) {
 
 function validatePreparedManaged(root,build) {
   const prepared=build.sourceProject;
-  const owner=/^\.phase4\/runs\/([a-f0-9-]+)\/source\/src\/godot-game$/.exec(prepared?.path ?? '');
+  const owner=preparedOwner(prepared?.path);
   e.need(owner && e.UUID.test(owner[1]),'RENDERED_SOURCE_PROJECT');
   const managedPath=prepared.path+'/.godot/mono/temp/bin/Debug';
   const managed=delivery.inventory(require('./content.cjs').inside(root,managedPath));
@@ -517,7 +531,7 @@ function validateLoadedSource(root,build,run) {
   for (const row of observations) {
     const declared=build.sourceManaged[row.name];
     e.need(declared && row.launch===run.launch && row.pid===run.pid &&
-      path.resolve(row.executable)===path.resolve(root,build.engine.path) &&
+      path.resolve(row.executable)===path.resolve(e.located(root,build.engine.path)) &&
       (row.file==='' || path.resolve(row.file)===path.resolve(root,declared.file)) &&
       row.loadContext===SOURCE_LOAD_CONTEXT &&
       row.mvid===declared.mvid &&
@@ -527,7 +541,7 @@ function validateLoadedSource(root,build,run) {
 }
 
 function runId() {
-  return '.phase4/acceptance/' + crypto.randomUUID();
+  return content.runsPath('acceptance',crypto.randomUUID());
 }
 
 function nativeSelection(selection) {
@@ -576,7 +590,7 @@ function attemptDeclaration(report,data,selection,previousRef,affected) {
 
 function savedAttempt(root,report) {
   e.need(e.REVISION.test(report.gateRevision),'EVIDENCE_ATTEMPT_GATE');
-  const directory='.phase4/acceptance/'+report.invocation+'/';
+  const directory=content.runsPath('acceptance',report.invocation)+'/';
   function committedCopy(canonical,digest) {
     const record=e.read(root,directory+path.posix.basename(canonical));
     const committed=e.git(root,['show',report.gateRevision+':'+canonical],null);
@@ -596,7 +610,7 @@ function savedAttempt(root,report) {
 
 function verifyInheritedRendered(root, report, outcome, item, build, catalogs) {
   const original = inheritedDeclaration(root,item,catalogs,report.revision);
-  const owned = '.phase4/acceptance/'+report.invocation+'/'+item.runGroup+'/';
+  const owned = content.runsPath('acceptance',report.invocation,item.runGroup)+'/';
   e.need(outcome.inherited?.path===owned+original.id+'-result.json','EVIDENCE_INHERITED_RESULT_PATH',item.id);
   const {result,bindings,runtime} = e.document(root,outcome.inherited);
   e.need(bindings?.nonce===report.invocation && bindings.revision===report.revision &&
@@ -648,7 +662,7 @@ function finalRendered(root, gate, current, refs, campaign) {
   validateAttemptHistory(root,reports.map((report,index)=>({report,terminal:refs[index]})));
   e.need(final.reviewSha256 === gate.review.sha256 && final.selectionSha256 === gate.selection.sha256 &&
     final.startedAt >= gate.reviewedAt,'COMPLETION_CURRENT_RUN');
-  e.need(final.drivers?.path === '.phase4/acceptance/'+final.invocation+'/declared-drivers.json','COMPLETION_DRIVER_SCOPE');
+  e.need(final.drivers?.path === content.runsPath('acceptance',final.invocation,'declared-drivers.json'),'COMPLETION_DRIVER_SCOPE');
   const driverRecord = e.document(root,final.drivers);
   const drivers = reviewedDrivers(driverRecord,gate,current,native,final.kind);
   const build = validateBuild(root,e.document(root,e.document(root,gate.review).buildReport),e.identifySource(root,current.revision),current.tool);
@@ -666,10 +680,10 @@ function finalRendered(root, gate, current, refs, campaign) {
 function latestPhase4Sources(root, admitted, currentRevision, sameInputs) {
   const found = new Map(admitted);
   if (!found.size) return found;
-  const base = path.join(root,'.phase4','runs');
+  const base = path.join(root,content.runsPath());
   for (const folder of fs.readdirSync(base,{withFileTypes:true})) {
     if (!folder.isDirectory() || !e.UUID.test(folder.name)) continue;
-    const prefix = '.phase4/runs/'+folder.name+'/';
+    const prefix = content.runsPath(folder.name)+'/';
     if (!fs.existsSync(path.join(root,prefix,'invocation.json'))) continue;
     const invoked = e.document(root,prefix+'invocation.json');
     const prior = found.get(invoked.caseId);
@@ -692,7 +706,7 @@ function phase4SourceReceipt(root, item, receipt, current) {
   const result = e.document(root,receipt.result);
   e.need(result.status==='pass' && result.observations!==null && typeof result.observations==='object',
     'COMPLETION_SOURCE_FAILURE',item.id);
-  const directory = '.phase4/runs/'+result.nonce+'/';
+  const directory = content.runsPath(result.nonce)+'/';
   e.need(e.UUID.test(result.nonce) && receipt.result.path===directory+'result.json' && result.caseId===item.id,
     'COMPLETION_SOURCE_SUBJECT',item.id);
   const invocation = e.document(root,directory+'invocation.json');
@@ -745,7 +759,7 @@ const inheritedBinding = {
 function inheritedSourceReceipt(root, item, receipt, catalogs) {
   const result = e.document(root,receipt.result);
   const directory = path.posix.dirname(receipt.result.path);
-  const familyPath = item.family==='phase1' ? '.phase1/runs/' : '.'+item.family+'/runs/win32-x64/';
+  const familyPath = familyRuns(item.family);
   const subject = result.results?.filter(row => row.id===item.originalId);
   e.need(result.status==='pass' && e.UUID.test(result.nonce) && result.platform===inheritedWindowsPlatform(item.family) &&
     receipt.result.path===familyPath+result.nonce+'/summary.json' && result.selected?.includes(item.originalId) &&
@@ -793,7 +807,7 @@ function inheritedSourceTime(root, ref, result) {
 function verifyInheritedHistory(root, admitted, current, sameInputs) {
   const families = new Set([...admitted.values()].map(row => row.item.family));
   for (const family of families) {
-    const directory = family==='phase1' ? '.phase1/runs/' : '.'+family+'/runs/win32-x64/';
+    const directory = familyRuns(family);
     for (const folder of fs.readdirSync(path.join(root,directory),{withFileTypes:true})) {
       if (!folder.isDirectory() || !e.UUID.test(folder.name)) continue;
       const relative = directory+folder.name+'/summary.json';
@@ -1112,7 +1126,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   const role = group === 'G1-hub' ? 'inspection-hub' : 'packaged-inspection';
   const target = role === 'inspection-hub' ? build.engine : subject.executable;
   e.artifact(root,target);
-  const executable = path.join(root,target.path);
+  const executable = e.located(root,target.path);
   const project = role === 'inspection-hub' ? ['--path',path.join(root,build.sourceProject.path),'res://inspection/Inspection.tscn'] : [];
   const directory = path.join(root,relative);
   fs.mkdirSync(directory,{recursive:true});
@@ -1442,7 +1456,7 @@ async function runInherited(root, relative, group, items, build, adapter, identi
   const original = items.map(item => inheritedDeclaration(root,item,catalogs,identity.revision));
   const directory = path.join(root,relative,group.id);
   fs.mkdirSync(directory,{recursive:true});
-  const engine = path.join(root,build.engine.path);
+  const engine = e.located(root,build.engine.path);
   const {revision,source:input,tool} = identity;
   const children = owned.observeChildren(), launches = new Map();
   const groupSignal = AbortSignal.any([signal,AbortSignal.timeout(group.timeoutMs)]);
@@ -1626,7 +1640,7 @@ function attemptRows(root, opening) {
 // interrupted.json write carries the cleanup record, so a refused or failed attempt can simply be retried.
 async function recordInterruption(root, invocation, {observer:observerOptions = {}, rows:fixtureRows = null} = {}) {
   e.need(e.UUID.test(invocation),'RENDERED_INTERRUPTION_USAGE');
-  const relative = '.phase4/acceptance/'+invocation;
+  const relative = content.runsPath('acceptance',invocation);
   const start = e.reference(root,relative+'/start.json'), opening = e.document(root,start);
   e.need(opening.schemaVersion===1 && opening.invocation===invocation && e.UUID.test(opening.campaign) &&
     e.instant(opening.startedAt) && Array.isArray(opening.selected) && Number.isSafeInteger(opening.runner?.pid) &&
@@ -1661,7 +1675,7 @@ async function recordInterruption(root, invocation, {observer:observerOptions = 
     observer.track(placeholder(row.pid,row.exitedAt !== undefined),row.trackedAt,row.exitedAt ?? null);
   const remainingPids = await observer.remaining();
   e.need(remainingPids.length===0,'RENDERED_INTERRUPTION_SURVIVORS',remainingPids.join(','));
-  const lock = path.join(root,'.phase2/desktop.lock');
+  const lock = workspace.locations(root).locks.desktop;
   const ownsLock = fs.existsSync(lock) && JSON.parse(fs.readFileSync(lock,'utf8')).nonce===invocation;
   const finishedAt = new Date(Math.max(Date.now(),Date.parse(opening.startedAt)+1)).toISOString();
   const cleanup = {runner:opening.runner,launches:launches.size,remainingPids,releasedLock:ownsLock};
@@ -1704,7 +1718,7 @@ async function verifyCompletion(root, relative, registered) {
   return {status:'pass',invocation:final.invocation,executed:receipts.size,scope:'Current Windows resource delivery'};
 }
 
-module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
+module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,

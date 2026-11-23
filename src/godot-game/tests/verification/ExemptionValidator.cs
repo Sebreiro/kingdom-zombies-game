@@ -664,10 +664,14 @@ internal static class ExemptionValidator
 
     private static void CheckHash(string relative, string expected)
     {
-        string file = Path.GetFullPath(path: Path.Combine(path1: ProofProtocol.Root, path2: relative));
+        string file = Path.GetFullPath(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: WorkspacePaths.Physical(identity: relative)));
         string local = Path.GetRelativePath(relativeTo: ProofProtocol.Root, path: file);
-        Require(value: !Path.IsPathRooted(path: local) && !local.Split(separator: Path.DirectorySeparatorChar)
-                .Any(predicate: part => part is ".." or ".") && File.Exists(path: file),
+        bool inside = !Path.IsPathRooted(path: local) && !local.Split(separator: Path.DirectorySeparatorChar)
+                .Any(predicate: part => part is ".." or ".");
+        bool sharedPackage = relative.StartsWith(value: ".phase1/packages/", comparisonType: StringComparison.Ordinal)
+                && WorkspacePaths.IsSharedPackage(fullPath: file);
+        Require(value: (inside || sharedPackage) && File.Exists(path: file),
                 message: "SUPPRESSION_ORIGIN_PATH " + relative);
         string hash = Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
                 source: File.ReadAllBytes(path: file)));
