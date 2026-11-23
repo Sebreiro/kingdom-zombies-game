@@ -89,8 +89,9 @@ test('pending ownership changes exercise the selector without expanding all Phas
 test('unknown impact and empty, duplicate, conflicting or malformed selections fail', () => {
   const catalog = loadCatalog(root);
   assert.throws(() => select(catalog, {mode: 'phase-end', changes: ['src/unknown/component.cs']}), /UNKNOWN_IMPACT/);
-  assert.throws(() => select(catalog, {mode: 'case', value: 'A-47'}), /SELECTION_EMPTY/);
+  assert.throws(() => select(catalog, {mode: 'case', value: 'A-47'}), /SELECTION_PLANNED/);
   assert.throws(() => select(catalog, {mode: 'case', value: 'basic.pure,basic.pure'}), /SELECTION_CASE/);
+  assert.throws(() => select(catalog, {mode: 'case', value: 'basic.pure,A-47'}), /SELECTION_PLANNED/);
   assert.throws(() => select(catalog, {mode: 'full', value: '3'}), /SELECTION_CONFLICT/);
   assert.throws(() => select(catalog, {mode: 'phase-end', value: '5.0'}), /SELECTION_PHASE/);
 });

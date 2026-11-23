@@ -824,7 +824,7 @@ async function inspectorCase(context,replacement=false){
  const inputs=fingerprint(inspectorFiles());write(context.directory,'inputs.json',inputs);
  const env=require('./defenses.cjs').isolated(),project=inside(context.directory,'native-inspector');fs.mkdirSync(project);
  const built=await runner.command(context,'inspector-strict','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(built.stdout),'WORLD_INSPECTOR_STRICT');
- for(const file of ['project.godot','foundation','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
+ for(const file of ['project.godot','foundation','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/game/'+file),inside(project,file),{recursive:true});
  const legacy=require('./provenance.cjs').legacyFixture(),inspection=fs.readFileSync(inside(project,'inspection/Inspection.tscn'));
  for(const output of legacy.index.outputs)for(const dependency of output.dependencies)if(dependency.path==='src/godot-game/inspection/Inspection.tscn'){dependency.bytes=inspection.length;dependency.sha256=hash(inspection);}
  fs.writeFileSync(inside(project,'content/pack-index.json'),JSON.stringify(legacy.index,null,2)+'\n');

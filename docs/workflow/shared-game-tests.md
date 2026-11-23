@@ -6,7 +6,7 @@ Run these commands from the checkout root using the pinned tools in [Development
 | --- | --- |
 | `--list` | Validate and print the catalog |
 | `--pr` | Strict build, repository checks, one pure test process and one headless solo smoke |
-| `--tier 1` | Pure tests and local checks that need no game window |
+| `--tier 1` | Pure tests in one process |
 | `--tier 2` | Active headless scenarios with their declared group setup |
 | `--tier 3 --review FILE` | Active rendered scenarios |
 | `--phase-end --review FILE` | Required Critical cases, new or changed cases, and affected regressions against `origin/dev` |
@@ -28,4 +28,6 @@ Planned cases and omitted checks receive no result credit. Hosted PR, rendered d
 
 ## Adding checks
 
-Add a test to the existing verification project and opt pure tests into tier 1 using `[Trait("Tier", "1")]`. Name specification edge tests with the phase and edge identity, for example `Phase06_E001_Description`. Run `node src/godot-game/tools/game-tests/edge-check.cjs 6` to check the Phase 6 test inventory against the specification. Add scenario rows to the shared catalog with effective phase, requirement, impact inputs, group order, setup, production actions, expected outcomes and artifact requirements. The existing runners still expose their original entry points for individual suite diagnosis.
+Add a test to the existing verification project and opt pure tests into tier 1 using `[Trait("Tier", "1")]`. Name specification edge tests with the phase and edge identity, for example `Phase06_E001_Description`. Run `node src/godot-game/tools/game-tests/edge-check.cjs 6` to check the Phase 6 test inventory against the specification. Add scenario rows to the shared catalog with effective phase, requirement, impact inputs, group order, setup, production actions, expected outcomes and artifact requirements. For a new native scenario group, add a `scenario` row to `game-tests/catalog.json` and a driver file under `src/godot-game/tests/scenarios/`. Use one driver path per run group. Its exports are `open(context)`, `cases` keyed by catalog ID, `reset(state, context)` and `close(state, context)`. Each case uses the group state and returns the paths of required evidence written inside the run directory. Keep production input, fresh state and process ownership in the scenario driver. The shared runner owns selection, ordering, bounded execution and report publication.
+
+The existing runners still expose their original entry points for individual suite diagnosis.

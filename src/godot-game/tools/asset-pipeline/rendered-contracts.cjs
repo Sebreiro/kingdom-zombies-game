@@ -225,6 +225,7 @@ function matches(check,value) {
   if(check.match==='absent')return value===false;
   if(check.match==='equal'||check.match==='child-count')return equal(value,check.value);
   if(check.match==='contains')return typeof value==='string'&&value.includes(check.value);
+  if(check.match==='positive-count')return Number.isSafeInteger(value)&&value>0;
   if(check.match==='audition'&&typeof value==='string') {
     try{return JSON.parse(value)?.cue?.route===check.value;}catch{return false;}
   }

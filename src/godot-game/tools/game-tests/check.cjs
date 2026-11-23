@@ -112,7 +112,7 @@ async function main(root, args) {
     command: [process.execPath, entry, ...args]};
   writeJson(directory, 'selection.json', plan);
   console.log('Selected ' + selected.length + ' required checks. See ' + path.join(directory, 'selection.json'));
-  const {results, groups} = await runGroups(context, selected);
+  const {results, groups, preparation} = await runGroups(context, selected);
   const actual = source(root);
   const sourceChanged = actual.revision !== tested.revision || actual.changes !== tested.changes;
   if (sourceChanged) {
@@ -128,7 +128,7 @@ async function main(root, args) {
   }
   const pendingReview = results.flatMap(row => row.judgments ?? []).filter(row => row.status === 'pending-review');
   const status = results.some(row => row.status !== 'pass') ? 'fail' : pendingReview.length ? 'needs_review' : 'pass';
-  const report = {...plan, status, pendingReview, sourceChanged, groups, results, finishedAt: new Date().toISOString(),
+  const report = {...plan, status, pendingReview, sourceChanged, preparation, groups, results, finishedAt: new Date().toISOString(),
     durationMilliseconds: Date.now() - started};
   writeJson(directory, 'summary.json', report);
   console.log(status.toUpperCase() + ' ' + results.filter(row => row.status === 'pass').length + '/' + selected.length

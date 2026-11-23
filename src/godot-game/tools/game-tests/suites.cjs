@@ -20,6 +20,7 @@ function tasks(selected) {
   for (const row of selected) {
     const key = row.adapter === 'basic' ? 'basic'
       : row.adapter === 'verification' ? row.id
+      : row.adapter === 'scenario' ? row.runGroup
       : row.adapter + '.' + (Number(row.tier) === 3 ? 'rendered' : 'headless');
     if (!batches.has(key)) batches.set(key, []);
     batches.get(key).push(row);
@@ -106,6 +107,15 @@ function assetResults(context, rows, output, record, log, started) {
     if (record.code === 0 && report.status === 'pass') {
       exact(['P1', 'P2', 'P3', 'P4'], judgments.map(row => row.id));
       if (checkpoints.length < 8) throw new Error('Inspection category evidence missing.');
+      const imageValidator = require('../lan-checks/png.cjs').validate;
+      for (const judgment of judgments) {
+        if (judgment.status !== 'pending-review') throw new Error('Inspection judgment evidence missing: ' + judgment.id);
+        exact(judgment.expected, judgment.images.map(image => image.checkpoint));
+        for (const {image} of judgment.images) {
+          const file = requiredFile(directory, path.resolve(context.root, image.path));
+          imageValidator(file, 1280, 720);
+        }
+      }
     }
     return [{id: rows[0].id, status: record.code === 0 && report.status === 'pass' ? 'pass' : 'fail',
       message: report.message, artifacts: [log], legacyReport: verified.path, launchCount: report.launched, checkpoints, judgments}];
@@ -130,7 +140,8 @@ async function renderedLan(context, rows) {
   const {createIdentity, environment, select} = require('../lan-checks/check.cjs');
   const catalog = require('../lan-checks/required-cases.json');
   const {selected} = select(catalog, ['--case', rows.map(row => row.legacyId).join(',')]);
-  const suite = {root: context.root, directory, nonce, ...createIdentity(context.root), env: environment(context.root)};
+  const suite = {root: context.root, directory, nonce, ...createIdentity(context.root), buildRevision: context.revision,
+    env: environment(context.root)};
   const {results, launches} = await require('../lan-checks/scenarios.cjs').run(suite, selected);
   const check = require('../lan-checks/evidence.cjs');
   exact(selected.map(row => row.id), results.map(row => row.id));
@@ -149,15 +160,49 @@ async function renderedLan(context, rows) {
   });
 }
 
+async function scenarioGroup(context, rows) {
+  const directory = path.join(context.directory, randomUUID());
+  fs.mkdirSync(directory);
+  const plan = writeJson(directory, 'plan.json', {context: {...context, directory}, rows});
+  const {record, log} = await command(context, process.execPath, [tools + '/game-tests/scenario-group.cjs', plan], 20 * 60_000);
+  const outcome = path.join(directory, 'results.json');
+  if (!record.streamsClosed || record.timedOut || !fs.existsSync(outcome)) {
+    return blocked(rows, new Error(record.timedOut ? 'Scenario group timed out' : 'Scenario group did not publish results'), [log]);
+  }
+  const results = JSON.parse(fs.readFileSync(outcome, 'utf8'));
+  exact(rows.map(row => row.id), results.map(row => row.id));
+  if (record.code !== 0 && results.every(row => row.status === 'pass')) {
+    return blocked(rows, new Error('Scenario group exited nonzero'), [log]);
+  }
+  const prefix = relative(context.directory, directory);
+  return results.map(row => ({...row, artifacts: [...(row.artifacts ?? []).map(file => prefix + '/' + file), log]}));
+}
+
 async function runGroups(context, selected) {
   const results = [];
   const groups = [];
-  for (const [id, rows] of tasks(selected)) {
+  const batches = tasks(selected);
+  let preparation;
+  if (batches[0]?.[0] !== 'basic') {
+    try {
+      const {results: bootstrap, prepared} = await require('./basic.cjs').executeBasic(context, ['basic.strict-build']);
+      preparation = {prepared, result: bootstrap[0]};
+    } catch (error) {
+      preparation = {prepared: false, message: error.message};
+    }
+  }
+  for (const [id, rows] of batches) {
     const started = Date.now();
     let groupResults;
     try {
-      if (rows[0].adapter === 'basic') groupResults = await require('./basic.cjs').executeBasic(context, rows.map(row => row.id));
-      else if (id === 'lan-checks.rendered') groupResults = await renderedLan(context, rows);
+      if (id === 'basic') {
+        const execution = await require('./basic.cjs').executeBasic(context, rows.map(row => row.id));
+        groupResults = execution.results;
+        preparation = {prepared: execution.prepared};
+      } else if (!preparation?.prepared) {
+        groupResults = blocked(rows, new Error('The current-source build prerequisite failed.'));
+      } else if (id === 'lan-checks.rendered') groupResults = await renderedLan(context, rows);
+      else if (rows[0].adapter === 'scenario') groupResults = await scenarioGroup(context, rows);
       else groupResults = await legacy(context, rows[0].adapter, rows);
       reconcile(context.directory, rows, groupResults);
     } catch (error) {
@@ -167,7 +212,7 @@ async function runGroups(context, selected) {
     groups.push({id, ids: rows.map(row => row.id), durationMilliseconds: Date.now() - started,
       launchCount: Math.max(0, ...groupResults.map(row => row.launchCount ?? 0))});
   }
-  return {results, groups};
+  return {results, groups, preparation};
 }
 
 module.exports = {runGroups, tasks};

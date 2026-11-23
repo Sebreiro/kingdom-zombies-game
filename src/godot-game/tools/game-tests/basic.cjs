@@ -52,8 +52,8 @@ async function prepare(context, folder) {
     'restore', 'KingdomZombies.slnx', '--locked-mode', '--disable-parallel', '-p:NuGetAudit=false',
   ], 240_000);
   await command(context, folder, 'build', 'dotnet', [
-    'build', 'KingdomZombies.slnx', '--no-restore', '--disable-build-servers', '-p:UseSharedCompilation=false',
-    '-nodeReuse:false', '-p:NuGetAudit=false', '-v:q',
+    'build', 'KingdomZombies.slnx', '--no-restore', '--no-incremental', '--disable-build-servers', '-p:UseSharedCompilation=false',
+    '-nodeReuse:false', '-p:NuGetAudit=false', '-p:SourceRevisionId=' + context.revision, '-v:q',
   ], 240_000);
 }
 
@@ -156,9 +156,11 @@ async function executeBasic(context, ids) {
     if (folder === preparationFolder) timing.preparationDurationMs = preparationDurationMs;
     const result = { id, status, message, ...timing };
     save(path.join(folder, 'result.json'), result);
-    results.push({ ...result, artifacts: artifacts(context.directory, folder) });
+    const evidence = artifacts(context.directory, folder);
+    const launchCount = id === 'basic.headless' ? evidence.filter(file => file.endsWith('/launch.json')).length : 0;
+    results.push({ ...result, launchCount, artifacts: evidence });
   }
-  return results;
+  return {results, prepared: !preparationError};
 }
 
 module.exports = { executeBasic, discoveredTests, verifyTestResults, assemblyPath };

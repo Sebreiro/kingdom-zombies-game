@@ -316,6 +316,14 @@ function validateCatalog(catalog) {
     requireValue(Number.isSafeInteger(item.owner) && item.owner > 0 &&
       (item.acceptancePhase === undefined || Number.isSafeInteger(item.acceptancePhase) && item.acceptancePhase >= item.owner),
     'CATALOG_OWNER ' + item.id);
+    if (item.adapter === 'scenario') {
+      const {driverPath} = require('./scenario-group.cjs');
+      requireValue(driverPath.test(item.driver) && fs.existsSync(path.join(catalog.root, item.driver)) &&
+        item.tier >= 2, 'CATALOG_SCENARIO_DRIVER ' + item.id);
+    } else {
+      requireValue([...scope, 'basic', 'procedure'].includes(item.adapter), 'CATALOG_ADAPTER ' + item.id);
+    }
+    requireValue(item.pr !== true || item.adapter === 'basic' && item.tier < 3, 'CATALOG_PR_WINDOW ' + item.id);
     requireValue(importanceLevels.includes(item.importance), 'CATALOG_IMPORTANCE ' + item.id);
     requireValue(['required', 'planned'].includes(item.status) &&
       (item.status !== 'required' || item.importance !== 'Critical' || criticalSmoke.has(item.id) || item.smoke === true),
@@ -397,7 +405,10 @@ function select(catalog, {mode, value, changes = [], baseCommit}) {
   if (mode === 'case') {
     const requested = Array.isArray(value) ? value : String(value ?? '').split(',');
     requireValue(validList(requested) && requested.every(id => catalog.cases.some(item => item.id === id)), 'SELECTION_CASE');
-    for (const id of requested) ids.add(id);
+    for (const id of requested) {
+      requireValue(catalog.cases.some(item => item.id === id && item.status === 'required'), 'SELECTION_PLANNED ' + id);
+      ids.add(id);
+    }
   }
   if (mode === 'group') requireValue(catalog.groups.some(group => group.id === value) ||
     catalog.cases.some(item => item.runGroup === value), 'SELECTION_GROUP ' + value);
@@ -405,7 +416,9 @@ function select(catalog, {mode, value, changes = [], baseCommit}) {
   const verificationGroups = mode === 'phase-end' ? verificationImpact(catalog, changes, baseCommit) : new Set();
   const selected = [], omitted = [];
   for (const item of catalog.cases) {
-    const changed = changes.some(file => item.inputs?.some(pattern => covers(pattern, file))) ||
+    const declaration = scope.includes(item.adapter) && item.adapter !== 'verification'
+      ? tools + item.adapter + '/required-cases.json' : ['basic', 'scenario'].includes(item.adapter) ? catalogPath : null;
+    const changed = changes.includes(declaration) || changes.includes(item.driver) || changes.some(file => item.inputs?.some(pattern => covers(pattern, file))) ||
       item.adapter === 'verification' && verificationGroups.has(item.legacyId);
     const impact = item.tags.filter(tag => affectedTags.has(tag));
     const picked = {

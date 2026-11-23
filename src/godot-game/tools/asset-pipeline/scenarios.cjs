@@ -343,7 +343,7 @@ async function prepareSource(root,revision) {
   const engine=e.reference(root,e.SHARED_TOOLS+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
   e.need(engine.sha256===NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
   e.committedRef(root,e.git(root,['rev-parse','HEAD']).trim(),e.reference(root,e.TARGETS));
-  for (const ref of source.files.filter(row=>/^(?:src\/|tools\/code-rules\/|Directory\.|BannedSymbols|\.(?:editorconfig|gitattributes)$|global\.json$|NuGet\.config$|KingdomZombies\.slnx$)/.test(row.path))) {
+  for (const ref of source.files.filter(row=>/^(?:src\/godot-game\/(?:game\/|core\/|multiplayer-abstractions\/|tools\/code-rules\/|build\/|Directory\.|global\.json$|NuGet\.config$)|\.(?:editorconfig|gitattributes)$)/.test(row.path))) {
     const stored=e.writeExclusive(root,copy+ref.path,e.artifact(root,ref).data,ref.bytes);
     e.need(stored.bytes===ref.bytes&&stored.sha256===ref.sha256,'RENDERED_SOURCE_COPY',ref.path);
   }
@@ -400,11 +400,11 @@ function validateBuild(root,build,source,tool) {
   return {...build,portable,sourceManaged};
 }
 
-// A prepared source project lives in an asset-pipeline run folder: <runs>/<nonce>/source/src/godot-game.
+// A prepared source project lives in an asset-pipeline run folder: <runs>/<nonce>/source/src/godot-game/game.
 function preparedOwner(relative) {
   const prefix = content.runsPath()+'/';
   return typeof relative === 'string' && relative.startsWith(prefix) ?
-    /^([a-f0-9-]+)\/source\/src\/godot-game$/.exec(relative.slice(prefix.length)) : null;
+    /^([a-f0-9-]+)\/source\/src\/godot-game\/game$/.exec(relative.slice(prefix.length)) : null;
 }
 
 // Inherited families keep their historical names; their run folders come from the workspace map.
@@ -418,11 +418,11 @@ function validateSourceProject(root,build,source) {
   e.need(match && e.UUID.test(match[1]),'RENDERED_SOURCE_PROJECT');
   const ownership = content.runsPath(match[1])+'/', copy = ownership+'source/';
   const project = path.resolve(root,prepared.path);
-  const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/'));
+  const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/game/'));
   e.need(equal(prepared.importCompanions,sourceImportCompanions(root,prepared.path,source)),
     'RENDERED_SOURCE_IMPORT_COMPANIONS');
   for (const ref of tracked) {
-    if (ref.path !== 'src/godot-game/project.godot') e.artifact(root,{...ref,path:copy+ref.path});
+    if (ref.path !== 'src/godot-game/game/project.godot') e.artifact(root,{...ref,path:copy+ref.path});
     else {
       const original=e.artifact(root,ref).data.toString('utf8'), actual=e.read(root,copy+ref.path).data.toString('utf8');
       const newline=original.includes('\r\n')?'\r\n':'\n';
@@ -478,8 +478,8 @@ function validatePreparedManaged(root,build) {
 }
 
 function sourceImportCompanions(root,relative,source) {
-  const authored=new Set(source.files.filter(ref=>ref.path.startsWith('src/godot-game/'))
-    .map(ref=>ref.path.slice('src/godot-game/'.length)));
+  const authored=new Set(source.files.filter(ref=>ref.path.startsWith('src/godot-game/game/'))
+    .map(ref=>ref.path.slice('src/godot-game/game/'.length)));
   const project=path.resolve(root,relative);
   e.need(fs.lstatSync(project).isDirectory()&&!fs.lstatSync(project).isSymbolicLink(),'RENDERED_SOURCE_REPARSE',relative);
   const generated=[];
@@ -1184,6 +1184,26 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       packet:e.writeExclusive(root,prefix+'-object-'+index+'.bin',packet.raw)}));
     return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
   }
+  // Phase 5 resolves controls from the owned live scene instead of a Phase 4 driver declaration.
+  async function clickControl(node, {firstRow=false}={}) {
+    const position = {node,property:'global_position'};
+    const size = {node,property:'size'};
+    const ancestors = [];
+    for (let current=node; current!=='/root'; current=path.posix.dirname(current)) {
+      ancestors.push({node:current,property:'position'});
+    }
+    const layout = await native.snapshot(pid,[position,size,...ancestors]);
+    const [global,extent,...locals] = layout.values.map(row => row.value);
+    const vector = value => value?.type===5 && value.values.length===2;
+    e.need(vector(extent) && (vector(global) || locals.every(vector)), 'HUB_SMOKE_CONTROL_GEOMETRY',node);
+    const origin = vector(global) ? global.values : locals.reduce(
+      ([x,y],{values}) => [x+values[0],y+values[1]], [0,0]);
+    const [width,height] = extent.values;
+    const x = Math.floor(origin[0] + (firstRow ? Math.min(width/2,24) : width/2));
+    const y = Math.floor(origin[1] + (firstRow ? Math.min(height/2,12) : height/2));
+    e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
+    return {x,y};
+  }
   async function checkpoint(item,step,invocation,recovery=false) {
     const prefix = relative + '/' + item.id + (recovery?'-recovery-':'-') + step.id;
     const deadline = Date.now() + budget(12000);
@@ -1217,7 +1237,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       await input.input('click',step.recheck.x,step.recheck.y,0);
       recheck={...step.recheck,at:new Date().toISOString(),acknowledgement};
     }
-    if (step.openMenu) {
+    if (step.openMenu && !step.drive) {
       await input.input('click',step.openMenu.x,step.openMenu.y,0);
       openMenu={...step.openMenu,at:new Date().toISOString(),acknowledgement};
     }
@@ -1225,12 +1245,30 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       await input.input('click',step.focusClick.x,step.focusClick.y,0);
       focusClick={...step.focusClick,at:new Date().toISOString(),acknowledgement};
     }
-    await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
+    const actions=[];
+    if (step.drive) {
+      const act = async (action,x,y,key) => {
+        await input.input(action,x,y,key);
+        actions.push({action,x,y,key,acknowledgement});
+      };
+      await step.drive({
+        async click(node, options) {
+          const {x,y}=await clickControl(node,options);
+          await act('click',x,y,0);
+        },
+        tap(key) { return act('tap',0,0,key); }
+      });
+      e.need(actions.length>0,'HUB_SMOKE_INPUT_EMPTY',step.id);
+    } else {
+      await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
+    }
     const at = new Date().toISOString(), physical = acknowledgement;
     const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
     const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
-      clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
-      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu,focusClick});
+      clientWidth:physical.width,clientHeight:physical.height,method:step.drive?'physical-sequence':
+        step.action==='click'?'physical-mouse':'physical-keyboard',
+      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu,focusClick,
+      ...(step.drive ? {actions} : {})});
     const observed = await settle(step.checks,{onFailure:state=>snapshotRef(prefix+'-failed-settle',state)});
     const observedRef=snapshotRef(prefix+'-observed',observed);
     e.need(!equal(observed.values,before.values),'RENDERED_NATIVE_TRANSITION',item.id+' '+step.id);
@@ -1723,6 +1761,6 @@ module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, cover
   finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
   repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
-  runInspectionLane,
+  runInspectionLane, inspectionSession,
   sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
   runRendered, verifyCompletion};

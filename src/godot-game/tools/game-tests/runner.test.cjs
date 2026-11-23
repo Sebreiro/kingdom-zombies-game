@@ -58,3 +58,22 @@ test('later outcomes cannot overwrite an original run report', t => {
   assert.throws(() => writeJson(directory, 'summary.json', {status: 'pass'}), /EEXIST/);
   assert.equal(JSON.parse(fs.readFileSync(original, 'utf8')).status, 'fail');
 });
+
+test('new scenario rows share one driver and reset between ordered cases', async t => {
+  const {runScenarios} = require('./scenario-group.cjs');
+  const context = {directory: scratch(t)};
+  const rows = [{id: 'later.second', order: 2}, {id: 'later.first', order: 1}];
+  const events = [];
+  const driver = {
+    open() { events.push('open'); return {value: 0}; },
+    cases: {
+      'later.first'(state) { events.push('first'); state.value++; return ['first.json']; },
+      'later.second'(state) { events.push('second'); assert.equal(state.value, 0); return ['second.json']; }
+    },
+    reset(state) { events.push('reset'); state.value = 0; },
+    close() { events.push('close'); }
+  };
+  const results = await runScenarios(context, rows, driver);
+  assert.deepEqual(events, ['open', 'first', 'reset', 'second', 'close']);
+  assert.deepEqual(results.map(row => [row.id, row.status]), [['later.first', 'pass'], ['later.second', 'pass']]);
+});
