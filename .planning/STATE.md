@@ -7,7 +7,7 @@ current_phase_name: CI and repeatable game testing
 current_plan: 0
 status: ready_to_plan
 stopped_at: "Quick task 261123-ltj (one ignored .local folder) committed on its branch. Next: plan Phase 05."
-last_updated: "2026-11-23T17:27:11.000Z"
+last_updated: "2026-11-23T19:14:15.000Z"
 last_activity: 2026-11-23
 last_activity_desc: "Quick task 261123-ltj replaced the ignored .phaseN folders with one .local folder, pinned the shared Node 24 and fixed the PR #11 contradictions."
 state_head: 64217702c329d9adcc711a1d116b9b4a45077fe6
@@ -230,6 +230,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | 261121-jmu | Refresh repository layout PR for Phase 4 | 2026-11-21 | 8832a16 | Verified | [261121-jmu-refresh-repository-layout-pr-for-phase-4](./quick/261121-jmu-refresh-repository-layout-pr-for-phase-4/261121-jmu-SUMMARY.md) |
 | 261122-ub4 | Prepare PR 7 for merge: merge dev, fix cleanup data-loss paths, align docs; delete Phase 1-4 artifacts | 2026-11-22 | 6421770 | — | [261122-ub4-prepare-for-merge-pr-7](./quick/261122-ub4-prepare-for-merge-pr-7/261122-ub4-SUMMARY.md) |
 | 261123-fsu | Resolve PR #6 conflicts: merge dev (Phase 4 and PR #7) into the relocated layout and rebind what the move breaks | 2026-11-23 | e7ec53d | Verified | [261123-fsu-resolve-conflict-https-github-com-sebrei](./quick/261123-fsu-resolve-conflict-https-github-com-sebrei/261123-fsu-SUMMARY.md) |
+| 261123-ltj | Replace the ignored `.phaseN` folders with one `.local/` folder, share Node 24 and NuGet per repository, and fix the PR #11 contradictions | 2026-11-23 | cfbbb5f | Verified | [261123-ltj-replace-phasen-folders-with-one-ignored-](./quick/261123-ltj-replace-phasen-folders-with-one-ignored-/261123-ltj-SUMMARY.md) |
 
 ## Deferred Items
 
@@ -246,8 +247,8 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-23T17:27:11.000Z
-Stopped at: Quick task 261123-ltj (one ignored `.local/` folder) committed on its branch; Phase 5 is ready to plan.
+Last session: 2026-11-23T19:14:15.000Z
+Stopped at: Quick task 261123-ltj (one ignored `.local/` folder) verified and opened as a pull request to `dev`; after it merges, the creator migrates the main checkout. Phase 5 is ready to plan.
 Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
