@@ -19,7 +19,7 @@ public sealed class GeneratedCallSiteAdapterTests
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
         JsonElement[] rows = [.. register.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
         EngineGeneratedTests.VerifyInventories(registry: register.RootElement, baselineCount: 18,
-                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+                baselineHash: "1900d6a9acc3d1ee6c1ea45d9c75dc19ad7dd319341811a8c92e4703a4ad8adb");
         foreach (JsonElement row in rows)
         {
             string adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: (row

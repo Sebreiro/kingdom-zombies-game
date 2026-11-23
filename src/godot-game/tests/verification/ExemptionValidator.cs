@@ -240,13 +240,13 @@ internal static class ExemptionValidator
     {
         var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
         EngineGeneratedTests.VerifyFixedRows(relative: "docs/code/generated-layout-adaptations.json",
-                collection: "members", expected: "a83746c3be9932338ceb5ef54a20205bb93367be16e4da9eb008f411e9eb84ff");
+                collection: "members", expected: "7a761b178f59c1dd98781942b16abf2c6ed79fb0696ae633c94cc3ce81ce565c");
         EngineGeneratedTests.VerifyFixedRows(relative: "docs/code/engine-adaptations.json",
-                collection: "local", expected: "8cce39bc8891a37af0c98ebcf43d5e547c093ba70fa408f4d7feaa996cd16587");
+                collection: "local", expected: "392edce1377fc22d685cc140295c46042dd78e88bacea06244a21a4d7a30afa9");
         using var callsites = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(
                 path1: ProofProtocol.Root, path2: "docs/code/generated-callsite-adaptations.json")));
         EngineGeneratedTests.VerifyInventories(registry: callsites.RootElement, baselineCount: 18,
-                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+                baselineHash: "1900d6a9acc3d1ee6c1ea45d9c75dc19ad7dd319341811a8c92e4703a4ad8adb");
         int added = callsites.RootElement.GetProperty(propertyName: "local").GetArrayLength() - 18;
         int origins = AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local",
                 count: 18 + added,

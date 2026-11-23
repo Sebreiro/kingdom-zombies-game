@@ -172,7 +172,7 @@ public sealed class EngineGeneratedTests
         BuildProducer();
         using JsonDocument registry = Registry();
         VerifyInventories(registry: registry.RootElement, baselineCount: 220,
-                baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
+                baselineHash: "980c2a80d56fa4cdf91e03ce3a64c030ac5639cb60ae12628832f464d2afdee3");
         VerifyOriginRows(rows: [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()],
                 registry: registry.RootElement);
         VerifyOriginFixed(registry: registry.RootElement);
@@ -183,7 +183,7 @@ public sealed class EngineGeneratedTests
     {
         using JsonDocument registry = Registry();
         VerifyInventories(registry: registry.RootElement, baselineCount: 220,
-                baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
+                baselineHash: "980c2a80d56fa4cdf91e03ce3a64c030ac5639cb60ae12628832f464d2afdee3");
         VerifyBoundaryRows(rows: [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()],
                 registry: registry.RootElement);
         RejectSealingNeighbor();
@@ -427,8 +427,8 @@ public sealed class EngineGeneratedTests
     private static void InventoryStructure(JsonElement registry, bool calls)
     {
         InventoryBaseline(registry: registry, baselineCount: calls ? 18 : 220, baselineHash: calls
-                ? "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f"
-                : "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
+                ? "1900d6a9acc3d1ee6c1ea45d9c75dc19ad7dd319341811a8c92e4703a4ad8adb"
+                : "980c2a80d56fa4cdf91e03ce3a64c030ac5639cb60ae12628832f464d2afdee3");
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonElement inventory in registry.GetProperty(propertyName: "producerInventories").EnumerateArray())
         {
@@ -884,7 +884,7 @@ public sealed class EngineGeneratedTests
         var covered = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonElement file in observations.GetProperty(propertyName: "generatedFiles").EnumerateArray())
         {
-            string path = Text(row: file, name: "path");
+            string path = AssetPipelinePaths.Current(path: Text(row: file, name: "path"));
             SyntaxTree tree = compilation.SyntaxTrees.Single(predicate: item => StringComparer.Ordinal.Equals(
                     x: item.FilePath, y: path));
             foreach (JsonElement diagnostic in file.GetProperty(propertyName: "diagnostics").EnumerateArray())
@@ -956,7 +956,7 @@ public sealed class EngineGeneratedTests
     private static void RejectInventoryMutations(JsonElement registry)
     {
         RejectWarmSnapshots(registry: registry, baselineCount: 220,
-                baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
+                baselineHash: "980c2a80d56fa4cdf91e03ce3a64c030ac5639cb60ae12628832f464d2afdee3");
         foreach (string field in new[] { "missing-observations", "extra-row", "sha256", "packageSha256",
                 "surface", "member", "diagnostic",
                 "line", "column", "length", "missing-row", "source-input", "missing-source", "package",
@@ -973,7 +973,7 @@ public sealed class EngineGeneratedTests
             using var document = JsonDocument.Parse(json: changed.ToJsonString());
             Exception failure = Should.Throw<Exception>(actual: () => VerifyInventories(
                     registry: document.RootElement, baselineCount: 220,
-                    baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f"));
+                    baselineHash: "980c2a80d56fa4cdf91e03ce3a64c030ac5639cb60ae12628832f464d2afdee3"));
             if (field is "extra-row")
             {
                 failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
@@ -1036,7 +1036,7 @@ public sealed class EngineGeneratedTests
         using (var original = JsonDocument.Parse(json: register.ToJsonString()))
         {
             RejectWarmSnapshots(registry: original.RootElement, baselineCount: 18,
-                    baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+                    baselineHash: "1900d6a9acc3d1ee6c1ea45d9c75dc19ad7dd319341811a8c92e4703a4ad8adb");
         }
 
         JsonArray rows = register["local"]?.AsArray() ?? throw new InvalidDataException(message: "CALL_ROWS");
@@ -1049,7 +1049,7 @@ public sealed class EngineGeneratedTests
         using var document = JsonDocument.Parse(json: register.ToJsonString());
         Exception failure = Should.Throw<Exception>(actual: () => VerifyInventories(
                 registry: document.RootElement, baselineCount: 18,
-                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f"));
+                baselineHash: "1900d6a9acc3d1ee6c1ea45d9c75dc19ad7dd319341811a8c92e4703a4ad8adb"));
         failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
     }
 

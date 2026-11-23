@@ -4185,7 +4185,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-001",
       "diagnostic": "SCR0006",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4204,7 +4204,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-002",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4223,7 +4223,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-003",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4242,7 +4242,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-004",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4261,7 +4261,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-005",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4280,7 +4280,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-006",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4299,7 +4299,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-007",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4318,7 +4318,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-008",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4337,7 +4337,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-009",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4356,7 +4356,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-010",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4375,7 +4375,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-011",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4394,7 +4394,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-012",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4413,7 +4413,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-013",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4432,7 +4432,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-014",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4451,7 +4451,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-015",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4470,7 +4470,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-016",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4489,7 +4489,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-017",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4508,7 +4508,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-018",
       "diagnostic": "SCR0008",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171",
       "textSha256": "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59",
@@ -4527,7 +4527,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-019",
       "diagnostic": "SCR0008",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4546,7 +4546,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-020",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4565,7 +4565,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-021",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4584,7 +4584,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-022",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4603,7 +4603,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-023",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4622,7 +4622,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-024",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4641,7 +4641,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-025",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4660,7 +4660,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-026",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4679,7 +4679,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-027",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4698,7 +4698,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-028",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4717,7 +4717,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-029",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4736,7 +4736,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-030",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4755,7 +4755,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-031",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4774,7 +4774,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-032",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4793,7 +4793,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-033",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4812,7 +4812,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-034",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4831,7 +4831,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-035",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4850,7 +4850,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-036",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4869,7 +4869,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-037",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4888,7 +4888,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-038",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4907,7 +4907,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-039",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4926,7 +4926,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-040",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4945,7 +4945,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-041",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4964,7 +4964,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-042",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -4983,7 +4983,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-043",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -5002,7 +5002,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-044",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -5021,7 +5021,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-045",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -5040,7 +5040,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-046",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -5059,7 +5059,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-047",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "6fe2422134efad21dc0848a86c59c91f2daa96388495a1b3b821af4357a2185b",
       "textSha256": "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d",
@@ -5078,7 +5078,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-048",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPathAttributeGenerator/AssemblyScriptTypes.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPathAttributeGenerator/AssemblyScriptTypes.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPathAttributeGenerator/AssemblyScriptTypes.generated.cs",
       "sha256": "5d5881e57e36f1a6f4c05b1765a3b009281a043d0c47f6c78e7c8db8b58a5010",
       "textSha256": "621c1e81abf2b4d2384f78c56e3c865ad780b952b814bab7ca6a56b896009846",
@@ -5097,7 +5097,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-049",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5116,7 +5116,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-050",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5135,7 +5135,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-051",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5154,7 +5154,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-052",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5173,7 +5173,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-053",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5192,7 +5192,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-054",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5211,7 +5211,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-055",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5230,7 +5230,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-056",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5249,7 +5249,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-057",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5268,7 +5268,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-058",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5287,7 +5287,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-059",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5306,7 +5306,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-060",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5325,7 +5325,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-061",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5344,7 +5344,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-062",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5363,7 +5363,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-063",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5382,7 +5382,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-064",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5401,7 +5401,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-065",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5420,7 +5420,7 @@
     {
       "id": "KZ-EX-INSPECTION03-SPAN-066",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "bb7e5c3865b22c22dc7bfaeed0c2e66e7d0c04cedb279f9863e856bf50f8b9b1",
       "textSha256": "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615",
@@ -5439,7 +5439,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-001",
       "diagnostic": "SCR0006",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5458,7 +5458,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-002",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5477,7 +5477,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-003",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5496,7 +5496,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-004",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5515,7 +5515,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-005",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5534,7 +5534,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-006",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5553,7 +5553,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-007",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5572,7 +5572,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-008",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5591,7 +5591,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-009",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5610,7 +5610,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-010",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5629,7 +5629,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-011",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5648,7 +5648,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-012",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5667,7 +5667,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-013",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5686,7 +5686,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-014",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5705,7 +5705,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-015",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5724,7 +5724,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-016",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5743,7 +5743,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-017",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5762,7 +5762,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-018",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5781,7 +5781,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-019",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5800,7 +5800,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-020",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5819,7 +5819,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-021",
       "diagnostic": "SCR0008",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -5838,7 +5838,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-022",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5857,7 +5857,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-023",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5876,7 +5876,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-024",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5895,7 +5895,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-025",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5914,7 +5914,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-026",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5933,7 +5933,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-027",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5952,7 +5952,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-028",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5971,7 +5971,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-029",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -5990,7 +5990,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-030",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6009,7 +6009,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-031",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6028,7 +6028,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-032",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6047,7 +6047,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-033",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6066,7 +6066,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-034",
       "diagnostic": "SCR0008",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6085,7 +6085,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-035",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6104,7 +6104,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-036",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6123,7 +6123,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-037",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6142,7 +6142,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-038",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6161,7 +6161,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-039",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6180,7 +6180,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-040",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6199,7 +6199,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-041",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6218,7 +6218,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-042",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6237,7 +6237,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-043",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6256,7 +6256,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-044",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6275,7 +6275,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-045",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6294,7 +6294,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-046",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6313,7 +6313,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-047",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6332,7 +6332,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-048",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6351,7 +6351,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-049",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6370,7 +6370,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-050",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6389,7 +6389,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-051",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6408,7 +6408,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-052",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6427,7 +6427,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-053",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6446,7 +6446,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-054",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6465,7 +6465,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-055",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6484,7 +6484,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-056",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -6503,7 +6503,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-057",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6522,7 +6522,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-058",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6541,7 +6541,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-059",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6560,7 +6560,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-060",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6579,7 +6579,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-061",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6598,7 +6598,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-062",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6617,7 +6617,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-063",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6636,7 +6636,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-064",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6655,7 +6655,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-065",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6674,7 +6674,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-066",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6693,7 +6693,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-067",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6712,7 +6712,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-068",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6731,7 +6731,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-069",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6750,7 +6750,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-070",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6769,7 +6769,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-071",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6788,7 +6788,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-072",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6807,7 +6807,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-073",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6826,7 +6826,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-074",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6845,7 +6845,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-075",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6864,7 +6864,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-076",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6883,7 +6883,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-077",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6902,7 +6902,7 @@
     {
       "id": "KZ-EX-INSPECTION26-SPAN-078",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -6921,7 +6921,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-001",
       "diagnostic": "SCR0008",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -6940,7 +6940,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-002",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -6959,7 +6959,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-003",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -6978,7 +6978,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-004",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -6997,7 +6997,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-005",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7016,7 +7016,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-006",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7035,7 +7035,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-007",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7054,7 +7054,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-008",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7073,7 +7073,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-009",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7092,7 +7092,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-010",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7111,7 +7111,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-011",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7130,7 +7130,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-012",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7149,7 +7149,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-013",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7168,7 +7168,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-014",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7187,7 +7187,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-015",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7206,7 +7206,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-016",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7225,7 +7225,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-017",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7244,7 +7244,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-018",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7263,7 +7263,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-019",
       "diagnostic": "SCR0006",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7282,7 +7282,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-020",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7301,7 +7301,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-021",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
       "sha256": "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
       "textSha256": "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697",
@@ -7320,7 +7320,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-022",
       "diagnostic": "SCR0008",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7339,7 +7339,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-023",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7358,7 +7358,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-024",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7377,7 +7377,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-025",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7396,7 +7396,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-026",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7415,7 +7415,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-027",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7434,7 +7434,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-028",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7453,7 +7453,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-029",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7472,7 +7472,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-030",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7491,7 +7491,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-031",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7510,7 +7510,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-032",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7529,7 +7529,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-033",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7548,7 +7548,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-034",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7567,7 +7567,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-035",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7586,7 +7586,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-036",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7605,7 +7605,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-037",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7624,7 +7624,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-038",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7643,7 +7643,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-039",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7662,7 +7662,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-040",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7681,7 +7681,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-041",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7700,7 +7700,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-042",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7719,7 +7719,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-043",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7738,7 +7738,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-044",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7757,7 +7757,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-045",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7776,7 +7776,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-046",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7795,7 +7795,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-047",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7814,7 +7814,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-048",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7833,7 +7833,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-049",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7852,7 +7852,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-050",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7871,7 +7871,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-051",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7890,7 +7890,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-052",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7909,7 +7909,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-053",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7928,7 +7928,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-054",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7947,7 +7947,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-055",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7966,7 +7966,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-056",
       "diagnostic": "SCR0007",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
       "sha256": "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
       "textSha256": "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b",
@@ -7985,7 +7985,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-057",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8004,7 +8004,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-058",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8023,7 +8023,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-059",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8042,7 +8042,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-060",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8061,7 +8061,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-061",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8080,7 +8080,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-062",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8099,7 +8099,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-063",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8118,7 +8118,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-064",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8137,7 +8137,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-065",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8156,7 +8156,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-066",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8175,7 +8175,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-067",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8194,7 +8194,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-068",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8213,7 +8213,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-069",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8232,7 +8232,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-070",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8251,7 +8251,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-071",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8270,7 +8270,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-072",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8289,7 +8289,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-073",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8308,7 +8308,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-074",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8327,7 +8327,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-075",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8346,7 +8346,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-076",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8365,7 +8365,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-077",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
@@ -8384,7 +8384,7 @@
     {
       "id": "KZ-EX-INSPECTION23-SPAN-078",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "suffix": "/Godot.SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
       "sha256": "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
       "textSha256": "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d",
