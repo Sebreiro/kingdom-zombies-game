@@ -342,6 +342,32 @@ test('apply verifies every row first, then moves, then deletes, and deletes the 
   assert.equal(steps.at(-1), '  deleted  .phase1/tools/linux-vm');
 });
 
+test('apply holds the shared toolchain lock while it changes anything and refuses a lock taken after planning', t => {
+  const {root} = repository(t);
+  const lock = path.join(root, '.local', 'locks', 'toolchain.lock');
+  const rename = fs.renameSync, remove = fs.rmSync, held = [];
+  fs.renameSync = (...args) => { held.push(fs.existsSync(lock)); return rename(...args); };
+  fs.rmSync = (...args) => { if (args[0] !== lock) held.push(fs.existsSync(lock)); return remove(...args); };
+  let result;
+  try {
+    result = invoke(root, ['--apply']);
+  } finally {
+    fs.renameSync = rename;
+    fs.rmSync = remove;
+  }
+  assert.equal(result.code, 0, result.out + result.err);
+  assert.ok(held.length > 0 && held.every(Boolean), 'every move and deletion ran under the lock');
+  assert.ok(!fs.existsSync(lock), 'the lock is released');
+
+  const raced = repository(t);
+  const late = path.join(raced.root, '.local', 'locks', 'toolchain.lock');
+  const racing = invoke(raced.root, ['--apply'], {list: () => { write(raced.root, '.local/locks/toolchain.lock', 'foreign'); return []; }});
+  assert.equal(racing.code, 1);
+  assert.match(racing.err, /TOOLCHAIN_LOCKED/);
+  assert.equal(fs.readFileSync(late, 'utf8'), 'foreign', 'a foreign lock stays');
+  for (const kept of ['.phase1/tools/linux-vm/system.qcow2', '.phase1/cache/Godot_fixture_win64.zip']) assert.ok(exists(raced.root, kept), kept);
+});
+
 test('a rerun after an interrupted apply skips the completed rows and finishes', t => {
   const {root} = repository(t);
   const rename = fs.renameSync;

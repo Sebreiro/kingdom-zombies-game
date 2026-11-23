@@ -236,6 +236,8 @@ function globalRefusals(main, {env, list, worktreePaths}) {
       'switch it to a branch that has the .local layout first');
   }
   if (!ignoredByGitignore(main)) refusals.push('.local/ is not ignored by the main checkout\'s .gitignore');
+  const linkedLocks = workspace.linkedComponent(main, path.join(main, '.local', 'locks'));
+  if (linkedLocks) refusals.push(`${linkedLocks} is a link, so the toolchain lock cannot be taken in the main checkout`);
   const override = env[workspace.OVERRIDE];
   if (override && !samePath(override, path.join(main, '.local'))) {
     refusals.push(`${workspace.OVERRIDE} names a folder other than the main checkout's .local`);
@@ -333,8 +335,34 @@ function pruneEmpty(main, log) {
   }
 }
 
-/** Runs a fully checked plan: every move, then every deletion, with the irreversible VM deletion last. */
+/**
+ * Runs a fully checked plan under the shared toolchain lock, so no bootstrap or Node setup writes the same targets:
+ * every move, then every deletion, with the irreversible VM deletion last.
+ */
 function apply(planned, log) {
+  if (!planned.rows.some(row => row.decision === 'move' || row.decision === 'delete')) {
+    pruneEmpty(planned.main, log);
+    return;
+  }
+  const lock = path.join(planned.main, '.local', 'locks', 'toolchain.lock');
+  fs.mkdirSync(path.dirname(lock), {recursive: true});
+  let descriptor;
+  try {
+    descriptor = fs.openSync(lock, 'wx');
+  } catch (failure) {
+    if (failure.code === 'EEXIST') throw new Error('TOOLCHAIN_LOCKED: another acquisition owns .local/locks/toolchain.lock');
+    throw failure;
+  }
+  try {
+    fs.writeFileSync(descriptor, JSON.stringify({tool: 'workspace-migrate', pid: process.pid, at: new Date().toISOString()}));
+    applyLocked(planned, log);
+  } finally {
+    fs.closeSync(descriptor);
+    fs.rmSync(lock, {force: true});
+  }
+}
+
+function applyLocked(planned, log) {
   const deletes = planned.rows.filter(row => row.decision === 'delete');
   for (const row of planned.rows.filter(item => item.decision === 'move')) {
     fs.mkdirSync(path.dirname(row.target), {recursive: true});
