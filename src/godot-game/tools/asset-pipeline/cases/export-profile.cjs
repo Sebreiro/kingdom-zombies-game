@@ -10,7 +10,7 @@ const RESOURCE_LIMIT=1048576,THEME_LIMIT=2097152,CLOSURE_COUNT=128,CLOSURE_DEPTH
 const SOURCE_ONLY='source/headless configuration/resource proof only; actual packaged Inspection startup pending 04-02 Task 1';
 const CONTRACT={ordinaryProjectSha256:'1f7d242e12521a4866512b6017f25f1868cd6160e3c9efe0074ad498008b2a9d',
   presetBeforeFeatureSha256:'7fe9294d4a160582af981a9ec00167f8bf8bb407b6e86ce8b4bbde226bed3b00',
-  projectGraphSha256:'717bc7e8898553fe62a632fef80b0bbdc10425ecdc18668f8a39cb5be30a443d',
+  projectGraphSha256:'8e7748d80497d3f4b499158be8c34ca98ae6f883b0306de7fbddd4a678880d64',
   checkpoint:'.phase4/checkpoints/04-02-entry-93386745/manifest.json',
   fullRunnerBeforeProfileSha256:'2e022d88b462d361bc1807fc54ed031245e93f167edd6c5c7b07837a49d0a021'};
 const RESOURCES=['foundation/Foundation.tscn','inspection/Inspection.tscn','assets/common/bow.png','content/pack-index.json',

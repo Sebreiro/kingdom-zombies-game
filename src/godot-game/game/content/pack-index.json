@@ -34,8 +34,8 @@
     {
       "id": "file.07a922775910e09a6967",
       "path": "docs/content/windows-inspection.md",
-      "bytes": 2478,
-      "sha256": "6ce2071857e2f3f9ceac6f720ed5951238f283680fb6cb8980b07fa92f099e69",
+      "bytes": 2524,
+      "sha256": "115f7643deefc8e7d1cc753b1779b92f61435b4c35e4814c911186a2fe5b4e4d",
       "version": 1,
       "role": "source-support"
     },
@@ -115,7 +115,7 @@
       "id": "file.267d91188d213c3b987d",
       "path": "production/phase4/export-profile.json",
       "bytes": 4571,
-      "sha256": "fea77867c60958c6dea8ced02e8469413c41baf5975b88c4b4b45a2a8865aee4",
+      "sha256": "5549f79ff85db5727beda70d81b4290dbafc9d5ac145d2816871532e220b7422",
       "version": 1,
       "role": "authoring"
     },
@@ -714,8 +714,8 @@
     {
       "id": "file.ed8cf7ea71864c983adc",
       "path": "src/godot-game/content/packs/delivery.json",
-      "bytes": 102196,
-      "sha256": "0287c2a811e9ac90053d6cce408cb19241c31885aff677a3d619313741f23878",
+      "bytes": 102591,
+      "sha256": "f95ccf079b3ccd47d836310dd06356b375fded7ef5d3e362f79b1ddd27e9095e",
       "version": 1,
       "role": "runtime"
     },
@@ -1002,8 +1002,8 @@
     {
       "id": "file.57335174ea304c11b999",
       "path": "src/godot-game/docs/README.md",
-      "bytes": 2740,
-      "sha256": "ee69ab8ea5ef2a67bbee0920f3b676fb85bba3fbb64a8e5ac2e4f2792d6b2f60",
+      "bytes": 2809,
+      "sha256": "0088543a5e3a5f56a67626d431eaa84b8e1a0d4c377a6221dcad7f7abe2f84c3",
       "version": 1,
       "role": "source-support"
     },
@@ -1074,8 +1074,8 @@
     {
       "id": "file.8ad5f271f27a8b5b02f4",
       "path": "tools/phase4/required-cases.json",
-      "bytes": 681711,
-      "sha256": "a581082b9bba0fb07b0ae0cc2340293a68c1746ff2d75e466b0c97bb345537f6",
+      "bytes": 691440,
+      "sha256": "33d7d71070b0dc10d942afb1e16ea79bea0a55386fe712b2c11c4be6cc449b82",
       "version": 1,
       "role": "source-support"
     }

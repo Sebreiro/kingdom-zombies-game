@@ -19,8 +19,8 @@ For a headless launch and natural exit, run the following command from the porta
 From the repository root, run the complete export group and the portability case with the pinned Windows tools. The portability case writes the retained folder path, file hashes, fresh launch and relaunch identities, exact missing-resource and valid-sibling observations, and runtime-resolution evidence to `portable-delivery.json` in its run directory. Use that identified folder for the focused review and acceptance. [Development setup](../workflow/setup.md) · [Phase 4 evidence handoff](../../.planning/phases/04-asset-production/04-HANDOFF.md)
 
 ```powershell
-node tools/phase4/check.cjs --group export
-node tools/phase4/check.cjs --case export.portability
+node src/godot-game/tools/asset-pipeline/check.cjs --group export
+node src/godot-game/tools/asset-pipeline/check.cjs --case export.portability
 ```
 
 The export uses the permanent **Phase4 Windows inspection** preset and the authenticated official Godot 4.7.2 .NET Windows template. Runtime content includes the English catalog, the supporting documentation, fonts, audio, layouts and exact indexed data from the game project. The Windows executable uses the official template metadata. The game application title and icon are part of the project and packaged resources.
