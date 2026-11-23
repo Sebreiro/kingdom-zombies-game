@@ -29,7 +29,7 @@ async function run(mode) {
       'run/main_scene.asset_inspection':'inspection/Inspection.tscn',
       'config/icon':'assets/ui/kingdom-zombies-icon.png'
     });
-    const project=path.join(current.isolatedInputRoot,'src/godot-game/project.godot');
+    const project=path.join(current.isolatedInputRoot,'src/godot-game/game/project.godot');
     const source=fs.readFileSync(project,'utf8');
     for(const [setting,resource] of [['config/undeclared_fixture','assets/ui/undeclared-fixture.png'],
       ['config/extra_icon','assets/ui/kingdom-zombies-icon.png']]) {
@@ -43,7 +43,7 @@ async function run(mode) {
         fs.writeFileSync(project,source);
       }
     }
-    fs.copyFileSync(path.join(root,'src/godot-game/icon.svg'),path.join(path.dirname(project),'icon.svg'));
+    fs.copyFileSync(path.join(root,'src/godot-game/game/icon.svg'),path.join(path.dirname(project),'icon.svg'));
     const historical=source.replace(/^run\/main_scene\.asset_inspection=.*\r?\n/m,'')
       .replace('res://assets/ui/kingdom-zombies-icon.png','res://icon.svg');
     fs.writeFileSync(project,historical);
