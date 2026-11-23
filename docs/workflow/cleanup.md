@@ -36,7 +36,7 @@ Within one task, keep reports immutable and reuse them as [verification](verific
 | Files the task wrote outside the checkout, such as scripts or downloads in the system temp folder | Task scratch | Delete |
 | Tracked files, `.planning/state.json`, `.gsd/` and files the task did not create | Project and tool state | Keep |
 
-The command keeps and reports a folder that contains a repository or cannot be scanned. After cleanup, rerun the [setup](setup.md) isolation step before direct builds; it recreates `.local/temp`.
+The command keeps and reports a folder that contains a repository or cannot be scanned. Tools tests remove the temporary folders, control repositories and shared roots they create after each test, so a test run leaves no such folder behind. After cleanup, rerun the [setup](setup.md) isolation step before direct builds; it recreates `.local/temp`.
 
 The `.local/` folder sits at the root of every checkout. In a linked worktree, `.local/tools/`, `.local/downloads/` and `.local/nuget/` normally stay empty, because those caches are shared once per repository from the main checkout's `.local/` (the shared root); the checkout's own verified package feed is the exception. Runs and temp always stay in the checkout that produced them. Cleanup in a worktree never touches the shared root. [workspace-paths.cjs](../../src/godot-game/tools/workspace-paths.cjs) resolves every location; the [layout policy](../architecture/repository-layout.md#commands-and-generated-state) describes the sharing.
 

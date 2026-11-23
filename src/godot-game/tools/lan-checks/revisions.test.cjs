@@ -4,13 +4,19 @@ const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),r=re
 const catalog=require('./catalog.cjs'),baseline=require('../verification/check.cjs'),check=require('./check.cjs');
 const project=path.resolve(__dirname,'../../../..'),workspace=require('../workspace-paths.cjs');
 // Control repositories live in this checkout's temp folder; a temporary shared root keeps them off the real one.
-const controls=workspace.locations(project).temp('lan-checks');fs.mkdirSync(controls,{recursive:true});
-process.env.KZ_SHARED_LOCAL=fs.mkdtempSync(path.join(controls,'shared-'));
+// Each control is removed after its test; the shared root, an emptied controls folder and the variable after the file.
+const controls=workspace.locations(project).temp('lan-checks'),remove=directory=>fs.rmSync(directory,{recursive:true,force:true,maxRetries:3});
+function control(prefix){for(;;){fs.mkdirSync(controls,{recursive:true});try{return fs.mkdtempSync(path.join(controls,prefix));}catch(error){if(error.code!=='ENOENT')throw error;}}}
+const shared=control('shared-'),priorShared=process.env.KZ_SHARED_LOCAL;process.env.KZ_SHARED_LOCAL=shared;
+test.after(()=>{
+  remove(shared);if(priorShared===undefined)delete process.env.KZ_SHARED_LOCAL;else process.env.KZ_SHARED_LOCAL=priorShared;
+  try{fs.rmdirSync(controls);}catch(error){if(!['ENOENT','ENOTEMPTY','EEXIST','EBUSY','EPERM'].includes(error.code))throw error;}
+});
 // Families map to their runners' run folders inside a control repository.
 const runs={phase1:'.local/runs/verification',phase2:'.local/runs/gameplay-checks',phase3:'.local/runs/lan-checks'};
 const BUILD='.local/temp/lan-checks/build';
-function fixture(build=false){
-  const root=fs.mkdtempSync(path.join(controls,'revision-control-'));
+function fixture(t,build=false){
+  const root=control('revision-control-');t.after(()=>remove(root));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
   const git=(...args)=>{const result=spawnSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true});assert.equal(result.status,0,result.stderr);return result.stdout.trim();};
   const commit=()=>{git('add','.');git('commit','-qm','control');return git('rev-parse','HEAD');};
@@ -85,7 +91,9 @@ function fixture(build=false){
   const closure=commit();return {root,write,git,commit,reviewed,tested,closure,context,review,gate,identity,index,cases,ref};
 }
 function compile(root,stamp,pinSourceRoot=true){
-  const env={...check.environment(project),SourceRevisionId:stamp??'',CustomAfterMicrosoftCommonTargets:pinSourceRoot?path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets'):''};
+  // The SDK's temporary files and CLI home stay inside the control, so removing the control removes them.
+  const local=workspace.locations(root),temp=local.temp();fs.mkdirSync(temp,{recursive:true});
+  const env={...check.environment(project),DOTNET_CLI_HOME:local.cliHome,TEMP:temp,TMP:temp,TMPDIR:temp,SourceRevisionId:stamp??'',CustomAfterMicrosoftCommonTargets:pinSourceRoot?path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets'):''};
   const args=['build',BUILD+'/Subject.csproj','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'];
   const configured=require('../dotnet.cjs').launch(root,'dotnet',args);
   const startedAt=Date.now(),result=spawnSync('dotnet',configured.args,
@@ -109,8 +117,8 @@ function pinnedIdentity(root,stamp){
   try{if(stamp)process.env.SourceRevisionId=stamp;else delete process.env.SourceRevisionId;return check.createIdentity(root);}
   finally{if(prior===undefined)delete process.env.SourceRevisionId;else process.env.SourceRevisionId=prior;}
 }
-test('committed metadata closure validates original review and completion without rewriting bytes',()=>{
-  const f=fixture(),original=fs.readFileSync(path.join(f.root,f.index.finalReport.path)),review=fs.readFileSync(path.join(f.root,f.gate.review.report.path));
+test('committed metadata closure validates original review and completion without rewriting bytes',t=>{
+  const f=fixture(t),original=fs.readFileSync(path.join(f.root,f.index.finalReport.path)),review=fs.readFileSync(path.join(f.root,f.gate.review.report.path));
   const current={...f.identity,revision:f.closure};
   assert.equal(e.verifyCompletion(f.root,f.index,f.cases,current).testedRevision,f.tested);
   assert.equal(r.relation(f.root,f.reviewed,f.closure,f.identity.input).execution,'original');
@@ -149,8 +157,8 @@ test('committed metadata closure validates original review and completion withou
   f.git('revert','--no-edit',disallowed);assert.throws(()=>r.relation(f.root,f.tested,f.git('rev-parse','HEAD'),f.identity.input),/REVISION_NON_METADATA/);
   const originalPath=process.env.PATH;try{process.env.PATH='';assert.throws(()=>r.relation(f.root,f.tested,f.closure,f.identity.input),/GIT_VALIDATION_UNAVAILABLE/);}finally{process.env.PATH=originalPath;}
 });
-test('prelaunch requires committed matching review inputs and exact original report hash',()=>{
-  const f=fixture();f.git('checkout','--detach',f.tested);
+test('prelaunch requires committed matching review inputs and exact original report hash',t=>{
+  const f=fixture(t);f.git('checkout','--detach',f.tested);
   const context={...f.context,directory:path.join(f.root,'.local/temp/lan-checks/other')};fs.mkdirSync(path.dirname(context.directory),{recursive:true});fs.mkdirSync(context.directory);
   assert.throws(()=>catalog.prelaunch(f.root,{...context,buildRevision:null}),/REVIEW_BUILD_REVISION_REQUIRED/);
   assert.throws(()=>catalog.prelaunch(f.root,{...context,buildRevision:f.tested}),/REVIEW_BUILD_REVISION_REQUIRED/);
@@ -159,8 +167,8 @@ test('prelaunch requires committed matching review inputs and exact original rep
   f.git('checkout','--',file);f.write(f.review.report.path,'tampered');assert.throws(()=>catalog.prelaunch(f.root,context));
   f.git('checkout','--',f.review.report.path);f.write('src/control.txt','dirty');assert.throws(()=>catalog.prelaunch(f.root,context));
 });
-test('real SDK commit-build-review-gate cycle preserves exact DLL bytes only with the reviewed source stamp',()=>{
-  const f=fixture(true),file=path.join(f.root,f.index.finalReport.path),original=fs.readFileSync(file);
+test('real SDK commit-build-review-gate cycle preserves exact DLL bytes only with the reviewed source stamp',t=>{
+  const f=fixture(t,true),file=path.join(f.root,f.index.finalReport.path),original=fs.readFileSync(file);
   const before=e.hash(fs.readFileSync(path.join(f.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')));
   console.log('SDK_FINALIZATION_CONTROL '+f.root+' source='+f.reviewed+' execution='+f.tested+' closure='+f.closure+' dll='+before);
   assert.equal(compile(f.root,f.reviewed),before);
