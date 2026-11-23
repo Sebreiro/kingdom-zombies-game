@@ -19,6 +19,21 @@ The [GSD configuration](../../.planning/config.json) uses phase branching, `feat
 - When a phase or quick task is finished and its changes are committed and pushed, remove its worktree before reporting completion.
 - First record the results the task relies on and the steps to reproduce them. Every PR description includes a **How to reproduce** section so the creator can rerun the checks.
 
+## Task Worktrees
+
+- Create each task worktree outside the checkout, on the task's branch, at `<worktrees root>/<main checkout folder name>/kz-<task-id>-<short-description>`. Record its path in the continuation record.
+- The worktrees root is the per-user Git value `git config --get worktrees.root`. When that value is unset, the system temp folder stands in for it.
+- Set the value once per user, outside the repository, so no tracked file holds a machine path: `git config --global worktrees.root <folder>`. Choose a folder on a local drive with room for build outputs and a short path, because deep worktree paths can exceed the Windows path limit (see [setup](setup.md) for `core.longpaths`).
+- From any checkout of the repository, in Git Bash or another POSIX shell:
+
+```sh
+base=$(git config --get worktrees.root || node -p "require('node:os').tmpdir()")
+main=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+git worktree add -b feature/<task-id>-<short-description> "$base/$(basename "$main")/kz-<task-id>-<short-description>" origin/dev
+```
+
+- A worktree shares the main checkout's `.local/tools`, `.local/downloads` and `.local/nuget` caches and keeps its own runs and temp; see [workspace cleanup](cleanup.md#what-to-delete-and-keep). Remove it at task end as [workspace cleanup](cleanup.md#worktrees) describes.
+
 ## Interactive Questions
 
 - Use the available interactive question controls when asking the creator for information, preferences, or decisions. Do not substitute a numbered chat list when interactive controls are available.
@@ -48,7 +63,7 @@ See [verification](verification.md) for delivered commands. The older [pre-Phase
 - Reuse eligible passing evidence only when relevant inputs and the required environment still match. Account for the declared selection and explicit omissions. Reuse cannot replace the fresh final selected-set rendered pass after repairs; the complete catalog is available manually and becomes scheduled in Phase 11.
 - Keep original reports, tested revisions and invocation identities immutable until task-end [cleanup](cleanup.md); reuse in later tasks needs durable evidence. Completion reports distinguish executed-now, explicitly reused and missing/invalidated evidence. Reuse validates an earlier result; it never supplies a newly executed pass or cross-platform substitution. An unresolved later failure prevents acceptance through an older pass.
 - Before/after screenshots are checkpoints within a selected scenario on the current build, not obligatory runs of old/new builds for every edit. Keep real input, fresh-run evidence and declared appearance/readability review.
-- Phase 5 must implement and prove dependency-aware selection and reuse validation. Until then, the current Phase 1 runner still executes selected cases afresh. This policy invents no reuse command or retroactive certification. Actual full/manual workflow compatibility still needs execution evidence.
+- Phase 5 must implement and prove dependency-aware selection. Evidence reuse validation moved to Phase 11 under TEST-12; until then, the current Phase 1 runner still executes selected cases afresh. This policy invents no reuse command or retroactive certification. Actual full/manual workflow compatibility still needs execution evidence.
 
 See [Phase 5 context](../../.planning/phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and its [amended specification](../../.planning/phases/05-ci-and-repeatable-game-testing/05-SPEC.md). Ten minutes is an optimization target, not permission to omit selected checks. Report measured warm/cold, per-group and total times.
 

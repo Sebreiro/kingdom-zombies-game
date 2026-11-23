@@ -16,7 +16,20 @@ The [layout regression checks](../../src/godot-game/tools/repository-layout.test
 
 Open [game/project.godot](../../src/godot-game/game/project.godot) in Godot and [KingdomZombies.slnx](../../src/godot-game/KingdomZombies.slnx) in the C# IDE. Node runners start from the repository root. Direct .NET commands start from `src/godot-game`; SDK selection begins at the process working directory. All five C# projects inherit the workspace's shared build and package settings.
 
-Existing ignored `.phase1/`, `.phase2/` and `.phase3/` cache/report locations remain stable. Phase 4 adds `.phase4/` with the same checkout-root ownership. This cleanup moves authored content and configuration, not historical execution evidence. Do not commit generated `bin/`, `obj/`, `.godot/`, caches or local reports. See [setup](../workflow/setup.md) and [verification](../workflow/verification.md).
+Generated, regenerable state lives in one ignored folder at the root of every checkout, `.local/`. [workspace-paths.cjs](../../src/godot-game/tools/workspace-paths.cjs) and its C# twin [WorkspacePaths.cs](../../src/godot-game/tests/verification/WorkspacePaths.cs) are the one resolver for its locations; tools do not build these paths themselves.
+
+| Subfolder | Content | Scope |
+| --- | --- | --- |
+| `tools/` | Node, the Godot editor and the Linux VM | Shared |
+| `downloads/` | Pinned archives and checksums, export templates, Node archives and VM preparation archives | Shared |
+| `nuget/` | NuGet global packages, HTTP cache and scratch; the verified Godot package feed `nuget/feed/` | Shared; the feed is per checkout |
+| `locks/` | The toolchain and desktop locks; the check lock | Shared; the check lock is per checkout |
+| `runs/<tool>/` | Reports of `verification`, `gameplay-checks`, `lan-checks` and `asset-pipeline` | Per checkout |
+| `temp/` | Temporary files, the CLI home and per-purpose scratch | Per checkout |
+
+Shared folders exist once per repository, in the main checkout's `.local/` (the shared root). A linked worktree finds it through `git rev-parse --path-format=absolute --git-common-dir`, whose parent is the main checkout. The environment variable `KZ_SHARED_LOCAL` overrides it with an absolute folder for CI, extra clones, source copies and bare repositories; a folder that is not a Git checkout uses its own `.local/`. Bootstrap, the register package reads of the C# tests and the asset pipeline's toolchain reads accept a location in the shared root only for their named purposes (the Godot tools and downloads, and NuGet packages) and only after resolving links. Every other path stays inside the checkout. Build and import outputs (`bin/`, `obj/`, `.godot/`) and the GSD-owned `.planning/tmp/`, `.planning/state.json` and `.planning/milestone.lock` stay where their tools expect them.
+
+This layout moves where outputs are written, not historical execution evidence. Do not commit generated `bin/`, `obj/`, `.godot/`, caches or local reports. See [setup](../workflow/setup.md#workspace-folder), [workspace cleanup](../workflow/cleanup.md) and [verification](../workflow/verification.md).
 
 ## Historical paths
 
@@ -39,6 +52,24 @@ Completed phase summaries, review records, captured donor provenance and immutab
 | `tools/dotnet.cjs`, `tools/repository-layout.test.cjs`, `tools/workspace-cleanup.cjs`, `tools/workspace-cleanup.test.cjs` | Same names under `src/godot-game/tools/` |
 | `tools/phase4/` | `src/godot-game/tools/asset-pipeline/` |
 | `production/phase4/` | `src/godot-game/production/assets/` |
+| `.phase1/cache/phase4-exports/` | Shared `.local/downloads/export-templates/` |
+| `.phase1/cache/` | Shared `.local/downloads/godot/` |
+| `.phase1/tools/linux-vm/` | Shared `.local/tools/linux-vm/`, recreated by the phase that needs a VM |
+| `.phase1/tools/linux-prep/` | Shared `.local/downloads/linux-prep/` |
+| `.phase1/tools/` | Shared `.local/tools/godot/` |
+| `.phase1/feed/` | The checkout's `.local/nuget/feed/` |
+| `.phase1/packages/`, `.phase1/http-cache/` | Shared `.local/nuget/packages/`, `.local/nuget/http/` |
+| `.phase1/cli-home/`, `.phase1/dotnet-home/` | The checkout's `.local/temp/cli-home/` |
+| `.phase1/temp/`, `.phase1/runs/`, `.phase1/check.lock` | The checkout's `.local/temp/`, `.local/runs/verification/`, `.local/locks/check.lock` |
+| Other `.phase1/<name>` | The checkout's `.local/temp/verification/<name>` |
+| `.phase2/runs/`, `.phase2/completions/` | The checkout's `.local/runs/gameplay-checks/`, `.local/runs/gameplay-checks/completions/` |
+| `.phase2/desktop.lock` | Shared `.local/locks/desktop.lock` |
+| Other `.phase2/<name>` | The checkout's `.local/temp/gameplay-checks/<name>` |
+| `.phase3/runs/`, other `.phase3/<name>` | The checkout's `.local/runs/lan-checks/`, `.local/temp/lan-checks/<name>` |
+| `.phase4/runs/`, `.phase4/acceptance/` | The checkout's `.local/runs/asset-pipeline/`, `.local/runs/asset-pipeline/acceptance/` |
+| Other `.phase4/<name>` | The checkout's `.local/temp/asset-pipeline/<name>` |
+
+For the legacy `.phaseN` folders the longest matching prefix wins. `workspace-paths.cjs` holds this map as `LEGACY_MAP`, and values compared with pinned or captured bytes, such as register `package` cells, keep their logical `.phaseN` spelling and resolve through it only where a file is opened. Phase 4 inputs that existed only in ignored folders were declared lost on 2026-11-23, so their mapped locations stay missing. [workspace-migrate.cjs](../../src/godot-game/tools/workspace-migrate.cjs) moves a main checkout's legacy caches once; see [setup](../workflow/setup.md#moving-a-checkout-to-the-local-folder).
 
 When integrating unfinished work from another feature branch, apply this mapping to new files, project references, runner paths and live navigation. Keep `res://` paths relative to the new `game/` resource root. Revalidate builds, permissions and affected scenarios; a previous branch's execution reports describe its original inputs.
 
