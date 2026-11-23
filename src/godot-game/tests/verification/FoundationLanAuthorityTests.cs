@@ -10,6 +10,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Proves that receiving identified intent is distinct from elapsed host simulation.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLanAuthorityTests
 {
     /// <summary>An owned intent is accepted without advancing simulation time or position.</summary>

@@ -441,7 +441,7 @@ public sealed class RunnerContractTests
                 + ".every(r=>s.selected.includes(r)));"
                 + "a.deepEqual(c.select(m,['--phase','4']).selected,m.cases.filter(r=>!ids.includes(r.id)));"
                 + "a.deepEqual(c.select(m,['--all']).selected,m.cases);"
-                + "a.deepEqual(c.select(m,['--phase','5']).selected,m.cases.filter(r=>!ids.includes(r.id)));
+                + "a.deepEqual(c.select(m,['--phase','5']).selected,m.cases.filter(r=>!ids.includes(r.id)));"
                 + "a.deepEqual(c.select(m,['--phase','11']).selected,m.cases);"
                 + "a.deepEqual(c.select(m,['--list']).selected,m.cases);"
                 + "a.deepEqual(c.select(m,['--phase','1','--list']).selected,s.selected);"

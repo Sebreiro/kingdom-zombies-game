@@ -7,6 +7,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Exercises screen-owned physical holds and local projection selection.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLanInputTests
 {
     /// <summary>Menu and text keys cannot become gameplay holds when a screen opens.</summary>

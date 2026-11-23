@@ -15,7 +15,7 @@ namespace KingdomZombies.Phase1.Tests;
 public sealed class RandomContractTests
 {
     /// <summary>Matches independent raw observations captured before implementation, also required on Linux.</summary>
-    [Fact, Trait("Case", "state.golden-vectors")]
+    [Fact, Trait("Case", "state.golden-vectors"), Trait("Tier", "1")]
     public void Runtime_CommonSeeds_MatchesIndependentVectors()
     {
         Environment.Version.ToString().ShouldBe(expected: "10.0.15");
@@ -43,7 +43,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Restoring an explicit saved position continues the observed runtime stream.</summary>
-    [Fact, Trait("Case", "state.numeric-and-random")]
+    [Fact, Trait("Case", "state.numeric-and-random"), Trait("Tier", "1")]
     public void Replay_RestoredPosition_ContinuesExactStream()
     {
         var restored = new ReplayRandom(seed: 0, runtimeContract: "dotnet-10.0.15/next-int64-v1", drawPosition: 2);
@@ -63,7 +63,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Checks lower/upper positions, exact exhaustion, contract rejection and old-root preservation.</summary>
-    [Fact, Trait("Case", "state.random-limits")]
+    [Fact, Trait("Case", "state.random-limits"), Trait("Tier", "1")]
     public void Replay_PositionNeighbors_RejectsBeforeReplacement()
     {
         Should.Throw<ArgumentOutOfRangeException>(actual: () => Create(position: -1));
@@ -95,7 +95,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Rejects fractional/nonfinite/overflow text at the actual integer-only parsing boundary.</summary>
-    [Fact, Trait("Case", "state.numeric-text")]
+    [Fact, Trait("Case", "state.numeric-text"), Trait("Tier", "1")]
     public void Parse_IntegerNeighbors_PreservesExactPrecision()
     {
         foreach (long valid in new[] { 0L, 1L, 9007199254740993L, long.MaxValue })
@@ -121,7 +121,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Rejects Unknown and undefined kinds while retaining the exact stable enum identities.</summary>
-    [Fact, Trait("Case", "state.kind")]
+    [Fact, Trait("Case", "state.kind"), Trait("Tier", "1")]
     public void Construct_UnknownKind_RejectsSavedSentinel()
     {
         ((int)ProofKind.Unknown).ShouldBe(expected: 0);
@@ -192,7 +192,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Proves controlled integer time without a wall-clock dependency.</summary>
-    [Fact, Trait("Case", "R-73.positive")]
+    [Fact, Trait("Case", "R-73.positive"), Trait("Tier", "1")]
     public void Rule73_ElapsedIntegers_PreservesExactTime()
     {
         var root = new ExampleState(elapsedMilliseconds: 9007199254740993, ordered: [], records: []);
@@ -222,7 +222,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Preserves the controlled continuation and exact IDs in independent and restored operations.</summary>
-    [Fact, Trait("Case", "ac-18.complete")]
+    [Fact, Trait("Case", "ac-18.complete"), Trait("Tier", "1")]
     public void Acceptance_ControlledReplay_PreservesExactContinuation()
     {
         var id = new StableIdentity(value: "e\u0301 😀 ");
@@ -245,7 +245,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Uses integer-only input and checked addition with no precision loss or partial replacement.</summary>
-    [Fact, Trait("Case", "ac-19.complete")]
+    [Fact, Trait("Case", "ac-19.complete"), Trait("Tier", "1")]
     public void Acceptance_IntegerTime_RejectsInvalidNeighbors()
     {
         long maximum = ExampleState.ParseMilliseconds(text: "9223372036854775807");
@@ -265,7 +265,7 @@ public sealed class RandomContractTests
     }
 
     /// <summary>Checks the inclusive integer time/random bound and their immediately invalid neighbors.</summary>
-    [Fact, Trait("Case", "edge.rule-07.boundary")]
+    [Fact, Trait("Case", "edge.rule-07.boundary"), Trait("Tier", "1")]
     public void Boundary_TimeAndPosition_RejectsNearestInvalid()
     {
         ExampleState.ParseMilliseconds(text: "0").ShouldBe(expected: 0);

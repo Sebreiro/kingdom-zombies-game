@@ -399,16 +399,23 @@ async function main() {
   workspace.ensure(at.tools('godot'), at.downloads('godot'), at.cliHome, at.nuget.packages, at.nuget.http, at.nuget.scratch,
     at.temp(), at.nuget.feed, path.dirname(at.locks.toolchain), runDirectory());
   const args = process.argv.slice(2);
-  if (args.length !== 2 || args[0] !== '--probe' || !['engine', 'pins', 'boundaries'].includes(args[1])) fail('USAGE', 'node src/godot-game/tools/verification/bootstrap.cjs --probe engine|pins|boundaries');
+  const prepareOnly = args.length === 1 && args[0] === '--prepare';
+  if (!prepareOnly && (args.length !== 2 || args[0] !== '--probe' || !['engine', 'pins', 'boundaries'].includes(args[1]))) {
+    fail('USAGE', 'node src/godot-game/tools/verification/bootstrap.cjs --prepare | --probe engine|pins|boundaries');
+  }
   const manifest = readJson(manifestPath);
   validateManifest(manifest);
   if (args[1] === 'boundaries') await boundariesProbe();
   else {
     const engine = await acquire(manifest);
-    if (args[1] === 'engine') await engineProbe(manifest, engine);
+    if (prepareOnly) {
+      const identity = await tools(manifest, engine);
+      fs.writeFileSync(path.join(runDirectory(), 'tools.json'), JSON.stringify(identity, null, 2), { flag: 'wx' });
+    } else if (args[1] === 'engine') await engineProbe(manifest, engine);
     else { pinControls(manifest); await tools(manifest, engine); }
   }
-  console.log(JSON.stringify({ nonce, probe: args[1], status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory()) }));
+  const probe = prepareOnly ? 'prepare' : args[1];
+  console.log(JSON.stringify({ nonce, probe, status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory()) }));
 }
 
 module.exports = { parseJson, validateManifest, declarations, observedIdentity, validateEnginePackages };

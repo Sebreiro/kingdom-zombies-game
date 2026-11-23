@@ -7,6 +7,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Exercises closed authority and physical release barriers at lifetime changes.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLifecycleTests
 {
     /// <summary>Old commands cannot mutate closed authority or carry held aliases into a fresh session.</summary>

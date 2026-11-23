@@ -21,7 +21,7 @@ public sealed class RuleBindingTests
         RuleBindingValidator.Check(register: register, cases: Cases()).ShouldBeEmpty();
         RuleMatrix.Matches(register: register, source: Matrix()).ShouldBeTrue();
         ProofProtocol.Record(id: "register.binding-precoverage", diagnostic: "BINDING_PRECOVERAGE",
-                location: "docs/code/register.json: 77 implemented, 2 Phase 5 pending, 6 inapplicable; human Pending");
+                location: "docs/code/register.json: 77 implemented, 2 Phase 11 pending, 6 inapplicable; human Pending");
     }
 
     /// <summary>A missing binding cannot be replaced by a historical pending planned locator.</summary>

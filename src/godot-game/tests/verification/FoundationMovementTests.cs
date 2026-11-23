@@ -7,6 +7,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Exercises identified production movement through the pure authority.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationMovementTests
 {
     /// <summary>Aliases cancel and release through the exact production input helper.</summary>

@@ -10,6 +10,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Publishes only completely validated current detached snapshots.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLanProtocolTests
 {
     /// <summary>Malformed content, identities, shape and bounds cannot replace the installed publication.</summary>

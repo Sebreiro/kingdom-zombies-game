@@ -1,0 +1,70 @@
+name: Basic game checks
+
+on:
+  pull_request:
+    branches: [dev]
+
+permissions:
+  contents: read
+
+jobs:
+  basic:
+    name: Basic game checks (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04]
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+      PHASE1_IGNORE_DOWNLOADS: '1'
+    steps:
+      - name: Record setup start
+        shell: pwsh
+        run: '"KZ_SETUP_STARTED=$([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds())" >> $env:GITHUB_ENV'
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24.22.1
+          package-manager-cache: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: src/godot-game/global.json
+          # The 8.0.410 SDK supplies Godot's 8.0.16 editor runtime.
+          dotnet-version: 8.0.410
+      - uses: actions/cache@v6
+        id: dependencies
+        with:
+          path: |
+            .local/downloads/godot
+            .local/nuget/packages
+            .local/nuget/http
+          key: game-basic-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/godot-game/**/packages.lock.json', 'src/godot-game/tools/verification/toolchain.json', 'src/godot-game/NuGet.config') }}
+      - name: Run basic checks
+        shell: pwsh
+        env:
+          KZ_DEPENDENCY_CACHE_HIT: ${{ steps.dependencies.outputs.cache-hit }}
+        run: |
+          $started = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+          $externalSetupSeconds = ($started - [long]$env:KZ_SETUP_STARTED) / 1000
+          "Dependency cache hit $env:KZ_DEPENDENCY_CACHE_HIT. Checkout and setup took $externalSetupSeconds seconds." >> $env:GITHUB_STEP_SUMMARY
+          node src/godot-game/tools/game-tests/check.cjs --pr
+          $checkExit = $LASTEXITCODE
+          $elapsed = ([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() - [long]$env:KZ_SETUP_STARTED) / 1000
+          "Total before artifact upload $elapsed seconds. Check exit $checkExit." >> $env:GITHUB_STEP_SUMMARY
+          exit $checkExit
+      - name: Publish run evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: basic-game-checks-${{ matrix.os }}-${{ github.run_attempt }}
+          path: |
+            .local/runs/game-tests/
+            .local/runs/verification/
+          include-hidden-files: true
+          if-no-files-found: warn

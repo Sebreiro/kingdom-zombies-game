@@ -12,7 +12,11 @@ const {hash,requireTrue,inside,read,reconcile,loadReport,aggregate,verifyComplet
 function select(catalog, args) {
   requireTrue(args.length === 1 && ['--all','--list'].includes(args[0]) || args.length === 2 && ['--case','--group','--failed'].includes(args[0]), 'USAGE: --case ID | --group GROUP | --all | --failed REPORT | --list');
   if(args[0]==='--failed') return {repair:args[1]};
-  const selected = catalog.cases.filter(row => ['--all','--list'].includes(args[0]) || (args[0] === '--case' ? row.id === args[1] : row.group === args[1]));
+  const ids = args[0] === '--case' ? args[1].split(',') : [];
+  requireTrue(new Set(ids).size === ids.length, 'SELECTION_DUPLICATE');
+  const selected = catalog.cases.filter(row => ['--all','--list'].includes(args[0])
+    || (args[0] === '--case' ? ids.includes(row.id) : row.group === args[1]));
+  requireTrue(args[0] !== '--case' || selected.length === ids.length, 'SELECTION_UNKNOWN');
   requireTrue(selected.length > 0, 'SELECTION_EMPTY');
   return {list:args[0]==='--list',selected};
 }
