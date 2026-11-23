@@ -45,7 +45,7 @@ Integer phases execute in order. Decimal phases are reserved for explicitly inse
 
 ## Delivery and Ownership Rules
 
-Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. Fourteen of the current 135 approved requirements are complete; the traceability table records each owner and status. PLAT-01 and PLAT-02 are outside this milestone.
+Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. Nineteen of the current 136 approved requirements are complete; the traceability table records each owner and status. PLAT-01 and PLAT-02 are outside this milestone.
 
 **Filtering timing amendment, creator instruction 2026-11-16:** No stash or inventory filtering is delivered in Phases 6–11. Phase 12 owns INV-14; INV-10 continues to require unlimited pages, local access, navigation, placement and transfers in Phase 6. This overrides earlier complete-interface/release wording only for filtering. Retain planned filtering cases without pass credit until Phase 12; its integration and affected release regressions must pass before final filtering/full-scope acceptance.
 
@@ -651,3 +651,15 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 
 ---
 *Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15; creator-requested filtering deferral and Phase 12/INV-14 added: 2026-11-16; test-scope amendment and TEST-12 added: 2026-11-23 (Europe/Paris). Phases 1–4 are complete.*
+
+## Backlog
+
+### Phase 999.1: Rename phase-named identifiers (BACKLOG)
+
+**Goal:** [Captured for future planning]
+Scope: rename the identifiers that still carry delivery-phase numbers after the folder move to `.local/`: `Phase1.cs`/`Phase1.tscn`, the `KingdomZombies.Phase1.Tests` project, the `PHASE1_*`, `PHASE2_*`, `PHASE3_*` and `KZ_PHASE4_*` environment variables, the `phase1`/`phase2`/`phase3` case families, the `Phase4 Windows inspection` export preset and the Linux VM user. Renaming changes test fully qualified names and case IDs across the registers, so it needs its own rebinding plan. Captured by quick task 261123-ltj on 2026-11-23.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
