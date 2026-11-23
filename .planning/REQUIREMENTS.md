@@ -4,6 +4,8 @@
 
 **Verification policy, latest 2026-11-15 amendment:** Follow the [local testing strategy](../docs/workflow/local-testing.md) immediately: implement, review/fix, then grouped 1280×720 development-OS game tests without a VM. Select all active Critical cases plus new/changed cases and affected regressions, regardless of importance. Collect failures, batch repairs, check failures, then rerun the entire selected set on the repaired build. Every phase saves reusable scenarios with importance and ordered run groups. Phase 5 implements the framework and actual hosted Windows/Linux compatibility. TEST-11 adds Phase 11 nightly full testing; original 133 IDs/owners and all eight Phase 5 certification IDs are preserved. Basic hosted PR checks remain build/repository-only with a ten-minute-per-OS target.
 
+**Test-scope amendment, approved 2026-11-23:** TEST-12 is added and owned by Phase 11. It collects the certification deferred from Phase 5: measured 90% line / 80% branch coverage with the eight transferred identities, full Windows/Linux execution of the complete scope, and complete runner certification. TEST-01–TEST-10 keep their IDs, statements and Phase 5 ownership; the amended [Phase 5 specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) narrows only its own expansions. The scope becomes 136 requirements, with 19 complete and 117 pending. The [local testing strategy](../docs/workflow/local-testing.md) carries the five amended rules.
+
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
 **Status:** Original 133 version 0.1 requirements approved on 2026-11-13; TEST-11 and Phase 11 added on 2026-11-15. The creator's 2026-11-16 amendment splits filtering from INV-10 into INV-14 in Phase 12 and defers stash/inventory filtering until that phase. All 135 requirements have one primary phase. RULE-01–RULE-07 are complete under the Phase 1 exception; BASE-01–BASE-03 and LAN-01–LAN-04 are verified complete. Fourteen requirements are complete and 121 remain Pending.
@@ -75,8 +77,9 @@ Source: Creator Phase 5 direction; spec §14 and A-01–A-47.
 - [ ] **TEST-09**: Developers can prove the verification runner rejects deliberate failures and correctly distinguishes future planned cases from currently required cases.
 - [ ] **TEST-10**: Developers can activate new cases with each implemented feature and retain separate rendered, real mixed-OS LAN, reference-PC, and endurance evidence.
 - [ ] **TEST-11**: Developers receive scheduled nightly full-regression results across every active importance level, using saved scenarios and grouped game runs with inspectable failures/artifacts and manual replay. Phase 11 owns implementation; reduced phase-end selection begins immediately before this exists.
+- [ ] **TEST-12**: Developers can show measured coverage at the inclusive 90% line / 80% branch targets, full Windows/Linux execution of the complete declared scope, and complete certification of the verification runner on the finished game. Phase 11 owns implementation; this collects the certification deferred from Phase 5 by the 2026-11-23 amendment, including the eight transferred identities.
 
-Phase 5 also owns the [Phase 1 certification handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md): real analyzer/production coverage measurement and 90%/80% enforcement, exhaustive clean Windows/Linux suites and evidence reconciliation, and remaining aggregate runner/report checks. Existing Phase 1 tests and enforcement remain required regressions. This changes delivery timing without adding or deleting requirement IDs.
+Under the 2026-11-23 amendment Phase 11 owns the [Phase 1 certification handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) through TEST-12: real analyzer/production coverage measurement and 90%/80% enforcement, exhaustive clean Windows/Linux suites and evidence reconciliation, and remaining aggregate runner/report checks. Existing Phase 1 tests and enforcement remain required regressions. Nothing in the handoff is recorded as passed before Phase 11.
 
 ### Survivors, movement, and recovery
 
@@ -351,6 +354,7 @@ The 2026-11-16 filtering amendment assigns separate INV-14 cases to Phase 12, in
 - Ordinary PRs use the basic ten-minute-target selection above. Expensive behavior, rendered-input, LAN, checker-defect and coverage work remains available through focused/full verification; a basic PR pass does not certify that broader scope.
 - Phase 5 implements folder/dependency-aware selection and evidence reuse. Completion may combine fresh affected-group results with immutable matching prior results after validating relevant source/assets, dependencies, test/case definitions, tools and required environments. Identify reuse explicitly, rerun missing/invalidated groups and dependents, and block unknown impact. Every selected obligation needs valid evidence; omissions remain explicit without pass credit. The immediate phase-end minimum is all active Critical cases plus every new/changed case and affected regression. Repairs require focused checks followed by a fresh entire-selected-set rendered pass. Broad shared changes can select the full scope again.
 - Feature implementation activates the corresponding required cases and supplies executable checks or an explicit repeatable evidence procedure as appropriate. Phase 11 adds scheduled full active-catalog execution across all importance levels; manual full execution remains available.
+- **Amended 2026-11-23:** Critical is a budgeted smoke set, and Phase 1 rule-suite groups run at phase end only when their inputs changed. From Phase 6, specification edge cases are unit tests carrying their IDs rather than catalog cases, and no plan reruns the whole selection. Evidence reuse validation moves to Phase 11 with TEST-12; until then every selected case is executed afresh. See the [local testing strategy](../docs/workflow/local-testing.md).
 - Required checks cannot be silently skipped. Missing tools, incompatible runtimes, unavailable required environments, absent reports/images, and zero required-case execution are failures or reported blockers, not successful verification.
 - Headless state tests, rendered input/UI evidence, four local processes, actual mixed-OS LAN, and rendered reference-PC measurements establish different facts. A passing result in one does not substitute for the others.
 
@@ -503,17 +507,19 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | REL-05 | Phase 10 | Pending |
 | REL-06 | Phase 10 | Pending |
 | TEST-11 | Phase 11 | Pending |
+| TEST-12 | Phase 11 | Pending |
 
 **Coverage:**
-- Version 0.1 requirements: 135 total
-- Mapped to phases: 135 (exactly one primary owner each)
+- Version 0.1 requirements: 136 total
+- Mapped to phases: 136 (exactly one primary owner each)
 - Unmapped: 0
 - Duplicate primary owners: 0
 - Unknown version 0.1 IDs in roadmap: 0
-- Implementation statuses: 116 Pending; 19 complete
+- Implementation statuses: 117 Pending; 19 complete
 - Source acceptance scenarios linked: 47 of 47
 - Future platform requirements: 2 (outside the current roadmap)
 
 ---
 *Requirements defined: 2026-11-13*
 *Last updated: 2026-11-16; Phase 3 remains verified complete, and creator-requested INV-14/Phase 12 filtering deferral is recorded.*
+*Amended 2026-11-23: the creator-approved test-scope amendment adds TEST-12, owned by Phase 11.*

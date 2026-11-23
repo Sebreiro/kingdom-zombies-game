@@ -11,6 +11,8 @@ Deliver the complete specified version 0.1: players build, equip, and defend one
 **Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; it retains initial candidate history; Phase 1 records the now-pinned and proven development baseline.
 **Approval:** Requirements, working-increment direction, and detailed roadmap approved by the creator on 2026-11-13.
 
+**Test-scope amendment, approved 2026-11-23:** Phase 5 is reduced to one shared runner and catalog, three test tiers, basic Windows/Linux PR checks and the existing solo/LAN rendered scenarios on the shared runner. Measured coverage with the eight transferred certification IDs, full hosted Windows/Linux runs, evidence reuse validation, exhaustive runner trials, the other 17 Phase 4 rendered cases and the Phase 1 follow-ups move to Phase 11 under the new TEST-12, with no pass credit and unchanged thresholds. Five rules change in the [local testing strategy](../docs/workflow/local-testing.md) for Phases 6–10: a budgeted Critical smoke set, input-triggered Phase 1 rule-suite groups, edge cases as unit tests carrying their IDs, no whole-selection rerun per plan, and commit-based evidence. TEST-12 raises the scope to 136 requirements; TEST-01–TEST-10 keep their IDs, statements and Phase 5 ownership. Phase 10 release gates count the cases active in Phases 1–10; TEST-11 and TEST-12 cases stay pending until Phase 11, as INV-14 does until Phase 12. The Phase 7 plans predate this amendment and need a revision pass before execution. See the amended [Phase 5 specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) and [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md). This paragraph supersedes conflicting Phase 5 ownership wording elsewhere in this roadmap.
+
 **Current local testing amendment, approved 2026-11-15:** Apply [local testing strategy](../docs/workflow/local-testing.md) in every phase immediately: implement the whole phase, review/fix code, then grouped development-OS-only 1280×720 game runs without a VM. Always select active Critical cases plus new/changed cases and affected regressions. Collect failures, batch repairs, check failures, then rerun the entire selected set on the repaired build. Every phase saves reusable scenarios with importance and ordered run groups. Phase 11 adds nightly full tests under TEST-11; original requirement ownership, hosted compatibility and distinct release evidence remain explicit.
 
 **Scope timing amendment, approved 2026-11-14:** Keep Phase 1's working rules, tests and clean two-platform baseline. Phase 5 now owns measured coverage, exhaustive platform execution/evidence reconciliation and unfinished aggregate runner certification. The ten-phase order, all 133 requirement IDs and their primary owners are unchanged; the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) records the required certification work.
@@ -51,7 +53,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 | Boundary | Required timing |
 | --- | --- |
-| Rule and foundation checks | Each phase uses development-OS checks during implementation and complete current phase-scope testing on that OS and a local VM running the other OS at phase end. Phase 1 runs the complete declared selection on Windows and Linux. Phase 5 retains measured 90%/80% coverage, advanced platform/report reconciliation and eight unfinished aggregate/coverage declarations. Phases 2 and 3 retain their launch, input, rendered-scene and connection checks before the comprehensive framework. |
+| Rule and foundation checks | Each phase uses development-OS checks during implementation and complete current phase-scope testing on that OS and a local VM running the other OS at phase end. Phase 1 runs the complete declared selection on Windows and Linux. Under the 2026-11-23 amendment Phase 11 owns measured 90%/80% coverage, advanced platform/report reconciliation and the eight unfinished aggregate/coverage declarations. Phases 2 and 3 retain their launch, input, rendered-scene and connection checks before the comprehensive framework. |
 | Resource production versus integration | Phase 4 finishes all 180 resource obligations and content/combination fixtures, including data, text, audio bindings, and presentation metadata. Phases 6–9 connect those outputs to real gameplay, session, and save behavior; Phase 10 proves the integrated workload. |
 | Full catalog versus implemented cases | Phase 5 records A-01–A-47 and additional rule/foundation/content/regression cases, and requires cases for implemented foundations. Future feature cases are explicitly planned with owners, then activated during implementation. Planned cases never count as passed. |
 | Early world services | At the start of Phase 6, authoritative elapsed time, safety/danger, and reachability support recovery and access. At the start of Phase 7, day/night transitions, once-only resource-event identities, authored work areas/portal barriers, and live border/fallback rules support actual camp work. Full campaign scheduling remains Phase 8. |
@@ -370,26 +372,26 @@ Plans:
 
 Include the rendered case IDs assigned to Phase ### Phase 5: CI and repeatable game testing in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
-The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) also assigns this phase the 18 rendered Phase 4 IDs due at the asset handoff, the 21 affected inherited rendered regressions, the four named judgments P1–P4, the physical driver declaration and the `world.replacement` engine-race follow-up.
+The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) assigned this phase the 18 rendered Phase 4 IDs due at the asset handoff, the 21 affected inherited rendered regressions, the four named judgments P1–P4, the physical driver declaration and the `world.replacement` engine-race follow-up. Under the 2026-11-23 amendment Phase 5 keeps the 21 inherited regressions, one inspection-hub smoke scenario with the four judgments, and the engine-race follow-up. The other 17 rendered IDs and the driver declaration move to Phase 11.
 
-**Goal:** Developers and AI agents can select, execute, inspect, and rerun trustworthy game checks locally and in Windows/Linux CI using stored, traceable cases.
+**Goal:** Developers and AI agents can run every delivered check through one shared runner and catalog, in three tiers sized for the edit loop, the plan and the phase end, with basic Windows/Linux pull-request checks and readable failure reports. Later phases add tests and scenario rows, not test infrastructure.
 **Mode:** mvp
 **Depends on:** Phase 4
 **Requirements:** TEST-01, TEST-02, TEST-03, TEST-04, TEST-05, TEST-06, TEST-07, TEST-08, TEST-09, TEST-10
 **Success Criteria** (what must be TRUE):
 
-1. An agent can find readable repository cases for A-01–A-47 plus foundation/content/regression checks, each linked to requirements, owning phase, importance/rationale, dependencies, setup/actions/expected results, evidence procedure, environment/artifacts and ordered game-run groups. Existing phase scenarios are integrated; future cases remain planned.
-2. The same documented entry points run locally and in GitHub Actions on Windows and Linux, covering controlled rule fixtures, actual keyboard/mouse/menu/focus/scene input, and a real host-plus-three-client scenario with independent profiles, bounded waits, isolated logs, and cleanup.
-3. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure and diagnose a current-run failure using results, logs, state observations, and required rendered images.
-4. Deliberate missing-tool, bad-runner, zero-discovery, wrong-filter, skipped-required-case, crash, timeout, missing-peer, and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
-5. Importance/dependency selection always includes all active Critical cases, all new/changed cases and affected regressions, with explicit omissions and no false full-suite claim. The implementation → review/fix → grouped run/log → batch repair → failed-case checks → entire-selected-set pass is proven on the development OS at 1280×720 without a VM. Actual hosted Windows/Linux full compatibility, separate release procedures, unchanged 90% line / 80% branch coverage and all eight [handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) certification IDs have authentic evidence.
+1. An agent can find one readable repository catalog covering A-01–A-47, the delivered solo, LAN and inspection scenarios, the existing Phase 1–4 suites and planned later cases, each linked to requirements, owning phase, importance, tags, tier and ordered game-run group. Existing phase scenarios are integrated; future cases remain planned.
+2. One documented entry point runs three tiers: pure tests in one process, headless scenarios with one launch per group, and rendered solo and host-plus-three-guests groups with independent profiles, bounded waits, isolated logs and cleanup. The delivered Phase 2 and Phase 3 rendered scenarios pass through it at 1280×720 on the development OS, and a later phase adds tests and catalog rows without adding a runner.
+3. Windows and Linux pull requests run the strict build with analyzers, boundary and documentation checks, the pure tests and one headless game scenario in about ten minutes per OS, shown by an actual run on each.
+4. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure using each run's report, failure brief, replay command, logs, state observations and required rendered images. Deliberate missing-dependency, zero-discovery, skipped-required-case, crash, timeout, missing-peer and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
+5. The reduced phase-end selection always includes the budgeted Critical smoke set, all new/changed cases and affected regressions, with explicit omissions and no false full-suite claim. Phase 1 rule-suite groups are selected only when their declared inputs change, and a check confirms that every specification edge ID has a unit test. The implementation → review/fix → grouped run/log → batch repair → failed-case checks → entire-selected-set pass is proven on the development OS at 1280×720 without a VM.
 
 **Plans:** TBD
 **UI hint:** yes
 
-**Delivery boundary:** Prove exact test-runner discovery, execution, exit status, and report reconciliation; the research's prerelease Godot runner and mixed MTP/VSTest candidates are not pre-certified. Use a bounded repository-owned scene harness if the selected candidate fails compatibility, keeping the same acceptance obligations. Automate the delivered rules/menu/LAN/content foundations now. Full feature and release cases are cataloged, not falsely certified before implementation. Test drivers exercise production input/commands, with observation separated from mutation and test-only authority controls excluded from release builds.
+**Delivery boundary:** Build one shared runner over the existing Phase 2–4 scenario definitions and keep the Phase 1–4 runners (`verification`, `gameplay-checks`, `lan-checks` and `asset-pipeline` under `src/godot-game/tools/`) callable as suites instead of rewriting them. Prove exact discovery, execution, exit status and report reconciliation for the shared runner; use a bounded repository-owned scene harness if a candidate test adapter fails compatibility. Automate the delivered rules/menu/LAN/content foundations now and catalog later feature and release cases as planned. Test drivers exercise production input/commands, with observation separated from mutation and test-only authority controls excluded from release builds. Measured coverage, the eight transferred certification IDs, full hosted Windows/Linux runs, evidence reuse, exhaustive runner certification, the other 17 Phase 4 rendered cases and the Phase 1 follow-ups belong to Phase 11 and receive no pass credit here.
 
-**Required planning input:** Read [05-PHASE1-HANDOFF.md](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) before discussing/planning Phase 5. Allocate coverage collection/threshold/report checks, exhaustive same-source Windows/Linux execution and deferred aggregate case IDs to concrete Phase 5 plans. Phase 1 completion does not satisfy or waive these Phase 5 obligations.
+**Required planning input:** Read the amended [05-SPEC.md](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) and [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) before planning Phase 5. The [05-PHASE1-HANDOFF.md](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) is Phase 11 planning input under the 2026-11-23 amendment; Phase 5 re-owns its eight declarations to Phase 11 without claiming them. Phase 1 completion does not satisfy or waive those obligations.
 
 ### Phase 6: Survivors, inventory, and combat
 
@@ -570,10 +572,10 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 
 ### Phase 11: Nightly full regression testing
 
-**Goal:** Developers receive scheduled full-regression results for the complete active catalog while routine phase-end testing continues to use the Critical/new/changed/affected selection introduced immediately in the 2026-11-15 policy.
+**Goal:** Developers receive scheduled full-regression results for the complete active catalog and the deferred certification of the test system on the finished game, while routine phase-end testing continues to use the reduced selection.
 **Mode:** mvp
 **Depends on:** Phase 10
-**Requirements:** TEST-11
+**Requirements:** TEST-11, TEST-12
 **Success Criteria** (what must be TRUE):
 
 1. A scheduled nightly entry point executes the complete active case catalog across Critical, High, Normal and Low importance, using the saved scenarios and ordered compatible game-run groups; planned future cases receive no pass credit.
@@ -581,11 +583,14 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 3. Real scheduled execution publishes inspectable summaries, logs, state/image/review artifacts as declared, selected case/environment coverage and measured group/launch timings. Missing cases, crash, timeout, unavailable prerequisites and incomplete evidence produce visible non-success.
 4. An agent can identify the tested revision, reproduce failed scenarios, batch fixes and perform focused repair checks followed by the full selected-set regression pass, preserving original failures and attempts.
 5. Repository instructions distinguish reduced phase-end testing, nightly full regression and distinct release procedures. The configured schedule/environment and actual execution are recorded; scheduling configuration alone is not a passing nightly run.
+6. Real analyzer code and applicable handwritten production code separately meet inclusive 90% line and 80% branch coverage, with a native-hosted engine callback actually measured, and all eight transferred certification identities pass with their original exhaustive meanings.
+7. The complete declared scope, including rendered input, four-process LAN and coverage, runs successfully on the actual Windows and Linux environments chosen in this phase's planning; configuration alone is not a pass. The Phase 1 follow-ups (complete Linux suite, graph capacity case, fourteen human reviews) are executed or explicitly closed by the creator.
+8. The remaining runner certification passes: evidence reuse validation, permutation, repeat, overlapping-run, interruption and Unicode-identity trials, the staged failure exercise, strict per-file provenance for nightly and release evidence, and the 17 deferred Phase 4 rendered cases with their driver declaration.
 
 **Plans:** TBD
 **UI hint:** no
 
-**Delivery boundary:** Add scheduled full testing and its operational handoff on top of Phase 5's framework. Do not postpone immediate reduced selection, saved scenarios, importance metadata or run grouping until this phase. Exact schedule, runner availability/environment and publication details are decided during Phase 11 planning. Preserve the development-OS-only/no-VM routine local policy, manual full execution and separately required physical LAN, display, hardware and endurance release evidence.
+**Delivery boundary:** Add scheduled full testing and its operational handoff on top of Phase 5's framework. Do not postpone immediate reduced selection, saved scenarios, importance metadata or run grouping until this phase. Exact schedule, runner availability/environment and publication details are decided during Phase 11 planning. Preserve the development-OS-only/no-VM routine local policy, manual full execution and separately required physical LAN, display, hardware and endurance release evidence. Under the 2026-11-23 amendment this phase also completes the certification deferred from Phase 5: take the moved and split criteria from the [Phase 5 specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md#acceptance-disposition) and the coverage packages and eight identities from the [Phase 1 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md), with unchanged thresholds and meanings.
 
 ### Phase 12: Stash and inventory filtering
 
@@ -619,9 +624,9 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 | 8. Zombie campaign and outcomes | 19 | Pending |
 | 9. Persistence and complete player experience | 28 | Pending |
 | 10. Release validation and balancing | 6 | Pending |
-| 11. Nightly full regression testing | 1 | Pending |
+| 11. Nightly full regression testing | 2 | Pending |
 | 12. Stash and inventory filtering | 1 | Pending |
-| **Total** | **135** | **19 complete / 116 pending** |
+| **Total** | **136** | **19 complete / 117 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
@@ -645,4 +650,4 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 12. Stash and inventory filtering | 0/TBD | Not started | - |
 
 ---
-*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15; creator-requested filtering deferral and Phase 12/INV-14 added: 2026-11-16 (Europe/Paris). Phases 1–3 remain complete; Phase 4 implementation continues independently.*
+*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15; creator-requested filtering deferral and Phase 12/INV-14 added: 2026-11-16; test-scope amendment and TEST-12 added: 2026-11-23 (Europe/Paris). Phases 1–4 are complete.*

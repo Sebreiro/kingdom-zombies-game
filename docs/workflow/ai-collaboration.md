@@ -37,6 +37,8 @@ The [GSD configuration](../../.planning/config.json) uses phase branching, `feat
 - Every phase saves reusable AI-readable scenarios with importance, setup, actions, expected results, evidence and run-group order. Keep selected omissions and historical failures visible.
 - Hosted Windows/Linux CI and distinct physical LAN, supported-display, hardware and endurance release procedures keep their own evidence. Routine phase completion no longer requires a local other-OS VM. Phase 11 introduces nightly full testing across all active importance levels.
 
+**Amendment, creator-approved on 2026-11-23:** The [local testing strategy](local-testing.md) carries five rule changes for Phases 6–10 and a reduced Phase 5 scope, with certification moved to Phase 11. Where they differ from the bullets above or the Phase 5 section below, the strategy governs.
+
 See [verification](verification.md) for delivered commands. The older [pre-Phase-5 entry point](pre-phase5-testing.md) now redirects to the permanent strategy.
 
 ## Phase 5 Execution and Evidence Reuse Amendment

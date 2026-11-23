@@ -6,6 +6,8 @@
 
 ## Phase 5 Execution and Reuse Policy
 
+**Amendment, creator-approved on 2026-11-23:** Evidence reuse validation, full hosted Windows/Linux runs and coverage certification move to Phase 11 under TEST-12, and pull requests add the pure tests and one headless scenario. Where this section differs, the [local testing strategy](local-testing.md) and the [amended Phase 5 specification](../../.planning/phases/05-ci-and-repeatable-game-testing/05-SPEC.md) govern.
+
 The creator's later 2026-11-14 [discussion decisions](../../.planning/phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) amend repetition of phase-end testing, while preserving complete required environment coverage. Ordinary PRs run only strict build/analyzers, current project/code boundary checks and documentation/catalog validation, targeting about ten minutes per OS with dependencies cached. No game launch, exhaustive checker-defect proofs, full LAN scenarios, coverage certification or AI screenshot review belongs in this basic selection. Focused/full entry points retain those capabilities separately.
 
 Feature selection uses changed folders plus consumers, transitive dependencies and shared inputs; unknown impact is a blocker. At closure, account for the declared Critical/new/changed/affected selection and explicit omissions, using fresh results and eligible validated unchanged evidence. A fresh entire-selected-set rendered pass after repairs remains required. Match relevant code/assets, case/test definitions, dependencies, tools and required environment, including coverage module/scope inputs and declared image-review dependencies. Rerun missing/invalidated groups and dependents; broad changes may invalidate all groups.
