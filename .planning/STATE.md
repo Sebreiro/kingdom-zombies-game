@@ -7,9 +7,9 @@ current_phase_name: CI and repeatable game testing
 current_plan: 0
 status: ready_to_plan
 stopped_at: "Phase 04 complete under the creator's closure exception (2026-11-22). Next: plan Phase 05."
-last_updated: "2026-11-22T22:10:31.107Z"
-last_activity: 2026-11-22
-last_activity_desc: "Completed quick task 261122-ub4: prepare PR 7 for merge; deleted the Phase 1-4 ignored artifacts."
+last_updated: "2026-11-23T12:00:10.000Z"
+last_activity: 2026-11-23
+last_activity_desc: "Completed quick task 261123-fsu: PR #6 integrated dev (Phase 4 and PR #7) into the relocated repository layout."
 state_head: 64217702c329d9adcc711a1d116b9b4a45077fe6
 progress:
   total_phases: 12
@@ -37,7 +37,7 @@ Phase: 05 — CI and repeatable game testing
 Current Plan: Not planned
 Total Plans in Phase: TBD
 Status: Ready to plan
-Last activity: 2026-11-22 - Completed quick task 261122-ub4: prepare PR 7 for merge (verification: Needs Review; Phase 1-4 artifacts deleted).
+Last activity: 2026-11-23 - Completed quick task 261123-fsu: PR #6 integrated dev (Phase 4 and PR #7) into the relocated repository layout (strict build, layout tests and documentation checks; Phase 4 review-bound gates expected-blocked until Phase 5 renews them).
 
 Progress: [███░░░░░░░] 33%
 
@@ -207,6 +207,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 ### Blockers/Concerns
 
 - [Cleanup 2026-11-22] The Phase 1-4 ignored artifacts were deleted (quick task 261122-ub4). Until their inputs are tracked or regenerated, `export.profile`, `export.layout`, `rules.export-layout-origin`/`-boundary`, the `ContentNativePermissionTests` model tests and Phase 2 `--verify-completion` fail. The Phase 1 catalog also needs rows for the PR 7 files. See the [task summary](quick/261122-ub4-prepare-for-merge-pr-7/261122-ub4-SUMMARY.md).
+- [PR #6 relocation] After PR #6 integrated dev, the Phase 4 review-bound gates `runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts` and `--verify-completion` are expected-blocked against the relocated tree. Phase 4 records keep their bytes; renewing these gates is owned by Phase 5.
 - [Phase 1 follow-ups] Full Linux execution and the original graph case remain unaccepted; fourteen individual human reviews remain Pending. See the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) for actual evidence limits and timing. These are disclosed follow-ups under the creator exception, not current closure gates.
 - [Local VM] The guest is cleanly stopped and preserved. Hardware acceleration is not active in the current Windows session; a creator-chosen restart is needed before attempting the accelerated follow-up. No restart is required for this completed run.
 - [Phase 5] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets.
@@ -224,7 +225,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | 261119-15c | Require task-end cleanup of ignored outputs and worktrees, with a dry-run-first cleanup command | 2026-11-20 | 855b177 | — | [261119-15c-agent-cleanup-rules](./quick/261119-15c-agent-cleanup-rules/261119-15c-SUMMARY.md) |
 | 261120-09v | Fix intermittent Godot editor-import Unicode parsing errors (cwd race) | 2026-11-20 | 87c0b80 | — | [261120-09v-fix-intermittent-godot-editor-import-uni](./quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-SUMMARY.md) |
 | 261121-jmu | Refresh repository layout PR for Phase 4 | 2026-11-21 | 8832a16 | Verified | [261121-jmu-refresh-repository-layout-pr-for-phase-4](./quick/261121-jmu-refresh-repository-layout-pr-for-phase-4/261121-jmu-SUMMARY.md) |
-| 261122-ub4 | Prepare PR 7 for merge: merge dev, fix cleanup data-loss paths, align docs; delete Phase 1-4 artifacts | 2026-11-22 | 6421770 | — | [261122-ub4-prepare-for-merge-pr-7](./quick/261122-ub4-prepare-for-merge-pr-7/) |
+| 261122-ub4 | Prepare PR 7 for merge: merge dev, fix cleanup data-loss paths, align docs; delete Phase 1-4 artifacts | 2026-11-22 | 6421770 | — | [261122-ub4-prepare-for-merge-pr-7](./quick/261122-ub4-prepare-for-merge-pr-7/261122-ub4-SUMMARY.md) |
 
 ## Deferred Items
 
@@ -246,8 +247,6 @@ Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners. PR #5 from `feature/04-asset-production` to `dev` is ready for review; marking it ready does not authorize the merge.
 
-Next action: plan Phase 5. Its [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and [specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) exist. Phase 5 imports the open Phase 4 rendered IDs, the four judgments and the engine-race follow-up into its selection. Phase 5 work starts on its own branch from `dev`; PR #5 is merged as `1a14684`.
+Next action: plan Phase 5. Its [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and [specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) exist. Phase 5 imports the open Phase 4 rendered IDs, the four judgments and the engine-race follow-up into its selection. Phase 5 work starts on its own branch from `dev`; PR #5 is merged as `1a14684`. Phase 5 also renews the Phase 4 review-bound gates against the relocated tree (see the PR #6 relocation concern above).
 
-Repository cleanup continuation, 2026-11-16: quick task 261116-k3u is complete on `feature/quick-repository-layout`, with [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) ready for review against dev. This branch starts from the dev snapshot above. The active Phase 4 checkout continues independently on its own branch; apply the [layout migration](../docs/architecture/repository-layout.md#historical-paths) when integrating that work. This quick task changes no phase-progress or acceptance claim.
-
-Tool-layout follow-up, 2026-11-16: quick task 261116-m0w supersedes the earlier provisional tool-placement decision. All current tools, including the game-configured analyzer, are under `src/godot-game/tools`; the root tools tree is removed. [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) is ready with tested implementation `4ea92b5`. Preserve Phase 4 work separately and use `tools/asset-pipeline` within the workspace when integrating it. Earlier reports remain historical, not current-layout validation.
+Repository layout continuation: [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) (`feature/quick-repository-layout`, quick tasks 261116-k3u, 261116-m0w and 261121-jmu) integrated `dev` (Phase 4 and PR #7) by quick task 261123-fsu, with every Phase 4 and PR #7 file at its [current layout location](../docs/architecture/repository-layout.md#historical-paths).
