@@ -17,6 +17,8 @@ const ROOT = path.resolve(__dirname, '../../../..');
 const GATES_CLI = path.join(__dirname, 'rebind-gates.cjs');
 const LEGACY = ['.', 'phase', '1'].join('');
 const machinePath = user => ['C', ':', '/', 'Users', '/', user, '/', 'work'].join('');
+const linuxHome = user => ['', 'home', user, 'work'].join('/');
+const uncShare = (server, share) => ['', '', server, share, 'kz'].join('\\');
 
 function git(cwd, ...args) {
   const result = spawnSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@example.invalid', '-c', 'core.autocrlf=false', ...args],
@@ -175,6 +177,13 @@ test('newhost judge: a new machine-path line under another user name fails; the 
   passes(gates.judgeNewhost({baseTexts: [text], headLines: [{at: 'docs/a.md:3', text}]}));
 });
 
+test('newhost matches a Linux home folder and a UNC share, but not placeholders or escaped separators', () => {
+  for (const planted of [linuxHome('tester'), 'see ' + uncShare('build01', 'cache'), uncShare('nas', 'kz')])
+    assert.ok(gates.HOST.test(planted), planted);
+  for (const plain of ['/home/', '/home/<user>/x', '\\\\<server>\\<share>', "join('\\\\')", 'a \\\\ b', '/homework/x'])
+    assert.equal(gates.HOST.test(plain), false, plain);
+});
+
 test('residue judge: a hit outside --allow, an =N entry off by one and a git failure fail', () => {
   const hits = [{path: 'src/a.cjs', line: 1}, {path: 'src/a.cjs', line: 2}, {path: 'src/b.cjs', line: 5},
     {path: '.planning/phases/x.md', line: 1}, {path: 'docs/kept.md', line: 1}];
@@ -304,6 +313,7 @@ test('history, newhost and residue fail on planted changes through the CLI and p
   fs.rmSync(path.join(repository, '.planning/quick/q1/record.md'));
   write(repository, 'src/other.txt', 'plain\nsee ' + machinePath('tester') + '\n' + LEGACY + '/temp\n');
   write(repository, 'src/allowed.txt', LEGACY + '/runs one\n' + LEGACY + '/runs two\n' + LEGACY + '/runs three\n');
+  write(repository, 'src/hosts.txt', 'home ' + linuxHome('tester') + '\nshare ' + uncShare('build01', 'cache') + '\n');
   git(repository, 'add', '-A');
   git(repository, 'commit', '-q', '-m', 'planted');
 
@@ -313,7 +323,7 @@ test('history, newhost and residue fail on planted changes through the CLI and p
     assert.ok(history.output.includes(file), file + ' in ' + history.output);
   const newhost = gate(repository, base, 'newhost');
   assert.equal(newhost.exit, 1, newhost.output);
-  assert.ok(newhost.output.includes('src/other.txt:2'), newhost.output);
+  for (const at of ['src/other.txt:2', 'src/hosts.txt:1', 'src/hosts.txt:2']) assert.ok(newhost.output.includes(at), at + ' in ' + newhost.output);
   const residue = gate(repository, base, 'residue');
   assert.equal(residue.exit, 1, residue.output);
   assert.ok(residue.output.includes('src/other.txt=1') && residue.output.includes('src/allowed.txt retains 3'), residue.output);

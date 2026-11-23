@@ -25,10 +25,14 @@ const EXPECTED_MODULES = 423;
 const EXPECTED_STAGED = 9;
 const EXPECTED_CALLERS = 6;
 const TEST_GLOB = ':(glob)' + TOOLS + '**/*.test.cjs';
-// Machine-specific path terms: a drive path, a Git Bash user or work folder, the per-user application data folder, or
-// a user folder under any user name. The coarse expression selects candidate lines; the fine one decides.
-const HOST_COARSE = '[A-Za-z]:[/\\\\][A-Za-z]|/[a-z]/(Users|Work)|App[D]ata|Users[/\\\\][A-Za-z0-9]';
-const HOST = /(^|[^A-Za-z0-9_])[A-Za-z]:[/\\][A-Za-z]|\/[a-z]\/(Users|Work)\b|App[D]ata|Users[/\\][A-Za-z0-9]/;
+// Machine-specific path terms: a drive path, a Git Bash user or work folder, the per-user application data folder, a
+// user folder under any user name, a Linux home folder, or a UNC share (two backslashes, a server, a share). The
+// coarse expression selects candidate lines; the fine one decides. Only lines new since --base count, so a wider term
+// cannot fail on history.
+const HOST_COARSE = '[A-Za-z]:[/\\\\][A-Za-z]|/[a-z]/(Users|Work)|App[D]ata|Users[/\\\\][A-Za-z0-9]|/home/[A-Za-z0-9._-]+/'
+  + '|\\\\\\\\[A-Za-z0-9][^\\\\[:space:]]*\\\\[A-Za-z0-9]';
+const HOST = new RegExp('(^|[^A-Za-z0-9_])[A-Za-z]:[/\\\\][A-Za-z]|\\/[a-z]\\/(Users|Work)\\b|App[D]ata|Users[/\\\\][A-Za-z0-9]'
+  + '|\\/home\\/[A-Za-z0-9._-]+\\/|\\\\\\\\[A-Za-z0-9][^\\\\\\s]*\\\\[A-Za-z0-9]');
 
 class GateFailure extends Error {}
 
