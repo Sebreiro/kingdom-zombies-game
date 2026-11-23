@@ -2525,7 +2525,7 @@
         "id": "audio.actions",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2591,7 +2591,7 @@
         "id": "audio.bank",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2723,7 +2723,7 @@
         "id": "audio.lifecycle",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2793,7 +2793,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5119,7 +5119,7 @@
         "id": "world.map",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5188,7 +5188,7 @@
         "id": "world.effects",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5252,7 +5252,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5324,7 +5324,7 @@
         "id": "world.replacement",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -6092,14 +6092,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6117,14 +6117,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6647,7 +6647,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6663,7 +6663,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6679,7 +6679,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6695,7 +6695,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6711,7 +6711,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6727,7 +6727,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-        "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+        "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7223,7 +7223,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7239,7 +7239,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7255,7 +7255,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7271,7 +7271,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7287,7 +7287,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7303,7 +7303,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7319,7 +7319,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7335,7 +7335,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-        "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+        "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7582,14 +7582,14 @@
           "id": "audio.actions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.bank",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7827,14 +7827,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7867,14 +7867,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8190,28 +8190,28 @@
           "id": "audio.actions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.bank",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8333,14 +8333,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8750,14 +8750,14 @@
           "id": "world.inspector",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.replacement",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8790,14 +8790,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8886,14 +8886,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -9911,14 +9911,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/world.cjs",
-          "moduleSha256": "d3c71a1880c7a5c412251fa8bb85eadbb0137be2a71e80d14ede89bed50a6a9a",
+          "moduleSha256": "d81261b98f61353f55a29e57fe8533ed0ca2b00f3c47fc68812d72d66fb47cac",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9960,7 +9960,7 @@
         {
           "path": "src/godot-game/content/packs/ui-identity.json",
           "bytes": 28424,
-          "sha256": "44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a"
+          "sha256": "5d222708cc1e8853d2584067d0aaa3faf70b694c54cad283b43aaa95ab1f7107"
         }
       ],
       "sourceCases": [
@@ -10055,14 +10055,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/audio.cjs",
-          "moduleSha256": "749b8cd55badfa49acc43952febc8e6fb451609b252c4970479d79146c45197c",
+          "moduleSha256": "cda76b5613d48d5a265d29a8c0e04fd1fffc044df228dcbc1ad6d6ba2d680580",
           "execution": "no pass inferred from catalog metadata"
         },
         {
