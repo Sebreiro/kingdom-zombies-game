@@ -1047,7 +1047,7 @@
     },
     {
       "file": "src/godot-game/foundation/FoundationRoot.cs",
-      "sha256": "530adae080b9d0811c9f48af7d1c92f3006f6e2bbabf01bd8303ec328040f8f8"
+      "sha256": "55f1c50156a178cd44c7e51138b62263d69eb950b91c82bb500eae7b2081dce0"
     },
     {
       "file": "src/godot-game/inspection/InspectionInput.cs",

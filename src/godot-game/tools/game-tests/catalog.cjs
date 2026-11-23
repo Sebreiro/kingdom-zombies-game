@@ -221,6 +221,9 @@ function assetRows(manifest, handoff) {
   const source = manifest.cases.map(item => {
     const phase11 = deferredAssetGates.has(item.id);
     const inputs = item.sourceBinding?.module ? [item.sourceBinding.module] : [];
+    if (['layouts.identity', 'layouts.application-icon'].includes(item.id)) {
+      inputs.push('src/godot-game/game/content/packs/ui-identity.json');
+    }
     if (pinnedRecipeConsumers.has(item.id)) inputs.push(tools + 'asset-pipeline/run-pinned-recipe.py');
     return legacy('asset-pipeline', phase11 ? 11 : 4, item, {
       status: phase11 ? 'planned' : 'required',
