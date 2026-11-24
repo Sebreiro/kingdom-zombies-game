@@ -126,6 +126,26 @@ internal static class EngineAccessPolicy
 
     private static readonly HashSet<string> _presenters = new(comparer: StringComparer.Ordinal)
     {
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Dispose()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Observe(Node2D,FoundationRunReadback?,FoundationCoordinator,long)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Remember(Node2D)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Build()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Draw()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|DrawChoices()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|AddButton(Control,string,string,Action,Rect2)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Text(Control,string,Rect2)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Backplate()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Place(Control,Rect2)",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
                 + "Dispose()",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
@@ -147,7 +167,7 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
                 + "AddTile(Control,string,int,int)",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
-                + "DrawTile(Tile?,Item?,decimal)",
+                + "DrawTile(Tile?,Item?,decimal,bool)",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
                 + "UpdateAmmo(int?)",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"

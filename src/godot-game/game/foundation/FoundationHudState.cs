@@ -99,6 +99,11 @@ internal sealed class FoundationHudState
                 && next.FlinchAt != previous.FlinchAt;
     }
 
+    internal bool QuietEmptyHand(bool left)
+    {
+        return Ammo == 0 && (left ? Right?.Definition : Left?.Definition) is "IT-07";
+    }
+
     internal static string? BlockedNotice(string kind, string status)
     {
         return (kind, status) switch
@@ -129,8 +134,13 @@ internal sealed class FoundationHudState
 
     private static decimal Sweep(long elapsed, decimal? from, decimal? due)
     {
-        return from is { } start && due is { } end && end > start
-                ? Math.Clamp(value: (end - elapsed) / (end - start), min: 0, max: 1) : 0;
+        if (due is not { } end || end <= elapsed)
+        {
+            return 0;
+        }
+
+        return from is { } start && end > start
+                ? Math.Clamp(value: (end - elapsed) / (end - start), min: 0, max: 1) : 1;
     }
 
     private static Item? ReadItem(JsonElement value)

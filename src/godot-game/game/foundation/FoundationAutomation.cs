@@ -16,7 +16,7 @@ internal static class FoundationAutomation
         return value is null ? fallback : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
     }
 
-    internal static void Tick(Control root, MainThreadGateway gateway)
+    internal static void Tick(Control root, MainThreadGateway gateway, FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
         string? nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -45,7 +45,7 @@ internal static class FoundationAutomation
             throw new InvalidOperationException(message: "DRIVER_NONCE");
         }
 
-        Deliver(root: root, request: request, gateway: gateway);
+        Deliver(root: root, request: request, gateway: gateway, coordinator: coordinator);
         File.Delete(path: file);
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents:
                 request.GetProperty(propertyName: "sequence").GetInt64().ToString(
@@ -64,7 +64,8 @@ internal static class FoundationAutomation
         }
     }
 
-    private static void Deliver(Control root, JsonElement request, MainThreadGateway gateway)
+    private static void Deliver(Control root, JsonElement request, MainThreadGateway gateway,
+            FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
         string action = request.GetProperty(propertyName: "action").GetString() ?? "";
@@ -93,6 +94,13 @@ internal static class FoundationAutomation
         {
             ClickWorld(root: root, request: request, gateway: gateway);
         }
+#if DEBUG
+        else if (action is "spectator-proof-lethal" && DisplayServer.GetName() is "headless"
+                && coordinator?.ObserveLethalAttack() == true)
+        {
+            return;
+        }
+#endif
         else
         {
             throw new InvalidOperationException(message: "DRIVER_ACTION");

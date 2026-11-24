@@ -146,6 +146,9 @@ internal static partial class RunProjections
                         input: Read<AttackData>(request: request)),
                 "food" => Food(session: session, root: root, controller: controller, sequence: sequence,
                         input: Read<FoodData>(request: request)),
+#if DEBUG
+                "proof-lethal" => ProofLethal(session: session, root: root, controller: controller),
+#endif
                 _ => ItemAction(session: session, controller: controller, sequence: sequence,
                         input: ReadItemAction(root: root, kind: kind, request: request)),
             };

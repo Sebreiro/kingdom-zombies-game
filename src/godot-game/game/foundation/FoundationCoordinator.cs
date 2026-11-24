@@ -206,18 +206,19 @@ internal sealed partial class FoundationCoordinator
 
     internal static bool UseObservedWorld(long generation)
     {
-#if DEBUG
-        string? seed = Environment.GetEnvironmentVariable(variable: "KZ_RUN_WORLD_PROOF");
-        string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
-        return generation == 1 && seed is not null && StringComparer.Ordinal.Equals(x: seed, y: nonce)
-                && Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE") is "solo"
-                && Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER")
-                        is "synthetic-native-ParseInputEvent"
-                && FoundationObservationScope.Directory() is not null;
-#else
-        return false;
-#endif
+        return generation == 1 && HasObservedWorldProof();
     }
+
+#if DEBUG
+    internal bool ObserveLethalAttack()
+    {
+        return HasObservedWorldProof() && _session is { } session && RunIdentity(sender: 0) is { } identity
+                && ReadBoundRunControl(sender: 0) is { generation: > 0 } owner
+                && session.DispatchRunAction(identity: identity, key: (owner.survivorId, owner.generation,
+                        checked(++_sequence)), kind: "proof-lethal", request: JsonSerializer.SerializeToElement(
+                                value: new object())).status is "Applied";
+    }
+#endif
 
 #if DEBUG
     internal static bool ShouldFailEntry(long generation)
@@ -274,6 +275,21 @@ internal sealed partial class FoundationCoordinator
     private long _livenessElapsed;
     private long _heartbeatSequence;
     private string? _worldTransition;
+
+    private static bool HasObservedWorldProof()
+    {
+#if DEBUG
+        string? seed = Environment.GetEnvironmentVariable(variable: "KZ_RUN_WORLD_PROOF");
+        string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
+        return seed is not null && StringComparer.Ordinal.Equals(x: seed, y: nonce)
+                && Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE") is "solo"
+                && Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER")
+                        is "synthetic-native-ParseInputEvent"
+                && FoundationObservationScope.Directory() is not null;
+#else
+        return false;
+#endif
+    }
 
     private void Receive()
     {

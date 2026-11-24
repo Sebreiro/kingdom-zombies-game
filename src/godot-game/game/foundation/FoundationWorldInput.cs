@@ -15,13 +15,15 @@ internal sealed class FoundationWorldInput : IDisposable
     }
 
     internal FoundationWorldInput(Control root, MainThreadGateway gateway, FoundationInput input,
-            Func<FoundationCoordinator?> coordinator, Func<FoundationInput.IWorkspace?> workspace)
+            Func<FoundationCoordinator?> coordinator, Func<FoundationInput.IWorkspace?> workspace,
+            Func<bool> controlVisible)
     {
         _root = root;
         _gateway = gateway;
         _input = input;
         _coordinator = coordinator;
         _workspace = workspace;
+        _controlVisible = controlVisible;
     }
 
     internal (decimal x, decimal y)? LastAttackAim { get; private set; }
@@ -92,7 +94,7 @@ internal sealed class FoundationWorldInput : IDisposable
     {
         _gateway.RequireThread();
         FoundationCoordinator? coordinator = _coordinator();
-        (string id, long epoch)? identity = coordinator is { Ready: true, WaitingForHost: false }
+        (string id, long epoch)? identity = _controlVisible() && coordinator is { Ready: true, WaitingForHost: false }
                 && coordinator.LocalRunControl is { generation: > 0 } control
                 ? ((string id, long epoch)?)(control.survivorId, control.generation) : null;
         if (_identity != identity)
@@ -193,6 +195,7 @@ internal sealed class FoundationWorldInput : IDisposable
     private readonly FoundationInput _input;
     private readonly Func<FoundationCoordinator?> _coordinator;
     private readonly Func<FoundationInput.IWorkspace?> _workspace;
+    private readonly Func<bool> _controlVisible;
     private Control? _surface;
     private Node2D? _world;
     private Node2D? _crosshair;

@@ -36,6 +36,7 @@ internal sealed class FoundationAppearance : IDisposable
     }
 
     internal FoundationEquipmentProjection.Frame? Frame => _cursor.Current;
+    internal string? RetiredLocal { get; set; }
 
     /// <summary>Applies current state and leaves a network poll between new subject compositions.</summary>
     internal void Project(FoundationRunReadback readback, string? local, (double x, double y)? aim)
@@ -78,6 +79,12 @@ internal sealed class FoundationAppearance : IDisposable
         var present = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (FoundationEquipmentProjection.Subject subject in expected)
         {
+            if (ReferenceEquals(objA: art, objB: _actors)
+                    && StringComparer.Ordinal.Equals(x: subject.Id, y: RetiredLocal))
+            {
+                continue;
+            }
+
             _ = present.Add(item: subject.Id);
             if (!art.TryGetValue(key: subject.Id, value: out FoundationActorArt? visual))
             {

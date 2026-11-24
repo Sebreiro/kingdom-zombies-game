@@ -193,7 +193,7 @@ public sealed class Phase06SuccessionTests
         View(session: session).Generation.ShouldBe(expected: 2);
     }
 
-    private static FoundationSession Start(int count)
+    internal static FoundationSession Start(int count)
     {
         RunDefinitions baseline = RunDefinitions.Default;
         var start = new RunDefinitions.Start(survivorCount: count, playerLimit: 4, role: "woodcutter",

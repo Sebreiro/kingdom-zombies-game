@@ -12,13 +12,17 @@ internal static class FoundationView
 {
     /// <summary>Projects each ready actor while following only the locally assigned actor.</summary>
     internal static void ProjectRoster(Node2D world, FoundationSnapshot snapshot, string bindingId,
-            MainThreadGateway gateway)
+            MainThreadGateway gateway, double? camera = null, bool ownLiving = true)
     {
         gateway.RequireThread();
         bool authored = world.GetNodeOrNull<Node2D>(path: "RunAppearance")?.Visible == true;
         FoundationParticipantState local = FoundationPresentation.Local(snapshot: snapshot, bindingId: bindingId)
                 ?? throw new InvalidOperationException(message: "PRESENTATION_LOCAL_NOT_READY");
         Project(world: world, actor: local.Actor, gateway: gateway);
+        if (camera is { } at)
+        {
+            world.Position = new Vector2(x: 640 - (float)at, y: 0);
+        }
         foreach (Node child in world.GetChildren())
         {
             string childName = child.Name;
@@ -46,6 +50,7 @@ internal static class FoundationView
             }
 
             remote.Position = new Vector2(x: participant.Actor.PositionSubunits * 16f / 1000, y: 540);
+            remote.Visible = !own || ownLiving;
             remote.GetNode<Polygon2D>(path: "Facing").Scale = new Vector2(x: participant.Actor.Facing, y: 1);
             var color = own ? new Color(r: 0.941f, g: 0.769f, b: 0.416f)
                     : new Color(r: 0.957f, g: 0.949f, b: 0.91f);

@@ -26,10 +26,11 @@ internal sealed partial class FoundationHud
 
     internal Hud? Current { get; private set; }
 
-    internal void Observe(FoundationRunReadback? readback, FoundationCoordinator coordinator, bool browsing, long now)
+    internal void Observe(FoundationRunReadback? readback, FoundationCoordinator coordinator, bool browsing,
+            long now, bool visible)
     {
         _gateway.RequireThread();
-        if (coordinator.WaitingForHost || coordinator.LocalRunControl is not { generation: > 0 } control)
+        if (!visible || coordinator.WaitingForHost || coordinator.LocalRunControl is not { generation: > 0 } control)
         {
             Hide();
             return;
@@ -214,8 +215,10 @@ internal sealed partial class FoundationHud
     private void UpdateActions(Hud state, string? note, bool browsing)
     {
         _gateway.RequireThread();
-        DrawTile(tile: _left, item: state.Left, shade: state.LeftAttack ? state.AttackShade : 0);
-        DrawTile(tile: _right, item: state.Right, shade: state.RightAttack ? state.AttackShade : 0);
+        DrawTile(tile: _left, item: state.Left, shade: state.LeftAttack ? state.AttackShade : 0,
+                quietEmpty: state.QuietEmptyHand(left: true));
+        DrawTile(tile: _right, item: state.Right, shade: state.RightAttack ? state.AttackShade : 0,
+                quietEmpty: state.QuietEmptyHand(left: false));
         UpdateAmmo(count: state.Ammo);
         for (int index = 0; index < _food.Length; index++)
         {
@@ -292,7 +295,7 @@ internal sealed partial class FoundationHud
                 width: width);
     }
 
-    private void DrawTile(Tile? tile, Hud.Item? item, decimal shade)
+    private void DrawTile(Tile? tile, Hud.Item? item, decimal shade, bool quietEmpty = false)
     {
         _gateway.RequireThread();
         if (tile is null)
@@ -302,10 +305,12 @@ internal sealed partial class FoundationHud
 
         tile.Icon.Texture = item is null ? null : _art?.Icon(definition: item.Definition, icon: item.Icon);
         string name = item is null ? "" : _art?.Name(definition: item.Definition) ?? item.Definition;
-        tile.Value.Text = item is null ? "Empty" : item.Condition == 0 ? "× Broken" : Hud.Number(value: item.Quantity);
-        tile.Box.TooltipText = item is null ? tile.Title + " empty" : name + " · " + Hud.Number(value: item.Quantity)
-                + (item.Condition is { } condition && item.Maximum is { } maximum ? "\nCondition "
-                        + Hud.Number(value: condition) + " / " + Hud.Number(value: maximum) : "");
+        tile.Value.Text = item is null ? quietEmpty ? "" : "Empty"
+                : item.Condition == 0 ? "× Broken" : Hud.Number(value: item.Quantity);
+        string wear = item is { Condition: { } condition, Maximum: { } maximum }
+                ? "\nCondition " + Hud.Number(value: condition) + " / " + Hud.Number(value: maximum) : "";
+        tile.Box.TooltipText = item is null ? quietEmpty ? "" : tile.Title + " empty"
+                : name + " · " + Hud.Number(value: item.Quantity) + wear;
         tile.Condition.Visible = item?.Maximum is > 0;
         if (item?.Maximum is > 0 && item.Condition is { } health)
         {
@@ -325,6 +330,7 @@ internal sealed partial class FoundationHud
         }
 
         tile.Icon.Texture = count.HasValue ? _art?.Icon(definition: "IT-02", icon: "IT_02_master") : null;
+        tile.Box.Modulate = count.HasValue ? Colors.White : Colors.DimGray;
         tile.Value.Text = count?.ToString(provider: CultureInfo.InvariantCulture) ?? "";
         tile.Box.TooltipText = count.HasValue ? "Ready arrows " + tile.Value.Text : "Ready arrows inactive";
         tile.Condition.Visible = false;

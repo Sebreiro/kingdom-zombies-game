@@ -80,7 +80,30 @@ internal static partial class RunProjections
 
     private static bool MeleeIcon(RunCombatDefinitions definitions, RunInventory.Item? item)
     {
-        return item is not null && definitions.Weapons.TryGetValue(key: item.DefinitionId,
+        return item is { Condition: > 0 } && definitions.Weapons.TryGetValue(key: item.DefinitionId,
                 value: out RunCombatDefinitions.Attack? rule) && rule.Reach.HasValue;
     }
+
+#if DEBUG
+    private static (string status, bool replayed) ProofLethal(FoundationSession session,
+            FoundationSession.RunPublication root, RunItemActions.Controller controller)
+    {
+        if (controller.BindingId is not "local" || root.Population.FindLivingControl(bindingId: "local")
+                is not { } lease)
+        {
+            return ("AccessLost", false);
+        }
+
+        const string Attacker = "spectator-proof-hostile";
+        RunPopulation.Survivor owner = root.Population.ForLease(lease: lease);
+        decimal position = owner.PositionSubunitsExact;
+        int facing = position < 58650 ? -1 : 1;
+        bool applied = session.TryAddHostile(id: Attacker, position: position - facing * 350,
+                facing: facing, health: 100) && session.TryUpdateVitals(survivorId: owner.Id,
+                        health: 1, stamina: owner.Stamina)
+                && session.AttackUncontrolled(survivorId: Attacker, sequence: 1).Hits.Any(
+                        predicate: hit => hit.Lethal);
+        return (applied ? "Applied" : "Rejected", false);
+    }
+#endif
 }

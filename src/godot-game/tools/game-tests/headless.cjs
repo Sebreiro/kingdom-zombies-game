@@ -189,6 +189,34 @@ async function verifyNearby(peer, subject, deadline, awaitRow) {
   return {open, stash, next, previous, closed};
 }
 
+async function verifySuccession(peer, subject, deadline, awaitRow) {
+  const original = await awaitRow(row => row.ready && row.hud?.Health > 0 && !row.inventoryOpen,
+    'the live controlled survivor before the deterministic hostile hit');
+  await input(peer, subject, deadline, {action: 'spectator-proof-lethal'});
+  const dead = await awaitRow(row => row.ready && row.spectator?.Visible && !row.spectator.CanRespawn
+      && row.spectator.Status === 'Respawn available shortly' && row.hud === null,
+    'actual lethal attack closes the live HUD and opens the gated native Respawn card');
+  assert.equal(dead.spectator.DeathEpoch, original.spectator.generation, 'DEATH_RETIRES_EXACT_CONTROL');
+  await key(peer, subject, deadline, rightKey, true);
+  const held = await awaitRow(row => row.spectator?.Visible && row.polledRight && row.direction === 0,
+    'spectator movement keys are physically held without producing gameplay movement');
+  await key(peer, subject, deadline, rightKey, false);
+  const ready = await awaitRow(row => row.spectator?.Visible && row.spectator.CanRespawn,
+    'elapsed time enables Respawn with the camera still held');
+  assert.equal(ready.spectator.Camera, dead.spectator.Camera, 'DEATH_CAMERA_HELD');
+  assert.equal(ready.spectator.generation, 0, 'TIME_ALONE_DOES_NOT_ASSIGN');
+  await activate(peer, subject, deadline, 'SpectatorCard/Respawn');
+  const assigned = await awaitRow(row => !row.spectator?.Visible && row.hud?.Health > 0
+      && row.spectator.TransferNotice.startsWith('Control transferred'),
+    'native Respawn commits a real successor and restores the live HUD');
+  assert.equal(assigned.bindingId, original.bindingId, 'RESPAWN_PRESERVES_BINDING');
+  assert.equal(actor(assigned, peer.profile).ActorId, actor(original, peer.profile).ActorId,
+    'RESPAWN_PRESERVES_TRANSPORT_ACTOR');
+  assert.notEqual(assigned.spectator.survivor, original.spectator.survivor, 'RESPAWN_RETURNS_DIFFERENT_SURVIVOR');
+  assert.ok(assigned.spectator.generation > original.spectator.generation, 'RESPAWN_FRESH_CONTROL_GENERATION');
+  return {original, dead, held, ready, assigned};
+}
+
 async function smoke(context, folder) {
   const nonce = crypto.randomUUID();
   const directory = path.join(folder, nonce);
@@ -219,6 +247,7 @@ async function smoke(context, folder) {
   let actions;
   let inventory;
   let nearby;
+  let succession;
   let terminal;
   try {
     const awaitRow = (match, description) => waitFor([peer], deadline, () => latest(peer, nonce, match), description);
@@ -245,6 +274,7 @@ async function smoke(context, folder) {
     fresh = await verifyFreshStart(peer, subject, deadline, awaitRow, before);
     actions = await verifyActionInput(peer, subject, deadline, awaitRow);
     inventory = await verifyInventory(peer, subject, deadline, awaitRow);
+    succession = await verifySuccession(peer, subject, deadline, awaitRow);
     await stop(peer, subject, deadline);
   } catch (error) {
     failure = error;
@@ -266,7 +296,7 @@ async function smoke(context, folder) {
   fs.writeFileSync(path.join(directory, 'movement.json'), JSON.stringify({
     nonce, revision: context.revision, pid: peer.pid, before, moved, stopped, steady,
     fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, inventory, nearby,
-    terminal,
+    succession, terminal,
     inputDriver: 'synthetic-native-ParseInputEvent',
   }, null, 2) + '\n', { flag: 'wx' });
 }
