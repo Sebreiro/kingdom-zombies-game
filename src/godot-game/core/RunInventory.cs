@@ -9,13 +9,15 @@ namespace KingdomZombies.Core;
 internal sealed class RunInventory
 {
     internal RunInventory(ImmutableArray<Item> items, RunDefinitions.Size stashGrid, int stashPageCount,
-            long nextItemId, ImmutableDictionary<(string survivor, int slot), long>? quickReferences = null)
+            long nextItemId, ImmutableDictionary<(string survivor, int slot), long>? quickReferences = null,
+            RunSavedLayout? savedLayout = null)
     {
         Items = items;
         StashGrid = stashGrid;
         StashPageCount = stashPageCount;
         NextItemId = nextItemId;
         QuickReferences = quickReferences ?? [];
+        SavedLayout = savedLayout;
     }
 
     internal ImmutableArray<Item> Items { get; }
@@ -23,6 +25,7 @@ internal sealed class RunInventory
     internal int StashPageCount { get; }
     internal long NextItemId { get; }
     internal ImmutableDictionary<(string survivor, int slot), long> QuickReferences { get; }
+    internal RunSavedLayout? SavedLayout { get; }
 
     internal static RunInventory Create(RunDefinitions definitions, RunPopulation population)
     {
@@ -56,13 +59,13 @@ internal sealed class RunInventory
     internal RunInventory WithItems(ImmutableArray<Item> items, long? nextItemId = null)
     {
         return new RunInventory(items: items, stashGrid: StashGrid, stashPageCount: StashPageCount,
-                nextItemId: nextItemId ?? NextItemId, quickReferences: QuickReferences);
+                nextItemId: nextItemId ?? NextItemId, quickReferences: QuickReferences, savedLayout: SavedLayout);
     }
 
     internal RunInventory WithReferences(ImmutableDictionary<(string survivor, int slot), long> references)
     {
         return new RunInventory(items: Items, stashGrid: StashGrid, stashPageCount: StashPageCount,
-                nextItemId: NextItemId, quickReferences: references);
+                nextItemId: NextItemId, quickReferences: references, savedLayout: SavedLayout);
     }
 
     internal RunInventory MoveToCorpse(string survivorId, string corpseId)

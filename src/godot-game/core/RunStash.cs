@@ -223,7 +223,7 @@ internal static class RunStash
     {
         return new RunInventory(items: items, stashGrid: inventory.StashGrid,
                 stashPageCount: Math.Max(val1: inventory.StashPageCount, val2: checked(cell.Page + 1)),
-                nextItemId: nextItemId, quickReferences: inventory.QuickReferences);
+                nextItemId: nextItemId, quickReferences: inventory.QuickReferences, savedLayout: inventory.SavedLayout);
     }
 
     internal sealed class PageEffect

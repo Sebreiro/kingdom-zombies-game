@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
+using static KingdomZombies.Core.RunSnapshotDocument;
 
 namespace KingdomZombies.Core;
 
@@ -252,6 +254,45 @@ public sealed class FoundationSession
     internal RunInventory Inventory => _publication.Inventory;
     internal RunDefinitions Definitions => _publication.Definitions;
     internal RunItemActions ItemActions { get; }
+
+    internal byte[] CaptureRunSnapshot()
+    {
+        RunSnapshotDocument document;
+        lock (_gate)
+        {
+            RequireActive();
+            document = CaptureRunDocument();
+        }
+
+        return RunSnapshotCodec.Encode(document: document);
+    }
+
+    internal bool TryRestoreRunSnapshot(ReadOnlySpan<byte> data, out string? error)
+    {
+        lock (_gate)
+        {
+            if (!_active)
+            {
+                error = "FOUNDATION_CLOSED";
+                return false;
+            }
+
+            try
+            {
+                (RunSnapshotDocument document, RunPublication candidate) =
+                        RunSnapshotCodec.Decode(data: data, definitions: _publication.Definitions);
+                InstallRunDocument(document: document, candidate: candidate);
+                error = null;
+                return true;
+            }
+            catch (Exception failure) when (failure is InvalidDataException or JsonException or ArgumentException
+                    or OverflowException)
+            {
+                error = failure.Message;
+                return false;
+            }
+        }
+    }
 
     internal RunSuccession.View? ReadSuccession(string bindingId)
     {
@@ -511,15 +552,71 @@ public sealed class FoundationSession
     }
 
     private readonly Lock _gate = new();
-    private readonly Dictionary<string, (long generation, FoundationHeldIntent intent)> _intents =
+    private Dictionary<string, (long generation, FoundationHeldIntent intent)> _intents =
             new(comparer: StringComparer.Ordinal);
-    private readonly Dictionary<string, (long generation, long sequence, RunFood.Status status)> _foodRequests =
+    private Dictionary<string, (long generation, long sequence, RunFood.Status status)> _foodRequests =
             new(comparer: StringComparer.Ordinal);
-    private readonly Dictionary<(string id, long generation), (long sequence, RunCombat.Status status)>
+    private Dictionary<(string id, long generation), (long sequence, RunCombat.Status status)>
             _attackRequests = [];
     private ImmutableDictionary<(string binding, long epoch), RunSuccession.Ack> _respawnReceipts = [];
     private volatile RunPublication _publication;
     private volatile bool _active = true;
+
+    private RunSnapshotDocument CaptureRunDocument()
+    {
+        IntentData[] intents = [.. _intents.OrderBy(keySelector: entry => entry.Key, comparer: StringComparer.Ordinal)
+                .Select(selector: entry => new IntentData
+                {
+                    BindingId = entry.Key, Generation = entry.Value.generation, Sequence = entry.Value.intent.Sequence,
+                    Direction = entry.Value.intent.Direction, Sprint = entry.Value.intent.Sprint,
+                })];
+        FoodReceiptData[] food = [.. _foodRequests.OrderBy(keySelector: entry => entry.Key,
+                comparer: StringComparer.Ordinal).Select(selector: entry => new FoodReceiptData
+                {
+                    BindingId = entry.Key, Generation = entry.Value.generation, Sequence = entry.Value.sequence,
+                    Status = entry.Value.status,
+                })];
+        AttackReceiptData[] attacks = [.. _attackRequests.OrderBy(keySelector: entry => entry.Key.id,
+                comparer: StringComparer.Ordinal).ThenBy(keySelector: entry => entry.Key.generation)
+                .Select(selector: entry => new AttackReceiptData
+                {
+                    Id = entry.Key.id, Generation = entry.Key.generation, Sequence = entry.Value.sequence,
+                    Status = entry.Value.status,
+                })];
+        RespawnReceiptData[] respawns = [.. _respawnReceipts.OrderBy(keySelector: entry => entry.Key.binding,
+                comparer: StringComparer.Ordinal).ThenBy(keySelector: entry => entry.Key.epoch)
+                .Select(selector: entry => new RespawnReceiptData
+                {
+                    BindingId = entry.Key.binding, Epoch = entry.Key.epoch, Sequence = entry.Value.Sequence,
+                    Status = entry.Value.Status,
+                })];
+        return RunSnapshotCodec.Capture(root: _publication, intents: intents, foodReceipts: food,
+                attackReceipts: attacks, respawnReceipts: respawns, itemReceipts: ItemActions.CaptureReceipts());
+    }
+
+    private void InstallRunDocument(RunSnapshotDocument document, RunPublication candidate)
+    {
+        Dictionary<string, (long generation, FoundationHeldIntent intent)> intents = document.Intents.ToDictionary(
+                keySelector: row => row.BindingId,
+                elementSelector: row => (row.Generation, new FoundationHeldIntent(sequence: row.Sequence,
+                        direction: row.Direction, sprint: row.Sprint)), comparer: StringComparer.Ordinal);
+        Dictionary<string, (long generation, long sequence, RunFood.Status status)> food =
+                document.FoodReceipts.ToDictionary(keySelector: row => row.BindingId,
+                        elementSelector: row => (row.Generation, row.Sequence, row.Status),
+                        comparer: StringComparer.Ordinal);
+        Dictionary<(string id, long generation), (long sequence, RunCombat.Status status)> attacks =
+                document.AttackReceipts.ToDictionary(keySelector: row => (row.Id, row.Generation),
+                        elementSelector: row => (row.Sequence, row.Status));
+        ImmutableDictionary<(string binding, long epoch), RunSuccession.Ack> respawns =
+                document.RespawnReceipts.ToImmutableDictionary(keySelector: row => (row.BindingId, row.Epoch),
+                        elementSelector: row => new RunSuccession.Ack(sequence: row.Sequence, status: row.Status));
+        ItemActions.RestoreReceipts(receipts: document.ItemReceipts);
+        _intents = intents;
+        _foodRequests = food;
+        _attackRequests = attacks;
+        _respawnReceipts = respawns;
+        _publication = candidate;
+    }
 
     private FoundationParticipantState? ReadyActor(RunPublication current, string bindingId)
     {

@@ -33,8 +33,62 @@ internal sealed class RunItemActions
         });
     }
 
+    internal RunSnapshotDocument.ItemReceiptData[] CaptureReceipts()
+    {
+        return [.. _bindings.OrderBy(keySelector: entry => entry.Key, comparer: StringComparer.Ordinal)
+                .Select(selector: entry => CaptureReceipt(binding: entry.Key, progress: entry.Value))];
+    }
+
+    internal void RestoreReceipts(RunSnapshotDocument.ItemReceiptData[] receipts)
+    {
+        _bindings = receipts.ToDictionary(keySelector: row => row.BindingId,
+                elementSelector: RestoreReceipt, comparer: StringComparer.Ordinal);
+    }
+
     private readonly FoundationSession _session;
-    private readonly Dictionary<string, Progress> _bindings = new(comparer: StringComparer.Ordinal);
+    private Dictionary<string, Progress> _bindings = new(comparer: StringComparer.Ordinal);
+
+    private static RunSnapshotDocument.ItemReceiptData CaptureReceipt(string binding, Progress progress)
+    {
+        return new RunSnapshotDocument.ItemReceiptData
+        {
+            BindingId = binding,
+            Generation = progress.Generation,
+            Sequence = progress.Sequence,
+            Status = progress.Status,
+            Selection = progress.Selection is { } selection ? new RunSnapshotDocument.SelectionData
+            {
+                Kind = selection.Target.Kind,
+                Id = selection.Target.Id,
+                Token = selection.Token,
+                PageIndex = selection.PageIndex,
+            } : null,
+            SelectionLost = progress.SelectionLost,
+            StashEffect = progress.StashEffect is { } effect ? new RunSnapshotDocument.PageEffectData
+            {
+                PageNumber = effect.PageNumber,
+                ChangedCells = [.. effect.ChangedCells.Select(selector: cell =>
+                        new RunSnapshotDocument.CellData { X = cell.x, Y = cell.y })],
+                MorePages = effect.MorePages,
+            } : null,
+        };
+    }
+
+    private static Progress RestoreReceipt(RunSnapshotDocument.ItemReceiptData row)
+    {
+        return new Progress(generation: row.Generation)
+        {
+            Sequence = row.Sequence,
+            Status = row.Status,
+            Selection = row.Selection is { } selection ? new RunExternalAccess.Selection(
+                    target: new RunExternalAccess.Target(kind: selection.Kind, id: selection.Id),
+                    token: selection.Token, pageIndex: selection.PageIndex) : null,
+            SelectionLost = row.SelectionLost,
+            StashEffect = row.StashEffect is { } effect ? new RunStash.PageEffect(pageNumber: effect.PageNumber,
+                    changedCells: [.. effect.ChangedCells.Select(selector: cell => (cell.X, cell.Y))],
+                    morePages: effect.MorePages) : null,
+        };
+    }
 
     private Access? Authenticate(FoundationSession.RunPublication? current, Controller controller)
     {

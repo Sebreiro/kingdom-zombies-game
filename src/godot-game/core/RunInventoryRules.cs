@@ -9,7 +9,8 @@ internal static class RunInventoryRules
 {
     internal static bool IsValid(RunInventory inventory, RunDefinitions definitions, RunPopulation population)
     {
-        if (inventory.Items.IsDefault || inventory.StashGrid != definitions.StashGrid
+        if (inventory.Items.IsDefault || !RunSavedLayout.ValidSize(size: inventory.StashGrid)
+                || inventory.SavedLayout is null && inventory.StashGrid != definitions.StashGrid
                 || inventory.StashPageCount <= 0 || inventory.NextItemId <= 0)
         {
             return false;
@@ -29,8 +30,13 @@ internal static class RunInventoryRules
         var occupied = new HashSet<(RunInventory.GridKind kind, long id, int x, int y)>();
         foreach (RunInventory.Item item in inventory.Items)
         {
-            if (!definitions.Items.TryGetValue(key: item.DefinitionId, value: out RunDefinitions.Item? rule)
-                    || !MatchesDefinition(item: item, definition: rule))
+            if (!definitions.Items.TryGetValue(key: item.DefinitionId, value: out RunDefinitions.Item? current))
+            {
+                return false;
+            }
+
+            RunDefinitions.Item rule = inventory.SavedLayout?.RuleFor(item: item, current: current) ?? current;
+            if (!MatchesDefinition(item: item, definition: rule))
             {
                 return false;
             }
@@ -54,7 +60,8 @@ internal static class RunInventoryRules
         }
 
         return ValidHandPairs(equipment: equipment) && ValidHandPairs(equipment: corpses)
-                && ValidContainerDepth(items: items, maximum: definitions.MaximumContainerLevels);
+                && ValidContainerDepth(items: items, maximum: inventory.SavedLayout?.MaximumContainerLevels
+                        ?? definitions.MaximumContainerLevels);
     }
 
     internal static RunDefinitions.Size Footprint(RunDefinitions.Item definition, bool rotated)

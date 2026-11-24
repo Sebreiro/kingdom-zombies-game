@@ -240,11 +240,17 @@ internal static class RunProjectiles
     internal sealed record Impact
     {
         internal Impact(Contact contact, decimal damage, RunDamage.Hit? hit = null)
+                : this(arrowId: contact.Arrow.Id, targetId: contact.TargetId, kind: contact.Kind, at: contact.At,
+                        damage: damage, hit: hit)
         {
-            ArrowId = contact.Arrow.Id;
-            TargetId = contact.TargetId;
-            Kind = contact.Kind;
-            At = contact.At;
+        }
+
+        internal Impact(long arrowId, string targetId, Kind kind, decimal at, decimal damage, RunDamage.Hit? hit)
+        {
+            ArrowId = arrowId;
+            TargetId = targetId;
+            Kind = kind;
+            At = at;
             Damage = damage;
             Hit = hit;
         }
