@@ -7,7 +7,8 @@ const network = require('../../tools/lan-checks/network.cjs');
 const {environment} = require('../../tools/lan-checks/check.cjs');
 const {lines} = require('../../tools/lan-checks/rendered.cjs');
 
-const key = {escape: 4194305, left: 65, right: 68, interact: 69, inventory: 73, jump: 32, food1: 49, shift: 4194325};
+const key = {escape: 4194305, enter: 4194309, menu: 4194370, left: 65, right: 68, interact: 69,
+  inventory: 73, jump: 32, food1: 49, shift: 4194325};
 const stash = {TargetKind: 'Stash', TargetId: 'foundation.stash'};
 const current = peer => lines(path.join(peer.directory, 'frames.ndjson')).at(-1);
 const actor = (row, id = row.phase06.control) => row.phase06.World.Actors.find(entry => entry.Id === id);
@@ -417,20 +418,62 @@ async function checkLooseItems(state, watcher, peers) {
   assert.equal(external(first).Rows[0].Quantity, 17);
   assert(peers.filter(peer => peer !== watcher).every(peer => !external(current(peer))),
     'no dense pile rows or token reach the other three processes');
+  const bag = item(first, 'external', 'IT-23');
+  assert(bag?.Id);
+  const opened = await openLooseBagTree(state, watcher, path, bag);
   await activate(state, watcher, path + 'NextNearbyItemsPage');
   const second = await observe(state, watcher, row => external(row)?.Header.ItemPage === 2,
     'native next item page installs authorized original loot rows');
+  for (const id of [bag.Id, opened.pouch.Id]) {
+    await inject(state, watcher, {action: 'focus', control: path + 'Bag_' + id + '/MoveBag'});
+  }
+  assert(windowFor(second, bag.Id) && windowFor(second, opened.pouch.Id),
+    'the open bag and descendant retain exact authorized scopes while their root is off-page');
   assert.equal(external(second).Token, external(first).Token);
   assert.equal(external(second).Rows.length, 64);
-  assert(external(second).Rows.every((row, index) => row.Id === external(first).Rows[index].Id + 64
+  assert(external(second).Rows.every((row, index, rows) => row.Id > (rows[index - 1]?.Id ?? external(first).Rows.at(-1).Id)
     && row.Location.TargetId === target && row.Quantity === 1 && row.Stamp.length === 64));
-  assert.equal(own(second).Revision, own(first).Revision);
+  assert.equal(own(second).Revision, own(opened.contents).Revision);
   await activate(state, watcher, path + 'PreviousNearbyItemsPage');
   const again = await observe(state, watcher, row => external(row)?.Header.ItemPage === 1,
     'native previous item page returns the same original loot');
   assert.deepEqual(external(again).Rows, external(first).Rows);
-  await activate(state, watcher, path + 'NearbyTarget');
-  return {first, second, again};
+  await activate(state, watcher, path + 'NextNearbyItemsPage');
+  await observe(state, watcher, row => external(row)?.Header.ItemPage === 2, 'restore off-page bag view');
+  await action(state, watcher, 'place', {Item: reference(bag), Token: external(second).Token, Container: null,
+    Amount: null, Destination: {Kind: 'equipment', TargetId: first.phase06.control, Slot: 'backpack',
+      GridId: null, X: null, Y: null, Rotated: null}}, 'Applied');
+  const moved = await observe(state, watcher, row => item(row, 'own', 'IT-23')?.Id === bag.Id && external(row)
+    && !windowFor(row, bag.Id) && !windowFor(row, opened.pouch.Id),
+  'moving the off-page bag to carried equipment revokes both external windows');
+  await tap(state, watcher, key.escape);
+  await observe(state, watcher, row => !row.inventoryOpen && !external(row),
+    'one Escape closes the workspace after the transferred bag and descendant have closed');
+  await tap(state, watcher, key.interact);
+  await observe(state, watcher, row => row.inventoryOpen && !external(row),
+    'open the nearby inventory selector without the transferred bag context');
+  return {first, opened: opened.contents, second, again, moved};
+}
+
+function windowFor(row, id) {
+  return Object.entries(row.phase06.Views).find(([scope, view]) => scope.startsWith('external.')
+    && view.Header.ContainerId === id && view.Token === external(row)?.Token)?.[1];
+}
+
+async function openLooseBagTree(state, peer, panels, bag) {
+  const openBag = async control => {
+    await inject(state, peer, {action: 'focus', control});
+    await tap(state, peer, key.menu);
+    await tap(state, peer, key.enter);
+  };
+  await openBag(panels + 'NearbyStorage/Rows/NearbyItem_' + bag.Id);
+  const open = await observe(state, peer, row => windowFor(row, bag.Id)?.Rows.some(entry => entry.DefinitionId === 'IT-22'),
+    'open the native loot bag from its committed row');
+  const pouch = windowFor(open, bag.Id).Rows.find(entry => entry.DefinitionId === 'IT-22');
+  await openBag(panels + 'Bag_' + bag.Id + '/BagStorage/Rows/ItemCells/Item_' + pouch.Id);
+  const contents = await observe(state, peer, row => windowFor(row, pouch.Id)?.Rows.some(entry => entry.DefinitionId === 'IT-08'),
+    'open the native nested pouch and observe its original berries');
+  return {pouch, contents};
 }
 
 module.exports = {open, reset, close: state => close(state), cases: {

@@ -331,9 +331,10 @@ internal static class FoundationProtocol
             case "external":
                 return ValidExternal(frame: frame, body: body);
             default:
-                Shape(value: body, names: ["ContainerId", "Width", "Height"]);
+                Shape(value: body, names: ["ContainerId", "Width", "Height", "Ground"]);
+                bool ground = body.GetProperty(propertyName: "Ground").GetBoolean();
                 return frame.Epoch > 0 && (WindowScope(scope: frame.Scope, external: true)
-                        ? frame.Token > 0 : frame.Token == 0)
+                        ? frame.Token > 0 : frame.Token == 0 && !ground)
                         && body.GetProperty(propertyName: "ContainerId").GetInt64() > 0
                         && body.GetProperty(propertyName: "Width").GetInt32() is >= 1 and <= 64
                         && body.GetProperty(propertyName: "Height").GetInt32() is >= 1 and <= 64

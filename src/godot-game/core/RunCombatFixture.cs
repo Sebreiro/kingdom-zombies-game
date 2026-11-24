@@ -71,7 +71,7 @@ internal static class RunCombatFixture
         return (outcome.Status.ToString(), outcome.Replayed);
     }
 
-    private const int WireExtraLooseItems = 4097;
+    private const int WireExtraLooseItems = 4096;
 
     private static RunWorld World(RunWorld.Ranges ranges, bool wire)
     {
@@ -134,6 +134,11 @@ internal static class RunCombatFixture
                 location: new RunInventory.Ground(pileId: Remains));
         if (mode is "wire")
         {
+            long looseBag = Add(inventory: ref inventory, definition: definitions.Items["IT-23"], quantity: 1,
+                    condition: null, location: new RunInventory.Ground(pileId: Remains));
+            long loosePouch = Store(inventory: ref inventory, definitions: definitions, id: "IT-22",
+                    grid: looseBag, x: 0, y: 0);
+            _ = Store(inventory: ref inventory, definitions: definitions, id: "IT-08", grid: loosePouch, x: 0, y: 0);
             inventory = SeedWireLoot(inventory: inventory, definition: definitions.Items["IT-01"]);
         }
 

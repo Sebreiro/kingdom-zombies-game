@@ -263,6 +263,7 @@ internal static partial class RunProjections
                 ContainerId = container.Id,
                 dimensions.Width,
                 dimensions.Height,
+                Ground = external && container.Location is RunInventory.Ground,
             });
             result.Add(item: (scope, generation, external ? view.Selection?.Token ?? 0 : 0, header,
                     Rows(root: root, items: available, scope: item => item.Location is RunInventory.ContainerCell

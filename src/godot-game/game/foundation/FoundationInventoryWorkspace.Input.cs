@@ -529,7 +529,10 @@ internal sealed partial class FoundationInventoryWorkspace
 
         foreach (Model.Window bag in _model.Windows.ToArray())
         {
-            if (!Current(item: bag.Item, stamp: false))
+            bool authorizedGround = bag.External && bag.Item.Location.Kind is "ground"
+                    && WindowView(id: bag.Item.Id, external: true)?.Header.GetProperty(propertyName: "Ground")
+                            .GetBoolean() == true;
+            if (!authorizedGround && !Current(item: bag.Item, stamp: false))
             {
                 CloseBag(id: bag.Item.Id);
             }
