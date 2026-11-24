@@ -256,6 +256,8 @@ Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passi
 
 [Phase 5 pull request #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15) merged into `dev` as `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6`. Phase 6 work continues on `feature/06-survivors-inventory-and-combat` in `D:/GitWorktrees/KingdomZombies/kz-06-survivors-inventory-and-combat`.
 
+Phase 6 implementation is published in [draft pull request #16](https://github.com/Sebreiro/kingdom-zombies-game/pull/16), targeting `dev`. Its first implementation commit is `6bd6750a1fc923bd15634574aee5e4bb1aa28803`.
+
 Phase 6 baseline on Windows used the pinned Node and `node src/godot-game/tools/game-tests/check.cjs --pr` from the linked checkout. Invocation `87cbb73a-e93f-412c-b053-fa41b043f8df` exited 0 on `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6` with four passes, zero failures and zero blocked cases. Strict build, repository validation, pure tests and headless solo gameplay passed.
 
 Repository layout continuation: [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) (`feature/quick-repository-layout`, quick tasks 261116-k3u, 261116-m0w and 261121-jmu) integrated `dev` (Phase 4 and PR #7) by quick task 261123-fsu, with every Phase 4 and PR #7 file at its [current layout location](../docs/architecture/repository-layout.md#historical-paths).
