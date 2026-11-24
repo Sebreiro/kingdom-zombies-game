@@ -691,7 +691,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
 | 4. Asset production | 35/37, 2 waived | Complete under closure exception | 2026-11-22 |
 | 5. CI and repeatable game testing | 4/4 | Complete | 2026-11-24 |
-| 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
+| 6. Survivors, inventory, and combat | 0/15 | In progress | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |
 | 8. Zombie campaign and outcomes | 0/TBD | Not started | - |
 | 9. Persistence and complete player experience | 0/TBD | Not started | - |

@@ -4,19 +4,19 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 06
 current_phase_name: Survivors, inventory, and combat
-current_plan: 4
-status: completed
-stopped_at: "Phase 05 verified on b7e419c. Results are recorded on PR #15."
-last_updated: "2026-11-24T10:52:46.450Z"
+current_plan: 1
+status: executing
+stopped_at: "Phase 06 plans reviewed. Execution started on 06-01."
+last_updated: "2026-11-24T10:52:47.604Z"
 last_activity: 2026-11-24
-last_activity_desc: Verified Phase 05 on Windows at 1280×720 and in hosted Windows and Ubuntu checks.
-state_head: 6d606d58df2acb68cfaadfa076d7f6057e24abfd
+last_activity_desc: Phase 06 execution started
+state_head: a5f5f4161a0a6b891880966bc25b0f2011869226
 progress:
-  total_phases: 16
+  total_phases: 12
   completed_phases: 5
   total_plans: 105
-  completed_plans: 66
-  percent: 31
+  completed_plans: 64
+  percent: 42
 ---
 
 # Project State
@@ -33,15 +33,15 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 
 ## Current Position
 
-Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
-Current Plan: 05-04 complete
+Phase: 06 (Survivors, inventory, and combat) — EXECUTING
+Current Plan: 1
 Total Plans in Phase: 15
-Status: Complete. [Phase 5 pull request](https://github.com/Sebreiro/kingdom-zombies-game/pull/15)
-Last activity: 2026-11-24 — Phase 5 verified all 92 selected Windows checks and recorded P1–P4. Windows and Ubuntu passed the hosted basic checks on the same source.
+Status: Executing Phase 06
+Last activity: 2026-11-24 — Phase 06 execution started
 
-Progress: [███░░░░░░░] 31%
+Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 64 of 66 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 64 of 105 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -248,9 +248,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-24T08:27:49.292Z
-Stopped at: Phase 5 passed its required Windows, hosted and visual checks. [Phase 5 verification](phases/05-ci-and-repeatable-game-testing/05-VERIFICATION.md)
-Resume file: None
+Last session: 2026-11-24T10:52:47.604Z
+Stopped at: Phase 6 plans passed review and 06-01 started.
+Resume file: [06-01-PLAN.md](phases/06-survivors-inventory-and-combat/06-01-PLAN.md)
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
