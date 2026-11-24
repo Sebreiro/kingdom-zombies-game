@@ -35,6 +35,8 @@ internal static class RunProjections
         }
 
         RunWorld world = root.World;
+        RunInventory.Item[] gear = [.. root.Inventory.Items.Where(predicate: item =>
+                item.Location is RunInventory.Equipment or RunInventory.CorpseEquipment)];
         var data = new
         {
             Elapsed = root.ElapsedMilliseconds,
@@ -43,7 +45,9 @@ internal static class RunProjections
             CampLeft = world.CampBorders.left,
             CampRight = world.CampBorders.right,
             Actors = root.Population.Survivors.Where(predicate: actor => actor.Health > 0)
-                    .Select(selector: actor => Actor(root: root, actor: actor)),
+                    .Select(selector: actor => Actor(root: root, actor: actor, gear: gear)),
+            Corpses = root.Loot.Deaths.Values.Where(predicate: death => root.Loot.Targets.ContainsKey(
+                    key: death.CorpseId)).Select(selector: death => Corpse(root: root, death: death, gear: gear)),
             Defenses = world.Defenses.Select(selector: defense => new
             {
                 defense.Id,
@@ -160,11 +164,17 @@ internal static class RunProjections
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
     };
 
-    private static JsonElement Actor(FoundationSession.RunPublication root, RunPopulation.Survivor actor)
+    private static JsonElement Actor(FoundationSession.RunPublication root, RunPopulation.Survivor actor,
+            RunInventory.Item[] gear)
     {
         (decimal x, decimal y) = RunCombat.Contact(world: root.World, survivor: actor);
         string? binding = root.Population.Leases.FirstOrDefault(predicate: lease =>
                 StringComparer.Ordinal.Equals(x: lease.SurvivorId, y: actor.Id))?.BindingId;
+        RunInventory.Item[] worn = [.. gear.Where(predicate: item => item.Location is RunInventory.Equipment slot
+                && StringComparer.Ordinal.Equals(x: slot.SurvivorId, y: actor.Id))];
+        RunInventory.Item? left = AtHand(items: worn, hand: "left-hand");
+        RunInventory.Item? right = AtHand(items: worn, hand: "right-hand");
+        bool striking = actor.StrikeAt.HasValue && actor.AttackAvailableAt > root.ElapsedMilliseconds;
         return JsonSerializer.SerializeToElement(value: new
         {
             actor.Id,
@@ -173,13 +183,57 @@ internal static class RunProjections
             actor.Facing,
             actor.Hostile,
             BindingId = binding,
-            Equipment = root.Inventory.Items.Where(predicate: item => item.Location is RunInventory.Equipment slot
-                    && StringComparer.Ordinal.Equals(x: slot.SurvivorId, y: actor.Id)).Select(selector: item => new
-                    {
-                        ((RunInventory.Equipment)item.Location).Slot,
-                        item.DefinitionId,
-                    }),
+            Movement = actor.JumpStartedAt.HasValue ? "jump" : actor.MovementPose,
+            StrikeAt = striking ? actor.StrikeAt : null,
+            StrikeUntil = striking ? actor.AttackAvailableAt : null,
+            AimX = striking ? actor.StrikeAim?.X : null,
+            AimY = striking ? actor.StrikeAim?.Y : null,
+            actor.FlinchAt,
+            ArrowReady = left is { DefinitionId: "IT-07" } && right is { DefinitionId: "IT-02" }
+                    || right is { DefinitionId: "IT-07" } && left is { DefinitionId: "IT-02" },
+            Equipment = Equipment(items: worn),
         });
+    }
+
+    private static JsonElement Corpse(FoundationSession.RunPublication root, RunDeathAndLoot.Death death,
+            RunInventory.Item[] gear)
+    {
+        RunPopulation.Survivor actor = root.Population.Survivors.First(predicate: survivor =>
+                StringComparer.Ordinal.Equals(x: survivor.Id, y: death.SurvivorId));
+        return JsonSerializer.SerializeToElement(value: new
+        {
+            Id = death.CorpseId,
+            death.SurvivorId,
+            death.Contact.X,
+            death.Contact.Y,
+            actor.Facing,
+            actor.Hostile,
+            death.At,
+            Equipment = Equipment(items: gear.Where(predicate: item => item.Location is
+                    RunInventory.CorpseEquipment slot && StringComparer.Ordinal.Equals(x: slot.CorpseId,
+                            y: death.CorpseId))),
+        });
+    }
+
+    private static RunInventory.Item? AtHand(RunInventory.Item[] items, string hand)
+    {
+        return items.FirstOrDefault(predicate: item => item.Location is RunInventory.Equipment slot
+                && StringComparer.Ordinal.Equals(x: slot.Slot, y: hand));
+    }
+
+    private static JsonElement Equipment(IEnumerable<RunInventory.Item> items)
+    {
+        return JsonSerializer.SerializeToElement(value: items.Select(selector: item => new
+        {
+            Slot = item.Location switch
+            {
+                RunInventory.Equipment worn => worn.Slot,
+                RunInventory.CorpseEquipment body => body.Slot,
+                _ => throw new InvalidDataException(message: "RUN_VISIBLE_EQUIPMENT"),
+            },
+            item.DefinitionId,
+            Broken = item.Condition == 0,
+        }));
     }
 
     private static (JsonElement header, ImmutableArray<JsonElement> rows) Own(

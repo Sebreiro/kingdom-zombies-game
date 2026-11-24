@@ -121,7 +121,8 @@ public sealed class CharacterPresentation
                 spentVisualArrows = _spent,
                 stackIdentity = _stack,
                 intrinsicAmmunition = _intrinsicAmmunition,
-                fallback = _action is "bow" && !BowReady() && !_released ? "melee-or-fists" : "none",
+                fallback = _action is "bow" && !BowReady() && !_released && !_holdUnloaded
+                        ? "melee-or-fists" : "none",
                 pickupCreated = false,
                 gameplayEvents = 0,
                 nextSampleSeconds = Math.Min(val1: Remaining(clip: _movement, time: _stride),
@@ -167,6 +168,7 @@ public sealed class CharacterPresentation
             _spent = 0;
             _released = false;
             _intrinsicAmmunition = false;
+            _holdUnloaded = false;
         }
 
         _body = body;
@@ -186,9 +188,9 @@ public sealed class CharacterPresentation
                 intrinsicAmmunition: false);
     }
 
-    /// <summary>Explicit structural ammunition has no inventory stack and retains one release per generation.</summary>
+    /// <summary>Reconciles loaded, unloaded or intrinsic bow presentation without changing gameplay state.</summary>
     public void ConfigureBow(double aimRadians, int leftArrows, int rightArrows, bool leftUsable, bool rightUsable,
-            string stackIdentity, bool intrinsicAmmunition)
+            string stackIdentity, bool intrinsicAmmunition, bool holdUnloaded = false)
     {
         if (_bow.ValueKind is not JsonValueKind.Object || !double.IsFinite(d: aimRadians)
                 || Math.Abs(value: aimRadians) > Math.PI / 2 || leftArrows < 0 || leftArrows > _maximumArrows
@@ -218,6 +220,7 @@ public sealed class CharacterPresentation
         _rightUsable = rightUsable;
         _stack = stackIdentity;
         _intrinsicAmmunition = intrinsicAmmunition;
+        _holdUnloaded = holdUnloaded;
     }
 
     /// <summary>Releases one visual arrow in the current generation without creating gameplay events.</summary>
@@ -309,6 +312,7 @@ public sealed class CharacterPresentation
     private bool _rightUsable = true;
     private bool _released;
     private bool _intrinsicAmmunition;
+    private bool _holdUnloaded;
     private string _stack = "initial";
     private readonly int _maximumArrows;
 
@@ -520,9 +524,14 @@ public sealed class CharacterPresentation
 
     private string BowStage()
     {
-        if (_action is not "bow" || !BowReady() && !_released)
+        if (_action is not "bow")
         {
             return "inactive";
+        }
+
+        if (!BowReady() && !_released)
+        {
+            return _holdUnloaded ? "aim" : "inactive";
         }
 
         double fraction = _actionTime / _intervals["IT-07"];

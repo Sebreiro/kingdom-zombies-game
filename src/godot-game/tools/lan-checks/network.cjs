@@ -15,8 +15,7 @@ function frames(peer){
   const text=fs.readFileSync(file,'utf8'),lines=text.split('\n');lines.pop();
   return lines.filter(Boolean).map(line=>JSON.parse(line));
 }
-function launch(context,role,port,retainedRoot=null){
-  const directory=path.join(context.directory,role);fs.mkdirSync(directory);
+function engineIdentity(context){
   const pins=JSON.parse(fs.readFileSync(path.join(context.root,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   const archive=pins.archives[context.platform];requireTrue(archive,'ENGINE_PLATFORM');
   const consoleEngine=workspace.locations(context.root).tools('godot',archive.directory,archive.executable);
@@ -26,12 +25,36 @@ function launch(context,role,port,retainedRoot=null){
   const engine=process.platform==='win32'?consoleEngine.replace('_console.exe','.exe'):consoleEngine;
   if(process.platform==='win32')requireTrue(crypto.createHash('sha256').update(fs.readFileSync(engine)).digest('hex')===
     '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','ENGINE_NATIVE_HASH');
+  return {engine,consoleEngine,digest};
+}
+async function prepareProject(context){
+  const {consoleEngine}=engineIdentity(context);
+  const project=path.join(context.directory,'imported-game');
+  const original=path.join(context.root,'src/godot-game/game');
+  fs.mkdirSync(project);
+  const assemblies='.godot/mono/temp/bin/Debug';
+  for(const entry of ['project.godot','assets','content','foundation','inspection','proofs',assemblies]){
+    fs.cpSync(path.join(original,entry),path.join(project,entry),
+      {recursive:true,filter:source=>!source.endsWith('.import')});
+  }
+  const userdata=path.join(context.directory,'import-userdata');
+  fs.mkdirSync(userdata);
+  const env={...context.env,APPDATA:userdata,LOCALAPPDATA:userdata,XDG_DATA_HOME:userdata,
+    XDG_CONFIG_HOME:userdata,XDG_CACHE_HOME:userdata};
+  const result=await require('../asset-pipeline/check.cjs').command(context,'game-import',consoleEngine,
+    ['--headless','--path',project,'--editor','--import','--quit'],{env});
+  requireTrue(!result.stderr.trim()&&!/ERROR:|Failed to load|Error importing/.test(result.stdout),'GAME_IMPORT_LOG');
+  return project;
+}
+function launch(context,role,port,retainedRoot=null){
+  const directory=path.join(context.directory,role);fs.mkdirSync(directory);
+  const {engine,digest}=engineIdentity(context);
   const profileRoot=retainedRoot??path.join(directory,"profiles");fs.mkdirSync(profileRoot,{recursive:true});
   const profileFile=path.join(profileRoot,"profiles.json");
   if(!fs.existsSync(profileFile)){const id=crypto.randomUUID().replaceAll("-","");fs.writeFileSync(profileFile,JSON.stringify({schema:1,selected:id,profiles:[{id,name:"Player 1",ordinal:1}]}));}
   const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
   const args=context.rendered?['--path',context.project??path.join(context.root,'src/godot-game/game'),'--rendering-method','gl_compatibility','--resolution','1280x720']
-    :['--headless','--path',path.join(context.root,'src/godot-game/game')];
+    :['--headless','--path',context.project??path.join(context.root,'src/godot-game/game')];
   const userData=path.join(directory,'userdata');fs.mkdirSync(userData);
   const attestation=context.beforeGame?.(role,directory,engine);
   const child=spawn(engine,args,{cwd:context.root,windowsHide:!context.rendered,
@@ -352,11 +375,14 @@ async function lifetime(context,item){
 }
 async function observed(context,item){
   const directory=path.join(context.directory,item.id);fs.mkdirSync(directory);
-  const result=await tracer({...context,directory,runRoot:context.directory},item);
+  const subject={...context,directory,runRoot:context.directory};
+  const project=await prepareProject(subject);
+  const result=await tracer({...subject,project},item);
   const evidence=require('./evidence.cjs');
   const ref=file=>({path:path.relative(context.directory,file),sha256:evidence.hash(fs.readFileSync(file))});
   return {...result,revision:context.revision,osFingerprint:context.osFingerprint,peers:result.peers.map(peer=>({...peer,
     launch:ref(path.join(directory,peer.role,'launch.json')),log:ref(path.join(directory,peer.role,'console.log')),
     frames:ref(path.join(directory,peer.role,'frames.ndjson'))}))};
 }
-module.exports={tracer,observed,frames,coherent,allocatePort,launch,waitFor,input,key,activate,actor,cleanup,stop,matchingRoster};
+module.exports={tracer,observed,frames,coherent,allocatePort,launch,waitFor,input,key,activate,actor,cleanup,stop,
+  matchingRoster,prepareProject};

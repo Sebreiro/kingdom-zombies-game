@@ -116,7 +116,7 @@ internal static class RunCombat
         }
 
         RunPopulation.Survivor? paid = Pay(current: current, attacker: attacker, cost: rule.Stamina,
-                interval: rule.Interval);
+                interval: rule.Interval, aim: aim);
         if (paid is null)
         {
             return (Status.InsufficientStamina, null);
@@ -136,13 +136,18 @@ internal static class RunCombat
     }
 
     private static RunPopulation.Survivor? Pay(FoundationSession.RunPublication current,
-            RunPopulation.Survivor attacker, decimal cost, decimal interval)
+            RunPopulation.Survivor attacker, decimal cost, decimal interval, Aim? aim = null)
     {
         RunLocomotion.Burden load = RunLocomotion.Load(inventory: current.Inventory, definitions: current.Definitions,
                 survivorId: attacker.Id);
         RunPopulation.Survivor? paid = RunVitals.Spend(survivor: attacker, amount: cost * load.ActionCost,
                 now: current.ElapsedMilliseconds);
-        return paid is null ? null : paid with { AttackAvailableAt = current.ElapsedMilliseconds + interval };
+        return paid is null ? null : paid with
+        {
+            AttackAvailableAt = current.ElapsedMilliseconds + interval,
+            StrikeAt = current.ElapsedMilliseconds,
+            StrikeAim = aim,
+        };
     }
 
     private static ImmutableArray<Strike> Strikes(RunCombatDefinitions definitions, RunInventory.Item? left,

@@ -173,6 +173,10 @@ internal sealed class RunPopulation
         internal decimal? RestStartedAt { get; init; }
         internal decimal? FoodAvailableAt { get; init; }
         internal decimal? AttackAvailableAt { get; init; }
+        internal string MovementPose { get; init; } = "idle";
+        internal decimal? StrikeAt { get; init; }
+        internal RunCombat.Aim? StrikeAim { get; init; }
+        internal decimal? FlinchAt { get; init; }
         internal bool Hostile { get; init; }
         internal bool EligibleForControl => !Hostile && Health > 0;
     }

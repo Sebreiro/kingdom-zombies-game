@@ -11,6 +11,7 @@ internal static class FoundationLinkedSources
         "src/godot-game/game/foundation/FoundationDisplay.cs",
         "src/godot-game/game/foundation/FoundationPresentation.cs",
         "src/godot-game/game/foundation/FoundationActorNode.cs",
+        "src/godot-game/game/foundation/FoundationEquipmentProjection.cs",
         "src/godot-game/game/foundation/FoundationCapturePublication.cs",
         "src/godot-game/game/foundation/FoundationDrawRequest.cs",
         "src/godot-game/game/foundation/FoundationObservationScope.cs",

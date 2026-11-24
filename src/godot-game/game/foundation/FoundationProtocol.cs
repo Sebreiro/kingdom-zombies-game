@@ -290,14 +290,18 @@ internal static class FoundationProtocol
     private static bool ValidWorld(JsonElement body)
     {
         Shape(value: body, names: ["Elapsed", "OriginX", "Ground", "CampLeft", "CampRight", "Actors", "Defenses",
-            "Loot", "Arrows"]);
+            "Loot", "Arrows", "Corpses"]);
         foreach (JsonElement actor in body.GetProperty(propertyName: "Actors").EnumerateArray())
         {
-            Shape(value: actor, names: ["Id", "X", "Y", "Facing", "Hostile", "BindingId", "Equipment"]);
-            foreach (JsonElement item in actor.GetProperty(propertyName: "Equipment").EnumerateArray())
-            {
-                Shape(value: item, names: ["Slot", "DefinitionId"]);
-            }
+            Shape(value: actor, names: ["Id", "X", "Y", "Facing", "Hostile", "BindingId", "Equipment",
+                "Movement", "StrikeAt", "StrikeUntil", "AimX", "AimY", "FlinchAt", "ArrowReady"]);
+            ValidateRows(body: actor, member: "Equipment", fields: ["Slot", "DefinitionId", "Broken"]);
+        }
+
+        foreach (JsonElement corpse in body.GetProperty(propertyName: "Corpses").EnumerateArray())
+        {
+            Shape(value: corpse, names: ["Id", "SurvivorId", "X", "Y", "Facing", "Hostile", "At", "Equipment"]);
+            ValidateRows(body: corpse, member: "Equipment", fields: ["Slot", "DefinitionId", "Broken"]);
         }
 
         ValidateRows(body: body, member: "Defenses", fields: ["Id", "X", "Y", "Living", "Completed", "IsWall"]);

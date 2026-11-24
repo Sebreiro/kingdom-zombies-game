@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
-const { launch, waitFor, frames, activate, actor, key, stop, cleanup } = require('../lan-checks/network.cjs');
+const { launch, waitFor, frames, activate, actor, key, stop, cleanup, prepareProject } = require('../lan-checks/network.cjs');
 
 function verifyOwner(row, peer, nonce) {
   assert.equal(row.nonce, nonce, 'OBSERVATION_NONCE');
@@ -116,6 +116,7 @@ async function smoke(context, folder) {
     XDG_CACHE_HOME: userdata,
   };
   const subject = { ...context, env, directory, nonce, rendered: false, platform: process.platform + '-' + process.arch };
+  subject.project = await prepareProject(subject);
   const deadline = Date.now() + 45_000;
   const peer = launch(subject, 'solo', 0);
   let failure;

@@ -149,6 +149,8 @@ public sealed partial class FoundationRoot : Control
     public override void _ExitTree()
     {
         _gateway.RequireThread();
+        _appearance?.Dispose();
+        _appearance = null;
         _coordinator?.Close();
         _closing?.Close();
         _runtime.CloseRetired();
@@ -176,6 +178,7 @@ public sealed partial class FoundationRoot : Control
     private readonly FoundationDiagnostics _diagnostics = new();
     private FoundationServices? _services;
     private FoundationMenu? _menu;
+    private FoundationView.Appearance? _appearance;
     private int _lastDirection = int.MinValue;
     private long _generation;
     private long _inputEvents;
@@ -328,8 +331,13 @@ public sealed partial class FoundationRoot : Control
             _input.Clear();
         }
 
+        if (_coordinator.ReadRunRender() is { } readback && (readback.World.HasValue || _appearance is not null))
+        {
+            _appearance ??= new FoundationView.Appearance(world: world, gateway: _gateway);
+            _appearance.Project(readback: readback, local: _coordinator.LocalRunControl?.survivorId, aim: null);
+        }
         FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: _coordinator.BindingId,
-                gateway: _gateway);
+                gateway: _gateway, authored: _appearance?.Ready == true);
         GetNode<Control>(path: "Menu/Error").Visible = false;
         GetNode<Control>(path: "Menu").Visible = false;
         GetNode<Control>(path: "Browser").Visible = false;
@@ -375,6 +383,8 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
+        _appearance?.Dispose();
+        _appearance = null;
         _runtime.Retire(current: ref _coordinator, closing: ref _closing);
         _services?.Discovery.Advertise(advertisement: null);
         _input.Clear();

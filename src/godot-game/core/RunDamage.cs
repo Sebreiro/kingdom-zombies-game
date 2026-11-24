@@ -28,7 +28,11 @@ internal static class RunDamage
 
         decimal harm = raw * Math.Max(val1: 1 - definitions.ArmorCap, val2: remaining);
         decimal health = Math.Max(val1: 0, val2: survivor.Health - harm);
-        RunPopulation.Survivor next = health == survivor.Health ? survivor : survivor with { Health = health };
+        RunPopulation.Survivor next = health == survivor.Health ? survivor : survivor with
+        {
+            Health = health,
+            FlinchAt = at,
+        };
         var hit = new Hit(sourceId: sourceId, targetId: survivor.Id, raw: raw, damage: harm, healthBefore:
                 survivor.Health, healthAfter: health, at: at);
         return (inventory, next, hit);

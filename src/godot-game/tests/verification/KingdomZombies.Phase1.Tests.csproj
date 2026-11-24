@@ -10,6 +10,7 @@
     <Compile Include="../../game/foundation/FoundationDisplay.cs" Link="FoundationDisplay.cs" />
     <Compile Include="../../game/foundation/FoundationPresentation.cs" Link="FoundationPresentation.cs" />
     <Compile Include="../../game/foundation/FoundationActorNode.cs" Link="FoundationActorNode.cs" />
+    <Compile Include="../../game/foundation/FoundationEquipmentProjection.cs" Link="FoundationEquipmentProjection.cs" />
     <Compile Include="../../game/foundation/FoundationCapturePublication.cs" Link="FoundationCapturePublication.cs" />
     <Compile Include="../../game/foundation/FoundationDrawRequest.cs" Link="FoundationDrawRequest.cs" />
     <Compile Include="../../game/foundation/FoundationObservationScope.cs" Link="FoundationObservationScope.cs" />

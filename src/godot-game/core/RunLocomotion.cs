@@ -33,7 +33,8 @@ internal static class RunLocomotion
 
         RunPopulation.Survivor? paid = RunVitals.Spend(survivor: survivor,
                 amount: definitions.Locomotion.JumpCost * load.ActionCost, now: now);
-        return paid is null ? (null, Block.InsufficientStamina) : (paid with { JumpStartedAt = now }, Block.None);
+        return paid is null ? (null, Block.InsufficientStamina)
+                : (paid with { JumpStartedAt = now, MovementPose = "jump" }, Block.None);
     }
 
     internal static RunPopulation.Survivor Advance(RunPopulation.Survivor survivor, RunDefinitions definitions,
@@ -70,6 +71,7 @@ internal static class RunLocomotion
         {
             HeightSubunits = 4 * tuning.JumpHeight * RunWorld.SubunitsPerUnit * progress * (1 - progress),
             JumpStartedAt = progress == 1 ? null : start,
+            MovementPose = progress == 1 ? "idle" : "jump",
         }, definitions: definitions, previous: previous, current: current);
     }
 
@@ -79,6 +81,7 @@ internal static class RunLocomotion
     {
         int direction = intent?.Direction ?? 0;
         decimal walkedFrom = previous;
+        decimal before = survivor.PositionSubunitsExact;
         if (intent is { Sprint: true } && direction != 0)
         {
             (survivor, walkedFrom) = Sprint(survivor: survivor, tuning: definitions.Locomotion, intent: intent,
@@ -91,13 +94,16 @@ internal static class RunLocomotion
 
         if (walkedFrom == current && walkedFrom > previous && survivor.SprintBlock == Block.None)
         {
-            return survivor;
+            return survivor with { MovementPose = survivor.PositionSubunitsExact == before ? "idle" : "faster" };
         }
 
         RunPopulation.Survivor walked = Walk(survivor: survivor, definitions: definitions, world: world,
                 direction: direction, speed: definitions.Locomotion.WalkSpeed * load.Speed, previous: walkedFrom,
                 current: current);
-        return RunVitals.RegenerateStamina(survivor: walked, definitions: definitions, previous: walkedFrom,
+        string pose = walked.PositionSubunitsExact == before ? "idle"
+                : walkedFrom == current ? "faster" : "walk";
+        return RunVitals.RegenerateStamina(survivor: walked with { MovementPose = pose },
+                definitions: definitions, previous: walkedFrom,
                 current: current);
     }
 

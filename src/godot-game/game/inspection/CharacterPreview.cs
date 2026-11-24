@@ -81,7 +81,7 @@ internal sealed class CharacterPreview
 
 
     internal static CharacterPreview OpenComposition(Node2D root, MainThreadGateway gateway,
-            Func<string, byte[]?> read, string body)
+            Func<string, byte[]?> read, string body, bool animated = false)
     {
         gateway.RequireThread();
         string profile = body is "CH-01" or "CH-02" or "CH-03" ? "a"
@@ -101,12 +101,19 @@ internal sealed class CharacterPreview
 
         root.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
         root.AddChild(node: new Node2D { Name = "Art" });
+        if (animated)
+        {
+            preview._bow = ReadDefinition(bytes: read(arg: "content/animation/bow.json")
+                    ?? throw new InvalidDataException(message: "BOW_MISSING"), expectedId: "bow");
+        }
+
         preview._composition = true;
         preview._attached = true;
         return preview;
     }
 
-    internal void RestoreComposition(string body, string pose, int facing, JsonElement equipment)
+    internal void RestoreComposition(string body, string pose, int facing, JsonElement equipment,
+            string? lowerPose = null, JsonElement sample = default, IReadOnlySet<string>? brokenSlots = null)
     {
         _gateway.RequireThread();
         if (!_composition || !_attached || equipment.ValueKind is not JsonValueKind.Object
@@ -118,36 +125,19 @@ internal sealed class CharacterPreview
         JsonElement definition = _fits.GetProperty(propertyName: "bodies").EnumerateArray().Single(
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: body));
         JsonElement authored = FindPose(body: definition, id: pose);
-        var names = new HashSet<string>(comparer: StringComparer.Ordinal);
-        foreach (JsonProperty entry in equipment.EnumerateObject())
-        {
-            JsonElement slot = _fits.GetProperty(propertyName: "slots").EnumerateArray().Single(
-                    predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"),
-                            y: entry.Name));
-            if (!names.Add(item: entry.Name) || entry.Value.ValueKind is not JsonValueKind.String
-                    || !slot.GetProperty(propertyName: "items").EnumerateArray().Any(predicate: value =>
-                            StringComparer.Ordinal.Equals(x: value.GetString(), y: entry.Value.GetString())))
-            {
-                throw new InvalidDataException(message: "COMPOSITION_EQUIPMENT");
-            }
-
-            string item = entry.Value.GetString() ?? throw new InvalidDataException(message: "COMPOSITION_ITEM");
-            _ = FitItem(fits: _fits, body: body, item: item, pose: pose, facing: facing);
-        }
-
+        ValidateCompositionGear(body: body, pose: pose, facing: facing, equipment: equipment);
         RetireArt();
         _body = body;
-        _sample = default;
-        Node2D art = _root.GetNode<Node2D>(path: "Art");
-        AddBody(art: art, pose: authored, facing: facing, lower: authored);
-        var diagnostics = new List<string>();
-        foreach (JsonProperty entry in equipment.EnumerateObject())
+        _sample = sample;
+        _compositionBroken = brokenSlots;
+        JsonElement lower = lowerPose is null ? authored : FindPose(body: definition, id: lowerPose);
+        if (BowActive())
         {
-            AddItem(art: art, body: definition, pose: authored, slot: entry.Name,
-                    itemId: entry.Value.GetString() ?? throw new InvalidDataException(message: "COMPOSITION_ITEM"),
-                    facing: facing, diagnostics: diagnostics);
+            authored = BowPose(pose: authored);
         }
 
+        string[] diagnostics = DrawComposition(definition: definition, upper: authored, lower: lower,
+                facing: facing, equipment: equipment);
         _root.SetMeta(name: "composition", value: JsonSerializer.Serialize(value: new
         {
             body, pose, facing, equipment = equipment.Clone(), diagnostics, loops = 0, controls = 0,
@@ -463,6 +453,50 @@ internal sealed class CharacterPreview
     private float _workOriginY;
     private readonly List<string> _workEvents = [];
     private bool _composition;
+    private IReadOnlySet<string>? _compositionBroken;
+
+    private void ValidateCompositionGear(string body, string pose, int facing, JsonElement equipment)
+    {
+        _gateway.RequireThread();
+        var names = new HashSet<string>(comparer: StringComparer.Ordinal);
+        foreach (JsonProperty entry in equipment.EnumerateObject())
+        {
+            JsonElement slot = _fits.GetProperty(propertyName: "slots").EnumerateArray().Single(
+                    predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"),
+                            y: entry.Name));
+            if (!names.Add(item: entry.Name) || entry.Value.ValueKind is not JsonValueKind.String
+                    || !slot.GetProperty(propertyName: "items").EnumerateArray().Any(predicate: value =>
+                            StringComparer.Ordinal.Equals(x: value.GetString(), y: entry.Value.GetString())))
+            {
+                throw new InvalidDataException(message: "COMPOSITION_EQUIPMENT");
+            }
+
+            string item = entry.Value.GetString() ?? throw new InvalidDataException(message: "COMPOSITION_ITEM");
+            _ = FitItem(fits: _fits, body: body, item: item, pose: pose, facing: facing);
+        }
+    }
+
+    private string[] DrawComposition(JsonElement definition, JsonElement upper, JsonElement lower, int facing,
+            JsonElement equipment)
+    {
+        _gateway.RequireThread();
+        Node2D art = _root.GetNode<Node2D>(path: "Art");
+        AddBody(art: art, pose: upper, facing: facing, lower: lower);
+        var diagnostics = new List<string>();
+        foreach (JsonProperty entry in equipment.EnumerateObject())
+        {
+            string item = entry.Value.GetString() ?? throw new InvalidDataException(message: "COMPOSITION_ITEM");
+            if (item is "IT-02" && BowActive() && !_sample.GetProperty(propertyName: "nocked").GetBoolean())
+            {
+                continue;
+            }
+
+            AddItem(art: art, body: definition, pose: entry.Name is "legs" or "boots" ? lower : upper,
+                    slot: entry.Name, itemId: item, facing: facing, diagnostics: diagnostics);
+        }
+
+        return diagnostics.ToArray();
+    }
 
     private void ObligationChoice(string name, string value)
     {
@@ -1894,7 +1928,8 @@ internal sealed class CharacterPreview
                 .EnumerateArray().Any(predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value,
                         name: "id"), y: Text(value: item, name: "id"))));
         string key = Text(value: layer, name: "part");
-        bool broken = !_composition && Selected(id: "Condition") is "Broken"
+        bool broken = (_composition ? _compositionBroken?.Contains(item: slot) == true
+                : Selected(id: "Condition") is "Broken")
                 && item.GetProperty(propertyName: "broken").ValueKind is JsonValueKind.String;
         if (broken && (slot is "left" or "right" or "headwear" || anchor is "torso"))
         {

@@ -105,6 +105,9 @@ function artifacts(directory, folder) {
   return fs.readdirSync(folder, { recursive: true, withFileTypes: true })
     .filter(entry => entry.isFile() && entry.name !== 'profiles.lock')
     .map(entry => path.relative(directory, path.join(entry.parentPath, entry.name)).split(path.sep).join('/'))
+    // The command record retains both import streams, including the required empty stderr.
+    .filter(file => !file.includes('/imported-game/') && !file.includes('/import-userdata/')
+      && !file.endsWith('/game-import.stderr.log'))
     .sort();
 }
 
