@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.Json;
 
 namespace KingdomZombies.Core;
@@ -43,8 +44,8 @@ internal sealed class RunDefinitions
     internal string InitialRole { get; }
     internal ImmutableArray<string> StartingOutfit { get; }
     internal ImmutableArray<StartingStack> StartingStash { get; }
-    internal int MaximumHealth { get; }
-    internal int MaximumStamina { get; }
+    internal decimal MaximumHealth { get; }
+    internal decimal MaximumStamina { get; }
     internal ImmutableDictionary<string, Item> Items { get; }
     internal Size StashGrid { get; }
     internal int MaximumContainerLevels { get; }
@@ -69,6 +70,8 @@ internal sealed class RunDefinitions
         "either-logical-hand", null, null, null, "torso-clothing", "legs", "torso-clothing", "headwear", "face",
         "gloves", "boots", "headwear", "body-armor", "body-armor", "belt", null, "backpack", "backpack"];
     private static readonly ImmutableArray<string> _outfit = ["IT-11", "IT-12", "IT-17"];
+    private static readonly UTF8Encoding _utf8 = new(encoderShouldEmitUTF8Identifier: false,
+            throwOnInvalidBytes: true);
     private static byte[]? ReadEmbedded(string path, int limit)
     {
         using Stream? stream = typeof(RunDefinitions).Assembly.GetManifestResourceStream(name: path);
@@ -93,6 +96,7 @@ internal sealed class RunDefinitions
                 throw Invalid(field: "bytes");
             }
 
+            _ = _utf8.GetCharCount(bytes: bytes);
             using var document = JsonDocument.Parse(utf8Json: bytes,
                     options: new JsonDocumentOptions { MaxDepth = 16 });
             JsonElement root = document.RootElement;
@@ -102,6 +106,7 @@ internal sealed class RunDefinitions
             return parse(arg: root);
         }
         catch (Exception error) when (error is JsonException or InvalidDataException or IOException
+                or DecoderFallbackException
                 or UnauthorizedAccessException)
         {
             throw new InvalidDataException(message: "RUN_DEFINITION_INVALID " + path + ": " + error.Message,
@@ -158,8 +163,8 @@ internal sealed class RunDefinitions
         Require(condition: ReadOutfit(parent: Field(parent: root, field: "appearance"), field: "outfitRefs")
                 .SequenceEqual(second: _outfit, comparer: StringComparer.Ordinal), field: "appearance.outfitRefs");
         return new SurvivorSettings(
-                maximumHealth: Integer(parent: root, field: "maximumHealth", minimum: 1, maximum: 10000),
-                maximumStamina: Integer(parent: root, field: "maximumStamina", minimum: 1, maximum: 10000),
+                maximumHealth: Number(parent: root, field: "maximumHealth", minimum: 1, maximum: 10000),
+                maximumStamina: Number(parent: root, field: "maximumStamina", minimum: 1, maximum: 10000),
                 refugeUnits: Integer(parent: root, field: "refugeDistanceUnits", minimum: 1, maximum: 1000),
                 dangerUnits: Integer(parent: root, field: "safeEnemyDistanceUnits", minimum: 1, maximum: 1000));
     }
@@ -458,7 +463,7 @@ internal sealed class RunDefinitions
     }
     internal sealed record SurvivorSettings
     {
-        internal SurvivorSettings(int maximumHealth, int maximumStamina, int refugeUnits, int dangerUnits)
+        internal SurvivorSettings(decimal maximumHealth, decimal maximumStamina, int refugeUnits, int dangerUnits)
         {
             MaximumHealth = maximumHealth;
             MaximumStamina = maximumStamina;
@@ -466,8 +471,8 @@ internal sealed class RunDefinitions
             DangerUnits = dangerUnits;
         }
 
-        internal int MaximumHealth { get; }
-        internal int MaximumStamina { get; }
+        internal decimal MaximumHealth { get; }
+        internal decimal MaximumStamina { get; }
         internal int RefugeUnits { get; }
         internal int DangerUnits { get; }
     }

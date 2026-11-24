@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using KingdomZombies.Core;
+using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
 
@@ -45,8 +47,9 @@ public sealed class Phase06PopulationTests
     {
         for (int players = 1; players <= 4; players++)
         {
-            FoundationSession session = Start();
-            RunPopulation population = session.Population;
+            var session = FoundationSession.CreateFromResources(sessionId: "run", playerId: "host",
+                    actorId: "host-wire", read: ReadFixture);
+            RunPopulation.Survivor[] survivors = [.. session.Population.Survivors];
             RunInventory inventory = session.Inventory;
             for (int player = 2; player <= players; player++)
             {
@@ -55,8 +58,9 @@ public sealed class Phase06PopulationTests
             }
 
             session.Snapshot.Participants.Length.ShouldBe(expected: players);
-            session.Population.ShouldBeSameAs(expected: population);
-            session.Population.Survivors.Length.ShouldBe(expected: 8);
+            session.Population.Survivors.AsEnumerable().ShouldBe(expected: survivors);
+            session.Population.Leases.Select(selector: lease => lease.SurvivorId)
+                    .ShouldBe(expected: survivors.Take(count: players).Select(selector: survivor => survivor.Id));
             session.Inventory.ShouldBeSameAs(expected: inventory);
             CheckKit(session: session);
             if (players == 4)
@@ -71,19 +75,49 @@ public sealed class Phase06PopulationTests
     public void Phase06_E009_ReservationsReleaseTheSameRecruitAndRejectOldInput()
     {
         FoundationSession session = Start();
+        RunInventory inventory = session.Inventory;
         long[] outfit = [.. Outfit(session: session, survivorId: "survivor-02").Select(selector: item => item.Id)];
         Add(session: session, player: 2).ShouldBeTrue();
-        session.MarkReady(bindingId: "binding-2").ShouldBeTrue();
+        RunPopulation.Lease before = Lease(session: session, bindingId: "binding-2");
+        (before.SessionId, before.PlayerId, before.Slot, before.SurvivorId, before.Generation)
+                .ShouldBe(expected: ("run", "player-2", 2, "survivor-02", 2L));
         var command = new FoundationMovementCommand(sessionId: "run", playerId: "player-2", actorId: "wire-2",
                 direction: 1, bindingId: "binding-2");
         session.TryAccept(command: command, trustedBinding: "binding-2", trustedPlayer: "player-2",
+                trustedActor: "wire-2").ShouldBeFalse();
+        session.MarkReady(bindingId: "binding-2").ShouldBeTrue();
+        session.TryAccept(command: command, trustedBinding: "binding-2", trustedPlayer: "player-2",
                 trustedActor: "wire-2").ShouldBeTrue();
         session.Step(elapsedMilliseconds: 100);
+        RunPopulation.Survivor moved = session.Population.ForLease(lease: before);
         session.RemoveParticipant(bindingId: "binding-2").ShouldBeTrue();
 
         session.Population.Survivors[1].PositionSubunits.ShouldBe(expected: -7700);
+        session.Population.Survivors[1].ShouldBeSameAs(expected: moved);
+        session.Population.FindLease(bindingId: "binding-2").ShouldBeNull();
+        session.MarkReady(bindingId: "binding-2").ShouldBeFalse();
+        Add(session: session, player: 2).ShouldBeFalse();
+        Add(session: session, player: 3).ShouldBeTrue();
+        RunPopulation.Lease replacement = Lease(session: session, bindingId: "binding-3");
+        (replacement.SurvivorId, replacement.Slot, replacement.Generation)
+                .ShouldBe(expected: (before.SurvivorId, before.Slot, before.Generation + 1));
+        session.Population.ForLease(lease: replacement).ShouldBeSameAs(expected: moved);
+        session.Snapshot.Participants[1].Actor.ActorId.ShouldBe(expected: "wire-3");
+        session.Snapshot.Participants[1].Actor.PositionSubunits.ShouldBe(expected: moved.PositionSubunits);
+        session.MarkReady(bindingId: "binding-3").ShouldBeTrue();
+        session.TryAccept(command: command, trustedBinding: "binding-2", trustedPlayer: "player-2",
+                trustedActor: "wire-2").ShouldBeFalse();
+        session.TryAccept(command: command, trustedBinding: "binding-3", trustedPlayer: "player-3",
+                trustedActor: "wire-3").ShouldBeFalse();
+        session.Step(elapsedMilliseconds: 100);
+        session.Population.ForLease(lease: replacement).ShouldBeSameAs(expected: moved);
+        session.Inventory.ShouldBeSameAs(expected: inventory);
         Outfit(session: session, survivorId: "survivor-02").Select(selector: item => item.Id)
                 .ShouldBe(expected: outfit);
+        session.Close();
+        session.TryAccept(command: command with { PlayerId = "player-3", ActorId = "wire-3", BindingId = "binding-3" },
+                trustedBinding: "binding-3", trustedPlayer: "player-3", trustedActor: "wire-3").ShouldBeFalse();
+        CheckConcurrentAdmission();
     }
 
     /// <summary>Every outfit owns only its occupied equipment locations and its empty authored pockets.</summary>
@@ -188,6 +222,16 @@ public sealed class Phase06PopulationTests
         }
 
         occupied.Count.ShouldBe(expected: 102);
+
+        var configured = FoundationSession.CreateFromResources(sessionId: "configured", playerId: "host",
+                actorId: "host-wire", read: ReadVariation);
+        (configured.Population.Survivors[0].Health, configured.Population.Survivors[0].Stamina)
+                .ShouldBe(expected: (99.75m, 100.125m));
+        configured.Inventory.Items.Where(predicate: item => item.DefinitionId is "IT-01")
+                .Sum(selector: item => item.Quantity).ShouldBe(expected: 180);
+        configured.Inventory.Items.Where(predicate: item => item.DefinitionId is "IT-07")
+                .All(predicate: item => item.Location is RunInventory.StashCell { Rotated: true }).ShouldBeTrue();
+        configured.Inventory.StashPageCount.ShouldBeGreaterThan(expected: 2);
     }
 
     /// <summary>Missing, malformed, oversized and contradictory authored bytes fail with the source path.</summary>
@@ -217,6 +261,27 @@ public sealed class Phase06PopulationTests
         oversized.Message.ShouldContain(expected: "RUN_DEFINITION_INVALID " + path);
     }
 
+    /// <summary>The coordinator reads authored settings before it opens a host port or starts a solo run.</summary>
+    [Fact]
+    public void ReadsSuppliedResourcesBeforeOpeningTransport()
+    {
+        var port = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);
+        InvalidDataException error = Should.Throw<InvalidDataException>(actual: () => host.Start(host: true,
+                read: (path, limit) => path is "content/config/items.json" ? null
+                        : ReadFixture(path: path, limit: limit)));
+        error.Message.ShouldContain(expected: "RUN_DEFINITION_INVALID content/config/items.json");
+        host.IsHost.ShouldBeFalse();
+        host.Snapshot.ShouldBeNull();
+        port.Connected.ShouldBeFalse();
+
+        var solo = new FoundationCoordinator(playerId: "host", label: "Host");
+        solo.Start(host: false, read: ReadVariation);
+        solo.Update(elapsedMilliseconds: 0);
+        (solo.LocalWorld?.stashReachable ?? false).ShouldBeTrue();
+        solo.Close();
+    }
+
     private static FoundationSession Start()
     {
         return new FoundationSession(sessionId: "run", playerId: "host", actorId: "host-wire");
@@ -232,6 +297,29 @@ public sealed class Phase06PopulationTests
     private static string Numbered(string prefix, int number)
     {
         return FormattableString.Invariant(formattable: $"{prefix}-{number}");
+    }
+
+    private static RunPopulation.Lease Lease(FoundationSession session, string bindingId)
+    {
+        return session.Population.FindLease(bindingId: bindingId)
+                ?? throw new InvalidOperationException(message: "MISSING_TEST_LEASE");
+    }
+
+    private static void CheckConcurrentAdmission()
+    {
+        FoundationSession session = Start();
+        Add(session: session, player: 2).ShouldBeTrue();
+        Add(session: session, player: 3).ShouldBeTrue();
+        RunInventory inventory = session.Inventory;
+        bool[] results = new bool[2];
+        Parallel.Invoke(actions: [() => results[0] = Add(session: session, player: 4),
+            () => results[1] = Add(session: session, player: 5)]);
+        results.Count(predicate: accepted => accepted).ShouldBe(expected: 1);
+        session.Population.Leases.Select(selector: lease => lease.SurvivorId).ShouldBe(expected:
+                ["survivor-01", "survivor-02", "survivor-03", "survivor-04"]);
+        session.Population.Leases.Select(selector: lease => lease.Slot).ShouldBe(expected: [1, 2, 3, 4]);
+        session.Population.Leases.Select(selector: lease => lease.Generation).ShouldBe(expected: [1L, 2L, 3L, 4L]);
+        session.Inventory.ShouldBeSameAs(expected: inventory);
     }
 
     private static RunInventory.Item[] Outfit(FoundationSession session, string survivorId)
@@ -275,5 +363,27 @@ public sealed class Phase06PopulationTests
         byte[] bytes = new byte[checked((int)stream.Length)];
         stream.ReadExactly(buffer: bytes);
         return bytes;
+    }
+
+    private static byte[] ReadVariation(string path, int limit)
+    {
+        string source = Encoding.UTF8.GetString(bytes: ReadFixture(path: path, limit: limit));
+        string changed = path switch
+        {
+            "content/config/inventory.json" => source
+                    .Replace(oldValue: "      10,", newValue: "      4,", comparisonType: StringComparison.Ordinal)
+                    .Replace(oldValue: "      10", newValue: "      3", comparisonType: StringComparison.Ordinal)
+                    .Replace(oldValue: "\"mainBuildingUnits\": 4", newValue: "\"mainBuildingUnits\": 8",
+                            comparisonType: StringComparison.Ordinal),
+            "content/config/run.json" => source.Replace(oldValue: "\"quantity\": 200, \"stackQuantity\": 100",
+                    newValue: "\"quantity\": 180, \"stackQuantity\": 90", comparisonType: StringComparison.Ordinal),
+            "content/config/survivors.json" => source
+                    .Replace(oldValue: "\"maximumHealth\": 100", newValue: "\"maximumHealth\": 99.75",
+                            comparisonType: StringComparison.Ordinal)
+                    .Replace(oldValue: "\"maximumStamina\": 100", newValue: "\"maximumStamina\": 100.125",
+                            comparisonType: StringComparison.Ordinal),
+            _ => source,
+        };
+        return Encoding.UTF8.GetBytes(s: changed);
     }
 }

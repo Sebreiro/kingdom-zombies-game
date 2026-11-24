@@ -46,20 +46,23 @@ internal sealed partial class FoundationCoordinator
     internal bool Closed => _closed;
     internal bool Finished => _used && !_active;
 
-    internal void Start(bool host, int port = 24680, bool observeWorld = false)
+    internal void Start(bool host, int port = 24680, bool observeWorld = false,
+            Func<string, int, byte[]?>? read = null)
     {
         RequireFresh();
         _used = true;
         _startedAt = Now();
+        string sessionId = Guid.NewGuid().ToString(format: "N");
+        string actorId = Guid.NewGuid().ToString(format: "N");
+        FoundationSession session = CreateSession(sessionId: sessionId, actorId: actorId,
+                observeWorld: observeWorld && !host, read: read);
         if (host)
         {
             (_connection ?? throw new InvalidOperationException(message: "CONNECTION_UNAVAILABLE")).Host(port: port);
         }
 
+        _session = session;
         _active = true;
-        string sessionId = Guid.NewGuid().ToString(format: "N");
-        string actorId = Guid.NewGuid().ToString(format: "N");
-        _session = CreateSession(sessionId: sessionId, actorId: actorId, observeWorld: observeWorld && !host);
         RecordEvent(value: host ? "host-start" : "solo-start");
     }
 
@@ -315,8 +318,15 @@ internal sealed partial class FoundationCoordinator
                 && StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: peer.Baseline.AttemptId);
     }
 
-    private FoundationSession CreateSession(string sessionId, string actorId, bool observeWorld)
+    private FoundationSession CreateSession(string sessionId, string actorId, bool observeWorld,
+            Func<string, int, byte[]?>? read)
     {
+        if (read is not null)
+        {
+            return FoundationSession.CreateFromResources(sessionId: sessionId, playerId: PlayerId, actorId: actorId,
+                    read: read, observeWorld: observeWorld);
+        }
+
 #if DEBUG
         if (observeWorld)
         {

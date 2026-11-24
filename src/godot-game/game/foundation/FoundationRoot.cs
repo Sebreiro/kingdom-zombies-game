@@ -215,7 +215,21 @@ public sealed partial class FoundationRoot : Control
             observeWorld = !host && DisplayServer.GetName() is "headless"
                     && FoundationCoordinator.UseObservedWorld(generation: _generation);
 #endif
-            _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld);
+            _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld, read: (path, limit) =>
+            {
+                _gateway.RequireThread();
+                using Godot.FileAccess? file = Godot.FileAccess.Open(path: "res://" + path,
+                        flags: Godot.FileAccess.ModeFlags.Read);
+                ulong length = file?.GetLength() ?? 0;
+                if (file is null || length is 0 || length > (ulong)limit)
+                {
+                    return null;
+                }
+
+                long expected = checked((long)length);
+                byte[] bytes = file.GetBuffer(length: expected);
+                return bytes.LongLength == expected && file.GetError() is Error.Ok or Error.FileEof ? bytes : null;
+            });
 #if DEBUG
             if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
                     is string fault && StringComparer.Ordinal.Equals(x: fault,
