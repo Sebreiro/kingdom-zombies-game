@@ -30,7 +30,8 @@ function verifyTransitions(peer, nonce, stopped) {
   const current = stopped.events.filter(event => event.startsWith('run-world:'));
   const rows = frames(peer);
   const transitions = current.map(event => {
-    const [receipt, hint] = event.split('|');
+    const [receipt, visibility, hint] = event.split('|');
+    assert.equal(visibility, 'visible', 'RUN_WORLD_VISIBLE_NATIVE_HINT');
     const [, camp, danger, stash, elapsed, revision, position] = receipt.split(':');
     const frame = rows.find(row => row.snapshot?.Revision === Number(revision));
     assert.ok(frame?.ready && frame.events.includes(event), 'RUN_WORLD_POST_STEP_REVISION');
