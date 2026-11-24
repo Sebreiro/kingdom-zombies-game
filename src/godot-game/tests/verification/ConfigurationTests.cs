@@ -363,13 +363,15 @@ public sealed class ConfigurationTests
     [Fact, Trait("Case", "pins.generated-report")]
     public void Check_GeneratedReportAdapter_HasPinnedOrigin()
     {
-        (int Exit, string Output) build = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false",
-                "-t:Rebuild");
+        var fixture = new BuildFixture(game: true);
+        fixture.Restore();
+        (int Exit, string Output) build = fixture.Build();
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         string package = Path.Combine(path1: WorkspacePaths.NuGetFeed, path2: "Godot.SourceGenerators.4.7.2.nupkg");
         Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: package))).ShouldBe(
                 expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
-        (int Exit, string Output) resolve = Dotnet("msbuild", Projects[2], "-nologo",
+        string project = Path.Combine(path1: fixture.DirectoryPath, path2: Projects[2]);
+        (int Exit, string Output) resolve = Dotnet("msbuild", project, "-nologo",
                 "-target:ResolveReferences", "-getItem:Analyzer");
         resolve.Exit.ShouldBe(expected: 0, customMessage: resolve.Output);
         using var analyzers = JsonDocument.Parse(json: resolve.Output);
@@ -379,7 +381,7 @@ public sealed class ConfigurationTests
                         ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
                         .Replace(oldChar: '\\', newChar: '/').EndsWith(
                                 value: GeneratorSuffix, comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
-        string generated = Path.Combine(path1: ProofProtocol.Root,
+        string generated = Path.Combine(path1: fixture.DirectoryPath,
                 path2: ("src/godot-game/game/.godot/mono/temp/obj/Debug/generated/God"
                         + "ot.SourceGenerators/Godot.SourceGenerators.GodotPlugins"
                         + "InitializerGenerator/GodotPlugins.Game.generated.cs"));
@@ -404,23 +406,26 @@ public sealed class ConfigurationTests
     [Fact, Trait("Case", "pins.generated-report-boundary")]
     public void Analyze_GeneratedReportPermission_RejectsOutsideMethod()
     {
-        string adjacent = BuildGameWithSource(
+        var fixture = new BuildFixture(game: true);
+        fixture.Restore();
+        string adjacent = BuildGameWithSource(fixture: fixture,
                 source: ("namespace GodotPlugins.Game; internal static partial cl"
                         + "ass Main { private static void Adjacent() => System.Con"
                         + "sole.WriteLine(value: \"forbidden\"); }"));
         adjacent.ShouldContain(expected: "Main.cs(");
         adjacent.ShouldContain(expected: "error RS0030:");
-        string impostor = BuildGameWithSource(
+        string impostor = BuildGameWithSource(fixture: fixture,
                 source: ("namespace GodotPlugins.Game; internal static partial cl"
                         + "ass Main { private static bool InitializeFromGameProjec"
                         + "t(System.IntPtr a, System.IntPtr b, System.IntPtr c, in"
                         + "t d) { System.Console.WriteLine(\"impostor\"); return fal" + "se; } }"));
         impostor.ShouldContain(expected: "error CS0111:");
         impostor.ShouldContain(expected: "InitializeFromGameProject");
-        (int Exit, string Output) clean = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false");
+        File.Delete(path: Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/game/Main.cs"));
+        (int Exit, string Output) clean = fixture.Build();
         clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
         ProofProtocol.Record(id: "pins.generated-report-boundary", diagnostic: "GENERATED_PERMISSION_BOUNDED",
-                location: "Subject.cs RS0030 adjacent / CS0111 impostor");
+                location: "Main.cs RS0030 adjacent / CS0111 impostor");
     }
 
     internal static readonly string[] Projects = ["src/godot-game/core/KingdomZombies.Core.csproj",
@@ -458,21 +463,20 @@ public sealed class ConfigurationTests
         return (child.ExitCode, output.GetAwaiter().GetResult() + error.GetAwaiter().GetResult());
     }
 
-    internal static string BuildGameWithSource(string source)
+    internal static string BuildGameWithSource(string source, BuildFixture? fixture = null)
     {
-        string directory = WorkspacePaths.Temp(purpose: "game-boundary-" + Guid.NewGuid().ToString(format: "N"));
-        Directory.CreateDirectory(path: directory);
-        string subject = Path.Combine(path1: directory, path2: "Main.cs");
+        if (fixture is null)
+        {
+            fixture = new BuildFixture(game: true);
+            fixture.Restore();
+        }
+
+        string subject = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/game/Main.cs");
         File.WriteAllText(path: subject, contents: source);
-        string targets = Path.Combine(path1: directory, path2: "Boundary.targets");
-        File.WriteAllText(path: targets, contents: "<Project><Import Project=\"" + Path.Combine(
-                path1: ProofProtocol.Root, path2: "src/godot-game/Directory.Build.targets")
-                + ("\"/><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'Ki"
-                        + "ngdomZombies'\"><Compile Include=\"") + subject + "\"/></ItemGroup></Project>");
-        (int Exit, string Output) result = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false",
-                "-p:DirectoryBuildTargetsPath=" + targets);
+        (int Exit, string Output) result = fixture.Build();
         result.Exit.ShouldNotBe(expected: 0,
-                customMessage: "Forbidden game input must not acquire generated permission");
+                customMessage: "Forbidden game input must not acquire generated permission: " + result.Output);
+        result.Output.ShouldNotContain(expected: "error CS0016:", customMessage: result.Output);
         return result.Output;
     }
 

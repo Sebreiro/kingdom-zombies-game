@@ -67,19 +67,23 @@ function select(manifest, args) {
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--list' && !list) { list = true; continue; }
-    if (mode || !['--all', '--group', '--case', '--phase'].includes(arg)) reject('USAGE', `Unknown/conflicting option ${arg}`);
+    if (mode || !['--all', '--group', '--case', '--cases', '--phase'].includes(arg)) reject('USAGE', `Unknown/conflicting option ${arg}`);
     mode = arg;
     if (arg !== '--all') {
       value = args[++i];
       if (!value || value.startsWith('--')) reject('USAGE', `Missing value for ${arg}`);
     }
   }
-  if (!mode && !list) reject('USAGE', 'Use --all, --phase N, --group name, --case exact-id or --list');
+  if (!mode && !list) reject('USAGE', 'Use --all, --phase N, --group name, --case exact-id, --cases exact-id[,exact-id] or --list');
   if (mode === '--phase' && (!/^[1-9][0-9]*$/.test(value) || !Number.isSafeInteger(Number(value)))) reject('USAGE', 'Phase must be a positive integer');
+  const expected = mode === '--cases' ? value.split(',') : [];
+  if (mode === '--cases' && (new Set(expected).size !== expected.length || expected.some(id => !ids.has(id)))) {
+    reject('SELECTION_UNKNOWN', value);
+  }
   if (mode === '--group' && !groups.includes(value)) reject('SELECTION_UNKNOWN', value);
   const deferred = mode === '--phase' ? manifest.cases.filter(row => (row.acceptancePhase ?? 1) > Number(value)) : [];
   const selected = manifest.cases.filter(row => !mode || mode === '--all' || (mode === '--phase'
-    ? (row.acceptancePhase ?? 1) <= Number(value) : mode === '--group' ? row.group === value : row.id === value));
+    ? (row.acceptancePhase ?? 1) <= Number(value) : mode === '--group' ? row.group === value : mode === '--cases' ? expected.includes(row.id) : row.id === value));
   if (!selected.length) reject('SELECTION_EMPTY', String(value));
   return { selected, deferred, list };
 }
@@ -614,7 +618,10 @@ function producerStageTimeout(item, stage, platform) {
   const windows = /^win32-x64(?:-|$)/.test(platform);
   const fixedReplay = item.id === 'engine.generated-origin' && stage.id === 'origin-fixed'
     || item.id === 'core.permissions' && stage.id === 'foundation-origin-fixed';
-  return windows && fixedReplay ? 90000 : 45000;
+  const repositoryAuthentication = item.id === 'ac-08.complete' && stage.id === 'repository-auth'
+    || item.id === 'R-50.positive' && stage.id === 'r50-repository-auth'
+    || item.id === 'rules.exemptions' && stage.id === 'exempt-repository-auth';
+  return windows && (fixedReplay || repositoryAuthentication) ? 90000 : 45000;
 }
 
 async function runProducerStages(item, context, executable, assembly) {

@@ -205,11 +205,11 @@ print(json.dumps({'samples':len(pack['samples']),'members':len(members),'sourceA
 `;
 async function promote(){
   const context={directory:inside(ROOT,tempPath('audio-approved',crypto.randomUUID()))};
-  runner.capturedRoot(PROMOTE,context.directory,'audio --approve-actions');fs.mkdirSync(context.directory,{recursive:true});
+  fs.mkdirSync(context.directory,{recursive:true});
   for(const [target,source]of [['presented-manifest.json',PACK],['presented.zip',ZIP],
     ['coordinator-record.md','.planning/phases/04-asset-production/04-21-APPROVAL-AND-RESUME.md']])fs.copyFileSync(inside(ROOT,source),inside(context.directory,target));
   write(context.directory,'approval.json',APPROVAL);fs.writeFileSync(inside(context.directory,'promote.py'),PROMOTE);
-  await runner.command(context,'promote',PYTHON,['-B',inside(context.directory,'promote.py'),context.directory],{timeout:40000});
+  await runner.pinnedRecipe(context,'promote','assemble','promote.py',[context.directory],40000);
   for(const [source,target]of [['audio-actions.json',PACK],['audio-actions.zip',ZIP]])fs.copyFileSync(inside(context.directory,source),inside(ROOT,target));
   console.log(JSON.stringify({directory:context.directory,approval:APPROVAL.id}));
 }
@@ -221,16 +221,41 @@ function validateApproval(pack){
   need(hash(JSON.stringify(pack.categories.map(({status,suitability,...category})=>category)))===APPROVAL.categoryMatrixSha256,'AUDIO_UNAPPROVED_CATEGORY');
 }
 function inputs(){return Object.fromEntries(['tools/phase4/cases/audio.cjs','tools/phase4/extract-audio.py',PACK,BANK,ZIP].map(x=>[x,hash(bytes(ROOT,x))]));}
-async function prepare(){
+// A replay reports the current decoder executable identity while preserving the released sample and recipe identities.
+function comparableReplay(row, omitListening=false){
+  const {pythonExeSha256,...tools}=row.tools;
+  const result={...row,tools};
+  if(omitListening)delete result.listening;
+  return result;
+}
+function sameReplayBank(observed,retained,wav){
+  return equal(observed.bank,retained.bank)&&hash(wav)===retained.bank.sha256&&
+    observed.recipes.assemblerSha256===retained.recipes.assemblerSha256&&
+    observed.recipes.decoderSha256===retained.recipes.decoderSha256&&
+    equal(observed.bundleMembers.filter(member=>member.path.startsWith('variants/')),
+      retained.bundleMembers.filter(member=>member.path.startsWith('variants/')));
+}
+async function prepare(replay=false){
   const context={directory:inside(ROOT,tempPath('audio-candidates',crypto.randomUUID()))};
-  runner.capturedRoot(ASSEMBLE,context.directory,'audio --prepare');fs.mkdirSync(context.directory,{recursive:true});
+  fs.mkdirSync(context.directory,{recursive:true});
   fs.writeFileSync(inside(context.directory,'decode.py'),decoderRecipe());
   fs.writeFileSync(inside(context.directory,'assemble.py'),ASSEMBLE);
   write(context.directory,'selection.json',{candidates:CANDIDATES,coverage:COVERAGE});
   for(const [id]of CANDIDATES){
-    await runner.command(context,'decode-'+id,PYTHON,['-B',inside(context.directory,'decode.py'),'--child','candidate.'+id,inside(context.directory,'candidate.'+id)],{timeout:40000});
+    await runner.pinnedRecipe(context,'decode-'+id,'decode','decode.py',
+      ['--child','candidate.'+id,inside(context.directory,'candidate.'+id)],40000);
   }
-  await runner.command(context,'assemble',PYTHON,['-B',inside(context.directory,'assemble.py'),context.directory],{timeout:40000});
+  await runner.pinnedRecipe(context,'assemble','assemble','assemble.py',[context.directory],40000);
+  if(replay){
+    const observed=document(context.directory,'audio-actions.json'),retained=document(ROOT,PACK);
+    validateApproval(retained);
+    need(observed.samples.length===44&&sameReplayBank(observed,retained,bytes(context.directory,'actions.wav'))&&
+      equal(observed.samples.map(row=>comparableReplay(row,true)),retained.samples.map(row=>comparableReplay(row,true)))&&
+      hash(bytes(context.directory,'audio-actions.zip'))===observed.bundleSha256,'AUDIO_ASSEMBLY_REPLAY');
+    return {status:'pass',directory:context.directory,samples:observed.samples.length,bankSha256:observed.bank.sha256,
+      decoderExecutable:observed.samples[0].tools.pythonExeSha256,
+      retainedDecoderExecutable:retained.samples[0].tools.pythonExeSha256,replay:true};
+  }
   for(const [source,target]of [['actions.wav',BANK],['audio-actions.json',PACK],['audio-actions.zip',ZIP]]){
     const output=inside(ROOT,target);need(!fs.existsSync(output),'AUDIO_OUTPUT_EXISTS',target);
     fs.mkdirSync(path.dirname(output),{recursive:true});fs.copyFileSync(inside(context.directory,source),output);
@@ -694,15 +719,25 @@ pack['bundleSha256']=sha((root/'audio-interface-ambience.zip').read_bytes())
 (root/'interface-ambience.wav').write_bytes(wav(bank.tobytes()))
 print(json.dumps({'sources':len(sources),'variants':len(samples),'zipBytes':(root/'audio-interface-ambience.zip').stat().st_size,'bankBytes':len(wav(bank.tobytes()))}))
 `;
-async function prepareInterface(){
+async function prepareInterface(replay=false){
   const context={directory:inside(ROOT,tempPath('audio-interface',crypto.randomUUID()))};
-  runner.capturedRoot(INTERFACE_ASSEMBLE,context.directory,'audio --prepare-interface');fs.mkdirSync(context.directory,{recursive:true});
+  fs.mkdirSync(context.directory,{recursive:true});
   fs.writeFileSync(inside(context.directory,'decode-interface.py'),interfaceDecoder());fs.writeFileSync(inside(context.directory,'assemble-interface.py'),INTERFACE_ASSEMBLE);
   write(context.directory,'selection.json',{candidates:INTERFACE_CANDIDATES,actionsZip:inside(ROOT,ZIP)});
-  for(const [key,id]of INTERFACE_CANDIDATES)await runner.command(context,'decode-'+key+id,PYTHON,
-    ['-B',inside(context.directory,'decode-interface.py'),'--child','interface.'+key+id,inside(context.directory,'interface.'+key+id)],{timeout:40000});
-  await runner.command(context,'assemble',PYTHON,['-B',inside(context.directory,'assemble-interface.py'),context.directory],{timeout:40000});
-  const stagedPack=document(context.directory,'audio-interface-ambience.json'),catalog=eventCatalog(stagedPack),expectedEvents=serializeEvents(catalog),eventState=preflightEvents(ROOT,expectedEvents);
+  for(const [key,id]of INTERFACE_CANDIDATES)await runner.pinnedRecipe(context,'decode-'+key+id,'decode','decode-interface.py',
+    ['--child','interface.'+key+id,inside(context.directory,'interface.'+key+id)],40000);
+  await runner.pinnedRecipe(context,'assemble','assemble','assemble-interface.py',[context.directory],40000);
+  const stagedPack=document(context.directory,'audio-interface-ambience.json');
+  if(replay){
+    const retained=document(ROOT,INTERFACE_PACK);
+    need(equal(stagedPack.samples,retained.samples)&&
+      equal(stagedPack.sources.map(row=>comparableReplay(row)),retained.sources.map(row=>comparableReplay(row)))&&
+      sameReplayBank(stagedPack,retained,bytes(context.directory,'interface-ambience.wav')),'INTERFACE_ASSEMBLY_REPLAY');
+    return {status:'pass',directory:context.directory,samples:stagedPack.samples.length,bankSha256:stagedPack.bank.sha256,
+      decoderExecutable:stagedPack.sources[0].tools.pythonExeSha256,
+      retainedDecoderExecutable:retained.sources[0].tools.pythonExeSha256,replay:true};
+  }
+  const catalog=eventCatalog(stagedPack),expectedEvents=serializeEvents(catalog),eventState=preflightEvents(ROOT,expectedEvents);
   for(const [source,target]of [['interface-ambience.wav',INTERFACE_BANK],['audio-interface-ambience.json',INTERFACE_PACK],['audio-interface-ambience.zip',INTERFACE_ZIP]]){
     need(!fs.existsSync(inside(ROOT,target)),'AUDIO_OUTPUT_EXISTS',target);fs.mkdirSync(path.dirname(inside(ROOT,target)),{recursive:true});
     need(fs.statSync(inside(context.directory,source)).size<=archiveLimit(target),'AUDIO_EXISTING_READER_BOUND',source);fs.copyFileSync(inside(context.directory,source),inside(ROOT,target));
@@ -848,7 +883,8 @@ module.exports={CANDIDATES,COVERAGE,ASSEMBLE,PROMOTE,APPROVAL,decoderRecipe,prep
   INTERFACE_CANDIDATES,INTERFACE_ASSEMBLE,interfaceDecoder,eventCatalog,prepareInterface,publishInterface,validateInterface,archiveBytes,publishArchive,bank};
 if(require.main===module){
   const command=process.argv[2];
-  (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--prepare-interface'?prepareInterface():command==='--publish-interface'?publishInterface(process.argv[3]):command==='--technical'?technical({directory:(fs.mkdirSync(inside(ROOT,tempPath()),{recursive:true}),fs.mkdtempSync(inside(ROOT,tempPath('audio-technical-'))))}):
+  (command==='--prepare'?prepare():command==='--replay-assembly'?prepare(true):command==='--approve-actions'?promote():
+    command==='--prepare-interface'?prepareInterface():command==='--replay-interface-assembly'?prepareInterface(true):command==='--publish-interface'?publishInterface(process.argv[3]):command==='--technical'?technical({directory:(fs.mkdirSync(inside(ROOT,tempPath()),{recursive:true}),fs.mkdtempSync(inside(ROOT,tempPath('audio-technical-'))))}):
     Promise.reject(new Error('USAGE --prepare | --technical'))).then(value=>{if(value)console.log(JSON.stringify(value));}).catch(error=>{console.error(error.stack);process.exitCode=1;});
 }
 
@@ -1540,7 +1576,7 @@ function audioHubImportControls(){
 async function audioHub(context,sourceInputs,heldout=false){
  const project=inside(context.directory,'native-audio-hub');fs.mkdirSync(project);
  for(const file of ['project.godot','inspection','foundation','icon.svg','content','assets','.godot/mono/temp/bin/Debug'])
-  fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
+  fs.cpSync(inside(ROOT,'src/godot-game/game/'+file),inside(project,file),{recursive:true});
  const legacy=require('./provenance.cjs').legacyFixture(),inspection=fs.readFileSync(inside(project,'inspection/Inspection.tscn'));
  for(const output of legacy.index.outputs)for(const dependency of output.dependencies)if(dependency.path==='src/godot-game/inspection/Inspection.tscn'){dependency.bytes=inspection.length;dependency.sha256=hash(inspection);}
  fs.writeFileSync(inside(project,'content/pack-index.json'),JSON.stringify(legacy.index,null,2)+'\n');

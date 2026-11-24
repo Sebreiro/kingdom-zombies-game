@@ -451,16 +451,6 @@ async function runTracer(root,context,{interrupt=false,compiled}={}){
   return {id:ID,mediaSha256:source.image.pngSha256,rgbaSha256:source.image.rgbaSha256,
     sceneSha256:initial[FILES.scene],engineSha256:tool.sha256,nativeCompletion:true,visiblePixels:source.image.visiblePixels};
 }
-// A pinned recipe that asserts the original checkout's folder keeps its bytes, so it cannot run in the relocated
-// tree. Refuse before launch, naming the folder from the recipe bytes and the renewal owner.
-function capturedRoot(recipe,target,id){
-  const asserted=[...recipe.matchAll(/is_relative_to\(pathlib\.Path\('([^']+)'\)\.resolve\(\)\)/g)].map(match=>match[1]);
-  need(asserted.length>0&&new Set(asserted).size===1,'CAPTURED_ROOT_UNKNOWN',id);
-  const base=path.resolve(asserted[0]),relative=path.relative(base,path.resolve(target));
-  need(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative),'CAPTURED_ROOT_REQUIRED',id+': the pinned recipe asserts the '+
-    'original checkout folder '+asserted[0]+'; Phase 5 makes the Phase 4 checks it runs work in the relocated tree '+
-    '(05-CONTEXT D-46)');
-}
 // The pinned extractors keep their bytes and accept outputs only below one folder of the checkout that runs them.
 function extractorRoot(script,target,id){
   const source=bytes(ROOT,'src/godot-game/tools/asset-pipeline/'+script,4*1024*1024).toString('utf8');
@@ -471,12 +461,20 @@ function extractorRoot(script,target,id){
     script+' accepts outputs only below the checkout folder '+folders[0]+'; Phase 5 makes the Phase 4 checks it runs '+
     'work in the relocated tree (05-CONTEXT D-46)');
 }
-async function exportTracer(){
-  capturedRoot(RECIPE,inside(ROOT,content.runsPath()),'authoring.export-tracer');
-  const context=createRun('authoring.export-tracer'),staging=inside(context.directory,'staging');fs.mkdirSync(staging);
+async function pinnedRecipe(context,name,kind,file,args,timeout){
+  const relative=path.relative(ROOT,context.directory).split(path.sep).join('/');
+  const bases=[content.runsPath(),content.tempPath()];
+  need(bases.some(base=>relative.startsWith(base+'/'))&&inside(ROOT,relative)===context.directory,
+    'PINNED_RECIPE_RUN_OWNER',relative);
+  return command(context,name,PYTHON,['-B',inside(ROOT,'tools/phase4/run-pinned-recipe.py'),kind,
+    inside(context.directory,file),context.directory,...args],{timeout});
+}
+async function exportTracer(replay=false){
+  const context=createRun(replay?'authoring.replay-tracer':'authoring.export-tracer');
+  const staging=inside(context.directory,'staging');fs.mkdirSync(staging);
   try{
     save(context.directory,'export.py',RECIPE);
-    await command(context,'donor-export',PYTHON,['-B',path.join(context.directory,'export.py'),staging]);
+    await pinnedRecipe(context,'donor-export','assemble','export.py',[staging]);
     const source=document(staging,'source.json');
     need(equal(source.source,EXPECTED)&&equal(source.preservation.originals,ORIGINALS),
       'SOURCE_IDENTITY_MISMATCH','export');
@@ -484,6 +482,14 @@ async function exportTracer(){
       'UnityPy Sprite.image resolves atlas/tight packing/rotation/alpha; convert RGBA',
       'Preserve all 16x18 native pixels; lossless PNG compress_level=9; no resizing/recoloring',
       'Top-left Godot offset(-6,-9) preserves normalized bottom-left donor pivot(.375,.5) on full untrimmed canvas']};
+    if(replay){
+      const retained=validate(ROOT);
+      need(equal(source,retained.source)&&retained.png.equals(bytes(staging,'bow.png',65536)),
+        'TRACER_REPLAY_MISMATCH',ID);
+      const result={status:'pass',nonce:context.nonce,mediaSha256:source.image.pngSha256,sourceRecipeSha256:hash(RECIPE),
+        directory:context.directory,replay:true};
+      save(context.directory,'result.json',result);console.log(JSON.stringify(result));return result;
+    }
     save(ROOT,FILES.media,bytes(staging,'bow.png',65536));save(ROOT,FILES.source,source);
     save(ROOT,FILES.pack,{schemaVersion:1,id:'tracer',version:1,status:'incomplete-phase-pack',resources:[{
       id:ID,name:'Bow',version:1,path:'assets/common/bow.png',scene:'inspection/Inspection.tscn',sha256:source.image.pngSha256,
@@ -593,10 +599,17 @@ registerCase('source.tracer-failures',{group:'source',title:'Bad real tracer sub
 async function main(args,writeCompletion=console.log){
   need(fs.realpathSync.native(ROOT).toLowerCase()===fs.realpathSync.native(path.resolve(__dirname,'../../../..')).toLowerCase(),'PROJECT_ROOT_PIN');
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
+  if(args.length===1&&args[0]==='--replay-tracer')return exportTracer(true);
+  if(args.length===1&&args[0]==='--phase5-hub-smoke'){
+    const result=await require('./phase5-hub.cjs').run();
+    writeCompletion(JSON.stringify(result,null,2));
+    if(result.status!=='pass')process.exitCode=1;
+    return result;
+  }
   caseModules??=loadCaseModules(path.join(__dirname,'cases'),registry);
   if(args.length===1&&args[0]==='--list'){console.log(JSON.stringify([...cases.values()].sort(caseOrder).map(({run,...item})=>item),null,2));return;}
   need(args.length===2&&['--case','--group','--verify-completion','--record-interruption'].includes(args[0]),'USAGE',
-    '--case ID[,ID...] | --group GROUP | --list | --export-tracer | --verify-completion PATH | --record-interruption INVOCATION');
+    '--case ID[,ID...] | --group GROUP | --list | --export-tracer | --replay-tracer | --phase5-hub-smoke | --verify-completion PATH | --record-interruption INVOCATION');
   const scenarios=require('./scenarios.cjs');
   if(args[0]==='--verify-completion'){
     const result=await scenarios.verifyCompletion(ROOT,args[1],cases);
@@ -685,6 +698,6 @@ function editorImportSelfTest(){
       const {run,project,file}=setup(dir,scenario,text),record=await start(run,'import-'+scenario,importArgs(project));
       assert.deepEqual(seen(record),Buffer.from(expected),scenario);assert.deepEqual(disk(file),Buffer.from(expected),scenario);}}));
 }
-module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment,capturedRoot,extractorRoot};
+module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment,pinnedRecipe,extractorRoot};
 if(require.main===module){const argv=process.argv.slice(2);if(argv.length===1&&argv[0]==='--self-test-editor-import')editorImportSelfTest();
   else main(argv).catch(error=>{console.error(error.stack);process.exitCode=1;});}

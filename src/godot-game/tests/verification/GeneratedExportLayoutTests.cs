@@ -34,14 +34,15 @@ public sealed class GeneratedExportLayoutTests
         rows.GetArrayLength().ShouldBe(expected: 6);
         DiagnosticAnalyzer analyzer = Analyzer();
         var failures = new List<string>();
+        string directory = ScratchDirectory();
         foreach (JsonElement row in rows.EnumerateArray())
         {
-            Authenticate(row: row);
-            string source = InheritedAnalyzerVerifier.ReadUtf8(path: Local(path: Text(row: row, name: "surface")));
+            (string path, string producer) = Generate(row: row, directory: directory);
+            string source = Authenticate(row: row, path: path, producer: producer);
             try
             {
-                await AnalyzerVerifier.VerifyAsync(source: source, expected: [], sourcePath: Local(path: Text(
-                        row: row, name: "path")), analyzer: analyzer).ConfigureAwait(continueOnCapturedContext: true);
+                await AnalyzerVerifier.VerifyAsync(source: source, expected: [], sourcePath: path, analyzer:
+                        analyzer).ConfigureAwait(continueOnCapturedContext: true);
             }
             catch (InvalidOperationException error)
             {
@@ -62,11 +63,12 @@ public sealed class GeneratedExportLayoutTests
         using JsonDocument registry = Registry();
         DiagnosticAnalyzer analyzer = Analyzer();
         ImmutableArray<MetadataReference> references = AnalyzerVerifier.References();
+        string directory = ScratchDirectory();
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "exportSources").EnumerateArray())
         {
-            Authenticate(row: row);
-            string source = InheritedAnalyzerVerifier.ReadUtf8(path: Local(path: Text(row: row, name: "surface")));
-            string path = Local(path: Text(row: row, name: "path")).Replace(oldChar: '\\', newChar: '/');
+            (string surface, string producer) = Generate(row: row, directory: directory);
+            string source = Authenticate(row: row, path: surface, producer: producer);
+            string path = surface.Replace(oldChar: '\\', newChar: '/');
             string configuration = Text(row: row, name: "configuration");
             string[] paths = ["Subject.cs", path.Replace(oldValue: "/src/", newValue: "/other/"),
                 path.Replace(oldValue: "/obj/", newValue: "/other/"), path + ".changed.cs",
@@ -91,12 +93,15 @@ public sealed class GeneratedExportLayoutTests
             }
 
             RejectOtherLines(source: source, path: path, analyzer: analyzer);
-            RejectProducer(row: row);
+            RejectProducer(row: row, path: surface, producer: producer);
         }
 
         ProofProtocol.Record(id: "rules.export-layout-boundary", diagnostic: "SDK_EXPORT_LAYOUT_BOUNDARY_REJECTED",
                 location: "six exact paths; independent owner/configuration/case/byte/line/producer controls");
     }
+
+    private const string Properties = "-getProperty:MSBuildProjectFullPath,Configuration,NETCoreSdkVersion,"
+            + "MSBuildToolsPath,TargetFrameworkMonikerAssemblyAttributesPath";
 
     private static async Task RejectAsync(string source, string path, DiagnosticAnalyzer analyzer,
             ImmutableArray<MetadataReference> references)
@@ -130,7 +135,7 @@ public sealed class GeneratedExportLayoutTests
         }
     }
 
-    private static void RejectProducer(JsonElement row)
+    private static void RejectProducer(JsonElement row, string path, string producer)
     {
         foreach (string name in new[] { "originSha256", "originSymbol" })
         {
@@ -138,19 +143,81 @@ public sealed class GeneratedExportLayoutTests
                     ?? throw new InvalidOperationException(message: "Missing origin record");
             changed[name] = "wrong-producer";
             using var subject = JsonDocument.Parse(json: changed.ToJsonString());
-            Should.Throw<ShouldAssertException>(actual: () => Authenticate(row: subject.RootElement));
+            Should.Throw<ShouldAssertException>(actual: () => Authenticate(row: subject.RootElement, path: path,
+                    producer: producer));
         }
     }
 
-    private static void Authenticate(JsonElement row)
+    private static (string Path, string Producer) Generate(JsonElement row, string directory)
+    {
+        string owner = Text(row: row, name: "owner");
+        string configuration = Text(row: row, name: "configuration");
+        string project = Path.GetFullPath(path: Local(path: owner switch
+        {
+            "src/godot-game/core" => ConfigurationTests.Projects[0],
+            "src/godot-game/multiplayer-abstractions" => ConfigurationTests.Projects[1],
+            "src/godot-game/game" => ConfigurationTests.Projects[2],
+            _ => throw new InvalidDataException(message: "Unknown export project owner: " + owner)
+        }));
+        configuration.ShouldBeOneOf("ExportDebug", "ExportRelease");
+        string[] common = ["msbuild", project, "-nologo", "-nodeReuse:false", "-p:NuGetAudit=false",
+            "-p:Configuration=" + configuration, Properties];
+        if (owner is "src/godot-game/game")
+        {
+            common = [.. common, "-p:RuntimeIdentifier=win-x64", "-p:SelfContained=true"];
+        }
+
+        string logical = Text(row: row, name: "path");
+        using JsonDocument evaluated = Evaluate(arguments: common);
+        JsonElement expected = evaluated.RootElement.GetProperty(propertyName: "Properties");
+        VerifyEvaluation(properties: expected, row: row, project: project, output: Local(path: logical));
+        string parent = Directory.CreateDirectory(path: Path.GetDirectoryName(path: Path.Combine(path1: directory,
+                path2: logical)) ?? throw new InvalidDataException(message: "Missing generated source directory"))
+                .FullName;
+        string surface = Path.Combine(path1: parent, path2: Path.GetFileName(path: logical));
+        File.Exists(path: surface).ShouldBeFalse(customMessage: "Export source must be newly produced");
+        using JsonDocument emission = Evaluate(arguments: [..common, "-target:GenerateTargetFrameworkMonikerAttribute",
+            "-p:IntermediateOutputPath=" + parent + Path.DirectorySeparatorChar, "-p:OutputPath=" + parent]);
+        JsonElement observed = emission.RootElement.GetProperty(propertyName: "Properties");
+        VerifyEvaluation(properties: observed, row: row, project: project, output: surface);
+        string producer = Path.Combine(path1: Text(row: observed, name: "MSBuildToolsPath"),
+                path2: "Microsoft.Common.CurrentVersion.targets");
+        return (surface, producer);
+    }
+
+    private static JsonDocument Evaluate(string[] arguments)
+    {
+        (int Exit, string Output) result = ConfigurationTests.Dotnet(arguments: arguments);
+        result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
+        return JsonDocument.Parse(json: result.Output);
+    }
+
+    private static void VerifyEvaluation(JsonElement properties, JsonElement row, string project, string output)
+    {
+        Text(row: properties, name: "MSBuildProjectFullPath").ShouldBe(expected: project);
+        Text(row: properties, name: "Configuration").ShouldBe(expected: Text(row: row, name: "configuration"));
+        Text(row: properties, name: "NETCoreSdkVersion").ShouldBe(expected: Text(row: row, name: "sdk"));
+        string parent = Path.GetDirectoryName(path: project)
+                ?? throw new InvalidDataException(message: "Missing export project directory");
+        Path.GetFullPath(path: Text(row: properties, name: "TargetFrameworkMonikerAssemblyAttributesPath"),
+                basePath: parent).ShouldBe(expected: Path.GetFullPath(path: output));
+    }
+
+    private static string ScratchDirectory()
+    {
+        return WorkspacePaths.Temp(purpose: "export-layout-" + Guid.NewGuid().ToString(format: "N"));
+    }
+
+    private static string Authenticate(JsonElement row, string path, string producer)
     {
         Text(row: row, name: "platform").ShouldBe(expected: "win32-x64");
         Text(row: row, name: "sdk").ShouldBe(expected: "10.0.404");
         Text(row: row, name: "originSymbol").ShouldBe(expected: "GenerateTargetFrameworkMonikerAttribute");
         string origin = Path.GetFullPath(path: Path.Combine(path1: RuntimeEnvironment.GetRuntimeDirectory(),
                 path2: "../../..", path3: Text(row: row, name: "origin")));
-        Hash(bytes: File.ReadAllBytes(path: origin)).ShouldBe(expected: Text(row: row, name: "originSha256"));
-        byte[] bytes = File.ReadAllBytes(path: Local(path: Text(row: row, name: "surface")));
+        producer.ShouldBe(expected: origin);
+        Hash(bytes: File.ReadAllBytes(path: producer)).ShouldBe(expected: Text(row: row, name: "originSha256"));
+        byte[] bytes = File.ReadAllBytes(path: path);
         bytes.Length.ShouldBe(expected: row.GetProperty(propertyName: "bytes").GetInt32());
         Hash(bytes: bytes).ShouldBe(expected: Text(row: row, name: "sha256"));
         string source = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true)
@@ -159,9 +226,11 @@ public sealed class GeneratedExportLayoutTests
         TextLine line = SourceText.From(text: source).Lines[row.GetProperty(propertyName: "line").GetInt32() - 1];
         line.LineNumber.ShouldBe(expected: 3);
         line.Span.Length.ShouldBe(expected: row.GetProperty(propertyName: "lineLength").GetInt32());
-        string path = Text(row: row, name: "path");
-        path.ShouldStartWith(expected: Text(row: row, name: "owner") + "/");
-        path.ShouldContain(expected: "/obj/" + Text(row: row, name: "configuration") + "/");
+        string logical = Text(row: row, name: "path");
+        logical.ShouldStartWith(expected: Text(row: row, name: "owner") + "/");
+        logical.ShouldContain(expected: "/obj/" + Text(row: row, name: "configuration") + "/");
+        path.Replace(oldChar: '\\', newChar: '/').ShouldEndWith(expected: "/" + logical);
+        return source;
     }
 
     private static DiagnosticAnalyzer Analyzer()

@@ -332,7 +332,7 @@ const NATIVE_ENGINE_HASH = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047
 const SOURCE_LOAD_CONTEXT = 'GodotPlugins.PluginLoadContext';
 const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 
-async function prepareSource(root,revision) {
+async function prepareSource(root,revision,{restoreProject=false}={}) {
   const source=e.identifySource(root,revision),tool=e.identifyTool(root);
   const nonce=crypto.randomUUID(), ownership=content.runsPath(nonce)+'/', directory=path.resolve(root,ownership);
   const copy=ownership+'source/', relative=copy+'src/godot-game/game', project=path.resolve(root,relative);
@@ -343,7 +343,7 @@ async function prepareSource(root,revision) {
   const engine=e.reference(root,e.SHARED_TOOLS+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
   e.need(engine.sha256===NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
   e.committedRef(root,e.git(root,['rev-parse','HEAD']).trim(),e.reference(root,e.TARGETS));
-  for (const ref of source.files.filter(row=>/^(?:src\/|tools\/code-rules\/|Directory\.|BannedSymbols|\.(?:editorconfig|gitattributes)$|global\.json$|NuGet\.config$|KingdomZombies\.slnx$)/.test(row.path))) {
+  for (const ref of source.files.filter(row=>/^(?:src\/godot-game\/(?:game\/|core\/|multiplayer-abstractions\/|tools\/code-rules\/|build\/|Directory\.|global\.json$|NuGet\.config$)|\.(?:editorconfig|gitattributes)$)/.test(row.path))) {
     const stored=e.writeExclusive(root,copy+ref.path,e.artifact(root,ref).data,ref.bytes);
     e.need(stored.bytes===ref.bytes&&stored.sha256===ref.sha256,'RENDERED_SOURCE_COPY',ref.path);
   }
@@ -357,7 +357,13 @@ async function prepareSource(root,revision) {
   const sdk=await command(context,'rendered-source-sdk',DOTNET,['--version'],{env});
   e.need(sdk.stdout.trim()===pin.sdk,'RENDERED_SOURCE_SDK');
   const importArgs=['--headless','--path',project,'--editor','--import'];
-  await command(context,'rendered-source-import',e.located(root,engine.path),importArgs,{env});
+  const projectSettings=path.join(project,'project.godot');
+  const authoredProject=restoreProject ? fs.readFileSync(projectSettings) : null;
+  try {
+    await command(context,'rendered-source-import',e.located(root,engine.path),importArgs,{env});
+  } finally {
+    if (authoredProject) fs.writeFileSync(projectSettings,authoredProject);
+  }
   const isolated=['--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
     '-p:RestorePackagesPath='+content.sharedFile('packages'),
     '-p:RestoreSources='+path.join(root,copy,content.feedPath()),'-v:minimal'];
@@ -371,7 +377,7 @@ async function prepareSource(root,revision) {
     imports:delivery.inventory(path.join(project,'.godot','imported')),
     importCompanions:sourceImportCompanions(root,relative,source),
     managed:delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'))}};
-  validateSourceProject(root,build,source);
+  validateSourceProject(root,build,source,{restoreProject});
   return e.writeExclusive(root,ownership+'rendered-source.json',build);
 }
 
@@ -400,11 +406,11 @@ function validateBuild(root,build,source,tool) {
   return {...build,portable,sourceManaged};
 }
 
-// A prepared source project lives in an asset-pipeline run folder: <runs>/<nonce>/source/src/godot-game.
+// A prepared source project lives in an asset-pipeline run folder: <runs>/<nonce>/source/src/godot-game/game.
 function preparedOwner(relative) {
   const prefix = content.runsPath()+'/';
   return typeof relative === 'string' && relative.startsWith(prefix) ?
-    /^([a-f0-9-]+)\/source\/src\/godot-game$/.exec(relative.slice(prefix.length)) : null;
+    /^([a-f0-9-]+)\/source\/src\/godot-game\/game$/.exec(relative.slice(prefix.length)) : null;
 }
 
 // Inherited families keep their historical names; their run folders come from the workspace map.
@@ -412,23 +418,23 @@ function familyRuns(family) {
   return content.legacyLocal('.'+family+'/runs')+'/'+(family==='phase1' ? '' : 'win32-x64/');
 }
 
-function validateSourceProject(root,build,source) {
+function validateSourceProject(root,build,source,{restoreProject=false}={}) {
   const prepared = build.sourceProject;
   const match = preparedOwner(prepared?.path);
   e.need(match && e.UUID.test(match[1]),'RENDERED_SOURCE_PROJECT');
   const ownership = content.runsPath(match[1])+'/', copy = ownership+'source/';
   const project = path.resolve(root,prepared.path);
-  const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/'));
+  const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/game/'));
   e.need(equal(prepared.importCompanions,sourceImportCompanions(root,prepared.path,source)),
     'RENDERED_SOURCE_IMPORT_COMPANIONS');
   for (const ref of tracked) {
-    if (ref.path !== 'src/godot-game/project.godot') e.artifact(root,{...ref,path:copy+ref.path});
+    if (ref.path !== 'src/godot-game/game/project.godot') e.artifact(root,{...ref,path:copy+ref.path});
     else {
       const original=e.artifact(root,ref).data.toString('utf8'), actual=e.read(root,copy+ref.path).data.toString('utf8');
       const newline=original.includes('\r\n')?'\r\n':'\n';
       const block=['[editor]','','import/use_multiple_threads=false',''].join(newline);
       const expected=original.endsWith(newline+block)?original:original+(original.endsWith('\n')?'':newline)+newline+block;
-      e.need(actual===expected,'RENDERED_SOURCE_PROJECT_SETTINGS');
+      e.need(actual===(restoreProject ? original : expected),'RENDERED_SOURCE_PROJECT_SETTINGS');
     }
   }
   function execution(ref, name) {
@@ -478,8 +484,8 @@ function validatePreparedManaged(root,build) {
 }
 
 function sourceImportCompanions(root,relative,source) {
-  const authored=new Set(source.files.filter(ref=>ref.path.startsWith('src/godot-game/'))
-    .map(ref=>ref.path.slice('src/godot-game/'.length)));
+  const authored=new Set(source.files.filter(ref=>ref.path.startsWith('src/godot-game/game/'))
+    .map(ref=>ref.path.slice('src/godot-game/game/'.length)));
   const project=path.resolve(root,relative);
   e.need(fs.lstatSync(project).isDirectory()&&!fs.lstatSync(project).isSymbolicLink(),'RENDERED_SOURCE_REPARSE',relative);
   const generated=[];
@@ -1110,6 +1116,24 @@ try {
    ConvertTo-Json -Compress
 `;
 
+const PHASE5_PHYSICAL_INPUT = String.raw`
+$ErrorActionPreference = 'Stop'
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public static class InspectionDesktopDpi {
+  [DllImport("user32.dll")] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr value);
+}
+'@
+$previous = [InspectionDesktopDpi]::SetThreadDpiAwarenessContext([IntPtr](-4))
+if ($previous -eq [IntPtr]::Zero) { throw 'HUB_SMOKE_DPI_CONTEXT' }
+try {
+  & $env:KZ_PHASE5_INPUT_SCRIPT -OwnedPid ([int]$env:KZ_PHASE5_INPUT_PID) -Action $env:KZ_PHASE5_INPUT_ACTION -X ([int]$env:KZ_PHASE5_INPUT_X) -Y ([int]$env:KZ_PHASE5_INPUT_Y) -Key ([byte]$env:KZ_PHASE5_INPUT_KEY)
+} finally {
+  [void][InspectionDesktopDpi]::SetThreadDpiAwarenessContext($previous)
+}
+`;
+
 function desktopCommand(root, script, env, limit, owner, signal) {
   return owned.command(owner,owned.windowsPowerShell(), ['-NoProfile','-NonInteractive','-EncodedCommand',
     Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit,signal);
@@ -1159,17 +1183,46 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   let runtime, observedImage, ready;
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
-    const result = await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
-      path.join(root,'src/godot-game/tools/gameplay-checks/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
-      {cwd:root,env},closing?3000:budget(12000),closing?undefined:signal);
+    const inputScript = path.join(root,'src/godot-game/tools/gameplay-checks/windows-input.ps1');
+    const limit = closing ? 3000 : budget(12000);
+    const inputSignal = closing ? undefined : signal;
+    const result = adapter.dpiAwareInput
+      ? await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-EncodedCommand',
+        Buffer.from(PHASE5_PHYSICAL_INPUT,'utf16le').toString('base64')],{cwd:root,env:{
+          ...env,KZ_PHASE5_INPUT_SCRIPT:inputScript,KZ_PHASE5_INPUT_PID:String(pid),KZ_PHASE5_INPUT_ACTION:action,
+          KZ_PHASE5_INPUT_X:String(x),KZ_PHASE5_INPUT_Y:String(y),KZ_PHASE5_INPUT_KEY:String(key)
+        }},limit,inputSignal)
+      : await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
+        inputScript,'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
+        {cwd:root,env},limit,inputSignal);
     acknowledgement = JSON.parse(result.stdout.trim());
+    if (adapter.dpiAwareInput) {
+      fs.appendFileSync(path.join(directory,'input-acks.ndjson'),JSON.stringify({
+        at:new Date().toISOString(),requested:{pid,action,x,y,key},acknowledgement
+      })+'\n');
+    }
     e.need(acknowledgement.pid === pid && acknowledgement.focused && acknowledgement.action === action &&
-      acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK');
+      acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK',
+        adapter.dpiAwareInput ? JSON.stringify(acknowledgement) : '');
   });
   async function settle(checks,{match=true,previous=null,onFailure=null}={}) {
     const end=Date.now()+budget(12000);
+    let latest;
     for (;;) {
-      const observed=await native.snapshot(pid,checks,end);
+      let observed;
+      try { observed=await native.snapshot(pid,checks,end); }
+      catch (failure) {
+        if (!adapter.dpiAwareInput || !latest || failure.message!=='RENDERED_NATIVE_DEADLINE') throw failure;
+        onFailure?.(latest);
+        const unmet=checks.flatMap((check,index)=>{
+          const actual=latest.values[index].value;
+          return contracts.matches(check,actual) ? [] :
+            [check.node+'.'+check.property+' expected '+JSON.stringify(check.value ?? check.match)+
+              ' observed '+JSON.stringify(actual).slice(0,160)];
+        });
+        throw new Error('RENDERED_NATIVE_SETTLE '+(unmet.join(' | ') || 'observations did not stabilize'),{cause:failure});
+      }
+      latest=observed;
       const valid=checks.every((check,index)=>contracts.matches(check,observed.values[index].value));
       if ((!match || valid) && previous && observed.at>previous.at && equal(previous.values,observed.values)) return observed;
       previous=(!match || valid)?observed:null;
@@ -1183,6 +1236,30 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const objects=[...snapshot.objects].map(([node,packet],index)=>({node,
       packet:e.writeExclusive(root,prefix+'-object-'+index+'.bin',packet.raw)}));
     return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
+  }
+  // Phase 5 resolves controls from the owned live scene instead of a Phase 4 driver declaration.
+  async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
+    const position = {node,property:'global_position'};
+    const size = {node,property:'size'};
+    const ancestors = [];
+    for (let current=node; current!=='/root'; current=path.posix.dirname(current)) {
+      ancestors.push({node:current,property:'position'});
+    }
+    const layout = await native.snapshot(pid,[position,size,...ancestors]);
+    const [global,extent,...locals] = layout.values.map(row => row.value);
+    const vector = value => value?.type===5 && value.values.length===2;
+    e.need(vector(extent) && (vector(global) || locals.every(vector)), 'HUB_SMOKE_CONTROL_GEOMETRY',node);
+    const origin = vector(global) ? global.values : locals.reduce(
+      ([x,y],{values}) => [x+values[0],y+values[1]], [0,0]);
+    const [width,height] = extent.values;
+    // Click the inspector vertical scrollbar track above or below its handle.
+    if (scrollPage) e.need(width>0 && height>=32, 'HUB_SMOKE_SCROLL_TRACK',node);
+    const xOffset = firstRow ? Math.min(width/2,24) : width/2;
+    const yOffset = scrollPage ? (scrollPage>0 ? height-18 : 12) : firstRow ? Math.min(height/2,12) : height/2;
+    const x = Math.floor(origin[0] + xOffset);
+    const y = Math.floor(origin[1] + yOffset);
+    e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
+    return {x,y};
   }
   async function checkpoint(item,step,invocation,recovery=false) {
     const prefix = relative + '/' + item.id + (recovery?'-recovery-':'-') + step.id;
@@ -1217,7 +1294,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       await input.input('click',step.recheck.x,step.recheck.y,0);
       recheck={...step.recheck,at:new Date().toISOString(),acknowledgement};
     }
-    if (step.openMenu) {
+    if (step.openMenu && !step.drive) {
       await input.input('click',step.openMenu.x,step.openMenu.y,0);
       openMenu={...step.openMenu,at:new Date().toISOString(),acknowledgement};
     }
@@ -1225,12 +1302,30 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       await input.input('click',step.focusClick.x,step.focusClick.y,0);
       focusClick={...step.focusClick,at:new Date().toISOString(),acknowledgement};
     }
-    await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
+    const actions=[];
+    if (step.drive) {
+      const act = async (action,x,y,key) => {
+        await input.input(action,x,y,key);
+        actions.push({action,x,y,key,acknowledgement});
+      };
+      await step.drive({
+        async click(node, options) {
+          const {x,y}=await clickControl(node,options);
+          await act('click',x,y,0);
+        },
+        tap(key) { return act('tap',0,0,key); }
+      });
+      e.need(actions.length>0,'HUB_SMOKE_INPUT_EMPTY',step.id);
+    } else {
+      await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
+    }
     const at = new Date().toISOString(), physical = acknowledgement;
     const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
     const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
-      clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
-      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu,focusClick});
+      clientWidth:physical.width,clientHeight:physical.height,method:step.drive?'physical-sequence':
+        step.action==='click'?'physical-mouse':'physical-keyboard',
+      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu,focusClick,
+      ...(step.drive ? {actions} : {})});
     const observed = await settle(step.checks,{onFailure:state=>snapshotRef(prefix+'-failed-settle',state)});
     const observedRef=snapshotRef(prefix+'-observed',observed);
     e.need(!equal(observed.values,before.values),'RENDERED_NATIVE_TRANSITION',item.id+' '+step.id);
@@ -1421,7 +1516,7 @@ function validateProcessRuntime(root,build,owner) {
   const object=observer.decode(e.artifact(root,runtime.object,1048576).data);
   const handshake=observer.decode(e.artifact(root,runtime.pidPacket,1048576).data);
   const id=treePaths(tree[2]).get(observer.HUB);
-  e.need(owner.pid===runtime.pid && path.resolve(runtime.observedImage)===path.resolve(root,owner.executable.path) &&
+  e.need(owner.pid===runtime.pid && path.resolve(runtime.observedImage)===path.resolve(e.located(root,owner.executable.path)) &&
     handshake[0]==='set_pid' && equal(handshake[2],[owner.pid]) && tree[1]===handshake[1] &&
     tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && id &&
     object[2].find(row=>row[0]===id)?.[2]?.some(row=>row[0]===observer.RUNTIME_PROPERTY&&row[5]===runtime.marker),'RENDERED_LIVE_RUNTIME_OWNER');
@@ -1723,6 +1818,6 @@ module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, cover
   finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
   repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
-  runInspectionLane,
+  runInspectionLane, inspectionSession,
   sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
   runRendered, verifyCompletion};

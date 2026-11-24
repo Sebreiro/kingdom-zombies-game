@@ -8,6 +8,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Exercises reservation capacity and idempotence through actual coordinator wire dispatch.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLanAdmissionTests
 {
     /// <summary>A repeated hello returns its reservation; refusal reasons remain distinct.</summary>

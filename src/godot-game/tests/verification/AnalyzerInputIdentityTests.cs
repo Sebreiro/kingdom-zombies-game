@@ -20,27 +20,35 @@ public sealed class AnalyzerInputIdentityTests
                 "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs");
         string copy = Path.Combine(path1: directory, path2: "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs");
         File.Copy(sourceFileName: source, destFileName: copy);
-        string script = ("const fs=require('fs'),path=require('path'),c=require('"
-                + "./src/godot-game/tools/verification/check.cjs'),m=require('./src/godot-game/tools/verification/re"
-                + "quired-cases.json');if(!m.inputs.includes('tools/code-r"
-                + "ules'))throw Error('ANALYZER_SCOPE_MISSING');const root"
-                + "=fs.realpathSync(process.env.PHASE1_IDENTITY_COPY),befo"
-                + "re=c.snapshot(root,{inputs:['src/godot-game/tools/code-rules']}),file="
-                + "path.join(root,'src/godot-game/tools/code-rules/NamedArgumentAnalyzer."
-                + "cs');fs.appendFileSync(file,'\\n// isolated source mutat"
-                + "ion\\n');const after=c.snapshot(root,{inputs:['tools/cod"
-                + "e-rules']});if(before.sha256===after.sha256)throw Error"
-                + "('SOURCE_IDENTITY_UNCHANGED');let rejected=false;try{c."
-                + "reconcile([{id:'source'}],[{id:'source',status:'pass',n"
-                + "once:'nonce',input:before.sha256}],{nonce:'nonce',input"
-                + ":after.sha256})}catch(e){if(e.diagnostic!=='INPUT_MISMA"
-                + "TCH')throw e;rejected=true}if(!rejected)throw Error('ST"
-                + "ALE_SOURCE_ACCEPTED');fs.mkdirSync(path.join(root,'tool"
-                + "s/code-rules/obj'),{recursive:true});fs.writeFileSync(p"
-                + "ath.join(root,'src/godot-game/tools/code-rules/obj/cache.cs'),'untrust"
-                + "ed output');if(c.snapshot(root,{inputs:['tools/code-rul"
-                + "es']}).sha256!==after.sha256)throw Error('CACHE_SCOPE_L"
-                + "EAK');console.log('ANALYZER_INPUT_CHANGED')");
+        string script = """
+            const fs = require('fs'), path = require('path');
+            const c = require('./src/godot-game/tools/verification/check.cjs');
+            const manifest = require('./src/godot-game/tools/verification/required-cases.json');
+            const analyzer = 'src/godot-game/tools/code-rules';
+            const input = analyzer + '/NamedArgumentAnalyzer.cs';
+            const inputs = manifest.inputs.filter(scope => input.startsWith(scope + '/') || input === scope);
+            if (inputs.length !== 1) throw Error('ANALYZER_SCOPE_MISSING_OR_AMBIGUOUS');
+            const root = fs.realpathSync(process.env.PHASE1_IDENTITY_COPY);
+            const scope = { inputs };
+            const before = c.snapshot(root, scope);
+            if (before.files.length !== 1 || before.files[0].path !== input) throw Error('ANALYZER_SOURCE_MISSING');
+            fs.appendFileSync(path.join(root, input), '\n// isolated source mutation\n');
+            const after = c.snapshot(root, scope);
+            if (before.sha256 === after.sha256) throw Error('SOURCE_IDENTITY_UNCHANGED');
+            let rejected = false;
+            try {
+              c.reconcile([{id:'source'}], [{id:'source',status:'pass',nonce:'nonce',input:before.sha256}],
+                {nonce:'nonce',input:after.sha256});
+            } catch (error) {
+              if (error.diagnostic !== 'INPUT_MISMATCH') throw error;
+              rejected = true;
+            }
+            if (!rejected) throw Error('STALE_SOURCE_ACCEPTED');
+            fs.mkdirSync(path.join(root, analyzer, 'obj'), {recursive:true});
+            fs.writeFileSync(path.join(root, analyzer, 'obj', 'cache.cs'), 'untrusted output');
+            if (c.snapshot(root, scope).sha256 !== after.sha256) throw Error('CACHE_SCOPE_LEAK');
+            console.log('ANALYZER_INPUT_CHANGED');
+            """;
         byte[] original = File.ReadAllBytes(path: source);
         string? previous = Environment.GetEnvironmentVariable(variable: "PHASE1_IDENTITY_COPY");
         try

@@ -42,9 +42,11 @@ public sealed class GeneratedCallSiteAdapterTests
             Verification.AdapterTargets.Read(source: adapters).ShouldContain(expected: (row.GetProperty(
                     propertyName: "target").GetString() ?? throw new System.InvalidOperationException(
                             message: "Required proof value is null")), comparer: StringComparer.Ordinal);
-            string package = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(
+            string packageIdentity = row.GetProperty(
                     propertyName: "package").GetString() ?? throw new System.InvalidOperationException(
-                            message: "Required proof value is null")));
+                            message: "Required proof value is null");
+            string package = Path.Combine(path1: ProofProtocol.Root, path2: WorkspacePaths.Physical(
+                    identity: packageIdentity));
             Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: package)))
                     .ShouldBe(expected: row.GetProperty(propertyName: "packageSha256").GetString());
         }
@@ -59,10 +61,15 @@ public sealed class GeneratedCallSiteAdapterTests
     [Fact, Trait("Case", "rules.generated-callsite-boundary")]
     public void Analyze_GeneratedCallSitePermission_RejectsOutsideMembers()
     {
-        string adjacent = RebuildWithSource(source: ("namespace KingdomZombies.Phase1.Tests; internal static "
-                + "class Adjacent { internal static int Run() => System.Ma" + "th.Abs(-1); }"));
-        adjacent.ShouldContain(expected: "Subject.cs(");
-        adjacent.ShouldContain(expected: "error SCR0001:");
+        var fixture = new BuildFixture(tests: true);
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        string adjacent = RebuildWithSource(fixture: fixture, source:
+                ("namespace KingdomZombies.Phase1.Tests; internal static "
+                        + "class Adjacent { internal static int Run() => System.Ma" + "th.Abs(-1); }"));
+        adjacent.ShouldContain(expected: "Subject.cs(", customMessage: adjacent);
+        adjacent.ShouldContain(expected: "error SCR0001:", customMessage: adjacent);
         foreach (string? source in new[]
         {
             ("namespace KingdomZombies.Phase1.Tests; internal static "
@@ -75,7 +82,7 @@ public sealed class GeneratedCallSiteAdapterTests
 
         )
         {
-            string collision = RebuildWithSource(source: source);
+            string collision = RebuildWithSource(fixture: fixture, source: source);
             collision.ShouldContain(expected: "error CS0101:");
             collision.ShouldContain(expected: source.Contains(value: "SelfRegisteredExtensions",
                     comparisonType: StringComparison.Ordinal) ? "SelfRegisteredExtensions.cs(11,27)"
@@ -87,21 +94,12 @@ public sealed class GeneratedCallSiteAdapterTests
                 location: "SCR0001 adjacent + CS0101 both exact-symbol impostors");
     }
 
-    private static string RebuildWithSource(string source)
+    private static string RebuildWithSource(BuildFixture fixture, string source)
     {
-        string directory = WorkspacePaths.Temp(purpose: "generated-callsite-"
-                + Guid.NewGuid().ToString(format: "N"));
-        Directory.CreateDirectory(path: directory);
-        string file = Path.Combine(path1: directory, path2: "Subject.cs");
-        File.WriteAllText(path: file, contents: source);
-        string targets = Path.Combine(path1: directory, path2: "Boundary.targets");
-        File.WriteAllText(path: targets, contents: "<Project><Import Project=\"" + Path.Combine(
-                path1: ProofProtocol.Root, path2: "src/godot-game/Directory.Build.targets")
-                + ("\"/><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'Ki"
-                        + "ngdomZombies.Phase1.Tests'\"><Compile Include=\"") + file + "\"/></ItemGroup></Project>");
-        (int Exit, string Output) result = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[4],
-                "--no-restore", "-p:NuGetAudit=false", "-p:DirectoryBuildTargetsPath=" + targets);
+        fixture.Write(source: source);
+        (int Exit, string Output) result = fixture.Build();
         result.Exit.ShouldNotBe(expected: 0, customMessage: result.Output);
+        result.Output.ShouldNotContain(expected: "error CS0016:", customMessage: result.Output);
         return result.Output;
     }
 }

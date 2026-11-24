@@ -7,6 +7,7 @@ Add an entry only when engine source or traced evidence confirms the defect. Kee
 | Defect | Engine | Workaround | Status |
 | --- | --- | --- | --- |
 | [Windows editor import working-directory race](#windows-editor-import-working-directory-race) | Godot 4.7.2 .NET, Windows | The Phase 4 harness forces single-threaded editor import | Worked around in the Phase 4 harness. Still present in the engine and in developer editor sessions. |
+| [Item preview managed handle failure](#item-preview-managed-handle-failure) | Godot 4.7.2 .NET, Windows | The inspection hub retains the two managed PackedScene wrappers across resource selections | Workaround implemented in Phase 5 |
 
 ## Windows editor import working-directory race
 
@@ -65,3 +66,15 @@ Run `node src/godot-game/tools/asset-pipeline/check.cjs --self-test-editor-impor
 - Investigation and evidence: [debug record](../../.planning/debug/phase04-import-surrogates.md).
 - Fix plan, review and verification: [quick task 261120-09v](../../.planning/quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-SUMMARY.md).
 - Raw traces and logs were local, in the ignored `.phase4/temp/animation-import-unicode/` folder, and are deleted by [workspace cleanup](cleanup.md). The results above and the debug record remain; the original trace cannot be replayed from the repository.
+
+## Item preview managed handle failure
+
+**Symptom.** The Phase 4 `world.replacement` run on `5c637da` emitted `InvalidOperationException: Handle is not initialized` from `ScriptManagerBridge.SwapGCHandleForType` while `ResourceLoader.Load<PackedScene>` loaded an item preview scene. The Windows runner recorded the diagnostic on stderr even though the native assertions passed. Five fresh reruns passed with empty stderr.
+
+**Working diagnosis.** The exception appeared while Godot was reusing a native scene across item selections. The former local variable let its managed wrapper become eligible for finalization before the next selection. The stack trace is consistent with a race between finalization of the wrapper and reuse of the native scene. The order of those operations was not traced.
+
+**Workaround.** [InspectionRoot](../../src/godot-game/game/inspection/InspectionRoot.cs) retains the weapons and wearables [scene wrappers](../../src/godot-game/game/inspection/WorldPreview.cs) for the lifetime of its inspection hub. Individual selections still authenticate the scene before instantiating it. Replacing or resetting a preview retires its child nodes while the hub keeps the two scene wrappers alive.
+
+**Verification.** Run `node src/godot-game/tools/asset-pipeline/check.cjs --case world.replacement` with the pinned Windows toolchain. The existing case exercises rapid replacement, error and recovery through the native hub and requires clean stderr. Keep the workaround until engine source or a targeted trace establishes safe wrapper reuse. A passing rerun alone cannot resolve the intermittent failure.
+
+The original invocation and the five reruns are recorded in the [Phase 4 review summary](../../.planning/phases/04-asset-production/04-24-SUMMARY.md) and the [closure exception](../../.planning/phases/04-asset-production/04-CLOSURE-EXCEPTION.md).

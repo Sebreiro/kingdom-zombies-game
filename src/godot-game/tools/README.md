@@ -6,6 +6,7 @@ These programs prepare, inspect and test KingdomZombies. They are game-specific,
 
 | Location | Purpose |
 | --- | --- |
+| [game-tests](game-tests/check.cjs) | Run the shared three-tier catalog and report the selected test results |
 | [verification](verification/check.cjs) | Code-rule, architecture, state, engine and documentation checks against this game's declared inventory and evidence contracts |
 | [verification/bootstrap.cjs](verification/bootstrap.cjs) | Verify pinned tool identities, prepare authentic Godot packages and run headless compatibility proofs |
 | [gameplay-checks](gameplay-checks/check.cjs) | Menu, movement and local-game scenarios, input drivers, screenshots and report validation |

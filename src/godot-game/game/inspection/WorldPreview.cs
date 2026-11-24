@@ -150,10 +150,11 @@ internal sealed class WorldPreview
     }
 
     internal static WorldPreview OpenInspector(Node2D root, MainThreadGateway gateway,
-            Func<string, byte[]?> read, string id, Dictionary<string, string> choices)
+            Func<string, byte[]?> read, string id, Dictionary<string, string> choices, ItemScenes itemScenes)
     {
         gateway.RequireThread();
-        var result = new WorldPreview(root: root, gateway: gateway, read: read, choices: choices);
+        var result = new WorldPreview(root: root, gateway: gateway, read: read, choices: choices,
+                itemScenes: itemScenes);
         result.AttachInspector();
         result.SelectInspector(id: id);
         return result;
@@ -341,6 +342,7 @@ internal sealed class WorldPreview
 
     private readonly Func<string, byte[]?> _read = _ => null;
     private readonly Dictionary<string, string> _choices = new(comparer: StringComparer.Ordinal);
+    private readonly ItemScenes? _itemScenes;
     private JsonElement _fixture;
     private readonly bool _inspector;
     private WorldPreview? _worldView;
@@ -383,12 +385,13 @@ internal sealed class WorldPreview
         "content/packs/audio-interface-ambience.json"];
 
     private WorldPreview(Node2D root, MainThreadGateway gateway, Func<string, byte[]?> read,
-            Dictionary<string, string> choices)
+            Dictionary<string, string> choices, ItemScenes itemScenes)
     {
         _root = root;
         _gateway = gateway;
         _read = read;
         _choices = choices;
+        _itemScenes = itemScenes;
         _gateway.RequireThread();
         _inspector = true;
     }
@@ -766,8 +769,19 @@ internal sealed class WorldPreview
         InspectorBytes(file: Text(row: definition.GetProperty(propertyName: "atlas"), name: "path"));
         string file = "inspection/" + (number <= 10 ? "ItemsWeaponsPreview.tscn" : "ItemsWearablesPreview.tscn");
         InspectorBytes(file: file);
-        PackedScene scene = ResourceLoader.Load<PackedScene>(path: "res://" + file)
-                ?? throw new InvalidDataException(message: "WORLD_INSPECTOR_SCENE " + file);
+        ItemScenes scenes = _itemScenes ?? throw new InvalidOperationException(message: "WORLD_INSPECTOR_OWNER");
+        PackedScene scene = (number <= 10 ? scenes.Weapons : scenes.Wearables)
+                ?? ResourceLoader.Load<PackedScene>(path: "res://" + file)
+                        ?? throw new InvalidDataException(message: "WORLD_INSPECTOR_SCENE " + file);
+        if (number <= 10)
+        {
+            scenes.Weapons = scene;
+        }
+        else
+        {
+            scenes.Wearables = scene;
+        }
+
         _item = scene.Instantiate<Control>();
         _item.CustomMinimumSize = new Vector2(x: 1280, y: 720);
         _root.GetNode(path: InspectorBody + "Art").AddChild(node: _item);
@@ -1963,6 +1977,7 @@ internal sealed class WorldPreview
             OneShot = !loop,
             Emitting = true,
             SpeedScale = 0,
+            LocalCoords = true,
             UseFixedSeed = true,
             Seed = 13,
             Texture = Texture(key: Text(row: row, name: "part"), world: false),
@@ -2068,6 +2083,13 @@ internal sealed class WorldPreview
         string state = Text(row: sample, name: "portalState");
         return Same(left: state, right: "destroying") && _time >= Number(row: Effect(id: "portal.destroy"),
                 name: "duration") ? "ruins" : state;
+    }
+
+    // The hub keeps these managed wrappers alive while individual item previews are replaced.
+    internal sealed class ItemScenes
+    {
+        internal PackedScene? Weapons { get; set; }
+        internal PackedScene? Wearables { get; set; }
     }
 
     private sealed record EffectState

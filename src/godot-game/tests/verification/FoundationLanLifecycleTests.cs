@@ -8,6 +8,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Closes acceptance and projections before releasing a coordinator lifetime.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLanLifecycleTests
 {
     /// <summary>Repeated closure cannot retain a projection or close native ownership more than once.</summary>

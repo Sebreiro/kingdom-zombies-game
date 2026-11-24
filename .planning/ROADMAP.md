@@ -33,7 +33,7 @@ Integer phases execute in order. Decimal phases are reserved for explicitly inse
 - [x] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right. (completed 2026-11-15)
 - [x] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene. (completed 2026-11-16)
 - [ ] **Phase 4: Asset production** - The complete required resource pack is reusable, self-contained, and inspectable in fixtures.
-- [ ] **Phase 5: CI and repeatable game testing** - Developers and AI agents run stored cases locally and in CI with trustworthy evidence.
+- [x] **Phase 5: CI and repeatable game testing** - Developers and AI agents run stored cases locally and in CI with trustworthy evidence.
 - [ ] **Phase 6: Survivors, inventory, and combat** - Players manage real belongings, fight, die, and continue through ordinary-survivor succession.
 - [ ] **Phase 7: Camp economy and development** - Players recruit, equip, feed, employ, and expand a functioning camp.
 - [ ] **Phase 8: Zombie campaign and outcomes** - Players face the full zombie campaign and assault six portals through victory or defeat.
@@ -370,7 +370,7 @@ Plans:
 
 ### Phase 5: CI and repeatable game testing
 
-Include the rendered case IDs assigned to Phase ### Phase 5: CI and repeatable game testing in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+Include the rendered case IDs assigned to Phase 5 in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
 The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) assigned this phase the 18 rendered Phase 4 IDs due at the asset handoff, the 21 affected inherited rendered regressions, the four named judgments P1–P4, the physical driver declaration and the `world.replacement` engine-race follow-up. Under the 2026-11-23 amendment Phase 5 keeps the 21 inherited regressions, one inspection-hub smoke scenario with the four judgments, and the engine-race follow-up. The other 17 rendered IDs and the driver declaration move to Phase 11.
 
@@ -386,7 +386,14 @@ The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.
 4. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure using each run's report, failure brief, replay command, logs, state observations and required rendered images. Deliberate missing-dependency, zero-discovery, skipped-required-case, crash, timeout, missing-peer and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
 5. The reduced phase-end selection always includes the budgeted Critical smoke set, all new/changed cases and affected regressions, with explicit omissions and no false full-suite claim. Phase 1 rule-suite groups are selected only when their declared inputs change, and a check confirms that every specification edge ID has a unit test. The implementation → review/fix → grouped run/log → batch repair → failed-case checks → entire-selected-set pass is proven on the development OS at 1280×720 without a VM.
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+- [x] [05-01](phases/05-ci-and-repeatable-game-testing/05-01-PLAN.md) Shared catalog, selection and report
+- [x] [05-02](phases/05-ci-and-repeatable-game-testing/05-02-PLAN.md) Pure tests, headless smoke and basic CI
+- [x] [05-03](phases/05-ci-and-repeatable-game-testing/05-03-PLAN.md) Inherited rendered groups and asset checks
+- [x] [05-04](phases/05-ci-and-repeatable-game-testing/05-04-PLAN.md) Review, measured runs and verification
+
+Completed on independently reviewed `b7e419c` with 92/92 selected Windows checks, P1–P4 and hosted Windows and Ubuntu. [Phase 5 verification](phases/05-ci-and-repeatable-game-testing/05-VERIFICATION.md)
 **UI hint:** yes
 
 **Delivery boundary:** Build one shared runner over the existing Phase 2–4 scenario definitions and keep the Phase 1–4 runners (`verification`, `gameplay-checks`, `lan-checks` and `asset-pipeline` under `src/godot-game/tools/`) callable as suites instead of rewriting them. Prove exact discovery, execution, exit status and report reconciliation for the shared runner; use a bounded repository-owned scene harness if a candidate test adapter fails compatibility. Automate the delivered rules/menu/LAN/content foundations now and catalog later feature and release cases as planned. Test drivers exercise production input/commands, with observation separated from mutation and test-only authority controls excluded from release builds. Measured coverage, the eight transferred certification IDs, full hosted Windows/Linux runs, evidence reuse, exhaustive runner certification, the other 17 Phase 4 rendered cases and the Phase 1 follow-ups belong to Phase 11 and receive no pass credit here.
@@ -618,7 +625,7 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 | 2. Playable foundation | 3 | Complete |
 | 3. Four-player LAN foundation | 4 | Complete |
 | 4. Asset production | 5 | Complete under closure exception |
-| 5. CI and repeatable game testing | 10 | Pending |
+| 5. CI and repeatable game testing | 10 | Complete |
 | 6. Survivors, inventory, and combat | 29 | Pending |
 | 7. Camp economy and development | 22 | Pending |
 | 8. Zombie campaign and outcomes | 19 | Pending |
@@ -626,7 +633,7 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 | 10. Release validation and balancing | 6 | Pending |
 | 11. Nightly full regression testing | 2 | Pending |
 | 12. Stash and inventory filtering | 1 | Pending |
-| **Total** | **136** | **19 complete / 117 pending** |
+| **Total** | **136** | **29 complete / 107 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
@@ -640,7 +647,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
 | 4. Asset production | 35/37, 2 waived | Complete under closure exception | 2026-11-22 |
-| 5. CI and repeatable game testing | 0/TBD | Not started | - |
+| 5. CI and repeatable game testing | 4/4 | Complete | 2026-11-24 |
 | 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |
 | 8. Zombie campaign and outcomes | 0/TBD | Not started | - |

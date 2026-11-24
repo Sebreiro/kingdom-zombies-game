@@ -175,6 +175,7 @@ public sealed partial class InspectionRoot : Node2D
     private readonly Dictionary<string, byte[]?> _files = new(comparer: StringComparer.Ordinal);
     private readonly Dictionary<string, string> _selections = new(comparer: StringComparer.Ordinal);
     private readonly ResourceBrowser _browser;
+    private readonly WorldPreview.ItemScenes _itemScenes = new();
     private readonly List<string> _readErrors = [];
     private readonly Dictionary<string, (string Query, string Status, double Scroll)> _views = new(
             comparer: StringComparer.Ordinal);
@@ -475,7 +476,7 @@ public sealed partial class InspectionRoot : Node2D
                 var preview = new Node2D { Name = "WorldItems" };
                 _shell?.Install(preview: preview);
                 _world = WorldPreview.OpenInspector(root: preview, gateway: _gateway, read: Read, id: _selected,
-                        choices: _selections);
+                        choices: _selections, itemScenes: _itemScenes);
                 previewStatus = _world.InspectorStatus;
             }
             else if (_selected is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-06" or "CH-07" or "CH-08"

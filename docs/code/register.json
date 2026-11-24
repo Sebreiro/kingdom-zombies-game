@@ -2450,8 +2450,8 @@
     {
       "sourceId": "R-49",
       "disposition": "adapted",
-      "reason": "Keep 90%/80% local analyzer coverage; CI integration belongs to Phase 5.",
-      "adaptationReason": "Keep 90%/80% local analyzer coverage; CI integration belongs to Phase 5.",
+      "reason": "Keep 90%/80% local analyzer coverage; CI integration belongs to Phase 11.",
+      "adaptationReason": "Keep 90%/80% local analyzer coverage; CI integration belongs to Phase 11.",
       "headingRefs": [
         "src/backend/docs/CodeRules/code-style.md:558"
       ],
@@ -2466,7 +2466,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 5.",
+      "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 11.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-49.positive",
@@ -2495,10 +2495,10 @@
       },
       "binding": {
         "status": "pending",
-        "owner": "Phase 5",
+        "owner": "Phase 11",
         "path": "src/godot-game/tools/verification/coverage-policy.json",
         "symbol": "R-49",
-        "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 5.",
+        "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 11.",
         "positiveMethod": "",
         "negativeMethod": ""
       }
@@ -3994,7 +3994,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 5.",
+      "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 11.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-82.positive",
@@ -4023,10 +4023,10 @@
       },
       "binding": {
         "status": "pending",
-        "owner": "Phase 5",
+        "owner": "Phase 11",
         "path": "src/godot-game/tools/verification/coverage-policy.json",
         "symbol": "R-82",
-        "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 5.",
+        "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 11.",
         "positiveMethod": "",
         "negativeMethod": ""
       }

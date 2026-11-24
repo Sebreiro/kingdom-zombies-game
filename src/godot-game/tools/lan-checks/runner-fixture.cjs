@@ -96,10 +96,11 @@ async function run(mode){
     assert.equal(e.hash(fs.readFileSync(file)),original);
     // The desktop lock lives in the shared root; a temporary shared root keeps this control and its child off the real one.
     const lockRoot=path.join(directory,'desktop'),previous=process.env.KZ_SHARED_LOCAL;fs.mkdirSync(lockRoot);
-    process.env.KZ_SHARED_LOCAL=path.join(lockRoot,'shared');
+    process.env.KZ_SHARED_LOCAL=path.join(lockRoot,'.local');
     try{
       const unlock=acquireLock(lockRoot,context.nonce);
-      try{await assert.rejects(p.run(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs'),lockRoot],{cwd:root},1000),/CHILD_EXIT/);}
+      try{await assert.rejects(p.run(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs'),lockRoot],{cwd:root},1000),
+        error=>error.record?.code===1&&error.record.stderr.includes('Error: DESKTOP_LOCKED:'));}
       finally{unlock();}
       const release=acquireLock(lockRoot,crypto.randomUUID()),lockFile=workspace.locations(lockRoot).locks.desktop;
       fs.writeFileSync(lockFile,'foreign-owner');assert.throws(release,/OWNERSHIP_CHANGED/);assert.equal(fs.readFileSync(lockFile,'utf8'),'foreign-owner');

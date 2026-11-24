@@ -84,9 +84,12 @@ function ownedInput(dispatch) {
 function createSession(context) {
   const { root, directory, nonce, engine, env } = context;
   const width = 1280, height = 720;
+  const userData = path.join(directory, 'userdata');
+  fs.mkdirSync(userData);
   const launch = context.beforeGame?.('solo',directory,engine);
   const game = spawn(engine, ['--path', context.project ?? path.join(root, 'src/godot-game/game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
-    cwd: root, env: { ...(launch?.env ?? env), PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
+    cwd: root, env: { ...(launch?.env ?? env), APPDATA:userData, LOCALAPPDATA:userData,
+      XDG_DATA_HOME:userData, XDG_CONFIG_HOME:userData, XDG_CACHE_HOME:userData, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
       PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
       ...(context.includeMenu?{PHASE2_FAIL_ENTRY_ONCE:nonce}:{}) }, shell: false, windowsHide: false, detached:process.platform !== 'win32',
   });

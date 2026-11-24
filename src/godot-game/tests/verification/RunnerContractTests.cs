@@ -416,7 +416,7 @@ public sealed class RunnerContractTests
         ProofProtocol.Record(id: "runner.selection", diagnostic: "SELECTION_REJECTED", location: "CLI selection");
     }
 
-    /// <summary>Pins the Phase1 baseline and exact Phase4 export and Phase5 certification partitions.</summary>
+    /// <summary>Pins the Phase1 baseline and exact Phase4 export and Phase11 certification partitions.</summary>
     [Fact, Trait("Case", "runner.phase-membership")]
     public void Select_DeclaredPhases_RetainsImplementedCases()
     {
@@ -430,7 +430,7 @@ public sealed class RunnerContractTests
                 + "const deferred=[...ids,...exports].sort();a.equal(m.cases.length,686);"
                 + "a.equal(s.selected.length,676);a.deepEqual(s.deferred.map(r=>r.id).sort(),deferred);"
                 + "a.deepEqual(s.deferred.filter(r=>ids.includes(r.id)).map(r=>"
-                + "[r.id,r.acceptancePhase,r.owner]).sort(),ids.map(id=>[id,5,'Phase 5']));"
+                + "[r.id,r.acceptancePhase,r.owner]).sort(),ids.map(id=>[id,11,'Phase 11']));"
                 + "a.deepEqual(s.deferred.filter(r=>exports.includes(r.id)).map(r=>"
                 + "[r.id,r.acceptancePhase,r.owner]).sort(),exports.map(id=>[id,4,'04-34']));"
                 + "a.deepEqual(s.selected,m.cases.filter(r=>!deferred.includes(r.id)));"
@@ -441,7 +441,8 @@ public sealed class RunnerContractTests
                 + ".every(r=>s.selected.includes(r)));"
                 + "a.deepEqual(c.select(m,['--phase','4']).selected,m.cases.filter(r=>!ids.includes(r.id)));"
                 + "a.deepEqual(c.select(m,['--all']).selected,m.cases);"
-                + "a.deepEqual(c.select(m,['--phase','5']).selected,m.cases);"
+                + "a.deepEqual(c.select(m,['--phase','5']).selected,m.cases.filter(r=>!ids.includes(r.id)));"
+                + "a.deepEqual(c.select(m,['--phase','11']).selected,m.cases);"
                 + "a.deepEqual(c.select(m,['--list']).selected,m.cases);"
                 + "a.deepEqual(c.select(m,['--phase','1','--list']).selected,s.selected);"
                 + "a.equal(c.select(m,['--case','R-49.positive']).selected[0].id,'R-49.positive');"
@@ -449,7 +450,7 @@ public sealed class RunnerContractTests
                 + "console.log('PHASE_MEMBERSHIP_EXACT')";
         ProofProtocol.Node(script: script).Exit.ShouldBe(expected: 0);
         ProofProtocol.Record(id: "runner.phase-membership", diagnostic: "PHASE_MEMBERSHIP_EXACT",
-                location: "independent declarations: 676 Phase1, two Phase4, eight Phase5; exhaustive686");
+                location: "independent declarations: 676 Phase1, two Phase4, eight Phase11; exhaustive686");
     }
 
     /// <summary>Rejects malformed declarations even when their case would be outside the requested phase.</summary>
@@ -531,10 +532,13 @@ public sealed class RunnerContractTests
                 + "const m=require('./src/godot-game/tools/verification/required-cases.json'),row=m.cases[0];"
                 + "a.deepEqual(m.cases.filter(r=>Object.hasOwn(r,'childTimeoutMs'))"
                 + ".map(r=>[r.id,r.childTimeoutMs]).sort(),[['R-67.positive',60000],['ac-08.complete',75000],"
-                + "['engine.generated-boundary',120000],['rules.godot-companion-negative',60000]]);"
+                + "['edge.rule-03.adjacency',90000],['engine.generated-boundary',120000],"
+                + "['rules.generated-callsite-origin',90000],['rules.godot-companion-negative',60000],"
+                + "['rules.suppression-duplicate',90000]]);"
                 + "for(const [id,argument,outerMs] of [['ac-08.complete','75s',77000],"
                 + "['R-67.positive','60s',62000],['R-67.negative','45s',45000],"
-                + "['engine.generated-boundary','120s',122000],"
+                + "['edge.rule-03.adjacency','90s',92000],['engine.generated-boundary','120s',122000],"
+                + "['rules.generated-callsite-origin','90s',92000],['rules.suppression-duplicate','90s',92000],"
                 + "['rules.godot-companion-negative','60s',62000],"
                 + "['rules.godot-companion-positive','45s',45000]]){"
                 + "a.deepEqual(c.caseTimeout(m.cases.find(r=>r.id===id),m),{argument,outerMs})}"
@@ -567,7 +571,7 @@ public sealed class RunnerContractTests
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
         (int? Capacity, string Argument, int Outer)[] cases =
         [
-            (120000, "120s", 122000), (75000, "75s", 77000), (60000, "60s", 62000),
+            (120000, "120s", 122000), (90000, "90s", 92000), (75000, "75s", 77000), (60000, "60s", 62000),
             (null, "45s", 1800), (1, "1s", 3000),
         ];
         foreach ((int? Capacity, string Argument, int Outer) item in cases)

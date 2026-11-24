@@ -8,6 +8,7 @@ using Xunit;
 namespace KingdomZombies.Phase1.Tests;
 
 /// <summary>Rejects unauthorized work before mutation, including sequence high-water changes.</summary>
+[Trait("Tier", "1")]
 public sealed class FoundationLanOrderingTests
 {
     /// <summary>Invalid high sequences cannot suppress the next valid stop or reverse.</summary>

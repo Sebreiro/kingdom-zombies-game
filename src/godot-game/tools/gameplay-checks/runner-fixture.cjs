@@ -159,7 +159,13 @@ async function run(mode) {
     fs.writeFileSync(path.join(directory,'image.png'),'corrupt');
     rejects(()=>e.reconcile(selected,results,context),/IMAGE_HASH/);
     fs.unlinkSync(path.join(directory,'image.png'));rejects(()=>e.reconcile(selected,results,context),/ENOENT/);
-    rejects(()=>select({cases:selected},['--case','missing']),/SELECTION_EMPTY/);
+    const catalog={cases:selected};
+    assert.deepEqual(select(catalog,['--case','core.authority']).selected,[selected[1]]);
+    assert.deepEqual(select(catalog,['--case','core.authority,rendered.tracer']).selected,selected);
+    rejects(()=>select(catalog,['--case','missing']),/^Error: SELECTION_EMPTY$/);
+    rejects(()=>select(catalog,['--case','missing,absent']),/^Error: SELECTION_EMPTY$/);
+    rejects(()=>select(catalog,['--case','core.authority,missing']),/^Error: SELECTION_UNKNOWN$/);
+    rejects(()=>select(catalog,['--case','core.authority,core.authority']),/^Error: SELECTION_DUPLICATE$/);
     rejects(()=>select({cases:selected},['--all','--group','rendered']),/USAGE/);
     console.log('PASS empty, missing, duplicate, unknown, stale, corrupt, missing-image, traversal and invalid selection controls');
   } else if(mode==='processes') {
@@ -196,7 +202,7 @@ async function run(mode) {
     assert.equal(e.hash(fs.readFileSync(firstFile)),reference.sha256,'baseline mutated');
     const lockRoot=path.join(directory,'lock-root');fs.mkdirSync(lockRoot);
     // The desktop lock lives in the shared root; a temporary shared root keeps this control and its child off the real one.
-    await sharedRoot(path.join(lockRoot,'shared'),async()=>{
+    await sharedRoot(path.join(lockRoot,'.local'),async()=>{
       const unlock=acquireLock(lockRoot,context.nonce);
       try {
         const modulePath=path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs');

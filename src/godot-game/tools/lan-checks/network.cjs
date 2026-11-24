@@ -32,9 +32,11 @@ function launch(context,role,port,retainedRoot=null){
   const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
   const args=context.rendered?['--path',context.project??path.join(context.root,'src/godot-game/game'),'--rendering-method','gl_compatibility','--resolution','1280x720']
     :['--headless','--path',path.join(context.root,'src/godot-game/game')];
+  const userData=path.join(directory,'userdata');fs.mkdirSync(userData);
   const attestation=context.beforeGame?.(role,directory,engine);
   const child=spawn(engine,args,{cwd:context.root,windowsHide:!context.rendered,
-    env:{...(attestation?.env??context.env),PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
+    env:{...(attestation?.env??context.env),APPDATA:userData,LOCALAPPDATA:userData,
+      XDG_DATA_HOME:userData,XDG_CONFIG_HOME:userData,XDG_CACHE_HOME:userData,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
       PHASE3_ROLE:role,PHASE3_INPUT_DRIVER:context.rendered?"declared-per-event-external-driver":"synthetic-native-ParseInputEvent",PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
   context.watchChild?.(child,attestation);
   const peer={role,directory,profile,profileRoot,child,pid:child.pid,sequence:0,output:'',exit:null,error:null,budget:context.budget};

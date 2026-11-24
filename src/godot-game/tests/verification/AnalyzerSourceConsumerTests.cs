@@ -77,8 +77,16 @@ public sealed class AnalyzerSourceConsumerTests
         string directory = WorkspacePaths.Temp(purpose: "analyzer-source-" + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string project = Path.Combine(path1: directory, path2: "AnalyzerConsumer.csproj");
-        string sources = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools/code-rules").Replace(
+        string workspace = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game");
+        foreach (string policy in new[] { "Directory.Build.props", "Directory.Packages.props" })
+        {
+            File.Copy(sourceFileName: Path.Combine(path1: workspace, path2: policy),
+                    destFileName: Path.Combine(path1: directory, path2: policy));
+        }
+
+        string sources = Path.Combine(path1: workspace, path2: "tools/code-rules").Replace(
                 oldChar: '\\', newChar: '/');
+        const string Analyzer = "/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll";
         string xml = "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup>"
                 + "<TargetFramework>netstandard2.0</TargetFramework><EnforceExtendedAnalyzerRules>true"
                 + "</EnforceExtendedAnalyzerRules><IsRoslynComponent>true</IsRoslynComponent>"
@@ -86,7 +94,8 @@ public sealed class AnalyzerSourceConsumerTests
                 + "<PackageReference Include=\"Microsoft.CodeAnalysis.CSharp\"/>"
                 + "<PackageReference Include=\"Microsoft.CodeAnalysis.Analyzers\"/><Compile Include=\""
                 + sources + "/*.cs\"/><AdditionalFiles Include=\"" + sources
-                + "/AnalyzerReleases.*.md\"/></ItemGroup></Project>";
+                + "/AnalyzerReleases.*.md\"/><Analyzer Include=\"" + sources + Analyzer
+                + "\"/></ItemGroup></Project>";
         File.WriteAllText(path: project, contents: xml);
         return project;
     }

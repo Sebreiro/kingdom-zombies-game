@@ -176,6 +176,13 @@ try {
                 'probe' { }
                 'focus' { if ($null -ne $sink) { $sink.Hide() }; Focus-Owned $window }
                 'key' { Deliver-Key $subjectId $window $method ([int]$request.key) ([bool]$request.pressed) }
+                'tap' {
+                    if ($method -ne 'physical-SendInput') { throw 'DRIVER_TAP_METHOD' }
+                    $code=[int]$request.key
+                    Deliver-Key $subjectId $window $method $code $true
+                    Start-Sleep -Milliseconds 30
+                    Deliver-Key $subjectId $window $method $code $false
+                }
                 'reversal' {
                     if ($method -ne 'physical-SendInput' -or [LanDesktop]::GetForegroundWindow() -ne $window) { throw 'DRIVER_REVERSAL_FOCUS' }
                     Deliver-Key $subjectId $window $method ([int]$request.releaseKey) $false

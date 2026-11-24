@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using Godot;
@@ -9,6 +10,12 @@ namespace KingdomZombies.Foundation;
 /// <summary>Injects nonce-scoped synthetic native events, independently from read-only observations.</summary>
 internal static class FoundationAutomation
 {
+    internal static int Port(int fallback)
+    {
+        string? value = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PORT");
+        return value is null ? fallback : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
+    }
+
     internal static void Tick(Control root, MainThreadGateway gateway)
     {
         gateway.RequireThread();
@@ -42,7 +49,7 @@ internal static class FoundationAutomation
         File.Delete(path: file);
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents:
                 request.GetProperty(propertyName: "sequence").GetInt64().ToString(
-                        provider: System.Globalization.CultureInfo.InvariantCulture));
+                        provider: CultureInfo.InvariantCulture));
     }
 
     private static string? ReadRequest(string file)
