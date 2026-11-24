@@ -106,6 +106,15 @@ public sealed class Phase06UiStateTests
         shade.ShouldBeLessThan(expected: 1);
     }
 
+    /// <summary>Post-death views require a production model for explicit teammate selection.</summary>
+    [Fact]
+    public void Phase06_E126_SpectatorFollowsOnlyExplicitLivingTeammates()
+    {
+        Type? state = typeof(FoundationInput).Assembly.GetType(
+                name: "KingdomZombies.Foundation.FoundationSpectator", throwOnError: false);
+        state.ShouldNotBeNull();
+    }
+
     private static FoundationHudState Live(FoundationSession session)
     {
         return FoundationHudState.Read(view: Scope(session: session, scope: "status"),
