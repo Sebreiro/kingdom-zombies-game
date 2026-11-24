@@ -35,7 +35,7 @@ internal sealed class FoundationViewInbox
             return true;
         }
 
-        if (frame.Body is not { } header || frame.Scope is not "status" && Control?.generation != frame.Epoch)
+        if (frame.Body is not { } header || !MatchesPublicControl(envelope: envelope, frame: frame, header: header))
         {
             return false;
         }
@@ -63,16 +63,13 @@ internal sealed class FoundationViewInbox
 
     internal void ObservePublic(JsonElement world, long revision, string binding)
     {
-        if (!Views.TryGetValue(key: "status", value: out FoundationRunView? status) || revision < status.Revision)
-        {
-            return;
-        }
-
         string actual = world.GetProperty(propertyName: "Actors").EnumerateArray().Where(predicate: actor =>
                 StringComparer.Ordinal.Equals(x: Text(value: actor, name: "BindingId"), y: binding))
                 .Select(selector: actor => Text(value: actor, name: "Id")).FirstOrDefault() ?? "";
-        string expected = Text(value: status.Header, name: "SurvivorId");
-        if (!StringComparer.Ordinal.Equals(x: actual, y: expected))
+        _publicActor = actual;
+        _publicRevision = revision;
+        if (Views.TryGetValue(key: "status", value: out FoundationRunView? status) && revision >= status.Revision
+                && !StringComparer.Ordinal.Equals(x: actual, y: Text(value: status.Header, name: "SurvivorId")))
         {
             _controlFence = Math.Max(val1: _controlFence, val2: revision);
             ClearScope(scope: "status", serial: Floor(scope: "status"));
@@ -99,6 +96,8 @@ internal sealed class FoundationViewInbox
         _pending.Clear();
         _watermarks.Clear();
         _controlFence = 0;
+        _publicRevision = -1;
+        _publicActor = "";
     }
 
     internal void Disconnect(long revision)
@@ -113,6 +112,19 @@ internal sealed class FoundationViewInbox
     private readonly Dictionary<string, Stage> _pending = new(comparer: StringComparer.Ordinal);
     private readonly Dictionary<string, long> _watermarks = new(comparer: StringComparer.Ordinal);
     private long _controlFence;
+    private long _publicRevision = -1;
+    private string _publicActor = "";
+
+    private bool MatchesPublicControl(FoundationEnvelope envelope, FoundationRunFrame frame, JsonElement header)
+    {
+        if (frame.Scope is not "status")
+        {
+            return Control?.generation == frame.Epoch;
+        }
+
+        return envelope.Revision > _publicRevision || StringComparer.Ordinal.Equals(x: _publicActor,
+                y: Text(value: header, name: "SurvivorId"));
+    }
 
     private long Floor(string scope)
     {
@@ -233,7 +245,8 @@ internal sealed class FoundationViewInbox
         internal FoundationRunView Build()
         {
             return new FoundationRunView(revision: Revision, epoch: Epoch, token: Token,
-                    header: _header, rows: [.. _parts.SelectMany(selector: rows => rows)]);
+                    header: _header, rows: [.. _parts.SelectMany(selector: rows => rows)],
+                    correlation: _correlation, serial: Serial);
         }
 
         private readonly ImmutableArray<JsonElement>[] _parts;

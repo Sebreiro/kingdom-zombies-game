@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using KingdomZombies.Core;
@@ -34,15 +36,44 @@ public sealed class Phase06PublicationTests
                 .ShouldBe(expected: 2);
     }
 
-    /// <summary>The recipient can bind a corrected private readback to its original action.</summary>
+    /// <summary>Four roles receive only their own private data and the permitted current correction.</summary>
     [Fact]
     public void P02_CleanControl_PreservesPrivateAndLocalAccess()
     {
         var room = new Room();
+        FoundationCoordinator first = room.Join(sender: 2);
+        FoundationCoordinator second = room.Join(sender: 3);
+        CheckRecruitScopeRevoked(room: room, guest: first);
+        FoundationCoordinator remote = room.Guest(sender: 4);
+        Dictionary<int, long> secrets = SeedPrivateTrees(session: Session(coordinator: room.Host),
+                senders: [0, 2, 3, 4]);
+        CheckCachedPublicBaseline(room: room, guest: remote, secrets: secrets);
+        CheckPrivateWindows(room: room, secrets: secrets);
+        CheckStashCorrection(room: room, first: first, second: second);
+        CheckRemoteDenial(room: room, guest: remote, secrets: secrets);
+        room.History.Where(predicate: row => IsPublic(data: row.Payload)).All(predicate: row =>
+                PrivacyHolds(recipient: row.Peer, data: row.Payload, secrets: secrets, stashAllowed: false))
+                .ShouldBeTrue();
+    }
+
+    /// <summary>The same byte and permission assertion detects two deliberately inconsistent observations.</summary>
+    [Fact]
+    public void P02_ViolationControl_DetectsPrivateOrRemoteStashResult()
+    {
+        var room = new Room();
         FoundationCoordinator guest = room.Join(sender: 2);
-        FoundationRunView status = guest.ReadRunRender().ShouldNotBeNull().Views["status"];
-        status.GetType().GetProperty(name: "Correlation", bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic)
-                .ShouldNotBeNull();
+        Dictionary<int, long> secrets = SeedPrivateTrees(session: Session(coordinator: room.Host), senders: [2]);
+        FoundationRunView own = OpenDeepWindow(room: room, sender: 2, secret: secrets[2]);
+        own.Rows.Single().GetProperty(propertyName: "Id").GetInt64().ShouldBe(expected: secrets[2]);
+        byte[] privateBytes = LastScope(room: room, sender: 2, scope: "own");
+        PrivacyHolds(recipient: 2, data: privateBytes, secrets: secrets, stashAllowed: false).ShouldBeTrue();
+        PrivacyHolds(recipient: 3, data: privateBytes, secrets: secrets, stashAllowed: false).ShouldBeFalse();
+        ReachStash(room: room, guest: guest, sender: 2);
+        byte[] stashBytes = LastScope(room: room, sender: 2, scope: "external");
+        PrivacyHolds(recipient: 2, data: stashBytes, secrets: secrets, stashAllowed: true).ShouldBeTrue();
+        PrivacyHolds(recipient: 2, data: stashBytes, secrets: secrets, stashAllowed: false).ShouldBeFalse();
+        ProofProtocol.Record(id: "phase06.publication.p02-violation",
+                diagnostic: "MISROUTED_PRIVATE_BYTES_AND_UNAUTHORIZED_STASH_DETECTED");
     }
 
     /// <summary>Real page parts install together and are fenced after the guest loses stash access.</summary>
@@ -63,10 +94,14 @@ public sealed class Phase06PublicationTests
         room.Receive(sender: 2);
         byte[][] parts = HoldExternalPage(room: room, sender: 2);
         parts.Length.ShouldBeGreaterThan(expected: 1);
-        parts.Max(selector: bytes => bytes.Length).ShouldBeLessThanOrEqualTo(expected: FoundationProtocol.MaximumBytes);
+        int applicationMax = parts.Max(selector: bytes => bytes.Length);
+        int nativeMax = parts.Max(selector: bytes => FoundationWireFrame.Encode(payload: bytes).Length);
+        applicationMax.ShouldBeLessThanOrEqualTo(expected: FoundationProtocol.MaximumBytes);
+        nativeMax.ShouldBeLessThanOrEqualTo(expected: FoundationProtocol.MaximumBytes);
         room.Send(sender: 2, guest: guest);
         room.ReceivePart(sender: 2, guest: guest, data: parts[^1]);
         room.ReceivePart(sender: 2, guest: guest, data: parts[^1]);
+        CheckMalformedPart(room: room, guest: guest, data: parts[^1]);
         guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
         room.Exchange(sender: 2, guest: guest, elapsed: 16);
         foreach (byte[] part in parts.SkipLast(count: 1).Reverse())
@@ -77,6 +112,7 @@ public sealed class Phase06PublicationTests
         FoundationRunView open = guest.ReadRunRender().ShouldNotBeNull().Views["external"];
         open.Rows.Length.ShouldBe(expected: 4096);
         open.Rows.Select(selector: ItemId).Distinct().Count().ShouldBe(expected: 4096);
+        CheckPartTimeout(room: room, guest: guest, page: page, token: open.Token);
         guest.Submit(direction: -1).ShouldBeTrue();
         room.Exchange(sender: 2, guest: guest, elapsed: 1200);
         foreach (byte[] part in parts)
@@ -86,6 +122,67 @@ public sealed class Phase06PublicationTests
 
         guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
         guest.Ready.ShouldBeTrue();
+        string evidence = FormattableString.Invariant(
+                formattable: $"ROWS_4096_PARTS_{parts.Length}_APPLICATION_MAX_{applicationMax}_NATIVE_MAX_{nativeMax}");
+        ProofProtocol.Record(id: "phase06.publication.large-page", diagnostic: evidence);
+    }
+
+    /// <summary>A ready guest can wait while dead, then use the same connection with a new survivor epoch.</summary>
+    [Fact]
+    public void SpectatorRetainsConnectionAndNewControlRejectsTheOldEpoch()
+    {
+        var room = new Room();
+        FoundationCoordinator guest = room.Join(sender: 2);
+        _ = room.Join(sender: 3);
+        FoundationCoordinator leaving = room.Join(sender: 4);
+        ReachStash(room: room, guest: guest, sender: 2);
+        RetireOtherCandidates(room: room);
+        room.Send(sender: 2, guest: guest);
+        (string survivorId, long generation, long _) = guest.LocalRunControl.ShouldNotBeNull();
+        string actorToken = guest.LocalActor.ShouldNotBeNull().ActorId;
+        byte[] stale = LastScope(room: room, sender: 2, scope: "own");
+        KillGuest(room: room, guest: guest, survivor: survivorId);
+        guest.Ready.ShouldBeTrue();
+        guest.LocalRunControl.ShouldNotBeNull().generation.ShouldBe(expected: 0);
+        guest.ReadRunRender()?.Views.ContainsKey(key: "own").ShouldBe(expected: false);
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
+        guest.Update(elapsedMilliseconds: 500);
+        room.GuestPort(sender: 2).Sent.Any(predicate: row => row.Envelope.Kind is "ping").ShouldBeTrue();
+        _ = guest.SubmitRunAction(kind: "respawn", request: JsonSerializer.SerializeToElement(value: new object()))
+                .ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Waiting");
+        leaving.RequestClose();
+        room.Exchange(sender: 4, guest: leaving);
+        room.Send(sender: 2, guest: guest);
+        guest.LocalRunControl.ShouldNotBeNull().survivorId.ShouldBe(expected: "survivor-04");
+        guest.LocalRunControl.ShouldNotBeNull().generation.ShouldBeGreaterThan(expected: generation);
+        guest.LocalActor.ShouldNotBeNull().ActorId.ShouldBe(expected: actorToken);
+        room.ReceivePart(sender: 2, guest: guest, data: stale);
+        guest.ReadRunRender().ShouldNotBeNull().Views["own"].Epoch
+                .ShouldBe(expected: guest.LocalRunControl.ShouldNotBeNull().generation);
+        CheckOldEpochCannotAdvanceSequence(room: room, guest: guest, survivor: survivorId, generation: generation);
+        ProofProtocol.Record(id: "phase06.publication.spectator", diagnostic:
+                "READY_HEARTBEAT_WAITING_REBOUND_SAME_TRANSPORT_REJECTED_OLD_EPOCH");
+    }
+
+    /// <summary>Typed peer requests route jump, combat and food into the same authority.</summary>
+    [Fact]
+    public void GuestMotionAttackAndFoodTraverseTheGameplayWire()
+    {
+        var room = new Room();
+        FoundationCoordinator guest = room.Join(sender: 2);
+        FoundationSession session = Session(coordinator: room.Host);
+        string survivor = guest.LocalRunControl.ShouldNotBeNull().survivorId;
+        guest.SubmitRunMotion(direction: 0, sprint: false, jump: true).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        Phase06MeleeTests.Survivor(session: session, id: survivor).JumpStartedAt.ShouldBe(expected: 0);
+        Phase06MeleeTests.Enemy(session: session, id: "wire-target", x: -7500, health: 1);
+        _ = guest.SubmitRunAction(kind: "attack", request: JsonSerializer.SerializeToElement(value:
+                new { AimX = (double?)null, AimY = (double?)null })).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        Phase06DeathTests.Loot(session: session).Deaths.ContainsKey(key: "wire-target").ShouldBeTrue();
+        CheckGuestFood(room: room, guest: guest, session: session, survivor: survivor);
     }
 
     private static void CheckSolo()
@@ -189,6 +286,11 @@ public sealed class Phase06PublicationTests
 
     private static JsonElement Backpack(JsonElement source, string owner, long token)
     {
+        return Equipment(source: source, owner: owner, slot: "backpack", token: token);
+    }
+
+    private static JsonElement Equipment(JsonElement source, string owner, string slot, long token)
+    {
         return JsonSerializer.SerializeToElement(value: new
         {
             Item = new { Id = ItemId(item: source), Stamp = source.GetProperty(propertyName: "Stamp").GetString() },
@@ -197,7 +299,7 @@ public sealed class Phase06PublicationTests
             {
                 Kind = "equipment",
                 TargetId = owner,
-                Slot = "backpack",
+                Slot = slot,
                 GridId = (long?)null,
                 X = (int?)null,
                 Y = (int?)null,
@@ -211,6 +313,179 @@ public sealed class Phase06PublicationTests
     private static long ItemId(JsonElement item)
     {
         return item.GetProperty(propertyName: "Id").GetInt64();
+    }
+
+    private static void CheckRecruitScopeRevoked(Room room, FoundationCoordinator guest)
+    {
+        _ = guest.SubmitRunAction(kind: "select", request: JsonSerializer.SerializeToElement(value:
+                new { TargetKind = "Npc", TargetId = "survivor-04" })).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        byte[] recruit = LastScope(room: room, sender: 2, scope: "external");
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: true);
+        _ = room.Join(sender: 4);
+        room.Send(sender: 2, guest: guest);
+        room.ReceivePart(sender: 2, guest: guest, data: recruit);
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
+    }
+
+    private static void CheckPrivateWindows(Room room, Dictionary<int, long> secrets)
+    {
+        room.Host.RequestRunWindows(ownGrid: secrets[0] - 1, externalGrid: null).ShouldBeTrue();
+        room.Host.ReadRunRender().ShouldNotBeNull().Views["own"].Rows.Single()
+                .GetProperty(propertyName: "Id").GetInt64().ShouldBe(expected: secrets[0]);
+        foreach (int sender in new[] { 2, 3, 4 })
+        {
+            FoundationRunView own = OpenDeepWindow(room: room, sender: sender, secret: secrets[sender]);
+            own.Rows.Single().GetProperty(propertyName: "Id").GetInt64().ShouldBe(expected: secrets[sender]);
+            foreach (int recipient in new[] { 2, 3, 4 })
+            {
+                PrivacyHolds(recipient: recipient, data: LastScope(room: room, sender: sender, scope: "own"),
+                        secrets: secrets, stashAllowed: false).ShouldBe(expected: recipient == sender);
+            }
+        }
+    }
+
+    private static void CheckCachedPublicBaseline(Room room, FoundationCoordinator guest,
+            Dictionary<int, long> secrets)
+    {
+        byte[] initial = room.History.First(predicate: row => row.Peer == 4
+                && FoundationProtocol.Decode(bytes: row.Payload).Kind is "baseline").Payload;
+        FoundationEnvelope hello = room.GuestPort(sender: 4).Sent.First(predicate: row =>
+                row.Envelope.Kind is "hello").Envelope;
+        room.HostPort.Enqueue(sender: 4, envelope: hello);
+        room.Exchange(sender: 4, guest: guest);
+        byte[] replay = room.History.Last(predicate: row => row.Peer == 4
+                && FoundationProtocol.Decode(bytes: row.Payload).Kind is "baseline").Payload;
+        replay.ShouldBe(expected: initial);
+        PrivacyHolds(recipient: 4, data: replay, secrets: secrets, stashAllowed: false).ShouldBeTrue();
+        guest.Ready.ShouldBeTrue();
+    }
+
+    private static FoundationRunView OpenDeepWindow(Room room, int sender, long secret)
+    {
+        FoundationCoordinator guest = room.Guest(sender: sender);
+        guest.RequestRunWindows(ownGrid: secret - 2, externalGrid: null).ShouldBeTrue();
+        room.Exchange(sender: sender, guest: guest);
+        guest.ReadRunRender().ShouldNotBeNull().Views["own"].Rows.Single().GetProperty(propertyName: "Id")
+                .GetInt64().ShouldBe(expected: secret - 1);
+        guest.RequestRunWindows(ownGrid: secret - 1, externalGrid: null).ShouldBeTrue();
+        room.Exchange(sender: sender, guest: guest);
+        FoundationRunReadback readback = guest.ReadRunRender().ShouldNotBeNull();
+        FoundationRunView own = readback.Views["own"];
+        own.Correlation.ShouldBe(expected: readback.Feedback.ShouldNotBeNull().sequence);
+        own.Serial.ShouldBeGreaterThan(expected: 0);
+        return own;
+    }
+
+    private static void CheckStashCorrection(Room room, FoundationCoordinator first, FoundationCoordinator second)
+    {
+        ReachStash(room: room, guest: first, sender: 2);
+        ReachStash(room: room, guest: second, sender: 3);
+        FoundationRunView open = first.ReadRunRender().ShouldNotBeNull().Views["external"];
+        JsonElement club = open.Rows.First(predicate: row => row.GetProperty(propertyName: "DefinitionId")
+                .GetString() is "IT-04");
+        long otherToken = second.ReadRunRender().ShouldNotBeNull().Views["external"].Token;
+        string firstOwner = first.LocalRunControl.ShouldNotBeNull().survivorId;
+        string secondOwner = second.LocalRunControl.ShouldNotBeNull().survivorId;
+        (long sequence, string status) winner = first.SubmitRunAction(kind: "place", request:
+                Equipment(source: club, owner: firstOwner, slot: "right-hand", token: open.Token)).ShouldNotBeNull();
+        byte[] retry = room.GuestPort(sender: 2).WireSent.Last().Payload;
+        room.Exchange(sender: 2, guest: first);
+        first.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Applied");
+        room.HostPort.Raw(sender: 2, payload: retry);
+        room.Exchange(sender: 2, guest: first);
+        first.RunActionFeedback.ShouldNotBeNull().ShouldBe(expected: (winner.sequence, "Applied", true));
+        (long sequence, string status) loser = second.SubmitRunAction(kind: "place", request:
+                Equipment(source: club, owner: secondOwner, slot: "right-hand", token: otherToken)).ShouldNotBeNull();
+        room.Exchange(sender: 3, guest: second);
+        FoundationRunReadback corrected = second.ReadRunRender().ShouldNotBeNull();
+        corrected.Feedback.ShouldBe(expected: (loser.sequence, "AccessLost", false));
+        corrected.Views["external"].Correlation.ShouldBe(expected: loser.sequence);
+        corrected.Views["external"].Rows.Any(predicate: row => ItemId(item: row) == ItemId(item: club)).ShouldBeFalse();
+    }
+
+    private static void CheckRemoteDenial(Room room, FoundationCoordinator guest, Dictionary<int, long> secrets)
+    {
+        (long sequence, string status) request = guest.SubmitRunAction(kind: "select", request: StashSelection())
+                .ShouldNotBeNull();
+        room.Exchange(sender: 4, guest: guest);
+        FoundationRunReadback readback = guest.ReadRunRender().ShouldNotBeNull();
+        readback.Feedback.ShouldBe(expected: (request.sequence, "AccessLost", false));
+        readback.Views.ContainsKey(key: "external").ShouldBeFalse();
+        room.History.Where(predicate: row => row.Peer == 4).All(predicate: row =>
+                PrivacyHolds(recipient: 4, data: row.Payload, secrets: secrets, stashAllowed: false)).ShouldBeTrue();
+        ProofProtocol.Record(id: "phase06.publication.p02-clean", diagnostic:
+                "FOUR_ROLES_REMOTE_STASH_ACCESS_LOST_STALE_TRANSFER_ACCESS_LOST_PRIVATE_BYTES_SCOPED");
+    }
+
+    private static void ReachStash(Room room, FoundationCoordinator guest, int sender)
+    {
+        guest.Submit(direction: 1).ShouldBeTrue();
+        room.Exchange(sender: sender, guest: guest, elapsed: 2000);
+        guest.Submit(direction: 0).ShouldBeTrue();
+        _ = guest.SubmitRunAction(kind: "select", request: StashSelection()).ShouldNotBeNull();
+        room.Exchange(sender: sender, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Ready");
+    }
+
+    private static bool PrivacyHolds(int recipient, byte[] data, Dictionary<int, long> secrets, bool stashAllowed)
+    {
+        FoundationEnvelope envelope = FoundationProtocol.Decode(bytes: data);
+        string text = Encoding.UTF8.GetString(bytes: data);
+        if (envelope.Game is { Scope: "external", Body: { } header }
+                && header.GetProperty(propertyName: "Kind").GetString() is "Stash" && !stashAllowed)
+        {
+            return false;
+        }
+
+        return secrets.All(predicate: entry => !text.Contains(value: entry.Value.ToString(
+                provider: CultureInfo.InvariantCulture), comparisonType: StringComparison.Ordinal)
+                || entry.Key == recipient && envelope.Game?.Scope is "own")
+                && (!IsPublic(data: data) || !text.Contains(value: "\"Quantity\"",
+                        comparisonType: StringComparison.Ordinal));
+    }
+
+    private static bool IsPublic(byte[] data)
+    {
+        return FoundationProtocol.Decode(bytes: data).Kind is "state" or "baseline" or "action-result"
+                or "ping" or "end" or "reject";
+    }
+
+    private static byte[] LastScope(Room room, int sender, string scope)
+    {
+        return room.History.Last(predicate: row => row.Peer == sender
+                && FoundationProtocol.Decode(bytes: row.Payload) is { Kind: "view-part", Game: { } game }
+                && StringComparer.Ordinal.Equals(x: game.Scope, y: scope)).Payload;
+    }
+
+    private static Dictionary<int, long> SeedPrivateTrees(FoundationSession session, int[] senders)
+    {
+        Dictionary<int, long> markers = senders.ToDictionary(keySelector: sender => sender,
+                elementSelector: sender => 6000000002L + 100 * sender);
+        session.TryEditInventory(edit: (inventory, definitions, _) => inventory.WithItems(items:
+                [.. inventory.Items, .. markers.SelectMany(selector: mark => Pack(definitions: definitions,
+                        sender: mark.Key, secret: mark.Value))], nextItemId: markers.Values.Max() + 1)).ShouldBeTrue();
+        return markers;
+    }
+
+    private static RunInventory.Item[] Pack(RunDefinitions definitions, int sender, long secret)
+    {
+        string owner = FormattableString.Invariant(formattable: $"survivor-{Math.Max(val1: sender, val2: 1):D2}");
+        RunDefinitions.Item pack = definitions.Items["IT-23"];
+        RunDefinitions.Item pouch = definitions.Items["IT-22"];
+        RunDefinitions.Item coins = definitions.Items["IT-01"];
+        return
+        [
+            new RunInventory.Item(id: secret - 2, definitionId: pack.Id, quantity: 1, condition: null,
+                    location: new RunInventory.Equipment(survivorId: owner, slot: "backpack"),
+                    storageGrid: pack.Storage),
+            new RunInventory.Item(id: secret - 1, definitionId: pouch.Id, quantity: 1, condition: null,
+                    location: RunItemTransfer.Container(definition: pouch, containerId: secret - 2, x: 0, y: 0),
+                    storageGrid: pouch.Storage),
+            new RunInventory.Item(id: secret, definitionId: coins.Id, quantity: 40 + sender, condition: null,
+                    location: RunItemTransfer.Container(definition: coins, containerId: secret - 1, x: 0, y: 0),
+                    storageGrid: null),
+        ];
     }
 
     private static JsonElement StashSelection()
@@ -272,22 +547,140 @@ public sealed class Phase06PublicationTests
         return envelope.Kind is "view-part" && envelope.Game?.Scope is "external";
     }
 
+    private static void CheckPartTimeout(Room room, FoundationCoordinator guest, int page, long token)
+    {
+        _ = guest.SubmitRunAction(kind: "browse", request:
+                JsonSerializer.SerializeToElement(value: new { Token = token, Page = page })).ShouldNotBeNull();
+        room.Receive(sender: 2);
+        byte[][] parts = HoldExternalPage(room: room, sender: 2);
+        parts.Length.ShouldBeGreaterThan(expected: 1);
+        room.Send(sender: 2, guest: guest);
+        room.ReceivePart(sender: 2, guest: guest, data: parts[0]);
+        room.Time += 5000;
+        guest.Update(elapsedMilliseconds: 0);
+        foreach (byte[] part in parts)
+        {
+            room.ReceivePart(sender: 2, guest: guest, data: part);
+        }
+
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
+    }
+
+    private static void CheckMalformedPart(Room room, FoundationCoordinator guest, byte[] data)
+    {
+        JsonNode root = JsonNode.Parse(utf8Json: data).ShouldNotBeNull();
+        root["Game"].ShouldNotBeNull()["Parts"] = FoundationProtocol.MaximumViewParts + 1;
+        byte[] invalid = JsonSerializer.SerializeToUtf8Bytes(value: root);
+        long rejected = guest.RejectedPackets;
+        room.ReceivePart(sender: 2, guest: guest, data: invalid);
+        guest.RejectedPackets.ShouldBe(expected: rejected + 1);
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
+    }
+
+    private static void RetireOtherCandidates(Room room)
+    {
+        room.Host.Submit(direction: -1).ShouldBeTrue();
+        foreach (int sender in new[] { 3, 4 })
+        {
+            room.Guest(sender: sender).Submit(direction: -1).ShouldBeTrue();
+            room.Receive(sender: sender);
+        }
+
+        room.Receive(sender: 2, elapsed: 1000);
+        FoundationSession session = Session(coordinator: room.Host);
+        Phase06MeleeTests.Enemy(session: session, id: "wire-left", x: -7500);
+        _ = Phase06MeleeTests.Equip(session: session, id: "IT-03", slot: "left-hand", owner: "wire-left");
+        _ = Phase06MeleeTests.Equip(session: session, id: "IT-04", slot: "right-hand", owner: "wire-left");
+        foreach (RunPopulation.Survivor candidate in session.Population.Candidates())
+        {
+            session.TryUpdateVitals(survivorId: candidate.Id, health: 1, stamina: 100).ShouldBeTrue();
+        }
+
+        for (long sequence = 1; sequence <= 2; sequence++)
+        {
+            session.AttackUncontrolled(survivorId: "wire-left", sequence: sequence).Hits
+                    .Count(predicate: hit => hit.Lethal).ShouldBe(expected: 2);
+            room.Receive(sender: 2, elapsed: 1000);
+        }
+
+        session.Population.Candidates().ShouldBeEmpty();
+    }
+
+    private static void KillGuest(Room room, FoundationCoordinator guest, string survivor)
+    {
+        FoundationSession session = Session(coordinator: room.Host);
+        Phase06MeleeTests.Enemy(session: session, id: "wire-killer", x: -1500);
+        session.TryUpdateVitals(survivorId: survivor, health: 1, stamina: 100).ShouldBeTrue();
+        session.AttackUncontrolled(survivorId: "wire-killer", sequence: 1).Hits.Single().Lethal.ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest, elapsed: 1000);
+    }
+
+    private static void CheckOldEpochCannotAdvanceSequence(Room room, FoundationCoordinator guest, string survivor,
+            long generation)
+    {
+        FoundationEnvelope previouslySent = room.GuestPort(sender: 2).Sent.Last(predicate: row =>
+                row.Envelope.Kind is "action" && row.Envelope.Game?.Action is "move").Envelope;
+        var stale = new FoundationEnvelope(kind: "action", sessionId: previouslySent.SessionId,
+                playerId: previouslySent.PlayerId, actorId: previouslySent.ActorId,
+                bindingId: previouslySent.BindingId, attemptId: previouslySent.AttemptId, sequence: 1000,
+                game: previouslySent.Game.ShouldNotBeNull() with { Survivor = survivor, Epoch = generation });
+        long accepted = room.Host.AcceptedIntents;
+        room.HostPort.Enqueue(sender: 2, envelope: stale);
+        room.Exchange(sender: 2, guest: guest);
+        room.HostPort.Sent.Last(predicate: row => row.Envelope.Kind is "action-result").Envelope.Game?.Status
+                .ShouldBe(expected: "AccessLost");
+        room.Host.AcceptedIntents.ShouldBe(expected: accepted);
+        guest.Submit(direction: 1).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest, elapsed: 100);
+        room.Host.AcceptedIntents.ShouldBe(expected: accepted + 1);
+    }
+
+    private static void CheckGuestFood(Room room, FoundationCoordinator guest, FoundationSession session,
+            string survivor)
+    {
+        RunInventory.Item pocket = session.Inventory.Equipped(survivorId: survivor, slot: "legs").ShouldNotBeNull();
+        RunDefinitions.Item rule = session.Definitions.Items["IT-10"];
+        long id = session.Inventory.NextItemId;
+        var food = new RunInventory.Item(id: id, definitionId: rule.Id, quantity: 2, condition: null,
+                location: RunItemTransfer.Container(definition: rule, containerId: pocket.Id, x: 0, y: 0),
+                storageGrid: null);
+        session.TryEditInventory(edit: (inventory, _, _) => inventory.WithItems(
+                items: inventory.Items.Add(item: food), nextItemId: id + 1)).ShouldBeTrue();
+        session.TryUpdateVitals(survivorId: survivor, health: 50, stamina: 100).ShouldBeTrue();
+        guest.RequestRunWindows(ownGrid: pocket.Id, externalGrid: null).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        JsonElement item = guest.ReadRunRender().ShouldNotBeNull().Views["own"].Rows.Single();
+        _ = guest.SubmitRunAction(kind: "food", request: JsonSerializer.SerializeToElement(value: new
+        {
+            Item = new { Id = id, Stamp = item.GetProperty(propertyName: "Stamp").GetString() },
+            QuickSlot = (int?)null,
+        })).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Consumed");
+        session.Inventory.Find(itemId: id)?.Quantity.ShouldBe(expected: 1);
+    }
+
     private sealed class Room
     {
         internal Room(Func<string, int, byte[]?>? read = null)
         {
-            Host = new FoundationCoordinator(playerId: "host", label: "Host", connection: HostPort);
+            Host = new FoundationCoordinator(playerId: "host", label: "Host", connection: HostPort,
+                    nowMilliseconds: () => Time);
             Host.Start(host: true, read: read);
         }
 
         internal FoundationHarnessConnection HostPort { get; } = new();
         internal FoundationCoordinator Host { get; }
+        internal List<(int Peer, byte[] Payload, bool Reliable)> History { get; } = [];
+        internal long Time { get; set; }
 
         internal FoundationCoordinator Join(int sender)
         {
             var port = new FoundationHarnessConnection();
             _ports.Add(key: sender, value: port);
-            var guest = new FoundationCoordinator(playerId: "guest" + sender, label: "Guest", connection: port);
+            var guest = new FoundationCoordinator(playerId: "guest" + sender, label: "Guest", connection: port,
+                    nowMilliseconds: () => Time);
+            _guests.Add(key: sender, value: guest);
             guest.Join(address: "test-local", port: 24680);
             for (int pulse = 0; pulse < 3; pulse++)
             {
@@ -296,6 +689,16 @@ public sealed class Phase06PublicationTests
 
             guest.Ready.ShouldBeTrue();
             return guest;
+        }
+
+        internal FoundationCoordinator Guest(int sender)
+        {
+            return _guests[sender];
+        }
+
+        internal FoundationHarnessConnection GuestPort(int sender)
+        {
+            return _ports[sender];
         }
 
         internal void Exchange(int sender, FoundationCoordinator guest, long elapsed = 0)
@@ -314,15 +717,17 @@ public sealed class Phase06PublicationTests
             }
 
             port.WireSent.Clear();
+            Time += elapsed;
             Host.Update(elapsedMilliseconds: elapsed);
         }
 
         internal void Send(int sender, FoundationCoordinator guest)
         {
-            foreach ((int _, byte[] data, bool _) in HostPort.WireSent.Where(
+            foreach ((int peer, byte[] data, bool reliable) in HostPort.WireSent.Where(
                     predicate: packet => packet.Peer == sender))
             {
                 _ports[sender].Raw(sender: 1, payload: data);
+                History.Add(item: (peer, data, reliable));
             }
 
             _ = HostPort.WireSent.RemoveAll(match: packet => packet.Peer == sender);
@@ -336,5 +741,6 @@ public sealed class Phase06PublicationTests
         }
 
         private readonly Dictionary<int, FoundationHarnessConnection> _ports = [];
+        private readonly Dictionary<int, FoundationCoordinator> _guests = [];
     }
 }

@@ -90,6 +90,7 @@ internal sealed partial class FoundationCoordinator
         }
 
         _lastResponse = Now();
+        RefreshGuestReadback();
     }
 
     private void ReceiveHostEnd(FoundationEnvelope envelope)
@@ -124,6 +125,16 @@ internal sealed partial class FoundationCoordinator
         {
             RejectedPackets++;
         }
+
+        RefreshGuestReadback();
+    }
+
+    private void RefreshGuestReadback()
+    {
+        _guestRunReadback = Ready && _remote is { } roster
+                ? new FoundationRunReadback(roster: roster, world: _remoteWorld, views: _runInbox.Views,
+                        feedback: RunActionFeedback)
+                : null;
     }
 
     private bool IsCurrentHostMessage(FoundationEnvelope envelope)

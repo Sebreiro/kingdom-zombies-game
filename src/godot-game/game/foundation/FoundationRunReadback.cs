@@ -8,14 +8,17 @@ namespace KingdomZombies.Foundation;
 internal sealed class FoundationRunReadback
 {
     internal FoundationRunReadback(FoundationSnapshot roster, JsonElement? world,
-            ImmutableDictionary<string, FoundationRunView> views)
+            ImmutableDictionary<string, FoundationRunView> views, (long sequence, string status, bool replayed)?
+                    feedback)
     {
         Roster = roster;
         World = world;
         Views = views;
+        Feedback = feedback;
     }
 
     internal FoundationSnapshot Roster { get; }
     internal JsonElement? World { get; }
     internal ImmutableDictionary<string, FoundationRunView> Views { get; }
+    internal (long sequence, string status, bool replayed)? Feedback { get; }
 }

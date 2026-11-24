@@ -47,6 +47,7 @@ internal sealed partial class FoundationCoordinator
                         sequence: sequence, request: request, status: outcome.status);
             }
 
+            RunActionFeedback = (sequence, outcome.status, outcome.replayed);
             return (sequence, outcome.status);
         }
 
@@ -56,15 +57,15 @@ internal sealed partial class FoundationCoordinator
 
     internal FoundationRunReadback? ReadRunRender()
     {
+        if (_session is null)
+        {
+            return _guestRunReadback;
+        }
+
         FoundationSnapshot? roster = Snapshot;
         if (roster is null || !Ready)
         {
             return null;
-        }
-
-        if (_session is null)
-        {
-            return new FoundationRunReadback(roster: roster, world: _remoteWorld, views: _runInbox.Views);
         }
 
         if (ReadRunPublic() is not { } world || ReadBoundRunViews(sender: 0, ownGrid: _localOwnGrid,
@@ -77,7 +78,7 @@ internal sealed partial class FoundationCoordinator
                 views: local.views.ToImmutableDictionary(keySelector: view => view.scope,
                         elementSelector: view => new FoundationRunView(revision: local.revision, epoch:
                                 view.generation, token: view.token, header: view.header, rows: view.rows),
-                        keyComparer: StringComparer.Ordinal));
+                        keyComparer: StringComparer.Ordinal), feedback: RunActionFeedback);
     }
 
     internal bool RequestRunWindows(long? ownGrid, long? externalGrid)
@@ -89,6 +90,13 @@ internal sealed partial class FoundationCoordinator
 
         if (IsHost)
         {
+            if (ReadBoundRunViews(sender: 0, ownGrid: ownGrid, externalGrid: externalGrid) is not { } capture
+                    || !MatchesWindow(views: capture.views, scope: "own", requested: ownGrid)
+                    || !MatchesWindow(views: capture.views, scope: "external", requested: externalGrid))
+            {
+                return false;
+            }
+
             _localOwnGrid = ownGrid;
             _localExternalGrid = externalGrid;
             return true;
@@ -101,6 +109,7 @@ internal sealed partial class FoundationCoordinator
     private readonly FoundationViewInbox _runInbox = new();
     private readonly List<(int sender, FoundationEnvelope envelope)> _respawnPoll = [];
     private JsonElement? _remoteWorld;
+    private volatile FoundationRunReadback? _guestRunReadback;
     private long? _localOwnGrid;
     private long? _localExternalGrid;
 

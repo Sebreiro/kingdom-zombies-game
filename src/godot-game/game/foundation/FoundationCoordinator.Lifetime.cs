@@ -48,6 +48,7 @@ internal sealed partial class FoundationCoordinator
         {
             _runInbox.Disconnect(revision: _remote?.Revision ?? 0);
             _remoteWorld = null;
+            _guestRunReadback = null;
         }
 
         if (_session is not null)
@@ -115,6 +116,7 @@ internal sealed partial class FoundationCoordinator
         }
 
         _active = false;
+        _guestRunReadback = null;
         _lifetime = checked(_lifetime + 1);
         _session?.Close();
         SendDeparture();
