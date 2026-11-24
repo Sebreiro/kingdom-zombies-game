@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using KingdomZombies.Core;
 using Shouldly;
 using Xunit;
@@ -65,6 +66,21 @@ public sealed class Phase06SnapshotTests
         empty.Inventory.Items.IsEmpty.ShouldBeTrue();
         empty.Inventory.NextItemId.ShouldBe(expected: next);
         empty.UnderInventoryAuthority(action: root => root?.Combat.Arrows.IsEmpty).ShouldBe(expected: true);
+    }
+
+    /// <summary>Duplicate fields cannot replace the active root, even with the same value.</summary>
+    [Fact]
+    public void Phase06_E122_RejectsAmbiguousRecordsWithoutChangingTheRoot()
+    {
+        FoundationSession session = Phase06InventoryTests.Start();
+        byte[] baseline = session.CaptureRunSnapshot();
+        byte[] duplicate = Encoding.UTF8.GetBytes(s:
+                Encoding.UTF8.GetString(bytes: baseline).Insert(startIndex: 1, value: "\"Version\":1,"));
+        FoundationSession.RunPublication? before = session.UnderInventoryAuthority(action: root => root);
+        session.TryRestoreRunSnapshot(data: duplicate, error: out string? error).ShouldBeFalse();
+        error.ShouldNotBeNullOrEmpty();
+        session.UnderInventoryAuthority(action: root => root).ShouldBeSameAs(expected: before);
+        session.CaptureRunSnapshot().ShouldBe(expected: baseline);
     }
 
     /// <summary>Precise state and whole quantities survive through detached bytes.</summary>
