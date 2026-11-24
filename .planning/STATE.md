@@ -6,11 +6,11 @@ current_phase: 06
 current_phase_name: Survivors, inventory, and combat
 current_plan: 15
 status: executing
-stopped_at: "Plan 06-14 passed. Execution continues on 06-15."
-last_updated: "2026-11-24T21:42:58Z"
+stopped_at: "06-15 checkpoint: initial phase-end run failed; awaiting repairs and re-review"
+last_updated: "2026-11-24T23:53:51.288Z"
 last_activity: 2026-11-24
 last_activity_desc: Plan 06-14 verified the Release package and clean whole-phase source review
-state_head: 93675ffd62b5867d3ba7046fe3c8ea3d8522f518
+state_head: 74334799ef7332907971b362f7fd972c225a8f35
 progress:
   total_phases: 12
   completed_phases: 5
@@ -218,6 +218,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 - [Process history] WINDOWS item 1 retains the missing original bootstrap RED record; later successful evidence does not recreate it. All original plan reports and failed attempts remain historical records. One-shot refactoring/binding utilities must not be reapplied.
 - [Release] Reference-PC hardware and required real mixed-OS LAN/endurance environments need actual recording and measurements before release acceptance.
 - [Phase 3 diagnostics] The completion CLI reports six supposed missing file references in 03-01-SUMMARY: four are executable command strings, and two are phase-relative `tdd/03-01-task*-red.json` paths. Both actual phase-local RED files exist. Independent verification checked the real artifacts and source links; the generic summary-path diagnostic remains disclosed without changing immutable summary metadata.
+- 06-15: initial phase-end run ee17949e on a9ac95f failed (66 pass, 39 fail, 18 blocked of 123; both Critical smoke cases failed). Repairs F1-F13 in 06-RENDERED-EVIDENCE.md change reviewed source and need a fresh independent review, a --failed rerun and a full selected-set rerun.
 
 ### Quick Tasks Completed
 
@@ -248,9 +249,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-24T21:42:58Z
-Stopped at: [Plan 06-14](phases/06-survivors-inventory-and-combat/06-14-SUMMARY.md) passed on `17fb851`.
-Resume file: [06-15-PLAN.md](phases/06-survivors-inventory-and-combat/06-15-PLAN.md)
+Last session: 2026-11-24T23:53:50.696Z
+Stopped at: 06-15 checkpoint: initial phase-end run failed; awaiting repairs and re-review
+Resume file: [06-VERIFICATION.md](phases/06-survivors-inventory-and-combat/06-VERIFICATION.md), with the failure causes in [06-RENDERED-EVIDENCE.md](phases/06-survivors-inventory-and-combat/06-RENDERED-EVIDENCE.md)
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
