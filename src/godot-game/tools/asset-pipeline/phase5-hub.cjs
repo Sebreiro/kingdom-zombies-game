@@ -17,6 +17,7 @@ const SEARCH = BROWSER + '/Search';
 const RESOURCES = BROWSER + '/Resources';
 const DETAILS = WORKSPACE + '/Preview/Actions/Details';
 const METADATA = WORKSPACE + '/Preview/Metadata';
+const WORLD_SCROLL_BAR = WORKSPACE + '/Preview/Surface/Current/WorldItems/InspectorScroll/_v_scroll';
 const TITLE = 'KingdomZombies — Resource inspection';
 const PARTIAL = 'Partial — validated bytes; native/visual/listening acceptance pending';
 const categories = [
@@ -85,7 +86,9 @@ function checkpoints() {
         } else if (step.openMenu) {
           await chooseIndex(driver, step.control, 1);
         } else {
+          if (step.id === 'death-retired') await driver.click(WORLD_SCROLL_BAR, {scrollPage:-1});
           await driver.click(step.control);
+          await driver.click(WORLD_SCROLL_BAR, {scrollPage:1});
         }
       }
     }))

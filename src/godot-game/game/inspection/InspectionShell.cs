@@ -24,6 +24,11 @@ internal sealed class InspectionShell
         _root.GetNode(path: "Shell/Workspace").AddChild(node: scroll);
         browser.Reparent(newParent: scroll, keepGlobalTransform: false);
         browser.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+        browser.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+        _root.GetNode<Control>(path: Preview + "/Surface").ClipContents = true;
+        Control failures = _root.GetNode<Control>(path: Preview + "/Failures");
+        failures.CustomMinimumSize = new Vector2(x: 0, y: 48);
+        failures.SizeFlagsVertical = Control.SizeFlags.Fill;
         var transport = new HFlowContainer { Name = "Transport" };
         _root.GetNode(path: Preview).AddChild(node: transport);
         _root.GetNode(path: Preview).MoveChild(childNode: transport, toIndex: 2);
@@ -68,8 +73,25 @@ internal sealed class InspectionShell
         workspace.MoveChild(childNode: workspace.GetNode(path: "Preview"), toIndex: compact ? 1 : 2);
         workspace.MoveChild(childNode: controls, toIndex: compact ? 2 : 1);
         _root.GetNode<Control>(path: "Summary").Size = new Vector2(x: viewport.X - 48, y: 160);
-        _root.GetNode<Sprite2D>(path: "Bow").Position = _root.GetNode<Control>(path: Preview + "/Surface")
-                .GetGlobalRect().GetCenter();
+        Control surface = _root.GetNode<Control>(path: Preview + "/Surface");
+        _root.GetNode<Sprite2D>(path: "Bow").Position = surface.GetGlobalRect().GetCenter();
+        foreach (Node page in surface.GetNode(path: "Current").GetChildren())
+        {
+            foreach (ScrollContainer scroll in page.GetChildren().OfType<ScrollContainer>())
+            {
+                Vector2 available = surface.Size - scroll.Position;
+                scroll.CustomMinimumSize = Vector2.Zero;
+                scroll.Size = new Vector2(x: Math.Max(val1: 1, val2: available.X),
+                        y: Math.Max(val1: 1, val2: available.Y));
+            }
+
+            if (page.Name == "DataText" && page.GetNodeOrNull<VBoxContainer>(path: "Body") is { } body
+                    && body.GetNodeOrNull<TextEdit>(path: "Detail") is { } detail)
+            {
+                detail.CustomMinimumSize = Vector2.Zero;
+                body.Size = surface.Size - body.Position * 2;
+            }
+        }
     }
 
     internal void Tick(double delta)
@@ -221,6 +243,8 @@ internal sealed class InspectionShell
     {
         _gateway.RequireThread();
         bool available = _samples.Length > 0;
+        _root.GetNode<Control>(path: Preview + "/Transport").Visible = available;
+        _root.GetNode<Label>(path: Preview + "/Sample").Visible = available;
         _root.GetNode<Button>(path: Preview + "/Transport/Play").Text = _playing ? "Pause preview" : "Play preview";
         _root.GetNode<Button>(path: Preview + "/Transport/Play").Disabled = !available;
         _root.GetNode<Button>(path: Preview + "/Transport/Step").Disabled = !available || _playing;

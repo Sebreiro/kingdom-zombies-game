@@ -1238,7 +1238,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
   }
   // Phase 5 resolves controls from the owned live scene instead of a Phase 4 driver declaration.
-  async function clickControl(node, {firstRow=false}={}) {
+  async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
     const position = {node,property:'global_position'};
     const size = {node,property:'size'};
     const ancestors = [];
@@ -1252,8 +1252,12 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const origin = vector(global) ? global.values : locals.reduce(
       ([x,y],{values}) => [x+values[0],y+values[1]], [0,0]);
     const [width,height] = extent.values;
-    const x = Math.floor(origin[0] + (firstRow ? Math.min(width/2,24) : width/2));
-    const y = Math.floor(origin[1] + (firstRow ? Math.min(height/2,12) : height/2));
+    // Click the inspector vertical scrollbar track above or below its handle.
+    if (scrollPage) e.need(width>0 && height>=32, 'HUB_SMOKE_SCROLL_TRACK',node);
+    const xOffset = firstRow ? Math.min(width/2,24) : width/2;
+    const yOffset = scrollPage ? (scrollPage>0 ? height-18 : 12) : firstRow ? Math.min(height/2,12) : height/2;
+    const x = Math.floor(origin[0] + xOffset);
+    const y = Math.floor(origin[1] + yOffset);
     e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
     return {x,y};
   }
