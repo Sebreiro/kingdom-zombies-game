@@ -89,16 +89,48 @@ internal static class RunItemTransfer
                 : inventory.Items.Replace(oldValue: source, newValue: source with { Quantity = source.Quantity - 1 }));
     }
 
-    private static RunInventory? MoveTo(RunInventory inventory, RunInventory.ItemPath? expected,
-            RunInventory.Location destination)
+    internal static RunItemActions.Status CheckPlacement(RunInventory inventory, RunDefinitions.Item definition,
+            RunInventory.Item source, RunInventory.Location destination, bool split)
     {
-        RunInventory.Item? source = Current(inventory: inventory, expected: expected);
-        return source is null || source.Location == destination ? null
-                : inventory.WithItems(items: inventory.Items.Replace(oldValue: source,
-                        newValue: source with { Location = destination }));
+        if (destination is RunInventory.Equipment equipment)
+        {
+            return inventory.Equipped(survivorId: equipment.SurvivorId, slot: equipment.Slot) is not null
+                    ? RunItemActions.Status.Capacity : RunItemActions.Status.Ready;
+        }
+
+        if (destination is not RunInventory.GridCell cell || cell.X < 0 || cell.Y < 0
+                || cell.Rotated && !definition.Rotatable || cell.Footprint != RunInventoryRules.Footprint(
+                        definition: definition, rotated: cell.Rotated))
+        {
+            return RunItemActions.Status.Incompatible;
+        }
+
+        RunDefinitions.Size? bounds = cell switch
+        {
+            RunInventory.StashCell stash when stash.Page >= 0 && stash.Page < inventory.StashPageCount =>
+                    inventory.StashGrid,
+            RunInventory.ContainerCell container => inventory.Find(itemId: container.ContainerId)?.StorageGrid,
+            _ => null,
+        };
+        if (bounds is not { } grid)
+        {
+            return RunItemActions.Status.Incompatible;
+        }
+
+        return cell.X > grid.Width - cell.Footprint.Width || cell.Y > grid.Height - cell.Footprint.Height
+                || inventory.Items.Any(predicate: item => (split || item.Id != source.Id)
+                        && item.Location is RunInventory.GridCell occupied && Overlaps(first: cell, second: occupied))
+                ? RunItemActions.Status.Capacity : RunItemActions.Status.Ready;
     }
 
-    private static RunInventory.Item? Current(RunInventory inventory, RunInventory.ItemPath? expected)
+    internal static bool Overlaps(RunInventory.GridCell first, RunInventory.GridCell second)
+    {
+        return first.Grid == second.Grid && first.X < second.X + second.Footprint.Width
+                && second.X < first.X + first.Footprint.Width && first.Y < second.Y + second.Footprint.Height
+                && second.Y < first.Y + first.Footprint.Height;
+    }
+
+    internal static RunInventory.Item? Current(RunInventory inventory, RunInventory.ItemPath? expected)
     {
         if (expected is null || expected.Items.IsDefaultOrEmpty)
         {
@@ -108,6 +140,15 @@ internal static class RunItemTransfer
         RunInventory.ItemPath? actual = inventory.PathTo(itemId: expected.Item.Id);
         return actual is not null && Enumerable.SequenceEqual(first: actual.Items, second: expected.Items)
                 ? actual.Item : null;
+    }
+
+    private static RunInventory? MoveTo(RunInventory inventory, RunInventory.ItemPath? expected,
+            RunInventory.Location destination)
+    {
+        RunInventory.Item? source = Current(inventory: inventory, expected: expected);
+        return source is null || source.Location == destination ? null
+                : inventory.WithItems(items: inventory.Items.Replace(oldValue: source,
+                        newValue: source with { Location = destination }));
     }
 
     internal sealed class Change

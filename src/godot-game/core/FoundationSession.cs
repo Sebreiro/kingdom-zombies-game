@@ -242,11 +242,21 @@ public sealed class FoundationSession
                                 elapsedMilliseconds: 0))]);
         _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0,
                 definitions: definitions, population: population, inventory: inventory);
+        ItemActions = new RunItemActions(session: this);
     }
 
     internal RunPopulation Population => _publication.Population;
     internal RunInventory Inventory => _publication.Inventory;
     internal RunDefinitions Definitions => _publication.Definitions;
+    internal RunItemActions ItemActions { get; }
+
+    internal T UnderInventoryAuthority<T>(Func<RunPublication?, T> action)
+    {
+        lock (_gate)
+        {
+            return action(arg: _active ? _publication : null);
+        }
+    }
 
     internal bool CanReach(string bindingId, RunWorld.Access kind, string targetId)
     {
@@ -393,7 +403,7 @@ public sealed class FoundationSession
         }
     }
 
-    private sealed class RunPublication
+    internal sealed class RunPublication
     {
         internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds,
                 RunDefinitions definitions, RunPopulation population, RunInventory inventory)

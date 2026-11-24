@@ -83,18 +83,23 @@ internal sealed class RunWorld
 
     internal bool Reachable(Point actor, Access kind, string id)
     {
-        int range = kind == Access.Stash ? Settings.StashUnits : Settings.LocalUnits;
         foreach (Anchor anchor in Anchors)
         {
             if (anchor.Kind == kind && StringComparer.Ordinal.Equals(x: anchor.Id, y: id))
             {
-                return RunWorldGeometry.Within(first: actor, second: anchor.Contact, rangeUnits: range)
-                        && !Blockers.Any(predicate: blocker => RunWorldGeometry.Blocks(blocker: blocker,
-                                start: actor, end: anchor.Contact));
+                return Reachable(actor: actor, kind: kind, contact: anchor.Contact);
             }
         }
 
         return false;
+    }
+
+    internal bool Reachable(Point actor, Access kind, Point contact)
+    {
+        int range = kind == Access.Stash ? Settings.StashUnits : Settings.LocalUnits;
+        return RunWorldGeometry.Within(first: actor, second: contact, rangeUnits: range)
+                && !Blockers.Any(predicate: blocker => RunWorldGeometry.Blocks(blocker: blocker,
+                        start: actor, end: contact));
     }
 
     internal Point ActorContact(FoundationActorState actor)
