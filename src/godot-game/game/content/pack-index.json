@@ -715,7 +715,7 @@
       "id": "file.ed8cf7ea71864c983adc",
       "path": "src/godot-game/content/packs/delivery.json",
       "bytes": 102603,
-      "sha256": "d1e211c4633e177085cf565325241864425c58b6952030b645ddb838e779603f",
+      "sha256": "1fa45b1b2b8b4bcd72e1cdedfcf017472b2a07516b40a60bfd31fae2286c22bd",
       "version": 1,
       "role": "runtime"
     },
@@ -1075,7 +1075,7 @@
       "id": "file.8ad5f271f27a8b5b02f4",
       "path": "tools/phase4/required-cases.json",
       "bytes": 691440,
-      "sha256": "d786814d4e57389389a916dcb0ba5f8743e39c977b4918e3025c14532d0397cd",
+      "sha256": "fd44b623b7cb0f81e1bbe623d4600a7e16317608a247fd5da59140131a15de78",
       "version": 1,
       "role": "source-support"
     }
