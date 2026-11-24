@@ -25,6 +25,8 @@ internal sealed class RunDefinitions
         StartingStash = start.Stash;
         MaximumHealth = survivors.MaximumHealth;
         MaximumStamina = survivors.MaximumStamina;
+        Locomotion = survivors.Locomotion;
+        Vitals = survivors.Vitals;
         Items = items;
         StashGrid = inventory.StashGrid;
         MaximumContainerLevels = inventory.MaximumContainerLevels;
@@ -48,6 +50,8 @@ internal sealed class RunDefinitions
     internal ImmutableArray<StartingStack> StartingStash { get; }
     internal decimal MaximumHealth { get; }
     internal decimal MaximumStamina { get; }
+    internal RunLocomotion.Settings Locomotion { get; }
+    internal RunVitals.Settings Vitals { get; }
     internal ImmutableDictionary<string, Item> Items { get; }
     internal Size StashGrid { get; }
     internal int MaximumContainerLevels { get; }
@@ -174,7 +178,62 @@ internal sealed class RunDefinitions
                 maximumHealth: Number(parent: root, field: "maximumHealth", minimum: 1, maximum: 10000),
                 maximumStamina: Number(parent: root, field: "maximumStamina", minimum: 1, maximum: 10000),
                 refugeUnits: Integer(parent: root, field: "refugeDistanceUnits", minimum: 1, maximum: 1000),
-                dangerUnits: Integer(parent: root, field: "safeEnemyDistanceUnits", minimum: 1, maximum: 1000));
+                dangerUnits: Integer(parent: root, field: "safeEnemyDistanceUnits", minimum: 1, maximum: 1000),
+                locomotion: ReadLocomotion(root: root), vitals: ReadVitals(root: root));
+    }
+
+    private static RunLocomotion.Settings ReadLocomotion(JsonElement root)
+    {
+        decimal walk = Number(parent: root, field: "walkSpeedUnitsPerSecond", minimum: 0.001m, maximum: 1000);
+        decimal sprint = Number(parent: root, field: "sprintSpeedUnitsPerSecond", minimum: walk, maximum: 1000);
+        _ = Number(parent: root, field: "walkStaminaCost", minimum: 0, maximum: 0);
+        return new RunLocomotion.Settings(walkSpeed: walk, sprintSpeed: sprint,
+                jumpHeight: Number(parent: root, field: "jumpHeightUnits", minimum: 0.001m, maximum: 100),
+                jumpDuration: Milliseconds(root: root, name: "jumpAirborneSeconds", minimum: 0.001m),
+                airControl: Number(parent: root, field: "airWalkControlMultiplier", minimum: 0.001m, maximum: 1),
+                sprintCost: Number(parent: root, field: "sprintStaminaPerSecond", minimum: 0.001m, maximum: 10000),
+                jumpCost: Number(parent: root, field: "jumpStaminaCost", minimum: 0.001m, maximum: 10000),
+                load: ReadLoad(root: root));
+    }
+
+    private static RunLocomotion.LoadCurve ReadLoad(JsonElement root)
+    {
+        JsonElement load = Field(parent: root, field: "load");
+        decimal soft = Number(parent: load, field: "softKilograms", minimum: 0, maximum: 10000);
+        decimal severe = Number(parent: load, field: "severeKilograms", minimum: 0.001m, maximum: 10000);
+        Require(condition: severe > soft, field: "load.severeKilograms");
+        Require(condition: Text(parent: load, field: "curve") is "linear-between-thresholds-clamped"
+                && !Flag(parent: load, field: "severeSprintAllowed")
+                && !Flag(parent: load, field: "severeJumpAllowed") && Flag(parent: load, field: "walkingAlwaysAllowed")
+                && Flag(parent: load, field: "countNestedAndEquippedExactlyOnce"), field: "load");
+        return new RunLocomotion.LoadCurve(soft: soft, severe: severe,
+                minimumSpeed: Number(parent: load, field: "minimumSpeedMultiplier", minimum: 0.001m, maximum: 1),
+                maximumCost: Number(parent: load, field: "maximumActionCostMultiplier", minimum: 1, maximum: 100));
+    }
+
+    private static RunVitals.Settings ReadVitals(JsonElement root)
+    {
+        JsonElement rest = Field(parent: root, field: "safeRest");
+        Require(condition: Flag(parent: rest, field: "insideCamp") && !Flag(parent: rest, field: "sprinting")
+                && !Flag(parent: rest, field: "jumping") && !Flag(parent: rest, field: "attacking")
+                && Flag(parent: rest, field: "ordinaryWalkingAllowed"), field: "safeRest");
+        Require(condition: Flag(parent: root, field: "staminaRecoveryDuringCombat")
+                && Flag(parent: root, field: "spendingRestartsRegenerationDelay")
+                && Flag(parent: root, field: "requireSufficientStamina"), field: "staminaRecovery");
+        _ = Number(parent: root, field: "unsafeHealthRegenerationPerSecond", minimum: 0, maximum: 0);
+        return new RunVitals.Settings(
+                staminaPerSecond: Number(parent: root, field: "staminaRegenerationPerSecond", minimum: 0,
+                        maximum: 10000),
+                staminaDelay: Milliseconds(root: root, name: "staminaRegenerationDelaySeconds"),
+                healthPerSecond: Number(parent: root, field: "safeHealthRegenerationPerSecond", minimum: 0,
+                        maximum: 10000),
+                restDelay: Milliseconds(root: root, name: "safeRestDelaySeconds"),
+                foodCooldown: Milliseconds(root: root, name: "foodCooldownSeconds", minimum: 0.001m));
+    }
+
+    private static decimal Milliseconds(JsonElement root, string name, decimal minimum = 0)
+    {
+        return Number(parent: root, field: name, minimum: minimum, maximum: 600) * 1000;
     }
 
     private static ImmutableDictionary<string, Item> ReadItems(JsonElement root, Size stash)
@@ -502,18 +561,23 @@ internal sealed class RunDefinitions
     }
     internal sealed record SurvivorSettings
     {
-        internal SurvivorSettings(decimal maximumHealth, decimal maximumStamina, int refugeUnits, int dangerUnits)
+        internal SurvivorSettings(decimal maximumHealth, decimal maximumStamina, int refugeUnits, int dangerUnits,
+                RunLocomotion.Settings? locomotion = null, RunVitals.Settings? vitals = null)
         {
             MaximumHealth = maximumHealth;
             MaximumStamina = maximumStamina;
             RefugeUnits = refugeUnits;
             DangerUnits = dangerUnits;
+            Locomotion = locomotion ?? RunLocomotion.Settings.Default;
+            Vitals = vitals ?? RunVitals.Settings.Default;
         }
 
         internal decimal MaximumHealth { get; }
         internal decimal MaximumStamina { get; }
         internal int RefugeUnits { get; }
         internal int DangerUnits { get; }
+        internal RunLocomotion.Settings Locomotion { get; }
+        internal RunVitals.Settings Vitals { get; }
     }
     internal sealed record InventorySettings
     {

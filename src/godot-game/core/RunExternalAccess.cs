@@ -34,7 +34,9 @@ internal static class RunExternalAccess
             Target target)
     {
         RunWorld world = current.World;
-        RunWorld.Point actor = world.ActorContact(actor: participant.Actor);
+        RunWorld.Point actor = current.Population.FindLivingControl(bindingId: participant.BindingId) is { } lease
+                ? world.ActorContact(survivor: current.Population.ForLease(lease: lease))
+                : world.ActorContact(actor: participant.Actor);
         if (target.Kind == RunWorld.Access.Npc)
         {
             return ReachRecruit(current: current, actor: actor, id: target.Id);
@@ -93,8 +95,7 @@ internal static class RunExternalAccess
         }
 
         RunWorld world = current.World;
-        var contact = new RunWorld.Point(x: world.Origin.X + survivor.PositionSubunits,
-                y: world.Origin.Y + world.GroundContactSubunits);
+        RunWorld.Point contact = world.ActorContact(survivor: survivor);
         return world.Reachable(actor: actor, kind: RunWorld.Access.Npc, contact: contact);
     }
 

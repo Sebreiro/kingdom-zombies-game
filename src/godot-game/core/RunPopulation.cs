@@ -115,25 +115,11 @@ internal sealed class RunPopulation
         return lease is not null && ForLease(lease: lease).Health > 0 ? lease : null;
     }
 
-    internal RunPopulation ApplyPose(FoundationParticipantState participant)
+    internal RunPopulation Replace(Survivor previous, Survivor current)
     {
-        if (!participant.Ready || FindLivingControl(bindingId: participant.BindingId) is not { } lease)
-        {
-            return this;
-        }
-
-        Survivor survivor = ForLease(lease: lease);
-        FoundationActorState actor = participant.Actor;
-        if (actor.PositionSubunits == survivor.PositionSubunits && actor.Facing == survivor.Facing)
-        {
-            return this;
-        }
-
-        return new RunPopulation(survivors: Survivors.Replace(oldValue: survivor, newValue: survivor with
-        {
-            PositionSubunits = actor.PositionSubunits,
-            Facing = actor.Facing,
-        }), leases: Leases, issuedBindings: IssuedBindings, lastControlGeneration: LastControlGeneration);
+        return previous == current ? this : new RunPopulation(
+                survivors: Survivors.Replace(oldValue: previous, newValue: current), leases: Leases,
+                issuedBindings: IssuedBindings, lastControlGeneration: LastControlGeneration);
     }
 
     internal sealed record Survivor
@@ -142,7 +128,7 @@ internal sealed class RunPopulation
                 string role)
         {
             Id = id;
-            PositionSubunits = positionSubunits;
+            PositionSubunitsExact = positionSubunits;
             Facing = facing;
             Health = health;
             Stamina = stamina;
@@ -150,11 +136,17 @@ internal sealed class RunPopulation
         }
 
         internal string Id { get; init; }
-        internal long PositionSubunits { get; init; }
+        internal long PositionSubunits => decimal.ToInt64(d: decimal.Round(d: PositionSubunitsExact));
+        internal decimal PositionSubunitsExact { get; init; }
+        internal decimal HeightSubunits { get; init; }
         internal int Facing { get; init; }
         internal decimal Health { get; init; }
         internal decimal Stamina { get; init; }
         internal string Role { get; init; }
+        internal decimal? LastStaminaSpend { get; init; }
+        internal long? JumpStartedAt { get; init; }
+        internal (long generation, long sequence)? SprintFence { get; init; }
+        internal RunLocomotion.Block SprintBlock { get; init; }
     }
 
     internal sealed record Lease

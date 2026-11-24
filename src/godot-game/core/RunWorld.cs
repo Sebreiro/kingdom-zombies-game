@@ -108,6 +108,12 @@ internal sealed class RunWorld
                 y: Origin.Y + GroundContactSubunits + actor.GroundSubunits);
     }
 
+    internal Point ActorContact(RunPopulation.Survivor survivor)
+    {
+        return new Point(x: Origin.X + survivor.PositionSubunits,
+                y: Origin.Y + GroundContactSubunits + decimal.ToInt64(d: decimal.Round(d: survivor.HeightSubunits)));
+    }
+
     private const long CoordinateLimit = 1_000_000_000;
 
     private bool CoordinatesValid()

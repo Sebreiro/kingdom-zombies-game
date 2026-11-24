@@ -30,7 +30,7 @@ public sealed class FoundationSession
         get
         {
             RunPublication current = _publication;
-            RunWorld.Point contact = current.World.ActorContact(actor: current.Snapshot.Participants[0].Actor);
+            RunWorld.Point contact = ActorContact(current: current, participant: current.Snapshot.Participants[0]);
             (bool insideCamp, bool safeDistance) = current.World.Safety(actor: contact);
             bool stashReachable = current.World.Reachable(actor: contact, kind: RunWorld.Access.Stash,
                     id: RunWorld.StashId);
@@ -119,12 +119,10 @@ public sealed class FoundationSession
             FoundationParticipantState? participant = Find(snapshot: Snapshot, bindingId: trustedBinding);
             RunPopulation.Lease? lease = Population.FindLivingControl(bindingId: trustedBinding);
             if (!_active || participant is null || !participant.Ready || lease is null
-                    || command.Direction is < -1 or > 1 || command.Sequence <= 0
+                    || command.Direction is < -1 or > 1
                     || !Matches(command: command, participant: participant, trustedPlayer: trustedPlayer,
                             trustedActor: trustedActor)
-                    || _intents.TryGetValue(key: trustedBinding,
-                            value: out (long generation, FoundationHeldIntent intent) previous)
-                            && previous.generation == lease.Generation && command.Sequence <= previous.intent.Sequence)
+                    || !FreshIntent(lease: lease, sequence: command.Sequence))
             {
                 return false;
             }
@@ -145,17 +143,12 @@ public sealed class FoundationSession
             ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
             RunPublication current = _publication;
             long elapsed = checked(current.ElapsedMilliseconds + elapsedMilliseconds);
+            RunPopulation population = AdvancePopulation(current: current, elapsed: elapsed);
             FoundationParticipantState[] candidate = [.. current.Snapshot.Participants.Select(selector: participant =>
-                    AdvanceParticipant(participant: participant, population: current.Population,
+                    AdvanceParticipant(participant: participant, population: population,
                             elapsedMilliseconds: elapsedMilliseconds))];
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: candidate);
-            RunPopulation population = current.Population;
-            foreach (FoundationParticipantState participant in candidate)
-            {
-                population = population.ApplyPose(participant: participant);
-            }
-
             _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed,
                     definitions: current.Definitions, population: population, inventory: current.Inventory);
         }
@@ -250,6 +243,39 @@ public sealed class FoundationSession
     internal RunDefinitions Definitions => _publication.Definitions;
     internal RunItemActions ItemActions { get; }
 
+    internal (bool accepted, RunLocomotion.Block reason) TryAcceptMotion(RunItemActions.Controller controller,
+            long sequence, RunLocomotion.Input input)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            RunPopulation.Lease? lease = CurrentControl(current: current, controller: controller);
+            if (lease is null || !FreshIntent(lease: lease, sequence: sequence))
+            {
+                return (false, RunLocomotion.Block.None);
+            }
+
+            RunLocomotion.Block reason = RunLocomotion.Block.None;
+            if (input.Jump)
+            {
+                RunPopulation.Survivor survivor = current.Population.ForLease(lease: lease);
+                RunLocomotion.Burden load = RunLocomotion.Load(inventory: current.Inventory,
+                        definitions: current.Definitions, survivorId: survivor.Id);
+                (RunPopulation.Survivor? jumped, reason) = RunLocomotion.Jump(survivor: survivor,
+                        definitions: current.Definitions, load: load, now: current.ElapsedMilliseconds);
+                if (jumped is not null && !TryPublish(participants: current.Snapshot.Participants,
+                        population: current.Population.Replace(previous: survivor, current: jumped)))
+                {
+                    return (false, RunLocomotion.Block.None);
+                }
+            }
+
+            _intents[lease.BindingId] = (lease.Generation, new FoundationHeldIntent(sequence: sequence,
+                    direction: input.Direction, sprint: input.Sprint));
+            return (true, reason);
+        }
+    }
+
     internal T UnderInventoryAuthority<T>(Func<RunPublication?, T> action)
     {
         lock (_gate)
@@ -261,16 +287,17 @@ public sealed class FoundationSession
     internal bool CanReach(string bindingId, RunWorld.Access kind, string targetId)
     {
         RunPublication current = _publication;
-        FoundationActorState? actor = ReadyActor(current: current, bindingId: bindingId);
-        return actor is not null && current.World.Reachable(
-                actor: current.World.ActorContact(actor: actor), kind: kind, id: targetId);
+        FoundationParticipantState? participant = ReadyActor(current: current, bindingId: bindingId);
+        return participant is not null && current.World.Reachable(
+                actor: ActorContact(current: current, participant: participant), kind: kind, id: targetId);
     }
 
     internal (bool insideCamp, bool safeDistance)? SafetyFor(string bindingId)
     {
         RunPublication current = _publication;
-        FoundationActorState? actor = ReadyActor(current: current, bindingId: bindingId);
-        return actor is null ? null : current.World.Safety(actor: current.World.ActorContact(actor: actor));
+        FoundationParticipantState? participant = ReadyActor(current: current, bindingId: bindingId);
+        return participant is null ? null : current.World.Safety(actor: ActorContact(current: current,
+                participant: participant));
     }
 
     internal bool TryReplaceRunWorld(RunWorld? candidate)
@@ -328,11 +355,33 @@ public sealed class FoundationSession
     private volatile RunPublication _publication;
     private volatile bool _active = true;
 
-    private FoundationActorState? ReadyActor(RunPublication current, string bindingId)
+    private FoundationParticipantState? ReadyActor(RunPublication current, string bindingId)
     {
         return _active && Find(snapshot: current.Snapshot, bindingId: bindingId) is { Ready: true } participant
                 && current.Population.FindLivingControl(bindingId: bindingId) is not null
-                ? participant.Actor : null;
+                ? participant : null;
+    }
+
+    private static RunWorld.Point ActorContact(RunPublication current, FoundationParticipantState participant)
+    {
+        return current.Population.FindLease(bindingId: participant.BindingId) is { } lease
+                ? current.World.ActorContact(survivor: current.Population.ForLease(lease: lease))
+                : current.World.ActorContact(actor: participant.Actor);
+    }
+
+    private RunPopulation.Lease? CurrentControl(RunPublication current, RunItemActions.Controller controller)
+    {
+        return _active && StringComparer.Ordinal.Equals(x: current.Snapshot.SessionId, y: controller.SessionId)
+                && current.Population.FindLivingControl(bindingId: controller.BindingId) is { } lease
+                && lease.Generation == controller.Generation
+                && RunExternalAccess.Controller(current: current, lease: lease) is not null ? lease : null;
+    }
+
+    private bool FreshIntent(RunPopulation.Lease lease, long sequence)
+    {
+        return sequence > 0 && (!_intents.TryGetValue(key: lease.BindingId,
+                value: out (long generation, FoundationHeldIntent intent) previous)
+                || previous.generation != lease.Generation || sequence > previous.intent.Sequence);
     }
 
     private static FoundationParticipantState? Find(FoundationSnapshot snapshot, string bindingId)
@@ -352,7 +401,33 @@ public sealed class FoundationSession
                 && StringComparer.Ordinal.Equals(x: trustedActor, y: participant.Actor.ActorId);
     }
 
-    private FoundationParticipantState AdvanceParticipant(FoundationParticipantState participant,
+    private RunPopulation AdvancePopulation(RunPublication current, long elapsed)
+    {
+        RunPopulation population = current.Population;
+        foreach (RunPopulation.Survivor survivor in current.Population.Survivors)
+        {
+            if (survivor.Health <= 0)
+            {
+                continue;
+            }
+
+            RunPopulation.Lease? lease = population.Leases.FirstOrDefault(predicate: live =>
+                    StringComparer.Ordinal.Equals(x: live.SurvivorId, y: survivor.Id));
+            FoundationHeldIntent? intent = lease is not null
+                    && RunExternalAccess.Controller(current: current, lease: lease) is not null
+                    && _intents.TryGetValue(key: lease.BindingId,
+                            value: out (long generation, FoundationHeldIntent intent) held)
+                    && held.generation == lease.Generation ? held.intent : null;
+            RunPopulation.Survivor next = RunLocomotion.Advance(survivor: survivor, definitions: current.Definitions,
+                    inventory: current.Inventory, intent: intent, generation: lease?.Generation ?? 0,
+                    previous: current.ElapsedMilliseconds, current: elapsed);
+            population = population.Replace(previous: survivor, current: next);
+        }
+
+        return population;
+    }
+
+    private static FoundationParticipantState AdvanceParticipant(FoundationParticipantState participant,
             RunPopulation population, long elapsedMilliseconds)
     {
         if (!participant.Ready || population.FindLivingControl(bindingId: participant.BindingId) is not { } lease)
@@ -360,16 +435,10 @@ public sealed class FoundationSession
             return participant;
         }
 
-        int direction = _intents.TryGetValue(key: participant.BindingId,
-                value: out (long generation, FoundationHeldIntent intent) held)
-                && held.generation == lease.Generation ? held.intent.Direction : 0;
         RunPopulation.Survivor survivor = population.ForLease(lease: lease);
         FoundationActorState actor = participant.Actor;
-        long position = Math.Clamp(value: survivor.PositionSubunits + Math.Min(val1: elapsedMilliseconds, val2: 40000)
-                * 3 * direction, min: -59000, max: 59000);
         var moved = new FoundationActorState(sessionId: actor.SessionId, playerId: actor.PlayerId,
-                actorId: actor.ActorId, positionSubunits: position,
-                facing: direction == 0 ? survivor.Facing : direction,
+                actorId: actor.ActorId, positionSubunits: survivor.PositionSubunits, facing: survivor.Facing,
                 elapsedMilliseconds: checked(actor.ElapsedMilliseconds + elapsedMilliseconds));
         return new FoundationParticipantState(bindingId: participant.BindingId, label: participant.Label,
                 slot: participant.Slot, ready: participant.Ready, actor: moved);
