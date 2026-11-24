@@ -66,6 +66,26 @@ public sealed class Phase06PopulationTests
         }
     }
 
+    /// <summary>A departing guest leaves the actual moved recruit and outfit available for another binding.</summary>
+    [Fact]
+    public void Phase06_E009_ReservationsReleaseTheSameRecruitAndRejectOldInput()
+    {
+        FoundationSession session = Start();
+        long[] outfit = [.. Outfit(session: session, survivorId: "survivor-02").Select(selector: item => item.Id)];
+        Add(session: session, player: 2).ShouldBeTrue();
+        session.MarkReady(bindingId: "binding-2").ShouldBeTrue();
+        var command = new FoundationMovementCommand(sessionId: "run", playerId: "player-2", actorId: "wire-2",
+                direction: 1, bindingId: "binding-2");
+        session.TryAccept(command: command, trustedBinding: "binding-2", trustedPlayer: "player-2",
+                trustedActor: "wire-2").ShouldBeTrue();
+        session.Step(elapsedMilliseconds: 100);
+        session.RemoveParticipant(bindingId: "binding-2").ShouldBeTrue();
+
+        session.Population.Survivors[1].PositionSubunits.ShouldBe(expected: -7700);
+        Outfit(session: session, survivorId: "survivor-02").Select(selector: item => item.Id)
+                .ShouldBe(expected: outfit);
+    }
+
     /// <summary>Every outfit owns only its occupied equipment locations and its empty authored pockets.</summary>
     [Fact]
     public void Phase06_E010_NewSurvivorsAndStorageHaveNoPersonalSupplies()
