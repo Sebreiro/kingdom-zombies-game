@@ -691,7 +691,7 @@
       "id": "file.b06c3bcbf43bbc4a501b",
       "path": "src/godot-game/content/packs/compatibility.json",
       "bytes": 1123,
-      "sha256": "b8b98b4615f775c842aada8998cc12ffebc6dd07d99d381f9b8912f74b19f26b",
+      "sha256": "f170d7f31c101bbb58b5a139cc6d056a3c395f6d48552533537fb466baf0ecbd",
       "version": 1,
       "role": "runtime"
     },
