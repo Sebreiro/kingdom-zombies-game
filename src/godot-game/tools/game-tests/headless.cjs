@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
+const { runtime: expectedRuntime } = require('../verification/toolchain.json');
 const { launch, waitFor, frames, activate, actor, key, input, stop, cleanup,
   prepareProject } = require('../lan-checks/network.cjs');
 
@@ -238,6 +239,7 @@ async function smoke(context, folder) {
   const deadline = Date.now() + 45_000;
   const peer = launch(subject, 'solo', 0);
   let failure;
+  let menu;
   let before;
   let moved;
   let stopped;
@@ -251,8 +253,9 @@ async function smoke(context, folder) {
   let terminal;
   try {
     const awaitRow = (match, description) => waitFor([peer], deadline, () => latest(peer, nonce, match), description);
-    await awaitRow(row => !row.ready && !row.snapshot && row.nativeActors === 0 && row.direction === 0,
+    menu = await awaitRow(row => !row.ready && !row.snapshot && row.nativeActors === 0 && row.direction === 0,
       'ordinary main menu');
+    assert.equal(menu.runtimeVersion, expectedRuntime, 'NATIVE_GAME_RUNTIME');
     await activate(peer, subject, deadline, 'Menu/Start');
     before = await awaitRow(row => readySolo(row, peer) && hasTransition(row, unsafe),
       'one owned solo actor with blocked stash and unsafe rest');
@@ -294,7 +297,7 @@ async function smoke(context, folder) {
   assert.ok(peer.output.trim(), 'NATIVE_RUN_LOG_MISSING');
   assert.ok(!/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output), 'NATIVE_ERROR_LOG');
   fs.writeFileSync(path.join(directory, 'movement.json'), JSON.stringify({
-    nonce, revision: context.revision, pid: peer.pid, before, moved, stopped, steady,
+    nonce, revision: context.revision, pid: peer.pid, runtimeVersion: menu.runtimeVersion, before, moved, stopped, steady,
     fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, inventory, nearby,
     succession, terminal,
     inputDriver: 'synthetic-native-ParseInputEvent',

@@ -68,6 +68,7 @@ internal sealed class FoundationDiagnostics
         string record = JsonSerializer.Serialize(value: new
         {
             nonce, pid = Environment.ProcessId, provenance = "read-only-state-observation", nowMilliseconds,
+            runtimeVersion = Environment.Version.ToString(),
             inputDriver = Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER"),
             frame = ++_frame, inputEvents, direction, nativeActors, polledRight, lastInput = _lastInput,
             focusLosses = _focusLosses, observationKind = "process-state-not-rendered",
