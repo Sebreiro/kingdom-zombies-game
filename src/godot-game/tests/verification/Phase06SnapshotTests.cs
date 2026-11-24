@@ -14,7 +14,7 @@ public sealed class Phase06SnapshotTests
 {
     /// <summary>Neighboring equal stacks keep their individual identities and clock revision.</summary>
     [Fact]
-    public void E118CapturesOneDetachedRunWithExactElapsedTime()
+    public void Phase06_E118_CapturesOneDetachedRunWithExactElapsedTime()
     {
         FoundationSession session = Phase06InventoryTests.Start();
         session.Step(elapsedMilliseconds: 123);

@@ -126,6 +126,8 @@ internal static class EngineAccessPolicy
 
     private static readonly HashSet<string> _presenters = new(comparer: StringComparer.Ordinal)
     {
+        "src/godot-game/game/foundation/FoundationDrawObserver.cs|KingdomZombies.Foundation."
+                + "FoundationDrawObserver|ObserveAppearance()",
         "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
                 + "FoundationSpectatorPanel|Dispose()",
         "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."

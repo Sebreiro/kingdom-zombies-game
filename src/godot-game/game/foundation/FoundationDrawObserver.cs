@@ -91,8 +91,13 @@ internal sealed class FoundationDrawObserver
         {
             if (participant.GetProperty(propertyName: "Ready").GetBoolean()) { ObserveActor(participant: participant); }
         }
+        ObserveAppearance();
+    }
 
-        if (!_sample.TryGetProperty(propertyName: "phase06", value: out JsonElement phase)
+    private void ObserveAppearance()
+    {
+        _gateway.RequireThread();
+        if (_world is null || !_sample.TryGetProperty(propertyName: "phase06", value: out JsonElement phase)
                 || phase.ValueKind is not JsonValueKind.Object
                 || !phase.TryGetProperty(propertyName: "World", value: out JsonElement state)
                 || state.ValueKind is not JsonValueKind.Object
