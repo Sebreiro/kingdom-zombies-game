@@ -55,8 +55,9 @@ internal sealed partial class FoundationCoordinator
         {
             foreach ((int sender, FoundationPeerBinding peer) in _peers.ToArray())
             {
-                if (!StringComparer.Ordinal.Equals(x: peer.ConnectionGeneration,
-                        y: _connection?.PeerGeneration(peer: sender)))
+                string? current = _connection?.PeerGeneration(peer: sender);
+                if (!string.IsNullOrEmpty(value: current) && !StringComparer.Ordinal.Equals(
+                        x: peer.ConnectionGeneration, y: current))
                 {
                     RemovePeer(sender: sender, peer: peer, reason: "connection-replaced");
                 }
@@ -64,6 +65,10 @@ internal sealed partial class FoundationCoordinator
                         : now - peer.StartedAt >= JoinTimeoutMilliseconds)
                 {
                     RemovePeer(sender: sender, peer: peer, reason: "response-timeout");
+                }
+                else if (string.IsNullOrEmpty(value: current))
+                {
+                    _session.StopHeldMovement(bindingId: peer.BindingId);
                 }
             }
         }

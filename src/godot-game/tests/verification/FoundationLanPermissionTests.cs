@@ -37,6 +37,34 @@ public sealed class FoundationLanPermissionTests
                 diagnostic: "EXACT_LAN_PERMISSIONS:45_TUPLES_8_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
     }
 
+    /// <summary>Exact gameplay adapter signatures require their captured and preceding native guard.</summary>
+    [Theory]
+    [InlineData("FoundationAppearance", "ProjectArrows", "_gateway")]
+    [InlineData("FoundationAppearanceAssets", "SpriteTexture", "_gateway")]
+    [InlineData("FoundationActorArt", "Apply", "_gateway")]
+    [InlineData("FoundationAutomation", "ClickWorld", "gateway")]
+    [InlineData("FoundationWorldInput", "Refresh", "_gateway")]
+    public void Permissions_GameplayAdapters_RejectMissingGuardAndAdjacentSignature(string file, string member,
+            string capture)
+    {
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        string path = "src/godot-game/game/foundation/" + file + ".cs";
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+        SyntaxTree tree = consumer.Parse(source: source, path: path);
+        MethodDeclarationSyntax method = tree.GetRoot(cancellationToken: TestContext.Current.CancellationToken)
+                .DescendantNodes().OfType<MethodDeclarationSyntax>().Single(predicate: candidate =>
+                        StringComparer.Ordinal.Equals(x: candidate.Identifier.ValueText, y: member));
+        EngineAccessPolicy.Check(source: source, path: path, consumer: consumer).ShouldBeEmpty();
+        string exact = method.ToFullString();
+        string noGuard = source.Replace(oldValue: exact, newValue: exact.Replace(
+                oldValue: capture + ".RequireThread();", newValue: "", comparisonType: StringComparison.Ordinal),
+                comparisonType: StringComparison.Ordinal);
+        EngineAccessPolicy.Check(source: noGuard, path: path, consumer: consumer).ShouldNotBeEmpty();
+        string extra = method.ParameterList.Parameters.Count == 0 ? "int adjacent = 0" : ", int adjacent = 0";
+        string adjacent = source.Insert(startIndex: method.ParameterList.CloseParenToken.SpanStart, value: extra);
+        EngineAccessPolicy.Check(source: adjacent, path: path, consumer: consumer).ShouldNotBeEmpty();
+    }
+
     private const string Native = " _ = Godot.Input.IsPhysicalKeyPressed(keycode: Godot.Key.D); ";
     private static readonly (string Type, string[] Methods)[] _native =
     [

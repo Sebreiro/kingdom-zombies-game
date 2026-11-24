@@ -196,7 +196,7 @@ public sealed partial class FoundationRoot : Control
     private readonly FoundationDiagnostics _diagnostics = new();
     private FoundationServices? _services;
     private FoundationMenu? _menu;
-    private FoundationView.Appearance? _appearance;
+    private FoundationAppearance? _appearance;
     private int _lastDirection = int.MinValue;
     private long _generation;
     private long _inputEvents;
@@ -350,11 +350,17 @@ public sealed partial class FoundationRoot : Control
         (double x, double y)? aim = _worldInput.Point(readback: readback, frame: _appearance?.Frame);
         if (readback is not null && (readback.World.HasValue || _appearance is not null))
         {
-            _appearance ??= new FoundationView.Appearance(world: world, gateway: _gateway);
-            _appearance.Project(readback: readback, local: _coordinator.LocalRunControl?.survivorId, aim: aim);
+            if (_appearance is null)
+            {
+                _appearance = new FoundationAppearance(world: world, gateway: _gateway);
+            }
+            else
+            {
+                _appearance.Project(readback: readback, local: _coordinator.LocalRunControl?.survivorId, aim: aim);
+            }
         }
         FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: _coordinator.BindingId,
-                gateway: _gateway, authored: _appearance?.Ready == true);
+                gateway: _gateway);
         GetNode<Control>(path: "Menu/Error").Visible = false;
         GetNode<Control>(path: "Menu").Visible = false;
         GetNode<Control>(path: "Browser").Visible = false;

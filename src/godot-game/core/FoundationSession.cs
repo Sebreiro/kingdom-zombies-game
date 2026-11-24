@@ -205,6 +205,20 @@ public sealed class FoundationSession
         }
     }
 
+    /// <summary>Stops a disconnected binding's held movement while retaining its last accepted sequence.</summary>
+    public void StopHeldMovement(string bindingId)
+    {
+        lock (_gate)
+        {
+            if (_intents.TryGetValue(key: bindingId, value: out (long generation, FoundationHeldIntent intent) held)
+                    && (held.intent.Direction != 0 || held.intent.Sprint))
+            {
+                _intents[bindingId] = (held.generation, new FoundationHeldIntent(sequence: held.intent.Sequence,
+                        direction: 0));
+            }
+        }
+    }
+
     /// <summary>Accepts a unique owned intent without advancing time or position.</summary>
     public bool TryAccept(FoundationMovementCommand command, string trustedBinding, string trustedPlayer,
             string trustedActor)

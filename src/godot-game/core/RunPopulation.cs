@@ -174,6 +174,7 @@ internal sealed class RunPopulation
         internal decimal? FoodAvailableAt { get; init; }
         internal decimal? AttackAvailableAt { get; init; }
         internal string MovementPose { get; init; } = "idle";
+        internal decimal? MovementAt { get; init; }
         internal decimal? StrikeAt { get; init; }
         internal RunCombat.Aim? StrikeAim { get; init; }
         internal decimal? FlinchAt { get; init; }

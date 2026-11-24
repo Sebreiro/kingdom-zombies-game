@@ -126,6 +126,57 @@ internal static class EngineAccessPolicy
 
     private static readonly HashSet<string> _presenters = new(comparer: StringComparer.Ordinal)
     {
+        "src/godot-game/game/foundation/FoundationActorArt.cs|KingdomZombies.Foundation.FoundationAc"
+                + "torArt|Dispose()",
+        "src/godot-game/game/foundation/FoundationActorArt.cs|KingdomZombies.Foundation.FoundationAc"
+                + "torArt|FoundationActorArt(Node2D,MainThreadGateway,FoundationAppearanceAssets,string,bool)",
+        "src/godot-game/game/foundation/FoundationActorArt.cs|KingdomZombies.Foundation.FoundationAc"
+                + "torArt|Apply(Subject,long,Vector2,(double x, double y)?)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|Dispose()",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|FoundationAppearance(Node2D,MainThreadGateway)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|ProjectActors(Dictionary<string, FoundationActorArt>,IEnumerable<Subject>,Frame,"
+                + "string?,(double x, double y)?,int)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|Project(FoundationRunReadback,string?,(double x, double y)?)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|ProjectArrows(Frame)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|Point(Frame,(double x, double y))",
+        "src/godot-game/game/foundation/FoundationAppearanceAssets.cs|KingdomZombies.Foundation.Foun"
+                + "dationAppearanceAssets|Dispose()",
+        "src/godot-game/game/foundation/FoundationAppearanceAssets.cs|KingdomZombies.Foundation.Foun"
+                + "dationAppearanceAssets|Read(string)",
+        "src/godot-game/game/foundation/FoundationAppearanceAssets.cs|KingdomZombies.Foundation.Foun"
+                + "dationAppearanceAssets|SpriteTexture(JsonElement,string,string,string,string)",
+        "src/godot-game/game/foundation/FoundationAutomation.cs|KingdomZombies.Foundation.Foundation"
+                + "Automation|ClickWorld(Control,JsonElement,MainThreadGateway)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|AttachWorld(Node2D)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|DetachWorld()",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|GainFocus()",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Refresh(bool)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Move()",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|HandleKey(InputEventKey)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Point(FoundationRunReadback?,Frame?)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|HandleWorkspace(InputEventKey)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Click(InputEvent)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Aim(Vector2?)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|SetAimVisible(bool)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Stroke(Vector2,Vector2)",
         "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
                 + "dmit(string,JsonElement)",
         "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
@@ -286,6 +337,8 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|Detach()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+                + "review|DrawComposition(JsonElement,JsonElement,JsonElement,int,JsonElement)",
+        "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|FitGeometry(JsonElement,JsonElement,JsonElement,string,string,JsonElement,V"
                 + "ector2)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
@@ -304,7 +357,7 @@ internal static class EngineAccessPolicy
                 + "review|OpenAttached(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,strin"
                 + "g)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
-                + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string)",
+                + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string,bool)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|Play()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
@@ -324,7 +377,8 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|Reset()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
-                + "review|RestoreComposition(string,string,int,JsonElement)",
+                + "review|RestoreComposition(string,string,int,JsonElement,string?,JsonElement,IReadOnlySet<str"
+                + "ing>?)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|RetireArt()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"

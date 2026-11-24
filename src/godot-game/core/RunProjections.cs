@@ -183,7 +183,8 @@ internal static class RunProjections
             actor.Facing,
             actor.Hostile,
             BindingId = binding,
-            Movement = actor.JumpStartedAt.HasValue ? "jump" : actor.MovementPose,
+            Movement = actor.JumpStartedAt.HasValue ? "jump"
+                    : actor.MovementAt == root.ElapsedMilliseconds ? actor.MovementPose : "idle",
             StrikeAt = striking ? actor.StrikeAt : null,
             StrikeUntil = striking ? actor.AttackAvailableAt : null,
             AimX = striking ? actor.StrikeAim?.X : null,

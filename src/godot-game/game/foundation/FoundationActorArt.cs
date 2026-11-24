@@ -24,9 +24,9 @@ internal sealed class FoundationActorArt : IDisposable
     internal FoundationActorArt(Node2D root, MainThreadGateway gateway, FoundationAppearanceAssets assets,
             string body, bool hostile)
     {
+        gateway.RequireThread();
         _root = root;
         _gateway = gateway;
-        _gateway.RequireThread();
         _state = assets.State();
         _motion = assets.Presentation();
         _collapse = assets.CollapseMilliseconds;
