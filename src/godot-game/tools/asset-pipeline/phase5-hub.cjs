@@ -25,12 +25,20 @@ const categories = [
 const equal = (node, property, value) => ({node, property, value, match:'equal'});
 const contains = (node, property, value) => ({node, property, value, match:'contains'});
 const ENTER = 0x0d;
+const DOWN = 0x28;
 const initialResources = ['AN-01','IT-01','BL-01','UI-01','DT-01','AU-01','AN-01','AN-01'];
 const resourceCounts = [31,24,43,27,29,30,180,180];
 
 async function choose(driver, node, key) {
   await driver.click(node);
   await driver.tap(key);
+  await driver.tap(ENTER);
+}
+
+async function chooseIndex(driver, node, index) {
+  // A mouse-opened menu starts without a focused row. Down reaches row zero first.
+  await driver.click(node);
+  for (let row = 0; row <= index; row++) await driver.tap(DOWN);
   await driver.tap(ENTER);
 }
 
@@ -75,7 +83,7 @@ function checkpoints() {
           for (const key of [0x46, 0x58, 0xbd, 0x30, 0x38]) await driver.tap(key);
           await driver.click(RESOURCES, {firstRow:true});
         } else if (step.openMenu) {
-          await choose(driver, step.control, 0x45);
+          await chooseIndex(driver, step.control, 1);
         } else {
           await driver.click(step.control);
         }

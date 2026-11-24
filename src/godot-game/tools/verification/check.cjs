@@ -618,7 +618,10 @@ function producerStageTimeout(item, stage, platform) {
   const windows = /^win32-x64(?:-|$)/.test(platform);
   const fixedReplay = item.id === 'engine.generated-origin' && stage.id === 'origin-fixed'
     || item.id === 'core.permissions' && stage.id === 'foundation-origin-fixed';
-  return windows && fixedReplay ? 90000 : 45000;
+  const repositoryAuthentication = item.id === 'ac-08.complete' && stage.id === 'repository-auth'
+    || item.id === 'R-50.positive' && stage.id === 'r50-repository-auth'
+    || item.id === 'rules.exemptions' && stage.id === 'exempt-repository-auth';
+  return windows && (fixedReplay || repositoryAuthentication) ? 90000 : 45000;
 }
 
 async function runProducerStages(item, context, executable, assembly) {
