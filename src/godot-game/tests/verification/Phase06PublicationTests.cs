@@ -174,6 +174,45 @@ public sealed class Phase06PublicationTests
         AssertLoosePageActions(room: room, guest: guest, session: session, second: second);
     }
 
+    /// <summary>An unchanged authorized bag tree remains usable through a delayed unrelated refresh.</summary>
+    [Fact]
+    public void AuthorizedOffPageWindowsSurviveRefreshAndFenceOldPartsOnTransfer()
+    {
+        var room = new Room(read: ReadLargeConfig, fixture: "wire");
+        FoundationCoordinator guest = room.Join(sender: 2);
+        FoundationSession session = Session(coordinator: room.Host);
+        JsonElement bag = OpenGuestBagTree(room: room, guest: guest);
+        FoundationRunReadback before = guest.ReadRunRender().ShouldNotBeNull();
+
+        _ = Phase06MeleeTests.Equip(session: session, id: "IT-03", slot: "right-hand");
+        room.Receive(sender: 2, elapsed: 16);
+        byte[][] delayed = HoldExternalScopes(room: room, sender: 2);
+        delayed.Length.ShouldBeGreaterThanOrEqualTo(expected: 3);
+        room.Send(sender: 2, guest: guest);
+        AssertContinuingExternalScopes(guest: guest, before: before);
+        foreach (byte[] part in delayed.Reverse())
+        {
+            room.ReceivePart(sender: 2, guest: guest, data: part);
+        }
+
+        guest.ReadRunRender().ShouldNotBeNull().Views["external.2"].Revision.ShouldBeGreaterThan(expected:
+                before.Views["external.2"].Revision);
+        string owner = guest.LocalRunControl.ShouldNotBeNull().survivorId;
+        _ = guest.SubmitRunAction(kind: "place", request: Equipment(source: bag, owner: owner, slot: "backpack",
+                token: before.Views["external"].Token)).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Applied");
+        foreach (byte[] part in delayed)
+        {
+            room.ReceivePart(sender: 2, guest: guest, data: part);
+        }
+
+        FoundationRunReadback moved = guest.ReadRunRender().ShouldNotBeNull();
+        moved.Views.ContainsKey(key: "external.1").ShouldBeFalse();
+        moved.Views.ContainsKey(key: "external.2").ShouldBeFalse();
+        moved.Views["external"].Token.ShouldBe(expected: before.Views["external"].Token);
+    }
+
     /// <summary>A full legal stash page pulse crosses the real wire and highlights all exact changed cells.</summary>
     [Fact]
     public void FullStashGridPulseFitsTheWireWithoutLosingCells()
@@ -712,6 +751,43 @@ public sealed class Phase06PublicationTests
         _ = guest.SubmitRunAction(kind: select.Kind, request: select.Request).ShouldNotBeNull();
         room.Exchange(sender: 2, guest: guest);
         guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Ready");
+    }
+
+    private static JsonElement OpenGuestBagTree(Room room, FoundationCoordinator guest)
+    {
+        OpenGuestPile(room: room, guest: guest);
+        FoundationRunView selected = ExternalView(coordinator: guest);
+        JsonElement bag = selected.Rows.Single(predicate: row =>
+                row.GetProperty(propertyName: "DefinitionId").GetString() is "IT-23");
+        long bagId = ItemId(item: bag);
+        guest.RequestRunWorkspace(own: [], external: [bagId]).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        long pouch = ItemId(item: guest.ReadRunRender().ShouldNotBeNull().Views["external.1"].Rows.Single());
+        guest.RequestRunWorkspace(own: [], external: [bagId, pouch]).ShouldBeTrue();
+        guest.RequestExternalItemsPage(token: selected.Token, page: 2).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        FoundationRunReadback open = guest.ReadRunRender().ShouldNotBeNull();
+        open.Views["external"].Header.GetProperty(propertyName: "ItemPage").GetInt32().ShouldBe(expected: 2);
+        open.Views["external.2"].Rows.Length.ShouldBe(expected: 1);
+        return bag;
+    }
+
+    private static void AssertContinuingExternalScopes(FoundationCoordinator guest, FoundationRunReadback before)
+    {
+        FoundationRunReadback retained = guest.ReadRunRender().ShouldNotBeNull();
+        retained.Views["external"].ShouldBeSameAs(expected: before.Views["external"]);
+        retained.Views["external.1"].ShouldBeSameAs(expected: before.Views["external.1"]);
+        retained.Views["external.2"].ShouldBeSameAs(expected: before.Views["external.2"]);
+    }
+
+    private static byte[][] HoldExternalScopes(Room room, int sender)
+    {
+        Predicate<(int Peer, byte[] Payload, bool Reliable)> external = row => row.Peer == sender && row.Reliable
+                && FoundationProtocol.Decode(bytes: row.Payload) is { Kind: "view-part", Game: { } game }
+                && (game.Scope is "external" || FoundationProtocol.WindowScope(scope: game.Scope, external: true));
+        byte[][] parts = [.. room.HostPort.WireSent.FindAll(match: external).Select(selector: row => row.Payload)];
+        _ = room.HostPort.WireSent.RemoveAll(match: external);
+        return parts;
     }
 
     private static void AssertLoosePageActions(Room room, FoundationCoordinator guest, FoundationSession session,

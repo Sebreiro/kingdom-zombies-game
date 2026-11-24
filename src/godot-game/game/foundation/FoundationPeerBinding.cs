@@ -40,6 +40,7 @@ internal sealed class FoundationPeerBinding
     internal (long token, int page) ExternalItemsPage { get; set; }
     internal ImmutableArray<long> OwnWindows { get; set; } = [];
     internal ImmutableArray<long> ExternalWindows { get; set; } = [];
-    internal ImmutableArray<string> WindowScopes { get; set; } = [];
+    internal ImmutableDictionary<string, (long generation, long token, long? container, bool ground, string? target)>
+            ItemScopes { get; set; } = ImmutableDictionary<string, (long, long, long?, bool, string?)>.Empty;
     internal ImmutableQueue<byte[]> PublicParts { get; set; } = ImmutableQueue<byte[]>.Empty;
 }

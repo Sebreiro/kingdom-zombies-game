@@ -202,7 +202,9 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
             return;
         }
 
-        string? focused = _root.GetViewport().GuiGetFocusOwner()?.Name.ToString();
+        Control? control = _root.GetViewport().GuiGetFocusOwner();
+        using NodePath? focused = _content is not null && control is not null && _content.IsAncestorOf(node: control)
+                ? _content.GetPathTo(node: control) : null;
         _grid?.HideFocusDetails();
         Retire(node: _content);
         _targets.Clear();
@@ -218,7 +220,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         DrawExternal();
         DrawBags();
         PaintSlots(item: _model.Drag?.Item);
-        RestoreFocus(previous: focused, fallback: _nearbyFocus ?? close);
+        RestoreFocus(previous: focused?.ToString(), fallback: _nearbyFocus ?? close);
         _dirty = false;
     }
 
@@ -230,8 +232,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
             return;
         }
 
-        Control? focus = previous is null ? null : _content.FindChild(pattern: previous, recursive: true,
-                owned: false) as Control;
+        Control? focus = previous is null ? null : _content.GetNodeOrNull<Control>(path: previous);
         (focus ?? fallback).GrabFocus();
     }
 

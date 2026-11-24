@@ -144,6 +144,14 @@ internal static class FoundationAutomation
         {
             return;
         }
+        else if (action is "phase06-focused" && OwnedPhase() && DisplayServer.GetName() is "headless")
+        {
+            string target = request.GetProperty(propertyName: "control").GetString() ?? "";
+            if (root.GetNodeOrNull<Control>(path: target)?.HasFocus() != true)
+            {
+                throw new InvalidOperationException(message: "DRIVER_FOCUS " + target);
+            }
+        }
         else if (action is "phase06-action" or "phase06-workspace" && OwnedPhase()
                 && DisplayServer.GetName() is "headless" && coordinator is not null
                 && SubmitPhase06(coordinator: coordinator, action: action, request: request))

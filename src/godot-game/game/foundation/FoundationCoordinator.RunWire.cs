@@ -531,9 +531,7 @@ internal sealed partial class FoundationCoordinator
 
         if (updateItems)
         {
-            RevokeItemViews(sender: sender, peer: peer, revision: capture.revision, correlation: correlation);
-            peer.WindowScopes = [.. capture.views.Select(selector: view => view.scope)
-                    .Where(predicate: scope => scope.Contains(value: '.', comparisonType: StringComparison.Ordinal))];
+            RevokeChangedItemViews(sender: sender, peer: peer, capture: capture, correlation: correlation);
             if (fence.epoch == 0)
             {
                 peer.OwnGrid = null;
@@ -567,23 +565,38 @@ internal sealed partial class FoundationCoordinator
         peer.LastRunStatus = now;
     }
 
-    private void RevokeItemViews(int sender, FoundationPeerBinding peer, long revision, long correlation)
+    private void RevokeChangedItemViews(int sender, FoundationPeerBinding peer,
+            (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
+                    ImmutableArray<JsonElement> rows)> views) capture, long correlation)
     {
-        if (peer.RunViewSerial == 0)
+        ImmutableDictionary<string, (long generation, long token, long? container, bool ground, string? target)>
+                current = capture.views.Where(predicate: view => view.scope is not ("status" or "nearby"))
+                        .ToImmutableDictionary(keySelector: view => view.scope, elementSelector: view =>
+                                (view.generation, view.token, SelectedContainer(header: view.header),
+                                view.header.TryGetProperty(propertyName: "Ground", value: out JsonElement ground)
+                                        && ground.GetBoolean(), view.header.TryGetProperty(propertyName: "TargetId",
+                                                value: out JsonElement target) ? target.GetString() : null),
+                                keyComparer: StringComparer.Ordinal);
+        if (!peer.ItemScopes.IsEmpty)
         {
-            return;
+            long serial = checked(++peer.RunViewSerial);
+            foreach ((string scope, var previous) in peer.ItemScopes)
+            {
+                if (!current.TryGetValue(key: scope, value: out var authorized) || authorized != previous)
+                {
+                    RevokeRunView(sender: sender, peer: peer, revision: capture.revision, serial: serial,
+                            correlation: correlation, scope: scope);
+                }
+            }
         }
 
-        long serial = checked(++peer.RunViewSerial);
-        RevokeRunView(sender: sender, peer: peer, revision: revision, serial: serial, correlation: correlation,
-                scope: "own");
-        RevokeRunView(sender: sender, peer: peer, revision: revision, serial: serial, correlation: correlation,
-                scope: "external");
-        foreach (string scope in peer.WindowScopes)
-        {
-            RevokeRunView(sender: sender, peer: peer, revision: revision, serial: serial, correlation: correlation,
-                    scope: scope);
-        }
+        peer.ItemScopes = current;
+    }
+
+    private static long? SelectedContainer(JsonElement header)
+    {
+        JsonElement id = header.GetProperty(propertyName: "ContainerId");
+        return id.ValueKind == JsonValueKind.Null ? null : id.GetInt64();
     }
 
     private void RevokeRunView(int sender, FoundationPeerBinding peer, long revision, long serial,

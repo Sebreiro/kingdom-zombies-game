@@ -440,7 +440,11 @@ async function checkLooseItems(state, watcher, peers) {
   assert.deepEqual(external(again).Rows, external(first).Rows);
   await activate(state, watcher, path + 'NextNearbyItemsPage');
   await observe(state, watcher, row => external(row)?.Header.ItemPage === 2, 'restore off-page bag view');
-  await action(state, watcher, 'place', {Item: reference(bag), Token: external(second).Token, Container: null,
+  const grip = path + 'Bag_' + opened.pouch.Id + '/MoveBag';
+  await inject(state, watcher, {action: 'focus', control: grip});
+  const refreshed = await updateLoosePile(state, peers[0], watcher, bag.Id, opened.pouch.Id, target);
+  await inject(state, watcher, {action: 'phase06-focused', control: grip});
+  await action(state, watcher, 'place', {Item: reference(bag), Token: external(refreshed).Token, Container: null,
     Amount: null, Destination: {Kind: 'equipment', TargetId: first.phase06.control, Slot: 'backpack',
       GridId: null, X: null, Y: null, Rotated: null}}, 'Applied');
   const moved = await observe(state, watcher, row => item(row, 'own', 'IT-23')?.Id === bag.Id && external(row)
@@ -452,7 +456,17 @@ async function checkLooseItems(state, watcher, peers) {
   await tap(state, watcher, key.interact);
   await observe(state, watcher, row => row.inventoryOpen && !external(row),
     'open the nearby inventory selector without the transferred bag context');
-  return {first, opened: opened.contents, second, again, moved};
+  return {first, opened: opened.contents, second, again, refreshed, moved};
+}
+
+async function updateLoosePile(state, host, watcher, bagId, pouchId, target) {
+  await action(state, host, 'select', {TargetKind: 'Pile', TargetId: target}, 'Ready');
+  const open = await observe(state, host, row => item(row, 'external', 'IT-01'), 'host found a separate loose stack');
+  await action(state, host, 'quick', {Item: reference(item(open, 'external', 'IT-01')),
+    Token: external(open).Token, Deposit: false}, 'Applied');
+  return observe(state, watcher, row => external(row)?.Header.ItemCount === 4097
+    && windowFor(row, bagId) && windowFor(row, pouchId),
+  'another controller’s ordinary withdrawal refreshes the active bag tree and page');
 }
 
 function windowFor(row, id) {
