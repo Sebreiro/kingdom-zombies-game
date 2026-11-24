@@ -340,12 +340,13 @@ async function lanPrivacy(state) {
   assert(Math.abs(back.snapshot.Participants.find(row => row.BindingId === back.bindingId).Actor.PositionSubunits
     - (actor(back).X - back.phase06.World.OriginX)) <= 0.5, 'current roster position travels with its world');
   await tap(state, watcher, key.interact);
-  const selector = await observe(state, watcher, row => row.inventoryOpen && own(row),
-    'guest opened the live nearby selector');
+  const selector = await observe(state, watcher, settledNearbyWorkspace,
+    'guest opened the nearby selector and installed its equipped storage scopes');
   await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NextNearbyPage');
   const next = await observe(state, watcher, row => row.phase06.Views.nearby?.Header.Page === 2
     && nearby(row).length > 0 && !reachable(row), 'native next page keeps the bounded authorized target list');
   assert.equal(own(next).Revision, own(selector).Revision, 'paging never replaces its unrelated inventory rows');
+  assert.deepEqual(own(next).Rows, own(selector).Rows);
   const secondPageTarget = next.phase06.Views.nearby.Rows[0];
   const node = 'NearbyChoice_Pile_' + Buffer.from(secondPageTarget.Id).toString('hex').toUpperCase();
   await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NearbyChoices/Rows/' + node);
@@ -404,6 +405,14 @@ async function lanPrivacy(state) {
   assert(!external(remote), 'remote stash reveals no rows or token');
   return evidence(state, 'phase06.headless.lan-privacy', peers,
     {agreement, apart, back, next, pile, returned, dense, selected, views, receipts, corrected, revoked, remote});
+}
+
+function settledNearbyWorkspace(row) {
+  const owned = own(row);
+  if (!row.inventoryOpen || !owned) return false;
+  const windows = Object.entries(row.phase06.Views).filter(([scope]) => scope.startsWith('own.'));
+  return owned.Rows.filter(item => item.Location.Kind === 'equipment' && item.StorageWidth > 0)
+    .every(item => windows.some(([, view]) => view.Header.ContainerId === item.Id && view.Revision === owned.Revision));
 }
 
 async function checkLooseItems(state, watcher, peers) {
