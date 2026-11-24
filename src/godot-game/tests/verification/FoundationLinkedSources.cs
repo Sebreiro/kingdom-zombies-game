@@ -27,6 +27,7 @@ internal static class FoundationLinkedSources
         "src/godot-game/multiplayer-abstractions/SessionAdvertisement.cs",
         "src/godot-game/game/foundation/FoundationInput.cs",
         "src/godot-game/game/foundation/FoundationInventoryInteraction.cs",
+        "src/godot-game/game/foundation/FoundationHudState.cs",
         "src/godot-game/game/foundation/FoundationCoordinator.cs",
         "src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs",
         "src/godot-game/game/foundation/FoundationViewInbox.cs",

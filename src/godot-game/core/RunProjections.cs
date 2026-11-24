@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 namespace KingdomZombies.Core;
 
 /// <summary>Builds detached public and private values at the current host authority boundary.</summary>
-internal static class RunProjections
+internal static partial class RunProjections
 {
     internal static (string survivorId, long generation, long deathGeneration)? Control(
             FoundationSession.RunPublication? root, (string session, string binding, string player) identity)
@@ -105,6 +105,7 @@ internal static class RunProjections
             root.Definitions.MaximumHealth,
             root.Definitions.MaximumStamina,
             RootTime = root.ElapsedMilliseconds,
+            Hud = owner is null ? (JsonElement?)null : LivingHud(root: root, owner: owner),
             Teammates = succession?.Teammates.Select(selector: teammate =>
                     new { teammate.BindingId, teammate.Slot, teammate.SurvivorId }),
         });

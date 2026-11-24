@@ -13,6 +13,8 @@ internal sealed partial class FoundationCoordinator
     internal (string survivorId, long generation, long deathGeneration)? LocalRunControl =>
             _session is not null ? ReadBoundRunControl(sender: 0) : _runInbox.Control;
     internal (long sequence, string status, bool replayed)? RunActionFeedback { get; private set; }
+    internal (long epoch, long at, string kind, string text)? ActionHudFeedback { get; private set; }
+    internal (long epoch, long at, string kind, string text)? VitalsHudFeedback { get; private set; }
 
     internal (long sequence, string status)? SubmitRunAction(string kind, JsonElement request)
     {
@@ -48,11 +50,20 @@ internal sealed partial class FoundationCoordinator
             }
 
             RunActionFeedback = (sequence, outcome.status, outcome.replayed);
+            RememberHudFeedback(epoch: epoch, kind: kind, status: outcome.status, replayed: outcome.replayed);
             return (sequence, outcome.status);
         }
 
         Send(peer: 1, envelope: envelope);
         return (sequence, "Pending");
+    }
+
+    internal void MissingQuickFood()
+    {
+        if (LocalRunControl is { generation: > 0 } control)
+        {
+            RememberHudFeedback(epoch: control.generation, kind: "food", status: "StaleFood", replayed: false);
+        }
     }
 
     internal FoundationRunReadback? ReadRunRender()
@@ -137,6 +148,31 @@ internal sealed partial class FoundationCoordinator
     private long? _localExternalGrid;
     private ImmutableArray<long> _localOwnWindows = [];
     private ImmutableArray<long> _localExternalWindows = [];
+
+    private void RememberHudFeedback(long epoch, string kind, string status, bool replayed)
+    {
+        if (replayed || epoch <= 0 || LocalRunControl?.generation != epoch)
+        {
+            return;
+        }
+
+        string purpose = kind is "move" ? "jump" : kind;
+        if (FoundationHudState.BlockedNotice(kind: purpose, status: status) is { } text)
+        {
+            if (purpose is "jump")
+            {
+                VitalsHudFeedback = (epoch, Now(), purpose, text);
+            }
+            else
+            {
+                ActionHudFeedback = (epoch, Now(), purpose, text);
+            }
+        }
+        else if (kind is "attack" && status is "EmptyAmmo" && ActionHudFeedback is { kind: "attack" })
+        {
+            ActionHudFeedback = null;
+        }
+    }
 
     private FoundationEnvelope RunActionEnvelope(FoundationActorState actor, string kind, long sequence,
             string survivor, long epoch, JsonElement request)
@@ -333,6 +369,8 @@ internal sealed partial class FoundationCoordinator
                 game: new FoundationRunFrame
                 {
                     Action = envelope.Game?.Action ?? "",
+                    Epoch = envelope.Game?.Epoch ?? 0,
+                    Survivor = envelope.Game?.Survivor ?? "",
                     Status = status,
                     Replayed = replayed
                 }));

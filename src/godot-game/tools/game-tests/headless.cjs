@@ -132,6 +132,8 @@ async function verifyInventory(peer, subject, deadline, awaitRow) {
   await key(peer, subject, deadline, inventoryKey, true);
   const open = await awaitRow(row => row.inventoryOpen && row.inventorySlots === 11,
     'ordinary I opens eleven native equipment slots');
+  assert.ok(open.hud?.Health > 0 && open.hud.Stamina > 0 && open.hud.slots === 4,
+    'COMMITTED_LIVE_HUD_REMOVES_NO_OWNED_PANEL');
   await key(peer, subject, deadline, inventoryKey, false);
   await input(peer, subject, deadline,
     {action: 'focus', control: 'InventoryWorkspace/InventoryPanels/equipment_torso-clothing'});
@@ -150,7 +152,13 @@ async function verifyInventory(peer, subject, deadline, awaitRow) {
       && row.polledRight && row.direction === 0,
     'Escape dismisses inventory and keeps the old physical hold blocked');
   await key(peer, subject, deadline, rightKey, false);
-  return {open, details, held, closed};
+  await activate(peer, subject, deadline, 'RunHud/Actions/OpenInventory');
+  const button = await awaitRow(row => row.frame > closed.frame && row.inventoryOpen && row.hud?.slots === 4,
+    'native Open inventory action reaches the same committed workspace');
+  await key(peer, subject, deadline, escapeKey, true);
+  await key(peer, subject, deadline, escapeKey, false);
+  await awaitRow(row => row.frame > button.frame && !row.inventoryOpen, 'Escape closes the HUD-opened workspace');
+  return {open, details, held, closed, button};
 }
 
 async function verifyNearby(peer, subject, deadline, awaitRow) {

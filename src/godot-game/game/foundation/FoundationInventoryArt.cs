@@ -40,21 +40,32 @@ internal sealed class FoundationInventoryArt : IDisposable
 
     internal string Name(FoundationInventoryInteraction.Item item)
     {
-        return _names.GetValueOrDefault(key: item.Definition, defaultValue: item.Definition);
+        return Name(definition: item.Definition);
+    }
+
+    internal string Name(string definition)
+    {
+        return _names.GetValueOrDefault(key: definition, defaultValue: definition);
     }
 
     internal Texture2D Icon(FoundationInventoryInteraction.Item item)
     {
         _gateway.RequireThread();
-        if (item.Definition.Length != 5 || !item.Definition.StartsWith(value: "IT-", comparisonType:
-                StringComparison.Ordinal) || !int.TryParse(s: item.Definition.AsSpan(start: 3),
+        return Icon(definition: item.Definition, icon: item.Icon);
+    }
+
+    internal Texture2D Icon(string definition, string icon)
+    {
+        _gateway.RequireThread();
+        if (definition.Length != 5 || !definition.StartsWith(value: "IT-", comparisonType:
+                StringComparison.Ordinal) || !int.TryParse(s: definition.AsSpan(start: 3),
                         provider: CultureInfo.InvariantCulture, result: out int id) || id is < 1 or > 24)
         {
             throw new InvalidDataException(message: "INVENTORY_ICON_ID");
         }
 
         string group = id <= 10 ? "items-01-10" : "items-11-24";
-        return Atlas(pack: group, key: item.Icon, expected: "assets/equipment/" + group + ".png");
+        return Atlas(pack: group, key: icon, expected: "assets/equipment/" + group + ".png");
     }
 
     internal Texture2D Silhouette()

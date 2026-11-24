@@ -135,6 +135,8 @@ internal sealed partial class FoundationCoordinator
         _runInbox.Clear();
         _respawnPoll.Clear();
         RunActionFeedback = null;
+        ActionHudFeedback = null;
+        VitalsHudFeedback = null;
         BindingId = "";
         _localActor = "";
         _hostPeerGeneration = "";

@@ -51,7 +51,7 @@ internal sealed class FoundationDiagnostics
             int nativeActors, bool polledRight, string? feedback = null, long nowMilliseconds = 0,
             FoundationServices? services = null, FoundationEquipmentProjection.Frame? appearance = null,
             (decimal x, decimal y)? attackAim = null, bool inventoryOpen = false, int inventorySlots = 0,
-            (string kind, int page)? nearby = null, bool inventoryDetails = false)
+            (string kind, int page)? nearby = null, bool inventoryDetails = false, FoundationHudState? hud = null)
     {
         string? output = FoundationObservationScope.Directory();
         string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -85,6 +85,7 @@ internal sealed class FoundationDiagnostics
             inventoryOpen, inventorySlots, inventoryDetails,
             nearby = nearby.HasValue ? new { nearby.Value.kind, nearby.Value.page }
                     : null,
+            hud = hud is null ? null : new { hud.Health, hud.Stamina, hud.Load, hud.Ammo, slots = hud.Food.Length },
         });
         File.AppendAllText(path: Path.Combine(path1: output, path2: "frames.ndjson"),
                 contents: record + Environment.NewLine);

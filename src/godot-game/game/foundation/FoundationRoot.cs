@@ -19,6 +19,14 @@ public sealed partial class FoundationRoot : Control
         _worldInput = new FoundationWorldInput(root: this, gateway: _gateway, input: _input,
                 coordinator: () => _coordinator, workspace: () => WorkspaceInput);
         _inventory = new FoundationInventoryWorkspace(root: this, gateway: _gateway, coordinator: () => _coordinator);
+        _hud = new FoundationHud(root: this, gateway: _gateway, open: () =>
+        {
+            if (_inventory.Handle(command: FoundationInput.WorkspaceCommand.Inventory))
+            {
+                _worldInput.Refresh(popup: false);
+                _worldInput.Move();
+            }
+        });
         WorkspaceInput = _inventory;
     }
 
@@ -164,7 +172,7 @@ public sealed partial class FoundationRoot : Control
                 attackAim: _worldInput.LastAttackAim, inventoryOpen: _inventory.CapturesWorld,
                 inventorySlots: _inventory.VisibleSlotCount,
                 nearby: (_inventory.ExternalKind, _inventory.ExternalPage),
-                inventoryDetails: _inventory.FocusDetailsVisible);
+                inventoryDetails: _inventory.FocusDetailsVisible, hud: _hud.Current);
         Observe();
     }
 
@@ -173,6 +181,7 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _inventory.Dispose();
+        _hud.Dispose();
         _worldInput.Dispose();
         _appearance?.Dispose();
         _appearance = null;
@@ -202,6 +211,7 @@ public sealed partial class FoundationRoot : Control
     private readonly FoundationInput _input = new();
     private readonly FoundationWorldInput _worldInput;
     private readonly FoundationInventoryWorkspace _inventory;
+    private readonly FoundationHud _hud;
     private FoundationCoordinator? _coordinator;
     private FoundationCoordinator? _closing;
     private readonly FoundationRuntimeState _runtime = new();
@@ -382,6 +392,8 @@ public sealed partial class FoundationRoot : Control
         GetNode<Control>(path: "Browser").Visible = false;
         FoundationHud.Project(root: this, snapshot: snapshot, bindingId: _coordinator.BindingId,
                 hosting: _runtime.Hosting, waitingForHost: _coordinator.WaitingForHost, gateway: _gateway);
+        _hud.Observe(readback: readback, coordinator: _coordinator, browsing: _inventory.CapturesWorld,
+                now: _runtime.NowMilliseconds);
         Label hint = GetNode<Label>(path: "Hint");
         hint.Text = _coordinator.WorldHint(instructions: hint.Text);
         hint.Visible = true;
@@ -423,6 +435,7 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _inventory.Release();
+        _hud.Hide();
         _worldInput.DetachWorld();
         _appearance?.Dispose();
         _appearance = null;

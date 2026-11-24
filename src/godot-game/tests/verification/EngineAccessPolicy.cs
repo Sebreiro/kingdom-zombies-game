@@ -126,6 +126,42 @@ internal static class EngineAccessPolicy
 
     private static readonly HashSet<string> _presenters = new(comparer: StringComparer.Ordinal)
     {
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Dispose()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Hide()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Build()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "BuildVitals(Control)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "BuildActions(Control)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "BuildDamage()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateVitals(FoundationHudState,string?,float)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateActions(FoundationHudState,string?,bool)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "AddMeter(Control,string,Rect2,Color)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "AddTile(Control,string,int,int)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "DrawTile(Tile?,Item?,decimal)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateAmmo(int?)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateMeter(Meter?,string,decimal,decimal)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Emphasize(Label?,bool)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Text(Control,string,Rect2)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "SetText(Label?,string)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Fill(Control,string,Rect2,Color)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Place(Control,Rect2)",
         "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Fou"
                 + "ndation.FoundationInventoryWorkspace|ShowNotice(string)",
         "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Fou"

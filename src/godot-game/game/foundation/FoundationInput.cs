@@ -13,6 +13,11 @@ internal sealed class FoundationInput
     internal bool FreshPress { get; private set; }
     internal bool Gameplay => _gameplay;
 
+    internal static bool WorldAllowed(bool alive, bool focused, bool popup, bool panel, bool guiFocused)
+    {
+        return alive && focused && !popup && !panel && !guiFocused;
+    }
+
     internal bool Held(int key)
     {
         return _gameplay && _held.Contains(item: key);

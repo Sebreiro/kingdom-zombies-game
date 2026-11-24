@@ -116,9 +116,12 @@ internal sealed partial class FoundationCoordinator
 
         if (envelope.Kind is "action-result")
         {
-            if (envelope.Sequence <= _sequence && envelope.Sequence >= (RunActionFeedback?.sequence ?? 0))
+            if (CurrentReceipt(frame: game) && envelope.Sequence <= _sequence
+                    && envelope.Sequence >= (RunActionFeedback?.sequence ?? 0))
             {
                 RunActionFeedback = (envelope.Sequence, game.Status, game.Replayed);
+                RememberHudFeedback(epoch: game.Epoch, kind: game.Action, status: game.Status,
+                        replayed: game.Replayed);
             }
         }
         else if (!_runInbox.Offer(envelope: envelope, now: Now()))
@@ -127,6 +130,14 @@ internal sealed partial class FoundationCoordinator
         }
 
         RefreshGuestReadback();
+    }
+
+    private bool CurrentReceipt(FoundationRunFrame frame)
+    {
+        return LocalRunControl is { } control && (frame.Action is "respawn"
+                ? frame.Epoch == control.deathGeneration
+                : frame.Epoch == control.generation
+                        && StringComparer.Ordinal.Equals(x: frame.Survivor, y: control.survivorId));
     }
 
     private void RefreshGuestReadback()

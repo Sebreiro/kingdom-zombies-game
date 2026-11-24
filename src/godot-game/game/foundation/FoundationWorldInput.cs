@@ -104,8 +104,8 @@ internal sealed class FoundationWorldInput : IDisposable
         }
 
         bool focus = _root.GetViewport().GuiGetFocusOwner() is { } owner && owner.IsVisibleInTree();
-        bool gameplay = _world is not null && _focused && !popup && identity.HasValue && !focus
-                && _workspace()?.CapturesWorld != true;
+        bool gameplay = _world is not null && FoundationInput.WorldAllowed(alive: identity.HasValue,
+                focused: _focused, popup: popup, panel: _workspace()?.CapturesWorld == true, guiFocused: focus);
         _input.SetContext(gameplay: gameplay);
         if (_surface is not null)
         {
@@ -310,6 +310,8 @@ internal sealed class FoundationWorldInput : IDisposable
             }));
             return;
         }
+
+        _coordinator()?.MissingQuickFood();
     }
 
     private void SetAimVisible(bool visible)

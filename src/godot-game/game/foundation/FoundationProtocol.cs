@@ -192,7 +192,8 @@ internal static class FoundationProtocol
                     && frame.Status.Length == 0 && !frame.Replayed && NoViewScope(frame: frame),
             "action-result" => identity && envelope.Sequence > 0 && frame.Status.Length is >= 1 and <= 32
                     && KnownAction(action: frame.Action) && frame.Body is null && frame.Rows.IsEmpty
-                    && frame.Survivor.Length == 0 && frame.Epoch == 0 && NoViewScope(frame: frame),
+                    && frame.Epoch > 0 && (frame.Action is "respawn" ? frame.Survivor.Length == 0
+                            : frame.Survivor.Length > 0) && NoViewScope(frame: frame),
             "view-part" => identity && ValidScope(scope: frame.Scope) && frame.View > 0 && frame.Body is not null
                     && frame.Parts is >= 1 and <= MaximumViewParts && frame.Part < frame.Parts
                     && NoActionFields(frame: frame) && ValidScopeBody(frame: frame),
@@ -247,10 +248,11 @@ internal static class FoundationProtocol
             case "status":
                 Shape(value: body, names: ["SurvivorId", "Generation", "DeathGeneration", "Status", "OpensAt",
                     "DeathX", "DeathY", "Health", "Stamina", "MaximumHealth", "MaximumStamina", "RootTime",
-                    "Teammates"]);
+                    "Teammates", "Hud"]);
                 ValidateRows(body: body, member: "Teammates", fields: ["BindingId", "Slot", "SurvivorId"]);
                 return frame.Rows.IsEmpty && frame.Token == 0 && frame.Parts == 1
-                        && body.GetProperty(propertyName: "Generation").GetInt64() == frame.Epoch;
+                        && body.GetProperty(propertyName: "Generation").GetInt64() == frame.Epoch
+                        && ValidHud(hud: body.GetProperty(propertyName: "Hud"), alive: frame.Epoch > 0);
             case "own":
                 Shape(value: body, names: ["SurvivorId", "ContainerId", "Width", "Height", "Nearby", "Quick",
                     "Availability"]);
@@ -287,6 +289,72 @@ internal static class FoundationProtocol
         return Text(value: body, name: "Kind") is "Stash" && first == page
                 && effect.GetProperty(propertyName: "Sequence").GetInt64() > 0
                 && effect.GetProperty(propertyName: "MorePages").GetInt32() >= 0;
+    }
+
+    private static bool ValidHud(JsonElement hud, bool alive)
+    {
+        if (!alive)
+        {
+            return hud.ValueKind == JsonValueKind.Null;
+        }
+
+        Shape(value: hud, names: ["Rest", "Weight", "Load", "Speed", "Cost", "Soft", "Severe", "Money", "Left",
+            "Right", "LeftAttack", "RightAttack", "Ammo", "AttackAt", "AttackReady", "FoodAt", "FoodReady",
+            "FlinchAt", "SprintBlock", "Food"]);
+        JsonElement slots = hud.GetProperty(propertyName: "Food");
+        return ValidHudScalars(hud: hud) && slots.ValueKind == JsonValueKind.Array && slots.GetArrayLength() == 4
+                && ValidHudItem(item: hud.GetProperty(propertyName: "Left"))
+                && ValidHudItem(item: hud.GetProperty(propertyName: "Right"))
+                && slots.EnumerateArray().All(predicate: ValidHudItem);
+    }
+
+    private static bool ValidHudScalars(JsonElement hud)
+    {
+        JsonElement ammo = hud.GetProperty(propertyName: "Ammo");
+        return Text(value: hud, name: "Rest") is "Unsafe" or "Resting" or "Recovering"
+                && Text(value: hud, name: "Load") is "Normal" or "Heavy" or "Overloaded"
+                && Text(value: hud, name: "SprintBlock") is "None" or "Overloaded" or "InsufficientStamina"
+                && hud.GetProperty(propertyName: "Money").GetInt64() >= 0
+                && (ammo.ValueKind == JsonValueKind.Null || ammo.GetInt32() is >= 0 and <= 10000)
+                && hud.GetProperty(propertyName: "LeftAttack").ValueKind is JsonValueKind.True or JsonValueKind.False
+                && hud.GetProperty(propertyName: "RightAttack").ValueKind is JsonValueKind.True or JsonValueKind.False
+                && ValidHudNumbers(data: hud);
+    }
+
+    private static bool ValidHudNumbers(JsonElement data)
+    {
+        string[] required = ["Weight", "Speed", "Cost", "Soft", "Severe"];
+        string[] optional = ["AttackAt", "AttackReady", "FoodAt", "FoodReady", "FlinchAt"];
+        return required.All(predicate: name => NonnegativeNumber(value: data.GetProperty(propertyName: name)))
+                && optional.All(predicate: name => OptionalNonnegative(value: data.GetProperty(propertyName: name)));
+    }
+
+    private static bool NonnegativeNumber(JsonElement value)
+    {
+        return value.ValueKind == JsonValueKind.Number && value.TryGetDecimal(value: out decimal available)
+                && available >= 0;
+    }
+
+    private static bool OptionalNonnegative(JsonElement value)
+    {
+        return value.ValueKind == JsonValueKind.Null || NonnegativeNumber(value: value);
+    }
+
+    private static bool ValidHudItem(JsonElement item)
+    {
+        if (item.ValueKind == JsonValueKind.Null)
+        {
+            return true;
+        }
+
+        Shape(value: item, names: ["Id", "DefinitionId", "CanonicalIcon", "Quantity", "Condition",
+            "MaximumCondition"]);
+        return item.GetProperty(propertyName: "Id").GetInt64() > 0
+                && item.GetProperty(propertyName: "Quantity").GetInt32() is >= 1 and <= 10000
+                && Text(value: item, name: "DefinitionId").Length is >= 1 and <= 128
+                && Text(value: item, name: "CanonicalIcon").Length is >= 1 and <= 128
+                && OptionalNonnegative(value: item.GetProperty(propertyName: "Condition"))
+                && OptionalNonnegative(value: item.GetProperty(propertyName: "MaximumCondition"));
     }
 
     private static bool ValidOwnControls(JsonElement body)
