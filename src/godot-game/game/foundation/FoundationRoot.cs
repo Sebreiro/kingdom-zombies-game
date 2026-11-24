@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
@@ -210,30 +211,30 @@ public sealed partial class FoundationRoot : Control
             _runtime.Hosting = host;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: host, nowMilliseconds: () => _runtime.NowMilliseconds);
-            bool observeWorld = false;
-#if DEBUG
-            observeWorld = !host && DisplayServer.GetName() is "headless"
-                    && FoundationCoordinator.UseObservedWorld(generation: _generation);
-#endif
-            _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld, read: (path, limit) =>
+            bool observeWorld = !host && FoundationCoordinator.UseObservedWorld(generation: _generation)
+                    && DisplayServer.GetName() is "headless";
+            var resources = new Dictionary<string, byte[]?>(comparer: StringComparer.Ordinal);
+            var (paths, limit) = FoundationSession.RequiredRunResources;
+            foreach (string path in paths)
             {
-                _gateway.RequireThread();
                 using Godot.FileAccess? file = Godot.FileAccess.Open(path: "res://" + path,
                         flags: Godot.FileAccess.ModeFlags.Read);
                 ulong length = file?.GetLength() ?? 0;
                 if (file is null || length is 0 || length > (ulong)limit)
                 {
-                    return null;
+                    continue;
                 }
 
-                long expected = checked((long)length);
+                int expected = checked((int)length);
                 byte[] bytes = file.GetBuffer(length: expected);
-                return bytes.LongLength == expected && file.GetError() is Error.Ok or Error.FileEof ? bytes : null;
-            });
+                resources.Add(key: path, value: bytes.Length == expected
+                        && file.GetError() is Error.Ok or Error.FileEof ? bytes : null);
+            }
+
+            _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld,
+                    read: (path, _) => resources.GetValueOrDefault(key: path));
 #if DEBUG
-            if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
-                    is string fault && StringComparer.Ordinal.Equals(x: fault,
-                            y: System.Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE")))
+            if (FoundationCoordinator.ShouldFailEntry(generation: _generation))
             {
                 throw new InvalidOperationException(message: "Scoped one-shot scene construction fixture");
             }

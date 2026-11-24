@@ -38,6 +38,8 @@ internal sealed class RunDefinitions
         "headwear", "face", "torso-clothing", "legs", "body-armor", "gloves", "boots", "backpack", "belt",
         "left-hand", "right-hand",
     ];
+    internal static ImmutableArray<string> DocumentPaths { get; } =
+            [InventoryPath, SurvivorsPath, ItemsPath, RunPath, CombatPath];
     internal static RunDefinitions Default => _embedded.Value;
     internal int SurvivorCount { get; }
     internal int PlayerLimit { get; }
@@ -55,15 +57,20 @@ internal sealed class RunDefinitions
     internal static RunDefinitions Load(Func<string, int, byte[]?> read)
     {
         ArgumentNullException.ThrowIfNull(argument: read);
-        InventorySettings inventory = Read(name: "inventory", id: "DT-06", read: read, parse: ReadInventory);
-        SurvivorSettings survivors = Read(name: "survivors", id: "DT-03", read: read, parse: ReadSurvivors);
-        ImmutableDictionary<string, Item> items = Read(name: "items", id: "DT-04", read: read,
+        InventorySettings inventory = Read(path: InventoryPath, id: "DT-06", read: read, parse: ReadInventory);
+        SurvivorSettings survivors = Read(path: SurvivorsPath, id: "DT-03", read: read, parse: ReadSurvivors);
+        ImmutableDictionary<string, Item> items = Read(path: ItemsPath, id: "DT-04", read: read,
                 parse: root => ReadItems(root: root, stash: inventory.StashGrid));
-        Start start = Read(name: "run", id: "DT-01", read: read, parse: root => ReadStart(root: root, items: items));
-        _ = Read(name: "combat", id: "DT-05", read: read, parse: root => CheckCombat(root: root, items: items));
+        Start start = Read(path: RunPath, id: "DT-01", read: read, parse: root => ReadStart(root: root, items: items));
+        _ = Read(path: CombatPath, id: "DT-05", read: read, parse: root => CheckCombat(root: root, items: items));
         return new RunDefinitions(start: start, survivors: survivors, inventory: inventory, items: items);
     }
 
+    private const string InventoryPath = "content/config/inventory.json";
+    private const string SurvivorsPath = "content/config/survivors.json";
+    private const string ItemsPath = "content/config/items.json";
+    private const string RunPath = "content/config/run.json";
+    private const string CombatPath = "content/config/combat.json";
     private static readonly Lazy<RunDefinitions> _embedded = new(valueFactory: () => Load(read: ReadEmbedded));
     private static readonly ImmutableArray<string?> _itemSlots = [null, "either-logical-hand",
         "either-logical-hand", "either-logical-hand", "either-logical-hand", "either-logical-hand",
@@ -85,9 +92,8 @@ internal sealed class RunDefinitions
         return bytes;
     }
 
-    private static T Read<T>(string name, string id, Func<string, int, byte[]?> read, Func<JsonElement, T> parse)
+    private static T Read<T>(string path, string id, Func<string, int, byte[]?> read, Func<JsonElement, T> parse)
     {
-        string path = "content/config/" + name + ".json";
         try
         {
             byte[]? bytes = read(arg1: path, arg2: MaximumDocumentBytes);

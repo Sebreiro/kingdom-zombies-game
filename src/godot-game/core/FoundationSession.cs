@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -19,6 +20,9 @@ public sealed class FoundationSession
     public FoundationActorState Actor => Snapshot.Participants[0].Actor;
     /// <summary>Gets one complete immutable publication.</summary>
     public FoundationSnapshot Snapshot => _publication.Snapshot;
+    /// <summary>Gets the exact resource paths and per-file size limit used by the guarded native reader.</summary>
+    public static (ImmutableArray<string> paths, int maximumBytes) RequiredRunResources =>
+            (RunDefinitions.DocumentPaths, RunDefinitions.MaximumDocumentBytes);
 
     /// <summary>Gets the local host actor's current safety and shared stash access at the committed run time.</summary>
     public (long elapsedMilliseconds, bool insideCamp, bool safeDistance, bool stashReachable) LocalWorld

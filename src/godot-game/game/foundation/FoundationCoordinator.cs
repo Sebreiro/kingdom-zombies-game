@@ -164,6 +164,15 @@ internal sealed partial class FoundationCoordinator
 #endif
     }
 
+#if DEBUG
+    internal static bool ShouldFailEntry(long generation)
+    {
+        return generation == 1 && Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
+                is string fault && StringComparer.Ordinal.Equals(x: fault,
+                        y: Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE"));
+    }
+#endif
+
     internal string WorldHint(string instructions)
     {
         if (LocalWorld is not { } state)
