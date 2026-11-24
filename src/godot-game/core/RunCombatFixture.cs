@@ -100,7 +100,8 @@ internal static class RunCombatFixture
     {
         return [.. Enumerable.Range(start: 0, count: WirePiles).Select(selector: index => new RunWorld.Anchor(
                 id: "fixture.wire-persistent-loot-" + index.ToString(provider: CultureInfo.InvariantCulture),
-                contact: new RunWorld.Point(x: 30000 + index, y: 0), kind: RunWorld.Access.Pile))];
+                contact: new RunWorld.Point(x: (index < 80 ? -8000 : 30000) + index, y: 0),
+                kind: RunWorld.Access.Pile))];
     }
 
     private static RunInventory Kit(RunInventory inventory, RunDefinitions definitions, string mode)

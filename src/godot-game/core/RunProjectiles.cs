@@ -32,13 +32,16 @@ internal static class RunProjectiles
                 velocity: (dx * rule.Speed / distance, dy * rule.Speed / distance), aim: aim);
     }
 
-    internal static Frame Advance(FoundationSession.RunPublication current, RunPopulation population, long now,
+    internal static Frame Advance(FoundationSession.RunPublication current, long now,
+            Func<Frame, decimal, decimal, RunPopulation> advance,
             Func<RunPopulation.Survivor, (FoundationHeldIntent? intent, long generation)> control)
     {
-        var frame = new Frame(world: current.World, population: population, inventory: current.Inventory,
-                combat: current.Combat);
+        var frame = new Frame(world: current.World, population: current.Population, inventory: current.Inventory,
+                combat: current.Combat, loot: current.Loot);
+        decimal cursor = current.ElapsedMilliseconds;
         if (now == current.ElapsedMilliseconds || (current.Combat.Arrows.IsEmpty && current.Combat.Impacts.IsEmpty))
         {
+            frame.Population = advance(arg1: frame, arg2: cursor, arg3: now);
             return frame;
         }
 
@@ -46,17 +49,58 @@ internal static class RunProjectiles
         ImmutableArray<Impact>.Builder impacts = ImmutableArray.CreateBuilder<Impact>();
         foreach (Contact contact in Contacts(current: current, now: now, control: control))
         {
-            if (!spent.Contains(item: contact.Arrow.Id) && Apply(frame: frame, contact: contact,
-                    rules: current.Definitions.Combat) is { } impact)
+            if (spent.Contains(item: contact.Arrow.Id) || !CanApply(frame: frame, contact: contact))
             {
-                spent.Add(item: contact.Arrow.Id);
-                impacts.Add(item: impact);
+                continue;
             }
+
+            if (contact.At > cursor)
+            {
+                frame.Population = advance(arg1: frame, arg2: cursor, arg3: contact.At);
+                cursor = contact.At;
+            }
+
+            if (Apply(frame: frame, contact: contact, rules: current.Definitions.Combat) is { } impact)
+            {
+                _ = spent.Add(item: contact.Arrow.Id);
+                impacts.Add(item: impact);
+                if (impact.Hit is { Lethal: true } hit)
+                {
+                    CommitDeath(frame: frame, hit: hit);
+                }
+            }
+        }
+
+        if (now > cursor)
+        {
+            frame.Population = advance(arg1: frame, arg2: cursor, arg3: now);
         }
 
         frame.Combat = current.Combat.WithFlight(arrows: [.. current.Combat.Arrows.Where(predicate: arrow =>
                 !spent.Contains(item: arrow.Id) && now < arrow.ExpiresAt)], impacts: impacts.ToImmutable());
         return frame;
+    }
+
+    private static bool CanApply(Frame frame, Contact contact)
+    {
+        return contact.Kind switch
+        {
+            Kind.Defense => frame.World.Defenses.Any(predicate: defense => defense.Living
+                    && StringComparer.Ordinal.Equals(x: defense.Id, y: contact.TargetId)),
+            Kind.Survivor => frame.Population.Survivors.Any(predicate: survivor => survivor.Health > 0
+                    && StringComparer.Ordinal.Equals(x: survivor.Id, y: contact.TargetId)),
+            _ => true,
+        };
+    }
+
+    private static void CommitDeath(Frame frame, RunDamage.Hit hit)
+    {
+        RunDeathAndLoot.Frame death = RunDeathAndLoot.ApplyDeaths(world: frame.World, population: frame.Population,
+                inventory: frame.Inventory, state: frame.Loot, hits: [hit]);
+        frame.World = death.World;
+        frame.Population = death.Population;
+        frame.Inventory = death.Inventory;
+        frame.Loot = death.Loot;
     }
 
     private static IEnumerable<Contact> Contacts(FoundationSession.RunPublication current, long now,
@@ -93,8 +137,7 @@ internal static class RunProjectiles
     }
 
     private static IEnumerable<Contact> Trace(Arrow arrow, RunWorld world, RunPopulation population,
-            long previous, long now,
-            Func<RunPopulation.Survivor, (decimal at, (decimal x, decimal height, long? jump) pose)?> survivor)
+            long previous, long now, Func<RunPopulation.Survivor, decimal?> survivor)
     {
         decimal from = Math.Max(val1: previous, val2: arrow.LaunchedAt);
         decimal to = Math.Min(val1: now, val2: arrow.ExpiresAt);
@@ -129,10 +172,9 @@ internal static class RunProjectiles
         foreach (RunPopulation.Survivor target in population.Survivors)
         {
             if (target.Health > 0 && target.Hostile != arrow.Hostile
-                    && survivor(arg: target) is { } collision)
+                    && survivor(arg: target) is { } at)
             {
-                yield return new Contact(arrow: arrow, targetId: target.Id, kind: Kind.Survivor, at: collision.at,
-                        pose: collision.pose);
+                yield return new Contact(arrow: arrow, targetId: target.Id, kind: Kind.Survivor, at: at);
             }
         }
     }
@@ -172,16 +214,6 @@ internal static class RunProjectiles
         if (receipt is null)
         {
             return null;
-        }
-
-        if (receipt.Lethal && contact.Pose is { } pose)
-        {
-            survivor = survivor with
-            {
-                PositionSubunitsExact = pose.x,
-                HeightSubunits = pose.height,
-                JumpStartedAt = pose.jump,
-            };
         }
 
         frame.Inventory = inventory;
@@ -226,18 +258,21 @@ internal static class RunProjectiles
 
     internal sealed class Frame
     {
-        internal Frame(RunWorld world, RunPopulation population, RunInventory inventory, RunCombat.State combat)
+        internal Frame(RunWorld world, RunPopulation population, RunInventory inventory, RunCombat.State combat,
+                RunDeathAndLoot.State loot)
         {
             World = world;
             Population = population;
             Inventory = inventory;
             Combat = combat;
+            Loot = loot;
         }
 
         internal RunWorld World { get; set; }
         internal RunPopulation Population { get; set; }
         internal RunInventory Inventory { get; set; }
         internal RunCombat.State Combat { get; set; }
+        internal RunDeathAndLoot.State Loot { get; set; }
     }
 
     internal sealed record Impact
@@ -268,21 +303,18 @@ internal static class RunProjectiles
 
     internal sealed record Contact
     {
-        internal Contact(Arrow arrow, string targetId, Kind kind, decimal at,
-                (decimal x, decimal height, long? jump)? pose = null)
+        internal Contact(Arrow arrow, string targetId, Kind kind, decimal at)
         {
             Arrow = arrow;
             TargetId = targetId;
             Kind = kind;
             At = at;
-            Pose = pose;
         }
 
         internal Arrow Arrow { get; }
         internal string TargetId { get; }
         internal Kind Kind { get; }
         internal decimal At { get; }
-        internal (decimal x, decimal height, long? jump)? Pose { get; }
     }
 
     private sealed class Sweep

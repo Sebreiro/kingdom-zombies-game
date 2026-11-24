@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Godot;
+using KingdomZombies.Core;
 using Model = KingdomZombies.Foundation.FoundationInventoryInteraction;
 
 namespace KingdomZombies.Foundation;
@@ -82,6 +83,9 @@ internal sealed partial class FoundationInventoryWorkspace
     private Polygon2D? _targetMarker;
 
     private ImmutableArray<(string kind, string id)> Nearby => Model.Nearby(rows: View(scope: "nearby")?.Rows ?? []);
+    private int NearbyCount => View(scope: "nearby")?.Header.GetProperty(propertyName: "Count").GetInt32() ?? 0;
+    private int NearbyPage => View(scope: "nearby")?.Header.GetProperty(propertyName: "Page").GetInt32() ?? 1;
+    private int NearbyPages => NearbyCount == 0 ? 1 : 1 + (NearbyCount - 1) / FoundationSession.NearbyPageSize;
 
     private FoundationRunView? AuthorizedExternal()
     {
@@ -92,17 +96,18 @@ internal sealed partial class FoundationInventoryWorkspace
         }
 
         (string kind, string id) target = Model.ExternalTarget(header: view.Header);
-        return Nearby.Contains(item: target) && (_selecting is null || _selecting == target) ? view : null;
+        long selected = View(scope: "nearby")?.Header.GetProperty(propertyName: "SelectedToken").GetInt64() ?? 0;
+        return view.Token == selected && (_selecting is null || _selecting == target) ? view : null;
     }
 
     private void OpenNearby()
     {
         ImmutableArray<(string kind, string id)> targets = Nearby;
-        if (External is null && targets.Length == 1)
+        if (External is null && NearbyCount == 1 && targets.Length == 1)
         {
             SelectNearby(target: targets[0]);
         }
-        else if (targets.Length > 1)
+        else if (NearbyCount > 1)
         {
             _showNearbyChoices = true;
         }
@@ -153,27 +158,26 @@ internal sealed partial class FoundationInventoryWorkspace
         _gateway.RequireThread();
         LabelAt(parent: parent, text: "Nearby inventories",
                 at: new Model.Rect(x: NearbyLeft + 16, y: 4, width: 235, height: 36), heading: true);
-        ImmutableArray<(string kind, string id)> targets = Nearby;
         if (ShowingTargetList())
         {
-            DrawNearbyChoices(parent: parent, targets: targets);
+            DrawNearbyChoices(parent: parent, targets: Nearby);
             return;
         }
 
         if (_selected is { } target && External is not null)
         {
             Button current = ButtonAt(parent: parent, name: "NearbyTarget",
-                    text: TargetLabel(target: target, distinguish: targets.Length > 1),
+                    text: TargetLabel(target: target, distinguish: NearbyCount > 1),
                     at: new Model.Rect(x: NearbyLeft + 16, y: 43, width: 414, height: 37),
                     action: ToggleTargetList);
             current.Modulate = new Color(r: 0.941f, g: 0.769f, b: 0.416f);
-            current.Disabled = targets.Length <= 1 || _externalPending;
+            current.Disabled = NearbyCount <= 1 || _externalPending;
             current.TooltipText = current.Disabled ? current.Text : current.Text + ". Choose another inventory.";
             _nearbyFocus = current;
             return;
         }
 
-        string empty = Own is null ? "Opening inventories…" : targets.IsEmpty
+        string empty = Own is null ? "Opening inventories…" : NearbyCount == 0
                 ? "No nearby inventories.\nMove closer to a reachable stash, survivor or loot."
                 : "Opening inventory…";
         LabelAt(parent: parent, text: empty, at: new Model.Rect(x: NearbyLeft + 16, y: 95,
@@ -185,8 +189,15 @@ internal sealed partial class FoundationInventoryWorkspace
         _gateway.RequireThread();
         LabelAt(parent: parent, text: "Choose a nearby inventory", at: new Model.Rect(
                 x: NearbyLeft + 16, y: 42, width: 414, height: 38));
+        int pages = NearbyPages;
+        int page = NearbyPage;
         VBoxContainer rows = ScrollFlow(parent: parent, name: "NearbyChoices",
-                at: new Model.Rect(x: NearbyLeft + 16, y: 85, width: 414, height: 370));
+                at: new Model.Rect(x: NearbyLeft + 16, y: 85, width: 414, height: pages > 1 ? 322 : 370));
+        if (pages > 1)
+        {
+            DrawNearbyPages(parent: parent, page: page, pages: pages);
+        }
+
         for (int index = 0; index < targets.Length; index++)
         {
             (string kind, string id) target = targets[index];
@@ -205,6 +216,27 @@ internal sealed partial class FoundationInventoryWorkspace
                 choice.Modulate = new Color(r: 0.941f, g: 0.769f, b: 0.416f);
             }
         }
+    }
+
+    private void DrawNearbyPages(Control parent, int page, int pages)
+    {
+        _gateway.RequireThread();
+        const int Left = NearbyLeft + 16;
+        Button back = ButtonAt(parent: parent, name: "PreviousNearbyPage", text: "Previous",
+                at: new Model.Rect(x: Left, y: 414, width: 95, height: 36),
+                action: () => RequestNearbyPage(page: page - 1));
+        back.Disabled = page <= 1;
+        LabelAt(parent: parent, text: Count(value: page) + " of " + Count(value: pages),
+                at: new Model.Rect(x: Left + 109, y: 414, width: 194, height: 36));
+        Button next = ButtonAt(parent: parent, name: "NextNearbyPage", text: "Next",
+                at: new Model.Rect(x: Left + 319, y: 414, width: 95, height: 36),
+                action: () => RequestNearbyPage(page: page + 1));
+        next.Disabled = page >= pages;
+    }
+
+    private void RequestNearbyPage(int page)
+    {
+        _ = _coordinator()?.RequestNearbyPage(page: page);
     }
 
     private bool ShowingTargetList()
@@ -412,7 +444,7 @@ internal sealed partial class FoundationInventoryWorkspace
             return;
         }
 
-        bool available = Nearby.Contains(item: target);
+        bool available = current.Header.GetProperty(propertyName: "SelectedToken").GetInt64() == _externalToken;
         bool lost = !available || current.Header.GetProperty(propertyName: "Availability").GetString() is "AccessLost";
         if (!lost || _selecting.HasValue && _selecting != target)
         {
@@ -423,7 +455,7 @@ internal sealed partial class FoundationInventoryWorkspace
             return;
         }
 
-        bool siblings = Nearby.Any(predicate: candidate => candidate != target);
+        bool siblings = NearbyCount > 0;
         bool disappeared = target.kind is "Corpse" or "Pile" && _readback?.World is { } world
                 && WorldTarget(world: world, target: target) is null;
         string title = TargetLabel(target: target, distinguish: false);

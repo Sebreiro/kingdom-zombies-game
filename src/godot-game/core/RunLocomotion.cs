@@ -39,8 +39,8 @@ internal static class RunLocomotion
     }
 
     internal static RunPopulation.Survivor Advance(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            RunInventory inventory, RunWorld world, FoundationHeldIntent? intent, long generation, long previous,
-            long current)
+            RunInventory inventory, RunWorld world, FoundationHeldIntent? intent, long generation, decimal previous,
+            decimal current)
     {
         int direction = intent?.Direction ?? 0;
         Burden load = direction == 0 ? Burden.Unloaded
@@ -134,7 +134,7 @@ internal static class RunLocomotion
     }
 
     private static RunPopulation.Survivor AdvanceAir(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            int direction, decimal speedScale, long start, long previous, decimal current)
+            int direction, decimal speedScale, long start, decimal previous, decimal current)
     {
         Settings tuning = definitions.Locomotion;
         decimal progress = Math.Clamp(value: (current - start) / tuning.JumpDuration, min: 0, max: 1);

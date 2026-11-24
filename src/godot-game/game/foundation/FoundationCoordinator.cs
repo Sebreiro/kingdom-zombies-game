@@ -160,11 +160,11 @@ internal sealed partial class FoundationCoordinator
     internal (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows)> views)? ReadBoundRunViews(int sender, long? ownGrid = null,
                     long? externalGrid = null, ImmutableArray<long> ownWindows = default,
-                    ImmutableArray<long> externalWindows = default)
+                    ImmutableArray<long> externalWindows = default, int nearbyPage = 1)
     {
         return RunIdentity(sender: sender) is { } identity ? _session?.ReadRunViews(identity: identity,
                 ownGrid: ownGrid, externalGrid: externalGrid, ownWindows: ownWindows,
-                externalWindows: externalWindows) : null;
+                externalWindows: externalWindows, nearbyPage: nearbyPage) : null;
     }
 
     internal (string status, bool replayed, long revision) DispatchBoundRunAction(int sender,

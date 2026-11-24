@@ -226,6 +226,43 @@ public sealed class Phase06BowTests
         (corpse.Contact.X, corpse.Contact.Y, corpse.At).ShouldBe(expected: (-3200L, 0L, 1800m));
     }
 
+    /// <summary>Recovery and lethal damage occur at their actual positions on the run clock.</summary>
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AlreadyRestingSurvivorAppliesImpactAtTheSubtick(bool lethal)
+    {
+        FoundationSession whole = RestingUnderArrow(health: lethal ? 21 : 99.95m);
+        FoundationSession split = RestingUnderArrow(health: lethal ? 21 : 99.95m);
+        whole.Step(elapsedMilliseconds: 1000);
+        split.Step(elapsedMilliseconds: 100);
+        RunProjectiles.Impact impact = Combat(session: whole).Impacts.Single();
+        impact.ShouldBe(expected: Combat(session: split).Impacts.Single());
+        impact.At.ShouldBe(expected: 5510);
+        RunDamage.Hit hit = impact.Hit.ShouldNotBeNull();
+        hit.HealthBefore.ShouldBe(expected: lethal ? 21.2m : 100m);
+        hit.Lethal.ShouldBe(expected: lethal);
+        split.Step(elapsedMilliseconds: 900);
+        Phase06MeleeTests.Survivor(session: whole).Health.ShouldBe(expected: lethal ? 0 : 79.8m);
+        Phase06MeleeTests.Survivor(session: split).Health.ShouldBe(expected: lethal ? 0 : 79.8m);
+        Combat(session: whole).Arrows.ShouldBeEmpty();
+        Combat(session: split).Arrows.ShouldBeEmpty();
+        Phase06DeathTests.Loot(session: whole).Deaths.Count.ShouldBe(expected: lethal ? 1 : 0);
+        Phase06DeathTests.Loot(session: split).Deaths.Count.ShouldBe(expected: lethal ? 1 : 0);
+    }
+
+    private static FoundationSession RestingUnderArrow(decimal health)
+    {
+        FoundationSession session = Phase06MeleeTests.Start(world: World());
+        StartEnemyBow(session: session, arrows: 1, position: 5000);
+        session.Step(elapsedMilliseconds: 5000);
+        EnemyFire(session: session, sequence: 1).Status.ShouldBe(expected: RunCombat.Status.Accepted);
+        session.Step(elapsedMilliseconds: 410);
+        session.TryUpdateVitals(survivorId: Phase06MeleeTests.Owner, health: health, stamina: 100).ShouldBeTrue();
+        Phase06MeleeTests.Survivor(session: session).RestStartedAt.ShouldBe(expected: 0);
+        return session;
+    }
+
     private static FoundationSession JumpWithArrow(bool landsOnArrow, bool lethal = false)
     {
         FoundationSession session = Phase06MeleeTests.Start(world: World());

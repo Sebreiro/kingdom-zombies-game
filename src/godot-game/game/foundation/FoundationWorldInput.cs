@@ -273,7 +273,8 @@ internal sealed class FoundationWorldInput : IDisposable
     private void SelectNearby()
     {
         if (_readback?.Views.TryGetValue(key: "nearby", value: out FoundationRunView? view) != true
-                || view is null || view.Epoch != _identity?.epoch || view.Rows.Length != 1)
+                || view is null || view.Epoch != _identity?.epoch || view.Rows.Length != 1
+                || view.Header.GetProperty(propertyName: "Count").GetInt32() != 1)
         {
             return;
         }

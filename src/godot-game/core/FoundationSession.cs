@@ -12,6 +12,9 @@ namespace KingdomZombies.Core;
 /// <summary>Owns identified participants and the sole intent and elapsed movement authority.</summary>
 public sealed class FoundationSession
 {
+    /// <summary>The number of authorized target identities shown in one nearby selector page.</summary>
+    public const int NearbyPageSize = 64;
+
     /// <summary>Creates a fresh configured run with one ready local participant and a legacy actor token.</summary>
     public FoundationSession(string sessionId, string playerId, string actorId)
             : this(sessionId: sessionId, playerId: playerId, actorId: actorId, world: RunWorld.Foundation)
@@ -58,11 +61,11 @@ public sealed class FoundationSession
             ImmutableArray<JsonElement> rows)> views)? ReadRunViews(
                     (string session, string binding, string player) identity, long? ownGrid = null,
                     long? externalGrid = null, bool includeItems = true, ImmutableArray<long> ownWindows = default,
-                    ImmutableArray<long> externalWindows = default)
+                    ImmutableArray<long> externalWindows = default, int nearbyPage = 1)
     {
         return UnderInventoryAuthority(action: current => RunProjections.Private(session: this, root: current,
                 identity: identity, ownGrid: ownGrid, externalGrid: externalGrid, includeItems: includeItems,
-                ownWindows: ownWindows, externalWindows: externalWindows));
+                ownWindows: ownWindows, externalWindows: externalWindows, nearbyPage: nearbyPage));
     }
 
     /// <summary>Reads the access fence and identifies immutable inventory changes for publication.</summary>
@@ -255,11 +258,13 @@ public sealed class FoundationSession
             ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
             RunPublication current = _publication;
             long elapsed = checked(current.ElapsedMilliseconds + elapsedMilliseconds);
-            RunPopulation population = AdvancePopulation(current: current, elapsed: elapsed);
-            RunProjectiles.Frame flight = RunProjectiles.Advance(current: current, population: population,
-                    now: elapsed, control: survivor => MovementControl(current: current, survivor: survivor));
+            RunProjectiles.Frame flight = RunProjectiles.Advance(current: current, now: elapsed,
+                    advance: (frame, from, to) => AdvancePopulation(current: current, frame: frame,
+                            previous: from, elapsed: to),
+                    control: survivor => MovementControl(current: current, survivor: survivor));
             FoundationParticipantState[] candidate = [.. current.Snapshot.Participants.Select(selector: participant =>
-                    AdvanceParticipant(participant: participant, population: population,
+                    AdvanceParticipant(participant: participant, started: current.Population,
+                            population: flight.Population,
                             elapsedMilliseconds: elapsedMilliseconds))];
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: candidate);
@@ -836,14 +841,10 @@ public sealed class FoundationSession
     private static RunPublication FinishStep(RunPublication current, FoundationSnapshot snapshot,
             RunProjectiles.Frame flight, long elapsed)
     {
-        ImmutableArray<RunDamage.Hit> hits = elapsed == current.ElapsedMilliseconds ? []
-                : [.. flight.Combat.Impacts.Select(selector: impact => impact.Hit).OfType<RunDamage.Hit>()];
-        RunDeathAndLoot.Frame frame = RunDeathAndLoot.ApplyDeaths(world: flight.World,
-                population: flight.Population, inventory: flight.Inventory, state: current.Loot, hits: hits);
-        RunInventory inventory = frame.Inventory;
+        RunInventory inventory = flight.Inventory;
         if (!ReferenceEquals(objA: inventory, objB: current.Inventory))
         {
-            if (!ValidInventory(current: current, candidate: inventory, population: frame.Population))
+            if (!ValidInventory(current: current, candidate: inventory, population: flight.Population))
             {
                 throw new InvalidDataException(message: "RUN_PROJECTILE_INVENTORY");
             }
@@ -851,10 +852,10 @@ public sealed class FoundationSession
             inventory = RunQuickReferences.Invalidate(inventory: inventory, definitions: current.Definitions);
         }
 
-        (RunWorld world, RunDeathAndLoot.State loot) = RunDeathAndLoot.Reconcile(world: frame.World,
-                inventory: inventory, loot: frame.Loot, now: elapsed, delay: current.Definitions.LootEmptyDelay);
-        RunPopulation population = ReferenceEquals(objA: world, objB: current.World) ? frame.Population
-                : RefreshRest(population: frame.Population, world: world);
+        (RunWorld world, RunDeathAndLoot.State loot) = RunDeathAndLoot.Reconcile(world: flight.World,
+                inventory: inventory, loot: flight.Loot, now: elapsed, delay: current.Definitions.LootEmptyDelay);
+        RunPopulation population = ReferenceEquals(objA: world, objB: current.World) ? flight.Population
+                : RefreshRest(population: flight.Population, world: world);
         RunSuccession.Frame assigned = RunSuccession.Settle(population: population, participants: snapshot.Participants,
                 loot: loot, state: current.Succession);
         if (assigned.Participants != snapshot.Participants)
@@ -896,10 +897,11 @@ public sealed class FoundationSession
                 && StringComparer.Ordinal.Equals(x: trustedActor, y: participant.Actor.ActorId);
     }
 
-    private RunPopulation AdvancePopulation(RunPublication current, long elapsed)
+    private RunPopulation AdvancePopulation(RunPublication current, RunProjectiles.Frame frame, decimal previous,
+            decimal elapsed)
     {
-        RunPopulation population = current.Population;
-        foreach (RunPopulation.Survivor survivor in current.Population.Survivors)
+        RunPopulation population = frame.Population;
+        foreach (RunPopulation.Survivor survivor in frame.Population.Survivors)
         {
             if (survivor.Health <= 0)
             {
@@ -908,8 +910,8 @@ public sealed class FoundationSession
 
             (FoundationHeldIntent? intent, long generation) = MovementControl(current: current, survivor: survivor);
             RunPopulation.Survivor next = RunLocomotion.Advance(survivor: survivor, definitions: current.Definitions,
-                    inventory: current.Inventory, world: current.World, intent: intent,
-                    generation: generation, previous: current.ElapsedMilliseconds, current: elapsed);
+                    inventory: frame.Inventory, world: frame.World, intent: intent,
+                    generation: generation, previous: previous, current: elapsed);
             population = population.Replace(previous: survivor, current: next);
         }
 
@@ -930,9 +932,9 @@ public sealed class FoundationSession
     }
 
     private static FoundationParticipantState AdvanceParticipant(FoundationParticipantState participant,
-            RunPopulation population, long elapsedMilliseconds)
+            RunPopulation started, RunPopulation population, long elapsedMilliseconds)
     {
-        if (!participant.Ready || population.FindLivingControl(bindingId: participant.BindingId) is not { } lease)
+        if (!participant.Ready || started.FindLivingControl(bindingId: participant.BindingId) is not { } lease)
         {
             return participant;
         }

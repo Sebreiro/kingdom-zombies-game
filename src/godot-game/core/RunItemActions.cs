@@ -29,10 +29,12 @@ internal sealed class RunItemActions
                 controller: controller)?.Progress.Selection);
     }
 
-    internal (ImmutableArray<RunExternalAccess.Target> targets, Status availability) ReadNearby(Controller controller)
+    internal (ImmutableArray<RunExternalAccess.Target> targets, Status availability, long selectedToken)
+            ReadNearby(Controller controller)
     {
         return _session.UnderInventoryAuthority(action: current => Authenticate(current: current,
-                controller: controller) is { } access ? Nearby(access: access) : ([], Status.AccessLost));
+                controller: controller) is { } access ? NearbyWithSelection(access: access)
+                : ([], Status.AccessLost, 0));
     }
 
     internal Outcome Submit(Controller controller, long sequence, Request request)
@@ -470,6 +472,13 @@ internal sealed class RunItemActions
         Status availability = access.Progress.SelectionLost ? Status.AccessLost
                 : targets.IsEmpty ? Status.NoTargets : Status.Ready;
         return (targets, availability);
+    }
+
+    private static (ImmutableArray<RunExternalAccess.Target> targets, Status availability, long selectedToken)
+            NearbyWithSelection(Access access)
+    {
+        (ImmutableArray<RunExternalAccess.Target> targets, Status availability) = Nearby(access: access);
+        return (targets, availability, access.Progress.Selection?.Token ?? 0);
     }
 
     internal enum Status

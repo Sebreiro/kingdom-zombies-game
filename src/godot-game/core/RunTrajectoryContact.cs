@@ -5,7 +5,7 @@ namespace KingdomZombies.Core;
 /// <summary>Clips an arrow against linear horizontal motion and exact parabolic jump height.</summary>
 internal static class RunTrajectoryContact
 {
-    internal static (decimal at, (decimal x, decimal height, long? jump) pose)? First(RunProjectiles.Arrow arrow,
+    internal static decimal? First(RunProjectiles.Arrow arrow,
             RunWorld world, RunLocomotion.Motion[] slices, RunLocomotion.Settings tuning, long from, long to)
     {
         foreach (RunLocomotion.Motion slice in slices)
@@ -24,8 +24,7 @@ internal static class RunTrajectoryContact
                     maximum: 250, duration: last, first: ref first, last: ref last)
                     && Vertical(path: path, from: start + first, to: start + last) is { } contact)
             {
-                decimal impact = Math.Clamp(value: decimal.Round(d: contact, decimals: 6), min: start, max: end);
-                return (impact, path.Pose(at: impact));
+                return Math.Clamp(value: decimal.Round(d: contact, decimals: 6), min: start, max: end);
             }
         }
 
@@ -92,12 +91,6 @@ internal static class RunTrajectoryContact
         internal decimal Y(decimal at)
         {
             return _arrow.At(now: at).y - _world.Origin.Y - _world.GroundContactSubunits - Height(at: at);
-        }
-
-        internal (decimal x, decimal height, long? jump) Pose(decimal at)
-        {
-            decimal height = Height(at: at);
-            return (Position(at: at), height, height > 0 ? _slice.Jump : null);
         }
 
         internal decimal TurningAt()

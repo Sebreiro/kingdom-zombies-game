@@ -82,6 +82,38 @@ public sealed class Phase06PublicationTests
         guest.ReadRunRender().ShouldNotBeNull().Roster.ShouldBeSameAs(expected: after.Roster);
     }
 
+    /// <summary>A legal vicinity above the old cap still advertises reachable targets.</summary>
+    [Fact]
+    public void SaturatedNearbyListsKeepTheStashAndEveryBoundedPageAvailable()
+    {
+        const int Piles = 17000;
+        RunWorld.Anchor[] anchors =
+        [
+            new RunWorld.Anchor(id: RunWorld.StashId, contact: new RunWorld.Point(x: -8000, y: 0),
+                    kind: RunWorld.Access.Stash),
+            .. Enumerable.Range(start: 0, count: Piles).Select(selector: index => new RunWorld.Anchor(
+                    id: FormattableString.Invariant(formattable: $"local-pile-{index:D5}"),
+                    contact: new RunWorld.Point(x: -16500 + index, y: 0), kind: RunWorld.Access.Pile)),
+            new RunWorld.Anchor(id: "out-of-range", contact: new RunWorld.Point(x: 40000, y: 0),
+                    kind: RunWorld.Access.Pile),
+        ];
+        var world = new RunWorld(origin: default, groundContactSubunits: 0, mainBuilding: default,
+                ranges: new RunWorld.Ranges(refugeUnits: 12, dangerUnits: 12, localUnits: 9, stashUnits: 4),
+                defenses: [], blockers: [], hostiles: [], anchors: anchors);
+        var session = new FoundationSession(sessionId: "pages", playerId: "host", actorId: "actor", world: world);
+        session.Step(elapsedMilliseconds: 0);
+
+        FoundationRunFrame first = NearbyPage(session: session, page: 1);
+        first.Body.ShouldNotBeNull().GetProperty(propertyName: "Count").GetInt32().ShouldBe(expected: Piles + 8);
+        first.Rows[0].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: RunWorld.StashId);
+        FoundationRunFrame second = NearbyPage(session: session, page: 2);
+        second.Rows.Length.ShouldBe(expected: FoundationSession.NearbyPageSize);
+        second.Rows[0].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: "local-pile-00056");
+        FoundationRunFrame last = NearbyPage(session: session, page: int.MaxValue);
+        last.Rows[^1].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: "local-pile-16999");
+        last.Rows.Length.ShouldBeInRange(from: 1, to: FoundationSession.NearbyPageSize);
+    }
+
     /// <summary>Four roles receive only their own private data and the permitted current correction.</summary>
     [Fact]
     public void P02_CleanControl_PreservesPrivateAndLocalAccess()
@@ -511,6 +543,27 @@ public sealed class Phase06PublicationTests
         }
 
         return [.. parts.Select(selector: entry => entry.Payload)];
+    }
+
+    private static FoundationRunFrame NearbyPage(FoundationSession session, int page)
+    {
+        (string scope, long generation, long token, JsonElement header, ImmutableArray<JsonElement> rows) nearby =
+                session.ReadRunViews(identity: ("pages", "local", "host"), includeItems: false, nearbyPage: page)
+                        .ShouldNotBeNull().views.Single(predicate: view => view.scope is "nearby");
+        var frame = new FoundationRunFrame
+        {
+            Scope = nearby.scope,
+            Epoch = nearby.generation,
+            View = 1,
+            Parts = 1,
+            Body = nearby.header,
+            Rows = nearby.rows,
+        };
+        byte[] bytes = FoundationProtocol.Encode(envelope: new FoundationEnvelope(kind: "view-part",
+                sessionId: "pages", playerId: "host", actorId: "actor", bindingId: "local",
+                revision: session.Snapshot.Revision, attemptId: "visit", game: frame));
+        bytes.Length.ShouldBeLessThan(expected: FoundationProtocol.MaximumBytes);
+        return FoundationProtocol.Decode(bytes: bytes).Game.ShouldNotBeNull();
     }
 
     private static byte[] LastScope(Room room, int sender, string scope)

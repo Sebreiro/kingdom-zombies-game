@@ -90,7 +90,15 @@ async function join(state, role) {
   return peer;
 }
 
-async function close(state, stop = network.stop) {
+async function leaveWorkspace(peer, state, deadline) {
+  if (current(peer)?.inventoryOpen) {
+    await tap(state, peer, key.inventory);
+    await network.waitFor([peer], deadline, () => !current(peer)?.inventoryOpen, 'close native workspace before Quit');
+  }
+  await network.stop(peer, state, deadline);
+}
+
+async function close(state, stop = leaveWorkspace) {
   const errors = [];
   for (const peer of [...state.peers].reverse()) {
     try { await stop(peer, state, Date.now() + 7000); }
@@ -331,7 +339,22 @@ async function lanPrivacy(state) {
   assert(Math.abs(back.snapshot.Participants.find(row => row.BindingId === back.bindingId).Actor.PositionSubunits
     - (actor(back).X - back.phase06.World.OriginX)) <= 0.5, 'current roster position travels with its world');
   await tap(state, watcher, key.interact);
-  await observe(state, watcher, row => row.inventoryOpen, 'guest opened the live nearby selector');
+  const selector = await observe(state, watcher, row => row.inventoryOpen && own(row),
+    'guest opened the live nearby selector');
+  await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NextNearbyPage');
+  const next = await observe(state, watcher, row => row.phase06.Views.nearby?.Header.Page === 2
+    && nearby(row).length > 0 && !reachable(row), 'native next page keeps the bounded authorized target list');
+  assert.equal(own(next).Revision, own(selector).Revision, 'paging never replaces its unrelated inventory rows');
+  const secondPageTarget = next.phase06.Views.nearby.Rows[0];
+  const node = 'NearbyChoice_Pile_' + Buffer.from(secondPageTarget.Id).toString('hex').toUpperCase();
+  await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NearbyChoices/Rows/' + node);
+  const pile = await observe(state, watcher, row => external(row)?.Header.TargetId === secondPageTarget.Id,
+    'new page offers actual authorized loot');
+  await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NearbyTarget');
+  await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/PreviousNearbyPage');
+  const returned = await observe(state, watcher, row => row.phase06.Views.nearby?.Header.Page === 1
+    && reachable(row) && external(row)?.Token === external(pile).Token,
+  'return to the reachable stash page preserves the previously selected loot authorization');
   await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NearbyChoices/Rows/NearbyChoice_Stash');
   const selected = await observe(state, watcher, row => external(row)?.Header.TargetId === stash.TargetId
     && row.nearby?.kind === 'Stash', 'actual native choice authorizes the approached stash');
@@ -375,7 +398,7 @@ async function lanPrivacy(state) {
   assert.equal(remote.runAction.status, 'AccessLost');
   assert(!external(remote), 'remote stash reveals no rows or token');
   return evidence(state, 'phase06.headless.lan-privacy', peers,
-    {agreement, apart, back, selected, views, receipts, corrected, revoked, remote});
+    {agreement, apart, back, next, pile, returned, selected, views, receipts, corrected, revoked, remote});
 }
 
 module.exports = {open, reset, close: state => close(state), cases: {

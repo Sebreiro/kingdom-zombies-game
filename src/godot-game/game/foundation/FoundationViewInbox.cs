@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.Json;
+using KingdomZombies.Core;
 
 namespace KingdomZombies.Foundation;
 
@@ -255,7 +256,7 @@ internal sealed class FoundationViewInbox
                         .All(predicate: equal => equal);
             }
 
-            int maximum = _nearby ? FoundationProtocol.MaximumNearbyRows : FoundationProtocol.MaximumViewRows;
+            int maximum = _nearby ? FoundationSession.NearbyPageSize : FoundationProtocol.MaximumViewRows;
             if (_rowCount + rows.Length > maximum)
             {
                 return false;

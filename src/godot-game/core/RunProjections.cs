@@ -81,7 +81,7 @@ internal static partial class RunProjections
             ImmutableArray<JsonElement> rows)> views)? Private(FoundationSession session,
                     FoundationSession.RunPublication? root, (string session, string binding, string player) identity,
                     long? ownGrid, long? externalGrid, bool includeItems, ImmutableArray<long> ownWindows,
-                    ImmutableArray<long> externalWindows)
+                    ImmutableArray<long> externalWindows, int nearbyPage)
     {
         if (root is null || Control(root: root, identity: identity) is not { } control)
         {
@@ -118,11 +118,11 @@ internal static partial class RunProjections
                 generation: control.generation);
         if (!includeItems)
         {
-            (ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability) nearby =
-                    session.ItemActions.ReadNearby(controller: controller);
+            (ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability,
+                    long selectedToken) nearby = session.ItemActions.ReadNearby(controller: controller);
             return (root.Snapshot.Revision, [("status", control.generation, 0, status, []),
                 NearbyView(generation: control.generation, targets: nearby.targets,
-                        availability: nearby.availability)]);
+                        availability: nearby.availability, selectedToken: nearby.selectedToken, page: nearbyPage)]);
         }
 
         RunItemActions.View? view = session.ItemActions.Read(controller: controller);
@@ -133,7 +133,7 @@ internal static partial class RunProjections
 
         return (root.Snapshot.Revision, InventoryViews(root: root, view: view, generation: control.generation,
                 status: status, ownGrid: ownGrid, externalGrid: externalGrid,
-                ownWindows: ownWindows, externalWindows: externalWindows));
+                ownWindows: ownWindows, externalWindows: externalWindows, nearbyPage: nearbyPage));
     }
 
     internal static (string status, bool replayed) Dispatch(FoundationSession session,
@@ -180,7 +180,8 @@ internal static partial class RunProjections
     private static ImmutableArray<(string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows)> InventoryViews(FoundationSession.RunPublication root,
                     RunItemActions.View view, long generation, JsonElement status, long? ownGrid,
-                    long? externalGrid, ImmutableArray<long> ownWindows, ImmutableArray<long> externalWindows)
+                    long? externalGrid, ImmutableArray<long> ownWindows, ImmutableArray<long> externalWindows,
+                    int nearbyPage)
     {
         (JsonElement header, ImmutableArray<JsonElement> rows) own = Own(root: root, view: view, requested: ownGrid);
         (JsonElement header, ImmutableArray<JsonElement> rows)? external = External(root: root, view: view,
@@ -190,7 +191,8 @@ internal static partial class RunProjections
                         (string scope, long generation, long token, JsonElement header,
                             ImmutableArray<JsonElement> rows)>();
         windows.Add(item: ("status", generation, 0, status, []));
-        windows.Add(item: NearbyView(generation: generation, targets: view.Nearby, availability: view.Availability));
+        windows.Add(item: NearbyView(generation: generation, targets: view.Nearby, availability: view.Availability,
+                selectedToken: view.Selection?.Token ?? 0, page: nearbyPage));
         windows.Add(item: ("own", generation, 0, own.header, own.rows));
         if (external is { } selected)
         {
@@ -206,10 +208,22 @@ internal static partial class RunProjections
 
     private static (string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows) NearbyView(long generation,
-                    ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability)
+                    ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability,
+                    long selectedToken, int page)
     {
-        return ("nearby", generation, 0, JsonSerializer.SerializeToElement(
-                value: new { Availability = availability.ToString() }), [.. targets.Select(selector: target =>
+        const int Size = FoundationSession.NearbyPageSize;
+        int pages = targets.Length == 0 ? 1 : 1 + (targets.Length - 1) / Size;
+        int current = Math.Clamp(value: page, min: 1, max: pages);
+        int offset = (current - 1) * Size;
+        JsonElement header = JsonSerializer.SerializeToElement(value: new
+        {
+            Availability = availability.ToString(),
+            Page = current,
+            Count = targets.Length,
+            SelectedToken = selectedToken,
+        });
+        return ("nearby", generation, 0, header, [.. targets.Slice(start: offset,
+                length: Math.Min(val1: Size, val2: targets.Length - offset)).Select(selector: target =>
                         JsonSerializer.SerializeToElement(value: new { Kind = target.Kind.ToString(), target.Id }))]);
     }
 

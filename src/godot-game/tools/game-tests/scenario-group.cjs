@@ -37,8 +37,10 @@ async function runScenarios(context, rows, driver) {
     try {
       await driver.close(state, context);
     } catch (error) {
-      results.at(-1).status = 'fail';
-      results.at(-1).message = 'Owned scenario cleanup failed: ' + error.message;
+      const final = results.at(-1);
+      const cleanup = 'Owned scenario cleanup failed: ' + error.message;
+      final.status = 'fail';
+      final.message = final.message ? final.message + '\n' + cleanup : cleanup;
     }
   }
   return results;

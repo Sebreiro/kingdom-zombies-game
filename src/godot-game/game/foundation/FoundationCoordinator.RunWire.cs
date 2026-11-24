@@ -81,7 +81,8 @@ internal sealed partial class FoundationCoordinator
 
         if (ReadRunPublic() is not { } world || ReadBoundRunViews(sender: 0, ownGrid: _localOwnGrid,
                 externalGrid: _localExternalGrid, ownWindows: _localOwnWindows,
-                externalWindows: _localExternalWindows) is not { } local || world.roster.Revision != local.revision)
+                externalWindows: _localExternalWindows, nearbyPage: _localNearby.epoch == LocalRunControl?.generation
+                        ? _localNearby.page : 1) is not { } local || world.roster.Revision != local.revision)
         {
             return null;
         }
@@ -140,6 +141,23 @@ internal sealed partial class FoundationCoordinator
         })).HasValue;
     }
 
+    internal bool RequestNearbyPage(int page)
+    {
+        if (!Ready || LocalRunControl is not { generation: > 0 } control || page < 1)
+        {
+            return false;
+        }
+
+        if (IsHost)
+        {
+            _localNearby = (control.generation, page);
+            return true;
+        }
+
+        return SubmitRunAction(kind: "nearby-page", request: JsonSerializer.SerializeToElement(
+                value: new { Page = page })).HasValue;
+    }
+
     private readonly FoundationViewInbox _runInbox = new();
     private readonly List<(int sender, FoundationEnvelope envelope)> _respawnPoll = [];
     private JsonElement? _remoteWorld;
@@ -148,6 +166,7 @@ internal sealed partial class FoundationCoordinator
     private long? _localExternalGrid;
     private ImmutableArray<long> _localOwnWindows = [];
     private ImmutableArray<long> _localExternalWindows = [];
+    private (long epoch, int page) _localNearby;
 
     private void RememberHudFeedback(long epoch, string kind, string status, bool replayed)
     {
@@ -229,6 +248,7 @@ internal sealed partial class FoundationCoordinator
         {
             "window" => (ChangeWindows(sender: sender, peer: peer, frame: frame), false),
             "workspace" => (ChangeWorkspace(peer: peer, frame: frame), false),
+            "nearby-page" => (ChangeNearbyPage(peer: peer, frame: frame), false),
             _ => DispatchPeerAction(sender: sender, envelope: envelope, frame: frame),
         };
         CompleteRunAction(sender: sender, peer: peer, envelope: envelope, status: result.status,
@@ -248,6 +268,19 @@ internal sealed partial class FoundationCoordinator
         }
 
         return (status, replayed);
+    }
+
+    private static string ChangeNearbyPage(FoundationPeerBinding peer, FoundationRunFrame frame)
+    {
+        if (frame.Body is not { } request || request.EnumerateObject().Count() != 1
+                || !request.TryGetProperty(propertyName: "Page", value: out JsonElement number)
+                || number.ValueKind != JsonValueKind.Number || !number.TryGetInt32(value: out int page) || page < 1)
+        {
+            return "InvalidAction";
+        }
+
+        peer.NearbyPage = page;
+        return "Ready";
     }
 
     private string ChangeWindows(int sender, FoundationPeerBinding peer, FoundationRunFrame frame)
@@ -375,7 +408,7 @@ internal sealed partial class FoundationCoordinator
                     Replayed = replayed
                 }));
         bool inventoryCorrection = !replayed && envelope.Game?.Action is not ("move" or "attack" or "food"
-                or "respawn");
+                or "respawn" or "nearby-page");
         PublishPeerRunViews(sender: sender, peer: peer, force: inventoryCorrection,
                 correlation: envelope.Sequence);
     }
@@ -432,9 +465,10 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
+        peer.NearbyPage = fence.epoch == peer.RunViewFence.epoch ? peer.NearbyPage : 1;
         if (session.ReadRunViews(identity: identity, ownGrid: peer.OwnGrid, externalGrid: peer.ExternalGrid,
                 includeItems: updateItems, ownWindows: peer.OwnWindows,
-                externalWindows: peer.ExternalWindows) is not { } capture)
+                externalWindows: peer.ExternalWindows, nearbyPage: peer.NearbyPage) is not { } capture)
         {
             return;
         }
@@ -515,8 +549,7 @@ internal sealed partial class FoundationCoordinator
         {
             ImmutableArray<byte[]> parts = FoundationProtocol.EncodeView(rows: rows, envelope: part =>
                     RunViewEnvelope(peer: peer, kind: "view-part", revision: revision, correlation: correlation,
-                            frame: part), template: frame, maximumRows: frame.Scope is "nearby"
-                                    ? FoundationProtocol.MaximumNearbyRows : FoundationProtocol.MaximumViewRows);
+                            frame: part), template: frame);
             foreach (byte[] bytes in parts)
             {
                 _connection.Send(peer: sender, payload: bytes);

@@ -17,7 +17,6 @@ internal static class FoundationProtocol
     internal const int MaximumBytes = 32768;
     internal const int Version = 2;
     internal const int MaximumViewRows = 4096;
-    internal const int MaximumNearbyRows = 16384;
     internal const int MaximumViewParts = 256;
 
     internal static byte[] Encode(FoundationEnvelope envelope)
@@ -251,7 +250,7 @@ internal static class FoundationProtocol
     private static bool KnownAction(string action)
     {
         return action is "move" or "attack" or "food" or "select" or "browse" or "close" or "drop" or "quick"
-                or "place" or "merge" or "respawn" or "window" or "assign" or "workspace";
+                or "place" or "merge" or "respawn" or "window" or "assign" or "workspace" or "nearby-page";
     }
 
     private static bool ValidScope(string scope)
@@ -278,10 +277,7 @@ internal static class FoundationProtocol
                         && body.GetProperty(propertyName: "Generation").GetInt64() == frame.Epoch
                         && ValidHud(hud: body.GetProperty(propertyName: "Hud"), alive: frame.Epoch > 0);
             case "nearby":
-                Shape(value: body, names: ["Availability"]);
-                return frame.Epoch > 0 && frame.Token == 0
-                        && Text(value: body, name: "Availability") is "Ready" or "NoTargets" or "AccessLost"
-                        && frame.Rows.All(predicate: ValidNearbyTarget);
+                return ValidNearbyPage(frame: frame, body: body);
             case "own":
                 Shape(value: body, names: ["SurvivorId", "ContainerId", "Width", "Height", "Quick"]);
                 return frame.Epoch > 0 && frame.Token == 0 && ValidOwnControls(body: body)
@@ -300,6 +296,23 @@ internal static class FoundationProtocol
                         && body.GetProperty(propertyName: "Height").GetInt32() is >= 1 and <= 64
                         && frame.Rows.All(predicate: ValidPrivateItem);
         }
+    }
+
+    private static bool ValidNearbyPage(FoundationRunFrame frame, JsonElement body)
+    {
+        Shape(value: body, names: ["Availability", "Page", "Count", "SelectedToken"]);
+        const int Size = FoundationSession.NearbyPageSize;
+        int count = body.GetProperty(propertyName: "Count").GetInt32();
+        int page = body.GetProperty(propertyName: "Page").GetInt32();
+        long token = body.GetProperty(propertyName: "SelectedToken").GetInt64();
+        string availability = Text(value: body, name: "Availability");
+        return frame.Epoch > 0 && frame.Token == 0 && frame.Parts == 1 && page >= 1 && count >= 0 && token >= 0
+                && availability is "Ready" or "NoTargets" or "AccessLost"
+                && (availability is "AccessLost" || (count == 0) == (availability is "NoTargets"))
+                && (token == 0 || availability is "Ready")
+                && page <= (count == 0 ? 1 : 1 + (count - 1) / Size)
+                && frame.Rows.Length == Math.Min(val1: Size, val2: count - (page - 1) * Size)
+                && frame.Rows.All(predicate: ValidNearbyTarget);
     }
 
     private static bool ValidPageEffect(JsonElement body)

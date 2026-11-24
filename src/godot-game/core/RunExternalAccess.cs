@@ -20,12 +20,14 @@ internal static class RunExternalAccess
     internal static ImmutableArray<Target> Nearby(FoundationSession.RunPublication current,
             FoundationParticipantState participant)
     {
-        IEnumerable<Target> anchored = current.World.Anchors.Where(predicate: anchor => anchor.Kind
-                != RunWorld.Access.Npc).Select(selector: anchor => new Target(kind: anchor.Kind, id: anchor.Id));
-        IEnumerable<Target> recruits = current.Population.Survivors.Select(selector: survivor =>
-                new Target(kind: RunWorld.Access.Npc, id: survivor.Id));
+        RunWorld.Point actor = Contact(current: current, participant: participant);
+        IEnumerable<Target> anchored = current.World.Anchors.Where(predicate: anchor =>
+                ReachAnchor(current: current, actor: actor, anchor: anchor)).Select(selector: anchor =>
+                        new Target(kind: anchor.Kind, id: anchor.Id));
+        IEnumerable<Target> recruits = current.Population.Survivors.Where(predicate: survivor =>
+                ReachRecruit(current: current, actor: actor, id: survivor.Id)).Select(selector: survivor =>
+                        new Target(kind: RunWorld.Access.Npc, id: survivor.Id));
         return [.. anchored.Concat(second: recruits)
-                .Where(predicate: target => Allows(current: current, participant: participant, target: target))
                 .OrderBy(keySelector: target => target.Kind)
                 .ThenBy(keySelector: target => target.Id, comparer: StringComparer.Ordinal)];
     }
@@ -34,24 +36,15 @@ internal static class RunExternalAccess
             Target target)
     {
         RunWorld world = current.World;
-        RunWorld.Point actor = current.Population.FindLivingControl(bindingId: participant.BindingId) is { } lease
-                ? world.ActorContact(survivor: current.Population.ForLease(lease: lease))
-                : world.ActorContact(actor: participant.Actor);
+        RunWorld.Point actor = Contact(current: current, participant: participant);
         if (target.Kind == RunWorld.Access.Npc)
         {
             return ReachRecruit(current: current, actor: actor, id: target.Id);
         }
 
-        return target.Kind switch
-        {
-            RunWorld.Access.Stash => StringComparer.Ordinal.Equals(x: target.Id, y: RunWorld.StashId)
-                    && world.Reachable(actor: actor, kind: target.Kind, id: target.Id),
-            RunWorld.Access.Corpse => !current.Population.Survivors.Any(predicate: survivor =>
-                    StringComparer.Ordinal.Equals(x: survivor.Id, y: target.Id) && survivor.Health > 0)
-                    && ReachLoot(current: current, actor: actor, target: target),
-            RunWorld.Access.Pile => ReachLoot(current: current, actor: actor, target: target),
-            _ => false,
-        };
+        return world.Anchors.Any(predicate: anchor => anchor.Kind == target.Kind
+                && StringComparer.Ordinal.Equals(x: anchor.Id, y: target.Id)
+                && ReachAnchor(current: current, actor: actor, anchor: anchor));
     }
 
     internal static bool Contains(Selection selection, RunInventory.Location location)
@@ -85,6 +78,29 @@ internal static class RunExternalAccess
         return [.. visible.OrderBy(keySelector: item => item.Id)];
     }
 
+    private static RunWorld.Point Contact(FoundationSession.RunPublication current,
+            FoundationParticipantState participant)
+    {
+        return current.Population.FindLivingControl(bindingId: participant.BindingId) is { } lease
+                ? current.World.ActorContact(survivor: current.Population.ForLease(lease: lease))
+                : current.World.ActorContact(actor: participant.Actor);
+    }
+
+    private static bool ReachAnchor(FoundationSession.RunPublication current, RunWorld.Point actor,
+            RunWorld.Anchor anchor)
+    {
+        return anchor.Kind switch
+        {
+            RunWorld.Access.Stash => StringComparer.Ordinal.Equals(x: anchor.Id, y: RunWorld.StashId)
+                    && current.World.Reachable(actor: actor, kind: anchor.Kind, contact: anchor.Contact),
+            RunWorld.Access.Corpse => !current.Population.Survivors.Any(predicate: survivor => survivor.Health > 0
+                    && StringComparer.Ordinal.Equals(x: survivor.Id, y: anchor.Id))
+                    && ReachKnownLoot(current: current, actor: actor, anchor: anchor),
+            RunWorld.Access.Pile => ReachKnownLoot(current: current, actor: actor, anchor: anchor),
+            _ => false,
+        };
+    }
+
     private static bool ReachRecruit(FoundationSession.RunPublication current, RunWorld.Point actor, string id)
     {
         RunPopulation population = current.Population;
@@ -101,11 +117,12 @@ internal static class RunExternalAccess
         return world.Reachable(actor: actor, kind: RunWorld.Access.Npc, contact: contact);
     }
 
-    private static bool ReachLoot(FoundationSession.RunPublication current, RunWorld.Point actor, Target target)
+    private static bool ReachKnownLoot(FoundationSession.RunPublication current, RunWorld.Point actor,
+            RunWorld.Anchor anchor)
     {
-        return current.Loot.Targets.TryGetValue(key: target.Id, value: out RunDeathAndLoot.Target? counterpart)
-                && counterpart.Anchor.Kind == target.Kind
-                && current.World.Reachable(actor: actor, kind: target.Kind, id: target.Id);
+        return current.Loot.Targets.TryGetValue(key: anchor.Id, value: out RunDeathAndLoot.Target? target)
+                && target.Anchor.Kind == anchor.Kind
+                && current.World.Reachable(actor: actor, kind: anchor.Kind, contact: anchor.Contact);
     }
 
     [StructLayout(layoutKind: LayoutKind.Auto)]
