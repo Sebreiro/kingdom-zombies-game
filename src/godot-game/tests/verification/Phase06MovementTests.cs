@@ -91,6 +91,7 @@ public sealed class Phase06MovementTests
         Survivor(session: session).Stamina.ShouldBe(expected: 18.2m);
         Motion(session: session, sequence: 4, input: jump).accepted.ShouldBeFalse();
         Motion(session: session, sequence: 5, input: jump).reason.ShouldBe(expected: RunLocomotion.Block.None);
+        CheckSprintExhaustion();
     }
 
     /// <summary>The ordinary session uses an authored fractional walk rate.</summary>
@@ -115,6 +116,24 @@ public sealed class Phase06MovementTests
     private static FoundationSession Start()
     {
         return new FoundationSession(sessionId: "movement", playerId: "host", actorId: "actor");
+    }
+
+    private static void CheckSprintExhaustion()
+    {
+        FoundationSession session = Start();
+        var sprint = new RunLocomotion.Input(right: true, sprint: true);
+        Motion(session: session, sequence: 1, input: sprint).accepted.ShouldBeTrue();
+        session.Step(elapsedMilliseconds: 11000);
+        Survivor(session: session).Stamina.ShouldBe(expected: 7);
+        session.Actor.PositionSubunits.ShouldBe(expected: 45000);
+        Survivor(session: session).SprintBlock.ShouldBe(expected: RunLocomotion.Block.InsufficientStamina);
+        session.Step(elapsedMilliseconds: 1000);
+        Survivor(session: session).Stamina.ShouldBe(expected: 21);
+        session.Actor.PositionSubunits.ShouldBe(expected: 48000);
+        Motion(session: session, sequence: 2, input: sprint).accepted.ShouldBeTrue();
+        session.Step(elapsedMilliseconds: 100);
+        Survivor(session: session).Stamina.ShouldBe(expected: 20);
+        session.Actor.PositionSubunits.ShouldBe(expected: 48500);
     }
 
     private static RunPopulation.Survivor Survivor(FoundationSession session, int index = 0)

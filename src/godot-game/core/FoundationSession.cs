@@ -105,6 +105,7 @@ public sealed class FoundationSession
             }
 
             _intents.Remove(key: bindingId);
+            _foodRequests.Remove(key: bindingId);
             return true;
         }
     }
@@ -184,6 +185,7 @@ public sealed class FoundationSession
         {
             _active = false;
             _intents.Clear();
+            _foodRequests.Clear();
         }
     }
 
@@ -284,6 +286,76 @@ public sealed class FoundationSession
         }
     }
 
+    internal RunFood.Result ConsumeFood(RunItemActions.Controller controller, long sequence, RunFood.Request request)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            RunPopulation.Lease? lease = CurrentControl(current: current, controller: controller);
+            if (lease is null)
+            {
+                return new RunFood.Result(status: RunFood.Status.AccessLost, survivor: null);
+            }
+
+            RunPopulation.Survivor survivor = current.Population.ForLease(lease: lease);
+            if (sequence <= 0)
+            {
+                return new RunFood.Result(status: RunFood.Status.StaleRequest, survivor: survivor);
+            }
+
+            if (_foodRequests.TryGetValue(key: lease.BindingId,
+                    value: out (long generation, long sequence, RunFood.Status status) previous)
+                    && previous.generation == lease.Generation && sequence <= previous.sequence)
+            {
+                bool replayed = sequence == previous.sequence;
+                return new RunFood.Result(status: replayed ? previous.status : RunFood.Status.StaleRequest,
+                        survivor: survivor, replayed: replayed);
+            }
+
+            RunFood.Status status = RunFood.Prepare(current: current, survivor: survivor, request: request,
+                    inventory: out RunInventory? candidate, fed: out RunPopulation.Survivor? fed);
+            if (candidate is not null && fed is not null)
+            {
+                RunPopulation population = current.Population.Replace(previous: survivor, current: fed);
+                if (PublishInventory(current: current, candidate: candidate, population: population, change: out _))
+                {
+                    survivor = fed;
+                }
+                else
+                {
+                    status = RunFood.Status.Rejected;
+                }
+            }
+
+            _foodRequests[lease.BindingId] = (lease.Generation, sequence, status);
+            return new RunFood.Result(status: status, survivor: survivor);
+        }
+    }
+
+    internal bool TryUpdateVitals(string survivorId, decimal health, decimal stamina)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            RunPopulation.Survivor? survivor = current.Population.Survivors.FirstOrDefault(predicate: item =>
+                    StringComparer.Ordinal.Equals(x: item.Id, y: survivorId));
+            if (!_active || survivor is null || survivor.Health <= 0 || health <= 0
+                    || health > current.Definitions.MaximumHealth || stamina < 0
+                    || stamina > current.Definitions.MaximumStamina
+                    || health == survivor.Health && stamina == survivor.Stamina)
+            {
+                return false;
+            }
+
+            RunPopulation updated = current.Population.Replace(previous: survivor, current: survivor with
+            {
+                Health = health,
+                Stamina = stamina,
+            });
+            return TryPublish(participants: current.Snapshot.Participants, population: updated);
+        }
+    }
+
     internal bool CanReach(string bindingId, RunWorld.Access kind, string targetId)
     {
         RunPublication current = _publication;
@@ -328,29 +400,15 @@ public sealed class FoundationSession
             RunPublication current = _publication;
             RunInventory? candidate = edit(arg1: current.Inventory, arg2: current.Definitions,
                     arg3: current.Population);
-            if (!_active || !ReferenceEquals(objA: current, objB: _publication) || candidate is null
-                    || ReferenceEquals(objA: candidate, objB: current.Inventory)
-                    || !RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
-                    || !RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
-                            population: current.Population))
-            {
-                return false;
-            }
-
-            RunInventory updated = RunQuickReferences.Invalidate(inventory: candidate,
-                    definitions: current.Definitions);
-            if (!TryPublish(participants: current.Snapshot.Participants, inventory: updated))
-            {
-                return false;
-            }
-
-            change = new RunItemTransfer.Change(before: current.Inventory, after: updated);
-            return true;
+            return candidate is not null && PublishInventory(current: current, candidate: candidate,
+                    population: current.Population, change: out change);
         }
     }
 
     private readonly Lock _gate = new();
     private readonly Dictionary<string, (long generation, FoundationHeldIntent intent)> _intents =
+            new(comparer: StringComparer.Ordinal);
+    private readonly Dictionary<string, (long generation, long sequence, RunFood.Status status)> _foodRequests =
             new(comparer: StringComparer.Ordinal);
     private volatile RunPublication _publication;
     private volatile bool _active = true;
@@ -419,7 +477,8 @@ public sealed class FoundationSession
                             value: out (long generation, FoundationHeldIntent intent) held)
                     && held.generation == lease.Generation ? held.intent : null;
             RunPopulation.Survivor next = RunLocomotion.Advance(survivor: survivor, definitions: current.Definitions,
-                    inventory: current.Inventory, intent: intent, generation: lease?.Generation ?? 0,
+                    inventory: current.Inventory, world: current.World, intent: intent,
+                    generation: lease?.Generation ?? 0,
                     previous: current.ElapsedMilliseconds, current: elapsed);
             population = population.Replace(previous: survivor, current: next);
         }
@@ -451,17 +510,50 @@ public sealed class FoundationSession
         {
             world?.Validate();
             RunPublication current = _publication;
+            RunPopulation updated = population ?? current.Population;
+            if (world is not null)
+            {
+                foreach (RunPopulation.Survivor survivor in updated.Survivors)
+                {
+                    updated = updated.Replace(previous: survivor, current:
+                            RunVitals.RecheckRest(survivor: survivor, world: world));
+                }
+            }
+
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);
             _publication = new RunPublication(snapshot: snapshot, world: world ?? current.World,
                     elapsedMilliseconds: current.ElapsedMilliseconds, definitions: current.Definitions,
-                    population: population ?? current.Population, inventory: inventory ?? current.Inventory);
+                    population: updated, inventory: inventory ?? current.Inventory);
             return true;
         }
         catch (Exception error) when (error is InvalidDataException or OverflowException)
         {
             return false;
         }
+    }
+
+    private bool PublishInventory(RunPublication current, RunInventory candidate, RunPopulation population,
+            out RunItemTransfer.Change? change)
+    {
+        change = null;
+        if (!_active || !ReferenceEquals(objA: current, objB: _publication)
+                || ReferenceEquals(objA: candidate, objB: current.Inventory)
+                || !RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
+                || !RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
+                        population: population))
+        {
+            return false;
+        }
+
+        RunInventory updated = RunQuickReferences.Invalidate(inventory: candidate, definitions: current.Definitions);
+        if (!TryPublish(participants: current.Snapshot.Participants, population: population, inventory: updated))
+        {
+            return false;
+        }
+
+        change = new RunItemTransfer.Change(before: current.Inventory, after: updated);
+        return true;
     }
 
     private void RequireActive()

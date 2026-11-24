@@ -147,6 +147,9 @@ internal sealed class RunPopulation
         internal long? JumpStartedAt { get; init; }
         internal (long generation, long sequence)? SprintFence { get; init; }
         internal RunLocomotion.Block SprintBlock { get; init; }
+        internal bool RestSafe { get; init; }
+        internal decimal RestMilliseconds { get; init; }
+        internal decimal? FoodAvailableAt { get; init; }
     }
 
     internal sealed record Lease

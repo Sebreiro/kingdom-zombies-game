@@ -36,6 +36,7 @@ internal sealed class RunWorld
     internal ImmutableArray<Blocker> Blockers { get; }
     internal ImmutableArray<Hostile> Hostiles { get; }
     internal ImmutableArray<Anchor> Anchors { get; }
+    internal (long left, long right) CampBorders => Borders();
 
     internal static Ranges DefaultRanges { get; } = new(refugeUnits: 12, dangerUnits: 12, localUnits: 3,
             stashUnits: 4);
@@ -79,6 +80,24 @@ internal sealed class RunWorld
         (long left, long right) = Borders();
         return (actor.X >= left && actor.X <= right, !Hostiles.Any(predicate: hostile =>
                 RunWorldGeometry.Within(first: actor, second: hostile.Contact, rangeUnits: Settings.DangerUnits)));
+    }
+
+    internal bool SafeGroundRest(decimal x)
+    {
+        (long left, long right) = Borders();
+        if (x < left || x > right)
+        {
+            return false;
+        }
+
+        long ground = Origin.Y + GroundContactSubunits;
+        long range = Settings.DangerUnits * SubunitsPerUnit;
+        return !Hostiles.Any(predicate: hostile =>
+        {
+            decimal dx = x - hostile.Contact.X;
+            long dy = ground - hostile.Contact.Y;
+            return dx * dx + dy * dy <= range * range;
+        });
     }
 
     internal bool Reachable(Point actor, Access kind, string id)

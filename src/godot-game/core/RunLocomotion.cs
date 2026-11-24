@@ -37,7 +37,8 @@ internal static class RunLocomotion
     }
 
     internal static RunPopulation.Survivor Advance(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            RunInventory inventory, FoundationHeldIntent? intent, long generation, long previous, long current)
+            RunInventory inventory, RunWorld world, FoundationHeldIntent? intent, long generation, long previous,
+            long current)
     {
         int direction = intent?.Direction ?? 0;
         Burden load = direction == 0 ? Burden.Unloaded
@@ -55,7 +56,7 @@ internal static class RunLocomotion
         }
 
         return AdvanceGround(survivor: survivor, definitions: definitions, intent: intent, generation: generation,
-                load: load, previous: groundedFrom, current: current);
+                world: world, load: load, previous: groundedFrom, current: current);
     }
 
     private static RunPopulation.Survivor AdvanceAir(RunPopulation.Survivor survivor, RunDefinitions definitions,
@@ -65,7 +66,7 @@ internal static class RunLocomotion
         decimal progress = Math.Clamp(value: (current - start) / tuning.JumpDuration, min: 0, max: 1);
         RunPopulation.Survivor airborne = Move(survivor: survivor, direction: direction,
                 speed: tuning.WalkSpeed * tuning.AirControl * speedScale, duration: current - previous);
-        return RunVitals.RegenerateStamina(survivor: airborne with
+        return RunVitals.RegenerateStamina(survivor: RunVitals.ResetRest(survivor: airborne) with
         {
             HeightSubunits = 4 * tuning.JumpHeight * RunWorld.SubunitsPerUnit * progress * (1 - progress),
             JumpStartedAt = progress == 1 ? null : start,
@@ -73,7 +74,8 @@ internal static class RunLocomotion
     }
 
     private static RunPopulation.Survivor AdvanceGround(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            FoundationHeldIntent? intent, long generation, Burden load, decimal previous, decimal current)
+            FoundationHeldIntent? intent, long generation, RunWorld world, Burden load, decimal previous,
+            decimal current)
     {
         int direction = intent?.Direction ?? 0;
         decimal walkedFrom = previous;
@@ -87,9 +89,27 @@ internal static class RunLocomotion
             survivor = survivor with { SprintBlock = Block.None };
         }
 
-        return RunVitals.RegenerateStamina(survivor: Move(survivor: survivor, direction: direction,
-                speed: definitions.Locomotion.WalkSpeed * load.Speed, duration: current - walkedFrom),
-                definitions: definitions, previous: walkedFrom, current: current);
+        if (walkedFrom == current && walkedFrom > previous && survivor.SprintBlock == Block.None)
+        {
+            return survivor;
+        }
+
+        RunPopulation.Survivor walked = Walk(survivor: survivor, definitions: definitions, world: world,
+                direction: direction, speed: definitions.Locomotion.WalkSpeed * load.Speed,
+                duration: current - walkedFrom);
+        return RunVitals.RegenerateStamina(survivor: walked, definitions: definitions, previous: walkedFrom,
+                current: current);
+    }
+
+    private static RunPopulation.Survivor Walk(RunPopulation.Survivor survivor, RunDefinitions definitions,
+            RunWorld world, int direction, decimal speed, decimal duration)
+    {
+        decimal from = survivor.PositionSubunitsExact;
+        decimal limit = direction > 0 ? 59000 - from : from + 59000;
+        decimal moving = direction == 0 ? 0 : Math.Min(val1: duration, val2: limit / speed);
+        RunPopulation.Survivor next = Move(survivor: survivor, direction: direction, speed: speed, duration: duration);
+        return RunVitals.RestAfterWalk(survivor: next, definitions: definitions, world: world, from: from,
+                velocity: direction * speed, moving: moving, waiting: duration - moving);
     }
 
     private static (RunPopulation.Survivor survivor, decimal end) Sprint(RunPopulation.Survivor survivor,

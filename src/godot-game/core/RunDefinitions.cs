@@ -16,7 +16,7 @@ internal sealed class RunDefinitions
     internal const int MaximumStartingStacks = 512;
 
     internal RunDefinitions(Start start, SurvivorSettings survivors, InventorySettings inventory,
-            ImmutableDictionary<string, Item> items)
+            ImmutableDictionary<string, Item> items, ImmutableDictionary<string, RunFood.Nutrition>? food = null)
     {
         SurvivorCount = start.SurvivorCount;
         PlayerLimit = start.PlayerLimit;
@@ -28,6 +28,7 @@ internal sealed class RunDefinitions
         Locomotion = survivors.Locomotion;
         Vitals = survivors.Vitals;
         Items = items;
+        Food = food ?? Default.Food;
         StashGrid = inventory.StashGrid;
         MaximumContainerLevels = inventory.MaximumContainerLevels;
         QuickSlotCount = inventory.QuickSlotCount;
@@ -41,7 +42,7 @@ internal sealed class RunDefinitions
         "left-hand", "right-hand",
     ];
     internal static ImmutableArray<string> DocumentPaths { get; } =
-            [InventoryPath, SurvivorsPath, ItemsPath, RunPath, CombatPath];
+            [InventoryPath, SurvivorsPath, ItemsPath, RunPath, CombatPath, FoodPath];
     internal static RunDefinitions Default => _embedded.Value;
     internal int SurvivorCount { get; }
     internal int PlayerLimit { get; }
@@ -53,6 +54,7 @@ internal sealed class RunDefinitions
     internal RunLocomotion.Settings Locomotion { get; }
     internal RunVitals.Settings Vitals { get; }
     internal ImmutableDictionary<string, Item> Items { get; }
+    internal ImmutableDictionary<string, RunFood.Nutrition> Food { get; }
     internal Size StashGrid { get; }
     internal int MaximumContainerLevels { get; }
     internal int QuickSlotCount { get; }
@@ -67,7 +69,9 @@ internal sealed class RunDefinitions
                 parse: root => ReadItems(root: root, stash: inventory.StashGrid));
         Start start = Read(path: RunPath, id: "DT-01", read: read, parse: root => ReadStart(root: root, items: items));
         _ = Read(path: CombatPath, id: "DT-05", read: read, parse: root => CheckCombat(root: root, items: items));
-        return new RunDefinitions(start: start, survivors: survivors, inventory: inventory, items: items);
+        ImmutableDictionary<string, RunFood.Nutrition> food = Read(path: FoodPath, id: "DT-08", read: read,
+                parse: root => ReadFood(root: root, items: items));
+        return new RunDefinitions(start: start, survivors: survivors, inventory: inventory, items: items, food: food);
     }
 
     private const string InventoryPath = "content/config/inventory.json";
@@ -75,6 +79,7 @@ internal sealed class RunDefinitions
     private const string ItemsPath = "content/config/items.json";
     private const string RunPath = "content/config/run.json";
     private const string CombatPath = "content/config/combat.json";
+    private const string FoodPath = "content/config/food-wildlife.json";
     private static readonly Lazy<RunDefinitions> _embedded = new(valueFactory: () => Load(read: ReadEmbedded));
     private static readonly ImmutableArray<string?> _itemSlots = [null, "either-logical-hand",
         "either-logical-hand", "either-logical-hand", "either-logical-hand", "either-logical-hand",
@@ -262,6 +267,25 @@ internal sealed class RunDefinitions
         }
 
         return items.ToImmutable();
+    }
+
+    private static ImmutableDictionary<string, RunFood.Nutrition> ReadFood(JsonElement root,
+            ImmutableDictionary<string, Item> items)
+    {
+        Dictionary<string, JsonElement> rows = IndexById(rows: Array(parent: root, field: "food"), field: "itemRef");
+        Require(condition: rows.Count == 3, field: "food");
+        ImmutableDictionary<string, RunFood.Nutrition>.Builder food =
+                ImmutableDictionary.CreateBuilder<string, RunFood.Nutrition>(keyComparer: StringComparer.Ordinal);
+        foreach ((string id, JsonElement row) in rows)
+        {
+            Require(condition: items.TryGetValue(key: id, value: out Item? item) && item.IsFood,
+                    field: "food." + id);
+            food.Add(key: id, value: new RunFood.Nutrition(
+                    health: Number(parent: row, field: "health", minimum: 0, maximum: 10000),
+                    stamina: Number(parent: row, field: "stamina", minimum: 0, maximum: 10000)));
+        }
+
+        return food.ToImmutable();
     }
 
     private static Item ReadItem(JsonElement row, string id, string? slot, Size stash)
