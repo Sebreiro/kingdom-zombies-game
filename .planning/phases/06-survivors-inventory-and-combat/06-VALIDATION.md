@@ -91,13 +91,13 @@ Each task's automated command, explicit failure direction and planned files are 
 | --- | ---: | --- | --- | --- | --- |
 | 06-01-1 | 1 | CHAR-04, INV-08, INV-09, INV-10, INV-11 | T-06-01, T-06-02 | Advance the real session and resolve local refuge and access | Pending |
 | 06-01-2 | 1 | CHAR-04, INV-08, INV-09, INV-10, INV-11 | T-06-01, T-06-02 | Exercise defense loss, access loss and exact tick validation | Pending |
-| 06-01-3 | 1 | CHAR-04, INV-08, INV-09, INV-10, INV-11 | T-06-01, T-06-02 | Assert native observations before and after reachable movement | Pending |
+| 06-01-3 | 1 | CHAR-04, INV-08, INV-09, INV-10, INV-11 | T-06-01, T-06-02 | Prove native focus, shutdown and fresh seeded observations | Pending |
 | 06-02-1 | 2 | CHAR-01, INV-01, INV-02, RUN-01 | T-06-03, T-06-04 | Start a real run with the configured population and kit | Pending |
 | 06-02-2 | 2 | CHAR-01, INV-01, INV-02, RUN-01 | T-06-03, T-06-04 | Bind and release current recruits without recreating state | Pending |
 | 06-03-1 | 3 | INV-01, INV-02, INV-03, INV-04, INV-05, INV-06, INV-07 | T-06-05 | Commit real slot and grid placement with exact split and merge | Pending |
 | 06-03-2 | 3 | INV-01, INV-02, INV-03, INV-04, INV-05, INV-06, INV-07 | T-06-05 | Move complete container trees and keep exact carried references | Pending |
-| 06-04-1 | 4 | INV-08, INV-09, INV-10, INV-11, INV-12 | T-06-06, T-06-07 | Open and transfer only among currently permitted local targets | Pending |
-| 06-04-2 | 4 | INV-08, INV-09, INV-10, INV-11, INV-12 | T-06-06, T-06-07 | Deposit, withdraw and browse the real paged stash | Pending |
+| 06-04-1 | 4 | INV-08, INV-09, INV-10, INV-11 | T-06-06, T-06-07 | Open and transfer only among currently permitted local targets | Pending |
+| 06-04-2 | 4 | INV-08, INV-09, INV-10, INV-11 | T-06-06, T-06-07 | Deposit, withdraw and browse the real paged stash | Pending |
 | 06-05-1 | 4 | CHAR-02, CHAR-03, CHAR-04, CHAR-05, CHAR-06, INV-07 | T-06-08 | Move with configured load and pay real stamina | Pending |
 | 06-05-2 | 4 | CHAR-02, CHAR-03, CHAR-04, CHAR-05, CHAR-06, INV-07 | T-06-08 | Recover from elapsed safe rest or consume one actual carried unit | Pending |
 | 06-06-1 | 5 | COMBAT-01, COMBAT-02, COMBAT-03, COMBAT-05, COMBAT-06 | T-06-09, T-06-10 | Perform configured fists and single or simultaneous dual melee | Pending |
@@ -106,7 +106,7 @@ Each task's automated command, explicit failure direction and planned files are 
 | 06-07-2 | 6 | INV-11, INV-12, INV-13, RUN-01, RUN-02, RUN-03, RUN-04 | T-06-11, T-06-12 | Request Respawn explicitly and lease an actual successor | Pending |
 | 06-08-1 | 7 | CHAR-01, INV-05, INV-06, INV-11, INV-12, INV-13, RUN-02, RUN-04 | T-06-13 | Restore clean run continuation with the same belongings and timers | Pending |
 | 06-08-2 | 7 | CHAR-01, INV-05, INV-06, INV-11, INV-12, INV-13, RUN-02, RUN-04 | T-06-13 | Reject inconsistent restores and capture one coherent revision | Pending |
-| 06-09-1 | 8 | INV-08, INV-09, INV-10, INV-11, RUN-01, RUN-02, RUN-03, RUN-04, COMBAT-03 | T-06-14, T-06-15, T-06-16 | Deliver one owned transfer through stable binding and scoped projection | Pending |
+| 06-09-1 | 8 | INV-08, INV-09, INV-10, INV-11, RUN-01, RUN-02, RUN-03, RUN-04, COMBAT-03 | T-06-14, T-06-15, T-06-16 | Bind one owned transfer to stable ingress before changing the wire | Pending |
 | 06-09-2 | 8 | INV-08, INV-09, INV-10, INV-11, RUN-01, RUN-02, RUN-03, RUN-04, COMBAT-03 | T-06-14, T-06-15, T-06-16 | Version and bound public and private frames with explicit revocation | Pending |
 | 06-09-3 | 8 | INV-08, INV-09, INV-10, INV-11, RUN-01, RUN-02, RUN-03, RUN-04, COMBAT-03 | T-06-14, T-06-15, T-06-16 | Prove actual recipient bytes and same-path authoritative correction | Pending |
 | 06-10-1 | 9 | CHAR-02, COMBAT-03, COMBAT-08, INV-12, RUN-01 | T-06-17, T-06-18 | Render actual living or corpse equipment and player crowns | Pending |
