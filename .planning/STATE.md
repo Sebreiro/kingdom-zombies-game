@@ -4,19 +4,19 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 05
 current_phase_name: CI and repeatable game testing
-current_plan: 3
-status: executing
-stopped_at: "Phase 05 shared test runner and CI are on draft PR #15. Current-source verification is in progress."
-last_updated: "2026-11-23T22:40:00.000Z"
-last_activity: 2026-11-23
-last_activity_desc: "Quick task 261123-ltj replaced the ignored .phaseN folders with one .local folder, pinned the shared Node 24 and fixed the PR #11 contradictions."
-state_head: 64217702c329d9adcc711a1d116b9b4a45077fe6
+current_plan: 4
+status: completed
+stopped_at: "Phase 05 verified on b7e419c. Results are recorded on PR #15."
+last_updated: "2026-11-24T08:27:49.292Z"
+last_activity: 2026-11-24
+last_activity_desc: "Verified Phase 05 on Windows at 1280×720 and in hosted Windows and Ubuntu checks."
+state_head: b7e419c075bd0c97423142684099c9f5d588f0c9
 progress:
   total_phases: 12
-  completed_phases: 4
-  total_plans: 62
-  completed_plans: 62
-  percent: 33
+  completed_phases: 5
+  total_plans: 66
+  completed_plans: 64
+  percent: 42
 ---
 
 # Project State
@@ -34,22 +34,23 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 ## Current Position
 
 Phase: 05 — CI and repeatable game testing
-Current Plan: 05-03 and verification preparation
+Current Plan: 05-04 complete
 Total Plans in Phase: 4
-Status: In progress on [draft PR #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15)
-Last activity: 2026-11-23 — Quick task 261123-ltj replaced the ignored `.phaseN` folders with one `.local/` folder shared per repository, pinned the shared Node 24 with agent session hooks and fixed the PR #11 contradictions.
+Status: Complete. [Phase 5 pull request](https://github.com/Sebreiro/kingdom-zombies-game/pull/15)
+Last activity: 2026-11-24 — Phase 5 verified all 92 selected Windows checks and recorded P1–P4. Windows and Ubuntu passed the hosted basic checks on the same source.
 
-Progress: [███░░░░░░░] 33%
+Progress: [████░░░░░░] 42%
 
-Milestone progress: 4 of 12 phases, 62 of 62 currently planned plans (two Phase 4 plans waived), and 19 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 64 of 66 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 30
+- Total plans completed: 64. Two Phase 4 plans were waived.
 - Phase 1 recorded windows: 1352min, 75min average (rounded); historical per-plan scopes remain below.
 - Phase 3 recorded plan windows: 944min total, 236min average. Plan 03-04's 833min includes reviews, failed attempts and five fresh full attempts; it is not the final selected-run duration.
 - Final Phase 3 selected execution: 3,363,558ms / 56.06min, 481/481. No overall execution-time total is inferred for plans without recorded duration metadata.
+- Final Phase 5 Windows selection: 11,748,289ms, 92/92 with all four recorded hub judgments.
 
 **By Phase:**
 
@@ -209,8 +210,8 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 
 ### Blockers/Concerns
 
-- [Cleanup 2026-11-22] The Phase 1-4 ignored artifacts were deleted (quick task 261122-ub4). Until their inputs are tracked or regenerated, `export.profile`, `export.layout`, `rules.export-layout-origin`/`-boundary`, the `ContentNativePermissionTests` model tests and Phase 2 `--verify-completion` fail. The Phase 1 catalog also needs rows for the PR 7 files. The creator declared those Phase 4 inputs (the checkpoint manifest, the current model and the three JSON reports) lost on 2026-11-23; the checks stay blocked under the owners the roadmap assigns. See the [task summary](quick/261122-ub4-prepare-for-merge-pr-7/261122-ub4-SUMMARY.md).
-- [PR #6 relocation] After PR #6 integrated dev, the Phase 4 review-bound gates `runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts` and `--verify-completion` are expected-blocked against the relocated tree. Phase 4 records keep their bytes; renewing these gates is owned by Phase 11 under TEST-12 (moved from Phase 5 by the creator on 2026-11-23; Phase 5 CONTEXT D-46). Pinned Phase 4 recipes (the export tracer and the audio assembly steps) assert the original checkout's ignored `.phase4` folder. Since quick task 261123-ltj they stop with `CAPTURED_ROOT_REQUIRED` before launch in every checkout, naming 05-CONTEXT D-46, until Phase 5 makes the Phase 4 checks it runs work in the relocated tree. The review-bound gates stay with Phase 11 under TEST-12. See the [task summary](quick/261123-fsu-resolve-conflict-https-github-com-sebrei/261123-fsu-SUMMARY.md).
+- [Cleanup 2026-11-22] The Phase 1-4 ignored artifacts were deleted (quick task 261122-ub4). Until their inputs are tracked or regenerated, `export.profile`, `export.layout`, the `ContentNativePermissionTests` model tests and Phase 2 `--verify-completion` fail. The Phase 1 catalog also needs rows for the PR 7 files. The creator declared those Phase 4 inputs (the checkpoint manifest, the current model and the three JSON reports) lost on 2026-11-23; the checks stay blocked under the owners the roadmap assigns. See the [task summary](quick/261122-ub4-prepare-for-merge-pr-7/261122-ub4-SUMMARY.md). Phase 5 regenerated the exact current sources for both Windows SDK export-layout rule proofs.
+- [PR #6 relocation] Phase 5 repaired its selected relocated asset checks, including the retained export tracer and audio recipes. The historical Phase 4 review-bound gates retain their existing evidence and are renewed in Phase 11 under TEST-12. [Relocation summary](quick/261123-fsu-resolve-conflict-https-github-com-sebrei/261123-fsu-SUMMARY.md)
 - [Phase 1 follow-ups] Full Linux execution and the original graph case remain unaccepted; fourteen individual human reviews remain Pending. See the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) for actual evidence limits and timing. These are disclosed follow-ups under the creator exception, not current closure gates.
 - [Local VM] The guest is cleanly stopped and preserved. Hardware acceleration is not active in the current Windows session; a creator-chosen restart is needed before attempting the accelerated follow-up. No restart is required for this completed run. After the `.local/` folder change merges, the migration deletes the legacy VM folder, and the phase that next needs a VM recreates it under the shared `.local/tools/linux-vm/`.
 - [Phase 11] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets. The 2026-11-23 amendment moved them from Phase 5 to Phase 11 under TEST-12. The executable catalog, register and rule matrix now assign the eight pending declarations to Phase 11. They are excluded by `--phase 5` and included by `--phase 11`.
@@ -247,12 +248,12 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-23T22:40:00.000Z
-Stopped at: Quick task 261123-ltj (one ignored `.local/` folder) verified; its pull request to `dev` also carries the tools-test fixture cleanup and the worktree-removal fix, formerly separate pull requests. After it merges, the creator migrates the main checkout. Phase 5 is ready to plan.
+Last session: 2026-11-24T08:27:49.292Z
+Stopped at: Phase 5 passed its required Windows, hosted and visual checks. [Phase 5 verification](phases/05-ci-and-repeatable-game-testing/05-VERIFICATION.md)
 Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
-Next action: finish and verify Phase 5 on branch `feature/05-ci-and-repeatable-game-testing` and [draft PR #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15). The active task worktree is `D:/GitWorktrees/KingdomZombies/kz-05-ci-and-repeatable-game-testing`. Its [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and [specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) exist and carry the creator-approved 2026-11-23 scope amendment. Phase 5 keeps the 21 inherited rendered regressions, one inspection-hub smoke scenario with the four judgments, and the engine-race follow-up; the other 17 Phase 4 rendered cases and the driver declaration belong to Phase 11. PR #5 is merged as `1a14684`. The amendment merged to `dev` through planning PR #11 as `88953aa`. Phase 5 implementation starts a fresh phase branch from `dev` and opens its own draft PR. Phase 5 makes the Phase 4 checks it runs work in the relocated tree; renewing the Phase 4 review-bound gates belongs to Phase 11 (see the PR #6 relocation concern above).
+Next action: Review [Phase 5 pull request #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15). Phase 6 is next in the roadmap.
 
 Repository layout continuation: [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) (`feature/quick-repository-layout`, quick tasks 261116-k3u, 261116-m0w and 261121-jmu) integrated `dev` (Phase 4 and PR #7) by quick task 261123-fsu, with every Phase 4 and PR #7 file at its [current layout location](../docs/architecture/repository-layout.md#historical-paths).

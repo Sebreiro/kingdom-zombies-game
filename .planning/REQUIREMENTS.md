@@ -66,16 +66,16 @@ Source: Asset plan §§3–12, all CH/AN/IT/BL/EN/FX/UI/AU/DT/TXT obligations.
 
 Source: Creator Phase 5 direction; spec §14 and A-01–A-47.
 
-- [ ] **TEST-01**: Developers and AI agents can find repository-stored readable cases linked to requirements, A-01–A-47, executable checks, owning phases, environments, and evidence.
-- [ ] **TEST-02**: Developers and AI agents can run the same documented verification entry points locally and in GitHub Actions on Windows and Linux.
-- [ ] **TEST-03**: AI agents can follow a documented select, run, inspect, reproduce, fix, and rerun procedure after changes.
-- [ ] **TEST-04**: AI agents can execute gameplay-rule checks with controlled fixtures and repeatable time/randomness where applicable.
-- [ ] **TEST-05**: AI agents can exercise actual menu, keyboard/mouse, focus, and scene behavior through production input paths.
-- [ ] **TEST-06**: AI agents can run a real host-plus-three-client scenario with independent profiles, bounded waits, isolated logs, and reliable cleanup.
-- [ ] **TEST-07**: AI agents can inspect current-run results, logs, state evidence, and required rendered images to diagnose failures.
-- [ ] **TEST-08**: Verification fails for missing dependencies, zero discovery, skipped required cases, crashes, timeouts, missing peer results, or missing required evidence.
-- [ ] **TEST-09**: Developers can prove the verification runner rejects deliberate failures and correctly distinguishes future planned cases from currently required cases.
-- [ ] **TEST-10**: Developers can activate new cases with each implemented feature and retain separate rendered, real mixed-OS LAN, reference-PC, and endurance evidence.
+- [x] **TEST-01**: Developers and AI agents can find repository-stored readable cases linked to requirements, A-01–A-47, executable checks, owning phases, environments, and evidence.
+- [x] **TEST-02**: Developers and AI agents can run the same documented verification entry points locally and in GitHub Actions on Windows and Linux.
+- [x] **TEST-03**: AI agents can follow a documented select, run, inspect, reproduce, fix, and rerun procedure after changes.
+- [x] **TEST-04**: AI agents can execute gameplay-rule checks with controlled fixtures and repeatable time/randomness where applicable.
+- [x] **TEST-05**: AI agents can exercise actual menu, keyboard/mouse, focus, and scene behavior through production input paths.
+- [x] **TEST-06**: AI agents can run a real host-plus-three-client scenario with independent profiles, bounded waits, isolated logs, and reliable cleanup.
+- [x] **TEST-07**: AI agents can inspect current-run results, logs, state evidence, and required rendered images to diagnose failures.
+- [x] **TEST-08**: Verification fails for missing dependencies, zero discovery, skipped required cases, crashes, timeouts, missing peer results, or missing required evidence.
+- [x] **TEST-09**: Developers can prove the verification runner rejects deliberate failures and correctly distinguishes future planned cases from currently required cases.
+- [x] **TEST-10**: Developers can activate new cases with each implemented feature and retain separate rendered, real mixed-OS LAN, reference-PC, and endurance evidence.
 - [ ] **TEST-11**: Developers receive scheduled nightly full-regression results across every active importance level, using saved scenarios and grouped game runs with inspectable failures/artifacts and manual replay. Phase 11 owns implementation; reduced phase-end selection begins immediately before this exists.
 - [ ] **TEST-12**: Developers can show measured coverage at the inclusive 90% line / 80% branch targets, full Windows/Linux execution of the complete declared scope, and complete certification of the verification runner on the finished game. Phase 11 owns implementation; this collects the certification deferred from Phase 5 by the 2026-11-23 amendment, including the eight transferred identities.
 
@@ -391,16 +391,16 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | ASSET-03 | Phase 4 | Complete under closure exception |
 | ASSET-04 | Phase 4 | Complete under closure exception |
 | ASSET-05 | Phase 4 | Complete under closure exception |
-| TEST-01 | Phase 5 | Pending |
-| TEST-02 | Phase 5 | Pending |
-| TEST-03 | Phase 5 | Pending |
-| TEST-04 | Phase 5 | Pending |
-| TEST-05 | Phase 5 | Pending |
-| TEST-06 | Phase 5 | Pending |
-| TEST-07 | Phase 5 | Pending |
-| TEST-08 | Phase 5 | Pending |
-| TEST-09 | Phase 5 | Pending |
-| TEST-10 | Phase 5 | Pending |
+| TEST-01 | Phase 5 | Complete |
+| TEST-02 | Phase 5 | Complete |
+| TEST-03 | Phase 5 | Complete |
+| TEST-04 | Phase 5 | Complete |
+| TEST-05 | Phase 5 | Complete |
+| TEST-06 | Phase 5 | Complete |
+| TEST-07 | Phase 5 | Complete |
+| TEST-08 | Phase 5 | Complete |
+| TEST-09 | Phase 5 | Complete |
+| TEST-10 | Phase 5 | Complete |
 | CHAR-01 | Phase 6 | Pending |
 | CHAR-02 | Phase 6 | Pending |
 | CHAR-03 | Phase 6 | Pending |

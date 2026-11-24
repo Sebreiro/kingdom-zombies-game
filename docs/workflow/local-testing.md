@@ -35,6 +35,8 @@ The Phase 1 rule suite is an affected regression only when the phase branch chan
 | Normal | Standard behavior, boundaries and recoverable failure paths. | Whenever new, changed or affected. |
 | Low | Lower-impact presentation or rare, nonblocking details. | Whenever new, changed or affected. |
 
+The Phase 5 benchmark sets a five-second Tier 1 execution target on the development Windows host once preparation is ready. The fixed Critical smoke set has a two-minute rendered execution budget at 1280×720. Measure strict build and tool preparation separately. [Phase 5 measurements](../../.planning/phases/05-ci-and-repeatable-game-testing/05-VERIFICATION.md)
+
 Assign importance from the consequence of failure, with a short rationale. A case joins the smoke set only inside its time budget or by replacing another; a serious boundary case outside the set is High and runs whenever it is new, changed or affected. Do not rank all edge cases Low. An unimplemented future case stays planned even when its importance is Critical.
 
 Record the selected and omitted IDs with reasons before testing. Report unselected cases as **not selected for this phase run**, without pass/skip credit. Distinguish them from selected failures, blockers, invalid evidence and future planned work. This reduced selection does not certify the complete catalog. Before Phase 11, lower-priority unaffected cases can remain unexecuted under this explicit policy; no nightly result is presumed.
