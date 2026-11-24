@@ -274,8 +274,15 @@ public sealed class FoundationSession
 
     internal bool TryEditInventory(Func<RunInventory, RunDefinitions, RunPopulation, RunInventory?> edit)
     {
+        return TryEditInventory(edit: edit, change: out _);
+    }
+
+    internal bool TryEditInventory(Func<RunInventory, RunDefinitions, RunPopulation, RunInventory?> edit,
+            out RunItemTransfer.Change? change)
+    {
         lock (_gate)
         {
+            change = null;
             if (!_active)
             {
                 return false;
@@ -284,12 +291,24 @@ public sealed class FoundationSession
             RunPublication current = _publication;
             RunInventory? candidate = edit(arg1: current.Inventory, arg2: current.Definitions,
                     arg3: current.Population);
-            return _active && ReferenceEquals(objA: current, objB: _publication) && candidate is not null
-                    && !ReferenceEquals(objA: candidate, objB: current.Inventory)
-                    && RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
-                    && RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
-                            population: current.Population)
-                    && TryPublish(participants: current.Snapshot.Participants, inventory: candidate);
+            if (!_active || !ReferenceEquals(objA: current, objB: _publication) || candidate is null
+                    || ReferenceEquals(objA: candidate, objB: current.Inventory)
+                    || !RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
+                    || !RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
+                            population: current.Population))
+            {
+                return false;
+            }
+
+            RunInventory updated = RunQuickReferences.Invalidate(inventory: candidate,
+                    definitions: current.Definitions);
+            if (!TryPublish(participants: current.Snapshot.Participants, inventory: updated))
+            {
+                return false;
+            }
+
+            change = new RunItemTransfer.Change(before: current.Inventory, after: updated);
+            return true;
         }
     }
 

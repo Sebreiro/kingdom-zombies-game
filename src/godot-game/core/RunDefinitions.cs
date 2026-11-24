@@ -153,12 +153,14 @@ internal sealed class RunDefinitions
         Require(condition: Integer(parent: nesting, field: "rootContainerLevel", minimum: 1, maximum: 1) == 1
                 && !Flag(parent: nesting, field: "cyclesAllowed"), field: "nesting");
         Require(condition: Flag(parent: quickSlots, field: "referencesOnly")
-                && Flag(parent: quickSlots, field: "foodOnly"), field: "quickSlots");
+                && Flag(parent: quickSlots, field: "foodOnly")
+                && Flag(parent: quickSlots, field: "invalidateWhenRemovedConsumedOrLost")
+                && !Flag(parent: quickSlots, field: "substituteSimilarStack"), field: "quickSlots");
         int local = Integer(parent: ranges, field: "npcUnits", minimum: 1, maximum: 1000);
         Require(condition: local == Integer(parent: ranges, field: "corpseUnits", minimum: 1, maximum: 1000),
                 field: "ranges.corpseUnits");
         return new InventorySettings(stashGrid: grid, maximumContainerLevels: Integer(parent: nesting,
-                field: "maximumLevels", minimum: 3, maximum: 3),
+                field: "maximumLevels", minimum: 1, maximum: int.MaxValue),
                 quickSlotCount: Integer(parent: quickSlots, field: "count", minimum: 4, maximum: 4),
                 localUnits: local, stashUnits: Integer(parent: ranges, field: "mainBuildingUnits", minimum: 1,
                         maximum: 1000));
@@ -450,6 +452,7 @@ internal sealed class RunDefinitions
         internal Size? Storage { get; }
         internal decimal? MaximumCondition { get; }
         internal Appearance Appearance { get; }
+        internal bool IsFood => Id is "IT-08" or "IT-09" or "IT-10";
     }
     internal sealed record Appearance
     {

@@ -9,18 +9,20 @@ namespace KingdomZombies.Core;
 internal sealed class RunInventory
 {
     internal RunInventory(ImmutableArray<Item> items, RunDefinitions.Size stashGrid, int stashPageCount,
-            long nextItemId)
+            long nextItemId, ImmutableDictionary<(string survivor, int slot), long>? quickReferences = null)
     {
         Items = items;
         StashGrid = stashGrid;
         StashPageCount = stashPageCount;
         NextItemId = nextItemId;
+        QuickReferences = quickReferences ?? [];
     }
 
     internal ImmutableArray<Item> Items { get; }
     internal RunDefinitions.Size StashGrid { get; }
     internal int StashPageCount { get; }
     internal long NextItemId { get; }
+    internal ImmutableDictionary<(string survivor, int slot), long> QuickReferences { get; }
 
     internal static RunInventory Create(RunDefinitions definitions, RunPopulation population)
     {
@@ -66,10 +68,48 @@ internal sealed class RunInventory
         return Items.FirstOrDefault(predicate: item => item.Location == location);
     }
 
+    internal ItemPath? PathTo(long itemId)
+    {
+        Item? item = Find(itemId: itemId);
+        return item is null ? null : Trace(item: item, lookup: Find);
+    }
+
+    internal ImmutableArray<Item> CarriedBy(string survivorId)
+    {
+        var itemsById = Items.ToDictionary(keySelector: item => item.Id);
+        return [.. Items.Where(predicate: item => Trace(item: item,
+                lookup: id => itemsById.GetValueOrDefault(key: id))?.IsCarriedBy(survivorId: survivorId) == true)];
+    }
+
     internal RunInventory WithItems(ImmutableArray<Item> items, long? nextItemId = null)
     {
         return new RunInventory(items: items, stashGrid: StashGrid, stashPageCount: StashPageCount,
-                nextItemId: nextItemId ?? NextItemId);
+                nextItemId: nextItemId ?? NextItemId, quickReferences: QuickReferences);
+    }
+
+    internal RunInventory WithReferences(ImmutableDictionary<(string survivor, int slot), long> references)
+    {
+        return new RunInventory(items: Items, stashGrid: StashGrid, stashPageCount: StashPageCount,
+                nextItemId: NextItemId, quickReferences: references);
+    }
+
+    private static ItemPath? Trace(Item item, Func<long, Item?> lookup)
+    {
+        ImmutableArray<Item>.Builder ancestors = ImmutableArray.CreateBuilder<Item>();
+        var seen = new HashSet<long>();
+        Item? current = item;
+        while (current is not null && seen.Add(item: current.Id))
+        {
+            ancestors.Add(item: current);
+            if (current.Location is not ContainerCell cell)
+            {
+                return new ItemPath(items: ancestors.ToImmutable());
+            }
+
+            current = lookup(arg: cell.ContainerId);
+        }
+
+        return null;
     }
 
     private static StashCell Place(List<bool[]> pages, RunDefinitions.Size grid, RunDefinitions.Item item)
@@ -151,6 +191,24 @@ internal sealed class RunInventory
         internal Location Location { get; init; }
         internal RunDefinitions.Size? StorageGrid { get; }
     }
+    internal sealed class ItemPath
+    {
+        internal ItemPath(ImmutableArray<Item> items)
+        {
+            Items = items;
+        }
+
+        internal ImmutableArray<Item> Items { get; }
+        internal Item Item => Items[0];
+        internal Location Root => Items[^1].Location;
+
+        internal bool IsCarriedBy(string survivorId)
+        {
+            return Root is Equipment equipment
+                    && StringComparer.Ordinal.Equals(x: equipment.SurvivorId, y: survivorId);
+        }
+    }
+
     internal abstract record Location;
     internal sealed record Equipment : Location
     {
@@ -163,21 +221,60 @@ internal sealed class RunInventory
         internal string SurvivorId { get; }
         internal string Slot { get; }
     }
-    internal sealed record StashCell : Location
+    internal enum GridKind
     {
-        internal StashCell(int page, int x, int y, bool rotated, RunDefinitions.Size footprint)
+        Stash,
+        Container,
+    }
+
+    internal abstract record GridCell : Location
+    {
+        internal int X { get; }
+        internal int Y { get; }
+        internal bool Rotated { get; }
+        internal RunDefinitions.Size Footprint { get; }
+        internal abstract (GridKind kind, long id) Grid { get; }
+
+        protected GridCell(int x, int y, bool rotated, RunDefinitions.Size footprint)
         {
-            Page = page;
             X = x;
             Y = y;
             Rotated = rotated;
             Footprint = footprint;
         }
+    }
+
+    internal sealed record StashCell : GridCell
+    {
+        internal StashCell(int page, int x, int y, bool rotated, RunDefinitions.Size footprint)
+                : base(x: x, y: y, rotated: rotated, footprint: footprint)
+        {
+            Page = page;
+        }
 
         internal int Page { get; }
-        internal int X { get; }
-        internal int Y { get; }
-        internal bool Rotated { get; }
-        internal RunDefinitions.Size Footprint { get; }
+        internal override (GridKind kind, long id) Grid => (GridKind.Stash, Page);
+    }
+
+    internal sealed record ContainerCell : GridCell
+    {
+        internal ContainerCell(long containerId, int x, int y, bool rotated, RunDefinitions.Size footprint)
+                : base(x: x, y: y, rotated: rotated, footprint: footprint)
+        {
+            ContainerId = containerId;
+        }
+
+        internal long ContainerId { get; }
+        internal override (GridKind kind, long id) Grid => (GridKind.Container, ContainerId);
+    }
+
+    internal sealed record Ground : Location
+    {
+        internal Ground(string pileId)
+        {
+            PileId = pileId;
+        }
+
+        internal string PileId { get; }
     }
 }

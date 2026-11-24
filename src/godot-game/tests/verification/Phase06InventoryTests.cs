@@ -193,6 +193,11 @@ public sealed class Phase06InventoryTests
     {
         FoundationSession session = Start();
         RunInventory.Item pack = Item(session: session, definitionId: "IT-23");
+        RunInventory initial = session.Inventory;
+        session.AddParticipant(bindingId: "binding-2", playerId: "player-2", actorId: "wire-2", label: "Guest")
+                .ShouldBeTrue();
+        session.Snapshot.Participants[1].Ready.ShouldBeFalse();
+        session.Inventory.ShouldBeSameAs(expected: initial);
         Reject(session: session, edit: () => Move(session: session, source: pack, target: Slot(slot: "belt")));
         Reject(session: session, edit: () => Move(session: session, source: pack, target: Slot(slot: "carry")));
         Reject(session: session, edit: () => Move(session: session, source: pack,
@@ -445,7 +450,7 @@ public sealed class Phase06InventoryTests
                 storageGrid: definition.Storage);
         session.TryEditInventory(edit: (current, _, _) => new RunInventory(items: current.Items.Add(item: item),
                 stashGrid: current.StashGrid, stashPageCount: current.StashPageCount + 1,
-                nextItemId: current.NextItemId + 1)).ShouldBeTrue();
+                nextItemId: current.NextItemId + 1, quickReferences: current.QuickReferences)).ShouldBeTrue();
         return item;
     }
 
@@ -463,21 +468,25 @@ public sealed class Phase06InventoryTests
 
     internal static bool Move(FoundationSession session, RunInventory.Item source, RunInventory.Location target)
     {
+        RunInventory.ItemPath expected = Expected(session: session, item: source);
         return session.TryEditInventory(edit: (root, _, _) =>
-                RunItemTransfer.Move(inventory: root, expected: source, destination: target));
+                RunItemTransfer.Move(inventory: root, expected: expected, destination: target));
     }
 
     internal static bool Split(FoundationSession session, RunInventory.Item source, decimal quantity,
             RunInventory.Location target)
     {
+        RunInventory.ItemPath expected = Expected(session: session, item: source);
         return session.TryEditInventory(edit: (root, _, _) => RunItemTransfer.Split(inventory: root,
-                expected: source, quantity: quantity, destination: target));
+                expected: expected, quantity: quantity, destination: target));
     }
 
     internal static bool Merge(FoundationSession session, RunInventory.Item source, RunInventory.Item target)
     {
+        RunInventory.ItemPath expectedSource = Expected(session: session, item: source);
+        RunInventory.ItemPath expectedTarget = Expected(session: session, item: target);
         return session.TryEditInventory(edit: (root, definitions, _) => RunItemTransfer.Merge(inventory: root,
-                definitions: definitions, expectedSource: source, expectedDestination: target));
+                definitions: definitions, expectedSource: expectedSource, expectedDestination: expectedTarget));
     }
 
     internal static void Reject(FoundationSession session, Func<bool> edit)
@@ -501,6 +510,12 @@ public sealed class Phase06InventoryTests
     {
         session.TryEditInventory(edit: (root, _, _) =>
                 root.WithItems(items: [.. root.Items.Reverse()])).ShouldBeTrue();
+    }
+
+    private static RunInventory.ItemPath Expected(FoundationSession session, RunInventory.Item item)
+    {
+        RunInventory.ItemPath? current = session.Inventory.PathTo(itemId: item.Id);
+        return new RunInventory.ItemPath(items: current is null ? [item] : current.Items.SetItem(index: 0, item: item));
     }
 
     private static bool ChangeCondition(FoundationSession session, long id, decimal? condition)
