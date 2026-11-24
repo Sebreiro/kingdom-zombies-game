@@ -4,18 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 06
 current_phase_name: Survivors, inventory, and combat
-current_plan: 3
+current_plan: 4
 status: executing
-stopped_at: "Plan 06-02 passed. Execution continues on 06-03."
-last_updated: "2026-11-24T11:43:46Z"
+stopped_at: "Plan 06-03 passed. Execution continues on 06-04."
+last_updated: "2026-11-24T12:08:47Z"
 last_activity: 2026-11-24
-last_activity_desc: Plan 06-02 verified the starting population and persistent LAN survivor leases
-state_head: 267e5112bb95bc6c90550a87792fb59a2e93b576
+last_activity_desc: Plan 06-03 verified equipment and item ownership, nested storage and quick food references
+state_head: 4f3bcfeaba95c201bb1d87266078078b7ff804c1
 progress:
   total_phases: 12
   completed_phases: 5
   total_plans: 105
-  completed_plans: 66
+  completed_plans: 67
   percent: 42
 ---
 
@@ -34,14 +34,14 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 ## Current Position
 
 Phase: 06 (Survivors, inventory, and combat) — EXECUTING
-Current Plan: 3
+Current Plan: 4
 Total Plans in Phase: 15
 Status: Executing Phase 06
-Last activity: 2026-11-24 — Plan 06-02 verified the starting population and persistent LAN survivor leases
+Last activity: 2026-11-24 — Plan 06-03 verified equipment and item ownership, nested storage and quick food references
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 66 of 105 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 67 of 105 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -248,9 +248,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-24T11:43:46Z
-Stopped at: [Plan 06-02](phases/06-survivors-inventory-and-combat/06-02-SUMMARY.md) passed on `a9f4c23`.
-Resume file: [06-03-PLAN.md](phases/06-survivors-inventory-and-combat/06-03-PLAN.md)
+Last session: 2026-11-24T12:08:47Z
+Stopped at: [Plan 06-03](phases/06-survivors-inventory-and-combat/06-03-SUMMARY.md) passed on `0a78ccc`.
+Resume file: [06-04-PLAN.md](phases/06-survivors-inventory-and-combat/06-04-PLAN.md)
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
