@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using KingdomZombies.Core;
+using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
 using Model = KingdomZombies.Foundation.FoundationInventoryInteraction;
@@ -101,6 +102,36 @@ public sealed class Phase06ExternalInteractionTests
         workspace.External.ShouldBeFalse();
         workspace.Windows.Single().Item.Id.ShouldBe(expected: personal.Id);
         session.Inventory.ShouldBeSameAs(expected: before);
+    }
+
+    /// <summary>Open nested windows survive automatic requests at the real recipient limit.</summary>
+    [Fact]
+    public void Phase06_WindowSelectorsKeepExistingBagsAtTheProtocolLimit()
+    {
+        FoundationSession session = Start();
+        RunInventory.Item bag = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack");
+        Model.Item personal = Scope(session: session, scope: "own").rows.Select(selector: Model.ReadItem)
+                .Single(predicate: item => item.Id == bag.Id);
+        var workspace = new Model();
+        var bounds = new Model.Rect(x: 24, y: 112, width: 1232, height: 528);
+        workspace.Show(external: true);
+        int limit = FoundationProtocol.MaximumWindowSelectors;
+        long[] ids = [.. Enumerable.Range(start: 1, count: limit).Select(selector: index => (long)index)];
+        foreach (long id in ids)
+        {
+            workspace.OpenBag(item: personal with { Id = id }, parent: null, external: false,
+                    source: bounds, bounds: bounds).ShouldNotBeNull();
+        }
+
+        long additional = limit + 1;
+        workspace.RequestedWindows(external: false, equipped: [additional]).ShouldBe(expected: ids);
+        workspace.OpenBag(item: personal with { Id = additional }, parent: null, external: false, source: bounds,
+                bounds: bounds).ShouldBeNull();
+        workspace.OpenBag(item: personal with { Id = additional }, parent: null, external: true, source: bounds,
+                bounds: bounds).ShouldNotBeNull();
+        workspace.CloseBag(id: ids[0]);
+        workspace.RequestedWindows(external: false, equipped: [additional])
+                .ShouldBe(expected: [.. ids.Skip(count: 1), additional]);
     }
 
     /// <summary>Quick transfer projects an effect only for the matching action and current stash page.</summary>

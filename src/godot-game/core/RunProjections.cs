@@ -81,7 +81,8 @@ internal static partial class RunProjections
             ImmutableArray<JsonElement> rows)> views)? Private(FoundationSession session,
                     FoundationSession.RunPublication? root, (string session, string binding, string player) identity,
                     long? ownGrid, long? externalGrid, bool includeItems, ImmutableArray<long> ownWindows,
-                    ImmutableArray<long> externalWindows, int nearbyPage)
+                    ImmutableArray<long> externalWindows, int nearbyPage, (long token, int page) externalPage,
+                    bool includeExternal)
     {
         if (root is null || Control(root: root, identity: identity) is not { } control)
         {
@@ -116,7 +117,7 @@ internal static partial class RunProjections
 
         var controller = new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,
                 generation: control.generation);
-        if (!includeItems)
+        if (!includeItems && !includeExternal)
         {
             (ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability,
                     long selectedToken) nearby = session.ItemActions.ReadNearby(controller: controller);
@@ -133,7 +134,8 @@ internal static partial class RunProjections
 
         return (root.Snapshot.Revision, InventoryViews(root: root, view: view, generation: control.generation,
                 status: status, ownGrid: ownGrid, externalGrid: externalGrid,
-                ownWindows: ownWindows, externalWindows: externalWindows, nearbyPage: nearbyPage));
+                ownWindows: ownWindows, externalWindows: externalWindows, nearbyPage: nearbyPage,
+                externalPage: externalPage, includeItems: includeItems));
     }
 
     internal static (string status, bool replayed) Dispatch(FoundationSession session,
@@ -181,11 +183,10 @@ internal static partial class RunProjections
             ImmutableArray<JsonElement> rows)> InventoryViews(FoundationSession.RunPublication root,
                     RunItemActions.View view, long generation, JsonElement status, long? ownGrid,
                     long? externalGrid, ImmutableArray<long> ownWindows, ImmutableArray<long> externalWindows,
-                    int nearbyPage)
+                    int nearbyPage, (long token, int page) externalPage, bool includeItems)
     {
-        (JsonElement header, ImmutableArray<JsonElement> rows) own = Own(root: root, view: view, requested: ownGrid);
         (JsonElement header, ImmutableArray<JsonElement> rows)? external = External(root: root, view: view,
-                requested: externalGrid);
+                requested: externalGrid, page: externalPage);
         ImmutableArray<(string scope, long generation, long token, JsonElement header,
                 ImmutableArray<JsonElement> rows)>.Builder windows = ImmutableArray.CreateBuilder<
                         (string scope, long generation, long token, JsonElement header,
@@ -193,16 +194,26 @@ internal static partial class RunProjections
         windows.Add(item: ("status", generation, 0, status, []));
         windows.Add(item: NearbyView(generation: generation, targets: view.Nearby, availability: view.Availability,
                 selectedToken: view.Selection?.Token ?? 0, page: nearbyPage));
-        windows.Add(item: ("own", generation, 0, own.header, own.rows));
+        if (includeItems)
+        {
+            (JsonElement header, ImmutableArray<JsonElement> rows) own = Own(root: root, view: view,
+                    requested: ownGrid);
+            windows.Add(item: ("own", generation, 0, own.header, own.rows));
+        }
+
         if (external is { } selected)
         {
             windows.Add(item: ("external", generation, view.Selection?.Token ?? 0, selected.header, selected.rows));
         }
 
-        AddWindows(result: windows, root: root, view: view, generation: generation, requested: ownWindows,
-                external: false);
-        AddWindows(result: windows, root: root, view: view, generation: generation, requested: externalWindows,
-                external: true);
+        if (includeItems)
+        {
+            AddWindows(result: windows, root: root, view: view, generation: generation, requested: ownWindows,
+                    external: false);
+            AddWindows(result: windows, root: root, view: view, generation: generation, requested: externalWindows,
+                    external: true);
+        }
+
         return windows.ToImmutable();
     }
 
@@ -357,7 +368,8 @@ internal static partial class RunProjections
     }
 
     private static (JsonElement header, ImmutableArray<JsonElement> rows)? External(
-            FoundationSession.RunPublication root, RunItemActions.View view, long? requested)
+            FoundationSession.RunPublication root, RunItemActions.View view, long? requested,
+            (long token, int page) page)
     {
         if (view.Selection is not { } selection)
         {
@@ -367,28 +379,63 @@ internal static partial class RunProjections
         RunInventory.Item? container = Container(items: view.External, requested: requested);
         RunDefinitions.Size? bounds = container?.StorageGrid
                 ?? (selection.Target.Kind == RunWorld.Access.Stash ? root.Inventory.StashGrid : null);
+        RunInventory.Item[] direct = [.. view.External.Where(predicate: item => container is null
+                ? RunExternalAccess.Contains(selection: selection, location: item.Location)
+                : item.Location is RunInventory.ContainerCell cell && cell.ContainerId == container.Id)];
+        (int current, int count, int gear)? itemsPage = null;
+        if (container is null && selection.Target.Kind is RunWorld.Access.Pile or RunWorld.Access.Corpse)
+        {
+            (direct, itemsPage) = LooseItems(rows: direct, requested: page.token == selection.Token ? page.page : 1);
+        }
+
         var info = new
         {
             Kind = selection.Target.Kind.ToString(),
             TargetId = selection.Target.Id,
             Page = selection.Target.Kind == RunWorld.Access.Stash ? selection.PageIndex + 1 : (int?)null,
             PageCount = view.StashPageCount,
+            ItemPage = itemsPage?.current,
+            ItemCount = itemsPage?.count,
+            GearCount = itemsPage?.gear,
             Effect = container is null && view.StashEffect is { } effect
                     ? JsonSerializer.SerializeToElement(value: new
                     {
                         view.Sequence,
                         effect.PageNumber,
                         effect.MorePages,
-                        Cells = effect.ChangedCells.Select(selector: cell => new { X = cell.x, Y = cell.y }),
+                        Mask = StashEffectMask(effect: effect, bounds: root.Inventory.StashGrid),
                     }) : (JsonElement?)null,
             ContainerId = container?.Id,
             Width = bounds?.Width,
             Height = bounds?.Height,
         };
-        return (JsonSerializer.SerializeToElement(value: info), Rows(root: root, items: view.External,
-                scope: item => container is null ? RunExternalAccess.Contains(selection: selection,
-                        location: item.Location)
-                        : item.Location is RunInventory.ContainerCell cell && cell.ContainerId == container.Id));
+        return (JsonSerializer.SerializeToElement(value: info), EncodeRows(root: root, available: view.External,
+                selected: direct));
+    }
+
+    private static (RunInventory.Item[] rows, (int current, int count, int gear) page) LooseItems(
+            RunInventory.Item[] rows, int requested)
+    {
+        const int Size = FoundationSession.ExternalItemsPageSize;
+        RunInventory.Item[] loose = [.. rows.Where(predicate: item => item.Location is RunInventory.Ground)];
+        RunInventory.Item[] gear = [.. rows.Where(predicate: item => item.Location is not RunInventory.Ground)];
+        int pages = loose.Length == 0 ? 1 : 1 + (loose.Length - 1) / Size;
+        int current = Math.Clamp(value: requested, min: 1, max: pages);
+        int start = (current - 1) * Size;
+        return ([.. gear, .. loose.AsSpan(start: start, length: Math.Min(val1: Size, val2: loose.Length - start))],
+                (current, loose.Length, gear.Length));
+    }
+
+    private static string StashEffectMask(RunStash.PageEffect effect, RunDefinitions.Size bounds)
+    {
+        byte[] mask = new byte[(bounds.Width * bounds.Height + 7) / 8];
+        foreach ((int x, int y) in effect.ChangedCells)
+        {
+            int index = y * bounds.Width + x;
+            mask[index / 8] |= (byte)(1 << (index % 8));
+        }
+
+        return Convert.ToBase64String(inArray: mask);
     }
 
     private static RunInventory.Item? Container(ImmutableArray<RunInventory.Item> items, long? requested)
@@ -400,8 +447,14 @@ internal static partial class RunProjections
     private static ImmutableArray<JsonElement> Rows(FoundationSession.RunPublication root,
             ImmutableArray<RunInventory.Item> items, Func<RunInventory.Item, bool> scope)
     {
-        var lookup = items.ToDictionary(keySelector: item => item.Id);
-        return [.. items.Where(predicate: scope).OrderBy(keySelector: item => item.Id)
+        return EncodeRows(root: root, available: items, selected: items.Where(predicate: scope));
+    }
+
+    private static ImmutableArray<JsonElement> EncodeRows(FoundationSession.RunPublication root,
+            ImmutableArray<RunInventory.Item> available, IEnumerable<RunInventory.Item> selected)
+    {
+        var lookup = available.ToDictionary(keySelector: item => item.Id);
+        return [.. selected.OrderBy(keySelector: item => item.Id)
                 .Select(selector: item => PrivateItem(root: root, item: item, lookup: lookup))];
     }
 

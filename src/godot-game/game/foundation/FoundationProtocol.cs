@@ -16,6 +16,7 @@ internal static class FoundationProtocol
             "foundation.fixture.v1|foundation.ground.v1|foundation.building.v1|foundation.player.v1";
     internal const int MaximumBytes = 32768;
     internal const int Version = 2;
+    internal const int MaximumWindowSelectors = 16;
     internal const int MaximumViewRows = 4096;
     internal const int MaximumViewParts = 256;
 
@@ -117,6 +118,50 @@ internal static class FoundationProtocol
             Parts = chunks.Count,
             Rows = chunk,
         })))];
+    }
+
+    internal static int? ExternalLoosePageLength(JsonElement body)
+    {
+        JsonElement number = body.GetProperty(propertyName: "ItemPage");
+        if (number.ValueKind == JsonValueKind.Null)
+        {
+            return null;
+        }
+
+        const int Size = FoundationSession.ExternalItemsPageSize;
+        int page = number.GetInt32();
+        int count = body.GetProperty(propertyName: "ItemCount").GetInt32();
+        int total = count > 0 ? 1 + (count - 1) / Size : 1;
+        if (count < 0 || page < 1 || page > total)
+        {
+            throw new InvalidDataException(message: "WIRE_EXTERNAL_PAGE");
+        }
+
+        return Math.Min(val1: Size, val2: count - (page - 1) * Size);
+    }
+
+    internal static bool IsLooseItem(JsonElement item)
+    {
+        return Text(value: item.GetProperty(propertyName: "Location"), name: "Kind") is "ground";
+    }
+
+    internal static byte[]? ReadStashEffectMask(JsonElement body, JsonElement effect)
+    {
+        int width = body.GetProperty(propertyName: "Width").GetInt32();
+        int height = body.GetProperty(propertyName: "Height").GetInt32();
+        if (width is < 1 or > 64 || height is < 1 or > 64)
+        {
+            return null;
+        }
+
+        int cells = width * height;
+        byte[] mask = new byte[(cells + 7) / 8];
+        string encoded = Text(value: effect, name: "Mask");
+        int tail = cells % 8;
+        return encoded.Length == 4 * ((mask.Length + 2) / 3)
+                && Convert.TryFromBase64String(s: encoded, bytes: mask, bytesWritten: out int length)
+                && length == mask.Length && (tail == 0 || mask[^1] >> tail == 0)
+                && StringComparer.Ordinal.Equals(x: Convert.ToBase64String(inArray: mask), y: encoded) ? mask : null;
     }
 
     private const int NativeHeaderBytes = 8;
@@ -250,7 +295,8 @@ internal static class FoundationProtocol
     private static bool KnownAction(string action)
     {
         return action is "move" or "attack" or "food" or "select" or "browse" or "close" or "drop" or "quick"
-                or "place" or "merge" or "respawn" or "window" or "assign" or "workspace" or "nearby-page";
+                or "place" or "merge" or "respawn" or "window" or "assign" or "workspace" or "nearby-page"
+                or "external-items-page";
     }
 
     private static bool ValidScope(string scope)
@@ -283,10 +329,7 @@ internal static class FoundationProtocol
                 return frame.Epoch > 0 && frame.Token == 0 && ValidOwnControls(body: body)
                         && frame.Rows.All(predicate: ValidPrivateItem);
             case "external":
-                Shape(value: body, names: ["Kind", "TargetId", "Page", "PageCount", "ContainerId", "Width",
-                    "Height", "Effect"]);
-                return frame.Epoch > 0 && frame.Token > 0 && ValidPageEffect(body: body)
-                        && frame.Rows.All(predicate: ValidPrivateItem);
+                return ValidExternal(frame: frame, body: body);
             default:
                 Shape(value: body, names: ["ContainerId", "Width", "Height"]);
                 return frame.Epoch > 0 && (WindowScope(scope: frame.Scope, external: true)
@@ -315,6 +358,53 @@ internal static class FoundationProtocol
                 && frame.Rows.All(predicate: ValidNearbyTarget);
     }
 
+    private static bool ValidExternal(FoundationRunFrame frame, JsonElement body)
+    {
+        Shape(value: body, names: ["Kind", "TargetId", "Page", "PageCount", "ItemPage", "ItemCount",
+            "GearCount", "ContainerId", "Width", "Height", "Effect"]);
+        string kind = Text(value: body, name: "Kind");
+        string target = Text(value: body, name: "TargetId");
+        if (frame.Epoch <= 0 || frame.Token <= 0 || kind is not ("Stash" or "Npc" or "Pile" or "Corpse")
+                || target.Length is < 1 or > 128 || !ValidPageEffect(body: body)
+                || !frame.Rows.All(predicate: ValidPrivateItem))
+        {
+            return false;
+        }
+
+        if (body.GetProperty(propertyName: "ContainerId").ValueKind == JsonValueKind.Null
+                && kind is "Pile" or "Corpse")
+        {
+            return ValidExternalLoosePage(frame: frame, body: body, kind: kind, target: target);
+        }
+
+        return body.GetProperty(propertyName: "ItemPage").ValueKind == JsonValueKind.Null
+                && body.GetProperty(propertyName: "ItemCount").ValueKind == JsonValueKind.Null
+                && body.GetProperty(propertyName: "GearCount").ValueKind == JsonValueKind.Null;
+    }
+
+    private static bool ValidExternalLoosePage(FoundationRunFrame frame, JsonElement body, string kind,
+            string target)
+    {
+        int held = body.GetProperty(propertyName: "GearCount").GetInt32();
+        if (ExternalLoosePageLength(body: body) is not { } loose || held < 0
+                || held > (kind is "Corpse" ? FoundationInventoryInteraction.Slots.Length : 0))
+        {
+            return false;
+        }
+
+        int items = frame.Rows.Count(predicate: IsLooseItem);
+        return items <= loose && frame.Rows.Length - items <= held
+                && (frame.Parts == 1 ? items == loose && frame.Rows.Length - items == held : !frame.Rows.IsEmpty)
+                && frame.Rows.All(predicate: row => ExternalLooseRow(row: row, target: target));
+    }
+
+    private static bool ExternalLooseRow(JsonElement row, string target)
+    {
+        JsonElement location = row.GetProperty(propertyName: "Location");
+        return Text(value: location, name: "Kind") is "ground" or "corpse"
+                && StringComparer.Ordinal.Equals(x: Text(value: location, name: "TargetId"), y: target);
+    }
+
     private static bool ValidPageEffect(JsonElement body)
     {
         JsonElement effect = body.GetProperty(propertyName: "Effect");
@@ -323,13 +413,13 @@ internal static class FoundationProtocol
             return true;
         }
 
-        Shape(value: effect, names: ["Sequence", "PageNumber", "MorePages", "Cells"]);
-        ValidateRows(body: effect, member: "Cells", fields: ["X", "Y"]);
+        Shape(value: effect, names: ["Sequence", "PageNumber", "MorePages", "Mask"]);
         int page = body.GetProperty(propertyName: "Page").GetInt32();
         int first = effect.GetProperty(propertyName: "PageNumber").GetInt32();
         return Text(value: body, name: "Kind") is "Stash" && first == page
                 && effect.GetProperty(propertyName: "Sequence").GetInt64() > 0
-                && effect.GetProperty(propertyName: "MorePages").GetInt32() >= 0;
+                && effect.GetProperty(propertyName: "MorePages").GetInt32() >= 0
+                && ReadStashEffectMask(body: body, effect: effect) is not null;
     }
 
     private static bool ValidHud(JsonElement hud, bool alive)

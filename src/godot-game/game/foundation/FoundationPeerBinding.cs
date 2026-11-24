@@ -37,6 +37,7 @@ internal sealed class FoundationPeerBinding
     internal long? OwnGrid { get; set; }
     internal long? ExternalGrid { get; set; }
     internal int NearbyPage { get; set; } = 1;
+    internal (long token, int page) ExternalItemsPage { get; set; }
     internal ImmutableArray<long> OwnWindows { get; set; } = [];
     internal ImmutableArray<long> ExternalWindows { get; set; } = [];
     internal ImmutableArray<string> WindowScopes { get; set; } = [];

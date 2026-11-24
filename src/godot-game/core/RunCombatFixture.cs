@@ -1,4 +1,5 @@
 #if DEBUG
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
@@ -70,6 +71,8 @@ internal static class RunCombatFixture
         return (outcome.Status.ToString(), outcome.Replayed);
     }
 
+    private const int WireExtraLooseItems = 4097;
+
     private static RunWorld World(RunWorld.Ranges ranges, bool wire)
     {
         var world = new RunWorld(origin: default, groundContactSubunits: 0, mainBuilding: default, ranges: ranges,
@@ -131,14 +134,20 @@ internal static class RunCombatFixture
                 location: new RunInventory.Ground(pileId: Remains));
         if (mode is "wire")
         {
-            foreach (RunWorld.Anchor pile in WireTargets())
-            {
-                _ = Add(inventory: ref inventory, definition: definitions.Items["IT-01"], quantity: 1,
-                        condition: null, location: new RunInventory.Ground(pileId: pile.Id));
-            }
+            inventory = SeedWireLoot(inventory: inventory, definition: definitions.Items["IT-01"]);
         }
 
         return inventory;
+    }
+
+    private static RunInventory SeedWireLoot(RunInventory inventory, RunDefinitions.Item definition)
+    {
+        IEnumerable<string> targets = Enumerable.Repeat(element: Remains, count: WireExtraLooseItems)
+                .Concat(second: WireTargets().Select(selector: pile => pile.Id));
+        return inventory.WithItems(items: [.. inventory.Items, .. targets.Select(selector: (target, index) =>
+                new RunInventory.Item(id: inventory.NextItemId + index, definitionId: definition.Id,
+                        quantity: 1, condition: null, location: new RunInventory.Ground(pileId: target),
+                        storageGrid: null))], nextItemId: inventory.NextItemId + WireExtraLooseItems + WirePiles);
     }
 
     private static long Equip(ref RunInventory inventory, RunDefinitions definitions, string owner, string slot,

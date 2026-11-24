@@ -355,6 +355,7 @@ async function lanPrivacy(state) {
   const returned = await observe(state, watcher, row => row.phase06.Views.nearby?.Header.Page === 1
     && reachable(row) && external(row)?.Token === external(pile).Token,
   'return to the reachable stash page preserves the previously selected loot authorization');
+  const dense = await checkLooseItems(state, watcher, peers);
   await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NearbyChoices/Rows/NearbyChoice_Stash');
   const selected = await observe(state, watcher, row => external(row)?.Header.TargetId === stash.TargetId
     && row.nearby?.kind === 'Stash', 'actual native choice authorizes the approached stash');
@@ -394,11 +395,42 @@ async function lanPrivacy(state) {
   await move(state, guest, key.left, row => !nearby(row).some(entry => entry.Id === stash.TargetId),
     'guest leaves interaction reach');
   const revoked = await observe(state, guest, row => !external(row), 'stale external scope revoked');
-  const remote = await action(state, guest, 'select', stash);
-  assert.equal(remote.runAction.status, 'AccessLost');
+  const stopped = await observe(state, host, row => row.lastAcceptedIntent?.BindingId === revoked.bindingId
+    && row.lastAcceptedIntent.Direction === 0, 'the host accepted the ordinary movement release');
+  await observe(state, guest, row => row.runAction?.sequence >= stopped.lastAcceptedIntent.Sequence,
+    'settle the movement receipt before submitting the remote selection');
+  const remote = await action(state, guest, 'select', stash, 'AccessLost');
   assert(!external(remote), 'remote stash reveals no rows or token');
   return evidence(state, 'phase06.headless.lan-privacy', peers,
-    {agreement, apart, back, next, pile, returned, selected, views, receipts, corrected, revoked, remote});
+    {agreement, apart, back, next, pile, returned, dense, selected, views, receipts, corrected, revoked, remote});
+}
+
+async function checkLooseItems(state, watcher, peers) {
+  const target = 'fixture.supplies';
+  const path = 'InventoryWorkspace/InventoryPanels/';
+  const choice = 'NearbyChoices/Rows/NearbyChoice_Pile_' + Buffer.from(target).toString('hex').toUpperCase();
+  await activate(state, watcher, path + choice);
+  const first = await observe(state, watcher, row => external(row)?.Header.TargetId === target
+    && external(row).Header.ItemPage === 1, 'dense pile opens in the normal authorized item list');
+  assert.equal(external(first).Header.ItemCount, 4098);
+  assert.equal(external(first).Rows.length, 64);
+  assert.equal(external(first).Rows[0].Quantity, 17);
+  assert(peers.filter(peer => peer !== watcher).every(peer => !external(current(peer))),
+    'no dense pile rows or token reach the other three processes');
+  await activate(state, watcher, path + 'NextNearbyItemsPage');
+  const second = await observe(state, watcher, row => external(row)?.Header.ItemPage === 2,
+    'native next item page installs authorized original loot rows');
+  assert.equal(external(second).Token, external(first).Token);
+  assert.equal(external(second).Rows.length, 64);
+  assert(external(second).Rows.every((row, index) => row.Id === external(first).Rows[index].Id + 64
+    && row.Location.TargetId === target && row.Quantity === 1 && row.Stamp.length === 64));
+  assert.equal(own(second).Revision, own(first).Revision);
+  await activate(state, watcher, path + 'PreviousNearbyItemsPage');
+  const again = await observe(state, watcher, row => external(row)?.Header.ItemPage === 1,
+    'native previous item page returns the same original loot');
+  assert.deepEqual(external(again).Rows, external(first).Rows);
+  await activate(state, watcher, path + 'NearbyTarget');
+  return {first, second, again};
 }
 
 module.exports = {open, reset, close: state => close(state), cases: {

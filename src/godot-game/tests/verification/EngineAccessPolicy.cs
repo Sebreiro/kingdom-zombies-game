@@ -302,7 +302,7 @@ internal static class EngineAccessPolicy
                 + "Foundation.FoundationInventoryWorkspace|DrawNearbyChoices(Control,"
                 + "ImmutableArray<(string kind, string id)>)",
         "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
-                + "Foundation.FoundationInventoryWorkspace|DrawNearbyPages(Control,int,int)",
+                + "Foundation.FoundationInventoryWorkspace|DrawListPages(Control,int,int,bool,Action<int>)",
         "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
                 + "Foundation.FoundationInventoryWorkspace|BrowseEntry(LineEdit,FoundationRunView)",
         "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."

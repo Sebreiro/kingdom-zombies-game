@@ -375,7 +375,7 @@ internal sealed partial class FoundationInventoryWorkspace
         long? parent = item.Location.Kind is "container" ? item.Location.GridId : null;
         RemovePopup();
         ImmutableArray<long> requested = DesiredWindows(root: external ? External : Own, external: external);
-        if (requested.Length >= 16 && !requested.Contains(item: item.Id))
+        if (requested.Length >= FoundationProtocol.MaximumWindowSelectors && !requested.Contains(item: item.Id))
         {
             ReportAction(text: "Close a bag before opening another.", nearby: external);
             return;

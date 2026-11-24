@@ -13,7 +13,10 @@ namespace KingdomZombies.Core;
 public sealed class FoundationSession
 {
     /// <summary>The number of authorized target identities shown in one nearby selector page.</summary>
-    public const int NearbyPageSize = 64;
+    public const int NearbyPageSize = 32;
+
+    /// <summary>Maximum loose item rows in one selected nearby inventory page.</summary>
+    public const int ExternalItemsPageSize = 64;
 
     /// <summary>Creates a fresh configured run with one ready local participant and a legacy actor token.</summary>
     public FoundationSession(string sessionId, string playerId, string actorId)
@@ -61,16 +64,18 @@ public sealed class FoundationSession
             ImmutableArray<JsonElement> rows)> views)? ReadRunViews(
                     (string session, string binding, string player) identity, long? ownGrid = null,
                     long? externalGrid = null, bool includeItems = true, ImmutableArray<long> ownWindows = default,
-                    ImmutableArray<long> externalWindows = default, int nearbyPage = 1)
+                    ImmutableArray<long> externalWindows = default, int nearbyPage = 1,
+                    (long token, int page) externalPage = default, bool includeExternal = false)
     {
         return UnderInventoryAuthority(action: current => RunProjections.Private(session: this, root: current,
                 identity: identity, ownGrid: ownGrid, externalGrid: externalGrid, includeItems: includeItems,
-                ownWindows: ownWindows, externalWindows: externalWindows, nearbyPage: nearbyPage));
+                ownWindows: ownWindows, externalWindows: externalWindows, nearbyPage: nearbyPage,
+                externalPage: externalPage, includeExternal: includeExternal));
     }
 
     /// <summary>Reads the access fence and identifies immutable inventory changes for publication.</summary>
     public (long revision, long epoch, long token, long inventoryVersion)? ReadRunViewFence(
-            (string session, string binding, string player) identity)
+            (string session, string binding, string player) identity, bool looseItemsOnly = false)
     {
         lock (_gate)
         {
@@ -86,9 +91,11 @@ public sealed class FoundationSession
                 _announcedInventory = root.Inventory;
             }
 
-            long token = control.generation == 0 ? 0 : ItemActions.SelectionFor(controller:
-                    new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,
-                            generation: control.generation))?.Token ?? 0;
+            RunExternalAccess.Selection? selection = control.generation == 0 ? null : ItemActions.SelectionFor(
+                    controller: new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,
+                            generation: control.generation));
+            long token = selection is not null && (!looseItemsOnly
+                    || selection.Target.Kind is RunWorld.Access.Pile or RunWorld.Access.Corpse) ? selection.Token : 0;
             return (root.Snapshot.Revision, control.generation, token, _announcedInventoryVersion);
         }
     }

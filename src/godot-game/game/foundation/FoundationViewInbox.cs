@@ -61,6 +61,12 @@ internal sealed class FoundationViewInbox
 
         if (stage.Complete)
         {
+            if (!stage.HasExpectedContents)
+            {
+                ClearScope(scope: frame.Scope, serial: frame.View);
+                return false;
+            }
+
             Install(scope: frame.Scope, stage: stage);
         }
 
@@ -229,6 +235,8 @@ internal sealed class FoundationViewInbox
             _correlation = envelope.Sequence;
             _header = frame.Body ?? throw new InvalidOperationException(message: "RUN_HEADER");
             _nearby = frame.Scope is "nearby";
+            _loose = frame.Scope is "external" ? FoundationProtocol.ExternalLoosePageLength(body: _header) : null;
+            _gear = _loose.HasValue ? _header.GetProperty(propertyName: "GearCount").GetInt32() : 0;
             _parts = new ImmutableArray<JsonElement>[frame.Parts];
             StartedAt = now;
         }
@@ -239,6 +247,8 @@ internal sealed class FoundationViewInbox
         internal long Token { get; }
         internal long StartedAt { get; }
         internal bool Complete => _received == _parts.Length;
+        internal bool HasExpectedContents => !_loose.HasValue
+                || _looseRows == _loose.Value && _rowCount - _looseRows == _gear;
 
         internal bool Match(FoundationEnvelope envelope, FoundationRunFrame frame, JsonElement header)
         {
@@ -256,7 +266,8 @@ internal sealed class FoundationViewInbox
                         .All(predicate: equal => equal);
             }
 
-            int maximum = _nearby ? FoundationSession.NearbyPageSize : FoundationProtocol.MaximumViewRows;
+            int maximum = _nearby ? FoundationSession.NearbyPageSize
+                    : _loose is { } length ? length + _gear : FoundationProtocol.MaximumViewRows;
             if (_rowCount + rows.Length > maximum)
             {
                 return false;
@@ -269,6 +280,11 @@ internal sealed class FoundationViewInbox
 
             _parts[index] = rows;
             _rowCount += rows.Length;
+            if (_loose.HasValue)
+            {
+                _looseRows += rows.Count(predicate: FoundationProtocol.IsLooseItem);
+            }
+
             _received++;
             return true;
         }
@@ -284,9 +300,12 @@ internal sealed class FoundationViewInbox
         private readonly JsonElement _header;
         private readonly long _correlation;
         private readonly bool _nearby;
+        private readonly int? _loose;
+        private readonly int _gear;
         private readonly HashSet<string> _identities = new(comparer: StringComparer.Ordinal);
         private int _received;
         private int _rowCount;
+        private int _looseRows;
 
         private string Identity(JsonElement row)
         {

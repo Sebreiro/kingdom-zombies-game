@@ -127,11 +127,15 @@ internal sealed partial class FoundationInventoryInteraction
 
         int width = header.GetProperty(propertyName: "Width").GetInt32();
         int height = header.GetProperty(propertyName: "Height").GetInt32();
-        ImmutableArray<(int x, int y)> cells = [.. effect.GetProperty(propertyName: "Cells").EnumerateArray()
-                .Select(selector: row => (x: row.GetProperty(propertyName: "X").GetInt32(),
-                        y: row.GetProperty(propertyName: "Y").GetInt32()))
-                .Where(predicate: cell => cell.x >= 0 && cell.x < width && cell.y >= 0 && cell.y < height)
-                .Distinct()];
+        byte[]? mask = FoundationProtocol.ReadStashEffectMask(body: header, effect: effect);
+        if (mask is null)
+        {
+            return null;
+        }
+
+        ImmutableArray<(int x, int y)> cells = [.. Enumerable.Range(start: 0, count: width * height)
+                .Where(predicate: index => (mask[index / 8] & (1 << (index % 8))) != 0)
+                .Select(selector: index => (x: index % width, y: index / width))];
         return (cells, effect.GetProperty(propertyName: "MorePages").GetInt32());
     }
 
@@ -236,9 +240,17 @@ internal sealed partial class FoundationInventoryInteraction
         }));
     }
 
+    internal ImmutableArray<long> RequestedWindows(bool external, IEnumerable<long> equipped)
+    {
+        return [.. _windows.Where(predicate: window => window.External == external)
+                .Select(selector: window => window.Item.Id).Concat(second: equipped).Distinct()
+                .Take(count: FoundationProtocol.MaximumWindowSelectors)];
+    }
+
     internal Window? OpenBag(Item item, long? parent, bool external, Rect source, Rect bounds)
     {
-        if (!Open || item.StorageWidth is null || item.StorageHeight is null)
+        if (!Open || item.StorageWidth is null || item.StorageHeight is null
+                || !RequestedWindows(external: external, equipped: [item.Id]).Contains(item: item.Id))
         {
             return null;
         }

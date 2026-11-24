@@ -12,6 +12,7 @@ using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
+using Model = KingdomZombies.Foundation.FoundationInventoryInteraction;
 
 namespace KingdomZombies.Phase1.Tests;
 
@@ -108,10 +109,102 @@ public sealed class Phase06PublicationTests
         first.Rows[0].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: RunWorld.StashId);
         FoundationRunFrame second = NearbyPage(session: session, page: 2);
         second.Rows.Length.ShouldBe(expected: FoundationSession.NearbyPageSize);
-        second.Rows[0].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: "local-pile-00056");
+        second.Rows[0].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: "local-pile-00024");
         FoundationRunFrame last = NearbyPage(session: session, page: int.MaxValue);
         last.Rows[^1].GetProperty(propertyName: "Id").GetString().ShouldBe(expected: "local-pile-16999");
         last.Rows.Length.ShouldBeInRange(from: 1, to: FoundationSession.NearbyPageSize);
+    }
+
+    /// <summary>A full nearby page fits even when every legal identity needs six wire bytes per character.</summary>
+    [Fact]
+    public void MaximumLengthEscapedNearbyIdsFitOneNativeFrame()
+    {
+        string prefix = "\u6800".PadLeft(totalWidth: 126, paddingChar: '\u6800');
+        RunWorld.Anchor[] anchors = [.. Enumerable.Range(start: 0, count: 80).Select(selector: index =>
+                new RunWorld.Anchor(id: prefix + (char)(0x6800 + index) + '\u682F',
+                        contact: new RunWorld.Point(x: -8000 + index, y: 0), kind: RunWorld.Access.Pile))];
+        var world = new RunWorld(origin: default, groundContactSubunits: 0, mainBuilding: default,
+                ranges: new RunWorld.Ranges(refugeUnits: 12, dangerUnits: 12, localUnits: 9, stashUnits: 4),
+                defenses: [], blockers: [], hostiles: [], anchors: anchors);
+        var session = new FoundationSession(sessionId: "pages", playerId: "host", actorId: "actor", world: world);
+        FoundationRunFrame page = NearbyPage(session: session, page: 2);
+
+        page.Rows.Length.ShouldBe(expected: FoundationSession.NearbyPageSize);
+        page.Rows.All(predicate: row => row.GetProperty(propertyName: "Id").GetString()?.Length == 128)
+                .ShouldBeTrue();
+        anchors.Count(predicate: anchor => page.Rows.Any(predicate: row => StringComparer.Ordinal.Equals(
+                x: anchor.Id, y: row.GetProperty(propertyName: "Id").GetString())))
+                .ShouldBe(expected: page.Rows.Length);
+    }
+
+    /// <summary>Recipients can page through thousands of loose items and act on original references.</summary>
+    [Fact]
+    public void LooseLootPagesRetainAuthorizedTokensAndExactNonInitialItemReferences()
+    {
+        var room = new Room(read: ReadLargeConfig, fixture: "wire");
+        FoundationCoordinator guest = room.Join(sender: 2);
+        FoundationCoordinator other = room.Join(sender: 3);
+        FoundationSession session = Session(coordinator: room.Host);
+        string owner = guest.LocalRunControl.ShouldNotBeNull().survivorId;
+        _ = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack", owner: owner);
+        (long sequence, string status) localSelection = room.Host.SubmitRunAction(kind: "select",
+                request: Model.SelectTarget(target: ("Pile", RunCombatFixture.Remains)).Request)
+                .ShouldNotBeNull();
+        localSelection.status.ShouldBe(expected: "Ready");
+        FoundationRunView local = ExternalView(coordinator: room.Host);
+        local.Header.GetProperty(propertyName: "ItemCount").GetInt32().ShouldBe(expected: 4098);
+        room.Host.RequestExternalItemsPage(token: local.Token + 1, page: 2).ShouldBeFalse();
+        room.Host.RequestExternalItemsPage(token: local.Token, page: 2).ShouldBeTrue();
+        FoundationRunView localSecond = ExternalView(coordinator: room.Host);
+        localSecond.Token.ShouldBe(expected: local.Token);
+
+        OpenGuestPile(room: room, guest: guest);
+        FoundationRunView first = ExternalView(coordinator: guest);
+        FoundationRunView own = guest.ReadRunRender().ShouldNotBeNull().Views["own"];
+        guest.RequestExternalItemsPage(token: first.Token, page: 2).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        FoundationRunView second = ExternalView(coordinator: guest);
+        second.Token.ShouldBe(expected: first.Token);
+        second.Header.GetProperty(propertyName: "ItemPage").GetInt32().ShouldBe(expected: 2);
+        Ids(view: second).ShouldBe(expected: Ids(view: localSecond));
+        Ids(view: second).Intersect(second: Ids(view: first)).ShouldBeEmpty();
+        guest.ReadRunRender().ShouldNotBeNull().Views["own"].ShouldBeSameAs(expected: own);
+        room.Send(sender: 3, guest: other);
+        other.ReadRunRender().ShouldNotBeNull().Views.ContainsKey(key: "external").ShouldBeFalse();
+        AssertLoosePageActions(room: room, guest: guest, session: session, second: second);
+    }
+
+    /// <summary>A full legal stash page pulse crosses the real wire and highlights all exact changed cells.</summary>
+    [Fact]
+    public void FullStashGridPulseFitsTheWireWithoutLosingCells()
+    {
+        var room = new Room(read: ReadFullFootprintConfig);
+        FoundationCoordinator guest = room.Join(sender: 2);
+        FoundationSession session = Session(coordinator: room.Host);
+        string owner = guest.LocalRunControl.ShouldNotBeNull().survivorId;
+        RunInventory.Item sword = Phase06MeleeTests.Equip(session: session, id: "IT-03", slot: "left-hand",
+                owner: owner);
+        ReachStash(room: room, guest: guest, sender: 2);
+        FoundationRunView external = ExternalView(coordinator: guest);
+        guest.RequestExternalItemsPage(token: external.Token, page: 2).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "AccessLost");
+        ExternalView(coordinator: guest).ShouldBeSameAs(expected: external);
+        Model.Item item = guest.ReadRunRender().ShouldNotBeNull().Views["own"].Rows.Select(
+                selector: Model.ReadItem).Single(predicate: row => row.Id == sword.Id);
+        Model.Command deposit = Model.Quick(item: item, token: external.Token, deposit: true);
+        long sequence = guest.SubmitRunAction(kind: deposit.Kind, request: deposit.Request).ShouldNotBeNull().sequence;
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Applied");
+
+        FoundationRunView deposited = ExternalView(coordinator: guest);
+        (ImmutableArray<(int x, int y)> cells, int more) effect = Model.DepositHighlight(header: deposited.Header,
+                target: ("Stash", RunWorld.StashId), sequence: sequence).ShouldNotBeNull();
+        effect.cells.ShouldBe(expected: Enumerable.Range(start: 0, count: 4096)
+                .Select(selector: cell => (cell % 64, cell / 64)).ToImmutableArray());
+        effect.more.ShouldBe(expected: 0);
+        LastScope(room: room, sender: 2, scope: "external").Length.ShouldBeLessThan(expected:
+                FoundationProtocol.MaximumBytes);
     }
 
     /// <summary>Four roles receive only their own private data and the permitted current correction.</summary>
@@ -601,6 +694,63 @@ public sealed class Phase06PublicationTests
                     location: RunItemTransfer.Container(definition: coins, containerId: secret - 1, x: 0, y: 0),
                     storageGrid: null),
         ];
+    }
+
+    private static FoundationRunView ExternalView(FoundationCoordinator coordinator)
+    {
+        return coordinator.ReadRunRender().ShouldNotBeNull().Views["external"];
+    }
+
+    private static long[] Ids(FoundationRunView view)
+    {
+        return [.. view.Rows.Select(selector: row => row.GetProperty(propertyName: "Id").GetInt64())];
+    }
+
+    private static void OpenGuestPile(Room room, FoundationCoordinator guest)
+    {
+        Model.Command select = Model.SelectTarget(target: ("Pile", RunCombatFixture.Remains));
+        _ = guest.SubmitRunAction(kind: select.Kind, request: select.Request).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Ready");
+    }
+
+    private static void AssertLoosePageActions(Room room, FoundationCoordinator guest, FoundationSession session,
+            FoundationRunView second)
+    {
+        Model.Item chosen = Model.ReadItem(row: second.Rows[0]);
+        Model.Command withdraw = Model.Quick(item: chosen, token: second.Token, deposit: false);
+        _ = guest.SubmitRunAction(kind: withdraw.Kind, request: withdraw.Request).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Applied");
+        session.Inventory.Find(itemId: chosen.Id).ShouldNotBeNull().Location
+                .ShouldBeOfType<RunInventory.ContainerCell>();
+        guest.RequestExternalItemsPage(token: second.Token, page: int.MaxValue).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        ExternalView(coordinator: guest).Rows.Length.ShouldBe(expected: 1);
+
+        OpenGuestPile(room: room, guest: guest);
+        FoundationRunView reopened = ExternalView(coordinator: guest);
+        reopened.Token.ShouldNotBe(expected: second.Token);
+        reopened.Header.GetProperty(propertyName: "ItemPage").GetInt32().ShouldBe(expected: 1);
+        guest.RequestExternalItemsPage(token: second.Token, page: 2).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        guest.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "AccessLost");
+        ExternalView(coordinator: guest).ShouldBeSameAs(expected: reopened);
+    }
+
+    private static byte[] ReadFullFootprintConfig(string path, int limit)
+    {
+        byte[] available = ReadLargeConfig(path: path, limit: limit);
+        if (path is not "content/config/items.json")
+        {
+            return available;
+        }
+
+        JsonNode root = JsonNode.Parse(utf8Json: available).ShouldNotBeNull();
+        JsonNode sword = root["definitions"].ShouldNotBeNull().AsArray().Single(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row?["id"]?.GetValue<string>(), y: "IT-03")).ShouldNotBeNull();
+        sword["footprint"] = new JsonArray(items: [JsonValue.Create(value: 64), JsonValue.Create(value: 64)]);
+        return JsonSerializer.SerializeToUtf8Bytes(value: root);
     }
 
     private static JsonElement StashSelection()

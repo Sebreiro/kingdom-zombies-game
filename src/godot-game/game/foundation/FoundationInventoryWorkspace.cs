@@ -359,7 +359,9 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         TextLine(parent: parent, text: _art?.Name(item: item) ?? item.Definition);
         if (view is null)
         {
-            TextLine(parent: parent, text: "Opening inventory…");
+            bool requested = DesiredWindows(root: external ? External : Own, external: external)
+                    .Contains(item: item.Id);
+            TextLine(parent: parent, text: requested ? "Opening inventory…" : "Close a bag to see this inventory.");
             return;
         }
 
@@ -460,8 +462,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     {
         IEnumerable<long> equipped = Items(view: root).Where(predicate: item => item.StorageWidth.HasValue
                 && item.Location.Kind is "equipment" or "corpse").Select(selector: item => item.Id);
-        return [.. equipped.Concat(second: _model.Windows.Where(predicate: window => window.External == external)
-                .Select(selector: window => window.Item.Id)).Distinct().Take(count: 16)];
+        return _model.RequestedWindows(external: external, equipped: equipped);
     }
 
     private FoundationRunView? View(string scope)

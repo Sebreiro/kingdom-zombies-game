@@ -195,7 +195,7 @@ internal sealed partial class FoundationInventoryWorkspace
                 at: new Model.Rect(x: NearbyLeft + 16, y: 85, width: 414, height: pages > 1 ? 322 : 370));
         if (pages > 1)
         {
-            DrawNearbyPages(parent: parent, page: page, pages: pages);
+            DrawListPages(parent: parent, page: page, pages: pages, items: false, change: RequestNearbyPage);
         }
 
         for (int index = 0; index < targets.Length; index++)
@@ -218,19 +218,20 @@ internal sealed partial class FoundationInventoryWorkspace
         }
     }
 
-    private void DrawNearbyPages(Control parent, int page, int pages)
+    private void DrawListPages(Control parent, int page, int pages, bool items, Action<int> change)
     {
         _gateway.RequireThread();
         const int Left = NearbyLeft + 16;
-        Button back = ButtonAt(parent: parent, name: "PreviousNearbyPage", text: "Previous",
+        string suffix = items ? "NearbyItemsPage" : "NearbyPage";
+        Button back = ButtonAt(parent: parent, name: "Previous" + suffix, text: "Previous",
                 at: new Model.Rect(x: Left, y: 414, width: 95, height: 36),
-                action: () => RequestNearbyPage(page: page - 1));
+                action: () => change(obj: page - 1));
         back.Disabled = page <= 1;
         LabelAt(parent: parent, text: Count(value: page) + " of " + Count(value: pages),
                 at: new Model.Rect(x: Left + 109, y: 414, width: 194, height: 36));
-        Button next = ButtonAt(parent: parent, name: "NextNearbyPage", text: "Next",
+        Button next = ButtonAt(parent: parent, name: "Next" + suffix, text: "Next",
                 at: new Model.Rect(x: Left + 319, y: 414, width: 95, height: 36),
-                action: () => RequestNearbyPage(page: page + 1));
+                action: () => change(obj: page + 1));
         next.Disabled = page >= pages;
     }
 
@@ -266,13 +267,24 @@ internal sealed partial class FoundationInventoryWorkspace
     {
         string kind = Model.ExternalTarget(header: view.Header).kind;
         int top = kind is "Stash" ? 132 : 87;
+        JsonElement itemCount = view.Header.GetProperty(propertyName: "ItemCount");
+        int itemsCount = itemCount.ValueKind == JsonValueKind.Number ? itemCount.GetInt32() : 0;
+        const int Size = FoundationSession.ExternalItemsPageSize;
+        int pages = itemsCount == 0 ? 1 : 1 + (itemsCount - 1) / Size;
         VBoxContainer rows = ScrollFlow(parent: parent, name: "NearbyStorage",
-                at: new Model.Rect(x: NearbyLeft + 16, y: top, width: 414, height: 458 - top));
+                at: new Model.Rect(x: NearbyLeft + 16, y: top, width: 414, height: (pages > 1 ? 407 : 458) - top));
         if (kind is "Stash")
         {
             DrawPager(parent: parent, view: view);
             DrawStash(rows: rows, view: view);
             return;
+        }
+
+        if (pages > 1)
+        {
+            int page = view.Header.GetProperty(propertyName: "ItemPage").GetInt32();
+            DrawListPages(parent: parent, page: page, pages: pages, items: true,
+                    change: number => RequestExternalItemsPage(token: view.Token, page: number));
         }
 
         ImmutableArray<Model.Item> items = Items(view: view);
@@ -289,6 +301,15 @@ internal sealed partial class FoundationInventoryWorkspace
         {
             TextLine(parent: rows, text: kind is "Corpse" ? "Empty corpse"
                     : kind is "Pile" ? "Empty loot pile" : "No items equipped.");
+        }
+    }
+
+    private void RequestExternalItemsPage(long token, int page)
+    {
+        if (!_pending.HasValue && token == External?.Token
+                && _coordinator()?.RequestExternalItemsPage(token: token, page: page) == true)
+        {
+            ClearExternalPreview();
         }
     }
 

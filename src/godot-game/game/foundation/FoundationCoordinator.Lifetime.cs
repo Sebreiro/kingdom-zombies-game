@@ -134,6 +134,12 @@ internal sealed partial class FoundationCoordinator
         _remoteWorld = null;
         _runInbox.Clear();
         _publicWorld.Clear();
+        _localOwnGrid = null;
+        _localExternalGrid = null;
+        _localOwnWindows = [];
+        _localExternalWindows = [];
+        _localNearby = default;
+        _localExternalPage = default;
         _respawnPoll.Clear();
         RunActionFeedback = null;
         ActionHudFeedback = null;
