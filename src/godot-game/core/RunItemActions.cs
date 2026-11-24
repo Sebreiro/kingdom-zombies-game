@@ -177,20 +177,23 @@ internal sealed class RunItemActions
     private Status Commit(Access access, Transfer transfer, out RunItemTransfer.Change? change)
     {
         change = null;
-        Status failure = Prepare(access: access, transfer: transfer, candidate: out RunInventory? candidate);
+        Status failure = Prepare(access: access, transfer: transfer, candidate: out RunInventory? candidate,
+                site: out RunDeathAndLoot.DropSite? site);
         if (candidate is null)
         {
             return failure;
         }
 
         return _session.TryEditInventory(edit: (current, _, _) => ReferenceEquals(objA: current,
-                objB: access.Root.Inventory) ? candidate : null, change: out change) ? Status.Applied
+                objB: access.Root.Inventory) ? candidate : null, change: out change, drop: site) ? Status.Applied
                 : Status.Incompatible;
     }
 
-    private static Status Prepare(Access access, Transfer transfer, out RunInventory? candidate)
+    private static Status Prepare(Access access, Transfer transfer, out RunInventory? candidate,
+            out RunDeathAndLoot.DropSite? site)
     {
         candidate = null;
+        site = null;
         RunInventory inventory = access.Root.Inventory;
         if (transfer.Expected.Items.IsDefaultOrEmpty || !Permits(access: access, token: transfer.Token,
                 root: transfer.Expected.Root))
@@ -206,7 +209,7 @@ internal sealed class RunItemActions
 
         return transfer switch
         {
-            Drop drop => DropOnGround(access: access, drop: drop, candidate: out candidate),
+            Drop drop => DropOnGround(access: access, drop: drop, candidate: out candidate, site: out site),
             Merge merge => MergeStacks(access: access, merge: merge, source: source, candidate: out candidate),
             Place place => PlaceItem(access: access, place: place, source: source, candidate: out candidate),
             QuickTransfer quick => TransferStash(access: access, quick: quick, candidate: out candidate),
@@ -311,7 +314,8 @@ internal sealed class RunItemActions
         RunDefinitions definitions = access.Root.Definitions;
         if (source.Id == target.Id || !StringComparer.Ordinal.Equals(x: source.DefinitionId, y: target.DefinitionId)
                 || source.Condition != target.Condition
-                || target.Location is RunInventory.Equipment || target.StorageGrid.HasValue)
+                || target.Location is RunInventory.Equipment or RunInventory.CorpseEquipment
+                || target.StorageGrid.HasValue)
         {
             return Status.Incompatible;
         }
@@ -326,18 +330,36 @@ internal sealed class RunItemActions
         return Status.Incompatible;
     }
 
-    private static Status DropOnGround(Access access, Drop drop, out RunInventory? candidate)
+    private static Status DropOnGround(Access access, Drop drop, out RunInventory? candidate,
+            out RunDeathAndLoot.DropSite? site)
     {
         candidate = null;
-        var target = new RunExternalAccess.Target(kind: RunWorld.Access.Pile, id: drop.PileId);
-        if (!drop.Expected.IsCarriedBy(survivorId: access.Lease.SurvivorId)
-                || !RunExternalAccess.Allows(current: access.Root, participant: access.Participant, target: target))
+        site = null;
+        if (!drop.Expected.IsCarriedBy(survivorId: access.Lease.SurvivorId))
+        {
+            return Status.AccessLost;
+        }
+
+        string? id = drop.PileId;
+        if (id is null)
+        {
+            site = RunDeathAndLoot.PreparePile(current: access.Root,
+                    owner: access.Root.Population.ForLease(lease: access.Lease));
+            if (site is null)
+            {
+                return Status.Capacity;
+            }
+
+            id = site.Id;
+        }
+        else if (!RunExternalAccess.Allows(current: access.Root, participant: access.Participant,
+                target: new RunExternalAccess.Target(kind: RunWorld.Access.Pile, id: id)))
         {
             return Status.AccessLost;
         }
 
         candidate = RunItemTransfer.Drop(inventory: access.Root.Inventory, expected: drop.Expected,
-                pileId: drop.PileId);
+                pileId: id);
         return Status.Incompatible;
     }
 
@@ -473,12 +495,12 @@ internal sealed class RunItemActions
 
     internal sealed record Drop : Transfer
     {
-        internal Drop(RunInventory.ItemPath expected, string pileId) : base(expected: expected, token: null)
+        internal Drop(RunInventory.ItemPath expected, string? pileId = null) : base(expected: expected, token: null)
         {
             PileId = pileId;
         }
 
-        internal string PileId { get; }
+        internal string? PileId { get; }
     }
 
     internal sealed record QuickTransfer : Transfer

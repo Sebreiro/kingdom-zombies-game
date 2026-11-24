@@ -25,6 +25,7 @@ internal static class RunInventoryRules
         }
 
         var equipment = new Dictionary<RunInventory.Equipment, string>();
+        var corpses = new Dictionary<RunInventory.Equipment, string>();
         var occupied = new HashSet<(RunInventory.GridKind kind, long id, int x, int y)>();
         foreach (RunInventory.Item item in inventory.Items)
         {
@@ -38,6 +39,9 @@ internal static class RunInventoryRules
             {
                 RunInventory.Equipment slot => SlotAccepts(location: slot, definition: rule, population: population)
                         && equipment.TryAdd(key: slot, value: rule.Id),
+                RunInventory.CorpseEquipment corpse => CorpseSlotAccepts(location: corpse, definition: rule)
+                        && corpses.TryAdd(key: new RunInventory.Equipment(survivorId: corpse.CorpseId,
+                                slot: corpse.Slot), value: rule.Id),
                 RunInventory.GridCell cell => AddGridPlacement(cell: cell, definition: rule,
                         bounds: GridBounds(inventory: inventory, cell: cell, items: items), occupied: occupied),
                 RunInventory.Ground ground => IsPileId(pileId: ground.PileId),
@@ -49,7 +53,7 @@ internal static class RunInventoryRules
             }
         }
 
-        return ValidHandPairs(equipment: equipment)
+        return ValidHandPairs(equipment: equipment) && ValidHandPairs(equipment: corpses)
                 && ValidContainerDepth(items: items, maximum: definitions.MaximumContainerLevels);
     }
 
@@ -90,11 +94,21 @@ internal static class RunInventoryRules
     internal static bool SlotAccepts(RunInventory.Equipment location, RunDefinitions.Item definition,
             RunPopulation population)
     {
-        return RunDefinitions.EquipmentSlots.Contains(value: location.Slot, comparer: StringComparer.Ordinal)
-                && (StringComparer.Ordinal.Equals(x: definition.Slot, y: location.Slot)
-                        || definition.Slot is "either-logical-hand" && location.Slot is "left-hand" or "right-hand")
-                && population.Survivors.Any(predicate: survivor =>
-                        StringComparer.Ordinal.Equals(x: survivor.Id, y: location.SurvivorId));
+        return AcceptsDefinition(slot: location.Slot, definition: definition)
+                && population.Survivors.Any(predicate: survivor => survivor.Health > 0
+                        && StringComparer.Ordinal.Equals(x: survivor.Id, y: location.SurvivorId));
+    }
+
+    internal static bool CorpseSlotAccepts(RunInventory.CorpseEquipment location, RunDefinitions.Item definition)
+    {
+        return IsPileId(pileId: location.CorpseId) && AcceptsDefinition(slot: location.Slot, definition: definition);
+    }
+
+    private static bool AcceptsDefinition(string slot, RunDefinitions.Item definition)
+    {
+        return RunDefinitions.EquipmentSlots.Contains(value: slot, comparer: StringComparer.Ordinal)
+                && (StringComparer.Ordinal.Equals(x: definition.Slot, y: slot)
+                        || definition.Slot is "either-logical-hand" && slot is "left-hand" or "right-hand");
     }
 
     private static bool MatchesDefinition(RunInventory.Item item, RunDefinitions.Item definition)

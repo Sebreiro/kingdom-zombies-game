@@ -103,6 +103,17 @@ internal static class RunItemTransfer
                     ? RunItemActions.Status.Capacity : RunItemActions.Status.Ready;
         }
 
+        if (destination is RunInventory.CorpseEquipment corpse)
+        {
+            if (!RunInventoryRules.CorpseSlotAccepts(location: corpse, definition: definition))
+            {
+                return RunItemActions.Status.Incompatible;
+            }
+
+            return inventory.Items.Any(predicate: item => item.Location == corpse) ? RunItemActions.Status.Capacity
+                    : RunItemActions.Status.Ready;
+        }
+
         if (destination is not RunInventory.GridCell cell || cell.X < 0 || cell.Y < 0
                 || cell.Rotated && !definition.Rotatable || cell.Footprint != RunInventoryRules.Footprint(
                         definition: definition, rotated: cell.Rotated))

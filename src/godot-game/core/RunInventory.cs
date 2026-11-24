@@ -65,6 +65,26 @@ internal sealed class RunInventory
                 nextItemId: NextItemId, quickReferences: references);
     }
 
+    internal RunInventory MoveToCorpse(string survivorId, string corpseId)
+    {
+        ImmutableArray<Item> items = [.. Items.Select(selector: item =>
+                item.Location is Equipment equipment && StringComparer.Ordinal.Equals(
+                        x: equipment.SurvivorId, y: survivorId)
+                        ? item with { Location = new CorpseEquipment(corpseId: corpseId, slot: equipment.Slot) }
+                        : item)];
+        return Enumerable.SequenceEqual(first: items, second: Items) ? this : WithItems(items: items);
+    }
+
+    internal bool HasLoot(string id)
+    {
+        return Items.Any(predicate: item => item.Location switch
+        {
+            CorpseEquipment corpse => StringComparer.Ordinal.Equals(x: corpse.CorpseId, y: id),
+            Ground ground => StringComparer.Ordinal.Equals(x: ground.PileId, y: id),
+            _ => false,
+        });
+    }
+
     private static ItemPath? Trace(Item item, Func<long, Item?> lookup)
     {
         ImmutableArray<Item>.Builder ancestors = ImmutableArray.CreateBuilder<Item>();
@@ -132,6 +152,18 @@ internal sealed class RunInventory
         }
 
         internal string SurvivorId { get; }
+        internal string Slot { get; }
+    }
+
+    internal sealed record CorpseEquipment : Location
+    {
+        internal CorpseEquipment(string corpseId, string slot)
+        {
+            CorpseId = corpseId;
+            Slot = slot;
+        }
+
+        internal string CorpseId { get; }
         internal string Slot { get; }
     }
     internal enum GridKind

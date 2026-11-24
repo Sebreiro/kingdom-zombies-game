@@ -237,8 +237,11 @@ public sealed class FoundationSession
                         actor: new FoundationActorState(sessionId: sessionId, playerId: playerId, actorId: actorId,
                                 positionSubunits: RunPopulation.StartingPosition, facing: 1,
                                 elapsedMilliseconds: 0))]);
+        (world, RunDeathAndLoot.State loot) = RunDeathAndLoot.Reconcile(world: world, inventory: inventory,
+                loot: RunDeathAndLoot.State.Empty, now: 0, delay: definitions.LootEmptyDelay);
         _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0,
-                definitions: definitions, population: population, inventory: inventory, combat: RunCombat.State.Empty);
+                definitions: definitions, population: population, inventory: inventory, combat: RunCombat.State.Empty,
+                loot: loot);
         ItemActions = new RunItemActions(session: this);
     }
 
@@ -455,7 +458,7 @@ public sealed class FoundationSession
     }
 
     internal bool TryEditInventory(Func<RunInventory, RunDefinitions, RunPopulation, RunInventory?> edit,
-            out RunItemTransfer.Change? change)
+            out RunItemTransfer.Change? change, RunDeathAndLoot.DropSite? drop = null)
     {
         lock (_gate)
         {
@@ -469,7 +472,7 @@ public sealed class FoundationSession
             RunInventory? candidate = edit(arg1: current.Inventory, arg2: current.Definitions,
                     arg3: current.Population);
             return candidate is not null && PublishInventory(current: current, candidate: candidate,
-                    population: current.Population, change: out change);
+                    population: current.Population, change: out change, drop: drop);
         }
     }
 
@@ -544,38 +547,32 @@ public sealed class FoundationSession
 
     private bool PublishAttack(RunPublication current, RunCombat.Candidate candidate)
     {
-        if (!ReferenceEquals(objA: current.Inventory, objB: candidate.Inventory)
-                && !ValidInventory(current: current, candidate: candidate.Inventory, population: candidate.Population))
+        RunDeathAndLoot.Frame frame = RunDeathAndLoot.ApplyDeaths(world: current.World,
+                population: candidate.Population, inventory: candidate.Inventory, state: current.Loot,
+                hits: candidate.Hits);
+        if (!ReferenceEquals(objA: current.Inventory, objB: frame.Inventory)
+                && !ValidInventory(current: current, candidate: frame.Inventory, population: frame.Population))
         {
             return false;
         }
 
-        RunInventory inventory = RunQuickReferences.Invalidate(inventory: candidate.Inventory,
+        RunInventory inventory = RunQuickReferences.Invalidate(inventory: frame.Inventory,
                 definitions: current.Definitions);
-        RunWorld? world = RemoveFallenHostiles(world: current.World, population: candidate.Population,
-                hits: candidate.Hits);
-        return TryPublish(participants: current.Snapshot.Participants, population: candidate.Population,
-                inventory: inventory, world: world, combat: candidate.Combat);
-    }
-
-    private static RunWorld? RemoveFallenHostiles(RunWorld world, RunPopulation population,
-            ImmutableArray<RunDamage.Hit> hits)
-    {
-        var fallen = hits.Where(predicate: hit => hit.Lethal
-                && population.Survivors.Any(predicate: survivor => survivor.Hostile
-                        && StringComparer.Ordinal.Equals(x: survivor.Id, y: hit.TargetId)))
-                .Select(selector: hit => hit.TargetId).ToImmutableHashSet(equalityComparer: StringComparer.Ordinal);
-        return fallen.Count == 0 ? null : world.WithHostiles(hostiles:
-                world.Hostiles.RemoveAll(match: hostile => fallen.Contains(item: hostile.Id)));
+        return TryPublish(participants: current.Snapshot.Participants, population: frame.Population,
+                inventory: inventory, world: frame.World, combat: candidate.Combat, loot: frame.Loot);
     }
 
     private static RunPublication FinishStep(RunPublication current, FoundationSnapshot snapshot,
             RunProjectiles.Frame flight, long elapsed)
     {
-        RunInventory inventory = flight.Inventory;
+        ImmutableArray<RunDamage.Hit> hits = elapsed == current.ElapsedMilliseconds ? []
+                : [.. flight.Combat.Impacts.Select(selector: impact => impact.Hit).OfType<RunDamage.Hit>()];
+        RunDeathAndLoot.Frame frame = RunDeathAndLoot.ApplyDeaths(world: flight.World,
+                population: flight.Population, inventory: flight.Inventory, state: current.Loot, hits: hits);
+        RunInventory inventory = frame.Inventory;
         if (!ReferenceEquals(objA: inventory, objB: current.Inventory))
         {
-            if (!ValidInventory(current: current, candidate: inventory, population: flight.Population))
+            if (!ValidInventory(current: current, candidate: inventory, population: frame.Population))
             {
                 throw new InvalidDataException(message: "RUN_PROJECTILE_INVENTORY");
             }
@@ -583,14 +580,13 @@ public sealed class FoundationSession
             inventory = RunQuickReferences.Invalidate(inventory: inventory, definitions: current.Definitions);
         }
 
-        ImmutableArray<RunDamage.Hit> hits = elapsed == current.ElapsedMilliseconds ? []
-                : [.. flight.Combat.Impacts.Select(selector: impact => impact.Hit).OfType<RunDamage.Hit>()];
-        RunWorld world = RemoveFallenHostiles(world: flight.World, population: flight.Population, hits: hits)
-                ?? flight.World;
-        RunPopulation population = ReferenceEquals(objA: world, objB: current.World) ? flight.Population
-                : RefreshRest(population: flight.Population, world: world);
+        (RunWorld world, RunDeathAndLoot.State loot) = RunDeathAndLoot.Reconcile(world: frame.World,
+                inventory: inventory, loot: frame.Loot, now: elapsed, delay: current.Definitions.LootEmptyDelay);
+        RunPopulation population = ReferenceEquals(objA: world, objB: current.World) ? frame.Population
+                : RefreshRest(population: frame.Population, world: world);
         return new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: elapsed,
-                definitions: current.Definitions, population: population, inventory: inventory, combat: flight.Combat);
+                definitions: current.Definitions, population: population, inventory: inventory, combat: flight.Combat,
+                loot: loot);
     }
 
     private static RunPopulation RefreshRest(RunPopulation population, RunWorld world)
@@ -666,20 +662,31 @@ public sealed class FoundationSession
     }
 
     private bool TryPublish(IEnumerable<FoundationParticipantState> participants, RunWorld? world = null,
-            RunPopulation? population = null, RunInventory? inventory = null, RunCombat.State? combat = null)
+            RunPopulation? population = null, RunInventory? inventory = null, RunCombat.State? combat = null,
+            RunDeathAndLoot.State? loot = null)
     {
         try
         {
             world?.Validate();
             RunPublication current = _publication;
+            RunInventory items = inventory ?? current.Inventory;
+            (RunWorld settledWorld, RunDeathAndLoot.State settledLoot) = RunDeathAndLoot.Reconcile(
+                    world: world ?? current.World, inventory: items, loot: loot ?? current.Loot,
+                    now: current.ElapsedMilliseconds, delay: current.Definitions.LootEmptyDelay);
+            if (!ReferenceEquals(objA: settledWorld, objB: world ?? current.World))
+            {
+                settledWorld.Validate();
+            }
+
             RunPopulation updated = population ?? current.Population;
-            updated = world is null ? updated : RefreshRest(population: updated, world: world);
+            updated = ReferenceEquals(objA: settledWorld, objB: current.World) ? updated
+                    : RefreshRest(population: updated, world: settledWorld);
 
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);
-            _publication = new RunPublication(snapshot: snapshot, world: world ?? current.World,
+            _publication = new RunPublication(snapshot: snapshot, world: settledWorld,
                     elapsedMilliseconds: current.ElapsedMilliseconds, definitions: current.Definitions,
-                    population: updated, inventory: inventory ?? current.Inventory, combat: combat ?? current.Combat);
+                    population: updated, inventory: items, combat: combat ?? current.Combat, loot: settledLoot);
             return true;
         }
         catch (Exception error) when (error is InvalidDataException or OverflowException)
@@ -689,7 +696,7 @@ public sealed class FoundationSession
     }
 
     private bool PublishInventory(RunPublication current, RunInventory candidate, RunPopulation population,
-            out RunItemTransfer.Change? change)
+            out RunItemTransfer.Change? change, RunDeathAndLoot.DropSite? drop = null)
     {
         change = null;
         if (!_active || !ReferenceEquals(objA: current, objB: _publication)
@@ -700,7 +707,8 @@ public sealed class FoundationSession
         }
 
         RunInventory updated = RunQuickReferences.Invalidate(inventory: candidate, definitions: current.Definitions);
-        if (!TryPublish(participants: current.Snapshot.Participants, population: population, inventory: updated))
+        if (!TryPublish(participants: current.Snapshot.Participants, population: population, inventory: updated,
+                world: drop?.World, loot: drop?.Loot))
         {
             return false;
         }
@@ -727,7 +735,8 @@ public sealed class FoundationSession
     internal sealed class RunPublication
     {
         internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds,
-                RunDefinitions definitions, RunPopulation population, RunInventory inventory, RunCombat.State combat)
+                RunDefinitions definitions, RunPopulation population, RunInventory inventory, RunCombat.State combat,
+                RunDeathAndLoot.State loot)
         {
             Snapshot = snapshot;
             World = world;
@@ -736,6 +745,7 @@ public sealed class FoundationSession
             Population = population;
             Inventory = inventory;
             Combat = combat;
+            Loot = loot;
         }
 
         internal FoundationSnapshot Snapshot { get; }
@@ -745,5 +755,6 @@ public sealed class FoundationSession
         internal RunPopulation Population { get; }
         internal RunInventory Inventory { get; }
         internal RunCombat.State Combat { get; }
+        internal RunDeathAndLoot.State Loot { get; }
     }
 }

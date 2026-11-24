@@ -34,6 +34,7 @@ internal sealed class RunDefinitions
         StashGrid = inventory.StashGrid;
         MaximumContainerLevels = inventory.MaximumContainerLevels;
         QuickSlotCount = inventory.QuickSlotCount;
+        LootEmptyDelay = inventory.LootEmptyDelay;
         Ranges = new RunWorld.Ranges(refugeUnits: survivors.RefugeUnits, dangerUnits: survivors.DangerUnits,
                 localUnits: inventory.LocalUnits, stashUnits: inventory.StashUnits);
     }
@@ -61,6 +62,7 @@ internal sealed class RunDefinitions
     internal Size StashGrid { get; }
     internal int MaximumContainerLevels { get; }
     internal int QuickSlotCount { get; }
+    internal decimal LootEmptyDelay { get; }
     internal RunWorld.Ranges Ranges { get; }
 
     internal static RunDefinitions Load(Func<string, int, byte[]?> read)
@@ -160,6 +162,7 @@ internal sealed class RunDefinitions
         JsonElement nesting = Field(parent: root, field: "nesting");
         JsonElement quickSlots = Field(parent: root, field: "quickSlots");
         JsonElement ranges = Field(parent: root, field: "ranges");
+        JsonElement cleanup = Field(parent: root, field: "cleanup");
         Size grid = ReadSize(value: Field(parent: stash, field: "pageGrid"), field: "stash.pageGrid");
         Require(condition: Text(parent: stash, field: "pageLimit") is "unlimited"
                 && Flag(parent: stash, field: "tierIndependent")
@@ -173,11 +176,15 @@ internal sealed class RunDefinitions
         int local = Integer(parent: ranges, field: "npcUnits", minimum: 1, maximum: 1000);
         Require(condition: local == Integer(parent: ranges, field: "corpseUnits", minimum: 1, maximum: 1000),
                 field: "ranges.corpseUnits");
+        Require(condition: !Flag(parent: cleanup, field: "nonemptyExpires")
+                && Flag(parent: cleanup, field: "addingItemCancels")
+                && !Flag(parent: cleanup, field: "cosmeticsDeleteLoot"), field: "cleanup");
         return new InventorySettings(stashGrid: grid, maximumContainerLevels: Integer(parent: nesting,
                 field: "maximumLevels", minimum: 1, maximum: int.MaxValue),
                 quickSlotCount: Integer(parent: quickSlots, field: "count", minimum: 4, maximum: 4),
                 localUnits: local, stashUnits: Integer(parent: ranges, field: "mainBuildingUnits", minimum: 1,
-                        maximum: 1000));
+                        maximum: 1000), lootEmptyDelay: Milliseconds(root: cleanup, name: "emptyDelaySeconds",
+                                minimum: 0.001m));
     }
 
     private static SurvivorSettings ReadSurvivors(JsonElement root)
@@ -697,13 +704,14 @@ internal sealed class RunDefinitions
     internal sealed record InventorySettings
     {
         internal InventorySettings(Size stashGrid, int maximumContainerLevels, int quickSlotCount,
-                int localUnits, int stashUnits)
+                int localUnits, int stashUnits, decimal lootEmptyDelay = 180000)
         {
             StashGrid = stashGrid;
             MaximumContainerLevels = maximumContainerLevels;
             QuickSlotCount = quickSlotCount;
             LocalUnits = localUnits;
             StashUnits = stashUnits;
+            LootEmptyDelay = lootEmptyDelay;
         }
 
         internal Size StashGrid { get; }
@@ -711,5 +719,6 @@ internal sealed class RunDefinitions
         internal int QuickSlotCount { get; }
         internal int LocalUnits { get; }
         internal int StashUnits { get; }
+        internal decimal LootEmptyDelay { get; }
     }
 }

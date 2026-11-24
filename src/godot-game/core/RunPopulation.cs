@@ -68,7 +68,8 @@ internal sealed class RunPopulation
 
     internal RunPopulation? Reserve(string sessionId, string playerId, string bindingId, int slot)
     {
-        if (slot is < 2 or > 4 || !StringComparer.Ordinal.Equals(x: sessionId, y: Leases[0].SessionId)
+        if (slot is < 2 or > 4 || Leases.Any(predicate: lease =>
+                !StringComparer.Ordinal.Equals(x: sessionId, y: lease.SessionId))
                 || string.IsNullOrWhiteSpace(value: bindingId) || IssuedBindings.Contains(item: bindingId)
                 || Leases.Any(predicate: lease => lease.Slot == slot
                         || StringComparer.Ordinal.Equals(x: lease.PlayerId, y: playerId)))

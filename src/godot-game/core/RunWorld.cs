@@ -147,6 +147,21 @@ internal sealed class RunWorld
                 hostiles: Hostiles, anchors: Anchors);
     }
 
+    internal RunWorld WithAnchors(ImmutableArray<Anchor> anchors)
+    {
+        return new RunWorld(origin: Origin, groundContactSubunits: GroundContactSubunits,
+                mainBuilding: MainBuilding, ranges: Settings, defenses: Defenses, blockers: Blockers,
+                hostiles: Hostiles, anchors: anchors);
+    }
+
+    internal bool OccupiesId(string id)
+    {
+        return Anchors.Any(predicate: item => StringComparer.Ordinal.Equals(x: item.Id, y: id))
+                || Defenses.Any(predicate: item => StringComparer.Ordinal.Equals(x: item.Id, y: id))
+                || Blockers.Any(predicate: item => StringComparer.Ordinal.Equals(x: item.Id, y: id))
+                || Hostiles.Any(predicate: item => StringComparer.Ordinal.Equals(x: item.Id, y: id));
+    }
+
     private const long CoordinateLimit = 1_000_000_000;
 
     private bool CoordinatesValid()

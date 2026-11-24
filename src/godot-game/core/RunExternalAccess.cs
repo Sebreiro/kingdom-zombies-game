@@ -48,8 +48,8 @@ internal static class RunExternalAccess
                     && world.Reachable(actor: actor, kind: target.Kind, id: target.Id),
             RunWorld.Access.Corpse => !current.Population.Survivors.Any(predicate: survivor =>
                     StringComparer.Ordinal.Equals(x: survivor.Id, y: target.Id) && survivor.Health > 0)
-                    && world.Reachable(actor: actor, kind: target.Kind, id: target.Id),
-            RunWorld.Access.Pile => world.Reachable(actor: actor, kind: target.Kind, id: target.Id),
+                    && ReachLoot(current: current, actor: actor, target: target),
+            RunWorld.Access.Pile => ReachLoot(current: current, actor: actor, target: target),
             _ => false,
         };
     }
@@ -60,6 +60,8 @@ internal static class RunExternalAccess
         {
             RunInventory.Equipment equipment => selection.Target.Kind is RunWorld.Access.Npc or RunWorld.Access.Corpse
                     && StringComparer.Ordinal.Equals(x: equipment.SurvivorId, y: selection.Target.Id),
+            RunInventory.CorpseEquipment corpse => selection.Target.Kind == RunWorld.Access.Corpse
+                    && StringComparer.Ordinal.Equals(x: corpse.CorpseId, y: selection.Target.Id),
             RunInventory.StashCell cell => selection.Target.Kind == RunWorld.Access.Stash
                     && cell.Page == selection.PageIndex,
             RunInventory.Ground ground => selection.Target.Kind is RunWorld.Access.Pile or RunWorld.Access.Corpse
@@ -97,6 +99,13 @@ internal static class RunExternalAccess
         RunWorld world = current.World;
         RunWorld.Point contact = world.ActorContact(survivor: survivor);
         return world.Reachable(actor: actor, kind: RunWorld.Access.Npc, contact: contact);
+    }
+
+    private static bool ReachLoot(FoundationSession.RunPublication current, RunWorld.Point actor, Target target)
+    {
+        return current.Loot.Targets.TryGetValue(key: target.Id, value: out RunDeathAndLoot.Target? counterpart)
+                && counterpart.Anchor.Kind == target.Kind
+                && current.World.Reachable(actor: actor, kind: target.Kind, id: target.Id);
     }
 
     [StructLayout(layoutKind: LayoutKind.Auto)]
