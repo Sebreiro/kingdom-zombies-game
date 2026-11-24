@@ -2,21 +2,21 @@
 gsd_state_version: "1.0"
 milestone: v0.1
 milestone_name: Complete playable LAN campaign
-current_phase: 05
-current_phase_name: CI and repeatable game testing
+current_phase: 06
+current_phase_name: Survivors, inventory, and combat
 current_plan: 4
 status: completed
 stopped_at: "Phase 05 verified on b7e419c. Results are recorded on PR #15."
-last_updated: "2026-11-24T08:27:49.292Z"
+last_updated: "2026-11-24T10:52:46.450Z"
 last_activity: 2026-11-24
-last_activity_desc: "Verified Phase 05 on Windows at 1280×720 and in hosted Windows and Ubuntu checks."
-state_head: b7e419c075bd0c97423142684099c9f5d588f0c9
+last_activity_desc: Verified Phase 05 on Windows at 1280×720 and in hosted Windows and Ubuntu checks.
+state_head: 6d606d58df2acb68cfaadfa076d7f6057e24abfd
 progress:
-  total_phases: 12
+  total_phases: 16
   completed_phases: 5
-  total_plans: 66
-  completed_plans: 64
-  percent: 42
+  total_plans: 105
+  completed_plans: 66
+  percent: 31
 ---
 
 # Project State
@@ -33,13 +33,13 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 
 ## Current Position
 
-Phase: 05 — CI and repeatable game testing
+Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
 Current Plan: 05-04 complete
-Total Plans in Phase: 4
+Total Plans in Phase: 15
 Status: Complete. [Phase 5 pull request](https://github.com/Sebreiro/kingdom-zombies-game/pull/15)
 Last activity: 2026-11-24 — Phase 5 verified all 92 selected Windows checks and recorded P1–P4. Windows and Ubuntu passed the hosted basic checks on the same source.
 
-Progress: [████░░░░░░] 42%
+Progress: [███░░░░░░░] 31%
 
 Milestone progress: 5 of 12 phases, 64 of 66 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
@@ -254,6 +254,8 @@ Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
-Next action: Review [Phase 5 pull request #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15). Phase 6 is next in the roadmap.
+[Phase 5 pull request #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15) merged into `dev` as `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6`. Phase 6 work continues on `feature/06-survivors-inventory-and-combat` in `D:/GitWorktrees/KingdomZombies/kz-06-survivors-inventory-and-combat`.
+
+Phase 6 baseline on Windows used the pinned Node and `node src/godot-game/tools/game-tests/check.cjs --pr` from the linked checkout. Invocation `87cbb73a-e93f-412c-b053-fa41b043f8df` exited 0 on `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6` with four passes, zero failures and zero blocked cases. Strict build, repository validation, pure tests and headless solo gameplay passed.
 
 Repository layout continuation: [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) (`feature/quick-repository-layout`, quick tasks 261116-k3u, 261116-m0w and 261121-jmu) integrated `dev` (Phase 4 and PR #7) by quick task 261123-fsu, with every Phase 4 and PR #7 file at its [current layout location](../docs/architecture/repository-layout.md#historical-paths).

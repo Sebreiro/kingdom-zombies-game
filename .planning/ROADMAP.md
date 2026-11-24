@@ -402,9 +402,9 @@ Completed on independently reviewed `b7e419c` with 92/92 selected Windows checks
 
 ### Phase 6: Survivors, inventory, and combat
 
-Include the rendered case IDs assigned to Phase ### Phase 6: Survivors, inventory, and combat in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
-**Goal:** Players in solo and LAN play can control ordinary survivors, manage real belongings, fight with actual equipment, and recover from a player's death without duplication or loss.
+**Goal:** As a solo or LAN player, I want to control an ordinary survivor, manage real belongings, fight with actual equipment, and continue after a player's death without losing or duplicating survivors or items.
 **Mode:** mvp
 **Depends on:** Phase 5
 **Requirements:** CHAR-01, CHAR-02, CHAR-03, CHAR-04, CHAR-05, CHAR-06, INV-01, INV-02, INV-03, INV-04, INV-05, INV-06, INV-07, INV-08, INV-09, INV-10, INV-11, INV-12, INV-13, COMBAT-01, COMBAT-02, COMBAT-03, COMBAT-05, COMBAT-06, COMBAT-08, RUN-01, RUN-02, RUN-03, RUN-04
@@ -416,7 +416,50 @@ Include the rendered case IDs assigned to Phase ### Phase 6: Survivors, inventor
 4. Players can fight with fists, one or two one-handed weapons, or a mouse-aimed bow consuming real opposite-hand arrows with manual refill. Costs/timing, armor, retained broken gear, no friendly damage, friendly arrow passthrough, and blocking-defense hits match the specification.
 5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Respawn enables one second after death and requires an explicit request before assignment or waiting. Random succession preserves the eligible survivor's state/location/gear, concurrent requests never share a successor, and queued requests automatically receive newly available survivors in request order without gaining loot from crowns. Spectating follows living teammates through Previous/Next and a teammate list. Camera handover is smooth nearby and cuts when distant.
 
-**Plans:** TBD
+**Plans:** 15 plans
+**Wave 1**
+- [ ] 06-01 — [Authoritative world time, camp safety and access](phases/06-survivors-inventory-and-combat/06-01-PLAN.md)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 06-02 — [Configured survivor population and starting belongings](phases/06-survivors-inventory-and-combat/06-02-PLAN.md)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 06-03 — [Equipment, grids, stacks and nested containers](phases/06-survivors-inventory-and-combat/06-03-PLAN.md)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 06-04 — [Local access, shared stash and transfers](phases/06-survivors-inventory-and-combat/06-04-PLAN.md)
+- [ ] 06-05 — [Movement, load, recovery and actual food](phases/06-survivors-inventory-and-combat/06-05-PLAN.md)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 06-06 — [Melee, bows, armor and projectile rules](phases/06-survivors-inventory-and-combat/06-06-PLAN.md)
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 06-07 — [Corpse belongings, cleanup and survivor succession](phases/06-survivors-inventory-and-combat/06-07-PLAN.md)
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 06-08 — [Coherent snapshots and saved inventory layouts](phases/06-survivors-inventory-and-combat/06-08-PLAN.md)
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 06-09 — [LAN action authority and private publications](phases/06-survivors-inventory-and-combat/06-09-PLAN.md)
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 06-10 — [Live equipment, character and corpse presentation](phases/06-survivors-inventory-and-combat/06-10-PLAN.md)
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 06-11 — [Inventory, stash and loot controls](phases/06-survivors-inventory-and-combat/06-11-PLAN.md)
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 06-12 — [HUD, input priority and spectating](phases/06-survivors-inventory-and-combat/06-12-PLAN.md)
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 06-13 — [Playable combat fixture and shared scenarios](phases/06-survivors-inventory-and-combat/06-13-PLAN.md)
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 06-14 — [Asset integration and whole-phase code review](phases/06-survivors-inventory-and-combat/06-14-PLAN.md)
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [ ] 06-15 — [Grouped gameplay verification and phase closeout](phases/06-survivors-inventory-and-combat/06-15-PLAN.md)
+
 **UI hint:** yes
 
 **Delivery boundary:** Begin with real authoritative elapsed-time, safety/danger, and reachable-access services needed for recovery, cooldowns, cleanup, and interaction; prove these with representative camp/defense/enemy fixtures before integrating the rest of the phase. Include the actual inventory/stash/loot/equipment/health/stamina/quick-slot/succession interfaces and feedback now. Snapshot round trips cover identity, ownership graphs, quantities, condition, cleanup, control eligibility, and saved layout dimensions/placements; legacy representation begins here. NPC/zombie ammunition consumers use the shared combat contract as they arrive, with complete cross-archetype automatic refill/fallback and spit/cosmetic-acid acceptance owned by Phase 8. Autonomous NPC economy and full world campaign remain later increments.
