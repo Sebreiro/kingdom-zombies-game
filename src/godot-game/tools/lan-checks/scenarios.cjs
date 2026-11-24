@@ -317,10 +317,26 @@ async function g3(state,item){
   }
   throw new Error('UNKNOWN_G3_CASE '+item.id);
 }
+async function quitRestart(input,peer){
+  await require('./foreground.cjs').run(async()=>{
+    const focused=control=>latest(peer)?.controls.some(row=>row.path==='Menu/'+control&&row.visible&&row.focused);
+    await focus(input,peer);
+    await r.until([peer],()=>focused('Start'),'restarted browser Start focus');
+    for(const control of ['Host','Join','Quit']){
+      const drawFrame=latest(peer).drawFrame;
+      await tap(input,peer,9);
+      await r.until([peer],()=>latest(peer)?.drawFrame>drawFrame&&focused(control),'restarted browser '+control+' focus');
+    }
+    require('./terminal.cjs').requestQuit(peer);
+    await input.send(peer,{action:'tap',method:'physical-SendInput',key:32});
+  });
+}
 async function close(state){
   const errors=[];
   for(const peer of [...new Set([...state.peers,...state.extra])].filter(peer=>!peer.exit))try{
-    await menu(peer.driver,peer);await click(peer.driver,peer,'Menu/Quit');
+    await menu(peer.driver,peer);
+    if(peer.role==='browser-restart')await quitRestart(peer.driver,peer);
+    else await click(peer.driver,peer,'Menu/Quit');
   }catch(error){errors.push('normal quit '+peer.role+': '+error.message);}
   for(const input of [state.input,...state.drivers])try{await input.close();}catch(error){errors.push(error.message);}
   for(const peer of [...new Set([...state.peers,...state.extra])])try{await net.cleanup(peer);}catch(error){errors.push(error.message);}
