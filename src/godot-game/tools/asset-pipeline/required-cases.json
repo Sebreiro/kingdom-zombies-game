@@ -4833,7 +4833,7 @@
         "id": "text.catalog",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4906,7 +4906,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4986,7 +4986,7 @@
         "id": "text.support-catalog",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5053,7 +5053,7 @@
         "id": "text.support-native",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -6967,7 +6967,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6983,7 +6983,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6999,7 +6999,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7015,7 +7015,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7031,7 +7031,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7047,7 +7047,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7063,7 +7063,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7079,7 +7079,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7095,7 +7095,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7111,7 +7111,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7127,7 +7127,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7143,7 +7143,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7159,7 +7159,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7175,7 +7175,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7191,7 +7191,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7207,7 +7207,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-        "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+        "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -8075,14 +8075,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8277,14 +8277,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8347,14 +8347,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8764,14 +8764,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -10069,7 +10069,7 @@
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/text-data.cjs",
-          "moduleSha256": "a0ed98ce4c9c7911f43e50fa0762d37a0b4f753c688476eb2c9aacf82a973e47",
+          "moduleSha256": "13e14e00c84f91bbfc7cc3a89da9149dace9640d304504e5beb2efd6e7b99524",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
