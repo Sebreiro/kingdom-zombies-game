@@ -248,7 +248,6 @@ public sealed partial class FoundationRoot : Control
         {
             return;
         }
-
         _input.Clear();
         try
         {
@@ -278,9 +277,12 @@ public sealed partial class FoundationRoot : Control
                         && file.GetError() is Error.Ok or Error.FileEof ? bytes : null);
             }
 
+            string? fixture = null;
+#if DEBUG
+            fixture = FoundationAutomation.TakeFixture(host: host);
+#endif
             _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld,
-                    read: (path, _) => resources.GetValueOrDefault(key: path),
-                    fixture: FoundationAutomation.TakeFixture(host: host));
+                    read: (path, _) => resources.GetValueOrDefault(key: path), fixture: fixture);
 #if DEBUG
             if (FoundationCoordinator.ShouldFailEntry(generation: _generation))
             {

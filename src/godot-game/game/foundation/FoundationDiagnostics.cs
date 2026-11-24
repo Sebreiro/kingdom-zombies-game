@@ -107,6 +107,7 @@ internal sealed class FoundationDiagnostics
 
     private static object? ReadPhase06(FoundationCoordinator? coordinator)
     {
+#if DEBUG
         if (!FoundationAutomation.OwnedPhase() || coordinator?.ReadRunRender() is not { } current)
         {
             return null;
@@ -123,6 +124,9 @@ internal sealed class FoundationDiagnostics
             }, comparer: StringComparer.Ordinal),
             control = coordinator.LocalRunControl?.survivorId, epoch = coordinator.LocalRunControl?.generation,
             deathEpoch = coordinator.LocalRunControl?.deathGeneration };
+#else
+        return null;
+#endif
     }
 
     private static void RecordLoadedAssemblies()

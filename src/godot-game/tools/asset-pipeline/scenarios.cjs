@@ -1237,8 +1237,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       packet:e.writeExclusive(root,prefix+'-object-'+index+'.bin',packet.raw)}));
     return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
   }
-  // Phase 5 resolves controls from the owned live scene instead of a Phase 4 driver declaration.
-  async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
+  async function controlBounds(node) {
     const position = {node,property:'global_position'};
     const size = {node,property:'size'};
     const ancestors = [];
@@ -1251,7 +1250,11 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     e.need(vector(extent) && (vector(global) || locals.every(vector)), 'HUB_SMOKE_CONTROL_GEOMETRY',node);
     const origin = vector(global) ? global.values : locals.reduce(
       ([x,y],{values}) => [x+values[0],y+values[1]], [0,0]);
-    const [width,height] = extent.values;
+    return {origin, width:extent.values[0], height:extent.values[1]};
+  }
+  // Resolve controls from the owned live scene, including controls inside an authored scroll container.
+  async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
+    const {origin,width,height}=await controlBounds(node);
     // Click the inspector vertical scrollbar track above or below its handle.
     if (scrollPage) e.need(width>0 && height>=32, 'HUB_SMOKE_SCROLL_TRACK',node);
     const xOffset = firstRow ? Math.min(width/2,24) : width/2;
@@ -1260,6 +1263,18 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const y = Math.floor(origin[1] + yOffset);
     e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
     return {x,y};
+  }
+  async function reveal(node,scroll,act) {
+    e.need(node.startsWith(scroll+'/'),'INSPECTION_SCROLL_TARGET',node);
+    for(let attempt=0;attempt<20;attempt++){
+      budget();
+      const target=await controlBounds(node), clip=await controlBounds(scroll);
+      const center=target.origin[1]+target.height/2, top=clip.origin[1], bottom=top+clip.height;
+      if(center>=top+8&&center<=bottom-8)return;
+      const point=await clickControl(scroll+'/_v_scroll',{scrollPage:center<top? -1:1});
+      await act('click',point.x,point.y,0);
+    }
+    throw new Error('INSPECTION_SCROLL_REQUIRED '+node);
   }
   async function checkpoint(item,step,invocation,recovery=false) {
     const prefix = relative + '/' + item.id + (recovery?'-recovery-':'-') + step.id;
@@ -1310,10 +1325,13 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       };
       await step.drive({
         async click(node, options) {
+          if (options?.scroll) await reveal(node,options.scroll,act);
           const {x,y}=await clickControl(node,options);
           await act('click',x,y,0);
         },
-        tap(key) { return act('tap',0,0,key); }
+        tap(key) { return act('tap',0,0,key); },
+        hold(key) { return act('down',0,0,key); },
+        release(key) { return act('up',0,0,key); }
       });
       e.need(actions.length>0,'HUB_SMOKE_INPUT_EMPTY',step.id);
     } else {
@@ -1380,7 +1398,8 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     if (runtime && subject && fs.existsSync(path.join(root,trace))) record.hostTrace=e.reference(root,trace,16*1024*1024);
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
-  return {checkpoint,restore,close,get usable(){return Boolean(pid && !terminal && !error);}};
+  return {checkpoint,restore,close,inspect:checks=>native.snapshot(pid,checks),
+    get usable(){return Boolean(pid && !terminal && !error);}};
 }
 
 function resetSequence(steps,lifetime) {

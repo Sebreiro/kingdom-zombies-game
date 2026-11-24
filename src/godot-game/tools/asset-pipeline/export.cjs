@@ -503,7 +503,7 @@ async function negatives(context,output,closure,pin,engine,selected,contract){
   await rejected('runtime-search-override','RUNTIME_SEARCH_OVERRIDE',()=>runtimeEnvironment({...cleanEnvironment(context.directory),DOTNET_ROOT:'unavailable-runtime-root'}));
   write(context.directory,'negative-controls.json',outcomes);return outcomes;
 }
-async function buildPackage(context){
+async function buildPackage(context,{gameplay=false}={}){
   const initial=snapshot();write(context.directory,'inputs.json',initial);
   const contract=sourceContract();require('./cases/export-profile.cjs').validate(ROOT);
   const pin=document(ROOT,PIN),tools=document(ROOT,'src/godot-game/tools/verification/toolchain.json');
@@ -525,6 +525,10 @@ async function buildPackage(context){
   const project=inside(source,'src/godot-game/game'),presetFile=inside(project,'export_presets.cfg');
   let preset=fs.readFileSync(presetFile,'utf8');
   for(const mode of ['debug','release'])preset=preset.replace('@WINDOWS_'+mode.toUpperCase()+'_TEMPLATE@',inside(selected.directory,'windows_'+mode+'_x86_64.exe').replaceAll('\\','/'));
+  if(gameplay){
+    need(preset.includes('custom_features="asset_inspection"'),'GAMEPLAY_EXPORT_FEATURE');
+    preset=preset.replace('custom_features="asset_inspection"','custom_features=""');
+  }
   fs.writeFileSync(presetFile,preset);
   // Godot's C# exporter requires a solution beside the project. This generated authoring-only wrapper preserves project references.
   write(project,'KingdomZombies.sln',Buffer.from('Microsoft Visual Studio Solution File, Format Version 12.00\nProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingdomZombies", "KingdomZombies.csproj", "{78E97099-6384-493C-9F15-58D8332E0958}"\nEndProject\nGlobal\nEndGlobal\n'));
@@ -534,7 +538,8 @@ async function buildPackage(context){
   // Publish explicitly to expose all self-contained/runtime failures before native export.
   const publish=inside(context.directory,'publish');
   await runner.command(context,'managed-publish','C:/Program Files/dotnet/dotnet.exe',[
-    'publish',inside(project,'KingdomZombies.csproj'),'-c','ExportDebug','-r','win-x64','--self-contained','true','-o',publish,
+    'publish',inside(project,'KingdomZombies.csproj'),'-c',gameplay?'ExportRelease':'ExportDebug','-r','win-x64',
+    '--self-contained','true','-o',publish,
     '--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
     '-p:RestoreLockedMode=false','-p:NuGetPackageRoot='+content.sharedFile('packages')+'/',
     '-p:RestorePackagesPath='+content.sharedFile('packages'),'-v:minimal'],{timeout:60000});
@@ -546,16 +551,53 @@ async function buildPackage(context){
   const imported=await runner.command(context,'export-import',engine,['--headless','--path',project,'--editor','--import'],{env:authoring});
   need(!/ERROR:|SCRIPT ERROR:|Failed to load/i.test(imported.stdout+imported.stderr),'EXPORT_IMPORT');
   const binary=inside(output,'KingdomZombies.exe');
-  const exported=await runner.command(context,'native-export',engine,['--headless','--path',project,'--export-debug',pin.preset,binary,'--quit-after','2'],{timeout:60000,env:authoring});
+  const exported=await runner.command(context,'native-export',engine,['--headless','--path',project,
+    gameplay?'--export-release':'--export-debug',pin.preset,binary,'--quit-after','2'],{timeout:60000,env:authoring});
   need(!/ERROR:|SCRIPT ERROR:|Failed to load|Export failed/i.test(exported.stdout+exported.stderr),'NATIVE_EXPORT');
   need(fs.existsSync(binary)&&fs.existsSync(inside(output,'KingdomZombies.pck')),'EXPORT_FILES_MISSING');
   completePack(context,output,contract);
   const closure=dependencies(output,pin),packageData=packaged(output,contract);
-  need(await digest(binary)===pin.templateMembers['windows_debug_x86_64.exe'].sha256,'TEMPLATE_BINARY_MISMATCH');
+  const template=gameplay?'windows_release_x86_64.exe':'windows_debug_x86_64.exe';
+  need(await digest(binary)===pin.templateMembers[template].sha256,'TEMPLATE_BINARY_MISMATCH');
   need(await digest(binary)!==await digest(engine),'EDITOR_AS_OUTPUT');
   const clean=cloneOutput(context,'portable',output,closure.rows);
   return {binary,closure,packageData,clean,engine,initial,inputHashes,output,pin,selected,contract,project,authoring};
 }
+
+async function buildGameplayProbe(context,built,script){
+  const directory=inside(context.directory,'proof-build');
+  fs.mkdirSync(directory);
+  const proof={...context,directory}, output=inside(directory,'export');
+  fs.mkdirSync(output);
+  const settings=inside(built.project,'project.godot');
+  const original=fs.readFileSync(settings,'utf8');
+  need(!/^\[autoload\]\s*$/m.test(original),'GAMEPLAY_PROBE_AUTOLOAD');
+  write(built.project,'phase06-portable-probe.gd',Buffer.from(script));
+  fs.writeFileSync(settings,original+'\n[autoload]\n\nPortableProof="*res://phase06-portable-probe.gd"\n');
+  try {
+    const binary=inside(output,'KingdomZombies.exe');
+    const emitted=await runner.command(proof,'native-proof-export',built.engine,['--headless','--path',built.project,
+      '--export-release',built.pin.preset,binary,'--quit-after','2'],{timeout:60000,env:built.authoring});
+    need(!/ERROR:|SCRIPT ERROR:|Failed to load|Export failed/i.test(emitted.stdout+emitted.stderr),'NATIVE_PROOF_EXPORT');
+    completePack(proof,output,built.contract);
+    const closure=dependencies(output,built.pin);
+    const originalFiles=new Map(built.closure.rows.map(row=>[row.path,row.sha256]));
+    need(closure.rows.every(row=>row.path===PCK||originalFiles.get(row.path)===row.sha256)
+      && closure.rows.length===built.closure.rows.length,'GAMEPLAY_PROBE_RUNTIME_DIFFERENCE');
+    const baseline=built.packageData.files, next=pack(fs.readFileSync(inside(output,PCK)));
+    const changed=[...baseline].filter(([name,row])=>next.get(name)?.sha256!==row.sha256).map(([name])=>name);
+    const allowed=new Set(['project.binary','.godot/global_script_class_cache.cfg','.godot/uid_cache.bin']);
+    const added=[...next.keys()].filter(name=>!baseline.has(name));
+    need(changed.includes('project.binary')&&changed.every(name=>allowed.has(name)&&next.has(name))&&
+      added.length>0&&added.every(name=>name.includes('phase06-portable-probe')),'GAMEPLAY_PROBE_PCK_DIFFERENCE');
+    write(directory,'probe-binding.json',{changed,added,scriptSha256:hash(Buffer.from(script)),
+      executableSha256:await digest(binary),runtime:closure.rows.filter(row=>row.path!==PCK)});
+    return {output,closure};
+  } finally {
+    fs.writeFileSync(settings,original);
+  }
+}
+
 function verifyInputs({initial,inputHashes}){
   need(Object.entries(inputHashes).every(([file,digest])=>hash(bytes(ROOT,file))===digest),'BUILD_SOURCE_CHANGED');
   need(JSON.stringify(snapshot())===JSON.stringify(initial),'SOURCE_CHANGED');
@@ -579,4 +621,4 @@ async function exportTracer(context){
 module.exports={EXPORT_PATHSPEC,feedConfig,digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,
   RENDERED_FIXTURES,renderedFixture,verifyRenderedFixture,packaged,probe,packagedProbe,mountPackage,portable,hostTrace,validatePortableReceipt,
   validatePortableEnvironment,cloneOutput,missingCoreClr,
-  negatives,exportTracer,buildPackage,verifyInputs,sourceContract,authoringMember,authoringTrace};
+  negatives,exportTracer,buildPackage,buildGameplayProbe,verifyInputs,sourceContract,authoringMember,authoringTrace};

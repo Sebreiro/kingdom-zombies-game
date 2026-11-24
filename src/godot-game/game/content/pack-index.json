@@ -1010,16 +1010,16 @@
     {
       "id": "file.9ecdb196c3d55f06ae20",
       "path": "src/godot-game/foundation/FoundationInput.cs",
-      "bytes": 1651,
-      "sha256": "caed7f7b5cd0eca46813aa7a0909f99307cf33d155407a063263cf3fca528b63",
+      "bytes": 3256,
+      "sha256": "55c477e859143b8c8a3429396518eb2094cece492f37df3cef6cce8fbe2d394a",
       "version": 1,
       "role": "source-support"
     },
     {
       "id": "file.9243a7eb4fd3259a5cb9",
       "path": "src/godot-game/foundation/FoundationRoot.cs",
-      "bytes": 18132,
-      "sha256": "55f1c50156a178cd44c7e51138b62263d69eb950b91c82bb500eae7b2081dce0",
+      "bytes": 23367,
+      "sha256": "1d2c4370de8ab648439285d300bb8b86c6fcdf360fa73dbdb17daad942229210",
       "version": 1,
       "role": "source-support"
     },

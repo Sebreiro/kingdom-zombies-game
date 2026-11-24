@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "groups": ["basic.pr", "phase06.headless", "phase06.solo", "phase06.lan", "phase11.certification", "release.environments"],
-  "runGroups": ["basic.pr", "phase06.headless", "phase06.solo", "phase06.lan", "phase11.certification", "release.physical-lan", "release.reference-pc", "release.endurance"],
+  "groups": ["basic.pr", "phase06.headless", "phase06.solo", "phase06.lan", "phase06.packaged", "phase11.certification", "release.environments"],
+  "runGroups": ["basic.pr", "phase06.headless", "phase06.solo", "phase06.lan", "phase06.packaged", "phase11.certification", "release.physical-lan", "release.reference-pc", "release.endurance"],
   "cases": [
     {
       "id": "phase06.solo.world",
@@ -720,6 +720,31 @@
       "phaseEnd": true
     },
     {
+      "id": "phase06.packaged",
+      "adapter": "scenario",
+      "group": "phase06.packaged",
+      "runGroup": "phase06.packaged",
+      "order": 1,
+      "owner": 6,
+      "tier": 2,
+      "title": "Start the pinned portable release without a window",
+      "requirements": ["CHAR-01", "INV-01", "RUN-01"],
+      "importance": "High",
+      "rationale": "Editor resources can resolve correctly while the released runtime has a missing or invalid dependency.",
+      "tags": ["phase06", "headless"],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-packaged.cjs",
+      "setup": "Export the current source with the pinned Windows release template and a clean isolated profile.",
+      "actions": ["Boot the unmodified release into the normal menu.",
+        "Use the owned probe companion for Start, movement, inventory and the two invalid configuration paths."],
+      "expected": "The unmodified release boots normally. Its executable and immutable gameplay resources drive actual production in the companion. Invalid variants stay at the menu and report their exact reasons.",
+      "reset": "Use isolated profiles. Require bounded exit from the unmodified boot and ordinary Quit from all probe variants.",
+      "roles": ["unmodified portable release", "normal gameplay proof", "missing configuration", "invalid configuration"],
+      "evidence": ["verified release template and package closure", "managed runtime and resource identities",
+        "four current native receipts and process termination records"],
+      "phaseEnd": true
+    },
+    {
       "id": "TEST-11",
       "adapter": "procedure",
       "group": "phase11.certification",
@@ -838,7 +863,7 @@
     }
   ],
   "impact": {
-    "phase06": ["src/godot-game/core/**", "src/godot-game/game/foundation/**", "src/godot-game/game/content/config/**", "src/godot-game/tests/scenarios/**", "src/godot-game/tools/lan-checks/**", ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md"],
+    "phase06": ["src/godot-game/core/", "src/godot-game/game/foundation/", "src/godot-game/game/content/config/", "src/godot-game/tests/scenarios/", "src/godot-game/tools/lan-checks/", "src/godot-game/game/export_presets.cfg", "src/godot-game/tools/asset-pipeline/export.cjs", "src/godot-game/tools/asset-pipeline/handoff.json", ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md"],
     "pure": ["src/godot-game/core/", "src/godot-game/tests/verification/", "src/godot-game/multiplayer-abstractions/"],
     "foundation": ["src/godot-game/game/foundation/", "src/godot-game/game/project.godot", "src/godot-game/game/KingdomZombies.csproj", "src/godot-game/game/export_presets.cfg"],
     "solo-proof": ["src/godot-game/tools/gameplay-checks/"],
