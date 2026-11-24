@@ -138,7 +138,7 @@ internal static class RunVitals
     private static RunPopulation.Survivor RestFor(RunPopulation.Survivor survivor, RunDefinitions definitions,
             decimal previous, decimal current, bool safe)
     {
-        if (!safe)
+        if (!safe || survivor.Hostile)
         {
             return ResetRest(survivor: survivor);
         }

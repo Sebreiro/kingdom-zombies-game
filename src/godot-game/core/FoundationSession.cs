@@ -151,7 +151,8 @@ public sealed class FoundationSession
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: candidate);
             _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed,
-                    definitions: current.Definitions, population: population, inventory: current.Inventory);
+                    definitions: current.Definitions, population: population, inventory: current.Inventory,
+                    combat: current.Combat);
         }
     }
 
@@ -186,6 +187,7 @@ public sealed class FoundationSession
             _active = false;
             _intents.Clear();
             _foodRequests.Clear();
+            _attackRequests.Clear();
         }
     }
 
@@ -236,7 +238,7 @@ public sealed class FoundationSession
                                 positionSubunits: RunPopulation.StartingPosition, facing: 1,
                                 elapsedMilliseconds: 0))]);
         _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0,
-                definitions: definitions, population: population, inventory: inventory);
+                definitions: definitions, population: population, inventory: inventory, combat: RunCombat.State.Empty);
         ItemActions = new RunItemActions(session: this);
     }
 
@@ -244,6 +246,61 @@ public sealed class FoundationSession
     internal RunInventory Inventory => _publication.Inventory;
     internal RunDefinitions Definitions => _publication.Definitions;
     internal RunItemActions ItemActions { get; }
+
+    internal RunCombat.Outcome Attack(RunItemActions.Controller controller, long sequence)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            RunPopulation.Lease? lease = CurrentControl(current: current, controller: controller);
+            return lease is null ? new RunCombat.Outcome(status: RunCombat.Status.AccessLost)
+                    : AcceptAttack(current: current, attacker: current.Population.ForLease(lease: lease),
+                            generation: lease.Generation, sequence: sequence);
+        }
+    }
+
+    internal RunCombat.Outcome AttackUncontrolled(string survivorId, long sequence)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            RunPopulation.Survivor? attacker = current.Population.Survivors.FirstOrDefault(predicate: survivor =>
+                    StringComparer.Ordinal.Equals(x: survivor.Id, y: survivorId));
+            if (!_active || attacker is not { Health: > 0 } || current.Population.Leases.Any(predicate: lease =>
+                    StringComparer.Ordinal.Equals(x: lease.SurvivorId, y: survivorId)))
+            {
+                return new RunCombat.Outcome(status: RunCombat.Status.AccessLost);
+            }
+
+            return AcceptAttack(current: current, attacker: attacker, generation: 0, sequence: sequence);
+        }
+    }
+
+    internal bool TryAddHostile(string id, decimal position, int facing, decimal health)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            if (!_active || position is < -59000 or > 59000 || facing is not (-1 or 1)
+                    || health <= 0 || health > current.Definitions.MaximumHealth
+                    || current.Population.Survivors.Any(predicate: item => StringComparer.Ordinal.Equals(
+                            x: item.Id, y: id)))
+            {
+                return false;
+            }
+
+            var hostile = new RunPopulation.Survivor(id: id, positionSubunits: 0, facing: facing, health: health,
+                    stamina: current.Definitions.MaximumStamina, role: "hostile")
+            {
+                Hostile = true,
+                PositionSubunitsExact = position,
+            };
+            RunWorld world = current.World.WithHostiles(hostiles: current.World.Hostiles.Add(item:
+                    new RunWorld.Hostile(id: id, contact: current.World.ActorContact(survivor: hostile))));
+            return TryPublish(participants: current.Snapshot.Participants, world: world,
+                    population: current.Population.Add(survivor: hostile));
+        }
+    }
 
     internal (bool accepted, RunLocomotion.Block reason) TryAcceptMotion(RunItemActions.Controller controller,
             long sequence, RunLocomotion.Input input)
@@ -410,6 +467,8 @@ public sealed class FoundationSession
             new(comparer: StringComparer.Ordinal);
     private readonly Dictionary<string, (long generation, long sequence, RunFood.Status status)> _foodRequests =
             new(comparer: StringComparer.Ordinal);
+    private readonly Dictionary<(string id, long generation), (long sequence, RunCombat.Status status)>
+            _attackRequests = [];
     private volatile RunPublication _publication;
     private volatile bool _active = true;
 
@@ -440,6 +499,62 @@ public sealed class FoundationSession
         return sequence > 0 && (!_intents.TryGetValue(key: lease.BindingId,
                 value: out (long generation, FoundationHeldIntent intent) previous)
                 || previous.generation != lease.Generation || sequence > previous.intent.Sequence);
+    }
+
+    private RunCombat.Outcome AcceptAttack(RunPublication current, RunPopulation.Survivor attacker, long generation,
+            long sequence)
+    {
+        if (sequence <= 0)
+        {
+            return new RunCombat.Outcome(status: RunCombat.Status.StaleRequest);
+        }
+
+        (string id, long generation) key = (attacker.Id, generation);
+        if (_attackRequests.TryGetValue(key: key, value: out (long sequence, RunCombat.Status status) previous)
+                && sequence <= previous.sequence)
+        {
+            bool replayed = sequence == previous.sequence;
+            return new RunCombat.Outcome(status: replayed ? previous.status : RunCombat.Status.StaleRequest,
+                    replayed: replayed);
+        }
+
+        (RunCombat.Status status, RunCombat.Candidate? candidate) = RunCombat.Prepare(current: current,
+                attacker: attacker);
+        if (candidate is not null && !PublishAttack(current: current, candidate: candidate))
+        {
+            status = RunCombat.Status.Rejected;
+        }
+
+        _attackRequests[key] = (sequence, status);
+        return new RunCombat.Outcome(status: status, hits: status == RunCombat.Status.Accepted
+                ? candidate?.Hits ?? [] : []);
+    }
+
+    private bool PublishAttack(RunPublication current, RunCombat.Candidate candidate)
+    {
+        if (!ReferenceEquals(objA: current.Inventory, objB: candidate.Inventory)
+                && !ValidInventory(current: current, candidate: candidate.Inventory, population: candidate.Population))
+        {
+            return false;
+        }
+
+        RunInventory inventory = RunQuickReferences.Invalidate(inventory: candidate.Inventory,
+                definitions: current.Definitions);
+        RunWorld? world = RemoveFallenHostiles(world: current.World, population: candidate.Population,
+                hits: candidate.Hits);
+        return TryPublish(participants: current.Snapshot.Participants, population: candidate.Population,
+                inventory: inventory, world: world, combat: candidate.Combat);
+    }
+
+    private static RunWorld? RemoveFallenHostiles(RunWorld world, RunPopulation population,
+            ImmutableArray<RunDamage.Hit> hits)
+    {
+        var fallen = hits.Where(predicate: hit => hit.Lethal
+                && population.Survivors.Any(predicate: survivor => survivor.Hostile
+                        && StringComparer.Ordinal.Equals(x: survivor.Id, y: hit.TargetId)))
+                .Select(selector: hit => hit.TargetId).ToImmutableHashSet(equalityComparer: StringComparer.Ordinal);
+        return fallen.Count == 0 ? null : world.WithHostiles(hostiles:
+                world.Hostiles.RemoveAll(match: hostile => fallen.Contains(item: hostile.Id)));
     }
 
     private static FoundationParticipantState? Find(FoundationSnapshot snapshot, string bindingId)
@@ -504,7 +619,7 @@ public sealed class FoundationSession
     }
 
     private bool TryPublish(IEnumerable<FoundationParticipantState> participants, RunWorld? world = null,
-            RunPopulation? population = null, RunInventory? inventory = null)
+            RunPopulation? population = null, RunInventory? inventory = null, RunCombat.State? combat = null)
     {
         try
         {
@@ -524,7 +639,7 @@ public sealed class FoundationSession
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);
             _publication = new RunPublication(snapshot: snapshot, world: world ?? current.World,
                     elapsedMilliseconds: current.ElapsedMilliseconds, definitions: current.Definitions,
-                    population: updated, inventory: inventory ?? current.Inventory);
+                    population: updated, inventory: inventory ?? current.Inventory, combat: combat ?? current.Combat);
             return true;
         }
         catch (Exception error) when (error is InvalidDataException or OverflowException)
@@ -539,9 +654,7 @@ public sealed class FoundationSession
         change = null;
         if (!_active || !ReferenceEquals(objA: current, objB: _publication)
                 || ReferenceEquals(objA: candidate, objB: current.Inventory)
-                || !RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
-                || !RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
-                        population: population))
+                || !ValidInventory(current: current, candidate: candidate, population: population))
         {
             return false;
         }
@@ -556,6 +669,13 @@ public sealed class FoundationSession
         return true;
     }
 
+    private static bool ValidInventory(RunPublication current, RunInventory candidate, RunPopulation population)
+    {
+        return RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
+                && RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
+                        population: population);
+    }
+
     private void RequireActive()
     {
         if (!_active)
@@ -567,7 +687,7 @@ public sealed class FoundationSession
     internal sealed class RunPublication
     {
         internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds,
-                RunDefinitions definitions, RunPopulation population, RunInventory inventory)
+                RunDefinitions definitions, RunPopulation population, RunInventory inventory, RunCombat.State combat)
         {
             Snapshot = snapshot;
             World = world;
@@ -575,6 +695,7 @@ public sealed class FoundationSession
             Definitions = definitions;
             Population = population;
             Inventory = inventory;
+            Combat = combat;
         }
 
         internal FoundationSnapshot Snapshot { get; }
@@ -583,5 +704,6 @@ public sealed class FoundationSession
         internal RunDefinitions Definitions { get; }
         internal RunPopulation Population { get; }
         internal RunInventory Inventory { get; }
+        internal RunCombat.State Combat { get; }
     }
 }

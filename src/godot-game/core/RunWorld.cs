@@ -133,6 +133,13 @@ internal sealed class RunWorld
                 y: Origin.Y + GroundContactSubunits + decimal.ToInt64(d: decimal.Round(d: survivor.HeightSubunits)));
     }
 
+    internal RunWorld WithHostiles(ImmutableArray<Hostile> hostiles)
+    {
+        return new RunWorld(origin: Origin, groundContactSubunits: GroundContactSubunits,
+                mainBuilding: MainBuilding, ranges: Settings, defenses: Defenses, blockers: Blockers,
+                hostiles: hostiles, anchors: Anchors);
+    }
+
     private const long CoordinateLimit = 1_000_000_000;
 
     private bool CoordinatesValid()

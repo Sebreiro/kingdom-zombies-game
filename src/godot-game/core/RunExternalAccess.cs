@@ -88,7 +88,7 @@ internal static class RunExternalAccess
         RunPopulation population = current.Population;
         RunPopulation.Survivor? survivor = population.Survivors.FirstOrDefault(predicate: item =>
                 StringComparer.Ordinal.Equals(x: item.Id, y: id));
-        if (survivor is null || survivor.Health <= 0 || population.Leases.Any(predicate: lease =>
+        if (survivor is null || survivor.Hostile || survivor.Health <= 0 || population.Leases.Any(predicate: lease =>
                 StringComparer.Ordinal.Equals(x: lease.SurvivorId, y: id)))
         {
             return false;

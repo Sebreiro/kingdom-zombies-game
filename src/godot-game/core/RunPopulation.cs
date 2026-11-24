@@ -76,7 +76,7 @@ internal sealed class RunPopulation
             return null;
         }
 
-        Survivor? available = Survivors.FirstOrDefault(predicate: survivor => survivor.Health > 0
+        Survivor? available = Survivors.FirstOrDefault(predicate: survivor => !survivor.Hostile && survivor.Health > 0
                 && !Leases.Any(predicate: lease => StringComparer.Ordinal.Equals(x: lease.SurvivorId, y: survivor.Id)));
         if (available is null || LastControlGeneration == long.MaxValue)
         {
@@ -122,6 +122,12 @@ internal sealed class RunPopulation
                 issuedBindings: IssuedBindings, lastControlGeneration: LastControlGeneration);
     }
 
+    internal RunPopulation Add(Survivor survivor)
+    {
+        return new RunPopulation(survivors: Survivors.Add(item: survivor), leases: Leases,
+                issuedBindings: IssuedBindings, lastControlGeneration: LastControlGeneration);
+    }
+
     internal sealed record Survivor
     {
         internal Survivor(string id, long positionSubunits, int facing, decimal health, decimal stamina,
@@ -149,6 +155,8 @@ internal sealed class RunPopulation
         internal RunLocomotion.Block SprintBlock { get; init; }
         internal decimal? RestStartedAt { get; init; }
         internal decimal? FoodAvailableAt { get; init; }
+        internal decimal? AttackAvailableAt { get; init; }
+        internal bool Hostile { get; init; }
     }
 
     internal sealed record Lease

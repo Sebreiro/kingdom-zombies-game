@@ -16,7 +16,8 @@ internal sealed class RunDefinitions
     internal const int MaximumStartingStacks = 512;
 
     internal RunDefinitions(Start start, SurvivorSettings survivors, InventorySettings inventory,
-            ImmutableDictionary<string, Item> items, ImmutableDictionary<string, RunFood.Nutrition>? food = null)
+            ImmutableDictionary<string, Item> items, ImmutableDictionary<string, RunFood.Nutrition>? food = null,
+            RunCombatDefinitions? combat = null)
     {
         SurvivorCount = start.SurvivorCount;
         PlayerLimit = start.PlayerLimit;
@@ -29,6 +30,7 @@ internal sealed class RunDefinitions
         Vitals = survivors.Vitals;
         Items = items;
         Food = food ?? Default.Food;
+        Combat = combat ?? Default.Combat;
         StashGrid = inventory.StashGrid;
         MaximumContainerLevels = inventory.MaximumContainerLevels;
         QuickSlotCount = inventory.QuickSlotCount;
@@ -55,6 +57,7 @@ internal sealed class RunDefinitions
     internal RunVitals.Settings Vitals { get; }
     internal ImmutableDictionary<string, Item> Items { get; }
     internal ImmutableDictionary<string, RunFood.Nutrition> Food { get; }
+    internal RunCombatDefinitions Combat { get; }
     internal Size StashGrid { get; }
     internal int MaximumContainerLevels { get; }
     internal int QuickSlotCount { get; }
@@ -68,10 +71,12 @@ internal sealed class RunDefinitions
         ImmutableDictionary<string, Item> items = Read(path: ItemsPath, id: "DT-04", read: read,
                 parse: root => ReadItems(root: root, stash: inventory.StashGrid));
         Start start = Read(path: RunPath, id: "DT-01", read: read, parse: root => ReadStart(root: root, items: items));
-        _ = Read(path: CombatPath, id: "DT-05", read: read, parse: root => CheckCombat(root: root, items: items));
+        RunCombatDefinitions combat = Read(path: CombatPath, id: "DT-05", read: read,
+                parse: root => ReadCombat(root: root, items: items));
         ImmutableDictionary<string, RunFood.Nutrition> food = Read(path: FoodPath, id: "DT-08", read: read,
                 parse: root => ReadFood(root: root, items: items));
-        return new RunDefinitions(start: start, survivors: survivors, inventory: inventory, items: items, food: food);
+        return new RunDefinitions(start: start, survivors: survivors, inventory: inventory, items: items,
+                food: food, combat: combat);
     }
 
     private const string InventoryPath = "content/config/inventory.json";
@@ -376,29 +381,115 @@ internal sealed class RunDefinitions
         return new StartingStack(itemId: id, quantity: quantity, count: count);
     }
 
-    private static bool CheckCombat(JsonElement root, ImmutableDictionary<string, Item> items)
+    private static RunCombatDefinitions ReadCombat(JsonElement root, ImmutableDictionary<string, Item> items)
     {
-        JsonElement attacks = Array(parent: root, field: "attacks");
-        var weapons = new HashSet<string>(comparer: StringComparer.Ordinal);
-        foreach (JsonElement attack in attacks.EnumerateArray())
+        Dictionary<string, JsonElement> rows = IndexById(rows: Array(parent: root, field: "attacks"),
+                field: "attackId");
+        JsonElement fists = FieldFrom(rows: rows, id: "survivor.fists");
+        Require(condition: NullableText(parent: fists, field: "itemRef") is null
+                && NullableText(parent: fists, field: "projectile") is null, field: "attacks.survivor.fists");
+        Dictionary<string, JsonElement> projectiles = IndexById(rows: Array(parent: root, field: "projectiles"),
+                field: "projectileId");
+        JsonElement arrow = FieldFrom(rows: projectiles, id: "arrow");
+        JsonElement wear = Field(parent: root, field: "durability");
+        CheckCombatPolicies(root: root, arrow: arrow, wear: wear);
+        return new RunCombatDefinitions(fists: ReadAttack(row: fists, ranged: false),
+                weapons: ReadWeapons(rows: rows), armorByItem: ReadArmor(root: root, items: items),
+                arrow: new RunCombatDefinitions.Projectile(speed: Number(parent: arrow, field: "speedUnitsPerSecond",
+                        minimum: 0.001m, maximum: 1000), lifetime: Milliseconds(root: arrow,
+                                name: "lifetimeSeconds", minimum: 0.001m)),
+                armorCap: Number(parent: root, field: "maximumReductionFraction", minimum: 0, maximum: 1),
+                meleeWear: Number(parent: wear, field: "meleeLossPerSuccessfulStrike", minimum: 0, maximum: 10000),
+                bowWear: Number(parent: wear, field: "bowLossPerShot", minimum: 0, maximum: 10000));
+    }
+
+    private static ImmutableDictionary<string, RunCombatDefinitions.Attack> ReadWeapons(
+            Dictionary<string, JsonElement> rows)
+    {
+        (string id, string item)[] expected =
+        [
+            ("weapon.knife", "IT-03"), ("weapon.club", "IT-04"), ("weapon.machete", "IT-05"),
+            ("weapon.bat", "IT-06"), ("weapon.bow", "IT-07"),
+        ];
+        ImmutableDictionary<string, RunCombatDefinitions.Attack>.Builder result =
+                ImmutableDictionary.CreateBuilder<string, RunCombatDefinitions.Attack>(
+                        keyComparer: StringComparer.Ordinal);
+        foreach ((string id, string item) in expected)
         {
-            string? id = NullableText(parent: attack, field: "itemRef");
-            Require(condition: id is null || (id is "IT-03" or "IT-04" or "IT-05" or "IT-06" or "IT-07")
-                    && weapons.Add(item: id), field: "attacks.itemRef");
+            JsonElement row = FieldFrom(rows: rows, id: id);
+            bool ranged = item is "IT-07";
+            Require(condition: StringComparer.Ordinal.Equals(x: NullableText(parent: row, field: "itemRef"),
+                    y: item) && StringComparer.Ordinal.Equals(x: NullableText(parent: row, field: "projectile"),
+                            y: ranged ? "arrow" : null), field: "attacks." + id);
+            result.Add(key: item, value: ReadAttack(row: row, ranged: ranged));
         }
 
-        Require(condition: weapons.Count == 5, field: "attacks.itemRef");
-        var armorIds = new HashSet<string>(comparer: StringComparer.Ordinal);
+        return result.ToImmutable();
+    }
+
+    private static RunCombatDefinitions.Attack ReadAttack(JsonElement row, bool ranged)
+    {
+        Require(condition: !ranged || Field(parent: row, field: "reachUnits").ValueKind is JsonValueKind.Null,
+                field: "reachUnits");
+        return new RunCombatDefinitions.Attack(
+                damage: Number(parent: row, field: "damage", minimum: 0, maximum: 10000),
+                interval: Milliseconds(root: row, name: "intervalSeconds", minimum: 0.001m),
+                reach: ranged ? null : Number(parent: row, field: "reachUnits", minimum: 0.001m, maximum: 1000)
+                        * RunWorld.SubunitsPerUnit,
+                stamina: Number(parent: row, field: "staminaCost", minimum: 0.001m, maximum: 10000));
+    }
+
+    private static ImmutableDictionary<string, RunCombatDefinitions.Armor> ReadArmor(JsonElement root,
+            ImmutableDictionary<string, Item> items)
+    {
+        ImmutableDictionary<string, RunCombatDefinitions.Armor>.Builder rules =
+                ImmutableDictionary.CreateBuilder<string, RunCombatDefinitions.Armor>(
+                        keyComparer: StringComparer.Ordinal);
         foreach (JsonElement armor in Array(parent: root, field: "armor").EnumerateArray())
         {
             string id = Text(parent: armor, field: "itemRef");
-            Require(condition: (id is "IT-18" or "IT-19" or "IT-20") && armorIds.Add(item: id)
+            Require(condition: (id is "IT-18" or "IT-19" or "IT-20") && !rules.ContainsKey(key: id)
                     && Number(parent: armor, field: "maximumDurability", minimum: 1, maximum: 10000)
                             == items[id].MaximumCondition, field: "armor." + id);
+            rules.Add(key: id, value: new RunCombatDefinitions.Armor(
+                    reduction: Number(parent: armor, field: "reductionFraction", minimum: 0, maximum: 1),
+                    wear: Number(parent: armor, field: "rawDamageWearFraction", minimum: 0, maximum: 1)));
         }
 
-        Require(condition: armorIds.Count == 3, field: "armor.itemRef");
-        return true;
+        Require(condition: rules.Count == 3, field: "armor.itemRef");
+        return rules.ToImmutable();
+    }
+
+    private static void CheckCombatPolicies(JsonElement root, JsonElement arrow, JsonElement wear)
+    {
+        _ = Number(parent: root, field: "friendlyDamageMultiplier", minimum: 0, maximum: 0);
+        Require(condition: Text(parent: root, field: "armorCombination") is "multiplicative"
+                && Text(parent: root, field: "armorWearSource") is "same-raw-hit-no-extra-damage"
+                && Flag(parent: root, field: "armorAppliesPerHit"), field: "armorCombination");
+        Require(condition: Flag(parent: arrow, field: "stopAtTerrain")
+                && Flag(parent: arrow, field: "stopAtFirstEligibleHit")
+                && Flag(parent: arrow, field: "alliedPassThrough") && !Flag(parent: arrow, field: "recoverable")
+                && !Flag(parent: arrow, field: "areaDamage") && !Flag(parent: arrow, field: "lingeringEffect"),
+                field: "projectiles.arrow");
+        Require(condition: !Flag(parent: wear, field: "zeroWeaponUsable")
+                && !Flag(parent: wear, field: "zeroArmorProtects") && Flag(parent: wear, field: "retainBrokenItems")
+                && !Flag(parent: wear, field: "ordinaryClothingWears") && !Flag(parent: wear, field: "repairAllowed"),
+                field: "durability");
+        JsonElement hands = Field(parent: root, field: "handRules");
+        Require(condition: Text(parent: hands, field: "bowOtherHand") is "IT-02"
+                && !Flag(parent: hands, field: "playerAutoRefill") && Flag(parent: hands, field: "actualArrowsConsumed")
+                && Text(parent: hands, field: "emptyHandsAttack") is "survivor.fists"
+                && Flag(parent: hands, field: "dualOneHanded")
+                && Text(parent: hands, field: "dualInterval") is "maximum-of-both"
+                && Text(parent: hands, field: "dualStamina") is "sum-of-both"
+                && Text(parent: hands, field: "dualTargets") is "independent-per-weapon-may-share-target"
+                && Integer(parent: hands, field: "targetsPerWeaponSwing", minimum: 1, maximum: 1) == 1,
+                field: "handRules");
+    }
+
+    private static JsonElement FieldFrom(Dictionary<string, JsonElement> rows, string id)
+    {
+        return rows.TryGetValue(key: id, value: out JsonElement row) ? row : throw Invalid(field: id);
     }
 
     private static Dictionary<string, JsonElement> IndexById(JsonElement rows, string field)
