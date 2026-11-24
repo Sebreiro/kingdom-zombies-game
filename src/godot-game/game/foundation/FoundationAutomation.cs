@@ -16,6 +16,44 @@ internal static class FoundationAutomation
         return value is null ? fallback : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
     }
 
+    internal static bool OwnedPhase()
+    {
+#if DEBUG
+        string? nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
+        string? owner = System.Environment.GetEnvironmentVariable(variable: "KZ_PHASE06_OWNED");
+        return nonce is not null && StringComparer.Ordinal.Equals(x: nonce, y: owner)
+                && FoundationObservationScope.Directory() is not null;
+#else
+        return false;
+#endif
+    }
+
+    internal static string? TakeFixture(bool host)
+    {
+        string? role = System.Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE");
+        if (!OwnedPhase() || role is not ("solo" or "host") || (role is "host") != host
+                || FoundationObservationScope.Directory() is not { } directory)
+        {
+            return null;
+        }
+
+        string file = Path.Combine(path1: directory, path2: "fixture.request");
+        var info = new FileInfo(fileName: file);
+        if (!info.Exists)
+        {
+            return null;
+        }
+
+        if (info.Length is < 1 or > 16 || info.Attributes.HasFlag(flag: FileAttributes.ReparsePoint))
+        {
+            throw new InvalidDataException(message: "FIXTURE_SELECTION_OWNERSHIP");
+        }
+
+        string mode = File.ReadAllText(path: file);
+        File.Delete(path: file);
+        return mode;
+    }
+
     internal static void Tick(Control root, MainThreadGateway gateway, FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
@@ -97,6 +135,11 @@ internal static class FoundationAutomation
 #if DEBUG
         else if (action is "spectator-proof-lethal" && DisplayServer.GetName() is "headless"
                 && coordinator?.ObserveLethalAttack() == true)
+        {
+            return;
+        }
+        else if (action is "fixture-attack" or "fixture-step" && OwnedPhase()
+                && coordinator?.FixtureAction(action: action, request: request) == true)
         {
             return;
         }

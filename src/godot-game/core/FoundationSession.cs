@@ -305,11 +305,17 @@ public sealed class FoundationSession
 
     /// <summary>Starts the ordinary run from bounded authored bytes supplied by the native composition.</summary>
     public static FoundationSession CreateFromResources(string sessionId, string playerId, string actorId,
-            Func<string, int, byte[]?> read, bool observeWorld = false)
+            Func<string, int, byte[]?> read, bool observeWorld = false, string? fixture = null)
     {
         var definitions = RunDefinitions.Load(read: read);
         RunWorld world = RunWorld.Foundation;
 #if DEBUG
+        if (fixture is not null)
+        {
+            return RunCombatFixture.Create(mode: fixture, sessionId: sessionId, playerId: playerId,
+                    actorId: actorId, definitions: definitions);
+        }
+
         if (observeWorld)
         {
             world = RunWorld.Observed;
@@ -332,11 +338,12 @@ public sealed class FoundationSession
 #endif
 
     internal FoundationSession(string sessionId, string playerId, string actorId, RunWorld world,
-            RunDefinitions? definitions = null)
+            RunDefinitions? definitions = null, string? fixtureMode = null)
     {
         ArgumentNullException.ThrowIfNull(argument: world);
         world.Validate();
         definitions ??= RunDefinitions.Default;
+        FixtureMode = fixtureMode;
         var population = RunPopulation.Create(definitions: definitions, sessionId: sessionId, playerId: playerId);
         var inventory = RunInventory.Create(definitions: definitions, population: population);
         if (!RunInventoryRules.IsValid(inventory: inventory, definitions: definitions, population: population))
@@ -353,7 +360,7 @@ public sealed class FoundationSession
                 loot: RunDeathAndLoot.State.Empty, now: 0, delay: definitions.LootEmptyDelay);
         _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0,
                 definitions: definitions, population: population, inventory: inventory, combat: RunCombat.State.Empty,
-                loot: loot, succession: RunSuccession.Start(sessionId: sessionId));
+                loot: loot, succession: RunSuccession.Start(sessionId: fixtureMode ?? sessionId));
         ItemActions = new RunItemActions(session: this);
     }
 
@@ -361,6 +368,29 @@ public sealed class FoundationSession
     internal RunInventory Inventory => _publication.Inventory;
     internal RunDefinitions Definitions => _publication.Definitions;
     internal RunItemActions ItemActions { get; }
+    internal string? FixtureMode { get; }
+
+#if DEBUG
+    internal bool PlaceFixtureSuccessors(decimal position)
+    {
+        lock (_gate)
+        {
+            if (FixtureMode is not "far")
+            {
+                return false;
+            }
+
+            RunPublication current = _publication;
+            RunPopulation population = current.Population;
+            foreach (RunPopulation.Survivor row in population.Candidates())
+            {
+                population = population.Replace(previous: row, current: row with { PositionSubunitsExact = position });
+            }
+
+            return TryPublish(participants: current.Snapshot.Participants, population: population);
+        }
+    }
+#endif
 
     internal byte[] CaptureRunSnapshot()
     {

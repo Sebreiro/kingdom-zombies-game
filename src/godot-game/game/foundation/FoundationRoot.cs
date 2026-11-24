@@ -279,7 +279,8 @@ public sealed partial class FoundationRoot : Control
             }
 
             _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld,
-                    read: (path, _) => resources.GetValueOrDefault(key: path));
+                    read: (path, _) => resources.GetValueOrDefault(key: path),
+                    fixture: FoundationAutomation.TakeFixture(host: host));
 #if DEBUG
             if (FoundationCoordinator.ShouldFailEntry(generation: _generation))
             {

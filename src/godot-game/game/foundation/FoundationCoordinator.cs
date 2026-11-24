@@ -46,9 +46,10 @@ internal sealed partial class FoundationCoordinator
     internal IReadOnlyList<string> Events => _events;
     internal bool Closed => _closed;
     internal bool Finished => _used && !_active;
+    internal string? FixtureName { get; private set; }
 
     internal void Start(bool host, int port = 24680, bool observeWorld = false,
-            Func<string, int, byte[]?>? read = null)
+            Func<string, int, byte[]?>? read = null, string? fixture = null)
     {
         RequireFresh();
         _used = true;
@@ -56,13 +57,14 @@ internal sealed partial class FoundationCoordinator
         string sessionId = Guid.NewGuid().ToString(format: "N");
         string actorId = Guid.NewGuid().ToString(format: "N");
         FoundationSession session = CreateSession(sessionId: sessionId, actorId: actorId,
-                observeWorld: observeWorld && !host, read: read);
+                observeWorld: observeWorld && !host, read: read, fixture: fixture);
         if (host)
         {
             (_connection ?? throw new InvalidOperationException(message: "CONNECTION_UNAVAILABLE")).Host(port: port);
         }
 
         _session = session;
+        FixtureName = fixture;
         _active = true;
         RecordEvent(value: host ? "host-start" : "solo-start");
     }
@@ -217,6 +219,37 @@ internal sealed partial class FoundationCoordinator
                 && session.DispatchRunAction(identity: identity, key: (owner.survivorId, owner.generation,
                         checked(++_sequence)), kind: "proof-lethal", request: JsonSerializer.SerializeToElement(
                                 value: new object())).status is "Applied";
+    }
+
+    internal bool FixtureAction(string action, JsonElement request)
+    {
+        if (FixtureName is null || _session is not { } session)
+        {
+            return false;
+        }
+
+        if (action is "fixture-step")
+        {
+            long elapsed = request.GetProperty(propertyName: "Elapsed").GetInt64();
+            if (elapsed is <= 0 or > 180000)
+            {
+                return false;
+            }
+
+            session.Step(elapsedMilliseconds: elapsed);
+            return true;
+        }
+
+        if (LocalRunControl is not { generation: > 0 } owner)
+        {
+            return false;
+        }
+
+        long sequence = checked(++_sequence);
+        (string status, bool replayed, _) = DispatchBoundRunAction(sender: 0,
+                key: (owner.survivorId, owner.generation, sequence), kind: action, request: request);
+        RunActionFeedback = (sequence, status, replayed);
+        return status is not ("AccessLost" or "InvalidAction");
     }
 #endif
 
@@ -415,12 +448,12 @@ internal sealed partial class FoundationCoordinator
     }
 
     private FoundationSession CreateSession(string sessionId, string actorId, bool observeWorld,
-            Func<string, int, byte[]?>? read)
+            Func<string, int, byte[]?>? read, string? fixture)
     {
         if (read is not null)
         {
             return FoundationSession.CreateFromResources(sessionId: sessionId, playerId: PlayerId, actorId: actorId,
-                    read: read, observeWorld: observeWorld);
+                    read: read, observeWorld: observeWorld, fixture: fixture);
         }
 
 #if DEBUG

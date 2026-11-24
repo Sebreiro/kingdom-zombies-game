@@ -148,6 +148,8 @@ internal static partial class RunProjections
                         input: Read<FoodData>(request: request)),
 #if DEBUG
                 "proof-lethal" => ProofLethal(session: session, root: root, controller: controller),
+                "fixture-attack" => RunCombatFixture.Trigger(session: session, root: root,
+                        controller: controller, sequence: sequence, request: request),
 #endif
                 _ => ItemAction(session: session, controller: controller, sequence: sequence,
                         input: ReadItemAction(root: root, kind: kind, request: request)),
