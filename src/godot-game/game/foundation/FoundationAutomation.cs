@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
@@ -143,12 +144,35 @@ internal static class FoundationAutomation
         {
             return;
         }
+        else if (action is "phase06-action" or "phase06-workspace" && OwnedPhase()
+                && DisplayServer.GetName() is "headless" && coordinator is not null
+                && SubmitPhase06(coordinator: coordinator, action: action, request: request))
+        {
+            return;
+        }
 #endif
         else
         {
             throw new InvalidOperationException(message: "DRIVER_ACTION");
         }
     }
+
+#if DEBUG
+    private static bool SubmitPhase06(FoundationCoordinator coordinator, string action, JsonElement request)
+    {
+        if (action is "phase06-workspace")
+        {
+            return coordinator.RequestRunWorkspace(own: request.GetProperty(propertyName: "own")
+                    .Deserialize<ImmutableArray<long>>(), external: request.GetProperty(propertyName: "external")
+                            .Deserialize<ImmutableArray<long>>());
+        }
+
+        string? kind = request.GetProperty(propertyName: "kind").GetString();
+        return kind is "select" or "browse" or "quick" or "place" or "merge" or "drop" or "assign" or "food" or "close"
+                && coordinator.SubmitRunAction(kind: kind, request: request.GetProperty(propertyName: "request"))
+                        .HasValue;
+    }
+#endif
 
     private static void ClickWorld(Control root, JsonElement request, MainThreadGateway gateway)
     {

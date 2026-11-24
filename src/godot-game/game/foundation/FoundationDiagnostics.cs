@@ -84,12 +84,14 @@ internal sealed class FoundationDiagnostics
             runAction = authority.HasValue ? new { authority.Value.sequence, authority.Value.status } : null,
             aim = attackAim.HasValue ? new { attackAim.Value.x, attackAim.Value.y } : null,
             inventoryOpen, inventorySlots, inventoryDetails,
+            phase06 = ReadPhase06(coordinator: coordinator),
             nearby = nearby.HasValue ? new { nearby.Value.kind, nearby.Value.page }
                     : null,
             hud = hud is null ? null : new { hud.Health, hud.Stamina, hud.Load, hud.Ammo, slots = hud.Food.Length },
             spectator = spectator is null ? null : new { spectator.Visible, spectator.CanRespawn, spectator.Status,
                 spectator.Camera, spectator.TransferNotice, survivor = local,
-                generation = coordinator?.LocalRunControl?.generation, spectator.DeathEpoch },
+                generation = coordinator?.LocalRunControl?.generation, spectator.DeathEpoch, spectator.Followed,
+                spectator.FollowNotice, spectator.Smoothing },
         });
         File.AppendAllText(path: Path.Combine(path1: output, path2: "frames.ndjson"),
                 contents: record + Environment.NewLine);
@@ -100,6 +102,26 @@ internal sealed class FoundationDiagnostics
     private long _focusLosses;
     private object? _lastInput;
     private FoundationDrawObserver? _draw;
+
+    private static object? ReadPhase06(FoundationCoordinator? coordinator)
+    {
+        if (!FoundationAutomation.OwnedPhase() || coordinator?.ReadRunRender() is not { } current)
+        {
+            return null;
+        }
+
+        return new { coordinator.FixtureName, current.Roster.Revision, current.World,
+            Views = current.Views.ToDictionary(keySelector: entry => entry.Key, elementSelector: entry => new
+            {
+                entry.Value.Revision,
+                entry.Value.Epoch,
+                entry.Value.Token,
+                entry.Value.Header,
+                entry.Value.Rows,
+            }, comparer: StringComparer.Ordinal),
+            control = coordinator.LocalRunControl?.survivorId, epoch = coordinator.LocalRunControl?.generation,
+            deathEpoch = coordinator.LocalRunControl?.deathGeneration };
+    }
 
     private static void RecordLoadedAssemblies()
     {

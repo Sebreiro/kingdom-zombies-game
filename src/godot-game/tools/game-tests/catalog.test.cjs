@@ -31,6 +31,21 @@ test('PR scope has exactly four checks and tier 1 runs the one pure test command
   assert.deepEqual(ids(select(catalog, {mode: 'tier', value: '1'}).selected), ['basic.pure']);
 });
 
+test('Phase 6 headless rows select six active ordered cases with exact roles', () => {
+  const catalog = loadCatalog(root);
+  const group = 'phase06.headless';
+  const suffixes = ['world', 'start', 'inventory', 'combat', 'lifecycle', 'lan-privacy'];
+  const {selected} = select(catalog, {mode: 'group', value: group});
+  assert.deepEqual(ids(selected), suffixes.map(suffix => group + '.' + suffix));
+  const driver = require('../../tests/scenarios/phase06-headless.cjs');
+  assert.deepEqual(Object.keys(driver.cases), ids(selected));
+  assert(selected.every(row => row.owner === 6 && row.tier === 2 && row.status === 'required'));
+  assert(selected.slice(0, 5).every(row => row.roles.length === 1 && row.roles[0] === 'solo'));
+  assert.deepEqual(selected.at(-1).roles, ['host', 'guest-1', 'guest-2', 'guest-3']);
+  assert(select(catalog, {mode: 'phase-end', value: 6, changes: ['src/godot-game/core/RunCombat.cs']})
+    .selected.some(row => row.id === group + '.combat'));
+});
+
 test('Phase 10 tracks distinct planned release procedures without replacing A-47', () => {
   const catalog = loadCatalog(root);
   const procedures = catalog.cases.filter(row => row.group === 'release.environments');
