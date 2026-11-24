@@ -30,6 +30,40 @@ internal static class RunWorldGeometry
                 || Crosses(first: start, second: end, edgeStart: bottomRight, edgeEnd: blocker.Minimum);
     }
 
+    internal static decimal? FirstContact((decimal x, decimal y) start, (decimal x, decimal y) end,
+            (decimal left, decimal bottom, decimal right, decimal top) bounds, decimal duration = 1)
+    {
+        decimal first = 0;
+        decimal last = duration;
+        return Clip(start: start.x, end: end.x, minimum: bounds.left, maximum: bounds.right,
+                duration: duration, first: ref first, last: ref last)
+                && Clip(start: start.y, end: end.y, minimum: bounds.bottom, maximum: bounds.top,
+                        duration: duration, first: ref first, last: ref last) ? first : null;
+    }
+
+    private static bool Clip(decimal start, decimal end, decimal minimum, decimal maximum, decimal duration,
+            ref decimal first, ref decimal last)
+    {
+        if (Math.Min(val1: start, val2: end) > maximum || Math.Max(val1: start, val2: end) < minimum)
+        {
+            return false;
+        }
+
+        if (start < minimum || start > maximum)
+        {
+            decimal boundary = start < minimum ? minimum : maximum;
+            first = Math.Max(val1: first, val2: (boundary - start) * duration / (end - start));
+        }
+
+        if (end < minimum || end > maximum)
+        {
+            decimal boundary = end < minimum ? minimum : maximum;
+            last = Math.Min(val1: last, val2: (boundary - start) * duration / (end - start));
+        }
+
+        return first <= last;
+    }
+
     private static bool Contains(Blocker blocker, Point point)
     {
         return point.X >= blocker.Minimum.X && point.X <= blocker.Maximum.X

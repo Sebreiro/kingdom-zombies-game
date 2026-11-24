@@ -145,14 +145,14 @@ public sealed class FoundationSession
             RunPublication current = _publication;
             long elapsed = checked(current.ElapsedMilliseconds + elapsedMilliseconds);
             RunPopulation population = AdvancePopulation(current: current, elapsed: elapsed);
+            RunProjectiles.Frame flight = RunProjectiles.Advance(current: current, population: population,
+                    now: elapsed);
             FoundationParticipantState[] candidate = [.. current.Snapshot.Participants.Select(selector: participant =>
                     AdvanceParticipant(participant: participant, population: population,
                             elapsedMilliseconds: elapsedMilliseconds))];
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: candidate);
-            _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed,
-                    definitions: current.Definitions, population: population, inventory: current.Inventory,
-                    combat: current.Combat);
+            _publication = FinishStep(current: current, snapshot: snapshot, flight: flight, elapsed: elapsed);
         }
     }
 
@@ -247,7 +247,7 @@ public sealed class FoundationSession
     internal RunDefinitions Definitions => _publication.Definitions;
     internal RunItemActions ItemActions { get; }
 
-    internal RunCombat.Outcome Attack(RunItemActions.Controller controller, long sequence)
+    internal RunCombat.Outcome Attack(RunItemActions.Controller controller, long sequence, RunCombat.Aim? aim = null)
     {
         lock (_gate)
         {
@@ -255,11 +255,11 @@ public sealed class FoundationSession
             RunPopulation.Lease? lease = CurrentControl(current: current, controller: controller);
             return lease is null ? new RunCombat.Outcome(status: RunCombat.Status.AccessLost)
                     : AcceptAttack(current: current, attacker: current.Population.ForLease(lease: lease),
-                            generation: lease.Generation, sequence: sequence);
+                            generation: lease.Generation, sequence: sequence, aim: aim);
         }
     }
 
-    internal RunCombat.Outcome AttackUncontrolled(string survivorId, long sequence)
+    internal RunCombat.Outcome AttackUncontrolled(string survivorId, long sequence, RunCombat.Aim? aim = null)
     {
         lock (_gate)
         {
@@ -272,7 +272,18 @@ public sealed class FoundationSession
                 return new RunCombat.Outcome(status: RunCombat.Status.AccessLost);
             }
 
-            return AcceptAttack(current: current, attacker: attacker, generation: 0, sequence: sequence);
+            return AcceptAttack(current: current, attacker: attacker, generation: 0, sequence: sequence, aim: aim);
+        }
+    }
+
+    internal RunCombat.BowView? ReadBow(RunItemActions.Controller controller, RunCombat.Aim aim)
+    {
+        lock (_gate)
+        {
+            RunPublication current = _publication;
+            RunPopulation.Lease? lease = CurrentControl(current: current, controller: controller);
+            return lease is null ? null : RunCombat.ViewBow(inventory: current.Inventory,
+                    survivor: current.Population.ForLease(lease: lease), aim: aim);
         }
     }
 
@@ -502,7 +513,7 @@ public sealed class FoundationSession
     }
 
     private RunCombat.Outcome AcceptAttack(RunPublication current, RunPopulation.Survivor attacker, long generation,
-            long sequence)
+            long sequence, RunCombat.Aim? aim)
     {
         if (sequence <= 0)
         {
@@ -519,15 +530,16 @@ public sealed class FoundationSession
         }
 
         (RunCombat.Status status, RunCombat.Candidate? candidate) = RunCombat.Prepare(current: current,
-                attacker: attacker);
+                attacker: attacker, aim: aim);
         if (candidate is not null && !PublishAttack(current: current, candidate: candidate))
         {
             status = RunCombat.Status.Rejected;
         }
 
         _attackRequests[key] = (sequence, status);
-        return new RunCombat.Outcome(status: status, hits: status == RunCombat.Status.Accepted
-                ? candidate?.Hits ?? [] : []);
+        return status == RunCombat.Status.Accepted && candidate is not null
+                ? new RunCombat.Outcome(status: status, hits: candidate.Hits, arrowId: candidate.ArrowId)
+                : new RunCombat.Outcome(status: status);
     }
 
     private bool PublishAttack(RunPublication current, RunCombat.Candidate candidate)
@@ -555,6 +567,41 @@ public sealed class FoundationSession
                 .Select(selector: hit => hit.TargetId).ToImmutableHashSet(equalityComparer: StringComparer.Ordinal);
         return fallen.Count == 0 ? null : world.WithHostiles(hostiles:
                 world.Hostiles.RemoveAll(match: hostile => fallen.Contains(item: hostile.Id)));
+    }
+
+    private static RunPublication FinishStep(RunPublication current, FoundationSnapshot snapshot,
+            RunProjectiles.Frame flight, long elapsed)
+    {
+        RunInventory inventory = flight.Inventory;
+        if (!ReferenceEquals(objA: inventory, objB: current.Inventory))
+        {
+            if (!ValidInventory(current: current, candidate: inventory, population: flight.Population))
+            {
+                throw new InvalidDataException(message: "RUN_PROJECTILE_INVENTORY");
+            }
+
+            inventory = RunQuickReferences.Invalidate(inventory: inventory, definitions: current.Definitions);
+        }
+
+        ImmutableArray<RunDamage.Hit> hits = elapsed == current.ElapsedMilliseconds ? []
+                : [.. flight.Combat.Impacts.Select(selector: impact => impact.Hit).OfType<RunDamage.Hit>()];
+        RunWorld world = RemoveFallenHostiles(world: flight.World, population: flight.Population, hits: hits)
+                ?? flight.World;
+        RunPopulation population = ReferenceEquals(objA: world, objB: current.World) ? flight.Population
+                : RefreshRest(population: flight.Population, world: world);
+        return new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: elapsed,
+                definitions: current.Definitions, population: population, inventory: inventory, combat: flight.Combat);
+    }
+
+    private static RunPopulation RefreshRest(RunPopulation population, RunWorld world)
+    {
+        foreach (RunPopulation.Survivor survivor in population.Survivors)
+        {
+            population = population.Replace(previous: survivor, current:
+                    RunVitals.RecheckRest(survivor: survivor, world: world));
+        }
+
+        return population;
     }
 
     private static FoundationParticipantState? Find(FoundationSnapshot snapshot, string bindingId)
@@ -626,14 +673,7 @@ public sealed class FoundationSession
             world?.Validate();
             RunPublication current = _publication;
             RunPopulation updated = population ?? current.Population;
-            if (world is not null)
-            {
-                foreach (RunPopulation.Survivor survivor in updated.Survivors)
-                {
-                    updated = updated.Replace(previous: survivor, current:
-                            RunVitals.RecheckRest(survivor: survivor, world: world));
-                }
-            }
+            updated = world is null ? updated : RefreshRest(population: updated, world: world);
 
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);

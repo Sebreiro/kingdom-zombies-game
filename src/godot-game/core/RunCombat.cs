@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -8,18 +9,28 @@ namespace KingdomZombies.Core;
 internal static class RunCombat
 {
     internal static (Status status, Candidate? candidate) Prepare(FoundationSession.RunPublication current,
-            RunPopulation.Survivor attacker)
+            RunPopulation.Survivor attacker, Aim? aim)
     {
-        if (attacker.AttackAvailableAt is { } ready && current.ElapsedMilliseconds < ready)
-        {
-            return (Status.Cooldown, null);
-        }
-
         RunInventory.Item? left = current.Inventory.Equipped(survivorId: attacker.Id, slot: "left-hand");
         RunInventory.Item? right = current.Inventory.Equipped(survivorId: attacker.Id, slot: "right-hand");
-        if (left?.DefinitionId is "IT-07" || right?.DefinitionId is "IT-07")
+        if (left is { DefinitionId: "IT-07" })
         {
-            return (Status.IncompatibleHands, null);
+            return PrepareBow(current: current, attacker: attacker, bow: left, ammo: right, aim: aim);
+        }
+
+        if (right is { DefinitionId: "IT-07" })
+        {
+            return PrepareBow(current: current, attacker: attacker, bow: right, ammo: left, aim: aim);
+        }
+
+        if (aim is { Valid: false })
+        {
+            return (Status.InvalidAim, null);
+        }
+
+        if (CoolingDown(current: current, attacker: attacker))
+        {
+            return (Status.Cooldown, null);
         }
 
         ImmutableArray<Strike> strikes = Strikes(definitions: current.Definitions.Combat, left: left,
@@ -45,6 +56,83 @@ internal static class RunCombat
     {
         return (world.Origin.X + survivor.PositionSubunitsExact,
                 world.Origin.Y + world.GroundContactSubunits + survivor.HeightSubunits);
+    }
+
+    internal static BowView? ViewBow(RunInventory inventory, RunPopulation.Survivor survivor, Aim aim)
+    {
+        if (!aim.Valid)
+        {
+            return null;
+        }
+
+        RunInventory.Item? left = inventory.Equipped(survivorId: survivor.Id, slot: "left-hand");
+        RunInventory.Item? right = inventory.Equipped(survivorId: survivor.Id, slot: "right-hand");
+        RunInventory.Item? bow = left is { DefinitionId: "IT-07" } ? left
+                : right is { DefinitionId: "IT-07" } ? right : null;
+        RunInventory.Item? ammo = ReferenceEquals(objA: left, objB: bow) ? right : left;
+        return bow is null ? null : new BowView(aim: aim, bowId: bow.Id,
+                readyArrows: ammo is { DefinitionId: "IT-02" } ? ammo.Quantity : 0, usable: bow.Condition > 0);
+    }
+
+    private static (Status status, Candidate? candidate) PrepareBow(FoundationSession.RunPublication current,
+            RunPopulation.Survivor attacker, RunInventory.Item bow, RunInventory.Item? ammo, Aim? aim)
+    {
+        if (bow.Condition is not > 0)
+        {
+            return (Status.BrokenWeapon, null);
+        }
+
+        if (ammo is null)
+        {
+            return (Status.EmptyAmmo, null);
+        }
+
+        if (ammo.DefinitionId is not "IT-02")
+        {
+            return (Status.IncompatibleHands, null);
+        }
+
+        if (aim is not { Valid: true })
+        {
+            return (Status.InvalidAim, null);
+        }
+
+        if (CoolingDown(current: current, attacker: attacker))
+        {
+            return (Status.Cooldown, null);
+        }
+
+        if (current.Combat.LastArrowId == long.MaxValue)
+        {
+            return (Status.Rejected, null);
+        }
+
+        RunCombatDefinitions.Attack rule = current.Definitions.Combat.Weapons[bow.DefinitionId];
+        RunProjectiles.Arrow? arrow = RunProjectiles.Launch(current: current, shooter: attacker, aim: aim,
+                damage: rule.Damage);
+        if (arrow is null)
+        {
+            return (Status.InvalidAim, null);
+        }
+
+        RunPopulation.Survivor? paid = Pay(current: current, attacker: attacker, cost: rule.Stamina,
+                interval: rule.Interval);
+        if (paid is null)
+        {
+            return (Status.InsufficientStamina, null);
+        }
+
+        RunInventory? spent = RunItemTransfer.RemoveOne(inventory: current.Inventory,
+                expected: current.Inventory.PathTo(itemId: ammo.Id));
+        return spent is null ? (Status.Rejected, null) : (Status.Accepted, new Candidate(
+                population: current.Population.Replace(previous: attacker, current: paid),
+                inventory: RunDamage.Wear(inventory: spent, item: bow, amount: current.Definitions.Combat.BowWear),
+                state: current.Combat.WithArrow(arrow: arrow), hits: [], arrowId: arrow.Id));
+    }
+
+    private static bool CoolingDown(FoundationSession.RunPublication current, RunPopulation.Survivor attacker)
+    {
+        return attacker.AttackAvailableAt is { } ready && current.ElapsedMilliseconds < ready;
     }
 
     private static RunPopulation.Survivor? Pay(FoundationSession.RunPublication current,
@@ -117,18 +205,18 @@ internal static class RunCombat
             RunPopulation.Survivor attacker, decimal reach)
     {
         (decimal x, decimal y) origin = Contact(world: world, survivor: attacker);
-        RunWorld.Point start = world.ActorContact(survivor: attacker);
         return population.Survivors.Where(predicate: target => target.Health > 0 && target.Hostile != attacker.Hostile)
                 .Select(selector: target =>
                 {
                     (decimal x, decimal y) contact = Contact(world: world, survivor: target);
                     decimal x = contact.x - origin.x;
                     decimal y = contact.y - origin.y;
-                    return (target, ahead: x * attacker.Facing >= 0, distance: x * x + y * y);
+                    return (target, contact, ahead: x * attacker.Facing >= 0, distance: x * x + y * y);
                 })
                 .Where(predicate: target => target.ahead && target.distance <= reach * reach
-                        && !world.Blockers.Any(predicate: blocker => RunWorldGeometry.Blocks(blocker: blocker,
-                                start: start, end: world.ActorContact(survivor: target.target))))
+                        && !world.Blockers.Any(predicate: blocker => RunWorldGeometry.FirstContact(start: origin,
+                                end: target.contact, bounds: (blocker.Minimum.X, blocker.Minimum.Y,
+                                        blocker.Maximum.X, blocker.Maximum.Y)).HasValue))
                 .OrderBy(keySelector: target => target.distance)
                 .ThenBy(keySelector: target => target.target.Id, comparer: StringComparer.Ordinal)
                 .Select(selector: target => target.target).FirstOrDefault();
@@ -144,55 +232,115 @@ internal static class RunCombat
         HandsBusy,
         BrokenWeapon,
         IncompatibleHands,
+        EmptyAmmo,
+        InvalidAim,
         Rejected,
+    }
+
+    internal sealed record Aim
+    {
+        internal Aim(double x, double y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        internal double X { get; }
+        internal double Y { get; }
+        internal bool Valid => double.IsFinite(d: X) && double.IsFinite(d: Y)
+                && Math.Abs(value: X) <= 1_000_000_000 && Math.Abs(value: Y) <= 1_000_000_000;
+    }
+
+    internal sealed record BowView
+    {
+        internal BowView(Aim aim, long bowId, int readyArrows, bool usable)
+        {
+            Aim = aim;
+            BowId = bowId;
+            ReadyArrows = readyArrows;
+            Usable = usable;
+        }
+
+        internal Aim Aim { get; }
+        internal long BowId { get; }
+        internal int ReadyArrows { get; }
+        internal bool Usable { get; }
     }
 
     internal sealed class Candidate
     {
         internal Candidate(RunPopulation population, RunInventory inventory, State state,
-                ImmutableArray<RunDamage.Hit> hits)
+                ImmutableArray<RunDamage.Hit> hits, long? arrowId = null)
         {
             Population = population;
             Inventory = inventory;
             Combat = state;
             Hits = hits;
+            ArrowId = arrowId;
         }
 
         internal RunPopulation Population { get; }
         internal RunInventory Inventory { get; }
         internal State Combat { get; }
         internal ImmutableArray<RunDamage.Hit> Hits { get; }
+        internal long? ArrowId { get; }
     }
 
     internal sealed class State
     {
-        internal State(ImmutableArray<RunDamage.Hit> fatalHits)
+        internal State(ImmutableArray<RunDamage.Hit> fatalHits, ImmutableArray<RunProjectiles.Arrow> arrows,
+                ImmutableArray<RunProjectiles.Impact> impacts, long lastArrowId)
         {
             FatalHits = fatalHits;
+            Arrows = arrows;
+            Impacts = impacts;
+            LastArrowId = lastArrowId;
         }
 
-        internal static State Empty { get; } = new(fatalHits: []);
+        internal static State Empty { get; } = new(fatalHits: [], arrows: [], impacts: [], lastArrowId: 0);
         internal ImmutableArray<RunDamage.Hit> FatalHits { get; }
+        internal ImmutableArray<RunProjectiles.Arrow> Arrows { get; }
+        internal ImmutableArray<RunProjectiles.Impact> Impacts { get; }
+        internal long LastArrowId { get; }
 
         internal State WithHits(ImmutableArray<RunDamage.Hit> hits)
         {
             return hits.Any(predicate: hit => hit.Lethal)
-                    ? new State(fatalHits: FatalHits.AddRange(items: hits.Where(predicate: hit => hit.Lethal))) : this;
+                    ? new State(fatalHits: FatalHits.AddRange(items: hits.Where(predicate: hit => hit.Lethal)),
+                            arrows: Arrows, impacts: Impacts, lastArrowId: LastArrowId) : this;
+        }
+
+        internal State WithArrow(RunProjectiles.Arrow arrow)
+        {
+            return new State(fatalHits: FatalHits, arrows: Arrows.Add(item: arrow), impacts: Impacts,
+                    lastArrowId: arrow.Id);
+        }
+
+        internal State WithFlight(ImmutableArray<RunProjectiles.Arrow> arrows,
+                ImmutableArray<RunProjectiles.Impact> impacts)
+        {
+            IEnumerable<RunDamage.Hit> fatalities = impacts.Select(selector: impact => impact.Hit)
+                    .OfType<RunDamage.Hit>().Where(predicate: hit => hit.Lethal);
+            return new State(fatalHits: FatalHits.AddRange(items: fatalities), arrows: arrows, impacts: impacts,
+                    lastArrowId: LastArrowId);
         }
     }
 
     internal sealed class Outcome
     {
-        internal Outcome(Status status, ImmutableArray<RunDamage.Hit> hits = default, bool replayed = false)
+        internal Outcome(Status status, ImmutableArray<RunDamage.Hit> hits = default, bool replayed = false,
+                long? arrowId = null)
         {
             Status = status;
             Hits = hits.IsDefault ? [] : hits;
             Replayed = replayed;
+            ArrowId = arrowId;
         }
 
         internal Status Status { get; }
         internal ImmutableArray<RunDamage.Hit> Hits { get; }
         internal bool Replayed { get; }
+        internal long? ArrowId { get; }
     }
 
     private sealed class Strike

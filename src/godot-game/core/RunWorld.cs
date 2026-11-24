@@ -140,6 +140,13 @@ internal sealed class RunWorld
                 hostiles: hostiles, anchors: Anchors);
     }
 
+    internal RunWorld WithDefenses(ImmutableArray<Defense> defenses)
+    {
+        return new RunWorld(origin: Origin, groundContactSubunits: GroundContactSubunits,
+                mainBuilding: MainBuilding, ranges: Settings, defenses: defenses, blockers: Blockers,
+                hostiles: Hostiles, anchors: Anchors);
+    }
+
     private const long CoordinateLimit = 1_000_000_000;
 
     private bool CoordinatesValid()
@@ -160,13 +167,18 @@ internal sealed class RunWorld
 
     private bool FixturesValid()
     {
-        return Defenses.All(predicate: defense => ValidPoint(point: defense.Contact))
+        return Defenses.All(predicate: ValidDefense)
                 && Hostiles.All(predicate: hostile => ValidPoint(point: hostile.Contact))
                 && Anchors.All(predicate: anchor => ValidPoint(point: anchor.Contact)
                         && Enum.IsDefined(value: anchor.Kind))
                 && Blockers.All(predicate: blocker => ValidPoint(point: blocker.Minimum)
                         && ValidPoint(point: blocker.Maximum) && blocker.Minimum.X <= blocker.Maximum.X
                         && blocker.Minimum.Y <= blocker.Maximum.Y);
+    }
+
+    private static bool ValidDefense(Defense defense)
+    {
+        return ValidPoint(point: defense.Contact) && defense.Health >= 0 && (!defense.Living || defense.Health > 0);
     }
 
     private (long left, long right) Borders()
@@ -221,13 +233,14 @@ internal sealed class RunWorld
 
     internal readonly record struct Defense
     {
-        internal Defense(string id, Point contact, bool completed, bool living, bool isWall)
+        internal Defense(string id, Point contact, bool completed, bool living, bool isWall, decimal health = 100)
         {
             Id = id;
             Contact = contact;
             Completed = completed;
             Living = living;
             IsWall = isWall;
+            Health = living ? health : 0;
         }
 
         internal string Id { get; }
@@ -235,6 +248,7 @@ internal sealed class RunWorld
         internal bool Completed { get; }
         internal bool Living { get; init; }
         internal bool IsWall { get; }
+        internal decimal Health { get; init; }
     }
 
     internal readonly record struct Blocker
