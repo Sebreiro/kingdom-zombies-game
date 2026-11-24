@@ -421,7 +421,7 @@ Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/
 - [x] 06-01 — [Authoritative world time, camp safety and access](phases/06-survivors-inventory-and-combat/06-01-PLAN.md)
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 06-02 — [Configured survivor population and starting belongings](phases/06-survivors-inventory-and-combat/06-02-PLAN.md)
+- [x] 06-02 — [Configured survivor population and starting belongings](phases/06-survivors-inventory-and-combat/06-02-PLAN.md)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 06-03 — [Equipment, grids, stacks and nested containers](phases/06-survivors-inventory-and-combat/06-03-PLAN.md)
@@ -691,7 +691,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
 | 4. Asset production | 35/37, 2 waived | Complete under closure exception | 2026-11-22 |
 | 5. CI and repeatable game testing | 4/4 | Complete | 2026-11-24 |
-| 6. Survivors, inventory, and combat | 1/15 | In progress | - |
+| 6. Survivors, inventory, and combat | 2/15 | In progress | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |
 | 8. Zombie campaign and outcomes | 0/TBD | Not started | - |
 | 9. Persistence and complete player experience | 0/TBD | Not started | - |
