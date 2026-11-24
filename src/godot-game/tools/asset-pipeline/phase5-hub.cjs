@@ -26,6 +26,7 @@ const equal = (node, property, value) => ({node, property, value, match:'equal'}
 const contains = (node, property, value) => ({node, property, value, match:'contains'});
 const ENTER = 0x0d;
 const initialResources = ['AN-01','IT-01','BL-01','UI-01','DT-01','AU-01','AN-01','AN-01'];
+const resourceCounts = [31,24,43,27,29,30,180,180];
 
 async function choose(driver, node, key) {
   await driver.click(node);
@@ -41,7 +42,7 @@ function category(index, id = 'category-' + index) {
       equal(CATEGORY, 'selected', index),
       equal(CATEGORY, 'popup/item_' + index + '/text', name),
       equal(RESOURCES, 'visible', true),
-      {node:RESOURCES, property:'item_count', match:'positive-count'},
+      equal(RESOURCES, 'item_count', resourceCounts[index]),
       equal(SUMMARY + '/ResourceId', 'text', initialResources[index]),
       contains(SUMMARY + '/PackStatus', 'text', '180/180 source-ready · 0/180 accepted'),
       equal(SUMMARY + '/Title', 'text', TITLE),
@@ -115,9 +116,11 @@ async function run() {
     const clean = () => evidence.git(root, ['status', '--porcelain']).trim() === '' &&
       evidence.git(root, ['rev-parse', 'HEAD']).trim() === revision;
     evidence.need(clean(), 'HUB_SMOKE_CLEAN_COMMIT');
-    const prepared = await scenarios.prepareSource(root, revision);
+    const sourcePreparation = {restoreProject:true};
+    const prepared = await scenarios.prepareSource(root, revision, sourcePreparation);
     const build = evidence.document(root, prepared);
-    build.sourceManaged = scenarios.validateSourceProject(root, build, evidence.identifySource(root, revision));
+    build.sourceManaged = scenarios.validateSourceProject(root, build, evidence.identifySource(root, revision),
+      sourcePreparation);
     result.preparation = prepared;
     budget();
     unlock = require('../gameplay-checks/check.cjs').acquireLock(root, invocation);

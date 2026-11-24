@@ -332,7 +332,7 @@ const NATIVE_ENGINE_HASH = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047
 const SOURCE_LOAD_CONTEXT = 'GodotPlugins.PluginLoadContext';
 const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 
-async function prepareSource(root,revision) {
+async function prepareSource(root,revision,{restoreProject=false}={}) {
   const source=e.identifySource(root,revision),tool=e.identifyTool(root);
   const nonce=crypto.randomUUID(), ownership=content.runsPath(nonce)+'/', directory=path.resolve(root,ownership);
   const copy=ownership+'source/', relative=copy+'src/godot-game/game', project=path.resolve(root,relative);
@@ -357,7 +357,13 @@ async function prepareSource(root,revision) {
   const sdk=await command(context,'rendered-source-sdk',DOTNET,['--version'],{env});
   e.need(sdk.stdout.trim()===pin.sdk,'RENDERED_SOURCE_SDK');
   const importArgs=['--headless','--path',project,'--editor','--import'];
-  await command(context,'rendered-source-import',e.located(root,engine.path),importArgs,{env});
+  const projectSettings=path.join(project,'project.godot');
+  const authoredProject=restoreProject ? fs.readFileSync(projectSettings) : null;
+  try {
+    await command(context,'rendered-source-import',e.located(root,engine.path),importArgs,{env});
+  } finally {
+    if (authoredProject) fs.writeFileSync(projectSettings,authoredProject);
+  }
   const isolated=['--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
     '-p:RestorePackagesPath='+content.sharedFile('packages'),
     '-p:RestoreSources='+path.join(root,copy,content.feedPath()),'-v:minimal'];
@@ -371,7 +377,7 @@ async function prepareSource(root,revision) {
     imports:delivery.inventory(path.join(project,'.godot','imported')),
     importCompanions:sourceImportCompanions(root,relative,source),
     managed:delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'))}};
-  validateSourceProject(root,build,source);
+  validateSourceProject(root,build,source,{restoreProject});
   return e.writeExclusive(root,ownership+'rendered-source.json',build);
 }
 
@@ -412,7 +418,7 @@ function familyRuns(family) {
   return content.legacyLocal('.'+family+'/runs')+'/'+(family==='phase1' ? '' : 'win32-x64/');
 }
 
-function validateSourceProject(root,build,source) {
+function validateSourceProject(root,build,source,{restoreProject=false}={}) {
   const prepared = build.sourceProject;
   const match = preparedOwner(prepared?.path);
   e.need(match && e.UUID.test(match[1]),'RENDERED_SOURCE_PROJECT');
@@ -428,7 +434,7 @@ function validateSourceProject(root,build,source) {
       const newline=original.includes('\r\n')?'\r\n':'\n';
       const block=['[editor]','','import/use_multiple_threads=false',''].join(newline);
       const expected=original.endsWith(newline+block)?original:original+(original.endsWith('\n')?'':newline)+newline+block;
-      e.need(actual===expected,'RENDERED_SOURCE_PROJECT_SETTINGS');
+      e.need(actual===(restoreProject ? original : expected),'RENDERED_SOURCE_PROJECT_SETTINGS');
     }
   }
   function execution(ref, name) {
@@ -1201,8 +1207,22 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   });
   async function settle(checks,{match=true,previous=null,onFailure=null}={}) {
     const end=Date.now()+budget(12000);
+    let latest;
     for (;;) {
-      const observed=await native.snapshot(pid,checks,end);
+      let observed;
+      try { observed=await native.snapshot(pid,checks,end); }
+      catch (failure) {
+        if (!adapter.dpiAwareInput || !latest || failure.message!=='RENDERED_NATIVE_DEADLINE') throw failure;
+        onFailure?.(latest);
+        const unmet=checks.flatMap((check,index)=>{
+          const actual=latest.values[index].value;
+          return contracts.matches(check,actual) ? [] :
+            [check.node+'.'+check.property+' expected '+JSON.stringify(check.value ?? check.match)+
+              ' observed '+JSON.stringify(actual).slice(0,160)];
+        });
+        throw new Error('RENDERED_NATIVE_SETTLE '+(unmet.join(' | ') || 'observations did not stabilize'),{cause:failure});
+      }
+      latest=observed;
       const valid=checks.every((check,index)=>contracts.matches(check,observed.values[index].value));
       if ((!match || valid) && previous && observed.at>previous.at && equal(previous.values,observed.values)) return observed;
       previous=(!match || valid)?observed:null;

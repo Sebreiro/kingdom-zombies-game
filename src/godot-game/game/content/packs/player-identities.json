@@ -3159,7 +3159,7 @@
   "sourceBindings": [
     {
       "file": "content/packs/ui-identity.json",
-      "sha256": "44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a"
+      "sha256": "5d222708cc1e8853d2584067d0aaa3faf70b694c54cad283b43aaa95ab1f7107"
     },
     {
       "file": "content/packs/common.json",

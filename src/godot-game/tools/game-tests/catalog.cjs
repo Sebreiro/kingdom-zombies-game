@@ -11,6 +11,14 @@ const specificationPath = 'specs/0.1/initial-spec.md';
 const catalogPath = tools + 'game-tests/catalog.json';
 const verificationPath = tools + 'verification/required-cases.json';
 const assetContentPath = tools + 'asset-pipeline/content.cjs';
+const gameContent = 'src/godot-game/game/content/';
+const liveAssetInputs = {
+  'ui-camp.cjs': [gameContent + 'packs/ui-camp.json', gameContent + 'packs/ui-map-warnings.json'],
+  'ui-inventory.cjs': [gameContent + 'packs/ui-inventory.json', gameContent + 'packs/ui-legacy-stash.json'],
+  'corpses.cjs': [gameContent + 'packs/player-identities.json', gameContent + 'fixtures/crowds.json'],
+  'text-data.cjs': [gameContent + 'packs/text-data.json', gameContent + 'packs/compatibility.json',
+    gameContent + 'packs/delivery.json', 'docs/content/fields.md']
+};
 const normalizedSupportConsumers = new Set([
   'content.source-relations', 'content.domain-relations', 'content.census', 'content.native-permissions',
   'source.publication', 'source.packaged-expectations', 'export.hub-consumer', 'export.portability', 'hub.source'
@@ -225,7 +233,8 @@ function assetRows(manifest, handoff) {
   });
   const source = manifest.cases.map(item => {
     const phase11 = deferredAssetGates.has(item.id);
-    const inputs = item.sourceBinding?.module ? [item.sourceBinding.module] : [];
+    const module = item.sourceBinding?.module;
+    const inputs = module ? [module, ...(liveAssetInputs[path.posix.basename(module)] ?? [])] : [];
     if (['layouts.identity', 'layouts.identity-integrity', 'layouts.application-icon', 'text.catalog',
       'text.support-catalog'].includes(item.id)) {
       inputs.push('src/godot-game/game/content/packs/ui-identity.json');
