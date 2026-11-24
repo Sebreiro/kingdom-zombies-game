@@ -8,14 +8,17 @@ namespace KingdomZombies.Core;
 /// <summary>Owns each item instance and its one location within the run.</summary>
 internal sealed class RunInventory
 {
-    internal RunInventory(ImmutableArray<Item> items, int stashPageCount, long nextItemId)
+    internal RunInventory(ImmutableArray<Item> items, RunDefinitions.Size stashGrid, int stashPageCount,
+            long nextItemId)
     {
         Items = items;
+        StashGrid = stashGrid;
         StashPageCount = stashPageCount;
         NextItemId = nextItemId;
     }
 
     internal ImmutableArray<Item> Items { get; }
+    internal RunDefinitions.Size StashGrid { get; }
     internal int StashPageCount { get; }
     internal long NextItemId { get; }
 
@@ -28,8 +31,10 @@ internal sealed class RunInventory
             {
                 RunDefinitions.Item definition = definitions.Items[id];
                 string slot = definition.Slot ?? throw new InvalidOperationException(message: "RUN_OUTFIT_SLOT");
-                items.Add(item: new Item(id: items.Count + 1L, definitionId: id, quantity: 1, condition: null,
-                        location: new Equipment(survivorId: survivor.Id, slot: slot)));
+                items.Add(item: new Item(id: items.Count + 1L, definitionId: id, quantity: 1,
+                        condition: definition.MaximumCondition,
+                        location: new Equipment(survivorId: survivor.Id, slot: slot),
+                        storageGrid: definition.Storage));
             }
         }
 
@@ -41,11 +46,30 @@ internal sealed class RunInventory
             {
                 StashCell cell = Place(pages: pages, grid: definitions.StashGrid, item: definition);
                 items.Add(item: new Item(id: items.Count + 1L, definitionId: stack.ItemId,
-                        quantity: stack.Quantity, condition: definition.MaximumCondition, location: cell));
+                        quantity: stack.Quantity, condition: definition.MaximumCondition, location: cell,
+                        storageGrid: definition.Storage));
             }
         }
 
-        return new RunInventory(items: items.ToImmutable(), stashPageCount: pages.Count, nextItemId: items.Count + 1L);
+        return new RunInventory(items: items.ToImmutable(), stashGrid: definitions.StashGrid,
+                stashPageCount: pages.Count, nextItemId: items.Count + 1L);
+    }
+
+    internal Item? Find(long itemId)
+    {
+        return Items.FirstOrDefault(predicate: item => item.Id == itemId);
+    }
+
+    internal Item? Equipped(string survivorId, string slot)
+    {
+        var location = new Equipment(survivorId: survivorId, slot: slot);
+        return Items.FirstOrDefault(predicate: item => item.Location == location);
+    }
+
+    internal RunInventory WithItems(ImmutableArray<Item> items, long? nextItemId = null)
+    {
+        return new RunInventory(items: items, stashGrid: StashGrid, stashPageCount: StashPageCount,
+                nextItemId: nextItemId ?? NextItemId);
     }
 
     private static StashCell Place(List<bool[]> pages, RunDefinitions.Size grid, RunDefinitions.Item item)
@@ -109,20 +133,23 @@ internal sealed class RunInventory
 
     internal sealed record Item
     {
-        internal Item(long id, string definitionId, int quantity, decimal? condition, Location location)
+        internal Item(long id, string definitionId, int quantity, decimal? condition, Location location,
+                RunDefinitions.Size? storageGrid)
         {
             Id = id;
             DefinitionId = definitionId;
             Quantity = quantity;
             Condition = condition;
             Location = location;
+            StorageGrid = storageGrid;
         }
 
         internal long Id { get; }
         internal string DefinitionId { get; }
-        internal int Quantity { get; }
-        internal decimal? Condition { get; }
-        internal Location Location { get; }
+        internal int Quantity { get; init; }
+        internal decimal? Condition { get; init; }
+        internal Location Location { get; init; }
+        internal RunDefinitions.Size? StorageGrid { get; }
     }
     internal abstract record Location;
     internal sealed record Equipment : Location

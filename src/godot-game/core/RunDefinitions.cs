@@ -222,7 +222,20 @@ internal sealed class RunDefinitions
                 "IT-23" or "IT-24"), field: "storage");
         Require(condition: maxStack == 1 || slot is null && storage is null || id is "IT-02", field: "maxStack");
         return new Item(id: id, footprint: footprint, maxStack: maxStack, weightKilograms: kilograms,
-                rotatable: rotatable, slot: slot, storage: storage, maximumCondition: maximumCondition);
+                rotatable: rotatable, slot: slot, storage: storage, maximumCondition: maximumCondition,
+                appearance: ReadAppearance(row: row, id: id));
+    }
+
+    private static Appearance ReadAppearance(JsonElement row, string id)
+    {
+        JsonElement value = Field(parent: row, field: "appearance");
+        string? fitFile = NullableText(parent: value, field: "fitFile");
+        string? fitItem = NullableText(parent: value, field: "fitItem");
+        Require(condition: StringComparer.Ordinal.Equals(x: Text(parent: value, field: "item"), y: id)
+                && (fitFile is null && fitItem is null || fitFile is not null
+                        && StringComparer.Ordinal.Equals(x: fitItem, y: id)), field: "appearance");
+        return new Appearance(pack: Text(parent: value, field: "pack"),
+                canonicalIcon: Text(parent: value, field: "canonicalIcon"), fitFile: fitFile, fitItem: fitItem);
     }
 
     private static decimal? OptionalCondition(JsonElement row, string id)
@@ -415,7 +428,7 @@ internal sealed class RunDefinitions
     internal sealed record Item
     {
         internal Item(string id, Size footprint, int maxStack, decimal weightKilograms, bool rotatable,
-                string? slot, Size? storage, decimal? maximumCondition)
+                string? slot, Size? storage, decimal? maximumCondition, Appearance appearance)
         {
             Id = id;
             Footprint = footprint;
@@ -425,6 +438,7 @@ internal sealed class RunDefinitions
             Slot = slot;
             Storage = storage;
             MaximumCondition = maximumCondition;
+            Appearance = appearance;
         }
 
         internal string Id { get; }
@@ -435,6 +449,22 @@ internal sealed class RunDefinitions
         internal string? Slot { get; }
         internal Size? Storage { get; }
         internal decimal? MaximumCondition { get; }
+        internal Appearance Appearance { get; }
+    }
+    internal sealed record Appearance
+    {
+        internal Appearance(string pack, string canonicalIcon, string? fitFile, string? fitItem)
+        {
+            Pack = pack;
+            CanonicalIcon = canonicalIcon;
+            FitFile = fitFile;
+            FitItem = fitItem;
+        }
+
+        internal string Pack { get; }
+        internal string CanonicalIcon { get; }
+        internal string? FitFile { get; }
+        internal string? FitItem { get; }
     }
     internal sealed record StartingStack
     {

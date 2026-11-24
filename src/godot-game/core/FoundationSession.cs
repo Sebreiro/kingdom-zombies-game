@@ -230,6 +230,11 @@ public sealed class FoundationSession
         definitions ??= RunDefinitions.Default;
         var population = RunPopulation.Create(definitions: definitions, sessionId: sessionId, playerId: playerId);
         var inventory = RunInventory.Create(definitions: definitions, population: population);
+        if (!RunInventoryRules.IsValid(inventory: inventory, definitions: definitions, population: population))
+        {
+            throw new InvalidDataException(message: "RUN_INVENTORY_INVALID");
+        }
+
         var snapshot = new FoundationSnapshot(sessionId: sessionId, revision: 0, participants:
                 [new FoundationParticipantState(bindingId: "local", label: "Player 1", slot: 1, ready: true,
                         actor: new FoundationActorState(sessionId: sessionId, playerId: playerId, actorId: actorId,
@@ -264,6 +269,27 @@ public sealed class FoundationSession
         {
             return _active && candidate is not null && TryPublish(participants: Snapshot.Participants,
                     world: candidate);
+        }
+    }
+
+    internal bool TryEditInventory(Func<RunInventory, RunDefinitions, RunPopulation, RunInventory?> edit)
+    {
+        lock (_gate)
+        {
+            if (!_active)
+            {
+                return false;
+            }
+
+            RunPublication current = _publication;
+            RunInventory? candidate = edit(arg1: current.Inventory, arg2: current.Definitions,
+                    arg3: current.Population);
+            return _active && ReferenceEquals(objA: current, objB: _publication) && candidate is not null
+                    && !ReferenceEquals(objA: candidate, objB: current.Inventory)
+                    && RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
+                    && RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
+                            population: current.Population)
+                    && TryPublish(participants: current.Snapshot.Participants, inventory: candidate);
         }
     }
 
@@ -321,7 +347,7 @@ public sealed class FoundationSession
     }
 
     private bool TryPublish(IEnumerable<FoundationParticipantState> participants, RunWorld? world = null,
-            RunPopulation? population = null)
+            RunPopulation? population = null, RunInventory? inventory = null)
     {
         try
         {
@@ -331,7 +357,7 @@ public sealed class FoundationSession
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);
             _publication = new RunPublication(snapshot: snapshot, world: world ?? current.World,
                     elapsedMilliseconds: current.ElapsedMilliseconds, definitions: current.Definitions,
-                    population: population ?? current.Population, inventory: current.Inventory);
+                    population: population ?? current.Population, inventory: inventory ?? current.Inventory);
             return true;
         }
         catch (Exception error) when (error is InvalidDataException or OverflowException)
