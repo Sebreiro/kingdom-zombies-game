@@ -19,6 +19,15 @@ public sealed class Phase06PublicationTests
         CheckContestedGuest();
     }
 
+    /// <summary>The current compatibility epoch identifies the bounded recipient protocol.</summary>
+    [Fact]
+    public void GameplayVersionIdentifiesScopedPublicationFrames()
+    {
+        var hello = new FoundationEnvelope(kind: "hello", playerId: "peer", label: "Guest");
+        FoundationProtocol.Decode(bytes: FoundationProtocol.Encode(envelope: hello)).ProtocolVersion
+                .ShouldBe(expected: 2);
+    }
+
     private static void CheckSolo()
     {
         var solo = new FoundationCoordinator(playerId: "p1", label: "Host");
