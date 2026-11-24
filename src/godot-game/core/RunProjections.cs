@@ -109,13 +109,22 @@ internal static partial class RunProjections
             Teammates = succession?.Teammates.Select(selector: teammate =>
                     new { teammate.BindingId, teammate.Slot, teammate.SurvivorId }),
         });
-        if (control.generation == 0 || !includeItems)
+        if (control.generation == 0)
         {
             return (root.Snapshot.Revision, [("status", control.generation, 0, status, [])]);
         }
 
         var controller = new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,
                 generation: control.generation);
+        if (!includeItems)
+        {
+            (ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability) nearby =
+                    session.ItemActions.ReadNearby(controller: controller);
+            return (root.Snapshot.Revision, [("status", control.generation, 0, status, []),
+                NearbyView(generation: control.generation, targets: nearby.targets,
+                        availability: nearby.availability)]);
+        }
+
         RunItemActions.View? view = session.ItemActions.Read(controller: controller);
         if (view is null)
         {
@@ -181,6 +190,7 @@ internal static partial class RunProjections
                         (string scope, long generation, long token, JsonElement header,
                             ImmutableArray<JsonElement> rows)>();
         windows.Add(item: ("status", generation, 0, status, []));
+        windows.Add(item: NearbyView(generation: generation, targets: view.Nearby, availability: view.Availability));
         windows.Add(item: ("own", generation, 0, own.header, own.rows));
         if (external is { } selected)
         {
@@ -192,6 +202,15 @@ internal static partial class RunProjections
         AddWindows(result: windows, root: root, view: view, generation: generation, requested: externalWindows,
                 external: true);
         return windows.ToImmutable();
+    }
+
+    private static (string scope, long generation, long token, JsonElement header,
+            ImmutableArray<JsonElement> rows) NearbyView(long generation,
+                    ImmutableArray<RunExternalAccess.Target> targets, RunItemActions.Status availability)
+    {
+        return ("nearby", generation, 0, JsonSerializer.SerializeToElement(
+                value: new { Availability = availability.ToString() }), [.. targets.Select(selector: target =>
+                        JsonSerializer.SerializeToElement(value: new { Kind = target.Kind.ToString(), target.Id }))]);
     }
 
     private static void AddWindows(ImmutableArray<(string scope, long generation, long token, JsonElement header,
@@ -310,7 +329,6 @@ internal static partial class RunProjections
             ContainerId = container?.Id,
             Width = bounds?.Width,
             Height = bounds?.Height,
-            Nearby = view.Nearby.Select(selector: target => new { Kind = target.Kind.ToString(), target.Id }),
             Quick = view.QuickReferences.Select(selector: row => new
             {
                 Slot = row.slot,
@@ -318,7 +336,6 @@ internal static partial class RunProjections
                 Stamp = root.Inventory.PathTo(itemId: row.itemId) is { } path
                         && path.IsCarriedBy(survivorId: view.SurvivorId) ? Stamp(path: path.Items) : null,
             }),
-            Availability = view.Availability.ToString(),
         };
         return (JsonSerializer.SerializeToElement(value: info), Rows(root: root, items: view.Personal,
                 scope: item => container is null ? item.Location is RunInventory.Equipment

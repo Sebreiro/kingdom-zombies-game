@@ -272,18 +272,13 @@ internal sealed class FoundationWorldInput : IDisposable
 
     private void SelectNearby()
     {
-        if (Own() is not { } own)
+        if (_readback?.Views.TryGetValue(key: "nearby", value: out FoundationRunView? view) != true
+                || view is null || view.Epoch != _identity?.epoch || view.Rows.Length != 1)
         {
             return;
         }
 
-        JsonElement rows = own.Header.GetProperty(propertyName: "Nearby");
-        if (rows.GetArrayLength() != 1)
-        {
-            return;
-        }
-
-        JsonElement target = rows[0];
+        JsonElement target = view.Rows[0];
         _ = _coordinator()?.SubmitRunAction(kind: "select", request: JsonSerializer.SerializeToElement(value: new
         {
             TargetKind = target.GetProperty(propertyName: "Kind").GetString(),

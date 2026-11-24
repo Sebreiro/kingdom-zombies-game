@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace KingdomZombies.Core;
@@ -58,6 +59,78 @@ internal static class RunLocomotion
 
         return AdvanceGround(survivor: survivor, definitions: definitions, intent: intent, generation: generation,
                 world: world, load: load, previous: groundedFrom, current: current);
+    }
+
+    internal static IEnumerable<Motion> Trace(RunPopulation.Survivor survivor, RunDefinitions definitions,
+            RunInventory inventory, FoundationHeldIntent? intent, long generation, long previous, decimal until)
+    {
+        int direction = intent?.Direction ?? 0;
+        Burden load = direction == 0 ? Burden.Unloaded
+                : Load(inventory: inventory, definitions: definitions, survivorId: survivor.Id);
+        Settings tuning = definitions.Locomotion;
+        decimal from = previous;
+        decimal walking = direction * tuning.WalkSpeed * load.Speed;
+        if (survivor.JumpStartedAt is { } start)
+        {
+            from = Math.Min(val1: until, val2: start + tuning.JumpDuration);
+            foreach (Motion air in BoundedMotion(from: previous, to: from, x: survivor.PositionSubunitsExact,
+                    velocity: walking * tuning.AirControl, jump: start))
+            {
+                yield return air;
+            }
+
+            if (from == until)
+            {
+                yield break;
+            }
+
+            survivor = AdvanceAir(survivor: survivor, definitions: definitions, direction: direction,
+                    speedScale: load.Speed, start: start, previous: previous, current: from);
+        }
+
+        if (intent is { Sprint: true } && direction != 0)
+        {
+            (RunPopulation.Survivor sprinted, decimal end) = Sprint(survivor: survivor, tuning: tuning,
+                    intent: intent, generation: generation, load: load, previous: from, current: until);
+            if (end > from)
+            {
+                foreach (Motion sprint in BoundedMotion(from: from, to: end, x: survivor.PositionSubunitsExact,
+                        velocity: direction * tuning.SprintSpeed * load.Speed))
+                {
+                    yield return sprint;
+                }
+            }
+
+            (survivor, from) = (sprinted, end);
+        }
+
+        foreach (Motion walk in BoundedMotion(from: from, to: until, x: survivor.PositionSubunitsExact,
+                velocity: walking))
+        {
+            yield return walk;
+        }
+    }
+
+    private static IEnumerable<Motion> BoundedMotion(decimal from, decimal to, decimal x, decimal velocity,
+            long? jump = null)
+    {
+        if (velocity != 0)
+        {
+            decimal limit = velocity > 0 ? 59000 : -59000;
+            decimal stop = from + (limit - x) / velocity;
+            if (stop < to)
+            {
+                if (stop > from)
+                {
+                    yield return new Motion(from: from, to: stop, x: x, velocity: velocity, jump: jump);
+                }
+
+                yield return new Motion(from: stop, to: to, x: limit, velocity: 0, jump: jump);
+                yield break;
+            }
+        }
+
+        yield return new Motion(from: from, to: to, x: x, velocity: velocity, jump: jump);
     }
 
     private static RunPopulation.Survivor AdvanceAir(RunPopulation.Survivor survivor, RunDefinitions definitions,
@@ -168,6 +241,24 @@ internal static class RunLocomotion
 
     internal enum Block { None, Overloaded, InsufficientStamina, Airborne }
     internal enum LoadLevel { Normal, Heavy, Overloaded }
+
+    internal readonly record struct Motion
+    {
+        internal Motion(decimal from, decimal to, decimal x, decimal velocity, long? jump)
+        {
+            From = from;
+            To = to;
+            X = x;
+            Velocity = velocity;
+            Jump = jump;
+        }
+
+        internal decimal From { get; }
+        internal decimal To { get; }
+        internal decimal X { get; }
+        internal decimal Velocity { get; }
+        internal long? Jump { get; }
+    }
 
     internal sealed record Input
     {

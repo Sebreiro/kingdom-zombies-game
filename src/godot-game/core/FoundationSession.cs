@@ -257,7 +257,7 @@ public sealed class FoundationSession
             long elapsed = checked(current.ElapsedMilliseconds + elapsedMilliseconds);
             RunPopulation population = AdvancePopulation(current: current, elapsed: elapsed);
             RunProjectiles.Frame flight = RunProjectiles.Advance(current: current, population: population,
-                    now: elapsed);
+                    now: elapsed, control: survivor => MovementControl(current: current, survivor: survivor));
             FoundationParticipantState[] candidate = [.. current.Snapshot.Participants.Select(selector: participant =>
                     AdvanceParticipant(participant: participant, population: population,
                             elapsedMilliseconds: elapsedMilliseconds))];
@@ -906,21 +906,27 @@ public sealed class FoundationSession
                 continue;
             }
 
-            RunPopulation.Lease? lease = population.Leases.FirstOrDefault(predicate: live =>
-                    StringComparer.Ordinal.Equals(x: live.SurvivorId, y: survivor.Id));
-            FoundationHeldIntent? intent = lease is not null
-                    && RunExternalAccess.Controller(current: current, lease: lease) is not null
-                    && _intents.TryGetValue(key: lease.BindingId,
-                            value: out (long generation, FoundationHeldIntent intent) held)
-                    && held.generation == lease.Generation ? held.intent : null;
+            (FoundationHeldIntent? intent, long generation) = MovementControl(current: current, survivor: survivor);
             RunPopulation.Survivor next = RunLocomotion.Advance(survivor: survivor, definitions: current.Definitions,
                     inventory: current.Inventory, world: current.World, intent: intent,
-                    generation: lease?.Generation ?? 0,
-                    previous: current.ElapsedMilliseconds, current: elapsed);
+                    generation: generation, previous: current.ElapsedMilliseconds, current: elapsed);
             population = population.Replace(previous: survivor, current: next);
         }
 
         return population;
+    }
+
+    private (FoundationHeldIntent? intent, long generation) MovementControl(RunPublication current,
+            RunPopulation.Survivor survivor)
+    {
+        RunPopulation.Lease? lease = current.Population.Leases.FirstOrDefault(predicate: live =>
+                StringComparer.Ordinal.Equals(x: live.SurvivorId, y: survivor.Id));
+        FoundationHeldIntent? intent = lease is not null
+                && RunExternalAccess.Controller(current: current, lease: lease) is not null
+                && _intents.TryGetValue(key: lease.BindingId,
+                        value: out (long generation, FoundationHeldIntent intent) held)
+                && held.generation == lease.Generation ? held.intent : null;
+        return (intent, lease?.Generation ?? 0);
     }
 
     private static FoundationParticipantState AdvanceParticipant(FoundationParticipantState participant,

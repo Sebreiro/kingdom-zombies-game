@@ -515,7 +515,8 @@ internal sealed partial class FoundationCoordinator
         {
             ImmutableArray<byte[]> parts = FoundationProtocol.EncodeView(rows: rows, envelope: part =>
                     RunViewEnvelope(peer: peer, kind: "view-part", revision: revision, correlation: correlation,
-                            frame: part), template: frame);
+                            frame: part), template: frame, maximumRows: frame.Scope is "nearby"
+                                    ? FoundationProtocol.MaximumNearbyRows : FoundationProtocol.MaximumViewRows);
             foreach (byte[] bytes in parts)
             {
                 _connection.Send(peer: sender, payload: bytes);

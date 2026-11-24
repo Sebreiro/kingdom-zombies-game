@@ -390,15 +390,33 @@ internal sealed partial class FoundationCoordinator
     private void SendRunState(int sender, FoundationPeerBinding peer, FoundationSnapshot state,
             FoundationRunFrame? model)
     {
+        if (!peer.PublicParts.IsEmpty)
+        {
+            FlushPublicParts(sender: sender, peer: peer);
+            return;
+        }
+
         try
         {
             Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
                     revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId, game: model));
         }
-        catch (InvalidDataException error) when (model is not null && error.Message is "WIRE_SIZE")
+        catch (InvalidDataException error) when (model?.Body is not null && error.Message is "WIRE_SIZE")
         {
-            Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
-                    revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId));
+            JsonElement world = model.Body.Value;
+            peer.PublicParts = ImmutableQueue.CreateRange(items: FoundationPublicWorld.Encode(roster: state,
+                    world: world, attempt: peer.Baseline.AttemptId));
+            FlushPublicParts(sender: sender, peer: peer);
+        }
+    }
+
+    private void FlushPublicParts(int sender, FoundationPeerBinding peer)
+    {
+        for (int sent = 0; sent < 4 && !peer.PublicParts.IsEmpty && _connection?.Connected == true; sent++)
+        {
+            byte[] bytes = peer.PublicParts.Peek();
+            _connection.Send(peer: sender, payload: bytes, reliable: true);
+            peer.PublicParts = peer.PublicParts.Dequeue();
         }
     }
 

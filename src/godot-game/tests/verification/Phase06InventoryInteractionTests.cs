@@ -130,7 +130,7 @@ public sealed class Phase06InventoryInteractionTests
                 ImmutableArray<JsonElement> rows)> views) = session.ReadRunViews(identity: identity,
                         ownWindows: [bag.Id, shirt.Id, opaque])
                         ?? throw new InvalidOperationException(message: "WORKSPACE");
-        views.Select(selector: view => view.scope).ShouldBe(expected: ["status", "own", "own.1", "own.2"]);
+        views.Select(selector: view => view.scope).ShouldBe(expected: ["status", "nearby", "own", "own.1", "own.2"]);
         Model.Item item = Model.ReadItem(row: views.Single(predicate: view => view.scope is "own.1")
                 .rows.Single());
         Model.Command assign = Model.Assign(item: item, slot: 3);

@@ -16,6 +16,7 @@ const title = text => entry => entry.text === text && entry.path.includes('/Opti
 const within = (parent, name) => entry => entry.path.includes(parent) && named(name)(entry);
 const actor = native.actor;
 const own = native.own;
+const nearby = native.nearby;
 const external = native.external;
 const item = native.item;
 
@@ -236,6 +237,6 @@ async function drag(state, peer, from, to) {
 }
 
 module.exports = {open, close, reset, enter, join, menu, key, last, after, committed, focus, send, press, tap,
-  pointer, click, choose, control, named, title, within, actor, own, item, external, moveUntil, picture, finish,
-  stash, bagWindow, drag, fixture: native.inject, privacy: native.privacy};
+  pointer, click, choose, control, named, title, within, actor, own, nearby, item, external, moveUntil, picture, finish,
+  stash, bagWindow, drag, fixture: native.inject, privacy: native.privacy, motionInterval: native.motionInterval};
 

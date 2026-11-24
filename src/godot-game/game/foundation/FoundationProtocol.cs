@@ -17,6 +17,7 @@ internal static class FoundationProtocol
     internal const int MaximumBytes = 32768;
     internal const int Version = 2;
     internal const int MaximumViewRows = 4096;
+    internal const int MaximumNearbyRows = 16384;
     internal const int MaximumViewParts = 256;
 
     internal static byte[] Encode(FoundationEnvelope envelope)
@@ -36,6 +37,27 @@ internal static class FoundationProtocol
         return scope.StartsWith(value: prefix, comparisonType: StringComparison.Ordinal)
                 && scope.AsSpan(start: prefix.Length) is "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8"
                         or "9" or "10" or "11" or "12" or "13" or "14" or "15" or "16";
+    }
+
+    internal static bool ValidateWorld(JsonElement body)
+    {
+        Shape(value: body, names: ["Elapsed", "OriginX", "Ground", "CampLeft", "CampRight", "Actors", "Defenses",
+            "Loot", "Arrows", "Corpses"]);
+        foreach (string collection in new[] { "Actors", "Corpses", "Defenses", "Loot", "Arrows" })
+        {
+            var identities = new HashSet<string>(comparer: StringComparer.Ordinal);
+            foreach (JsonElement row in body.GetProperty(propertyName: collection).EnumerateArray())
+            {
+                ValidatePublicRow(collection: collection, row: row);
+                if (!identities.Add(item: row.GetProperty(propertyName: "Id").ToString()))
+                {
+                    throw new InvalidDataException(message: "WIRE_PUBLIC_ID");
+                }
+            }
+        }
+
+        _ = FoundationEquipmentProjection.Read(revision: 0, world: body);
+        return true;
     }
 
     internal static FoundationEnvelope Decode(ReadOnlyMemory<byte> bytes)
@@ -67,9 +89,10 @@ internal static class FoundationProtocol
     }
 
     internal static ImmutableArray<byte[]> EncodeView(ImmutableArray<JsonElement> rows,
-            Func<FoundationRunFrame, FoundationEnvelope> envelope, FoundationRunFrame template)
+            Func<FoundationRunFrame, FoundationEnvelope> envelope, FoundationRunFrame template,
+            int maximumParts = MaximumViewParts, int maximumRows = MaximumViewRows)
     {
-        if (rows.IsDefault || rows.Length > MaximumViewRows)
+        if (rows.IsDefault || rows.Length > maximumRows)
         {
             throw new InvalidDataException(message: "WIRE_VIEW_ROWS");
         }
@@ -81,17 +104,13 @@ internal static class FoundationProtocol
 
         ImmutableArray<ImmutableArray<JsonElement>>.Builder chunks =
                 ImmutableArray.CreateBuilder<ImmutableArray<JsonElement>>();
-        for (int offset = 0; offset < rows.Length;)
+        int overhead = JsonSerializer.SerializeToUtf8Bytes(value: envelope(arg: template with
         {
-            int length = FittingRows(rows: rows, offset: offset, envelope: envelope, template: template);
-            if (length <= 0 || chunks.Count == MaximumViewParts)
-            {
-                throw new InvalidDataException(message: "WIRE_VIEW_PARTS");
-            }
-
-            chunks.Add(item: rows.Slice(start: offset, length: length));
-            offset += length;
-        }
+            Part = maximumParts - 1,
+            Parts = maximumParts,
+        })).Length;
+        Partition(rows: rows, maximumParts: maximumParts, available: MaximumBytes - NativeHeaderBytes - overhead,
+                chunks: chunks);
 
         return [.. chunks.Select(selector: (chunk, index) => Encode(envelope: envelope(arg: template with
         {
@@ -110,39 +129,42 @@ internal static class FoundationProtocol
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
     };
 
-    private static int FittingRows(ImmutableArray<JsonElement> rows, int offset,
-            Func<FoundationRunFrame, FoundationEnvelope> envelope, FoundationRunFrame template)
+    private static void Partition(ImmutableArray<JsonElement> rows, int maximumParts, int available,
+            ImmutableArray<ImmutableArray<JsonElement>>.Builder chunks)
     {
-        int first = 1;
-        int last = rows.Length - offset;
-        while (first <= last)
+        int first = 0;
+        int size = 0;
+        for (int index = 0; index < rows.Length; index++)
         {
-            int middle = first + (last - first) / 2;
-            FoundationEnvelope candidate = envelope(arg: template with
+            int bytes = JsonSerializer.SerializeToUtf8Bytes(value: rows[index]).Length;
+            if (bytes > available)
             {
-                Part = MaximumViewParts - 1,
-                Parts = MaximumViewParts,
-                Rows = rows.Slice(start: offset, length: middle),
-            });
-            int size = JsonSerializer.SerializeToUtf8Bytes(value: candidate).Length;
-            if (size <= MaximumBytes - NativeHeaderBytes)
-            {
-                first = middle + 1;
+                throw new InvalidDataException(message: "WIRE_VIEW_PARTS");
             }
-            else
+
+            if (index > first && size + 1 + bytes > available)
             {
-                last = middle - 1;
+                chunks.Add(item: rows.Slice(start: first, length: index - first));
+                if (chunks.Count == maximumParts)
+                {
+                    throw new InvalidDataException(message: "WIRE_VIEW_PARTS");
+                }
+
+                first = index;
+                size = 0;
             }
+
+            size += bytes + (index == first ? 0 : 1);
         }
 
-        return last;
+        chunks.Add(item: rows.Slice(start: first, length: rows.Length - first));
     }
 
     private static void Validate(FoundationEnvelope envelope)
     {
         if (envelope.Kind is not ("hello" or "baseline" or "ack" or "state" or "ping" or "bye"
                 or "end" or "end-ack" or "cancel" or "reject" or "action" or "action-result" or "view-part"
-                or "view-revoke") || envelope.Sequence < 0 || envelope.Revision < 0
+                or "view-revoke" or "world-part") || envelope.Sequence < 0 || envelope.Revision < 0
                 || envelope.Direction is < -1 or > 1 || envelope.Label.EnumerateRunes().Count() > 256
                 || new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId,
                     envelope.AttemptId }
@@ -153,17 +175,18 @@ internal static class FoundationProtocol
 
         bool identity = new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId }
                 .All(predicate: value => !string.IsNullOrWhiteSpace(value: value));
+        bool missingRoster = envelope.Kind is "baseline" or "state" or "world-part"
+                && (envelope.Snapshot is null
+                        || !StringComparer.Ordinal.Equals(x: envelope.SessionId, y: envelope.Snapshot.SessionId)
+                        || envelope.Revision != envelope.Snapshot.Revision);
         if (envelope.Kind is "hello" && (string.IsNullOrWhiteSpace(value: envelope.PlayerId)
-                || string.IsNullOrWhiteSpace(value: envelope.Label)) || envelope.Kind is "ack"
-                        && !identity || envelope.Kind is "baseline" or "state" && (envelope.Snapshot is null
-                                || !StringComparer.Ordinal.Equals(x: envelope.SessionId,
-                                        y: envelope.Snapshot.SessionId)
-                                || envelope.Revision != envelope.Snapshot.Revision))
+                || string.IsNullOrWhiteSpace(value: envelope.Label)) || envelope.Kind is "ack" && !identity
+                || missingRoster)
         {
             throw new InvalidDataException(message: "WIRE_REQUIRED");
         }
 
-        if (envelope.Snapshot is not null && envelope.Kind is not ("baseline" or "state")
+        if (envelope.Snapshot is not null && envelope.Kind is not ("baseline" or "state" or "world-part")
                 || !ValidRunFrame(envelope: envelope, identity: identity))
         {
             throw new InvalidDataException(message: "WIRE_GAMEPLAY");
@@ -174,7 +197,7 @@ internal static class FoundationProtocol
     {
         if (envelope.Game is not { } frame)
         {
-            return envelope.Kind is not ("action" or "action-result" or "view-part" or "view-revoke");
+            return envelope.Kind is not ("action" or "action-result" or "view-part" or "view-revoke" or "world-part");
         }
 
         if (frame.Epoch < 0 || frame.View < 0 || frame.Token < 0 || frame.Part < 0 || frame.Parts < 0
@@ -201,7 +224,8 @@ internal static class FoundationProtocol
                     && frame.Rows.IsEmpty && frame.Part == 0 && frame.Parts == 0 && NoActionFields(frame: frame)
                     && frame.Epoch == 0 && frame.Token == 0,
             "state" or "baseline" => frame.Body is { } body && frame.Rows.IsEmpty && NoActionFields(frame: frame)
-                    && NoViewScope(frame: frame) && frame.Epoch == 0 && ValidWorld(body: body),
+                    && NoViewScope(frame: frame) && frame.Epoch == 0 && ValidateWorld(body: body),
+            "world-part" => ValidPublicPart(frame: frame),
             _ => false,
         };
     }
@@ -232,7 +256,7 @@ internal static class FoundationProtocol
 
     private static bool ValidScope(string scope)
     {
-        return scope is "status" or "own" or "external" || WindowScope(scope: scope, external: false)
+        return scope is "status" or "nearby" or "own" or "external" || WindowScope(scope: scope, external: false)
                 || WindowScope(scope: scope, external: true);
     }
 
@@ -253,9 +277,13 @@ internal static class FoundationProtocol
                 return frame.Rows.IsEmpty && frame.Token == 0 && frame.Parts == 1
                         && body.GetProperty(propertyName: "Generation").GetInt64() == frame.Epoch
                         && ValidHud(hud: body.GetProperty(propertyName: "Hud"), alive: frame.Epoch > 0);
+            case "nearby":
+                Shape(value: body, names: ["Availability"]);
+                return frame.Epoch > 0 && frame.Token == 0
+                        && Text(value: body, name: "Availability") is "Ready" or "NoTargets" or "AccessLost"
+                        && frame.Rows.All(predicate: ValidNearbyTarget);
             case "own":
-                Shape(value: body, names: ["SurvivorId", "ContainerId", "Width", "Height", "Nearby", "Quick",
-                    "Availability"]);
+                Shape(value: body, names: ["SurvivorId", "ContainerId", "Width", "Height", "Quick"]);
                 return frame.Epoch > 0 && frame.Token == 0 && ValidOwnControls(body: body)
                         && frame.Rows.All(predicate: ValidPrivateItem);
             case "external":
@@ -359,15 +387,18 @@ internal static class FoundationProtocol
 
     private static bool ValidOwnControls(JsonElement body)
     {
-        ValidateRows(body: body, member: "Nearby", fields: ["Kind", "Id"]);
         ValidateRows(body: body, member: "Quick", fields: ["Slot", "ItemId", "Stamp"]);
-        return body.GetProperty(propertyName: "Nearby").EnumerateArray().All(predicate: target =>
-                Text(value: target, name: "Kind") is "Stash" or "Npc" or "Pile" or "Corpse"
-                        && Text(value: target, name: "Id").Length is >= 1 and <= 128)
-                && body.GetProperty(propertyName: "Quick").EnumerateArray().All(predicate: quick =>
-                        quick.GetProperty(propertyName: "Slot").GetInt32() is >= 1 and <= 4
-                                && quick.GetProperty(propertyName: "ItemId").GetInt64() > 0
-                                && quick.GetProperty(propertyName: "Stamp").GetString() is null or { Length: 64 });
+        return body.GetProperty(propertyName: "Quick").EnumerateArray().All(predicate: quick =>
+                quick.GetProperty(propertyName: "Slot").GetInt32() is >= 1 and <= 4
+                        && quick.GetProperty(propertyName: "ItemId").GetInt64() > 0
+                        && quick.GetProperty(propertyName: "Stamp").GetString() is null or { Length: 64 });
+    }
+
+    private static bool ValidNearbyTarget(JsonElement target)
+    {
+        Shape(value: target, names: ["Kind", "Id"]);
+        return Text(value: target, name: "Kind") is "Stash" or "Npc" or "Pile" or "Corpse"
+                && Text(value: target, name: "Id").Length is >= 1 and <= 128;
     }
 
     private static bool ValidPrivateItem(JsonElement row)
@@ -400,28 +431,43 @@ internal static class FoundationProtocol
                 && Text(value: row, name: "Stamp").Length == 64;
     }
 
-    private static bool ValidWorld(JsonElement body)
+    private static bool ValidPublicPart(FoundationRunFrame frame)
     {
-        Shape(value: body, names: ["Elapsed", "OriginX", "Ground", "CampLeft", "CampRight", "Actors", "Defenses",
-            "Loot", "Arrows", "Corpses"]);
-        foreach (JsonElement actor in body.GetProperty(propertyName: "Actors").EnumerateArray())
+        if (frame.Body is not { } header || frame.Epoch != 0 || frame.View != 0 || frame.Token != 0
+                || frame.Scope.Length != 0 || !NoActionFields(frame: frame) || frame.Rows.IsEmpty
+                || frame.Parts is < 1 or > FoundationPublicWorld.MaximumParts || frame.Part >= frame.Parts)
         {
-            Shape(value: actor, names: ["Id", "X", "Y", "Facing", "Hostile", "BindingId", "Equipment",
-                "Movement", "StrikeAt", "StrikeUntil", "AimX", "AimY", "FlinchAt", "ArrowReady"]);
-            ValidateRows(body: actor, member: "Equipment", fields: ["Slot", "DefinitionId", "Broken"]);
+            return false;
         }
 
-        foreach (JsonElement corpse in body.GetProperty(propertyName: "Corpses").EnumerateArray())
+        Shape(value: header, names: ["Elapsed", "OriginX", "Ground", "CampLeft", "CampRight"]);
+        foreach (JsonElement row in frame.Rows)
         {
-            Shape(value: corpse, names: ["Id", "SurvivorId", "X", "Y", "Facing", "Hostile", "At", "Equipment"]);
-            ValidateRows(body: corpse, member: "Equipment", fields: ["Slot", "DefinitionId", "Broken"]);
+            Shape(value: row, names: ["Collection", "Row"]);
+            ValidatePublicRow(collection: Text(value: row, name: "Collection"),
+                    row: row.GetProperty(propertyName: "Row"));
         }
 
-        ValidateRows(body: body, member: "Defenses", fields: ["Id", "X", "Y", "Living", "Completed", "IsWall"]);
-        ValidateRows(body: body, member: "Loot", fields: ["Id", "X", "Y", "Kind"]);
-        ValidateRows(body: body, member: "Arrows", fields: ["Id", "X", "Y", "VelocityX", "VelocityY"]);
-        _ = FoundationEquipmentProjection.Read(revision: 0, world: body);
         return true;
+    }
+
+    private static void ValidatePublicRow(string collection, JsonElement row)
+    {
+        string[] fields = collection switch
+        {
+            "Actors" => ["Id", "X", "Y", "Facing", "Hostile", "BindingId", "Equipment", "Movement",
+                "StrikeAt", "StrikeUntil", "AimX", "AimY", "FlinchAt", "ArrowReady"],
+            "Corpses" => ["Id", "SurvivorId", "X", "Y", "Facing", "Hostile", "At", "Equipment"],
+            "Defenses" => ["Id", "X", "Y", "Living", "Completed", "IsWall"],
+            "Loot" => ["Id", "X", "Y", "Kind"],
+            "Arrows" => ["Id", "X", "Y", "VelocityX", "VelocityY"],
+            _ => throw new InvalidDataException(message: "WIRE_PUBLIC_COLLECTION"),
+        };
+        Shape(value: row, names: fields);
+        if (collection is "Actors" or "Corpses")
+        {
+            ValidateRows(body: row, member: "Equipment", fields: ["Slot", "DefinitionId", "Broken"]);
+        }
     }
 
     private static void ValidateRows(JsonElement body, string member, string[] fields)

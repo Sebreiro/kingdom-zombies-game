@@ -31,6 +31,7 @@
     <Compile Include="../../game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.RunWire.cs" Link="FoundationCoordinator.RunWire.cs" />
     <Compile Include="../../game/foundation/FoundationViewInbox.cs" Link="FoundationViewInbox.cs" />
+    <Compile Include="../../game/foundation/FoundationPublicWorld.cs" Link="FoundationPublicWorld.cs" />
     <Compile Include="../../game/foundation/FoundationRunFrame.cs" Link="FoundationRunFrame.cs" />
     <Compile Include="../../game/foundation/FoundationRunView.cs" Link="FoundationRunView.cs" />
     <Compile Include="../../game/foundation/FoundationRunReadback.cs" Link="FoundationRunReadback.cs" />

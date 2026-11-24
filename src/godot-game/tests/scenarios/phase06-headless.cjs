@@ -7,14 +7,23 @@ const network = require('../../tools/lan-checks/network.cjs');
 const {environment} = require('../../tools/lan-checks/check.cjs');
 const {lines} = require('../../tools/lan-checks/rendered.cjs');
 
-const key = {escape: 4194305, left: 65, right: 68, interact: 69, inventory: 73, jump: 32, food1: 49};
+const key = {escape: 4194305, left: 65, right: 68, interact: 69, inventory: 73, jump: 32, food1: 49, shift: 4194325};
 const stash = {TargetKind: 'Stash', TargetId: 'foundation.stash'};
 const current = peer => lines(path.join(peer.directory, 'frames.ndjson')).at(-1);
 const actor = (row, id = row.phase06.control) => row.phase06.World.Actors.find(entry => entry.Id === id);
 const own = row => row.phase06.Views.own;
+const nearby = row => row.phase06.Views.nearby?.Rows ?? [];
 const external = row => row.phase06.Views.external;
 const item = (row, scope, definition) => row.phase06.Views[scope]?.Rows.find(entry => entry.DefinitionId === definition);
 const reference = ({Id, Stamp}) => ({Id, Stamp});
+function motionInterval(first, last, movement) {
+  const elapsed = last.phase06.World.Elapsed - first.phase06.World.Elapsed;
+  const distance = actor(last)?.X - actor(first)?.X;
+  if (actor(first)?.Movement !== movement || actor(last)?.Movement !== movement || elapsed < 48 || distance <= 0)
+    return null;
+  const spent = first.hud.Stamina - last.hud.Stamina;
+  return {elapsed, distance, speed: distance / elapsed, spent};
+}
 const wait = (state, test, label, ms = 15_000) => network.waitFor(state.peers.filter(peer => !peer.quitRequested),
   Date.now() + ms, test, label);
 const activate = (state, peer, control) => network.activate(peer, state, Date.now() + 5000, control);
@@ -150,13 +159,28 @@ async function world(state) {
   assert.notEqual(hostile[0].Id, hostile[1].Id);
   assert.deepEqual(initial.Defenses.map(row => [row.Id, row.Living]),
     [['fixture.living-wall', true], ['fixture.broken-wall', false]]);
-  const walked = await move(state, peer, key.right, row => actor(row)?.X > actor(first).X + 300, 'native walk');
+  await hold(state, peer, key.right, true);
+  let walked, walking, sprinted, sprint;
+  try {
+    const walkStart = await observe(state, peer, row => actor(row)?.Movement === 'walk', 'walk starts');
+    walked = await observe(state, peer, row => !!(walking = motionInterval(walkStart, row, 'walk')),
+      'committed walking interval');
+    await hold(state, peer, key.shift, true);
+    const sprintStart = await observe(state, peer, row => actor(row)?.Movement === 'faster', 'sprint starts');
+    sprinted = await observe(state, peer, row => {
+      sprint = motionInterval(sprintStart, row, 'faster');
+      return sprint?.speed > walking.speed && sprint.spent > 0;
+    }, 'committed sprint displacement and stamina');
+  } finally {
+    await hold(state, peer, key.right, false);
+    await hold(state, peer, key.shift, false);
+  }
   await tap(state, peer, key.jump);
   const jumped = await observe(state, peer, row => actor(row)?.Y > initial.Ground, 'native air pose');
   assert.equal(actor(jumped).Movement, 'jump');
   assert.deepEqual(jumped.phase06.World.Actors.filter(entry => entry.Hostile).map(({Id, X}) => [Id, X]),
     hostile.map(({Id, X}) => [Id, X]));
-  return evidence(state, 'phase06.headless.world', [peer], {first, walked, jumped});
+  return evidence(state, 'phase06.headless.world', [peer], {first, walked, walking, sprinted, sprint, jumped});
 }
 
 async function start(state) {
@@ -166,7 +190,7 @@ async function start(state) {
   assert(first.phase06.World.Actors.every(entry => !entry.Hostile));
   assert.equal(first.phase06.World.Actors.filter(entry => entry.BindingId).length, 1);
   assert.deepEqual(own(first).Rows.map(entry => entry.DefinitionId).sort(), [...config.startingOutfit].sort());
-  await move(state, peer, key.right, row => own(row)?.Header.Nearby.some(target => target.Id === stash.TargetId),
+  await move(state, peer, key.right, row => nearby(row).some(target => target.Id === stash.TargetId),
     'normal stash reaches current actor');
   await action(state, peer, 'select', stash);
   const firstPage = await observe(state, peer, row => external(row)?.Header.Page === 1, 'normal stash page one');
@@ -282,22 +306,44 @@ function privacy(agreement, peers) {
 }
 
 async function lanPrivacy(state) {
-  const {peer: host} = await enter(state, 'host', 'field');
+  const {peer: host} = await enter(state, 'host', 'wire');
   const peers = [host];
   for (let index = 1; index <= 3; index++) peers.push(await join(state, 'guest-' + index));
   const agreement = await wait(state, () => {
     const latest = peers.map(current);
-    return latest.every(row => row?.phase06?.World && own(row)?.Rows.length
+    return latest.every(row => row?.phase06?.World?.Loot.filter(entry =>
+      entry.Id.startsWith('fixture.wire-persistent-loot-')).length === 420 && own(row)?.Rows.length
       && row.snapshot?.Participants.length === 4 && row.snapshot.Participants.every(entry => entry.Ready)) && latest;
   }, 'four real recipient publications');
   privacy(agreement, peers);
+  const watcher = peers[3];
+  const before = agreement[3], ownRevision = own(before).Revision;
+  const reachable = row => nearby(row).some(entry => entry.Kind === 'Stash' && entry.Id === stash.TargetId);
+  assert(reachable(before));
+  const apart = await move(state, watcher, key.left, row => nearby(row).length === 0 && actor(row).X < actor(before).X,
+    'passive stash disappears on moving out of range');
+  const back = await move(state, watcher, key.right, row => reachable(row) && actor(row).X > actor(apart).X,
+    'passive stash appears on moving into range');
+  assert([apart, back].every(row => own(row).Revision === ownRevision && !external(row)),
+    'unrelated owned item rows were not republished and no target was opened');
+  assert(apart.phase06.World.Elapsed > before.phase06.World.Elapsed && back.phase06.World.Elapsed > apart.phase06.World.Elapsed);
+  assert(Buffer.byteLength(JSON.stringify(back.phase06.World)) > 32768, 'real public state exceeds a single packet');
+  assert(Math.abs(back.snapshot.Participants.find(row => row.BindingId === back.bindingId).Actor.PositionSubunits
+    - (actor(back).X - back.phase06.World.OriginX)) <= 0.5, 'current roster position travels with its world');
+  await tap(state, watcher, key.interact);
+  await observe(state, watcher, row => row.inventoryOpen, 'guest opened the live nearby selector');
+  await activate(state, watcher, 'InventoryWorkspace/InventoryPanels/NearbyChoices/Rows/NearbyChoice_Stash');
+  const selected = await observe(state, watcher, row => external(row)?.Header.TargetId === stash.TargetId
+    && row.nearby?.kind === 'Stash', 'actual native choice authorizes the approached stash');
+  await tap(state, watcher, key.inventory);
+  await observe(state, watcher, row => !row.inventoryOpen && !external(row), 'native stash selection closed');
   const guests = peers.slice(1, 3);
   for (const peer of guests) {
     await action(state, peer, 'select', stash, 'Ready');
-    const selected = await observe(state, peer, row => item(row, 'external', 'IT-23'), 'currently visible backpack');
-    const bag = item(selected, 'external', 'IT-23');
-    await action(state, peer, 'place', {Item: reference(bag), Token: external(selected).Token, Container: null,
-      Amount: null, Destination: {Kind: 'equipment', TargetId: selected.phase06.control, Slot: 'backpack',
+    const open = await observe(state, peer, row => item(row, 'external', 'IT-23'), 'currently visible backpack');
+    const bag = item(open, 'external', 'IT-23');
+    await action(state, peer, 'place', {Item: reference(bag), Token: external(open).Token, Container: null,
+      Amount: null, Destination: {Kind: 'equipment', TargetId: open.phase06.control, Slot: 'backpack',
         GridId: null, X: null, Y: null, Rotated: null}}, 'Applied');
     await observe(state, peer, row => item(row, 'own', 'IT-23')?.Id === bag.Id, 'guest equipped its own bag');
   }
@@ -322,13 +368,14 @@ async function lanPrivacy(state) {
     else assert.equal(claimed, undefined);
   }
   const guest = guests[0];
-  await move(state, guest, key.left, row => !own(row)?.Header.Nearby.some(entry => entry.Id === stash.TargetId),
+  await move(state, guest, key.left, row => !nearby(row).some(entry => entry.Id === stash.TargetId),
     'guest leaves interaction reach');
   const revoked = await observe(state, guest, row => !external(row), 'stale external scope revoked');
   const remote = await action(state, guest, 'select', stash);
   assert.equal(remote.runAction.status, 'AccessLost');
   assert(!external(remote), 'remote stash reveals no rows or token');
-  return evidence(state, 'phase06.headless.lan-privacy', peers, {agreement, views, receipts, corrected, revoked, remote});
+  return evidence(state, 'phase06.headless.lan-privacy', peers,
+    {agreement, apart, back, selected, views, receipts, corrected, revoked, remote});
 }
 
 module.exports = {open, reset, close: state => close(state), cases: {
@@ -338,5 +385,6 @@ module.exports = {open, reset, close: state => close(state), cases: {
   'phase06.headless.combat': combat,
   'phase06.headless.lifecycle': lifecycle,
   'phase06.headless.lan-privacy': lanPrivacy,
-}, helpers: {open, close, ended, key, current, actor, own, external, item, wait, observe, launch, seed, evidence, privacy, inject}};
+}, helpers: {open, close, ended, key, current, actor, own, nearby, external, item, wait, observe, launch, seed,
+  evidence, privacy, inject, motionInterval}};
 

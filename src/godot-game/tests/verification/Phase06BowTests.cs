@@ -183,6 +183,47 @@ public sealed class Phase06BowTests
         Math.Abs(value: wholeHit.At - splitHit.At).ShouldBeLessThan(expected: 0.000001m);
     }
 
+    /// <summary>A ground-level crossing during jump and at landing is independent of tick boundaries.</summary>
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void JumpAndLandingFollowTheSameTrajectoryAcrossHostSteps(bool landsOnArrow)
+    {
+        FoundationSession whole = JumpWithArrow(landsOnArrow: landsOnArrow);
+        FoundationSession split = JumpWithArrow(landsOnArrow: landsOnArrow);
+        long finish = landsOnArrow ? 850 : long.MaxValue - 1000;
+        whole.Step(elapsedMilliseconds: finish);
+        split.Step(elapsedMilliseconds: 400);
+        Combat(session: split).Impacts.ShouldBeEmpty();
+        split.Step(elapsedMilliseconds: finish - 400);
+        Combat(session: whole).Arrows.ShouldBeEmpty();
+        Combat(session: split).Arrows.ShouldBeEmpty();
+        Combat(session: whole).Impacts.ShouldBe(expected: Combat(session: split).Impacts);
+        Phase06MeleeTests.Survivor(session: split).Health.ShouldBe(expected: landsOnArrow ? 78 : 100);
+        Phase06MeleeTests.Survivor(session: whole).Health.ShouldBe(expected:
+                Phase06MeleeTests.Survivor(session: split).Health);
+        if (landsOnArrow)
+        {
+            RunProjectiles.Impact hit = Combat(session: whole).Impacts.Single();
+            (hit.TargetId, hit.At).ShouldBe(expected: (Phase06MeleeTests.Owner, 1800m));
+        }
+    }
+
+    private static FoundationSession JumpWithArrow(bool landsOnArrow)
+    {
+        FoundationSession session = Phase06MeleeTests.Start(world: World());
+        RunItemActions.Controller controller = Phase06MeleeTests.Control();
+        session.TryAcceptMotion(controller: controller, sequence: 1, input: new RunLocomotion.Input(right: true))
+                .accepted.ShouldBeTrue();
+        session.Step(elapsedMilliseconds: 1000);
+        session.TryAcceptMotion(controller: controller, sequence: 2, input: new RunLocomotion.Input(jump: true))
+                .accepted.ShouldBeTrue();
+        StartEnemyBow(session: session, arrows: 1, position: landsOnArrow ? 15000 : -7500);
+        session.AttackUncontrolled(survivorId: "archer", sequence: 1, aim: new RunCombat.Aim(
+                x: landsOnArrow ? -10000 : 10000, y: 0)).Status.ShouldBe(expected: RunCombat.Status.Accepted);
+        return session;
+    }
+
     private static void CheckLifetimeEndpoint()
     {
         FoundationSession session = Phase06MeleeTests.Start();
@@ -268,9 +309,9 @@ public sealed class Phase06BowTests
         view.Aim.ShouldBeSameAs(expected: aim);
     }
 
-    private static void StartEnemyBow(FoundationSession session, int arrows)
+    private static void StartEnemyBow(FoundationSession session, int arrows, decimal position = -2000)
     {
-        Phase06MeleeTests.Enemy(session: session, id: "archer", x: -2000);
+        Phase06MeleeTests.Enemy(session: session, id: "archer", x: position);
         _ = Phase06MeleeTests.Equip(session: session, id: "IT-07", slot: "right-hand", owner: "archer");
         _ = Phase06MeleeTests.Equip(session: session, id: "IT-02", slot: "left-hand", owner: "archer",
                 quantity: arrows);

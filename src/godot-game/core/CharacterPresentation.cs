@@ -39,7 +39,8 @@ public sealed class CharacterPresentation
             }
 
             double interval = attack.GetProperty(propertyName: "intervalSeconds").GetDouble();
-            if (interval is <= 0 or > 60 || !double.IsFinite(d: interval)
+            if (interval < (double)RunDefinitions.MinimumAttackIntervalSeconds
+                    || interval > RunDefinitions.MaximumDurationSeconds || !double.IsFinite(d: interval)
                     || !_intervals.TryAdd(key: key, value: interval))
             {
                 throw new InvalidDataException(message: "ANIMATION_INTERVAL " + key);
@@ -167,6 +168,7 @@ public sealed class CharacterPresentation
             _contactAccepted = false;
             _spent = 0;
             _released = false;
+            _committedBow = false;
             _intrinsicAmmunition = false;
             _holdUnloaded = false;
         }
@@ -211,6 +213,7 @@ public sealed class CharacterPresentation
             _actionTime = 0;
             _spent = 0;
             _released = false;
+            _committedBow = false;
         }
 
         _aim = aimRadians;
@@ -251,7 +254,7 @@ public sealed class CharacterPresentation
         _flinch = Math.Max(val1: 0, val2: _flinch - elapsedSeconds);
         _transition = Math.Max(val1: 0, val2: _transition - elapsedSeconds);
         _contact = Math.Max(val1: 0, val2: _contact - elapsedSeconds);
-        if (_action is "melee" or "bow")
+        if (_action is "melee" or "bow" && !_committedBow)
         {
             double interval = Interval();
             double next = _actionTime + elapsedSeconds;
@@ -286,6 +289,20 @@ public sealed class CharacterPresentation
         return true;
     }
 
+    /// <summary>Samples the recovery of a shot already accepted by the run authority.</summary>
+    public void ReadCommittedBowRelease(double ageSeconds)
+    {
+        if (_action is not "bow" || !double.IsFinite(d: ageSeconds) || ageSeconds < 0 || ageSeconds >= Interval())
+        {
+            return;
+        }
+
+        double release = _bow.GetProperty(propertyName: "releaseFraction").GetDouble();
+        _actionTime = Interval() * release + ageSeconds * (1 - release);
+        _released = true;
+        _committedBow = true;
+    }
+
     private static readonly int[] _zeroOffset = [0, 0];
     private readonly JsonElement _definition;
     private readonly Dictionary<string, double> _intervals = new(comparer: StringComparer.Ordinal);
@@ -311,6 +328,7 @@ public sealed class CharacterPresentation
     private bool _leftUsable = true;
     private bool _rightUsable = true;
     private bool _released;
+    private bool _committedBow;
     private bool _intrinsicAmmunition;
     private bool _holdUnloaded;
     private string _stack = "initial";

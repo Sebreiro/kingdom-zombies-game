@@ -518,8 +518,9 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
                 comparer: StringComparer.Ordinal).Where(predicate: pair => pair.Key is not "status").Select(
                         selector: pair => pair.Key + pair.Value.Token.ToString(provider: CultureInfo.InvariantCulture)
                                 + pair.Value.Header.GetRawText() + string.Join(separator: ",", values:
-                                        pair.Value.Rows.Select(selector: row => row.GetProperty(
-                                                propertyName: "Stamp").GetString()))) ?? []);
+                                        pair.Value.Rows.Select(selector: row => pair.Key is "nearby"
+                                                ? row.GetRawText() : row.GetProperty(
+                                                        propertyName: "Stamp").GetString()))) ?? []);
     }
 
     private static string SlotName(string slot)

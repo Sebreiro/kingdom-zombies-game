@@ -36,6 +36,52 @@ public sealed class Phase06PublicationTests
                 .ShouldBe(expected: 2);
     }
 
+    /// <summary>Real oversized wire parts keep roster and world paired while private death fencing proceeds.</summary>
+    [Fact]
+    public void OversizedPublicFramesInstallTogetherAndDoNotDelayPrivateFencing()
+    {
+        var room = new Room(read: ReadLargeConfig, fixture: "wire");
+        FoundationCoordinator guest = room.Join(sender: 2);
+        guest.Submit(direction: 1).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest, elapsed: 2000);
+        guest.Submit(direction: 0).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest);
+        FoundationRunReadback previous = guest.ReadRunRender().ShouldNotBeNull();
+        string victim = guest.LocalRunControl.ShouldNotBeNull().survivorId;
+        byte[] oldOwn = LastScope(room: room, sender: 2, scope: "own");
+        FoundationSession host = Session(coordinator: room.Host);
+        JsonElement world = host.ReadRunPublic().ShouldNotBeNull().world;
+        JsonSerializer.SerializeToUtf8Bytes(value: world).Length.ShouldBeGreaterThan(expected:
+                FoundationProtocol.MaximumBytes);
+        Phase06MeleeTests.Enemy(session: host, id: "wire-killer", x: -1500);
+        host.TryUpdateVitals(survivorId: victim, health: 1, stamina: 100).ShouldBeTrue();
+        host.AttackUncontrolled(survivorId: "wire-killer", sequence: 1).Hits.Single().Lethal.ShouldBeTrue();
+
+        room.Receive(sender: 2, elapsed: 16);
+        byte[][] publicParts = TakePublicParts(room: room, sender: 2);
+        publicParts.Length.ShouldBeGreaterThan(expected: 1);
+        room.ReceivePart(sender: 2, guest: guest, data: publicParts[^1]);
+        guest.ReadRunRender().ShouldNotBeNull().Roster.ShouldBeSameAs(expected: previous.Roster);
+        room.Send(sender: 2, guest: guest);
+        guest.LocalRunControl.ShouldNotBeNull().generation.ShouldBe(expected: 0);
+        guest.ReadRunRender().ShouldNotBeNull().Views.ContainsKey(key: "own").ShouldBeFalse();
+        room.ReceivePart(sender: 2, guest: guest, data: oldOwn);
+        guest.ReadRunRender().ShouldNotBeNull().Views.ContainsKey(key: "own").ShouldBeFalse();
+        guest.ReadRunRender().ShouldNotBeNull().Roster.Revision.ShouldBe(expected: previous.Roster.Revision);
+        foreach (byte[] part in publicParts[..^1])
+        {
+            room.ReceivePart(sender: 2, guest: guest, data: part);
+        }
+
+        FoundationRunReadback after = guest.ReadRunRender().ShouldNotBeNull();
+        after.Roster.Revision.ShouldBeGreaterThan(expected: previous.Roster.Revision);
+        after.World.ShouldNotBeNull().GetProperty(propertyName: "Corpses").EnumerateArray().Any(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "SurvivorId").GetString(), y: victim))
+                .ShouldBeTrue();
+        room.ReceivePart(sender: 2, guest: guest, data: publicParts[0]);
+        guest.ReadRunRender().ShouldNotBeNull().Roster.ShouldBeSameAs(expected: after.Roster);
+    }
+
     /// <summary>Four roles receive only their own private data and the permitted current correction.</summary>
     [Fact]
     public void P02_CleanControl_PreservesPrivateAndLocalAccess()
@@ -281,7 +327,8 @@ public sealed class Phase06PublicationTests
     private static bool HasItem(FoundationCoordinator coordinator, int sender, long item)
     {
         return coordinator.ReadBoundRunViews(sender: sender).ShouldNotBeNull().views.SelectMany(
-                selector: scope => scope.rows).Any(predicate: row => ItemId(item: row) == item);
+                selector: scope => scope.scope is "nearby" ? [] : scope.rows)
+                .Any(predicate: row => ItemId(item: row) == item);
     }
 
     private static JsonElement Backpack(JsonElement source, string owner, long token)
@@ -447,8 +494,23 @@ public sealed class Phase06PublicationTests
 
     private static bool IsPublic(byte[] data)
     {
-        return FoundationProtocol.Decode(bytes: data).Kind is "state" or "baseline" or "action-result"
+        return FoundationProtocol.Decode(bytes: data).Kind is "state" or "baseline" or "world-part" or "action-result"
                 or "ping" or "end" or "reject";
+    }
+
+    private static byte[][] TakePublicParts(Room room, int sender)
+    {
+        (int Peer, byte[] Payload, bool Reliable)[] parts = [.. room.HostPort.WireSent.Where(predicate: entry =>
+                entry.Peer == sender && FoundationProtocol.Decode(bytes: entry.Payload).Kind is "world-part")];
+        foreach ((int peer, byte[] data, bool reliable) in parts)
+        {
+            reliable.ShouldBeTrue();
+            data.Length.ShouldBeLessThan(expected: FoundationProtocol.MaximumBytes);
+            PrivacyHolds(recipient: peer, data: data, secrets: [], stashAllowed: false).ShouldBeTrue();
+            room.HostPort.WireSent.Remove(item: (peer, data, reliable)).ShouldBeTrue();
+        }
+
+        return [.. parts.Select(selector: entry => entry.Payload)];
     }
 
     private static byte[] LastScope(Room room, int sender, string scope)
@@ -662,11 +724,11 @@ public sealed class Phase06PublicationTests
 
     private sealed class Room
     {
-        internal Room(Func<string, int, byte[]?>? read = null)
+        internal Room(Func<string, int, byte[]?>? read = null, string? fixture = null)
         {
             Host = new FoundationCoordinator(playerId: "host", label: "Host", connection: HostPort,
                     nowMilliseconds: () => Time);
-            Host.Start(host: true, read: read);
+            Host.Start(host: true, read: read, fixture: fixture);
         }
 
         internal FoundationHarnessConnection HostPort { get; } = new();

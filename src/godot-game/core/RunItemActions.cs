@@ -29,6 +29,12 @@ internal sealed class RunItemActions
                 controller: controller)?.Progress.Selection);
     }
 
+    internal (ImmutableArray<RunExternalAccess.Target> targets, Status availability) ReadNearby(Controller controller)
+    {
+        return _session.UnderInventoryAuthority(action: current => Authenticate(current: current,
+                controller: controller) is { } access ? Nearby(access: access) : ([], Status.AccessLost));
+    }
+
     internal Outcome Submit(Controller controller, long sequence, Request request)
     {
         return _session.UnderInventoryAuthority(action: current =>
@@ -444,10 +450,7 @@ internal sealed class RunItemActions
     {
         string owner = access.Lease.SurvivorId;
         RunExternalAccess.Selection? selected = access.Progress.Selection;
-        ImmutableArray<RunExternalAccess.Target> nearby = RunExternalAccess.Nearby(current: access.Root,
-                participant: access.Participant);
-        Status availability = access.Progress.SelectionLost ? Status.AccessLost
-                : nearby.IsEmpty ? Status.NoTargets : Status.Ready;
+        (ImmutableArray<RunExternalAccess.Target> nearby, Status availability) = Nearby(access: access);
         return new View(revision: revision, survivorId: owner, nearby: nearby, selection: selected,
                 personal: inventory.CarriedBy(survivorId: owner), external: selected is null ? []
                         : RunExternalAccess.Contents(inventory: inventory, selection: selected),
@@ -458,6 +461,15 @@ internal sealed class RunItemActions
                 availability: availability, stashPageCount: selected?.Target.Kind == RunWorld.Access.Stash
                         ? inventory.StashPageCount : null, sequence: access.Progress.Sequence,
                 stashEffect: selected?.Target.Kind == RunWorld.Access.Stash ? access.Progress.StashEffect : null);
+    }
+
+    private static (ImmutableArray<RunExternalAccess.Target> targets, Status availability) Nearby(Access access)
+    {
+        ImmutableArray<RunExternalAccess.Target> targets = RunExternalAccess.Nearby(current: access.Root,
+                participant: access.Participant);
+        Status availability = access.Progress.SelectionLost ? Status.AccessLost
+                : targets.IsEmpty ? Status.NoTargets : Status.Ready;
+        return (targets, availability);
     }
 
     internal enum Status

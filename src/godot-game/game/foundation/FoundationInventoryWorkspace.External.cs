@@ -34,9 +34,31 @@ internal sealed partial class FoundationInventoryWorkspace
                 Polygon = [new Vector2(x: -9, y: -17), new Vector2(x: 0, y: -12),
                     new Vector2(x: 9, y: -17), new Vector2(x: 0, y: -7)],
                 Color = new Color(r: 0.941f, g: 0.769f, b: 0.416f),
-                ZIndex = 4,
+                ZIndex = 43,
             };
             world.AddChild(node: _targetMarker);
+            var outline = new Line2D
+            {
+                Name = "NearbyOutline",
+                DefaultColor = _targetMarker.Color,
+                Width = 1.5f,
+                Closed = true,
+                Antialiased = true,
+            };
+            _targetMarker.AddChild(node: outline);
+        }
+
+        (string kind, string id) target = Model.ExternalTarget(header: view.Header);
+        _targetMarker.SetMeta(name: "subject", value: target.id);
+        Line2D outlineNode = _targetMarker.GetNode<Line2D>(path: "NearbyOutline");
+        if (!StringComparer.Ordinal.Equals(x: outlineNode.GetMeta(name: "kind", @default: "").AsString(),
+                y: target.kind))
+        {
+            (float width, float height) size = OutlineSize(kind: target.kind);
+            outlineNode.Points = [new Vector2(x: -size.width, y: -size.height),
+                new Vector2(x: size.width, y: -size.height),
+                new Vector2(x: size.width, y: 2), new Vector2(x: -size.width, y: 2)];
+            outlineNode.SetMeta(name: "kind", value: target.kind);
         }
 
         _targetMarker.Position = new Vector2(x: (float)((point.x
@@ -59,7 +81,7 @@ internal sealed partial class FoundationInventoryWorkspace
     private Button? _nearbyFocus;
     private Polygon2D? _targetMarker;
 
-    private ImmutableArray<(string kind, string id)> Nearby => Model.Nearby(own: Own?.Header);
+    private ImmutableArray<(string kind, string id)> Nearby => Model.Nearby(rows: View(scope: "nearby")?.Rows ?? []);
 
     private FoundationRunView? AuthorizedExternal()
     {
@@ -385,13 +407,13 @@ internal sealed partial class FoundationInventoryWorkspace
 
     private void InspectMissingTarget()
     {
-        if (_selected is not { } target || Own is not { } own)
+        if (_selected is not { } target || View(scope: "nearby") is not { } current)
         {
             return;
         }
 
         bool available = Nearby.Contains(item: target);
-        bool lost = !available || own.Header.GetProperty(propertyName: "Availability").GetString() is "AccessLost";
+        bool lost = !available || current.Header.GetProperty(propertyName: "Availability").GetString() is "AccessLost";
         if (!lost || _selecting.HasValue && _selecting != target)
         {
             if (!_selecting.HasValue)
@@ -518,6 +540,16 @@ internal sealed partial class FoundationInventoryWorkspace
     {
         return "NearbyChoice_" + (target.kind is "Stash" ? "Stash" : target.kind + "_"
                 + Convert.ToHexString(inArray: Encoding.UTF8.GetBytes(s: target.id)));
+    }
+
+    private static (float width, float height) OutlineSize(string kind)
+    {
+        return kind switch
+        {
+            "Npc" => (15, 42),
+            "Corpse" => (22, 12),
+            _ => (12, 10),
+        };
     }
 
     private static (double x, double y)? WorldTarget(JsonElement world, (string kind, string id) target)

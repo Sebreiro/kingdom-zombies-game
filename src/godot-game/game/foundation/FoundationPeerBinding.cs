@@ -39,4 +39,5 @@ internal sealed class FoundationPeerBinding
     internal ImmutableArray<long> OwnWindows { get; set; } = [];
     internal ImmutableArray<long> ExternalWindows { get; set; } = [];
     internal ImmutableArray<string> WindowScopes { get; set; } = [];
+    internal ImmutableQueue<byte[]> PublicParts { get; set; } = ImmutableQueue<byte[]>.Empty;
 }

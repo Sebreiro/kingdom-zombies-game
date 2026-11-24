@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using KingdomZombies.Core;
 
 namespace KingdomZombies.Foundation;
@@ -9,6 +10,7 @@ internal sealed partial class FoundationCoordinator
 {
     private string _localActor = "";
     private string _hostPeerGeneration = "";
+    private readonly FoundationPublicWorld _publicWorld = new();
 
     private void ReceiveGuest(FoundationEnvelope envelope)
     {
@@ -46,7 +48,8 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
-        if (envelope.Kind is not ("baseline" or "state") || envelope.Snapshot is not FoundationSnapshot candidate)
+        if (envelope.Kind is not ("baseline" or "state" or "world-part")
+                || envelope.Snapshot is not FoundationSnapshot candidate)
         {
             return;
         }
@@ -62,9 +65,13 @@ internal sealed partial class FoundationCoordinator
         {
             InstallBaseline(envelope: envelope, candidate: candidate);
         }
+        else if (envelope.Kind is "world-part")
+        {
+            ReceivePublicPart(envelope: envelope, candidate: candidate);
+        }
         else
         {
-            InstallState(envelope: envelope, candidate: candidate);
+            InstallState(candidate: candidate, world: envelope.Game?.Body);
         }
     }
 
@@ -73,20 +80,40 @@ internal sealed partial class FoundationCoordinator
         return _remote is null || StringComparer.Ordinal.Equals(x: _hostPeerGeneration, y: generation);
     }
 
-    private void InstallState(FoundationEnvelope envelope, FoundationSnapshot candidate)
+    private bool CurrentRoster(FoundationSnapshot candidate)
     {
-        if (_remote is null || !candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
+        return _remote is not null && candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
                 x: p.BindingId, y: BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)
-                && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor) && (!Ready || p.Ready)))
+                && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor) && (!Ready || p.Ready));
+    }
+
+    private void ReceivePublicPart(FoundationEnvelope envelope, FoundationSnapshot candidate)
+    {
+        if (!CurrentRoster(candidate: candidate))
         {
             return;
         }
 
-        _remote = candidate;
-        _remoteWorld = envelope.Game?.Body;
-        if (_remoteWorld is { } world)
+        _lastResponse = Now();
+        if (_publicWorld.Offer(envelope: envelope) is { } complete)
         {
-            _runInbox.ObservePublic(world: world, revision: candidate.Revision, binding: BindingId);
+            InstallState(candidate: complete.roster, world: complete.world);
+        }
+    }
+
+    private void InstallState(FoundationSnapshot candidate, JsonElement? world)
+    {
+        if (!CurrentRoster(candidate: candidate) || world is null && _remoteWorld is not null)
+        {
+            return;
+        }
+
+        _publicWorld.Discard(revision: candidate.Revision);
+        _remote = candidate;
+        _remoteWorld = world;
+        if (world is { } publicState)
+        {
+            _runInbox.ObservePublic(world: publicState, revision: candidate.Revision, binding: BindingId);
         }
 
         _lastResponse = Now();

@@ -57,7 +57,7 @@ public sealed class Phase06ExternalInteractionTests
         (string kind, string id) first = ("Npc", "survivor-02");
         (string kind, string id) second = ("Npc", "survivor-03");
         ImmutableArray<(string kind, string id)> nearby =
-                Model.Nearby(own: Scope(session: session, scope: "own").header);
+                Model.Nearby(rows: Scope(session: session, scope: "nearby").rows);
         nearby.ShouldContain(expected: first);
         nearby.ShouldContain(expected: second);
         nearby.ShouldNotContain(expected: ("Npc", Owner));
@@ -66,7 +66,7 @@ public sealed class Phase06ExternalInteractionTests
         session.AddParticipant(bindingId: "guest", playerId: "guest-player", actorId: "guest-actor", label: "Guest")
                 .ShouldBeTrue();
         session.MarkReady(bindingId: "guest").ShouldBeTrue();
-        Model.Nearby(own: Scope(session: session, scope: "own").header).ShouldNotContain(expected: first);
+        Model.Nearby(rows: Scope(session: session, scope: "nearby").rows).ShouldNotContain(expected: first);
         Views(session: session).Any(predicate: view => view.scope is "external").ShouldBeFalse();
         Dispatch(session: session, sequence: 2, command: Model.SelectTarget(target: second))
                 .ShouldBe(expected: "Ready");

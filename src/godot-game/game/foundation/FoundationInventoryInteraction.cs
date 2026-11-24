@@ -96,10 +96,9 @@ internal sealed partial class FoundationInventoryInteraction
                         value: new { Token = token, Page = page })) : null;
     }
 
-    internal static ImmutableArray<(string kind, string id)> Nearby(JsonElement? own)
+    internal static ImmutableArray<(string kind, string id)> Nearby(ImmutableArray<JsonElement> rows)
     {
-        return own is { } header ? [.. header.GetProperty(propertyName: "Nearby").EnumerateArray()
-                .Select(selector: row => (Text(row: row, field: "Kind"), Text(row: row, field: "Id")))] : [];
+        return [.. rows.Select(selector: row => (Text(row: row, field: "Kind"), Text(row: row, field: "Id")))];
     }
 
     internal static (string kind, string id) ExternalTarget(JsonElement header)

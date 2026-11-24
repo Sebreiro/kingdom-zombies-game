@@ -133,6 +133,7 @@ internal sealed partial class FoundationCoordinator
         _remote = null;
         _remoteWorld = null;
         _runInbox.Clear();
+        _publicWorld.Clear();
         _respawnPoll.Clear();
         RunActionFeedback = null;
         ActionHudFeedback = null;

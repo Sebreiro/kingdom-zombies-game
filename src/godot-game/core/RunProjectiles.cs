@@ -32,7 +32,8 @@ internal static class RunProjectiles
                 velocity: (dx * rule.Speed / distance, dy * rule.Speed / distance), aim: aim);
     }
 
-    internal static Frame Advance(FoundationSession.RunPublication current, RunPopulation population, long now)
+    internal static Frame Advance(FoundationSession.RunPublication current, RunPopulation population, long now,
+            Func<RunPopulation.Survivor, (FoundationHeldIntent? intent, long generation)> control)
     {
         var frame = new Frame(world: current.World, population: population, inventory: current.Inventory,
                 combat: current.Combat);
@@ -43,7 +44,7 @@ internal static class RunProjectiles
 
         var spent = new HashSet<long>();
         ImmutableArray<Impact>.Builder impacts = ImmutableArray.CreateBuilder<Impact>();
-        foreach (Contact contact in Contacts(current: current, population: population, now: now))
+        foreach (Contact contact in Contacts(current: current, now: now, control: control))
         {
             if (!spent.Contains(item: contact.Arrow.Id) && Apply(frame: frame, contact: contact,
                     rules: current.Definitions.Combat) is { } impact)
@@ -58,8 +59,8 @@ internal static class RunProjectiles
         return frame;
     }
 
-    private static IEnumerable<Contact> Contacts(FoundationSession.RunPublication current, RunPopulation population,
-            long now)
+    private static IEnumerable<Contact> Contacts(FoundationSession.RunPublication current, long now,
+            Func<RunPopulation.Survivor, (FoundationHeldIntent? intent, long generation)> control)
     {
         RunCombat.State state = current.Combat;
         if (state.Arrows.IsEmpty)
@@ -67,10 +68,24 @@ internal static class RunProjectiles
             return [];
         }
 
-        var old = current.Population.Survivors.ToDictionary(keySelector: survivor => survivor.Id,
-                comparer: StringComparer.Ordinal);
+        var motion = new Dictionary<string, RunLocomotion.Motion[]>(comparer: StringComparer.Ordinal);
+        decimal until = Math.Min(val1: now, val2: state.Arrows.Max(selector: active => active.ExpiresAt));
         return state.Arrows.SelectMany(selector: arrow => Trace(arrow: arrow, world: current.World,
-                population: population, old: old, previous: current.ElapsedMilliseconds, now: now))
+                population: current.Population, previous: current.ElapsedMilliseconds, now: now,
+                survivor: target =>
+                {
+                    if (!motion.TryGetValue(key: target.Id, value: out RunLocomotion.Motion[]? slices))
+                    {
+                        (FoundationHeldIntent? intent, long generation) = control(arg: target);
+                        slices = [.. RunLocomotion.Trace(survivor: target, definitions: current.Definitions,
+                                inventory: current.Inventory, intent: intent, generation: generation,
+                                previous: current.ElapsedMilliseconds, until: until)];
+                        motion.Add(key: target.Id, value: slices);
+                    }
+
+                    return RunTrajectoryContact.First(arrow: arrow, world: current.World, slices: slices,
+                            tuning: current.Definitions.Locomotion, from: current.ElapsedMilliseconds, to: now);
+                }))
                 .OrderBy(keySelector: contact => contact.At)
                 .ThenBy(keySelector: contact => contact.Arrow.Id)
                 .ThenBy(keySelector: contact => contact.Kind)
@@ -78,7 +93,7 @@ internal static class RunProjectiles
     }
 
     private static IEnumerable<Contact> Trace(Arrow arrow, RunWorld world, RunPopulation population,
-            Dictionary<string, RunPopulation.Survivor> old, long previous, long now)
+            long previous, long now, Func<RunPopulation.Survivor, decimal?> survivor)
     {
         decimal from = Math.Max(val1: previous, val2: arrow.LaunchedAt);
         decimal to = Math.Min(val1: now, val2: arrow.ExpiresAt);
@@ -113,35 +128,11 @@ internal static class RunProjectiles
         foreach (RunPopulation.Survivor target in population.Survivors)
         {
             if (target.Health > 0 && target.Hostile != arrow.Hostile
-                    && AgainstSurvivor(span: span, world: world, target: target,
-                            original: old.GetValueOrDefault(key: target.Id) ?? target, previous: previous,
-                            now: now) is { } contact)
+                    && survivor(arg: target) is { } at)
             {
-                yield return contact;
+                yield return new Contact(arrow: arrow, targetId: target.Id, kind: Kind.Survivor, at: at);
             }
         }
-    }
-
-    private static Contact? AgainstSurvivor(Sweep span, RunWorld world, RunPopulation.Survivor target,
-            RunPopulation.Survivor original, long previous, long now)
-    {
-        (decimal x, decimal y) start = RunCombat.Contact(world: world, survivor: original);
-        (decimal x, decimal y) end = RunCombat.Contact(world: world, survivor: target);
-        (decimal x, decimal y) first = Between(first: start, last: end, fraction: (span.From - previous) /
-                (now - previous));
-        (decimal x, decimal y) last = Between(first: start, last: end, fraction: (span.To - previous) /
-                (now - previous));
-        decimal? offset = RunWorldGeometry.FirstContact(
-                start: (span.Start.x - first.x, span.Start.y - first.y),
-                end: (span.End.x - last.x, span.End.y - last.y), bounds: (-250, 0, 250, 1000),
-                duration: span.To - span.From);
-        return span.ContactAt(offset: offset, id: target.Id, kind: Kind.Survivor);
-    }
-
-    private static (decimal x, decimal y) Between((decimal x, decimal y) first, (decimal x, decimal y) last,
-            decimal fraction)
-    {
-        return (first.x + (last.x - first.x) * fraction, first.y + (last.y - first.y) * fraction);
     }
 
     private static Impact? Apply(Frame frame, Contact contact, RunCombatDefinitions rules)

@@ -127,6 +127,11 @@ internal sealed class RunSnapshotDocument
         public required decimal? RestStartedAt { get; init; }
         public required decimal? FoodAvailableAt { get; init; }
         public required decimal? AttackAvailableAt { get; init; }
+        public string MovementPose { get; init; } = "idle";
+        public decimal? MovementAt { get; init; }
+        public decimal? StrikeAt { get; init; }
+        public AimData? StrikeAim { get; init; }
+        public decimal? FlinchAt { get; init; }
         public required bool Hostile { get; init; }
     }
 

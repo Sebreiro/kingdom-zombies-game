@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using KingdomZombies.Core;
 using Shouldly;
@@ -137,6 +138,62 @@ public sealed class Phase06SnapshotTests
         Phase06InventoryTests.Find(session: restored, id: coins.Id).Quantity.ShouldBe(expected: coins.Quantity);
         restored.Population.Survivors[0].Health.ShouldBe(expected: 88.123456789m);
         restored.Population.Survivors[0].Stamina.ShouldBe(expected: 62.123456789m);
+    }
+
+    /// <summary>Active sprint, bow recovery and flinch restore into the exact same public appearance.</summary>
+    [Fact]
+    public void RunSnapshotPreservesCurrentAppearanceWithoutReplayingTheCue()
+    {
+        FoundationSession source = Phase06MeleeTests.Start();
+        RunItemActions.Controller controller = Phase06MeleeTests.Control();
+        source.TryAcceptMotion(controller: controller, sequence: 1, input: new RunLocomotion.Input(
+                right: true, sprint: true)).accepted.ShouldBeTrue();
+        source.Step(elapsedMilliseconds: 100);
+        Phase06MeleeTests.Enemy(session: source, id: "flinch", x: -7000);
+        source.AttackUncontrolled(survivorId: "flinch", sequence: 1).Hits.Single().TargetId
+                .ShouldBe(expected: Phase06MeleeTests.Owner);
+        _ = Phase06MeleeTests.Equip(session: source, id: "IT-07", slot: "left-hand");
+        _ = Phase06MeleeTests.Equip(session: source, id: "IT-02", slot: "right-hand");
+        var aim = new RunCombat.Aim(x: 2000.25, y: 321.5);
+        source.Attack(controller: controller, sequence: 2, aim: aim).Status
+                .ShouldBe(expected: RunCombat.Status.Accepted);
+        JsonElement world = source.ReadRunPublic().ShouldNotBeNull().world;
+        JsonElement pose = world.GetProperty(propertyName: "Actors")[0];
+        pose.GetProperty(propertyName: "Movement").GetString().ShouldBe(expected: "faster");
+        pose.GetProperty(propertyName: "StrikeAt").GetDecimal().ShouldBe(expected: 100);
+        pose.GetProperty(propertyName: "AimX").GetDouble().ShouldBe(expected: aim.X);
+        pose.GetProperty(propertyName: "FlinchAt").GetDecimal().ShouldBe(expected: 100);
+
+        byte[] captured = source.CaptureRunSnapshot();
+        FoundationSession restored = Load(data: captured);
+        AssertSameProjection(expected: world, actual: restored.ReadRunPublic().ShouldNotBeNull().world);
+        restored.Attack(controller: controller, sequence: 2, aim: aim).Replayed.ShouldBeTrue();
+        restored.CaptureRunSnapshot().ShouldBe(expected: captured);
+        RejectEdit(session: restored, baseline: captured, edit: root =>
+                Member(root: Member(root: root, key: "Population"), key: "Survivors")[0]
+                        .ShouldNotBeNull()["FlinchAt"] = 101);
+    }
+
+    private static void AssertSameProjection(JsonElement expected, JsonElement actual)
+    {
+        foreach (JsonProperty field in expected.EnumerateObject())
+        {
+            JsonElement restored = actual.GetProperty(propertyName: field.Name);
+            if (field.Value.ValueKind == JsonValueKind.Array)
+            {
+                string[] RecordSet(JsonElement records)
+                {
+                    return [.. records.EnumerateArray().Select(selector: row =>
+                            row.GetRawText()).Order(comparer: StringComparer.Ordinal)];
+                }
+
+                RecordSet(records: restored).ShouldBe(expected: RecordSet(records: field.Value));
+            }
+            else
+            {
+                JsonElement.DeepEquals(element1: restored, element2: field.Value).ShouldBeTrue();
+            }
+        }
     }
 
     private static FoundationSession Load(byte[] data)

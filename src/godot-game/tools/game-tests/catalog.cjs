@@ -12,10 +12,21 @@ const catalogPath = tools + 'game-tests/catalog.json';
 const verificationPath = tools + 'verification/required-cases.json';
 const assetContentPath = tools + 'asset-pipeline/content.cjs';
 const gameContent = 'src/godot-game/game/content/';
+const characterInputs = ['src/godot-game/core/CharacterPresentation.cs',
+  'src/godot-game/game/inspection/CharacterPreview.cs', gameContent + 'animation/locomotion-melee.json',
+  gameContent + 'config/combat.json', gameContent + 'config/items.json',
+  ...['a', 'b', 'c'].flatMap(family => [gameContent + 'packs/bodies-' + family + '.json',
+    gameContent + 'animation/fits-' + family + '.json'])];
+const caseModule = name => tools + 'asset-pipeline/cases/' + name + '.cjs';
 const liveAssetInputs = {
+  'animation.cjs': [...characterInputs, 'src/godot-game/game/inspection/InspectionRoot.cs'],
+  'bow-work.cjs': [...characterInputs, caseModule('animation'), gameContent + 'animation/bow.json'],
   'ui-camp.cjs': [gameContent + 'packs/ui-camp.json', gameContent + 'packs/ui-map-warnings.json'],
   'ui-inventory.cjs': [gameContent + 'packs/ui-inventory.json', gameContent + 'packs/ui-legacy-stash.json'],
-  'corpses.cjs': [gameContent + 'packs/player-identities.json', gameContent + 'fixtures/crowds.json'],
+  'corpses.cjs': [...characterInputs, caseModule('animation'), 'src/godot-game/core/AppearanceState.cs',
+    'src/godot-game/game/inspection/CorpsePreview.cs', 'src/godot-game/game/inspection/CrowdPreview.cs',
+    gameContent + 'packs/corpses-wildlife.json', gameContent + 'packs/player-identities.json',
+    gameContent + 'fixtures/crowds.json'],
   'text-data.cjs': [gameContent + 'packs/text-data.json', gameContent + 'packs/compatibility.json',
     gameContent + 'packs/delivery.json', 'docs/content/fields.md']
 };

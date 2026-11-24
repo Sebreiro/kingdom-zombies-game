@@ -179,11 +179,23 @@ internal static class RunSnapshotCodec
                 && ValidPast(time: survivor.LastStaminaSpend, now: now)
                 && ValidPast(time: survivor.RestStartedAt, now: now)
                 && ValidPast(time: survivor.JumpStartedAt, now: now)
+                && ValidMotion(survivor: survivor, now: now)
                 && survivor.FoodAvailableAt is not < 0 && survivor.AttackAvailableAt is not < 0
                 && Enum.IsDefined(value: survivor.SprintBlock)
                 && (survivor.SprintFence is not { } stamp || stamp.generation >= 1
                         && stamp.generation <= root.Population.LastControlGeneration && stamp.sequence >= 1)
                 && (survivor.Health > 0 || root.Loot.Deaths.ContainsKey(key: survivor.Id));
+    }
+
+    private static bool ValidMotion(RunPopulation.Survivor survivor, long now)
+    {
+        return (survivor.MovementAt.HasValue ? survivor.MovementPose is "walk" or "faster"
+                : survivor.MovementPose is "idle")
+                && ValidPast(time: survivor.MovementAt, now: now)
+                && ValidPast(time: survivor.StrikeAt, now: now)
+                && ValidPast(time: survivor.FlinchAt, now: now)
+                && (survivor.StrikeAt is not { } strike || survivor.AttackAvailableAt > strike)
+                && (survivor.StrikeAim is null || survivor.StrikeAt.HasValue && survivor.StrikeAim.Valid);
     }
 
     private static bool ValidLease(FoundationSession.RunPublication root, RunPopulation.Lease lease)
@@ -862,6 +874,11 @@ internal static class RunSnapshotCodec
             RestStartedAt = row.RestStartedAt,
             FoodAvailableAt = row.FoodAvailableAt,
             AttackAvailableAt = row.AttackAvailableAt,
+            MovementPose = row.MovementPose,
+            MovementAt = row.MovementAt,
+            StrikeAt = row.StrikeAt,
+            StrikeAim = row.StrikeAim is { } aim ? Capture(row: aim) : null,
+            FlinchAt = row.FlinchAt,
             Hostile = row.Hostile,
         };
     }
@@ -880,6 +897,11 @@ internal static class RunSnapshotCodec
             RestStartedAt = row.RestStartedAt,
             FoodAvailableAt = row.FoodAvailableAt,
             AttackAvailableAt = row.AttackAvailableAt,
+            MovementPose = row.MovementPose,
+            MovementAt = row.MovementAt,
+            StrikeAt = row.StrikeAt,
+            StrikeAim = row.StrikeAim is { } aim ? Restore(row: aim) : null,
+            FlinchAt = row.FlinchAt,
             Hostile = row.Hostile,
         };
     }

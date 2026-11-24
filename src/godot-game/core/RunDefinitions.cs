@@ -12,6 +12,9 @@ namespace KingdomZombies.Core;
 /// <summary>Reads detached authored settings used to create a new production run.</summary>
 internal sealed class RunDefinitions
 {
+    internal const int MaximumDurationSeconds = 600;
+    internal const decimal MinimumAttackIntervalSeconds = 0.001m;
+
     internal const int MaximumDocumentBytes = 65536;
     internal const int MaximumStartingStacks = 512;
 
@@ -252,7 +255,7 @@ internal sealed class RunDefinitions
 
     private static decimal Milliseconds(JsonElement root, string name, decimal minimum = 0)
     {
-        return Number(parent: root, field: name, minimum: minimum, maximum: 600) * 1000;
+        return Number(parent: root, field: name, minimum: minimum, maximum: MaximumDurationSeconds) * 1000;
     }
 
     private static ImmutableDictionary<string, Item> ReadItems(JsonElement root, Size stash)
@@ -452,7 +455,7 @@ internal sealed class RunDefinitions
                 field: "reachUnits");
         return new RunCombatDefinitions.Attack(
                 damage: Number(parent: row, field: "damage", minimum: 0, maximum: 10000),
-                interval: Milliseconds(root: row, name: "intervalSeconds", minimum: 0.001m),
+                interval: Milliseconds(root: row, name: "intervalSeconds", minimum: MinimumAttackIntervalSeconds),
                 reach: ranged ? null : Number(parent: row, field: "reachUnits", minimum: 0.001m, maximum: 1000)
                         * RunWorld.SubunitsPerUnit,
                 stamina: Number(parent: row, field: "staminaCost", minimum: 0.001m, maximum: 10000));

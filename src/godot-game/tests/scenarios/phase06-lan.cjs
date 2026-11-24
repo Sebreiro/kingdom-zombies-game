@@ -3,8 +3,15 @@
 const assert = require('node:assert/strict');
 const run = require('./phase06-rendered.cjs');
 const {draws} = require('../../tools/lan-checks/rendered.cjs');
-const {named, within, key, actor, own, item, external} = run;
+const {named, within, key, actor, own, nearby, item, external} = run;
 const roles = ['host', 'guest-1', 'guest-2', 'guest-3'];
+const center = (row, id) => Math.max(-320, Math.min(320,
+  (actor(row, id).X - row.phase06.World.OriginX) * 16 / 1000));
+const stableCamera = (frame, draw) => frame.input.spectator.Camera === draw.input.spectator.Camera
+  && Math.abs(frame.cameraX - draw.cameraX) < 0.02;
+const follows = (row, draw, id) => row.spectator?.Followed?.Survivor === id
+  && Math.abs(row.spectator.Camera - center(row, id)) < 0.02
+  && Math.abs(draw.cameraX - row.spectator.Camera) < 0.02;
 
 function formed(row, session) {
   return row.snapshot?.SessionId === session && row.snapshot.Participants.length === roles.length
@@ -94,10 +101,10 @@ async function conflicts(state) {
   await run.tap(state, second, key.right);
   await run.committed(second, row => row.inventoryOpen && actor(row)?.X === still, 'panel captures movement');
   await run.choose(state, second, named('CloseInventory'));
-  await run.moveUntil(state, second, key.left, row => !own(row)?.Header.Nearby.some(entry => entry.Kind === 'Stash'),
+  await run.moveUntil(state, second, key.left, row => !nearby(row).some(entry => entry.Kind === 'Stash'),
     'ordinary guest movement leaves stash reach');
   const denied = await run.picture(state, second, 'conflict-revoked', row => !external(row)
-    && !own(row).Header.Nearby.some(entry => entry.Kind === 'Stash'));
+    && !nearby(row).some(entry => entry.Kind === 'Stash'));
   const final = await allPictures(state, 'conflict-current', (row, _, peer) => formed(row, session)
     && row.phase06.Views.status.Header.Hud.Money === (peer === first ? source.Quantity : 0)
     && (peer === host || peer === second || external(row)?.Rows.every(entry => entry.Id !== source.Id)));
@@ -115,20 +122,35 @@ async function succession(state) {
     && !own(row) && !row.hud && Number.isFinite(row.spectator.Camera) && !row.spectator.Followed
     && row.phase06.World.Corpses.some(entry => entry.SurvivorId === previous.actor && draw.appearance
       .some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
+  const initial = actor(death.draw.input, identities[1].actor).X;
+  await run.moveUntil(state, guests[0], key.right, row => actor(row)?.X > initial + 1150,
+    'living teammate separates from retired camera');
+  const deathHold = await run.committed(host, (row, draw) => row.spectator?.Visible
+    && !row.spectator.Followed && actor(row, identities[1].actor).X > initial + 1150
+    && stableCamera(death.draw, draw), 'death camera remains fixed while a teammate travels', death.draw.drawFrame);
   const firstFollow = await run.choose(state, host, named('NextTeammate'));
-  const next = await run.picture(state, host, 'succession-next', row => row.spectator?.Followed?.Survivor
-    === identities[1].actor, firstFollow);
+  const next = await run.picture(state, host, 'succession-next', (row, draw) =>
+    follows(row, draw, identities[1].actor) && Math.abs(draw.cameraX - deathHold.cameraX) > 10, firstFollow);
   const previousFollow = await run.choose(state, host, named('PreviousTeammate'));
   const prior = await run.picture(state, host, 'succession-previous', row => row.spectator?.Followed?.Survivor
     === identities[3].actor, previousFollow);
   const slot = next.draw.snapshot.Participants.find(row => row.BindingId === identities[2].binding).Slot;
   await run.choose(state, host, named('Teammate_' + slot));
-  const chosen = await run.picture(state, host, 'succession-chosen', row => row.spectator?.Followed?.Survivor
-    === identities[2].actor && row.spectator.CanRespawn);
-  // The departed teammate is observed through the same transport; this tests the loss hold before rejoin.
+  const chosen = await run.picture(state, host, 'succession-chosen', (row, draw) =>
+    follows(row, draw, identities[2].actor) && row.spectator.CanRespawn);
+  const targetX = actor(chosen.draw.input, identities[2].actor).X;
+  await run.moveUntil(state, guests[1], key.right, row => actor(row)?.X > targetX + 1150, 'followed teammate travels');
+  const tracking = await run.committed(host, (row, draw) => follows(row, draw, identities[2].actor)
+    && Math.abs(draw.cameraX - chosen.draw.cameraX) > 10
+    && actor(row, identities[2].actor).Movement === 'idle', 'actual camera tracks selected teammate',
+  chosen.draw.drawFrame);
   await run.menu(state, guests[1]);
-  const hold = await run.picture(state, host, 'succession-lost', row => row.spectator?.Visible
-    && !row.spectator.Followed && !!row.spectator.FollowNotice && Number.isFinite(row.spectator.Camera));
+  const hold = await run.picture(state, host, 'succession-lost', (row, draw) => row.spectator?.Visible
+    && !row.spectator.Followed && !!row.spectator.FollowNotice && stableCamera(tracking, draw), tracking.drawFrame);
+  await run.moveUntil(state, guests[2], key.right, row => actor(row)?.Movement === 'walk', 'different teammate travels');
+  const lostHold = await run.committed(host, (row, draw) => row.spectator?.FollowNotice
+    && !row.spectator.Followed && stableCamera(hold.draw, draw), 'lost target camera holds across committed draws',
+  hold.draw.drawFrame);
   await run.join(state, guests[1], session);
   await run.focus(state, host);
   await run.choose(state, host, named('Respawn'));
@@ -142,7 +164,7 @@ async function succession(state) {
     && (peer === host || row.phase06.control === identities[roles.indexOf(peer.role)].actor)
     && draw.appearance.some(entry => entry.id === successor && entry.crown && entry.visible));
   return run.finish(state, 'phase06.lan.succession', state.peers, start,
-    {identities, successor}, [death, next, prior, chosen, hold, transfer, ...final]);
+    {identities, successor, deathHold, tracking, lostHold}, [death, next, prior, chosen, hold, transfer, ...final]);
 }
 
 module.exports = {open: context => run.open(context, roles), reset: run.reset, close: run.close, cases: {

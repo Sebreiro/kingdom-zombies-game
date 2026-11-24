@@ -78,6 +78,7 @@ internal sealed class FoundationViewInbox
         {
             _controlFence = Math.Max(val1: _controlFence, val2: revision);
             ClearScope(scope: "status", serial: Floor(scope: "status"));
+            ClearScope(scope: "nearby", serial: Floor(scope: "nearby"));
             ClearScope(scope: "own", serial: Floor(scope: "own"));
             ClearScope(scope: "external", serial: Floor(scope: "external"));
             ClearWindows(external: false, serial: 0);
@@ -111,6 +112,7 @@ internal sealed class FoundationViewInbox
     {
         _controlFence = Math.Max(val1: _controlFence, val2: revision);
         ClearScope(scope: "status", serial: Floor(scope: "status"));
+        ClearScope(scope: "nearby", serial: Floor(scope: "nearby"));
         ClearScope(scope: "own", serial: Floor(scope: "own"));
         ClearScope(scope: "external", serial: Floor(scope: "external"));
         ClearWindows(external: false, serial: 0);
@@ -177,6 +179,8 @@ internal sealed class FoundationViewInbox
 
         if (scope is "status" && Control?.generation != stage.Epoch)
         {
+            _controlFence = Math.Max(val1: _controlFence, val2: stage.Revision);
+            ClearScope(scope: "nearby", serial: Floor(scope: "nearby"));
             ClearScope(scope: "own", serial: Floor(scope: "own"));
             ClearScope(scope: "external", serial: Floor(scope: "external"));
             ClearWindows(external: false, serial: 0);
@@ -223,6 +227,7 @@ internal sealed class FoundationViewInbox
             Token = frame.Token;
             _correlation = envelope.Sequence;
             _header = frame.Body ?? throw new InvalidOperationException(message: "RUN_HEADER");
+            _nearby = frame.Scope is "nearby";
             _parts = new ImmutableArray<JsonElement>[frame.Parts];
             StartedAt = now;
         }
@@ -250,12 +255,13 @@ internal sealed class FoundationViewInbox
                         .All(predicate: equal => equal);
             }
 
-            if (_rowCount + rows.Length > FoundationProtocol.MaximumViewRows)
+            int maximum = _nearby ? FoundationProtocol.MaximumNearbyRows : FoundationProtocol.MaximumViewRows;
+            if (_rowCount + rows.Length > maximum)
             {
                 return false;
             }
 
-            if (rows.Any(predicate: row => !_identities.Add(item: row.GetProperty(propertyName: "Id").GetInt64())))
+            if (rows.Any(predicate: row => !_identities.Add(item: Identity(row: row))))
             {
                 return false;
             }
@@ -276,8 +282,15 @@ internal sealed class FoundationViewInbox
         private readonly ImmutableArray<JsonElement>[] _parts;
         private readonly JsonElement _header;
         private readonly long _correlation;
-        private readonly HashSet<long> _identities = [];
+        private readonly bool _nearby;
+        private readonly HashSet<string> _identities = new(comparer: StringComparer.Ordinal);
         private int _received;
         private int _rowCount;
+
+        private string Identity(JsonElement row)
+        {
+            string id = row.GetProperty(propertyName: "Id").GetRawText();
+            return _nearby ? row.GetProperty(propertyName: "Kind").GetRawText() + id : id;
+        }
     }
 }

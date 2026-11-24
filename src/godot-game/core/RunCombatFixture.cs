@@ -1,5 +1,8 @@
 #if DEBUG
+using System.Collections.Immutable;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace KingdomZombies.Core;
@@ -13,17 +16,19 @@ internal static class RunCombatFixture
     internal const string Bowman = "fixture.bow";
     internal const string Remains = "fixture.supplies";
     internal const string Empty = "fixture.empty";
+    internal const int WirePiles = 420;
 
     internal static FoundationSession Create(string mode, string sessionId, string playerId, string actorId,
             RunDefinitions definitions)
     {
-        if (mode is not ("field" or "bow" or "life" or "far"))
+        if (mode is not ("field" or "bow" or "life" or "far" or "wire"))
         {
             throw new InvalidDataException(message: "FIXTURE_MODE");
         }
 
         var session = new FoundationSession(sessionId: sessionId, playerId: playerId, actorId: actorId,
-                world: World(ranges: definitions.Ranges), definitions: definitions, fixtureMode: mode);
+                world: World(ranges: definitions.Ranges, wire: mode is "wire"), definitions: definitions,
+                fixtureMode: mode);
         Require(applied: session.TryAddHostile(id: First, position: -7110, facing: -1,
                 health: definitions.MaximumHealth));
         Require(applied: session.TryAddHostile(id: Second, position: -7110, facing: -1,
@@ -65,9 +70,9 @@ internal static class RunCombatFixture
         return (outcome.Status.ToString(), outcome.Replayed);
     }
 
-    private static RunWorld World(RunWorld.Ranges ranges)
+    private static RunWorld World(RunWorld.Ranges ranges, bool wire)
     {
-        return new RunWorld(origin: default, groundContactSubunits: 0, mainBuilding: default, ranges: ranges,
+        var world = new RunWorld(origin: default, groundContactSubunits: 0, mainBuilding: default, ranges: ranges,
                 defenses:
                 [
                     new RunWorld.Defense(id: "fixture.living-wall", contact: new RunWorld.Point(x: 2500, y: 0),
@@ -88,6 +93,14 @@ internal static class RunCombatFixture
                     new RunWorld.Anchor(id: Empty, contact: new RunWorld.Point(x: -7750, y: 0),
                             kind: RunWorld.Access.Pile),
                 ]);
+        return wire ? world.WithAnchors(anchors: world.Anchors.AddRange(items: WireTargets())) : world;
+    }
+
+    private static ImmutableArray<RunWorld.Anchor> WireTargets()
+    {
+        return [.. Enumerable.Range(start: 0, count: WirePiles).Select(selector: index => new RunWorld.Anchor(
+                id: "fixture.wire-persistent-loot-" + index.ToString(provider: CultureInfo.InvariantCulture),
+                contact: new RunWorld.Point(x: 30000 + index, y: 0), kind: RunWorld.Access.Pile))];
     }
 
     private static RunInventory Kit(RunInventory inventory, RunDefinitions definitions, string mode)
@@ -115,6 +128,15 @@ internal static class RunCombatFixture
         _ = Store(inventory: ref inventory, definitions: definitions, id: "IT-07", grid: bag, x: 2, y: 0);
         _ = Add(inventory: ref inventory, definition: definitions.Items["IT-01"], quantity: 17, condition: null,
                 location: new RunInventory.Ground(pileId: Remains));
+        if (mode is "wire")
+        {
+            foreach (RunWorld.Anchor pile in WireTargets())
+            {
+                _ = Add(inventory: ref inventory, definition: definitions.Items["IT-01"], quantity: 1,
+                        condition: null, location: new RunInventory.Ground(pileId: pile.Id));
+            }
+        }
+
         return inventory;
     }
 

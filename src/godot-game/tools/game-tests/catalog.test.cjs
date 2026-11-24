@@ -138,6 +138,21 @@ test('direct changed Low and transitive affected consumer both enter phase-end s
   assert(selected.some(row => row.id === 'lan-checks.rendered.profiles' && row.reason.startsWith('affected by')));
 });
 
+test('changed native character sources select only their real active appearance consumers without moving owners', () => {
+  const catalog = loadCatalog(root);
+  const from = file => select(catalog, {mode: 'phase-end', value: 6, changes: [file]}).selected
+    .filter(row => row.reason === 'declared input changed' && row.adapter === 'asset-pipeline');
+  const animation = from('src/godot-game/core/CharacterPresentation.cs');
+  assert.deepEqual(ids(animation).sort(), ['animation.bow', 'animation.melee', 'animation.replacement',
+    'animation.work-special', 'appearance.corpses', 'appearance.crowds'].map(id => 'asset-pipeline.' + id).sort());
+  assert(animation.every(row => row.owner === 4 && row.status === 'required' && !row.needsGameWindow));
+  assert.deepEqual(ids(from('src/godot-game/game/inspection/CorpsePreview.cs')).sort(),
+    ['asset-pipeline.appearance.corpses', 'asset-pipeline.appearance.crowds']);
+  assert.deepEqual(ids(from('src/godot-game/game/content/animation/bow.json')).sort(),
+    ['asset-pipeline.animation.bow', 'asset-pipeline.animation.work-special']);
+  assert.equal(select(catalog, {mode: 'group', value: 'phase06.inspection'}).selected.length, 18);
+});
+
 test('a rule input triggers its legacy group and gameplay-only change triggers none', () => {
   const catalog = loadCatalog(root);
   assert(select(catalog, {mode: 'phase-end', changes: ['src/godot-game/tools/code-rules/DeclarationAnalyzer.cs']})
@@ -212,4 +227,8 @@ test('a source support rebind is distinct from a content helper behavior change'
   assert.equal(supportStampOnly(before, after), true);
   assert.equal(supportStampOnly(before, before), false);
   assert.equal(supportStampOnly(before, after.replace('reference(file)', 'reference(other)')), false);
+  assert.equal(supportStampOnly(before.replace('FoundationRoot', 'FoundationInput'),
+    after.replace('FoundationRoot', 'FoundationInput')), true);
+  assert.equal(supportStampOnly(before.replace('FoundationRoot', 'FoundationWorldInput'),
+    after.replace('FoundationRoot', 'FoundationWorldInput')), false);
 });

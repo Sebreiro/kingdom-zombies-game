@@ -106,6 +106,15 @@ internal sealed class FoundationDrawObserver
             return;
         }
 
+        if (_world.GetNodeOrNull<Polygon2D>(path: "NearbySelection") is { } selection
+                && selection.GetNodeOrNull<Line2D>(path: "NearbyOutline") is { } outline)
+        {
+            Vector2 screen = outline.GetGlobalTransformWithCanvas().Origin;
+            _appearance.Add(item: new { id = selection.GetMeta(name: "subject").AsString(), kind = "NearbySelection",
+                screenX = screen.X, screenY = screen.Y, visible = selection.IsVisibleInTree(),
+                outlined = outline.IsVisibleInTree() && outline.Closed && outline.Points.Length >= 3 });
+        }
+
         foreach (string kind in new[] { "Actors", "Corpses", "Arrows" })
         {
             foreach (JsonElement row in state.GetProperty(propertyName: kind).EnumerateArray())
@@ -117,7 +126,8 @@ internal sealed class FoundationDrawObserver
                     Vector2 screen = found.GetGlobalTransformWithCanvas().Origin;
                     _appearance.Add(item: new { id, kind, screenX = screen.X, screenY = screen.Y,
                         visible = found.IsVisibleInTree(), crown = found.GetNodeOrNull<Sprite2D>(path: "Crown")
-                                ?.IsVisibleInTree() == true });
+                                ?.IsVisibleInTree() == true, bowStage = found.GetMeta(
+                                        name: "bow_stage", @default: "inactive").AsString() });
                 }
             }
         }

@@ -41,7 +41,7 @@ internal static class RunWorldGeometry
                         duration: duration, first: ref first, last: ref last) ? first : null;
     }
 
-    private static bool Clip(decimal start, decimal end, decimal minimum, decimal maximum, decimal duration,
+    internal static bool Clip(decimal start, decimal end, decimal minimum, decimal maximum, decimal duration,
             ref decimal first, ref decimal last)
     {
         if (Math.Min(val1: start, val2: end) > maximum || Math.Max(val1: start, val2: end) < minimum)

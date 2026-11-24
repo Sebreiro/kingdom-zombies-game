@@ -14,6 +14,7 @@ const {lines} = require('../../tools/lan-checks/rendered.cjs');
 const id = 'phase06.packaged';
 const packName = 'KingdomZombies.pck';
 const runPath = 'content/config/run.json';
+const combatPath = 'content/config/combat.json';
 const fixtureName = 'fixture.request';
 const expectedConfig = {
   [runPath]: 'DT-01', 'content/config/items.json': 'DT-04',
@@ -43,28 +44,41 @@ func fail(reason: String) -> void:
     print("PHASE06_PROBE_FAILED " + reason)
     get_tree().quit(3)
 
+func crop(texture: AtlasTexture) -> Dictionary:
+    if not texture or not texture.atlas or not texture.region.has_area():
+        return {}
+    var box := texture.region
+    return {"atlas": texture.atlas.resource_path, "rect": [box.position.x, box.position.y, box.size.x, box.size.y]}
+
 func observe_gameplay_assets(scene: Node) -> bool:
     var appearance := scene.get_node_or_null("World/RunAppearance") as Node2D
     var workspace := scene.get_node_or_null("InventoryWorkspace") as Control
     if not appearance or appearance.get_child_count() != 8 or not workspace or not workspace.theme:
         return false
-    var icons: Array[String] = []
+    var icons: Dictionary = {}
     for slot in ["torso-clothing", "legs", "boots"]:
         var node := workspace.get_node_or_null("InventoryPanels/equipment_" + slot + "/Icon") as TextureRect
         var icon := node.texture as AtlasTexture if node else null
-        if not icon or not icon.atlas or not icon.region.has_area():
+        icons[slot] = crop(icon)
+        if icons[slot].is_empty():
             return false
-        icons.append(icon.atlas.resource_path)
-    var crowns: Array[String] = []
+    var crowns: Array[Dictionary] = []
+    var body: Dictionary = {}
     for survivor in appearance.get_children():
         var node := survivor.get_node_or_null("Crown") as Sprite2D
         if node and node.visible:
             var crown := node.texture as AtlasTexture
-            if not crown or not crown.atlas or not crown.region.has_area():
+            var crown_crop := crop(crown)
+            if crown_crop.is_empty():
                 return false
-            crowns.append(crown.atlas.resource_path)
+            crowns.append(crown_crop)
+            for part in ["lower", "upper", "head"]:
+                var sprite := survivor.get_node_or_null("Art/Body_" + part) as Sprite2D
+                if not sprite or not sprite.visible:
+                    return false
+                body[part] = {"key": sprite.get_meta("part", ""), "crop": crop(sprite.texture as AtlasTexture)}
     print("PHASE06_GAMEPLAY_RESOURCES " + JSON.stringify({"actors": appearance.get_child_count(),
-        "theme": workspace.theme.resource_path, "icons": icons, "crowns": crowns}))
+        "theme": workspace.theme.resource_path, "icons": icons, "crowns": crowns, "body": body}))
     return true
 
 func run_probe() -> void:
@@ -85,7 +99,7 @@ func run_probe() -> void:
     await tree.process_frame
     var menu := scene.get_node("Menu")
     menu.get_node("Start").pressed.emit()
-    if OS.get_environment("KZ_PHASE06_PACKAGE_VARIANT") == "normal":
+    if OS.get_environment("KZ_PHASE06_PACKAGE_VARIANT") in ["normal", "upper"]:
         await tree.create_timer(0.25).timeout
         press(KEY_D, true)
         await tree.create_timer(0.40).timeout
@@ -162,15 +176,46 @@ function verifyResources(state, files) {
   return receipts;
 }
 
+function expectedCrops(state) {
+  const read = name => JSON.parse(fs.readFileSync(source(state, 'content/' + name + '.json')));
+  const body = read('packs/bodies-a'), gear = read('packs/items-11-24'), common = read('packs/common');
+  const starting = read('config/run').startingOutfit;
+  const icons = {};
+  for (const {id, slot, appearance} of read('config/items').definitions) {
+    if (starting.includes(id)) {
+      icons[slot] = {atlas: 'res://' + gear.atlas.path,
+        rect: gear.parts.find(part => part.key === appearance.canonicalIcon).atlasRect};
+    }
+  }
+  const idle = body.bodies.find(row => row.id === 'CH-01').poses.find(pose => pose.id === 'idle');
+  const segments = Object.fromEntries(['lower', 'upper', 'head'].map(name => {
+    const key = idle.parts[name];
+    return [name, {key, crop: {atlas: body.atlas.path, rect: body.parts.find(part => part.key === key).atlasRect}}];
+  }));
+  const crown = common.resources.find(row => row.id === 'common.s0.7985');
+  return {actors: 8, theme: 'res://assets/ui/InspectionTheme.tres', icons,
+    crowns: [{atlas: 'res://' + common.atlas.path, rect: crown.atlasRect}], body: segments};
+}
+
+function verifyCrops(state, assets) {
+  const expected = expectedCrops(state);
+  const exact = observed => assert.deepEqual(observed, expected, 'exact authored live gameplay atlas regions');
+  exact(assets);
+  const unrelated = structuredClone(assets);
+  unrelated.body.lower.crop.rect = assets.body.head.crop.rect;
+  assert.throws(() => exact(unrelated), {code: 'ERR_ASSERTION'});
+}
+
 function portableEnvironment(state, role) {
   const out = path.join(state.directory, role);
   fs.mkdirSync(out);
-  if (role === 'normal') fs.writeFileSync(path.join(out, fixtureName), 'field', {flag: 'wx'});
+  const startsGame = role === 'normal' || role === 'upper';
+  if (startsGame) fs.writeFileSync(path.join(out, fixtureName), 'field', {flag: 'wx'});
   const attest = randomUUID();
   const marker = path.join(out, 'phase4-runtime');
   fs.mkdirSync(marker);
   fs.writeFileSync(path.join(marker, 'owner'), attest);
-  const nativeRole = role === 'normal' ? 'solo' : role;
+  const nativeRole = startsGame ? 'solo' : role;
   const env = delivery.runtimeEnvironment({...delivery.cleanEnvironment(out),
     COREHOST_TRACE: '1', COREHOST_TRACEFILE: path.join(state.directory, role + '-host.log'),
     PHASE3_NONCE: state.nonce, PHASE3_OUTPUT: out, PHASE3_RUN_ROOT: state.directory, PHASE3_ROLE: nativeRole,
@@ -253,8 +298,7 @@ async function launchScenario(state, role, directory, diagnostic) {
       const marker = peer.output.split(/\r?\n/).find(line => line.startsWith('PHASE06_GAMEPLAY_RESOURCES '));
       assert(marker, 'missing native asset observation');
       assets = JSON.parse(marker.slice('PHASE06_GAMEPLAY_RESOURCES '.length));
-      assert.deepEqual(assets, {actors: 8, theme: 'res://assets/ui/InspectionTheme.tres',
-        icons: Array(3).fill('res://assets/equipment/items-11-24.png'), crowns: ['res://assets/common/donor-kit.png']});
+      verifyCrops(state, assets);
     }
     const loaded = validateLoaded(peer, directory);
     report = {role, pid: peer.pid, menu, started, inventory, moved, loaded, assets, diagnostic};
@@ -270,19 +314,36 @@ async function launchScenario(state, role, directory, diagnostic) {
   return report;
 }
 
-function altered(state, built, original, role, data) {
+function altered(state, built, original, role, replacements) {
   const destination = delivery.cloneOutput(state, role + '-package', built.output, built.closure.rows);
   const members = new Map([...delivery.pack(original)].map(([name, row]) => [name, row.data]));
-  if (data) members.set(runPath, data);
-  else members.delete(runPath);
+  for (const [name, data] of replacements) {
+    if (data) members.set(name, data);
+    else members.delete(name);
+  }
   const changed = delivery.packBytes(original, members);
   const verified = delivery.pack(changed);
   const originalFiles = delivery.pack(original);
   const differences = [...originalFiles].filter(([name, row]) => verified.get(name)?.sha256 !== row.sha256)
     .map(([name]) => name);
-  assert.deepEqual(differences, [runPath]);
+  assert.deepEqual(differences.sort(), [...replacements.keys()].sort());
   fs.writeFileSync(path.join(destination, packName), changed);
   return {destination, differences, sha256: content.hash(changed)};
+}
+
+function combatVariant(files, seconds) {
+  const combat = json(files, combatPath);
+  combat.attacks.find(attack => attack.itemRef === 'IT-07').intervalSeconds = seconds;
+  const data = Buffer.from(JSON.stringify(combat));
+  const replacements = new Map([[combatPath, data]]);
+  for (const name of ['content/animation/locomotion-melee.json', 'content/animation/bow.json']) {
+    const manifest = json(files, name);
+    const binding = manifest.bindings.find(row => row.path === 'src/godot-game/' + combatPath);
+    assert.equal(binding.sha256, content.hash(files.get(combatPath).data), name + ' original source binding');
+    binding.sha256 = content.hash(data);
+    replacements.set(name, Buffer.from(JSON.stringify(manifest)));
+  }
+  return replacements;
 }
 
 async function open(context) {
@@ -304,22 +365,28 @@ async function packaged(state) {
   fs.writeFileSync(probe, gameplayProbe, {flag: 'wx'});
   const proof = await delivery.buildGameplayProbe(state, built, gameplayProbe);
   const probePack = fs.readFileSync(path.join(proof.output, packName));
-  const missing = altered(state, proof, probePack, 'missing', null);
-  const malformed = altered(state, proof, probePack, 'invalid', Buffer.from('{"id":"DT-01","id":"DT-01","version":1}'));
+  const missing = altered(state, proof, probePack, 'missing', new Map([[runPath, null]]));
+  const malformed = altered(state, proof, probePack, 'invalid',
+    new Map([[runPath, Buffer.from('{"id":"DT-01","id":"DT-01","version":1}')]]));
+  const upper = altered(state, proof, probePack, 'upper', combatVariant(files, 600));
+  const outside = altered(state, proof, probePack, 'above-upper', combatVariant(files, 600.001));
   const normal = await launchScenario(state, 'normal', proof.output);
   const absent = await launchScenario(state, 'missing', missing.destination, diagnostic + 'bytes');
   const invalid = await launchScenario(state, 'invalid', malformed.destination, diagnostic + 'id');
-  assert.equal(new Set([boot.pid, normal.pid, absent.pid, invalid.pid]).size, 4);
+  const maximum = await launchScenario(state, 'upper', upper.destination);
+  const rejected = await launchScenario(state, 'above-upper', outside.destination,
+    'Recoverable scene entry: RUN_DEFINITION_INVALID ' + combatPath + ': intervalSeconds');
+  assert.equal(new Set([boot.pid, normal.pid, absent.pid, invalid.pid, maximum.pid, rejected.pid]).size, 6);
   assert.deepEqual(fs.readFileSync(path.join(built.clean, packName)), original);
   delivery.verifyInputs(built);
   const report = write(state, id + '.json', {id, revision: state.revision, nonce: state.nonce,
     packagedSha256: content.hash(original), releaseTemplate: await delivery.digest(built.binary),
-    resources, boot, missing, malformed, cases: [normal, absent, invalid]});
+    resources, boot, missing, malformed, upper, outside, cases: [normal, absent, invalid, maximum, rejected]});
   return [report, probe, 'pck-runtime-closure.json', 'project-inputs.json', 'templates.json',
     'managed-publish.command.json', 'native-export.command.json', 'proof-build/probe-binding.json',
     'proof-build/native-proof-export.command.json', 'release-boot.command.json', 'release-boot-host.log',
     'release-boot/frames.ndjson', 'release-boot/phase4-runtime/loaded-assemblies.ndjson',
-    ...['normal', 'missing', 'invalid'].flatMap(role => [role + '/frames.ndjson', role + '/console.log',
+    ...['normal', 'missing', 'invalid', 'upper', 'above-upper'].flatMap(role => [role + '/frames.ndjson', role + '/console.log',
       role + '/terminal.json', role + '-host.log', role + '/phase4-runtime/loaded-assemblies.ndjson'])];
 }
 

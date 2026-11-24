@@ -76,6 +76,7 @@ internal sealed class FoundationActorArt : IDisposable
         else
         {
             DrawLiving(subject: subject, elapsed: elapsed, cursor: cursor, wear: wear);
+            _root.SetMeta(name: "bow_stage", value: _bowStage);
         }
     }
 
@@ -93,6 +94,7 @@ internal sealed class FoundationActorArt : IDisposable
     private double? _lastStrike;
     private double? _lastFlinch;
     private string _lastPose = "";
+    private string _bowStage = "inactive";
 
     private string CorpsePose(double age)
     {
@@ -112,7 +114,7 @@ internal sealed class FoundationActorArt : IDisposable
                 dx: desired.x - subject.At.x, dy: subject.At.y - desired.y, facing: subject.Facing)
                 : (0, subject.Facing);
         bool freshStrike = subject.StrikeAt.HasValue && subject.StrikeAt != _lastStrike;
-        if (freshStrike)
+        if (freshStrike || !subject.StrikeAt.HasValue && _lastStrike.HasValue)
         {
             _motion.Configure(body: subject.Body, movement: movement, action: "none", leftItem: left.Item,
                     rightItem: right.Item, facing: aim.facing);
@@ -133,6 +135,11 @@ internal sealed class FoundationActorArt : IDisposable
         double delta = freshStrike && subject.StrikeAt is { } strike ? elapsed - strike
                 : _lastElapsed < 0 ? 0 : elapsed - _lastElapsed;
         _motion.Advance(elapsedSeconds: Math.Clamp(value: delta / 1000, min: 0, max: 60));
+        if (bow && subject.Aim.HasValue && subject.StrikeAt is { } release)
+        {
+            _motion.ReadCommittedBowRelease(ageSeconds: (elapsed - release) / 1000);
+        }
+
         _lastElapsed = elapsed;
         _lastStrike = subject.StrikeAt;
         bool flinch = subject.FlinchAt is { } at && elapsed - at is >= 0 and < 250;
@@ -143,6 +150,7 @@ internal sealed class FoundationActorArt : IDisposable
         }
 
         JsonElement sample = _motion.Snapshot;
+        _bowStage = Text(sample: sample, field: "bowStage");
         string upper = flinch ? "hit" : bow ? "aim" : Text(sample: sample, field: "upperPose");
         Draw(subject: subject, upper: upper, lower: Text(sample: sample, field: "lowerPose"),
                 facing: aim.facing, track: sample, wear: wear);
