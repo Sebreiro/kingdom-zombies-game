@@ -95,21 +95,22 @@ internal static class RunLocomotion
         }
 
         RunPopulation.Survivor walked = Walk(survivor: survivor, definitions: definitions, world: world,
-                direction: direction, speed: definitions.Locomotion.WalkSpeed * load.Speed,
-                duration: current - walkedFrom);
+                direction: direction, speed: definitions.Locomotion.WalkSpeed * load.Speed, previous: walkedFrom,
+                current: current);
         return RunVitals.RegenerateStamina(survivor: walked, definitions: definitions, previous: walkedFrom,
                 current: current);
     }
 
     private static RunPopulation.Survivor Walk(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            RunWorld world, int direction, decimal speed, decimal duration)
+            RunWorld world, int direction, decimal speed, decimal previous, decimal current)
     {
+        decimal duration = current - previous;
         decimal from = survivor.PositionSubunitsExact;
         decimal limit = direction > 0 ? 59000 - from : from + 59000;
         decimal moving = direction == 0 ? 0 : Math.Min(val1: duration, val2: limit / speed);
         RunPopulation.Survivor next = Move(survivor: survivor, direction: direction, speed: speed, duration: duration);
         return RunVitals.RestAfterWalk(survivor: next, definitions: definitions, world: world, from: from,
-                velocity: direction * speed, moving: moving, waiting: duration - moving);
+                velocity: direction * speed, previous: previous, moving: moving, current: current);
     }
 
     private static (RunPopulation.Survivor survivor, decimal end) Sprint(RunPopulation.Survivor survivor,

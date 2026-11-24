@@ -36,7 +36,7 @@ internal static class RunVitals
 
     internal static RunPopulation.Survivor ResetRest(RunPopulation.Survivor survivor)
     {
-        return survivor.RestSafe ? survivor with { RestSafe = false, RestMilliseconds = 0 } : survivor;
+        return survivor.RestStartedAt.HasValue ? survivor with { RestStartedAt = null } : survivor;
     }
 
     internal static RunPopulation.Survivor RecheckRest(RunPopulation.Survivor survivor, RunWorld world)
@@ -46,35 +46,35 @@ internal static class RunVitals
                 ? survivor : ResetRest(survivor: survivor);
     }
 
-    internal static RestMode RestState(RunPopulation.Survivor survivor, RunDefinitions definitions)
+    internal static RestMode RestState(RunPopulation.Survivor survivor, RunDefinitions definitions, long now)
     {
-        if (!survivor.RestSafe)
+        if (survivor.RestStartedAt is not { } started)
         {
             return RestMode.Unsafe;
         }
 
         bool recovering = survivor.Health < definitions.MaximumHealth && definitions.Vitals.HealthPerSecond > 0
-                && survivor.RestMilliseconds >= definitions.Vitals.RestDelay;
+                && now >= started + definitions.Vitals.RestDelay;
         return recovering ? RestMode.Recovering : RestMode.Resting;
     }
 
     internal static RunPopulation.Survivor RestAfterWalk(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            RunWorld world, decimal from, decimal velocity, decimal moving, decimal waiting)
+            RunWorld world, decimal from, decimal velocity, decimal previous, decimal moving, decimal current)
     {
         decimal start = world.Origin.X + from;
         decimal end = world.Origin.X + survivor.PositionSubunitsExact;
         if (start != end)
         {
             survivor = WalkIntervals(survivor: survivor, definitions: definitions, world: world, start: start,
-                    velocity: velocity, duration: moving);
+                    velocity: velocity, previous: previous, duration: moving);
         }
 
-        return RestFor(survivor: survivor, definitions: definitions, duration: waiting,
+        return RestFor(survivor: survivor, definitions: definitions, previous: previous + moving, current: current,
                 safe: world.SafeGroundRest(x: end));
     }
 
     private static RunPopulation.Survivor WalkIntervals(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            RunWorld world, decimal start, decimal velocity, decimal duration)
+            RunWorld world, decimal start, decimal velocity, decimal previous, decimal duration)
     {
         var stops = new SortedDictionary<decimal, bool>();
         (long left, long right) = world.CampBorders;
@@ -84,18 +84,18 @@ internal static class RunVitals
         stops[duration] = false;
 
         RunPopulation.Survivor rested = world.SafeGroundRest(x: start) ? survivor : ResetRest(survivor: survivor);
-        decimal previous = 0;
+        decimal last = 0;
         foreach ((decimal at, bool dangerous) in stops)
         {
-            decimal midpoint = start + velocity * ((previous + at) / 2);
-            rested = RestFor(survivor: rested, definitions: definitions, duration: at - previous,
-                    safe: world.SafeGroundRest(x: midpoint));
+            decimal midpoint = start + velocity * ((last + at) / 2);
+            rested = RestFor(survivor: rested, definitions: definitions, previous: previous + last,
+                    current: previous + at, safe: world.SafeGroundRest(x: midpoint));
             if (dangerous)
             {
                 rested = ResetRest(survivor: rested);
             }
 
-            previous = at;
+            last = at;
         }
 
         return rested;
@@ -136,7 +136,7 @@ internal static class RunVitals
     }
 
     private static RunPopulation.Survivor RestFor(RunPopulation.Survivor survivor, RunDefinitions definitions,
-            decimal duration, bool safe)
+            decimal previous, decimal current, bool safe)
     {
         if (!safe)
         {
@@ -144,12 +144,12 @@ internal static class RunVitals
         }
 
         Settings settings = definitions.Vitals;
-        decimal qualifying = survivor.RestMilliseconds;
-        decimal recovery = Math.Max(val1: 0, val2: duration - (settings.RestDelay - qualifying));
+        decimal started = survivor.RestStartedAt ?? previous;
+        decimal recovery = Math.Max(val1: 0, val2: current - Math.Max(val1: previous,
+                val2: started + settings.RestDelay));
         return survivor with
         {
-            RestSafe = true,
-            RestMilliseconds = Math.Min(val1: settings.RestDelay, val2: qualifying + duration),
+            RestStartedAt = started,
             Health = Math.Min(val1: definitions.MaximumHealth,
                     val2: survivor.Health + recovery * settings.HealthPerSecond / 1000),
         };

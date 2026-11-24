@@ -147,7 +147,7 @@ public sealed class Phase06RecoveryTests
         var walk = new RunLocomotion.Input(right: true);
         session.TryAcceptMotion(controller: Controller(), sequence: 1, input: walk).accepted.ShouldBeTrue();
         session.Step(elapsedMilliseconds: 2000);
-        Current(session: session).RestMilliseconds.ShouldBe(expected: 1000);
+        Current(session: session).RestStartedAt.ShouldBe(expected: 5000);
         Current(session: session).Health.ShouldBe(expected: 50);
         session.TryAcceptMotion(controller: Controller(), sequence: 2, input: new RunLocomotion.Input())
                 .accepted.ShouldBeTrue();
@@ -213,7 +213,8 @@ public sealed class Phase06RecoveryTests
 
     private static RunVitals.RestMode Mode(FoundationSession session)
     {
-        return RunVitals.RestState(survivor: Current(session: session), definitions: session.Definitions);
+        return RunVitals.RestState(survivor: Current(session: session), definitions: session.Definitions,
+                now: session.LocalWorld.elapsedMilliseconds);
     }
 
     private static RunItemActions.Controller Controller()
