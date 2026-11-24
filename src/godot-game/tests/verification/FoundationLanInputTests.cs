@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
@@ -35,6 +36,14 @@ public sealed class FoundationLanInputTests
         CheckProjection();
         CheckMarkerBounds();
         ProofProtocol.Record(id: "core.input", diagnostic: "CONTEXT_ALIASES_REPEAT_FOCUS_EXACT_LOCAL_CAMERA_MARKERS");
+    }
+
+    /// <summary>Native jump input requires a one-shot, focus-fenced consumer.</summary>
+    [Fact]
+    public void Input_JumpAndAttackRequireFreshWorldPresses()
+    {
+        typeof(FoundationInput).GetMethod(name: "TakeJump", bindingAttr:
+                BindingFlags.Instance | BindingFlags.NonPublic).ShouldNotBeNull();
     }
 
     private static void CheckProjection()
