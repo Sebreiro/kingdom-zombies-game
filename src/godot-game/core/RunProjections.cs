@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -77,7 +78,8 @@ internal static class RunProjections
     internal static (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows)> views)? Private(FoundationSession session,
                     FoundationSession.RunPublication? root, (string session, string binding, string player) identity,
-                    long? ownGrid, long? externalGrid, bool includeItems)
+                    long? ownGrid, long? externalGrid, bool includeItems, ImmutableArray<long> ownWindows,
+                    ImmutableArray<long> externalWindows)
     {
         if (root is null || Control(root: root, identity: identity) is not { } control)
         {
@@ -117,15 +119,9 @@ internal static class RunProjections
             return null;
         }
 
-        (JsonElement header, ImmutableArray<JsonElement> rows) own = Own(root: root, view: view, requested: ownGrid);
-        (JsonElement header, ImmutableArray<JsonElement> rows)? external = External(root: root, view: view,
-                requested: externalGrid);
-        return (root.Snapshot.Revision, external is { } selected
-                ? [("status", control.generation, 0, status, []),
-                    ("own", control.generation, 0, own.header, own.rows),
-                    ("external", control.generation, view.Selection?.Token ?? 0, selected.header, selected.rows)]
-                : [("status", control.generation, 0, status, []),
-                    ("own", control.generation, 0, own.header, own.rows)]);
+        return (root.Snapshot.Revision, InventoryViews(root: root, view: view, generation: control.generation,
+                status: status, ownGrid: ownGrid, externalGrid: externalGrid,
+                ownWindows: ownWindows, externalWindows: externalWindows));
     }
 
     internal static (string status, bool replayed) Dispatch(FoundationSession session,
@@ -163,6 +159,64 @@ internal static class RunProjections
         RespectNullableAnnotations = true,
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
     };
+
+    private static ImmutableArray<(string scope, long generation, long token, JsonElement header,
+            ImmutableArray<JsonElement> rows)> InventoryViews(FoundationSession.RunPublication root,
+                    RunItemActions.View view, long generation, JsonElement status, long? ownGrid,
+                    long? externalGrid, ImmutableArray<long> ownWindows, ImmutableArray<long> externalWindows)
+    {
+        (JsonElement header, ImmutableArray<JsonElement> rows) own = Own(root: root, view: view, requested: ownGrid);
+        (JsonElement header, ImmutableArray<JsonElement> rows)? external = External(root: root, view: view,
+                requested: externalGrid);
+        ImmutableArray<(string scope, long generation, long token, JsonElement header,
+                ImmutableArray<JsonElement> rows)>.Builder windows = ImmutableArray.CreateBuilder<
+                        (string scope, long generation, long token, JsonElement header,
+                            ImmutableArray<JsonElement> rows)>();
+        windows.Add(item: ("status", generation, 0, status, []));
+        windows.Add(item: ("own", generation, 0, own.header, own.rows));
+        if (external is { } selected)
+        {
+            windows.Add(item: ("external", generation, view.Selection?.Token ?? 0, selected.header, selected.rows));
+        }
+
+        AddWindows(result: windows, root: root, view: view, generation: generation, requested: ownWindows,
+                external: false);
+        AddWindows(result: windows, root: root, view: view, generation: generation, requested: externalWindows,
+                external: true);
+        return windows.ToImmutable();
+    }
+
+    private static void AddWindows(ImmutableArray<(string scope, long generation, long token, JsonElement header,
+            ImmutableArray<JsonElement> rows)>.Builder result, FoundationSession.RunPublication root,
+            RunItemActions.View view, long generation, ImmutableArray<long> requested, bool external)
+    {
+        if (requested.IsDefaultOrEmpty || external && view.Selection is null)
+        {
+            return;
+        }
+
+        ImmutableArray<RunInventory.Item> available = external ? view.External : view.Personal;
+        for (int index = 0; index < Math.Min(val1: requested.Length, val2: 16); index++)
+        {
+            RunInventory.Item? container = Container(items: available, requested: requested[index]);
+            if (container?.StorageGrid is not { } dimensions)
+            {
+                continue;
+            }
+
+            string scope = (external ? "external." : "own.") + (index + 1).ToString(
+                    provider: CultureInfo.InvariantCulture);
+            JsonElement header = JsonSerializer.SerializeToElement(value: new
+            {
+                ContainerId = container.Id,
+                dimensions.Width,
+                dimensions.Height,
+            });
+            result.Add(item: (scope, generation, external ? view.Selection?.Token ?? 0 : 0, header,
+                    Rows(root: root, items: available, scope: item => item.Location is RunInventory.ContainerCell
+                            cell && cell.ContainerId == container.Id)));
+        }
+    }
 
     private static JsonElement Actor(FoundationSession.RunPublication root, RunPopulation.Survivor actor,
             RunInventory.Item[] gear)
@@ -280,6 +334,14 @@ internal static class RunProjections
             TargetId = selection.Target.Id,
             Page = selection.Target.Kind == RunWorld.Access.Stash ? selection.PageIndex + 1 : (int?)null,
             PageCount = view.StashPageCount,
+            Effect = container is null && view.StashEffect is { } effect
+                    ? JsonSerializer.SerializeToElement(value: new
+                    {
+                        view.Sequence,
+                        effect.PageNumber,
+                        effect.MorePages,
+                        Cells = effect.ChangedCells.Select(selector: cell => new { X = cell.x, Y = cell.y }),
+                    }) : (JsonElement?)null,
             ContainerId = container?.Id,
             Width = bounds?.Width,
             Height = bounds?.Height,
@@ -325,6 +387,9 @@ internal static class RunProjections
             display.Rotatable,
             display.MaxStack,
             display.MaximumCondition,
+            display.WeightKilograms,
+            EquipmentSlot = rule.Slot,
+            Food = root.Definitions.Food.ContainsKey(key: rule.Id),
             Legacy = legacy,
             Location = Location(item: item),
             Stamp = Stamp(path: VisiblePath(item: item, lookup: lookup)),
@@ -443,6 +508,7 @@ internal static class RunProjections
             "quick" => Quick(root: root, input: Read<QuickData>(request: request)),
             "place" => Place(root: root, input: Read<PlaceData>(request: request)),
             "merge" => Merge(root: root, input: Read<MergeData>(request: request)),
+            "assign" => Assign(root: root, input: Read<AssignData>(request: request)),
             _ => throw new InvalidDataException(message: "RUN_ACTION_KIND"),
         };
     }
@@ -495,7 +561,14 @@ internal static class RunProjections
     private static RunItemActions.Merge Merge(FoundationSession.RunPublication root, MergeData input)
     {
         return new RunItemActions.Merge(expected: Expected(inventory: root.Inventory, item: input.Item),
-                token: input.Token, target: Expected(inventory: root.Inventory, item: input.Target));
+                token: input.Token, target: Expected(inventory: root.Inventory, item: input.Target),
+                amount: input.Amount);
+    }
+
+    private static RunItemActions.Assign Assign(FoundationSession.RunPublication root, AssignData input)
+    {
+        return new RunItemActions.Assign(expected: Expected(inventory: root.Inventory, item: input.Item),
+                slot: input.Slot);
     }
 
     private static RunInventory.Location Destination(FoundationSession.RunPublication root,
@@ -634,6 +707,13 @@ internal static class RunProjections
         public required ItemData Item { get; init; }
         public required long? Token { get; init; }
         public required ItemData Target { get; init; }
+        public int? Amount { get; init; }
+    }
+
+    private sealed class AssignData
+    {
+        public required ItemData Item { get; init; }
+        public required int Slot { get; init; }
     }
 
     private sealed class DestinationData

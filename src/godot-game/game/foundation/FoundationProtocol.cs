@@ -30,6 +30,14 @@ internal static class FoundationProtocol
         return bytes;
     }
 
+    internal static bool WindowScope(string scope, bool external)
+    {
+        string prefix = external ? "external." : "own.";
+        return scope.StartsWith(value: prefix, comparisonType: StringComparison.Ordinal)
+                && scope.AsSpan(start: prefix.Length) is "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8"
+                        or "9" or "10" or "11" or "12" or "13" or "14" or "15" or "16";
+    }
+
     internal static FoundationEnvelope Decode(ReadOnlyMemory<byte> bytes)
     {
         if (bytes.Length is < 2 or > MaximumBytes)
@@ -218,12 +226,13 @@ internal static class FoundationProtocol
     private static bool KnownAction(string action)
     {
         return action is "move" or "attack" or "food" or "select" or "browse" or "close" or "drop" or "quick"
-                or "place" or "merge" or "respawn" or "window";
+                or "place" or "merge" or "respawn" or "window" or "assign" or "workspace";
     }
 
     private static bool ValidScope(string scope)
     {
-        return scope is "status" or "own" or "external";
+        return scope is "status" or "own" or "external" || WindowScope(scope: scope, external: false)
+                || WindowScope(scope: scope, external: true);
     }
 
     private static bool ValidScopeBody(FoundationRunFrame frame)
@@ -249,11 +258,35 @@ internal static class FoundationProtocol
                         && frame.Rows.All(predicate: ValidPrivateItem);
             case "external":
                 Shape(value: body, names: ["Kind", "TargetId", "Page", "PageCount", "ContainerId", "Width",
-                    "Height"]);
-                return frame.Epoch > 0 && frame.Token > 0 && frame.Rows.All(predicate: ValidPrivateItem);
+                    "Height", "Effect"]);
+                return frame.Epoch > 0 && frame.Token > 0 && ValidPageEffect(body: body)
+                        && frame.Rows.All(predicate: ValidPrivateItem);
             default:
-                return false;
+                Shape(value: body, names: ["ContainerId", "Width", "Height"]);
+                return frame.Epoch > 0 && (WindowScope(scope: frame.Scope, external: true)
+                        ? frame.Token > 0 : frame.Token == 0)
+                        && body.GetProperty(propertyName: "ContainerId").GetInt64() > 0
+                        && body.GetProperty(propertyName: "Width").GetInt32() is >= 1 and <= 64
+                        && body.GetProperty(propertyName: "Height").GetInt32() is >= 1 and <= 64
+                        && frame.Rows.All(predicate: ValidPrivateItem);
         }
+    }
+
+    private static bool ValidPageEffect(JsonElement body)
+    {
+        JsonElement effect = body.GetProperty(propertyName: "Effect");
+        if (effect.ValueKind == JsonValueKind.Null)
+        {
+            return true;
+        }
+
+        Shape(value: effect, names: ["Sequence", "PageNumber", "MorePages", "Cells"]);
+        ValidateRows(body: effect, member: "Cells", fields: ["X", "Y"]);
+        int page = body.GetProperty(propertyName: "Page").GetInt32();
+        int first = effect.GetProperty(propertyName: "PageNumber").GetInt32();
+        return Text(value: body, name: "Kind") is "Stash" && first == page
+                && effect.GetProperty(propertyName: "Sequence").GetInt64() > 0
+                && effect.GetProperty(propertyName: "MorePages").GetInt32() >= 0;
     }
 
     private static bool ValidOwnControls(JsonElement body)
@@ -273,7 +306,7 @@ internal static class FoundationProtocol
     {
         Shape(value: row, names: ["Id", "DefinitionId", "Quantity", "Condition", "StorageWidth", "StorageHeight",
             "FootprintWidth", "FootprintHeight", "CanonicalIcon", "Rotatable", "MaxStack", "MaximumCondition",
-            "Legacy", "Location", "Stamp"]);
+            "Legacy", "Location", "Stamp", "WeightKilograms", "EquipmentSlot", "Food"]);
         JsonElement location = row.GetProperty(propertyName: "Location");
         string kind = Text(value: location, name: "Kind");
         switch (kind)

@@ -69,7 +69,8 @@ internal sealed partial class FoundationCoordinator
         }
 
         if (ReadRunPublic() is not { } world || ReadBoundRunViews(sender: 0, ownGrid: _localOwnGrid,
-                externalGrid: _localExternalGrid) is not { } local || world.roster.Revision != local.revision)
+                externalGrid: _localExternalGrid, ownWindows: _localOwnWindows,
+                externalWindows: _localExternalWindows) is not { } local || world.roster.Revision != local.revision)
         {
             return null;
         }
@@ -106,12 +107,36 @@ internal sealed partial class FoundationCoordinator
                 value: new { OwnGrid = ownGrid, ExternalGrid = externalGrid })).HasValue;
     }
 
+    internal bool RequestRunWorkspace(ImmutableArray<long> own, ImmutableArray<long> external)
+    {
+        if (!Ready || LocalRunControl is not { generation: > 0 } || !ValidIds(ids: own)
+                || !ValidIds(ids: external))
+        {
+            return false;
+        }
+
+        if (IsHost)
+        {
+            _localOwnWindows = own;
+            _localExternalWindows = external;
+            return true;
+        }
+
+        return SubmitRunAction(kind: "workspace", request: JsonSerializer.SerializeToElement(value: new
+        {
+            Own = own,
+            External = external,
+        })).HasValue;
+    }
+
     private readonly FoundationViewInbox _runInbox = new();
     private readonly List<(int sender, FoundationEnvelope envelope)> _respawnPoll = [];
     private JsonElement? _remoteWorld;
     private volatile FoundationRunReadback? _guestRunReadback;
     private long? _localOwnGrid;
     private long? _localExternalGrid;
+    private ImmutableArray<long> _localOwnWindows = [];
+    private ImmutableArray<long> _localExternalWindows = [];
 
     private FoundationEnvelope RunActionEnvelope(FoundationActorState actor, string kind, long sequence,
             string survivor, long epoch, JsonElement request)
@@ -164,9 +189,12 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
-        (string status, bool replayed) result = frame.Action is "window"
-                ? (ChangeWindows(sender: sender, peer: peer, frame: frame), false)
-                : DispatchPeerAction(sender: sender, envelope: envelope, frame: frame);
+        (string status, bool replayed) result = frame.Action switch
+        {
+            "window" => (ChangeWindows(sender: sender, peer: peer, frame: frame), false),
+            "workspace" => (ChangeWorkspace(peer: peer, frame: frame), false),
+            _ => DispatchPeerAction(sender: sender, envelope: envelope, frame: frame),
+        };
         CompleteRunAction(sender: sender, peer: peer, envelope: envelope, status: result.status,
                 replayed: result.replayed, remember: result.status is not ("InvalidAction" or "StaleRequest"));
     }
@@ -221,6 +249,35 @@ internal sealed partial class FoundationCoordinator
                 ? control.deathGeneration == frame.Epoch
                 : control.generation == frame.Epoch
                         && StringComparer.Ordinal.Equals(x: control.survivorId, y: frame.Survivor));
+    }
+
+    private static string ChangeWorkspace(FoundationPeerBinding peer, FoundationRunFrame frame)
+    {
+        if (frame.Body is not { } body || body.EnumerateObject().Count() != 2
+                || !body.TryGetProperty(propertyName: "Own", value: out JsonElement own)
+                || !body.TryGetProperty(propertyName: "External", value: out JsonElement external)
+                || own.ValueKind != JsonValueKind.Array || external.ValueKind != JsonValueKind.Array
+                || own.GetArrayLength() > 16 || external.GetArrayLength() > 16)
+        {
+            return "InvalidAction";
+        }
+
+        ImmutableArray<long> left = [.. own.EnumerateArray().Select(selector: row => row.GetInt64())];
+        ImmutableArray<long> right = [.. external.EnumerateArray().Select(selector: row => row.GetInt64())];
+        if (!ValidIds(ids: left) || !ValidIds(ids: right))
+        {
+            return "InvalidAction";
+        }
+
+        peer.OwnWindows = left;
+        peer.ExternalWindows = right;
+        return "Ready";
+    }
+
+    private static bool ValidIds(ImmutableArray<long> ids)
+    {
+        return !ids.IsDefault && ids.Length <= 16 && ids.All(predicate: id => id > 0)
+                && ids.Distinct().Count() == ids.Length;
     }
 
     private static bool MatchesWindow(
@@ -338,7 +395,8 @@ internal sealed partial class FoundationCoordinator
         }
 
         if (session.ReadRunViews(identity: identity, ownGrid: peer.OwnGrid, externalGrid: peer.ExternalGrid,
-                includeItems: updateItems) is not { } capture)
+                includeItems: updateItems, ownWindows: peer.OwnWindows,
+                externalWindows: peer.ExternalWindows) is not { } capture)
         {
             return;
         }
@@ -346,14 +404,18 @@ internal sealed partial class FoundationCoordinator
         if (updateItems)
         {
             RevokeItemViews(sender: sender, peer: peer, revision: capture.revision, correlation: correlation);
+            peer.WindowScopes = [.. capture.views.Select(selector: view => view.scope)
+                    .Where(predicate: scope => scope.Contains(value: '.', comparisonType: StringComparison.Ordinal))];
             if (fence.epoch == 0)
             {
                 peer.OwnGrid = null;
+                peer.OwnWindows = [];
             }
 
             if (fence.token == 0)
             {
                 peer.ExternalGrid = null;
+                peer.ExternalWindows = [];
             }
 
             peer.RunViewFence = (fence.epoch, fence.token, fence.inventoryVersion);
@@ -389,6 +451,11 @@ internal sealed partial class FoundationCoordinator
                 scope: "own");
         RevokeRunView(sender: sender, peer: peer, revision: revision, serial: serial, correlation: correlation,
                 scope: "external");
+        foreach (string scope in peer.WindowScopes)
+        {
+            RevokeRunView(sender: sender, peer: peer, revision: revision, serial: serial, correlation: correlation,
+                    scope: scope);
+        }
     }
 
     private void RevokeRunView(int sender, FoundationPeerBinding peer, long revision, long serial,

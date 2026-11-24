@@ -32,6 +32,11 @@ internal sealed class FoundationViewInbox
             }
 
             ClearScope(scope: frame.Scope, serial: frame.View);
+            if (frame.Scope is "own" or "external")
+            {
+                ClearWindows(external: frame.Scope is "external", serial: frame.View);
+            }
+
             return true;
         }
 
@@ -75,6 +80,8 @@ internal sealed class FoundationViewInbox
             ClearScope(scope: "status", serial: Floor(scope: "status"));
             ClearScope(scope: "own", serial: Floor(scope: "own"));
             ClearScope(scope: "external", serial: Floor(scope: "external"));
+            ClearWindows(external: false, serial: 0);
+            ClearWindows(external: true, serial: 0);
         }
     }
 
@@ -106,6 +113,8 @@ internal sealed class FoundationViewInbox
         ClearScope(scope: "status", serial: Floor(scope: "status"));
         ClearScope(scope: "own", serial: Floor(scope: "own"));
         ClearScope(scope: "external", serial: Floor(scope: "external"));
+        ClearWindows(external: false, serial: 0);
+        ClearWindows(external: true, serial: 0);
     }
 
     private const long PartTimeout = 5000;
@@ -119,7 +128,10 @@ internal sealed class FoundationViewInbox
     {
         if (frame.Scope is not "status")
         {
-            return Control?.generation == frame.Epoch;
+            return Control?.generation == frame.Epoch
+                    && (!FoundationProtocol.WindowScope(scope: frame.Scope, external: true)
+                            || Views.TryGetValue(key: "external", value: out FoundationRunView? external)
+                                    && external.Token == frame.Token);
         }
 
         return envelope.Revision > _publicRevision || StringComparer.Ordinal.Equals(x: _publicActor,
@@ -167,6 +179,8 @@ internal sealed class FoundationViewInbox
         {
             ClearScope(scope: "own", serial: Floor(scope: "own"));
             ClearScope(scope: "external", serial: Floor(scope: "external"));
+            ClearWindows(external: false, serial: 0);
+            ClearWindows(external: true, serial: 0);
         }
 
         Views = Views.SetItem(key: scope, value: stage.Build());
@@ -181,6 +195,16 @@ internal sealed class FoundationViewInbox
 
         _watermarks[scope] = Math.Max(val1: serial, val2: Floor(scope: scope));
         Views = Views.Remove(key: scope);
+    }
+
+    private void ClearWindows(bool external, long serial)
+    {
+        foreach (string scope in Views.Keys.Concat(second: _pending.Keys).Distinct(comparer: StringComparer.Ordinal)
+                .Where(predicate: scope => FoundationProtocol.WindowScope(scope: scope, external: external))
+                .ToArray())
+        {
+            ClearScope(scope: scope, serial: serial);
+        }
     }
 
     private static string Text(JsonElement value, string name)

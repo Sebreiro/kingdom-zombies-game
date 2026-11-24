@@ -53,18 +53,19 @@ internal static class RunItemTransfer
     }
 
     internal static RunInventory? Merge(RunInventory inventory, RunDefinitions definitions,
-            RunInventory.ItemPath? expectedSource, RunInventory.ItemPath? expectedDestination)
+            RunInventory.ItemPath? expectedSource, RunInventory.ItemPath? expectedDestination, int? amount = null)
     {
         RunInventory.Item? source = Current(inventory: inventory, expected: expectedSource);
         RunInventory.Item? destination = Current(inventory: inventory, expected: expectedDestination);
         if (source is null || destination is null || source.Id == destination.Id
                 || !StringComparer.Ordinal.Equals(x: source.DefinitionId, y: destination.DefinitionId)
-                || source.Condition != destination.Condition)
+                || source.Condition != destination.Condition || amount is { } count
+                        && (count <= 0 || count >= source.Quantity))
         {
             return null;
         }
 
-        int transferred = Math.Min(val1: source.Quantity,
+        int transferred = Math.Min(val1: amount ?? source.Quantity,
                 val2: definitions.Items[source.DefinitionId].MaxStack - destination.Quantity);
         if (transferred <= 0)
         {

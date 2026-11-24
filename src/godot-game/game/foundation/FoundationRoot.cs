@@ -18,6 +18,8 @@ public sealed partial class FoundationRoot : Control
         _gateway.RequireThread();
         _worldInput = new FoundationWorldInput(root: this, gateway: _gateway, input: _input,
                 coordinator: () => _coordinator, workspace: () => WorkspaceInput);
+        _inventory = new FoundationInventoryWorkspace(root: this, gateway: _gateway, coordinator: () => _coordinator);
+        WorkspaceInput = _inventory;
     }
 
     /// <summary>Connects guarded callbacks and starts in the ordinary menu.</summary>
@@ -60,6 +62,11 @@ public sealed partial class FoundationRoot : Control
     public override void _Input(InputEvent @event)
     {
         _gateway.RequireThread();
+        bool handled = _inventory.Input(input: @event);
+        if (handled)
+        {
+            GetViewport().SetInputAsHandled();
+        }
         bool popup = _menu?.PopupOpen() == true;
         _worldInput.Refresh(popup: popup);
         if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left } mouse)
@@ -67,7 +74,7 @@ public sealed partial class FoundationRoot : Control
             _input.Mouse(pressed: mouse.Pressed);
             return;
         }
-        if (@event is not InputEventKey key)
+        if (handled || @event is not InputEventKey key)
         {
             return;
         }
@@ -154,7 +161,8 @@ public sealed partial class FoundationRoot : Control
                 nativeActors: GetTree().GetNodesInGroup(group: "foundation-actor").Count,
                 polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D), feedback: _runtime.Feedback,
                 nowMilliseconds: _runtime.NowMilliseconds, services: _services, appearance: _appearance?.Frame,
-                attackAim: _worldInput.LastAttackAim);
+                attackAim: _worldInput.LastAttackAim, inventoryOpen: _inventory.CapturesWorld,
+                inventorySlots: _inventory.VisibleSlotCount);
         Observe();
     }
 
@@ -162,6 +170,7 @@ public sealed partial class FoundationRoot : Control
     public override void _ExitTree()
     {
         _gateway.RequireThread();
+        _inventory.Dispose();
         _worldInput.Dispose();
         _appearance?.Dispose();
         _appearance = null;
@@ -190,6 +199,7 @@ public sealed partial class FoundationRoot : Control
     private readonly MainThreadGateway _gateway = new();
     private readonly FoundationInput _input = new();
     private readonly FoundationWorldInput _worldInput;
+    private readonly FoundationInventoryWorkspace _inventory;
     private FoundationCoordinator? _coordinator;
     private FoundationCoordinator? _closing;
     private readonly FoundationRuntimeState _runtime = new();
@@ -347,6 +357,9 @@ public sealed partial class FoundationRoot : Control
         }
 
         FoundationRunReadback? readback = _coordinator.ReadRunRender();
+        (string survivorId, long generation, long deathGeneration)? control = _coordinator.LocalRunControl;
+        _inventory.Observe(readback: readback, owner: control?.survivorId, epoch: control?.generation ?? 0,
+                connected: !_coordinator.WaitingForHost);
         (double x, double y)? aim = _worldInput.Point(readback: readback, frame: _appearance?.Frame);
         if (readback is not null && (readback.World.HasValue || _appearance is not null))
         {
@@ -406,6 +419,7 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
+        _inventory.Release();
         _worldInput.DetachWorld();
         _appearance?.Dispose();
         _appearance = null;
@@ -443,6 +457,7 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _diagnostics.LostFocus();
+        _inventory.LoseFocus();
         _worldInput.LoseFocus();
     }
 

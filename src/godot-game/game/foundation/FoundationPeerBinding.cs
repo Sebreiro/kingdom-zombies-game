@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace KingdomZombies.Foundation;
 
 /// <summary>Maps a provider-authenticated transient sender to a pending authority reservation.</summary>
@@ -34,4 +36,7 @@ internal sealed class FoundationPeerBinding
     internal (long epoch, long token, long inventory) RunViewFence { get; set; }
     internal long? OwnGrid { get; set; }
     internal long? ExternalGrid { get; set; }
+    internal ImmutableArray<long> OwnWindows { get; set; } = [];
+    internal ImmutableArray<long> ExternalWindows { get; set; } = [];
+    internal ImmutableArray<string> WindowScopes { get; set; } = [];
 }

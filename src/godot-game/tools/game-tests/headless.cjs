@@ -127,6 +127,27 @@ async function verifyActionInput(peer, subject, deadline, awaitRow) {
   return { sprint, jump, attack, held };
 }
 
+async function verifyInventory(peer, subject, deadline, awaitRow) {
+  const inventoryKey = 73;
+  await key(peer, subject, deadline, inventoryKey, true);
+  const open = await awaitRow(row => row.inventoryOpen && row.inventorySlots === 11,
+    'ordinary I opens eleven native equipment slots');
+  await key(peer, subject, deadline, inventoryKey, false);
+  await key(peer, subject, deadline, rightKey, true);
+  const held = await awaitRow(row => row.inventoryOpen && row.polledRight
+    && actor(row, peer.profile)?.ElapsedMilliseconds > actor(open, peer.profile).ElapsedMilliseconds + 30,
+  'world time continues while inventory captures held movement');
+  assert.equal(held.direction, 0, 'INVENTORY_BLOCKS_MOVEMENT');
+  assert.equal(actor(held, peer.profile).PositionSubunits, actor(open, peer.profile).PositionSubunits,
+    'INVENTORY_PRESERVES_ACTOR_POSITION');
+  await key(peer, subject, deadline, escapeKey, true);
+  await key(peer, subject, deadline, escapeKey, false);
+  const closed = await awaitRow(row => row.ready && !row.inventoryOpen && row.polledRight && row.direction === 0,
+    'Escape dismisses inventory and keeps the old physical hold blocked');
+  await key(peer, subject, deadline, rightKey, false);
+  return {open, held, closed};
+}
+
 async function smoke(context, folder) {
   const nonce = crypto.randomUUID();
   const directory = path.join(folder, nonce);
@@ -155,6 +176,7 @@ async function smoke(context, folder) {
   let steady;
   let fresh;
   let actions;
+  let inventory;
   let terminal;
   try {
     const awaitRow = (match, description) => waitFor([peer], deadline, () => latest(peer, nonce, match), description);
@@ -179,6 +201,7 @@ async function smoke(context, folder) {
     worldTransitions = verifyTransitions(peer, nonce, stopped);
     fresh = await verifyFreshStart(peer, subject, deadline, awaitRow, before);
     actions = await verifyActionInput(peer, subject, deadline, awaitRow);
+    inventory = await verifyInventory(peer, subject, deadline, awaitRow);
     await stop(peer, subject, deadline);
   } catch (error) {
     failure = error;
@@ -199,7 +222,7 @@ async function smoke(context, folder) {
   assert.ok(!/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output), 'NATIVE_ERROR_LOG');
   fs.writeFileSync(path.join(directory, 'movement.json'), JSON.stringify({
     nonce, revision: context.revision, pid: peer.pid, before, moved, stopped, steady,
-    fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, terminal,
+    fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, inventory, terminal,
     inputDriver: 'synthetic-native-ParseInputEvent',
   }, null, 2) + '\n', { flag: 'wx' });
 }

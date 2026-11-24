@@ -273,8 +273,16 @@ internal sealed class RunItemActions
             Merge merge => MergeStacks(access: access, merge: merge, source: source, candidate: out candidate),
             Place place => PlaceItem(access: access, place: place, source: source, candidate: out candidate),
             QuickTransfer quick => TransferStash(access: access, quick: quick, candidate: out candidate),
+            Assign assignment => AssignFood(access: access, assignment: assignment, candidate: out candidate),
             _ => Status.Incompatible,
         };
+    }
+
+    private static Status AssignFood(Access access, Assign assignment, out RunInventory? candidate)
+    {
+        candidate = RunQuickReferences.Assign(inventory: access.Root.Inventory, definitions: access.Root.Definitions,
+                survivorId: access.Lease.SurvivorId, slot: assignment.Slot, itemId: assignment.Expected.Item.Id);
+        return Status.Incompatible;
     }
 
     private static Status PlaceItem(Access access, Place place, RunInventory.Item source,
@@ -386,7 +394,7 @@ internal sealed class RunItemActions
         }
 
         candidate = RunItemTransfer.Merge(inventory: inventory, definitions: definitions,
-                expectedSource: merge.Expected, expectedDestination: merge.Target);
+                expectedSource: merge.Expected, expectedDestination: merge.Target, amount: merge.Amount);
         return Status.Incompatible;
     }
 
@@ -447,7 +455,8 @@ internal sealed class RunItemActions
                         .OrderBy(keySelector: reference => reference.Key.slot)
                         .Select(selector: reference => (reference.Key.slot, reference.Value))],
                 availability: availability, stashPageCount: selected?.Target.Kind == RunWorld.Access.Stash
-                        ? inventory.StashPageCount : null);
+                        ? inventory.StashPageCount : null, sequence: access.Progress.Sequence,
+                stashEffect: selected?.Target.Kind == RunWorld.Access.Stash ? access.Progress.StashEffect : null);
     }
 
     internal enum Status
@@ -544,13 +553,26 @@ internal sealed class RunItemActions
 
     internal sealed record Merge : Transfer
     {
-        internal Merge(RunInventory.ItemPath expected, RunInventory.ItemPath target, long? token = null)
+        internal Merge(RunInventory.ItemPath expected, RunInventory.ItemPath target, long? token = null,
+                int? amount = null)
                 : base(expected: expected, token: token)
         {
             Target = target;
+            Amount = amount;
         }
 
         internal RunInventory.ItemPath Target { get; }
+        internal int? Amount { get; }
+    }
+
+    internal sealed record Assign : Transfer
+    {
+        internal Assign(RunInventory.ItemPath expected, int slot) : base(expected: expected, token: null)
+        {
+            Slot = slot;
+        }
+
+        internal int Slot { get; }
     }
 
     internal sealed record Drop : Transfer
@@ -579,7 +601,7 @@ internal sealed class RunItemActions
         internal View(long revision, string survivorId, ImmutableArray<RunExternalAccess.Target> nearby,
                 RunExternalAccess.Selection? selection, ImmutableArray<RunInventory.Item> personal,
                 ImmutableArray<RunInventory.Item> external, ImmutableArray<(int slot, long itemId)> quickReferences,
-                Status availability, int? stashPageCount)
+                Status availability, int? stashPageCount, long sequence, RunStash.PageEffect? stashEffect)
         {
             Revision = revision;
             SurvivorId = survivorId;
@@ -590,6 +612,8 @@ internal sealed class RunItemActions
             QuickReferences = quickReferences;
             Availability = availability;
             StashPageCount = stashPageCount;
+            Sequence = sequence;
+            StashEffect = stashEffect;
         }
 
         internal long Revision { get; }
@@ -602,6 +626,8 @@ internal sealed class RunItemActions
         internal Status Availability { get; }
         internal int? StashPageCount { get; }
         internal int? StashPageNumber => StashPageCount.HasValue ? Selection?.PageIndex + 1 : null;
+        internal long Sequence { get; }
+        internal RunStash.PageEffect? StashEffect { get; }
     }
 
     internal sealed class Outcome

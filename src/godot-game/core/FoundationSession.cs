@@ -57,10 +57,12 @@ public sealed class FoundationSession
     public (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows)> views)? ReadRunViews(
                     (string session, string binding, string player) identity, long? ownGrid = null,
-                    long? externalGrid = null, bool includeItems = true)
+                    long? externalGrid = null, bool includeItems = true, ImmutableArray<long> ownWindows = default,
+                    ImmutableArray<long> externalWindows = default)
     {
         return UnderInventoryAuthority(action: current => RunProjections.Private(session: this, root: current,
-                identity: identity, ownGrid: ownGrid, externalGrid: externalGrid, includeItems: includeItems));
+                identity: identity, ownGrid: ownGrid, externalGrid: externalGrid, includeItems: includeItems,
+                ownWindows: ownWindows, externalWindows: externalWindows));
     }
 
     /// <summary>Reads the access fence and identifies immutable inventory changes for publication.</summary>
