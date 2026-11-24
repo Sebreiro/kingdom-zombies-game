@@ -1,0 +1,224 @@
+'use strict';
+
+const assert = require('node:assert/strict');
+const run = require('./phase06-rendered.cjs');
+const {named, within, title, key, actor, own, external, item} = run;
+
+const saved = (state, name, peer, start, observations, pictures) =>
+  run.finish(state, 'phase06.solo.' + name, [peer], start, observations, pictures);
+const at = state => state.peers[0];
+const contents = (row, id) => Object.entries(row.phase06.Views).find(([scope, view]) =>
+  scope.startsWith('own.') && view.Header.ContainerId === id)?.[1].Rows ?? [];
+const dash = (state, peer, predicate, label) => run.moveUntil(state, peer, key.right, predicate, label);
+
+async function world(state) {
+  const peer = at(state), start = state.input.records.length;
+  const first = await run.enter(state, peer, 'field');
+  const initial = first.input;
+  const camp = initial.phase06.World;
+  assert(camp.CampLeft < camp.CampRight);
+  const stationary = camp.Actors.filter(entry => entry.Hostile);
+  assert.equal(stationary.length, 3);
+  assert.equal(stationary[0].X, stationary[1].X);
+  assert.notEqual(stationary[0].Id, stationary[1].Id);
+  assert.deepEqual(camp.Defenses.map(({Id, Living}) => [Id, Living]),
+    [['fixture.living-wall', true], ['fixture.broken-wall', false]]);
+  const walked = await dash(state, peer, row => actor(row)?.X > actor(initial).X + 500, 'controlled native walk');
+  const moved = await run.picture(state, peer, 'world-walked', (row, draw) => {
+    const local = draw.actors.find(entry => entry.local);
+    return local?.insideCamera && local.visible && actor(row)?.X > actor(initial).X + 500
+      && draw.appearance.filter(entry => entry.kind === 'Actors' && entry.visible).length === camp.Actors.length
+      && row.phase06.World.Actors.filter(entry => entry.Hostile)
+        .every(entry => stationary.some(value => value.Id === entry.Id && value.X === entry.X));
+  }, first.drawFrame);
+  return saved(state, 'world', peer, start, {initial: first, walked}, [moved]);
+}
+
+async function movement(state) {
+  const peer = at(state), start = state.input.records.length;
+  const first = await run.enter(state, peer, 'field');
+  assert.equal(first.input.hud.slots, 4);
+  assert(first.input.phase06.Views.status.Header.Hud.Weight > 0);
+  const walked = await dash(state, peer, row => actor(row)?.Movement === 'walk'
+    && actor(row).X > actor(first.input).X + 180, 'walk pose under carried load');
+  const walkingSpeed = Math.abs(actor(walked.input).X - actor(first.input).X);
+  assert(walkingSpeed > 0);
+  await run.press(state, peer, key.shift, true);
+  let sprinted;
+  try {
+    await run.press(state, peer, key.right, true);
+    try {
+      sprinted = await run.picture(state, peer, 'movement-sprint', row => actor(row)?.Movement === 'sprint'
+        && row.hud.Stamina < first.input.hud.Stamina, walked.drawFrame);
+    } finally { await run.press(state, peer, key.right, false); }
+  } finally { await run.press(state, peer, key.shift, false); }
+  const beforeJump = run.last(peer);
+  await run.press(state, peer, key.jump, true);
+  let airborne;
+  try {
+    airborne = await run.picture(state, peer, 'movement-air', row => {
+      const player = actor(row);
+      return player?.Movement === 'jump' && player.Y > row.phase06.World.Ground;
+    }, beforeJump.drawFrame);
+  } finally { await run.press(state, peer, key.jump, false); }
+  await run.committed(peer, row => actor(row)?.Movement !== 'jump', 'first jump completed');
+  await run.press(state, peer, key.jump, true);
+  const airStart = await run.committed(peer, row => actor(row)?.Movement === 'jump', 'second jump committed');
+  const airControl = await run.moveUntil(state, peer, key.left, row => actor(row)?.Movement === 'jump'
+    && actor(row).X < actor(airStart.input).X, 'native aerial reversal');
+  await run.press(state, peer, key.jump, false);
+  const settled = await run.committed(peer, row => actor(row)?.Y === row.phase06.World.Ground, 'normal landing');
+  await run.tap(state, peer, key.inventory);
+  const panel = await run.committed(peer, row => row.inventoryOpen, 'inventory captures controls');
+  await run.tap(state, peer, key.jump);
+  const blocked = await run.committed(peer, row => row.inventoryOpen && actor(row)?.Y === row.phase06.World.Ground,
+    'panel keeps jump at ground', panel.drawFrame);
+  return saved(state, 'movement', peer, start, {first, walked, airControl, settled, blocked}, [sprinted, airborne]);
+}
+
+async function inventory(state) {
+  const peer = at(state), start = state.input.records.length;
+  await run.enter(state, peer, 'field');
+  await run.tap(state, peer, key.inventory);
+  const equipped = await run.picture(state, peer, 'inventory-equipped', row => row.inventoryOpen
+    && row.inventorySlots === 11 && !!item(row, 'own', 'IT-23'));
+  const bag = item(equipped.draw.input, 'own', 'IT-23');
+  await run.bagWindow(state, peer, named('equipment_backpack'), bag.Id, 'own');
+  const open = await run.committed(peer, row => contents(row, bag.Id).some(entry => entry.DefinitionId === 'IT-22'),
+    'current carried pouch');
+  const pouch = contents(open.input, bag.Id).find(entry => entry.DefinitionId === 'IT-22');
+  const inBag = name => within('/Bag_' + bag.Id + '/', name);
+  await run.bagWindow(state, peer, inBag('Item_' + pouch.Id), pouch.Id, 'own');
+  const nested = await run.picture(state, peer, 'inventory-nested', row => contents(row, pouch.Id)
+    .some(entry => entry.DefinitionId === 'IT-08' && entry.Quantity === 6));
+  const berries = contents(nested.draw.input, pouch.Id).find(entry => entry.DefinitionId === 'IT-08');
+  const inPouch = name => within('/Bag_' + pouch.Id + '/', name);
+  const seedItem = inPouch('Item_' + berries.Id);
+
+  await run.choose(state, peer, seedItem, 'right');
+  await run.choose(state, peer, title('Assign to quick slot'));
+  await run.choose(state, peer, title('Slot 1'));
+  const assigned = await run.committed(peer, row => own(row)?.Header.Quick.some(entry =>
+    entry.Slot === 1 && entry.ItemId === berries.Id), 'physical context assignment');
+  await run.press(state, peer, key.shift, true);
+  try {
+    const stack = await run.control(peer, seedItem);
+    const source = {x: stack.x, y: stack.y};
+    await run.drag(state, peer, source, {x: source.x + 10, y: source.y});
+  } finally { await run.press(state, peer, key.shift, false); }
+  const split = await run.picture(state, peer, 'inventory-split', (_, draw) =>
+    draw.controls.some(entry => named('QuantityToMove')(entry) && entry.text === '3'));
+  await run.choose(state, peer, title('Move quantity'));
+  const board = await run.control(peer, inPouch('ItemCells'));
+  const emptyCell = {x: board.x - board.width / 2 + 48, y: board.y - board.height / 2 + 16};
+  await run.click(state, peer, emptyCell);
+  const divided = await run.committed(peer, row => {
+    const stack = contents(row, pouch.Id).filter(entry => entry.DefinitionId === berries.DefinitionId);
+    return stack.length === 2 && stack.every(entry => entry.Quantity === 3)
+      && stack.some(entry => entry.Id === berries.Id);
+  }, 'exact integral split preserves source identity');
+
+  const ammo = contents(divided.input, bag.Id).find(entry => entry.DefinitionId === 'IT-02');
+  const from = await run.control(peer, inBag('Item_' + ammo.Id));
+  const bagBoard = await run.control(peer, inBag('ItemCells'));
+  const destination = {x: bagBoard.x - bagBoard.width / 2 + 16, y: bagBoard.y - bagBoard.height / 2 + 80};
+  await run.pointer(state, peer, from, 'left', true);
+  try {
+    await run.pointer(state, peer, destination);
+    await run.tap(state, peer, key.rotate);
+  } finally { await run.pointer(state, peer, destination, 'left', false); }
+  const rotated = await run.picture(state, peer, 'inventory-rotated', row => {
+    const moved = contents(row, bag.Id).find(entry => entry.Id === ammo.Id);
+    return moved?.Location.Rotated === true && moved.Location.X === 0 && moved.Location.Y === 2;
+  });
+  await run.choose(state, peer, named('CloseInventory'));
+  await run.committed(peer, row => !row.inventoryOpen, 'native Close inventory');
+  await run.tap(state, peer, key.food1);
+  const food = await run.committed(peer, row => row.runAction?.status === 'Consumed'
+    && row.hud.Health > 0 && !row.inventoryOpen, 'physical quick food after closing');
+  await run.tap(state, peer, key.food1);
+  const cooldown = await run.committed(peer, row => row.runAction?.sequence > food.input.runAction.sequence
+    && /cooldown/i.test(row.runAction.status), 'visible real food cooldown');
+  return saved(state, 'inventory', peer, start, {assigned, divided, food, cooldown}, [equipped, nested, split, rotated]);
+}
+
+async function stash(state) {
+  const peer = at(state), start = state.input.records.length;
+  await run.enter(state, peer, 'field');
+  await run.stash(state, peer);
+  const first = await run.picture(state, peer, 'stash-first', row => external(row)?.Header.Page === 1
+    && external(row).Header.PageCount > 1 && row.nearby.kind === 'Stash');
+  await run.choose(state, peer, named('NextStashPage'));
+  const second = await run.picture(state, peer, 'stash-next', row => external(row)?.Header.Page === 2
+    && row.nearby.page === 2, first.draw.drawFrame);
+  await run.choose(state, peer, named('PreviousStashPage'));
+  const back = await run.committed(peer, row => external(row)?.Header.Page === 1, 'returned to original stash page');
+  const money = item(back.input, 'external', 'IT-01');
+  await run.press(state, peer, key.control, true);
+  try { await run.choose(state, peer, within('/NearbyStorage/', 'Item_' + money.Id)); }
+  finally { await run.press(state, peer, key.control, false); }
+  const committed = await run.picture(state, peer, 'stash-withdrawal', row => row.runAction?.status === 'Applied'
+    && external(row)?.Rows.every(entry => entry.Id !== money.Id)
+    && row.phase06.Views.status.Header.Hud.Money >= money.Quantity, back.drawFrame);
+  await run.choose(state, peer, named('CloseInventory'));
+  await run.moveUntil(state, peer, key.left, row => !own(row)?.Header.Nearby.some(entry => entry.Kind === 'Stash'),
+    'walk out of the stash access range');
+  const revoked = await run.picture(state, peer, 'stash-out-of-range', row => !external(row)
+    && !own(row).Header.Nearby.some(entry => entry.Kind === 'Stash'));
+  return saved(state, 'stash', peer, start, {back, money}, [first, second, committed, revoked]);
+}
+
+async function combat(state) {
+  const peer = at(state), start = state.input.records.length;
+  await run.enter(state, peer, 'bow');
+  const point = {x: 760, y: 370};
+  await run.pointer(state, peer, point);
+  const initial = await run.picture(state, peer, 'combat-ready', (row, draw) => actor(row)?.ArrowReady
+    && item(row, 'own', 'IT-02')?.Quantity === 1 && !!row.hud && draw.crosshair);
+  const bow = item(initial.draw.input, 'own', 'IT-07');
+  const before = await run.click(state, peer, point);
+  const fired = await run.picture(state, peer, 'combat-fired', row => row.aim && !actor(row)?.ArrowReady
+    && !item(row, 'own', 'IT-02') && item(row, 'own', 'IT-07')?.Condition < bow.Condition, before);
+  await run.committed(peer, row => actor(row)?.StrikeAt === null, 'bow ready to test the empty attempt');
+  await run.click(state, peer, point);
+  const empty = await run.picture(state, peer, 'combat-empty', (row, draw) => row.runAction?.status === 'EmptyAmmo'
+    && !actor(row)?.ArrowReady && item(row, 'own', 'IT-07')?.Condition === item(fired.draw.input, 'own', 'IT-07').Condition
+    && row.hud.Ammo === 0 && draw.crosshair && draw.controls.some(entry =>
+      named('ActionNotice')(entry) && !entry.text));
+  await run.fixture(state, peer, {action: 'fixture-attack', Target: 'fixture.bow'});
+  await run.fixture(state, peer, {action: 'fixture-step', Elapsed: 500});
+  const defense = await run.picture(state, peer, 'combat-broken-defense', row => row.phase06.World.Defenses
+    .find(entry => entry.Id === 'fixture.living-wall')?.Living === false);
+  return saved(state, 'combat', peer, start, {point}, [initial, fired, empty, defense]);
+}
+
+async function life(state) {
+  const peer = at(state), start = state.input.records.length;
+  const first = await run.enter(state, peer, 'life');
+  const previous = first.input.phase06.control;
+  await run.fixture(state, peer, {action: 'fixture-attack', Target: 'fixture.melee-a'});
+  const dead = await run.picture(state, peer, 'life-death', (row, draw) => row.spectator?.Visible && !row.hud && !own(row)
+    && row.phase06.World.Corpses.some(entry => entry.SurvivorId === previous
+      && entry.Equipment.some(piece => piece.DefinitionId === 'IT-23')
+      && draw.appearance.some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
+  const gate = await run.picture(state, peer, 'life-ready', row => row.spectator?.CanRespawn);
+  await run.choose(state, peer, named('Respawn'));
+  const transferred = await run.picture(state, peer, 'life-transfer', row => row.phase06.control !== previous
+    && row.phase06.epoch > 0 && row.bindingId === first.bindingId && !!row.spectator?.TransferNotice);
+  const corpse = dead.draw.input.phase06.World.Corpses.find(entry => entry.SurvivorId === previous);
+  await run.fixture(state, peer, {action: 'fixture-step', Elapsed: 180000});
+  const cleanup = await run.picture(state, peer, 'life-cleanup', row => row.phase06.World.Corpses
+    .some(entry => entry.Id === corpse.Id) && row.phase06.World.Loot.some(entry => entry.Id === 'fixture.supplies')
+    && !row.phase06.World.Loot.some(entry => entry.Id === 'fixture.empty'));
+  return saved(state, 'life', peer, start, {first, corpse}, [dead, gate, transferred, cleanup]);
+}
+
+module.exports = {open: context => run.open(context, ['solo']), reset: run.reset, close: run.close, cases: {
+  'phase06.solo.world': world,
+  'phase06.solo.movement': movement,
+  'phase06.solo.inventory': inventory,
+  'phase06.solo.stash': stash,
+  'phase06.solo.combat': combat,
+  'phase06.solo.life': life,
+}};
+

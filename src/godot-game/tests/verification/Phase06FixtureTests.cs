@@ -122,6 +122,34 @@ public sealed class Phase06FixtureTests
         next.FixtureMode.ShouldBeNull();
     }
 
+    /// <summary>Two real lethal contacts preserve the armed body and independently expire the empty body.</summary>
+    [Fact]
+    public void Phase06_FixtureKeepsSeparateCorpseOwnership()
+    {
+        FoundationSession session = Start(mode: "life");
+        session.TryUpdateVitals(survivorId: RunCombatFixture.First, health: 1, stamina: 100).ShouldBeTrue();
+        session.TryUpdateVitals(survivorId: RunCombatFixture.Second, health: 1, stamina: 100).ShouldBeTrue();
+        RunInventory.Item bat = session.Inventory.Equipped(survivorId: RunCombatFixture.First,
+                slot: "left-hand").ShouldNotBeNull();
+        RunCombat.Outcome first = session.Attack(controller: Phase06MeleeTests.Control(), sequence: 1);
+        first.Hits.Single().TargetId.ShouldBe(expected: RunCombatFixture.First);
+        session.Step(elapsedMilliseconds: 1000);
+        RunCombat.Outcome second = session.Attack(controller: Phase06MeleeTests.Control(), sequence: 2);
+        second.Hits.Single().TargetId.ShouldBe(expected: RunCombatFixture.Second);
+        RunDeathAndLoot.State loot = Phase06DeathTests.Loot(session: session);
+        string full = loot.Deaths.Values.Single(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row.SurvivorId, y: RunCombatFixture.First)).CorpseId;
+        string empty = loot.Deaths.Values.Single(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row.SurvivorId, y: RunCombatFixture.Second)).CorpseId;
+        StringComparer.Ordinal.Equals(x: full, y: empty).ShouldBeFalse();
+        session.Inventory.Find(itemId: bat.Id)?.Location.ShouldBeOfType<RunInventory.CorpseEquipment>()
+                .CorpseId.ShouldBe(expected: full);
+        session.Step(elapsedMilliseconds: 180000);
+        loot = Phase06DeathTests.Loot(session: session);
+        loot.Targets.ContainsKey(key: full).ShouldBeTrue();
+        loot.Targets.ContainsKey(key: empty).ShouldBeFalse();
+    }
+
     /// <summary>Near and far fixtures assign genuine candidates with their stored state intact.</summary>
     [Theory]
     [InlineData("life", -8000)]

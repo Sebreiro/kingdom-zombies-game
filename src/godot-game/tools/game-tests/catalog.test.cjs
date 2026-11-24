@@ -46,6 +46,36 @@ test('Phase 6 headless rows select six active ordered cases with exact roles', (
     .selected.some(row => row.id === group + '.combat'));
 });
 
+test('Phase 6 rendered cases select only the saved roles and preserve aggregate ownership', () => {
+  const catalog = loadCatalog(root);
+  const groups = [
+    ['solo', ['world', 'movement', 'inventory', 'stash', 'combat', 'life'], ['solo']],
+    ['lan', ['population', 'conflicts', 'succession'], ['host', 'guest-1', 'guest-2', 'guest-3']]
+  ];
+  for (const [name, suffixes, roles] of groups) {
+    const group = 'phase06.' + name;
+    const {selected} = select(catalog, {mode: 'group', value: group});
+    assert.deepEqual(ids(selected), suffixes.map(suffix => group + '.' + suffix));
+    const driver = require('../../tests/scenarios/phase06-' + name + '.cjs');
+    assert.deepEqual(Object.keys(driver.cases), ids(selected));
+    assert(['open', 'reset', 'close'].every(method => typeof driver[method] === 'function'));
+    for (const row of selected) {
+      assert(row.tier === 3 && row.owner === 6 && row.needsGameWindow && row.status === 'required');
+      assert.deepEqual(row.roles, roles);
+    }
+    const impact = select(catalog, {mode: 'phase-end', value: 6, changes: ['src/godot-game/game/content/config/run.json']});
+    assert(selected.every(row => impact.selected.some(changed => changed.id === row.id)));
+  }
+  const stable = {'A-01': 8, 'A-04': 9, 'A-05': 6, 'A-06': 7, 'A-14': 8, 'A-22': 6, 'A-23': 6,
+    'A-24': 9, 'A-25': 7, 'A-26': 8, 'A-27': 6, 'A-28': 9, 'A-31': 8, 'A-43': 9};
+  for (const [id, owner] of Object.entries(stable)) {
+    const matches = catalog.cases.filter(row => row.id === id);
+    assert.equal(matches.length, 1, id);
+    assert.equal(matches[0].owner, owner, id);
+    assert.equal(matches[0].status, 'planned', id);
+  }
+});
+
 test('Phase 10 tracks distinct planned release procedures without replacing A-47', () => {
   const catalog = loadCatalog(root);
   const procedures = catalog.cases.filter(row => row.group === 'release.environments');

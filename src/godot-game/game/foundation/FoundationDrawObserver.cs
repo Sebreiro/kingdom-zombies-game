@@ -47,6 +47,7 @@ internal sealed class FoundationDrawObserver
     private readonly Control _root;
     private readonly MainThreadGateway _gateway;
     private readonly List<object> _actors = [];
+    private readonly List<object> _appearance = [];
     private readonly List<object> _controls = [];
     private string? _directory;
     private bool _attached;
@@ -54,6 +55,7 @@ internal sealed class FoundationDrawObserver
     private ulong _drawMicroseconds;
     private JsonElement _sample;
     private Node2D? _world;
+    private bool _crosshair;
     private string? _checkpoint;
     private static readonly string[] _controlPaths = ["Menu/Start", "Menu/Host", "Menu/Join", "Menu/Quit",
         "Menu/Profiles", "Menu/Name", "Menu/NewProfile", "Menu/Error", "Browser/Refresh", "Browser/Address",
@@ -70,6 +72,7 @@ internal sealed class FoundationDrawObserver
         using JsonDocument document = JsonDocument.Parse(json: Sample);
         _sample = document.RootElement;
         _world = _root.GetNodeOrNull<Node2D>(path: "World");
+        _crosshair = _root.GetNodeOrNull<Node2D>(path: "Aim")?.IsVisibleInTree() == true;
         ObserveActors();
         ObserveControls();
         _checkpoint = Request();
@@ -81,11 +84,37 @@ internal sealed class FoundationDrawObserver
     {
         _gateway.RequireThread();
         _actors.Clear();
+        _appearance.Clear();
         if (_world is null || !_sample.TryGetProperty(propertyName: "snapshot", value: out JsonElement snapshot)
                 || snapshot.ValueKind is JsonValueKind.Null) { return; }
         foreach (JsonElement participant in snapshot.GetProperty(propertyName: "Participants").EnumerateArray())
         {
             if (participant.GetProperty(propertyName: "Ready").GetBoolean()) { ObserveActor(participant: participant); }
+        }
+
+        if (!_sample.TryGetProperty(propertyName: "phase06", value: out JsonElement phase)
+                || phase.ValueKind is not JsonValueKind.Object
+                || !phase.TryGetProperty(propertyName: "World", value: out JsonElement state)
+                || state.ValueKind is not JsonValueKind.Object
+                || _world.GetNodeOrNull<Node2D>(path: "RunAppearance") is not { } native)
+        {
+            return;
+        }
+
+        foreach (string kind in new[] { "Actors", "Corpses", "Arrows" })
+        {
+            foreach (JsonElement row in state.GetProperty(propertyName: kind).EnumerateArray())
+            {
+                string id = row.GetProperty(propertyName: "Id").ToString();
+                string name = kind is "Arrows" ? "Arrow_" + id : FoundationActorNode.Name(actorId: id);
+                if (native.GetNodeOrNull<Node2D>(path: name) is { } found)
+                {
+                    Vector2 screen = found.GetGlobalTransformWithCanvas().Origin;
+                    _appearance.Add(item: new { id, kind, screenX = screen.X, screenY = screen.Y,
+                        visible = found.IsVisibleInTree(), crown = found.GetNodeOrNull<Sprite2D>(path: "Crown")
+                                ?.IsVisibleInTree() == true });
+                }
+            }
         }
     }
 
@@ -128,6 +157,37 @@ internal sealed class FoundationDrawObserver
                 ObserveControl(path: _root.GetPathTo(node: control).ToString());
             }
         }
+
+        if (!_sample.TryGetProperty(propertyName: "phase06", value: out JsonElement phase)
+                || phase.ValueKind is not JsonValueKind.Object)
+        {
+            return;
+        }
+
+        var remaining = new Stack<Node>();
+        foreach (string layer in new[] { "RunHud", "InventoryWorkspace", "SpectatorCard", "DamageTint",
+                "ControlTransferred" })
+        {
+            if (_root.GetNodeOrNull<Control>(path: layer) is { } present)
+            {
+                remaining.Push(item: present);
+            }
+        }
+
+        while (remaining.TryPop(result: out Node? node))
+        {
+            if (node is Control control && control.IsVisibleInTree()
+                    && (control is Button or Label or LineEdit
+                            || (string)control.Name is "ItemCells" or "PlacementPreview" or "DamageTint"))
+            {
+                ObserveControl(path: _root.GetPathTo(node: control).ToString());
+            }
+
+            foreach (Node child in node.GetChildren())
+            {
+                remaining.Push(item: child);
+            }
+        }
     }
 
     private void ObserveControl(string path)
@@ -141,7 +201,8 @@ internal sealed class FoundationDrawObserver
             selectedIndex = control is OptionButton selector ? selector.Selected : -1,
             popupVisible = control is OptionButton popup ? popup.GetPopup().Visible : false,
             popupFocusedIndex = control is OptionButton highlight ? highlight.GetPopup().GetFocusedItem() : -1,
-            focused = control.HasFocus(), text = control is Label label ? label.Text
+            focused = control.HasFocus(), disabled = control is BaseButton { Disabled: true },
+            text = control is Label label ? label.Text
                     : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "" });
     }
 
@@ -186,6 +247,6 @@ internal sealed class FoundationDrawObserver
             snapshot = _sample.GetProperty(propertyName: "snapshot"),
             input = _sample, drawn = _frame > 0, drawFrame = _frame, drawMicroseconds = _drawMicroseconds,
             checkpoint = _checkpoint, width, height, actors = _actors, controls = _controls,
-            focused, cameraX });
+            focused, cameraX, appearance = _appearance, crosshair = _crosshair });
     }
 }

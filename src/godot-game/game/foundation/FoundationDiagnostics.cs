@@ -90,7 +90,9 @@ internal sealed class FoundationDiagnostics
             hud = hud is null ? null : new { hud.Health, hud.Stamina, hud.Load, hud.Ammo, slots = hud.Food.Length },
             spectator = spectator is null ? null : new { spectator.Visible, spectator.CanRespawn, spectator.Status,
                 spectator.Camera, spectator.TransferNotice, survivor = local,
-                generation = coordinator?.LocalRunControl?.generation, spectator.DeathEpoch, spectator.Followed,
+                generation = coordinator?.LocalRunControl?.generation, spectator.DeathEpoch,
+                Followed = spectator.Followed is { } selected
+                        ? new { selected.Binding, selected.Survivor, selected.Slot } : null,
                 spectator.FollowNotice, spectator.Smoothing },
         });
         File.AppendAllText(path: Path.Combine(path1: output, path2: "frames.ndjson"),

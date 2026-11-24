@@ -95,6 +95,13 @@ async function close(state, stop = network.stop) {
     } catch (error) { errors.push(error.message); }
   }
   assert.deepEqual(errors, []);
+  if (!state.rendered) ended(state);
+}
+
+function ended(state) {
+  fs.writeFileSync(path.join(state.directory, 'ordinary-cleanup.json'), JSON.stringify({
+    nonce: state.nonce, roles: state.peers.map(({role, pid}) => ({role, pid})),
+  }), {flag: 'wx'});
 }
 
 function evidence(state, id, peers, observations, captures = []) {
@@ -103,7 +110,8 @@ function evidence(state, id, peers, observations, captures = []) {
   const file = path.join(state.directory, id + '.json');
   fs.writeFileSync(file, JSON.stringify({id, revision: state.revision, nonce: state.nonce, rendered: state.rendered,
     roles, observations, captures}, null, 2), {flag: 'wx'});
-  return [file, ...peers.flatMap(peer => ['launch.json', 'frames.ndjson', 'terminal.json', 'console.log']
+  return [file, path.join(state.directory, 'ordinary-cleanup.json'),
+    ...peers.flatMap(peer => ['launch.json', 'frames.ndjson', 'terminal.json', 'console.log']
     .map(name => path.join(peer.directory, name))), ...captures];
 }
 
@@ -218,8 +226,10 @@ async function combat(state) {
   await shot(state, peer);
   const fired = await observe(state, peer, row => !actor(row).ArrowReady && !item(row, 'own', 'IT-02'), 'actual arrow spent');
   assert(item(fired, 'own', 'IT-07').Condition < item(first, 'own', 'IT-07').Condition, 'actual bow wear');
+  await observe(state, peer, row => actor(row)?.StrikeAt === null, 'bow cooldown ended');
   await shot(state, peer);
-  const empty = await observe(state, peer, row => row.frame > fired.frame, 'frames after empty bow input');
+  const empty = await observe(state, peer, row => row.runAction?.sequence > fired.runAction.sequence, 'empty ammo receipt');
+  assert.equal(empty.runAction.status, 'EmptyAmmo');
   assert.equal(item(empty, 'own', 'IT-07').Condition, item(fired, 'own', 'IT-07').Condition);
   await inject(state, peer, {action: 'fixture-attack', Target: 'fixture.bow'});
   await inject(state, peer, {action: 'fixture-step', Elapsed: 500});
@@ -328,5 +338,5 @@ module.exports = {open, reset, close: state => close(state), cases: {
   'phase06.headless.combat': combat,
   'phase06.headless.lifecycle': lifecycle,
   'phase06.headless.lan-privacy': lanPrivacy,
-}, helpers: {open, close, key, current, actor, own, external, item, wait, observe, launch, seed, evidence, privacy, inject}};
+}, helpers: {open, close, ended, key, current, actor, own, external, item, wait, observe, launch, seed, evidence, privacy, inject}};
 

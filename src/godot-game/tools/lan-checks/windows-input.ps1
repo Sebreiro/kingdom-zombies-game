@@ -49,8 +49,9 @@ public static class LanDesktop {
             Flags=(unicode?4u:8u)|(pressed?0u:2u)|(!unicode&&((key>=33&&key<=40)||key==45||key==46)?1u:0u)};
         if(SendInput(1,new[]{item},Marshal.SizeOf<Event>())!=1)throw new Exception("SENDINPUT_REJECTED");
     }
-    public static void MouseButton(bool pressed) {
-        var item=new Event {Type=0}; item.Data.Mouse=new Mouse {Flags=pressed?2u:4u};
+    public static void MouseButton(bool pressed) { MouseButton(pressed,false); }
+    public static void MouseButton(bool pressed,bool right) {
+        var item=new Event {Type=0}; item.Data.Mouse=new Mouse {Flags=right?(pressed?8u:16u):(pressed?2u:4u)};
         if(SendInput(1,new[]{item},Marshal.SizeOf<Event>())!=1)throw new Exception("SENDINPUT_MOUSE_REJECTED");
     }
 }
@@ -66,6 +67,7 @@ foreach ($text in $OwnedPids.Split(',')) {
 if ($allowed.Count -eq 0 -or -not [Guid]::TryParseExact($Nonce,'D',[ref]([Guid]::Empty))) { throw 'DRIVER_SCOPE' }
 $held = @{}
 $mouseHeld = $false
+$rightHeld = $false
 $sequence = 0
 Add-Type -AssemblyName System.Windows.Forms
 $sink = [System.Windows.Forms.Form]::new()
@@ -158,6 +160,16 @@ function Deliver-Key([int]$SubjectId,[IntPtr]$Target,[string]$Method,[int]$Code,
     } else { throw 'DRIVER_METHOD' }
     if (-not $Pressed) { $held.Remove($token) }
 }
+function Move-OwnedPointer([int]$SubjectId,[IntPtr]$Target,[int]$X,[int]$Y) {
+    if ([LanDesktop]::GetForegroundWindow() -ne $Target) { throw 'DRIVER_MOUSE_FOCUS' }
+    if ($X -lt 0 -or $X -ge 1280 -or $Y -lt 0 -or $Y -ge 720) { throw 'DRIVER_MOUSE_BOUNDS' }
+    $point=[LanDesktop+Point]::new(); $point.X=$X; $point.Y=$Y
+    if (-not [LanDesktop]::ClientToScreen($Target,[ref]$point)) { throw 'DRIVER_MOUSE_POINT' }
+    [uint32]$pointOwner=0
+    [void][LanDesktop]::GetWindowThreadProcessId([LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($point),2),[ref]$pointOwner)
+    if ($pointOwner -ne $SubjectId) { throw 'DRIVER_MOUSE_POINT_NOT_OWNED' }
+    if (-not [LanDesktop]::SetCursorPos($point.X,$point.Y)) { throw 'DRIVER_MOUSE_POINT' }
+}
 try {
     [Console]::Out.WriteLine((@{ready=$true;nonce=$Nonce;pid=$PID;owned=@($allowed.Keys);methods=@('physical-SendInput','window-message')} | ConvertTo-Json -Compress))
     while ($null -ne ($line=[Console]::In.ReadLine())) {
@@ -211,18 +223,36 @@ try {
                     [LanDesktop]::MouseButton($true); [LanDesktop]::MouseButton($false)
                     $mouseHeld=$false
                 }
+                'pointer' {
+                    if ($method -ne 'physical-SendInput' -or -not ($request.x -is [ValueType]) -or
+                        -not ($request.y -is [ValueType])) { throw 'DRIVER_POINTER_METHOD' }
+                    Move-OwnedPointer $subjectId $window ([int]$request.x) ([int]$request.y)
+                    if ($request.button -in 'left','right' -and $request.pressed -is [bool]) {
+                        $pressed=[bool]$request.pressed
+                        $isRight=$request.button -eq 'right'
+                        if ($isRight -and $pressed -eq $rightHeld -or -not $isRight -and $pressed -eq $mouseHeld) {
+                            throw 'DRIVER_MOUSE_UNBALANCED'
+                        }
+                        [LanDesktop]::MouseButton($pressed,$isRight)
+                        if ($isRight) { $rightHeld=$pressed } else { $mouseHeld=$pressed }
+                    } elseif ($null -ne $request.button -or $null -ne $request.pressed) { throw 'DRIVER_MOUSE_BUTTON' }
+                }
                 'focus-sink' {
                     $sink.Show()
                     $sink.Activate();[System.Windows.Forms.Application]::DoEvents();Focus-Owned $sink.Handle
                 }
                 default { throw 'DRIVER_ACTION' }
             }
-            [Console]::Out.WriteLine((@{ok=$true;nonce=$Nonce;sequence=$sequence;pid=$subjectId;driverPid=$PID;window=$window.ToInt64();focused=([LanDesktop]::GetForegroundWindow()-eq$window);action=$request.action;method=$method;key=$request.key;pressed=$request.pressed;releaseKey=$request.releaseKey;deliveryOnly=$true;coordinateSpace='physical-pixels';dpiAwareness='per-monitor-v2';clientWidth=$client.R-$client.L;clientHeight=$client.B-$client.T} | ConvertTo-Json -Compress))
+            [Console]::Out.WriteLine((@{ok=$true;nonce=$Nonce;sequence=$sequence;pid=$subjectId;driverPid=$PID;window=$window.ToInt64();focused=([LanDesktop]::GetForegroundWindow()-eq$window);action=$request.action;method=$method;key=$request.key;pressed=$request.pressed;releaseKey=$request.releaseKey;x=$request.x;y=$request.y;button=$request.button;deliveryOnly=$true;coordinateSpace='physical-pixels';dpiAwareness='per-monitor-v2';clientWidth=$client.R-$client.L;clientHeight=$client.B-$client.T} | ConvertTo-Json -Compress))
         } catch { [Console]::Out.WriteLine((@{ok=$false;nonce=$Nonce;sequence=$sequence;error=$_.Exception.Message} | ConvertTo-Json -Compress)) }
     }
 } finally {
     if ($mouseHeld) {
         try { [LanDesktop]::MouseButton($false) }
+        catch { [Console]::Error.WriteLine('DRIVER_MOUSE_RELEASE_FAILED '+$_.Exception.Message) }
+    }
+    if ($rightHeld) {
+        try { [LanDesktop]::MouseButton($false,$true) }
         catch { [Console]::Error.WriteLine('DRIVER_MOUSE_RELEASE_FAILED '+$_.Exception.Message) }
     }
     foreach ($record in @($held.Values)) {

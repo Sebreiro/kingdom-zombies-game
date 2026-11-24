@@ -85,7 +85,7 @@ async function nativeKey(context,input,peer,key,pressed,method='physical-SendInp
   const previous=draws(peer).at(-1)?.input.inputEvents??0;
   const ack=await input.send(peer,{action:'key',method,key,pressed});
   const native=await until([peer],()=>{const row=draws(peer).at(-1);const event=row?.input.lastInput;
-    return row?.input.inputEvents>previous&&event?.key===({13:4194309,27:4194305,9:4194306,37:4194319,39:4194321}[key]??key)&&event.pressed===pressed?row:null;},'native event '+peer.role+'/'+key+'/'+pressed);
+    return row?.input.inputEvents>previous&&event?.key===({13:4194309,16:4194325,17:4194326,27:4194305,9:4194306,37:4194319,39:4194321}[key]??key)&&event.pressed===pressed?row:null;},'native event '+peer.role+'/'+key+'/'+pressed);
   Object.assign(ack,{nativeInputEvents:native.input.inputEvents,nativeDrawFrame:native.drawFrame,nativeAcknowledgedAfter:String(now())});return ack;
 }
 async function nativeReversal(input,peer){
