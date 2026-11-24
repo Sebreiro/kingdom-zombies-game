@@ -10,32 +10,43 @@ public sealed class FoundationSession
 {
     /// <summary>Creates one ready local participant at the fixture spawn.</summary>
     public FoundationSession(string sessionId, string playerId, string actorId)
+            : this(sessionId: sessionId, playerId: playerId, actorId: actorId, world: RunWorld.Foundation)
     {
-        _snapshot = new FoundationSnapshot(sessionId: sessionId, revision: 0, participants:
-                [new FoundationParticipantState(bindingId: "local", label: "Player 1", slot: 1, ready: true,
-                        actor: new FoundationActorState(sessionId: sessionId, playerId: playerId, actorId: actorId,
-                                positionSubunits: -8000, facing: 1, elapsedMilliseconds: 0))]);
     }
 
     /// <summary>Gets the inherited view of the host actor from the common publication.</summary>
-    public FoundationActorState Actor => _snapshot.Participants[0].Actor;
+    public FoundationActorState Actor => Snapshot.Participants[0].Actor;
     /// <summary>Gets one complete immutable publication.</summary>
-    public FoundationSnapshot Snapshot => _snapshot;
+    public FoundationSnapshot Snapshot => _publication.Snapshot;
+
+    /// <summary>Gets the local host actor's current safety and shared stash access at the committed run time.</summary>
+    public (long elapsedMilliseconds, bool insideCamp, bool safeDistance, bool stashReachable) LocalWorld
+    {
+        get
+        {
+            RunPublication current = _publication;
+            RunWorld.Point contact = current.World.ActorContact(actor: current.Snapshot.Participants[0].Actor);
+            (bool insideCamp, bool safeDistance) = current.World.Safety(actor: contact);
+            bool stashReachable = current.World.Reachable(actor: contact, kind: RunWorld.Access.Stash,
+                    id: RunWorld.StashId);
+            return (current.ElapsedMilliseconds, insideCamp, safeDistance, stashReachable);
+        }
+    }
 
     /// <summary>Reserves a distinct participant without making its actor controllable.</summary>
     public bool AddParticipant(string bindingId, string playerId, string actorId, string label)
     {
-        if (!_active || _snapshot.Participants.Length >= 4)
+        if (!_active || Snapshot.Participants.Length >= 4)
         {
             return false;
         }
 
-        int slot = Enumerable.Range(start: 1, count: 4).First(predicate: candidate => !_snapshot.Participants.Any(
+        int slot = Enumerable.Range(start: 1, count: 4).First(predicate: candidate => !Snapshot.Participants.Any(
                 predicate: participant => participant.Slot == candidate));
         var participant = new FoundationParticipantState(bindingId: bindingId, label: label, slot: slot,
                 ready: false, actor: new FoundationActorState(sessionId: Actor.SessionId, playerId: playerId,
                         actorId: actorId, positionSubunits: -8000, facing: 1, elapsedMilliseconds: 0));
-        return TryPublish(participants: _snapshot.Participants.Add(item: participant));
+        return TryPublish(participants: Snapshot.Participants.Add(item: participant));
     }
 
     /// <summary>Enables a reserved actor after its current binding installed a baseline.</summary>
@@ -47,7 +58,7 @@ public sealed class FoundationSession
             return false;
         }
 
-        return TryPublish(participants: _snapshot.Participants.Select(selector: current => current == participant
+        return TryPublish(participants: Snapshot.Participants.Select(selector: current => current == participant
                 ? new FoundationParticipantState(bindingId: current.BindingId, label: current.Label,
                         slot: current.Slot, ready: true, actor: current.Actor) : current));
     }
@@ -61,7 +72,7 @@ public sealed class FoundationSession
             return false;
         }
 
-        bool removed = TryPublish(participants: _snapshot.Participants.Where(predicate: p => p != participant));
+        bool removed = TryPublish(participants: Snapshot.Participants.Where(predicate: p => p != participant));
         if (removed)
         {
             _intents.Remove(key: bindingId);
@@ -94,10 +105,13 @@ public sealed class FoundationSession
     {
         RequireActive();
         ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
-        FoundationParticipantState[] candidate = [.._snapshot.Participants.Select(selector: participant =>
+        RunPublication current = _publication;
+        long elapsed = checked(current.ElapsedMilliseconds + elapsedMilliseconds);
+        FoundationParticipantState[] candidate = [.. current.Snapshot.Participants.Select(selector: participant =>
                 AdvanceParticipant(participant: participant, elapsedMilliseconds: elapsedMilliseconds))];
-        _snapshot = new FoundationSnapshot(sessionId: Actor.SessionId, revision: checked(_snapshot.Revision + 1),
-                participants: candidate);
+        var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
+                revision: checked(current.Snapshot.Revision + 1), participants: candidate);
+        _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed);
     }
 
     /// <summary>Retains inherited callers through the same validation and stepping path.</summary>
@@ -124,13 +138,45 @@ public sealed class FoundationSession
         _intents.Clear();
     }
 
-    private FoundationSnapshot _snapshot;
+#if DEBUG
+    /// <summary>Creates the fixed world used by the owned native observation run.</summary>
+    public static FoundationSession CreateObserved(string sessionId, string playerId, string actorId)
+    {
+        return new FoundationSession(sessionId: sessionId, playerId: playerId, actorId: actorId,
+                world: RunWorld.Observed);
+    }
+#endif
+
+    internal FoundationSession(string sessionId, string playerId, string actorId, RunWorld world)
+    {
+        world.Validate();
+        var snapshot = new FoundationSnapshot(sessionId: sessionId, revision: 0, participants:
+                [new FoundationParticipantState(bindingId: "local", label: "Player 1", slot: 1, ready: true,
+                        actor: new FoundationActorState(sessionId: sessionId, playerId: playerId, actorId: actorId,
+                                positionSubunits: -8000, facing: 1, elapsedMilliseconds: 0))]);
+        _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0);
+    }
+
+    internal bool CanReach(string bindingId, RunWorld.Access kind, string targetId)
+    {
+        RunPublication current = _publication;
+        FoundationParticipantState? participant = Find(snapshot: current.Snapshot, bindingId: bindingId);
+        return _active && participant?.Ready == true && current.World.Reachable(
+                actor: current.World.ActorContact(actor: participant.Actor), kind: kind, id: targetId);
+    }
+
+    private RunPublication _publication;
     private readonly Dictionary<string, FoundationHeldIntent> _intents = new(comparer: StringComparer.Ordinal);
     private bool _active = true;
 
     private FoundationParticipantState? Find(string bindingId)
     {
-        return _snapshot.Participants.FirstOrDefault(predicate: participant => StringComparer.Ordinal.Equals(
+        return Find(snapshot: Snapshot, bindingId: bindingId);
+    }
+
+    private static FoundationParticipantState? Find(FoundationSnapshot snapshot, string bindingId)
+    {
+        return snapshot.Participants.FirstOrDefault(predicate: participant => StringComparer.Ordinal.Equals(
                 x: participant.BindingId, y: bindingId));
     }
 
@@ -169,8 +215,11 @@ public sealed class FoundationSession
     {
         try
         {
-            _snapshot = new FoundationSnapshot(sessionId: Actor.SessionId, revision: checked(_snapshot.Revision + 1),
-                    participants: participants);
+            RunPublication current = _publication;
+            var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
+                    revision: checked(current.Snapshot.Revision + 1), participants: participants);
+            _publication = new RunPublication(snapshot: snapshot, world: current.World,
+                    elapsedMilliseconds: current.ElapsedMilliseconds);
             return true;
         }
         catch (InvalidDataException)
@@ -185,5 +234,19 @@ public sealed class FoundationSession
         {
             throw new InvalidOperationException(message: "FOUNDATION_CLOSED");
         }
+    }
+
+    private sealed class RunPublication
+    {
+        internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds)
+        {
+            Snapshot = snapshot;
+            World = world;
+            ElapsedMilliseconds = elapsedMilliseconds;
+        }
+
+        internal FoundationSnapshot Snapshot { get; }
+        internal RunWorld World { get; }
+        internal long ElapsedMilliseconds { get; }
     }
 }

@@ -210,7 +210,8 @@ public sealed partial class FoundationRoot : Control
             _runtime.Hosting = host;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: host, nowMilliseconds: () => _runtime.NowMilliseconds);
-            _coordinator.Start(host: host, port: Port());
+            _coordinator.Start(host: host, port: Port(), observeWorld: !host
+                    && FoundationCoordinator.UseObservedWorld(generation: _generation));
 #if DEBUG
             if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
                     is string fault && StringComparer.Ordinal.Equals(x: fault,
@@ -313,9 +314,12 @@ public sealed partial class FoundationRoot : Control
         GetNode<Control>(path: "Menu/Error").Visible = false;
         GetNode<Control>(path: "Menu").Visible = false;
         GetNode<Control>(path: "Browser").Visible = false;
-        GetNode<Control>(path: "Hint").Visible = true;
         FoundationHud.Project(root: this, snapshot: snapshot, bindingId: _coordinator.BindingId,
                 hosting: _runtime.Hosting, waitingForHost: _coordinator.WaitingForHost, gateway: _gateway);
+        Label hint = GetNode<Label>(path: "Hint");
+        hint.Text = _coordinator.WorldHint(instructions: hint.Text);
+        hint.Visible = true;
+        _coordinator.ObserveWorldHint(hint: hint.Text);
     }
 
     private void PollKeys()

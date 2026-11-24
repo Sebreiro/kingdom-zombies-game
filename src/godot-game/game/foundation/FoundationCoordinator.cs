@@ -32,6 +32,8 @@ internal sealed partial class FoundationCoordinator
     internal FoundationActorState? LocalActor => Ready ? Snapshot?.Participants.First(predicate: p =>
             StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId)).Actor : null;
     internal bool IsHost => _session is not null;
+    internal (long elapsedMilliseconds, bool insideCamp, bool safeDistance, bool stashReachable)? LocalWorld
+            { get; private set; }
     internal bool WaitingForHost => Ready && !IsHost && _connection?.Connected != true;
     internal string Error { get; private set; } = "";
     internal long InstalledRevision { get; private set; } = -1;
@@ -44,7 +46,7 @@ internal sealed partial class FoundationCoordinator
     internal bool Closed => _closed;
     internal bool Finished => _used && !_active;
 
-    internal void Start(bool host, int port = 24680)
+    internal void Start(bool host, int port = 24680, bool observeWorld = false)
     {
         RequireFresh();
         _used = true;
@@ -55,8 +57,9 @@ internal sealed partial class FoundationCoordinator
         }
 
         _active = true;
-        _session = new FoundationSession(sessionId: Guid.NewGuid().ToString(format: "N"),
-                playerId: PlayerId, actorId: Guid.NewGuid().ToString(format: "N"));
+        string sessionId = Guid.NewGuid().ToString(format: "N");
+        string actorId = Guid.NewGuid().ToString(format: "N");
+        _session = CreateSession(sessionId: sessionId, actorId: actorId, observeWorld: observeWorld && !host);
         RecordEvent(value: host ? "host-start" : "solo-start");
     }
 
@@ -96,7 +99,11 @@ internal sealed partial class FoundationCoordinator
             _helloSent = true;
         }
 
-        _session?.Step(elapsedMilliseconds: elapsedMilliseconds);
+        if (_session is not null)
+        {
+            _session.Step(elapsedMilliseconds: elapsedMilliseconds);
+            ReadLocalWorld(session: _session);
+        }
         _publicationElapsed = checked(_publicationElapsed + elapsedMilliseconds);
         _livenessElapsed = checked(_livenessElapsed + elapsedMilliseconds);
         if (_session is not null && (_pendingPublication || _publicationElapsed >= 16))
@@ -139,6 +146,47 @@ internal sealed partial class FoundationCoordinator
         BeginClose(drain: false);
     }
 
+    internal static bool UseObservedWorld(long generation)
+    {
+#if DEBUG
+        string? seed = Environment.GetEnvironmentVariable(variable: "KZ_RUN_WORLD_PROOF");
+        string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
+        return generation == 1 && seed is not null && StringComparer.Ordinal.Equals(x: seed, y: nonce)
+                && Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE") is "solo"
+                && Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER")
+                        is "synthetic-native-ParseInputEvent"
+                && FoundationObservationScope.Directory() is not null;
+#else
+        return false;
+#endif
+    }
+
+    internal string WorldHint(string instructions)
+    {
+        if (LocalWorld is not { } state)
+        {
+            return instructions;
+        }
+
+        string stash = state.stashReachable ? "Shared stash in reach." : "Shared stash out of reach.";
+        if (!state.safeDistance)
+        {
+            return instructions + "\n" + stash + " Rest is unsafe with an enemy nearby.";
+        }
+
+        string rest = state.insideCamp ? "Safe to rest." : "Rest is unsafe outside camp.";
+        return instructions + "\n" + stash + " " + rest;
+    }
+
+    internal void ObserveWorldHint(string hint)
+    {
+        if (_worldTransition is not null)
+        {
+            RecordEvent(value: _worldTransition + "|" + hint);
+            _worldTransition = null;
+        }
+    }
+
     private readonly IConnectionService? _connection;
     private readonly string _generation;
     private readonly string _label;
@@ -157,6 +205,7 @@ internal sealed partial class FoundationCoordinator
     private bool _pendingPublication;
     private long _livenessElapsed;
     private long _heartbeatSequence;
+    private string? _worldTransition;
 
     private void Receive()
     {
@@ -263,6 +312,38 @@ internal sealed partial class FoundationCoordinator
                 && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: peer.PlayerId)
                 && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: peer.ActorId)
                 && StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: peer.Baseline.AttemptId);
+    }
+
+    private FoundationSession CreateSession(string sessionId, string actorId, bool observeWorld)
+    {
+#if DEBUG
+        if (observeWorld)
+        {
+            return FoundationSession.CreateObserved(sessionId: sessionId, playerId: PlayerId, actorId: actorId);
+        }
+#endif
+        return new FoundationSession(sessionId: sessionId, playerId: PlayerId, actorId: actorId);
+    }
+
+    private void ReadLocalWorld(FoundationSession session)
+    {
+        var current = session.LocalWorld;
+        var previous = LocalWorld;
+        LocalWorld = current;
+        if (previous?.insideCamp == current.insideCamp && previous?.safeDistance == current.safeDistance
+                && previous?.stashReachable == current.stashReachable)
+        {
+            return;
+        }
+
+        string camp = current.insideCamp ? "inside" : "outside";
+        string danger = current.safeDistance ? "danger-clear" : "danger-near";
+        string stash = current.stashReachable ? "stash-reachable" : "stash-blocked";
+        string status = camp + ":" + danger + ":" + stash;
+        long revision = session.Snapshot.Revision;
+        long position = session.Actor.PositionSubunits;
+        _worldTransition = FormattableString.Invariant(formattable:
+                $"run-world:{status}:{current.elapsedMilliseconds}:{revision}:{position}");
     }
 
     private void RecordEvent(string value)
