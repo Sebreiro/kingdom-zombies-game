@@ -122,7 +122,7 @@ async function run() {
     budget();
     unlock = require('../gameplay-checks/check.cjs').acquireLock(root, invocation);
     session = await scenarios.inspectionSession(root, relative + '/hub', 'G1-hub', build,
-      {physical:gameplay.ownedInput, decodePng:gameplay.decodePng}, budget, controller.signal);
+      {physical:gameplay.ownedInput, decodePng:gameplay.decodePng, dpiAwareInput:true}, budget, controller.signal);
     result.launched = 1;
     result.status = 'fail';
     for (const step of planned) {

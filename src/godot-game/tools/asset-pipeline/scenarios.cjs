@@ -1110,6 +1110,24 @@ try {
    ConvertTo-Json -Compress
 `;
 
+const PHASE5_PHYSICAL_INPUT = String.raw`
+$ErrorActionPreference = 'Stop'
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public static class InspectionDesktopDpi {
+  [DllImport("user32.dll")] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr value);
+}
+'@
+$previous = [InspectionDesktopDpi]::SetThreadDpiAwarenessContext([IntPtr](-4))
+if ($previous -eq [IntPtr]::Zero) { throw 'HUB_SMOKE_DPI_CONTEXT' }
+try {
+  & $env:KZ_PHASE5_INPUT_SCRIPT -OwnedPid ([int]$env:KZ_PHASE5_INPUT_PID) -Action $env:KZ_PHASE5_INPUT_ACTION -X ([int]$env:KZ_PHASE5_INPUT_X) -Y ([int]$env:KZ_PHASE5_INPUT_Y) -Key ([byte]$env:KZ_PHASE5_INPUT_KEY)
+} finally {
+  [void][InspectionDesktopDpi]::SetThreadDpiAwarenessContext($previous)
+}
+`;
+
 function desktopCommand(root, script, env, limit, owner, signal) {
   return owned.command(owner,owned.windowsPowerShell(), ['-NoProfile','-NonInteractive','-EncodedCommand',
     Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit,signal);
@@ -1159,12 +1177,27 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   let runtime, observedImage, ready;
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
-    const result = await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
-      path.join(root,'src/godot-game/tools/gameplay-checks/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
-      {cwd:root,env},closing?3000:budget(12000),closing?undefined:signal);
+    const inputScript = path.join(root,'src/godot-game/tools/gameplay-checks/windows-input.ps1');
+    const limit = closing ? 3000 : budget(12000);
+    const inputSignal = closing ? undefined : signal;
+    const result = adapter.dpiAwareInput
+      ? await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-EncodedCommand',
+        Buffer.from(PHASE5_PHYSICAL_INPUT,'utf16le').toString('base64')],{cwd:root,env:{
+          ...env,KZ_PHASE5_INPUT_SCRIPT:inputScript,KZ_PHASE5_INPUT_PID:String(pid),KZ_PHASE5_INPUT_ACTION:action,
+          KZ_PHASE5_INPUT_X:String(x),KZ_PHASE5_INPUT_Y:String(y),KZ_PHASE5_INPUT_KEY:String(key)
+        }},limit,inputSignal)
+      : await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
+        inputScript,'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
+        {cwd:root,env},limit,inputSignal);
     acknowledgement = JSON.parse(result.stdout.trim());
+    if (adapter.dpiAwareInput) {
+      fs.appendFileSync(path.join(directory,'input-acks.ndjson'),JSON.stringify({
+        at:new Date().toISOString(),requested:{pid,action,x,y,key},acknowledgement
+      })+'\n');
+    }
     e.need(acknowledgement.pid === pid && acknowledgement.focused && acknowledgement.action === action &&
-      acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK');
+      acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK',
+        adapter.dpiAwareInput ? JSON.stringify(acknowledgement) : '');
   });
   async function settle(checks,{match=true,previous=null,onFailure=null}={}) {
     const end=Date.now()+budget(12000);

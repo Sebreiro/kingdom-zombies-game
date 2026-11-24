@@ -10,6 +10,11 @@ const requirementsPath = '.planning/REQUIREMENTS.md';
 const specificationPath = 'specs/0.1/initial-spec.md';
 const catalogPath = tools + 'game-tests/catalog.json';
 const verificationPath = tools + 'verification/required-cases.json';
+const assetContentPath = tools + 'asset-pipeline/content.cjs';
+const normalizedSupportConsumers = new Set([
+  'content.source-relations', 'content.domain-relations', 'content.census', 'content.native-permissions',
+  'source.publication', 'source.packaged-expectations', 'export.hub-consumer', 'export.portability', 'hub.source'
+]);
 const importanceLevels = ['Critical', 'High', 'Normal', 'Low'];
 const scope = ['verification', 'gameplay-checks', 'lan-checks', 'asset-pipeline'];
 const idPattern = /^[A-Za-z][A-Za-z0-9._-]*$/;
@@ -221,7 +226,8 @@ function assetRows(manifest, handoff) {
   const source = manifest.cases.map(item => {
     const phase11 = deferredAssetGates.has(item.id);
     const inputs = item.sourceBinding?.module ? [item.sourceBinding.module] : [];
-    if (['layouts.identity', 'layouts.application-icon'].includes(item.id)) {
+    if (['layouts.identity', 'layouts.identity-integrity', 'layouts.application-icon', 'text.catalog',
+      'text.support-catalog'].includes(item.id)) {
       inputs.push('src/godot-game/game/content/packs/ui-identity.json');
     }
     if (pinnedRecipeConsumers.has(item.id)) inputs.push(tools + 'asset-pipeline/run-pinned-recipe.py');
@@ -231,7 +237,8 @@ function assetRows(manifest, handoff) {
       tier: 2, order: item.order + 1,
       importance: item.importance === 'Critical' ? 'High' : item.importance,
       rationale: item.rationale,
-      tags: item.group === 'source' ? ['asset-source'] : ['asset-source', 'asset-' + item.group],
+      tags: [...new Set(['asset-source', 'asset-' + item.group,
+        ...(normalizedSupportConsumers.has(item.id) ? ['asset-live-support'] : [])])],
       inputs,
       scenario: phase4Scenarios
     });
@@ -409,10 +416,30 @@ function covers(pattern, file) {
   return pattern.endsWith('/') ? file.startsWith(pattern) : file === pattern;
 }
 
-function affected(catalog, changes) {
+function supportStampOnly(before, after) {
+  const stamp = /(\[base\+'foundation\/FoundationRoot\.cs',)\d+,'[a-f0-9]{64}'\]/g;
+  const baseline = [...before.matchAll(stamp)], current = [...after.matchAll(stamp)];
+  return baseline.length === 1 && current.length === 1 && baseline[0][0] !== current[0][0]
+    && before.replace(stamp, '$1<version>]') === after.replace(stamp, '$1<version>]');
+}
+
+function liveSupportOnly(catalog, baseCommit) {
+  if (!baseCommit) return false;
+  requireValue(/^[a-f0-9]{40}$/.test(baseCommit), 'SELECTION_BASE_COMMIT');
+  const before = execFileSync('git', ['show', baseCommit + ':' + assetContentPath],
+    {cwd: catalog.root, encoding: 'utf8', windowsHide: true, timeout: 30000});
+  return supportStampOnly(before, fs.readFileSync(path.join(catalog.root, assetContentPath), 'utf8'));
+}
+
+function affected(catalog, changes, baseCommit) {
   const tags = new Set();
   const unknown = [];
   for (const file of changes) {
+    // A source stamp can change without changing any other content helper behavior.
+    if (file === assetContentPath && liveSupportOnly(catalog, baseCommit)) {
+      tags.add('asset-live-support');
+      continue;
+    }
     const matched = Object.entries(catalog.impact).filter(([, paths]) => paths.some(pattern => covers(pattern, file)));
     for (const [tag] of matched) tags.add(tag);
     if (!matched.length && !catalog.neutralPaths.some(pattern => covers(pattern, file)) &&
@@ -485,7 +512,7 @@ function select(catalog, {mode, value, changes = [], baseCommit}) {
   }
   if (mode === 'group') requireValue(catalog.groups.some(group => group.id === value) ||
     catalog.cases.some(item => item.runGroup === value), 'SELECTION_GROUP ' + value);
-  const affectedTags = mode === 'phase-end' ? affected(catalog, changes) : new Set();
+  const affectedTags = mode === 'phase-end' ? affected(catalog, changes, baseCommit) : new Set();
   const verificationGroups = mode === 'phase-end' ? verificationImpact(catalog, changes, baseCommit) : new Set();
   const changedDeclarations = mode === 'phase-end' ? changedCaseIds(catalog, changes, baseCommit) : new Set();
   const selected = [], omitted = [];
@@ -520,4 +547,4 @@ function select(catalog, {mode, value, changes = [], baseCommit}) {
   return {selected, omitted};
 }
 
-module.exports = {changedVerificationGroups, loadCatalog, select, validateCatalog, verificationRows};
+module.exports = {changedVerificationGroups, loadCatalog, select, validateCatalog, verificationRows, supportStampOnly};

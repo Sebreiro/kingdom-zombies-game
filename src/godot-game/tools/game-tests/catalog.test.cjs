@@ -159,3 +159,12 @@ test('catalog validation rejects malformed importance, duplicate order, referenc
     assert.throws(() => validateCatalog(catalog), message);
   }
 });
+
+test('a source support rebind is distinct from a content helper behavior change', () => {
+  const {supportStampOnly} = require('./catalog.cjs');
+  const before = "[base+'foundation/FoundationRoot.cs',100,'" + 'a'.repeat(64) + "']\nreference(file)";
+  const after = before.replace('100', '200').replace('a'.repeat(64), 'b'.repeat(64));
+  assert.equal(supportStampOnly(before, after), true);
+  assert.equal(supportStampOnly(before, before), false);
+  assert.equal(supportStampOnly(before, after.replace('reference(file)', 'reference(other)')), false);
+});
