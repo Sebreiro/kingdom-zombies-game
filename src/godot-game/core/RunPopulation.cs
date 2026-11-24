@@ -77,8 +77,7 @@ internal sealed class RunPopulation
             return null;
         }
 
-        Survivor? available = Survivors.FirstOrDefault(predicate: survivor => !survivor.Hostile && survivor.Health > 0
-                && !Leases.Any(predicate: lease => StringComparer.Ordinal.Equals(x: lease.SurvivorId, y: survivor.Id)));
+        Survivor? available = Candidates().FirstOrDefault();
         if (available is null || LastControlGeneration == long.MaxValue)
         {
             return null;
@@ -129,6 +128,23 @@ internal sealed class RunPopulation
                 issuedBindings: IssuedBindings, lastControlGeneration: LastControlGeneration);
     }
 
+    internal ImmutableArray<Survivor> Candidates()
+    {
+        return [.. Survivors.Where(predicate: survivor => survivor.EligibleForControl && !Leases.Any(
+                predicate: lease => StringComparer.Ordinal.Equals(x: lease.SurvivorId, y: survivor.Id)))
+                .OrderBy(keySelector: survivor => survivor.Id, comparer: StringComparer.Ordinal)];
+    }
+
+    internal RunPopulation AssignSuccessor(Lease retired, Survivor successor)
+    {
+        long generation = checked(LastControlGeneration + 1);
+        var lease = new Lease(sessionId: retired.SessionId, playerId: retired.PlayerId,
+                bindingId: retired.BindingId, slot: retired.Slot, survivorId: successor.Id, generation: generation,
+                reassigned: true);
+        return new RunPopulation(survivors: Survivors, leases: Leases.Add(item: lease),
+                issuedBindings: IssuedBindings, lastControlGeneration: generation);
+    }
+
     internal sealed record Survivor
     {
         internal Survivor(string id, long positionSubunits, int facing, decimal health, decimal stamina,
@@ -158,12 +174,13 @@ internal sealed class RunPopulation
         internal decimal? FoodAvailableAt { get; init; }
         internal decimal? AttackAvailableAt { get; init; }
         internal bool Hostile { get; init; }
+        internal bool EligibleForControl => !Hostile && Health > 0;
     }
 
     internal sealed record Lease
     {
         internal Lease(string sessionId, string playerId, string bindingId, int slot, string survivorId,
-                long generation)
+                long generation, bool reassigned = false)
         {
             SessionId = sessionId;
             PlayerId = playerId;
@@ -171,6 +188,7 @@ internal sealed class RunPopulation
             Slot = slot;
             SurvivorId = survivorId;
             Generation = generation;
+            Reassigned = reassigned;
         }
 
         internal string SessionId { get; }
@@ -179,5 +197,6 @@ internal sealed class RunPopulation
         internal int Slot { get; }
         internal string SurvivorId { get; }
         internal long Generation { get; }
+        internal bool Reassigned { get; }
     }
 }

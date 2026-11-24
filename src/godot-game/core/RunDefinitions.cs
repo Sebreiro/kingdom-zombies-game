@@ -22,6 +22,7 @@ internal sealed class RunDefinitions
         SurvivorCount = start.SurvivorCount;
         PlayerLimit = start.PlayerLimit;
         InitialRole = start.Role;
+        RespawnDelay = start.RespawnDelay;
         StartingOutfit = start.Outfit;
         StartingStash = start.Stash;
         MaximumHealth = survivors.MaximumHealth;
@@ -50,6 +51,7 @@ internal sealed class RunDefinitions
     internal int SurvivorCount { get; }
     internal int PlayerLimit { get; }
     internal string InitialRole { get; }
+    internal decimal RespawnDelay { get; }
     internal ImmutableArray<string> StartingOutfit { get; }
     internal ImmutableArray<StartingStack> StartingStash { get; }
     internal decimal MaximumHealth { get; }
@@ -366,7 +368,17 @@ internal sealed class RunDefinitions
         Require(condition: stacks.Sum(selector: stack => stack.Count) <= MaximumStartingStacks,
                 field: "initialStash.stacks");
         return new Start(survivorCount: survivors, playerLimit: players, role: role, outfit: outfit,
-                stash: stacks);
+                stash: stacks, respawnDelay: ReadRespawnDelay(root: root));
+    }
+
+    private static decimal ReadRespawnDelay(JsonElement root)
+    {
+        JsonElement rule = Field(parent: root, field: "succession");
+        Require(condition: Text(parent: rule, field: "selection") is "random-eligible-uncontrolled-recruit"
+                && Text(parent: rule, field: "waitingOrder") is "fifo"
+                && Flag(parent: rule, field: "preserveActualState") && !Flag(parent: rule, field: "crownConsumesSlot")
+                && !Flag(parent: rule, field: "crownBecomesLoot"), field: "succession");
+        return Milliseconds(root: rule, name: "delaySeconds", minimum: 0.001m);
     }
 
     private static StartingStack ReadStartingStack(JsonElement row, ImmutableDictionary<string, Item> items,
@@ -666,13 +678,14 @@ internal sealed class RunDefinitions
     internal sealed record Start
     {
         internal Start(int survivorCount, int playerLimit, string role, ImmutableArray<string> outfit,
-                ImmutableArray<StartingStack> stash)
+                ImmutableArray<StartingStack> stash, decimal respawnDelay = 1000)
         {
             SurvivorCount = survivorCount;
             PlayerLimit = playerLimit;
             Role = role;
             Outfit = outfit;
             Stash = stash;
+            RespawnDelay = respawnDelay;
         }
 
         internal int SurvivorCount { get; }
@@ -680,6 +693,7 @@ internal sealed class RunDefinitions
         internal string Role { get; }
         internal ImmutableArray<string> Outfit { get; }
         internal ImmutableArray<StartingStack> Stash { get; }
+        internal decimal RespawnDelay { get; }
     }
     internal sealed record SurvivorSettings
     {

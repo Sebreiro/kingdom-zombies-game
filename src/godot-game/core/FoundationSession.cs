@@ -106,6 +106,8 @@ public sealed class FoundationSession
 
             _intents.Remove(key: bindingId);
             _foodRequests.Remove(key: bindingId);
+            _respawnReceipts = _respawnReceipts.RemoveRange(keys: _respawnReceipts.Keys.Where(
+                    predicate: key => StringComparer.Ordinal.Equals(x: key.binding, y: bindingId)));
             return true;
         }
     }
@@ -119,7 +121,7 @@ public sealed class FoundationSession
         {
             FoundationParticipantState? participant = Find(snapshot: Snapshot, bindingId: trustedBinding);
             RunPopulation.Lease? lease = Population.FindLivingControl(bindingId: trustedBinding);
-            if (!_active || participant is null || !participant.Ready || lease is null
+            if (!_active || participant is null || !participant.Ready || lease is null || lease.Reassigned
                     || command.Direction is < -1 or > 1
                     || !Matches(command: command, participant: participant, trustedPlayer: trustedPlayer,
                             trustedActor: trustedActor)
@@ -188,6 +190,7 @@ public sealed class FoundationSession
             _intents.Clear();
             _foodRequests.Clear();
             _attackRequests.Clear();
+            _respawnReceipts = _respawnReceipts.Clear();
         }
     }
 
@@ -241,7 +244,7 @@ public sealed class FoundationSession
                 loot: RunDeathAndLoot.State.Empty, now: 0, delay: definitions.LootEmptyDelay);
         _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0,
                 definitions: definitions, population: population, inventory: inventory, combat: RunCombat.State.Empty,
-                loot: loot);
+                loot: loot, succession: RunSuccession.Start(sessionId: sessionId));
         ItemActions = new RunItemActions(session: this);
     }
 
@@ -249,6 +252,37 @@ public sealed class FoundationSession
     internal RunInventory Inventory => _publication.Inventory;
     internal RunDefinitions Definitions => _publication.Definitions;
     internal RunItemActions ItemActions { get; }
+
+    internal RunSuccession.View? ReadSuccession(string bindingId)
+    {
+        return UnderInventoryAuthority(action: current => current is null ? null : RunSuccession.Read(
+                current: current, binding: bindingId));
+    }
+
+    internal ImmutableArray<RunSuccession.Outcome> RequestRespawns(ImmutableArray<RunSuccession.Request> requests)
+    {
+        lock (_gate)
+        {
+            if (requests.IsDefaultOrEmpty)
+            {
+                return [];
+            }
+
+            if (!_active)
+            {
+                return [.. requests.Select(selector: _ => new RunSuccession.Outcome(
+                        status: RunSuccession.Status.AccessLost, view: null))];
+            }
+
+            RunPublication current = _publication;
+            RunSuccession.Batch batch = RunSuccession.Prepare(current: current, requests: requests,
+                    acknowledgments: _respawnReceipts);
+            bool published = ReferenceEquals(objA: current.Succession, objB: batch.State)
+                    || TryPublish(participants: current.Snapshot.Participants, succession: batch.State);
+            return RunSuccession.Complete(current: _publication, requests: requests, batch: batch,
+                    published: published, receipts: ref _respawnReceipts);
+        }
+    }
 
     internal RunCombat.Outcome Attack(RunItemActions.Controller controller, long sequence, RunCombat.Aim? aim = null)
     {
@@ -483,6 +517,7 @@ public sealed class FoundationSession
             new(comparer: StringComparer.Ordinal);
     private readonly Dictionary<(string id, long generation), (long sequence, RunCombat.Status status)>
             _attackRequests = [];
+    private ImmutableDictionary<(string binding, long epoch), RunSuccession.Ack> _respawnReceipts = [];
     private volatile RunPublication _publication;
     private volatile bool _active = true;
 
@@ -584,9 +619,17 @@ public sealed class FoundationSession
                 inventory: inventory, loot: frame.Loot, now: elapsed, delay: current.Definitions.LootEmptyDelay);
         RunPopulation population = ReferenceEquals(objA: world, objB: current.World) ? frame.Population
                 : RefreshRest(population: frame.Population, world: world);
+        RunSuccession.Frame assigned = RunSuccession.Settle(population: population, participants: snapshot.Participants,
+                loot: loot, state: current.Succession);
+        if (assigned.Participants != snapshot.Participants)
+        {
+            snapshot = new FoundationSnapshot(sessionId: snapshot.SessionId, revision: snapshot.Revision,
+                    participants: assigned.Participants);
+        }
+
         return new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: elapsed,
-                definitions: current.Definitions, population: population, inventory: inventory, combat: flight.Combat,
-                loot: loot);
+                definitions: current.Definitions, population: assigned.Population, inventory: inventory,
+                combat: flight.Combat, loot: loot, succession: assigned.State);
     }
 
     private static RunPopulation RefreshRest(RunPopulation population, RunWorld world)
@@ -663,7 +706,7 @@ public sealed class FoundationSession
 
     private bool TryPublish(IEnumerable<FoundationParticipantState> participants, RunWorld? world = null,
             RunPopulation? population = null, RunInventory? inventory = null, RunCombat.State? combat = null,
-            RunDeathAndLoot.State? loot = null)
+            RunDeathAndLoot.State? loot = null, RunSuccession.State? succession = null)
     {
         try
         {
@@ -681,12 +724,15 @@ public sealed class FoundationSession
             RunPopulation updated = population ?? current.Population;
             updated = ReferenceEquals(objA: settledWorld, objB: current.World) ? updated
                     : RefreshRest(population: updated, world: settledWorld);
+            RunSuccession.Frame assigned = RunSuccession.Settle(population: updated, participants: [.. participants],
+                    loot: settledLoot, state: succession ?? current.Succession);
 
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
-                    revision: checked(current.Snapshot.Revision + 1), participants: participants);
+                    revision: checked(current.Snapshot.Revision + 1), participants: assigned.Participants);
             _publication = new RunPublication(snapshot: snapshot, world: settledWorld,
                     elapsedMilliseconds: current.ElapsedMilliseconds, definitions: current.Definitions,
-                    population: updated, inventory: items, combat: combat ?? current.Combat, loot: settledLoot);
+                    population: assigned.Population, inventory: items, combat: combat ?? current.Combat,
+                    loot: settledLoot, succession: assigned.State);
             return true;
         }
         catch (Exception error) when (error is InvalidDataException or OverflowException)
@@ -736,7 +782,7 @@ public sealed class FoundationSession
     {
         internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds,
                 RunDefinitions definitions, RunPopulation population, RunInventory inventory, RunCombat.State combat,
-                RunDeathAndLoot.State loot)
+                RunDeathAndLoot.State loot, RunSuccession.State succession)
         {
             Snapshot = snapshot;
             World = world;
@@ -746,6 +792,7 @@ public sealed class FoundationSession
             Inventory = inventory;
             Combat = combat;
             Loot = loot;
+            Succession = succession;
         }
 
         internal FoundationSnapshot Snapshot { get; }
@@ -756,5 +803,6 @@ public sealed class FoundationSession
         internal RunInventory Inventory { get; }
         internal RunCombat.State Combat { get; }
         internal RunDeathAndLoot.State Loot { get; }
+        internal RunSuccession.State Succession { get; }
     }
 }
