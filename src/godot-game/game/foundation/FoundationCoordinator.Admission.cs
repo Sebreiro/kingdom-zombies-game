@@ -9,6 +9,13 @@ internal sealed partial class FoundationCoordinator
 {
     private readonly Dictionary<int, FoundationAdmissionHistory> _admissions = [];
 
+    private FoundationPeerBinding? CurrentReadyPeer(int sender)
+    {
+        return _peers.TryGetValue(key: sender, value: out FoundationPeerBinding? peer) && peer.Ready
+                && peer.ConnectionGeneration.Length > 0 && StringComparer.Ordinal.Equals(
+                        x: peer.ConnectionGeneration, y: _connection?.PeerGeneration(peer: sender)) ? peer : null;
+    }
+
     private void ReceiveHost(int sender, FoundationEnvelope envelope)
     {
         RetireReplacedConnection(sender: sender);

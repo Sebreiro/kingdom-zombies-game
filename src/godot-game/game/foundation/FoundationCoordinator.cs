@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -33,7 +34,7 @@ internal sealed partial class FoundationCoordinator
             StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId)).Actor : null;
     internal bool IsHost => _session is not null;
     internal (long elapsedMilliseconds, bool insideCamp, bool safeDistance, bool stashReachable)? LocalWorld
-            { get; private set; }
+    { get; private set; }
     internal bool WaitingForHost => Ready && !IsHost && _connection?.Connected != true;
     internal string Error { get; private set; } = "";
     internal long InstalledRevision { get; private set; } = -1;
@@ -142,6 +143,58 @@ internal sealed partial class FoundationCoordinator
                 playerId: command.PlayerId, actorId: command.ActorId, bindingId: command.BindingId,
                 sequence: command.Sequence, direction: command.Direction, attemptId: _attempt));
         return true;
+    }
+
+    internal (string survivorId, long generation, long deathGeneration)? ReadBoundRunControl(int sender)
+    {
+        return RunIdentity(sender: sender) is { } identity ? _session?.ReadRunControl(identity: identity) : null;
+    }
+
+    internal (FoundationSnapshot roster, JsonElement world)? ReadRunPublic()
+    {
+        return _session?.ReadRunPublic();
+    }
+
+    internal (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
+            ImmutableArray<JsonElement> rows)> views)? ReadBoundRunViews(int sender, long? ownGrid = null,
+                    long? externalGrid = null)
+    {
+        return RunIdentity(sender: sender) is { } identity ? _session?.ReadRunViews(identity: identity,
+                ownGrid: ownGrid, externalGrid: externalGrid) : null;
+    }
+
+    internal (string status, bool replayed, long revision) DispatchBoundRunAction(int sender,
+            (string survivor, long epoch, long sequence) key, string kind, JsonElement request)
+    {
+        FoundationSession? session = _session;
+        if (session is null || RunIdentity(sender: sender) is not { } identity)
+        {
+            return ("AccessLost", false, session?.Snapshot.Revision ?? -1);
+        }
+
+        if (kind is "respawn")
+        {
+            var result = DispatchBoundRunRespawns(requests: [(sender, key.epoch, key.sequence)])[0];
+            return (result.status, result.replayed, session.Snapshot.Revision);
+        }
+
+        return session.DispatchRunAction(identity: identity, key: key, kind: kind, request: request);
+    }
+
+    internal ImmutableArray<(string status, bool replayed)> DispatchBoundRunRespawns(
+            ImmutableArray<(int sender, long epoch, long sequence)> requests)
+    {
+        if (_session is not { } session)
+        {
+            return [.. requests.Select(selector: _ => ("AccessLost", false))];
+        }
+
+        return session.DispatchRunRespawns(session: session.Snapshot.SessionId,
+                requests: [.. requests.Select(selector: row =>
+                {
+                    var identity = RunIdentity(sender: row.sender);
+                    return (identity?.binding ?? "", identity?.player ?? "", row.epoch, row.sequence);
+                })]);
     }
 
     internal void Close()
@@ -325,6 +378,22 @@ internal sealed partial class FoundationCoordinator
                 && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: peer.PlayerId)
                 && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: peer.ActorId)
                 && StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: peer.Baseline.AttemptId);
+    }
+
+    private (string session, string binding, string player)? RunIdentity(int sender)
+    {
+        if (!_active || _session is not { } session)
+        {
+            return null;
+        }
+
+        if (sender == 0)
+        {
+            return (session.Snapshot.SessionId, BindingId, PlayerId);
+        }
+
+        return CurrentReadyPeer(sender: sender) is { } peer
+                ? (session.Snapshot.SessionId, peer.BindingId, peer.PlayerId) : null;
     }
 
     private FoundationSession CreateSession(string sessionId, string actorId, bool observeWorld,

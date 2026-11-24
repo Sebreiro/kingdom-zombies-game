@@ -40,6 +40,72 @@ public sealed class FoundationSession
         }
     }
 
+    /// <summary>Reads a ready binding's current survivor or most recent death epoch.</summary>
+    public (string survivorId, long generation, long deathGeneration)? ReadRunControl(
+            (string session, string binding, string player) identity)
+    {
+        return UnderInventoryAuthority(action: current => RunProjections.Control(root: current, identity: identity));
+    }
+
+    /// <summary>Captures the public gameplay data and matching roster from one authority revision.</summary>
+    public (FoundationSnapshot roster, JsonElement world)? ReadRunPublic()
+    {
+        return UnderInventoryAuthority(action: RunProjections.Public);
+    }
+
+    /// <summary>Captures the bound recipient status and requested permitted inventory windows.</summary>
+    public (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
+            ImmutableArray<JsonElement> rows)> views)? ReadRunViews(
+                    (string session, string binding, string player) identity, long? ownGrid = null,
+                    long? externalGrid = null)
+    {
+        return UnderInventoryAuthority(action: current => RunProjections.Private(session: this, root: current,
+                identity: identity, ownGrid: ownGrid, externalGrid: externalGrid));
+    }
+
+    /// <summary>Executes an authenticated living-control action at the current authority revision.</summary>
+    public (string status, bool replayed, long revision) DispatchRunAction(
+            (string session, string binding, string player) identity, (string survivor, long epoch, long sequence) key,
+            string kind, JsonElement request)
+    {
+        lock (_gate)
+        {
+            RunPublication root = _publication;
+            (string survivorId, long generation, long deathGeneration)? control = RunProjections.Control(
+                    root: _active ? root : null, identity: identity);
+            if (control is not { generation: > 0 } lease || lease.generation != key.epoch
+                    || !StringComparer.Ordinal.Equals(x: lease.survivorId, y: key.survivor))
+            {
+                return ("AccessLost", false, root.Snapshot.Revision);
+            }
+
+            var controller = new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,
+                    generation: lease.generation);
+            (string status, bool replayed) = RunProjections.Dispatch(session: this, root: root, controller: controller,
+                    sequence: key.sequence, kind: kind, request: request);
+            return (status, replayed, _publication.Snapshot.Revision);
+        }
+    }
+
+    /// <summary>Submits ready bindings' Respawn requests together at the current host timestamp.</summary>
+    public ImmutableArray<(string status, bool replayed)> DispatchRunRespawns(string session,
+            ImmutableArray<(string binding, string player, long epoch, long sequence)> requests)
+    {
+        lock (_gate)
+        {
+            RunPublication? root = _active ? _publication : null;
+            ImmutableArray<RunSuccession.Request> batch = [.. requests.Select(selector: row =>
+            {
+                (string, string, string) identity = (session, row.binding, row.player);
+                bool ready = RunProjections.Control(root: root, identity: identity).HasValue;
+                return new RunSuccession.Request(sessionId: session, bindingId: ready ? row.binding : "",
+                        deathGeneration: row.epoch, sequence: row.sequence);
+            })];
+            return [.. RequestRespawns(requests: batch).Select(selector: outcome =>
+                    (outcome.Status.ToString(), outcome.Replayed))];
+        }
+    }
+
     /// <summary>Reserves a distinct participant without making its actor controllable.</summary>
     public bool AddParticipant(string bindingId, string playerId, string actorId, string label)
     {
