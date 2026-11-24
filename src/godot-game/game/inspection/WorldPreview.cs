@@ -1977,6 +1977,7 @@ internal sealed class WorldPreview
             OneShot = !loop,
             Emitting = true,
             SpeedScale = 0,
+            LocalCoords = true,
             UseFixedSeed = true,
             Seed = 13,
             Texture = Texture(key: Text(row: row, name: "part"), world: false),
