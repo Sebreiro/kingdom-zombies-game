@@ -210,8 +210,12 @@ public sealed partial class FoundationRoot : Control
             _runtime.Hosting = host;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: host, nowMilliseconds: () => _runtime.NowMilliseconds);
-            _coordinator.Start(host: host, port: Port(), observeWorld: !host
-                    && FoundationCoordinator.UseObservedWorld(generation: _generation));
+            bool observeWorld = false;
+#if DEBUG
+            observeWorld = !host && DisplayServer.GetName() is "headless"
+                    && FoundationCoordinator.UseObservedWorld(generation: _generation);
+#endif
+            _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld);
 #if DEBUG
             if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
                     is string fault && StringComparer.Ordinal.Equals(x: fault,
@@ -319,7 +323,7 @@ public sealed partial class FoundationRoot : Control
         Label hint = GetNode<Label>(path: "Hint");
         hint.Text = _coordinator.WorldHint(instructions: hint.Text);
         hint.Visible = true;
-        _coordinator.ObserveWorldHint(hint: hint.Text);
+        _coordinator.ObserveWorldHint(hint: hint.Text, visible: hint.IsVisibleInTree());
     }
 
     private void PollKeys()

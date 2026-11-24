@@ -178,11 +178,12 @@ internal sealed partial class FoundationCoordinator
         return instructions + "\n" + stash + " " + rest;
     }
 
-    internal void ObserveWorldHint(string hint)
+    internal void ObserveWorldHint(string hint, bool visible)
     {
         if (_worldTransition is not null)
         {
-            RecordEvent(value: _worldTransition + "|" + hint);
+            string visibility = visible ? "visible" : "hidden";
+            RecordEvent(value: _worldTransition + "|" + visibility + "|" + hint);
             _worldTransition = null;
         }
     }
