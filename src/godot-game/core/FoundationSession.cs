@@ -112,7 +112,8 @@ public sealed class FoundationSession
                 AdvanceParticipant(participant: participant, elapsedMilliseconds: elapsedMilliseconds))];
         var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                 revision: checked(current.Snapshot.Revision + 1), participants: candidate);
-        _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed);
+        _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed,
+                definitions: current.Definitions, population: current.Population, inventory: current.Inventory);
     }
 
     /// <summary>Validates the complete legacy command and tick before replacing the held intent.</summary>
@@ -150,16 +151,26 @@ public sealed class FoundationSession
     }
 #endif
 
-    internal FoundationSession(string sessionId, string playerId, string actorId, RunWorld world)
+    internal FoundationSession(string sessionId, string playerId, string actorId, RunWorld world,
+            RunDefinitions? definitions = null)
     {
         ArgumentNullException.ThrowIfNull(argument: world);
         world.Validate();
+        definitions ??= RunDefinitions.Default;
+        var population = RunPopulation.Create(definitions: definitions);
+        var inventory = RunInventory.Create(definitions: definitions, population: population);
         var snapshot = new FoundationSnapshot(sessionId: sessionId, revision: 0, participants:
                 [new FoundationParticipantState(bindingId: "local", label: "Player 1", slot: 1, ready: true,
                         actor: new FoundationActorState(sessionId: sessionId, playerId: playerId, actorId: actorId,
-                                positionSubunits: -8000, facing: 1, elapsedMilliseconds: 0))]);
-        _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0);
+                                positionSubunits: RunPopulation.StartingPosition, facing: 1,
+                                elapsedMilliseconds: 0))]);
+        _publication = new RunPublication(snapshot: snapshot, world: world, elapsedMilliseconds: 0,
+                definitions: definitions, population: population, inventory: inventory);
     }
+
+    internal RunPopulation Population => _publication.Population;
+    internal RunInventory Inventory => _publication.Inventory;
+    internal RunDefinitions Definitions => _publication.Definitions;
 
     internal bool CanReach(string bindingId, RunWorld.Access kind, string targetId)
     {
@@ -242,7 +253,8 @@ public sealed class FoundationSession
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);
             _publication = new RunPublication(snapshot: snapshot, world: world ?? current.World,
-                    elapsedMilliseconds: current.ElapsedMilliseconds);
+                    elapsedMilliseconds: current.ElapsedMilliseconds, definitions: current.Definitions,
+                    population: current.Population, inventory: current.Inventory);
             return true;
         }
         catch (Exception error) when (error is InvalidDataException or OverflowException)
@@ -261,15 +273,22 @@ public sealed class FoundationSession
 
     private sealed class RunPublication
     {
-        internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds)
+        internal RunPublication(FoundationSnapshot snapshot, RunWorld world, long elapsedMilliseconds,
+                RunDefinitions definitions, RunPopulation population, RunInventory inventory)
         {
             Snapshot = snapshot;
             World = world;
             ElapsedMilliseconds = elapsedMilliseconds;
+            Definitions = definitions;
+            Population = population;
+            Inventory = inventory;
         }
 
         internal FoundationSnapshot Snapshot { get; }
         internal RunWorld World { get; }
         internal long ElapsedMilliseconds { get; }
+        internal RunDefinitions Definitions { get; }
+        internal RunPopulation Population { get; }
+        internal RunInventory Inventory { get; }
     }
 }
