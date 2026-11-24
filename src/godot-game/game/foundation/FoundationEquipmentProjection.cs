@@ -14,6 +14,11 @@ internal static class FoundationEquipmentProjection
     internal static Frame Read(long revision, JsonElement world)
     {
         long elapsed = world.GetProperty(propertyName: "Elapsed").GetInt64();
+        if (elapsed < 0)
+        {
+            throw new InvalidDataException(message: "RUN_APPEARANCE_ELAPSED");
+        }
+
         ImmutableArray<Subject> actors = [.. world.GetProperty(propertyName: "Actors").EnumerateArray()
                 .Select(selector: Live)];
         ImmutableArray<Subject> corpses = [.. world.GetProperty(propertyName: "Corpses").EnumerateArray()
@@ -78,12 +83,20 @@ internal static class FoundationEquipmentProjection
     {
         string id = Text(data: data, field: "Id");
         bool hostile = data.GetProperty(propertyName: "Hostile").GetBoolean();
-        bool crowned = data.GetProperty(propertyName: "BindingId").ValueKind == JsonValueKind.String && !hostile;
+        JsonValueKind binding = data.GetProperty(propertyName: "BindingId").ValueKind;
+        string movement = Text(data: data, field: "Movement");
         double? aimX = Number(data: data, field: "AimX");
         double? aimY = Number(data: data, field: "AimY");
+        if (binding is not (JsonValueKind.String or JsonValueKind.Null)
+                || movement is not ("idle" or "walk" or "faster" or "jump") || aimX.HasValue != aimY.HasValue)
+        {
+            throw new InvalidDataException(message: "RUN_APPEARANCE_ACTOR");
+        }
+
         return new Subject(id: id, body: Body(id: id, hostile: hostile), at: Contact(data: data),
-                facing: Facing(data: data), layers: Layers(data: data), crowned: crowned, hostile: hostile,
-                movement: Text(data: data, field: "Movement"), strikeAt: Number(data: data, field: "StrikeAt"),
+                facing: Facing(data: data), layers: Layers(data: data),
+                crowned: binding is JsonValueKind.String && !hostile, hostile: hostile,
+                movement: movement, strikeAt: Number(data: data, field: "StrikeAt"),
                 strikeUntil: Number(data: data, field: "StrikeUntil"), aim: aimX.HasValue && aimY.HasValue
                         ? (aimX.Value, aimY.Value) : null, flinchAt: Number(data: data, field: "FlinchAt"),
                 arrowReady: data.GetProperty(propertyName: "ArrowReady").GetBoolean());
@@ -94,14 +107,13 @@ internal static class FoundationEquipmentProjection
         bool hostile = data.GetProperty(propertyName: "Hostile").GetBoolean();
         return new Subject(id: Text(data: data, field: "Id"), body: Body(id: Text(data: data, field: "SurvivorId"),
                 hostile: hostile), at: Contact(data: data), facing: Facing(data: data), layers: Layers(data: data),
-                crowned: false, hostile: hostile, movement: "idle", diedAt: Number(data: data, field: "At"));
+                crowned: false, hostile: hostile, movement: "idle", diedAt: Finite(data: data, field: "At"));
     }
 
     private static Arrow ArrowFrom(JsonElement data)
     {
         return new Arrow(id: data.GetProperty(propertyName: "Id").GetInt64(), at: Contact(data: data),
-                velocity: (data.GetProperty(propertyName: "VelocityX").GetDouble(),
-                        data.GetProperty(propertyName: "VelocityY").GetDouble()));
+                velocity: (Finite(data: data, field: "VelocityX"), Finite(data: data, field: "VelocityY")));
     }
 
     private static ImmutableArray<Layer> Layers(JsonElement data)
@@ -177,7 +189,18 @@ internal static class FoundationEquipmentProjection
     private static double? Number(JsonElement data, string field)
     {
         JsonElement value = data.GetProperty(propertyName: field);
-        return value.ValueKind == JsonValueKind.Null ? null : value.GetDouble();
+        return value.ValueKind == JsonValueKind.Null ? null : Finite(data: data, field: field);
+    }
+
+    private static double Finite(JsonElement data, string field)
+    {
+        double value = data.GetProperty(propertyName: field).GetDouble();
+        if (!double.IsFinite(d: value) || Math.Abs(value: value) > (double)decimal.MaxValue)
+        {
+            throw new InvalidDataException(message: "RUN_APPEARANCE_NUMBER " + field);
+        }
+
+        return value;
     }
 
     private static int Facing(JsonElement data)
@@ -188,7 +211,7 @@ internal static class FoundationEquipmentProjection
 
     private static (double x, double y) Contact(JsonElement data)
     {
-        return (data.GetProperty(propertyName: "X").GetDouble(), data.GetProperty(propertyName: "Y").GetDouble());
+        return (Finite(data: data, field: "X"), Finite(data: data, field: "Y"));
     }
 
     internal sealed class Frame

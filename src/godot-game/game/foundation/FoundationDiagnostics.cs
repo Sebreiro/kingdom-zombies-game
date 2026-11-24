@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.Json;
@@ -48,7 +49,8 @@ internal sealed class FoundationDiagnostics
 
     internal void Observe(FoundationCoordinator? coordinator, long inputEvents, int direction,
             int nativeActors, bool polledRight, string? feedback = null, long nowMilliseconds = 0,
-            FoundationServices? services = null)
+            FoundationServices? services = null, FoundationEquipmentProjection.Frame? appearance = null,
+            (decimal x, decimal y)? attackAim = null)
     {
         string? output = FoundationObservationScope.Directory();
         string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -57,6 +59,10 @@ internal sealed class FoundationDiagnostics
             return;
         }
 
+        string? local = coordinator?.LocalRunControl?.survivorId;
+        FoundationEquipmentProjection.Subject? subject = appearance?.Actors.FirstOrDefault(predicate: actor =>
+                StringComparer.Ordinal.Equals(x: actor.Id, y: local));
+        var authority = coordinator?.RunActionFeedback;
         string record = JsonSerializer.Serialize(value: new
         {
             nonce, pid = Environment.ProcessId, provenance = "read-only-state-observation", nowMilliseconds,
@@ -71,6 +77,10 @@ internal sealed class FoundationDiagnostics
             events = coordinator?.Events, error = coordinator?.Error ?? feedback, snapshot = coordinator?.Snapshot,
             profile = services?.Identity.Selected, profileError = services?.Identity.FailureReason,
             discoveryRows = services?.Browser.Rows, discoveryError = services?.Discovery.FailureReason,
+            runPose = subject is null || appearance is null ? null : new { subject.Movement, subject.StrikeAt,
+                Height = subject.At.y - appearance.Ground, appearance.Revision },
+            runAction = authority.HasValue ? new { authority.Value.sequence, authority.Value.status } : null,
+            aim = attackAim.HasValue ? new { attackAim.Value.x, attackAim.Value.y } : null,
         });
         File.AppendAllText(path: Path.Combine(path1: output, path2: "frames.ndjson"),
                 contents: record + Environment.NewLine);

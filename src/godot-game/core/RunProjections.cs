@@ -248,7 +248,13 @@ internal static class RunProjections
             Width = bounds?.Width,
             Height = bounds?.Height,
             Nearby = view.Nearby.Select(selector: target => new { Kind = target.Kind.ToString(), target.Id }),
-            Quick = view.QuickReferences.Select(selector: row => new { Slot = row.slot, ItemId = row.itemId }),
+            Quick = view.QuickReferences.Select(selector: row => new
+            {
+                Slot = row.slot,
+                ItemId = row.itemId,
+                Stamp = root.Inventory.PathTo(itemId: row.itemId) is { } path
+                        && path.IsCarriedBy(survivorId: view.SurvivorId) ? Stamp(path: path.Items) : null,
+            }),
             Availability = view.Availability.ToString(),
         };
         return (JsonSerializer.SerializeToElement(value: info), Rows(root: root, items: view.Personal,

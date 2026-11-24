@@ -91,6 +91,7 @@ internal sealed class FoundationActorArt : IDisposable
     private JsonElement _wear;
     private long _lastElapsed = -1;
     private double? _lastStrike;
+    private double? _lastFlinch;
     private string _lastPose = "";
 
     private string CorpsePose(double age)
@@ -134,8 +135,14 @@ internal sealed class FoundationActorArt : IDisposable
         _motion.Advance(elapsedSeconds: Math.Clamp(value: delta / 1000, min: 0, max: 60));
         _lastElapsed = elapsed;
         _lastStrike = subject.StrikeAt;
-        JsonElement sample = _motion.Snapshot;
         bool flinch = subject.FlinchAt is { } at && elapsed - at is >= 0 and < 250;
+        if (flinch && subject.FlinchAt != _lastFlinch)
+        {
+            _motion.Flinch();
+            _lastFlinch = subject.FlinchAt;
+        }
+
+        JsonElement sample = _motion.Snapshot;
         string upper = flinch ? "hit" : bow ? "aim" : Text(sample: sample, field: "upperPose");
         Draw(subject: subject, upper: upper, lower: Text(sample: sample, field: "lowerPose"),
                 facing: aim.facing, track: sample, wear: wear);

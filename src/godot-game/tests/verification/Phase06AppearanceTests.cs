@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -117,7 +118,14 @@ public sealed class Phase06AppearanceTests
         var cursor = new FoundationActorNode.AppearanceCursor();
         cursor.Install(revision: moved.roster.Revision, world: moved.world).ShouldBeTrue();
         cursor.Install(revision: moved.roster.Revision + 1, world: original.world).ShouldBeFalse();
-        FoundationEquipmentProjection.Subject actor = Owner(frame: cursor.Current.ShouldNotBeNull());
+        FoundationEquipmentProjection.Frame installed = cursor.Current.ShouldNotBeNull();
+        using var invalid = JsonDocument.Parse(json: moved.world.GetRawText().Replace(
+                oldValue: "\"Movement\":\"idle\"", newValue: "\"Movement\":\"unknown\"",
+                comparisonType: StringComparison.Ordinal));
+        Should.Throw<InvalidDataException>(actual: () => cursor.Install(revision: moved.roster.Revision + 1,
+                world: invalid.RootElement));
+        cursor.Current.ShouldBeSameAs(expected: installed);
+        FoundationEquipmentProjection.Subject actor = Owner(frame: installed);
         actor.Layers.Select(selector: layer => layer.Slot)
                 .ShouldBe(expected: ["torso", "legs", "boots", "left", "right"]);
         actor.Left.Item.ShouldBe(expected: "IT-07");

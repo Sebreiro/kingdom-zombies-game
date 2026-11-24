@@ -4,7 +4,8 @@ const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
-const { launch, waitFor, frames, activate, actor, key, stop, cleanup, prepareProject } = require('../lan-checks/network.cjs');
+const { launch, waitFor, frames, activate, actor, key, input, stop, cleanup,
+  prepareProject } = require('../lan-checks/network.cjs');
 
 function verifyOwner(row, peer, nonce) {
   assert.equal(row.nonce, nonce, 'OBSERVATION_NONCE');
@@ -99,6 +100,33 @@ async function verifyFreshStart(peer, subject, deadline, awaitRow, seeded) {
   return { menu, started, checked };
 }
 
+async function verifyActionInput(peer, subject, deadline, awaitRow) {
+  const shift = 4194325;
+  const space = 32;
+  await key(peer, subject, deadline, shift, true);
+  await key(peer, subject, deadline, rightKey, true);
+  const sprint = await awaitRow(row => row.direction === 1 && row.runPose?.Movement === 'faster',
+    'authored faster movement from ordinary Shift and D');
+  await key(peer, subject, deadline, space, true);
+  const jump = await awaitRow(row => row.runPose?.Movement === 'jump' && row.runPose.Height > 0,
+    'ordinary Space reaches host jump and positive current height');
+  await key(peer, subject, deadline, space, false);
+  await key(peer, subject, deadline, rightKey, false);
+  await key(peer, subject, deadline, shift, false);
+  await awaitRow(row => row.runPose?.Height === 0 && row.direction === 0, 'returned to ground after release');
+
+  const click = pressed => input(peer, subject, deadline, {action: 'click-world', x: 640, y: 512, pressed});
+  await click(true);
+  const attack = await awaitRow(row => row.runPose?.StrikeAt != null && row.runAction?.status === 'Accepted',
+    'ordinary left click reaches one current melee action through the world GUI surface');
+  assert.ok(Number.isFinite(attack.aim?.x) && attack.aim.y === 1750, 'NATIVE_ATTACK_AIM_COORDINATES');
+  await click(true);
+  const held = await awaitRow(row => row.frame > attack.frame + 2, 'repeated button remains physically held');
+  assert.equal(held.runAction?.sequence, attack.runAction.sequence, 'HELD_ATTACK_IS_NOT_RESUBMITTED');
+  await click(false);
+  return { sprint, jump, attack, held };
+}
+
 async function smoke(context, folder) {
   const nonce = crypto.randomUUID();
   const directory = path.join(folder, nonce);
@@ -126,6 +154,7 @@ async function smoke(context, folder) {
   let worldTransitions;
   let steady;
   let fresh;
+  let actions;
   let terminal;
   try {
     const awaitRow = (match, description) => waitFor([peer], deadline, () => latest(peer, nonce, match), description);
@@ -149,6 +178,7 @@ async function smoke(context, folder) {
       'RELEASE_STOPPED_MOVEMENT');
     worldTransitions = verifyTransitions(peer, nonce, stopped);
     fresh = await verifyFreshStart(peer, subject, deadline, awaitRow, before);
+    actions = await verifyActionInput(peer, subject, deadline, awaitRow);
     await stop(peer, subject, deadline);
   } catch (error) {
     failure = error;
@@ -169,7 +199,7 @@ async function smoke(context, folder) {
   assert.ok(!/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output), 'NATIVE_ERROR_LOG');
   fs.writeFileSync(path.join(directory, 'movement.json'), JSON.stringify({
     nonce, revision: context.revision, pid: peer.pid, before, moved, stopped, steady,
-    fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, terminal,
+    fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, terminal,
     inputDriver: 'synthetic-native-ParseInputEvent',
   }, null, 2) + '\n', { flag: 'wx' });
 }

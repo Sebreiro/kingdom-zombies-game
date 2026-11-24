@@ -89,9 +89,27 @@ internal static class FoundationAutomation
                 Pressed = request.GetProperty(propertyName: "pressed").GetBoolean() };
             Input.ParseInputEvent(@event: key);
         }
+        else if (action is "click-world")
+        {
+            ClickWorld(root: root, request: request, gateway: gateway);
+        }
         else
         {
             throw new InvalidOperationException(message: "DRIVER_ACTION");
         }
+    }
+
+    private static void ClickWorld(Control root, JsonElement request, MainThreadGateway gateway)
+    {
+        gateway.RequireThread();
+        var point = new Vector2(x: request.GetProperty(propertyName: "x").GetSingle(),
+                y: request.GetProperty(propertyName: "y").GetSingle());
+        bool pressed = request.GetProperty(propertyName: "pressed").GetBoolean();
+        using var movement = new InputEventMouseMotion { Position = point, GlobalPosition = point };
+        Viewport viewport = root.GetViewport();
+        viewport.PushInput(@event: movement, inLocalCoords: true);
+        using var click = new InputEventMouseButton { Position = point, GlobalPosition = point,
+            ButtonIndex = MouseButton.Left, Pressed = pressed };
+        viewport.PushInput(@event: click, inLocalCoords: true);
     }
 }

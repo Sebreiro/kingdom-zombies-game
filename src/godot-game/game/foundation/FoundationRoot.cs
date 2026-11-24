@@ -16,6 +16,8 @@ public sealed partial class FoundationRoot : Control
     public FoundationRoot()
     {
         _gateway.RequireThread();
+        _worldInput = new FoundationWorldInput(root: this, gateway: _gateway, input: _input,
+                coordinator: () => _coordinator, workspace: () => WorkspaceInput);
     }
 
     /// <summary>Connects guarded callbacks and starts in the ordinary menu.</summary>
@@ -50,6 +52,7 @@ public sealed partial class FoundationRoot : Control
         _menu.Attach();
         _diagnostics.Attach(root: this, gateway: _gateway);
         GetWindow().FocusExited += LoseFocus;
+        GetWindow().FocusEntered += _worldInput.GainFocus;
         ReturnToMenu();
     }
 
@@ -57,6 +60,13 @@ public sealed partial class FoundationRoot : Control
     public override void _Input(InputEvent @event)
     {
         _gateway.RequireThread();
+        bool popup = _menu?.PopupOpen() == true;
+        _worldInput.Refresh(popup: popup);
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left } mouse)
+        {
+            _input.Mouse(pressed: mouse.Pressed);
+            return;
+        }
         if (@event is not InputEventKey key)
         {
             return;
@@ -64,8 +74,7 @@ public sealed partial class FoundationRoot : Control
 
         _inputEvents++;
         _diagnostics.RecordInput(key: (int)key.PhysicalKeycode, pressed: key.Pressed, echo: key.Echo);
-        _input.SetContext(gameplay: _coordinator?.Ready == true);
-        if (_menu?.PopupOpen() == true)
+        if (popup)
         {
             return;
         }
@@ -74,7 +83,13 @@ public sealed partial class FoundationRoot : Control
         {
             _input.Set(key: (int)key.PhysicalKeycode, pressed: key.Pressed);
         }
+        if (_worldInput.HandleKey(key: key))
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (key.Keycode == Key.Escape && _input.FreshPress && !key.Echo
+                && GetViewport().GuiGetFocusOwner() is not TextEdit
                 && !(GetViewport().GuiGetFocusOwner() is LineEdit edit && edit.IsEditing()))
         {
             _menu?.Escape();
@@ -101,16 +116,12 @@ public sealed partial class FoundationRoot : Control
 #if DEBUG
         FoundationAutomation.Tick(root: this, gateway: _gateway);
 #endif
+        _worldInput.Refresh(popup: _menu?.PopupOpen() == true);
         PollKeys();
         double exact = delta * 1000 + _remainder;
         long elapsed = checked((long)exact);
         _remainder = exact - elapsed;
-        if (_coordinator?.Ready == true && _lastDirection != _input.Direction)
-        {
-            _coordinator.Submit(direction: _input.Direction);
-            _lastDirection = _input.Direction;
-        }
-
+        _worldInput.Move();
         _coordinator?.Update(elapsedMilliseconds: elapsed);
         _closing?.Update(elapsedMilliseconds: 0);
         _runtime.TickRetired();
@@ -138,10 +149,12 @@ public sealed partial class FoundationRoot : Control
 
         _menu?.Tick(nowMilliseconds: _runtime.NowMilliseconds);
 
-        _diagnostics.Observe(coordinator: _coordinator, inputEvents: _inputEvents, direction: _input.Direction,
+        _lastDirection = _input.Direction;
+        _diagnostics.Observe(coordinator: _coordinator, inputEvents: _inputEvents, direction: _lastDirection,
                 nativeActors: GetTree().GetNodesInGroup(group: "foundation-actor").Count,
                 polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D), feedback: _runtime.Feedback,
-                nowMilliseconds: _runtime.NowMilliseconds, services: _services);
+                nowMilliseconds: _runtime.NowMilliseconds, services: _services, appearance: _appearance?.Frame,
+                attackAim: _worldInput.LastAttackAim);
         Observe();
     }
 
@@ -149,6 +162,7 @@ public sealed partial class FoundationRoot : Control
     public override void _ExitTree()
     {
         _gateway.RequireThread();
+        _worldInput.Dispose();
         _appearance?.Dispose();
         _appearance = null;
         _coordinator?.Close();
@@ -164,14 +178,18 @@ public sealed partial class FoundationRoot : Control
         GetNode<Button>(path: "Browser/JoinAddress").Pressed -= JoinAddress;
         _menu?.Detach();
         GetWindow().FocusExited -= LoseFocus;
+        GetWindow().FocusEntered -= _worldInput.GainFocus;
         if (_capture is not null)
         {
             RenderingServer.FramePostDraw -= Capture;
         }
     }
 
+    internal FoundationInput.IWorkspace? WorkspaceInput { get; set; }
+
     private readonly MainThreadGateway _gateway = new();
     private readonly FoundationInput _input = new();
+    private readonly FoundationWorldInput _worldInput;
     private FoundationCoordinator? _coordinator;
     private FoundationCoordinator? _closing;
     private readonly FoundationRuntimeState _runtime = new();
@@ -244,7 +262,6 @@ public sealed partial class FoundationRoot : Control
 #endif
 
             _remainder = 0;
-            _lastDirection = int.MinValue;
             ShowWorld();
         }
         catch (Exception error)
@@ -293,12 +310,10 @@ public sealed partial class FoundationRoot : Control
             _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
             _runtime.Feedback = "";
             _input.Clear();
-            _input.SetContext(gameplay: true);
             _runtime.Hosting = false;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: true, nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Join(address: host, port: port, expectedSessionId: _menu?.RequestedSessionId ?? "");
-            _lastDirection = int.MinValue;
             GetNode<Label>(path: "Browser/Feedback").Text = "Connecting to " + host + "…";
             _menu?.Attempt(origin: GetViewport().GuiGetFocusOwner()?.GetPath().ToString()
                     .EndsWith(value: "JoinSession", comparisonType: StringComparison.Ordinal) == true
@@ -328,13 +343,15 @@ public sealed partial class FoundationRoot : Control
             world.Name = "World";
             AddChild(node: world);
             MoveChild(childNode: world, toIndex: 1);
-            _input.Clear();
+            _worldInput.AttachWorld(world: world);
         }
 
-        if (_coordinator.ReadRunRender() is { } readback && (readback.World.HasValue || _appearance is not null))
+        FoundationRunReadback? readback = _coordinator.ReadRunRender();
+        (double x, double y)? aim = _worldInput.Point(readback: readback, frame: _appearance?.Frame);
+        if (readback is not null && (readback.World.HasValue || _appearance is not null))
         {
             _appearance ??= new FoundationView.Appearance(world: world, gateway: _gateway);
-            _appearance.Project(readback: readback, local: _coordinator.LocalRunControl?.survivorId, aim: null);
+            _appearance.Project(readback: readback, local: _coordinator.LocalRunControl?.survivorId, aim: aim);
         }
         FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: _coordinator.BindingId,
                 gateway: _gateway, authored: _appearance?.Ready == true);
@@ -353,7 +370,7 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         foreach (Key physical in new[] { Key.A, Key.D, Key.Left, Key.Right, Key.Escape,
-            Key.Enter, Key.Space, Key.KpEnter })
+            Key.Enter, Key.Space, Key.KpEnter, Key.Shift, Key.E, Key.I, Key.Key1, Key.Key2, Key.Key3, Key.Key4 })
         {
             if (!Input.IsPhysicalKeyPressed(keycode: physical))
             {
@@ -383,6 +400,7 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
+        _worldInput.DetachWorld();
         _appearance?.Dispose();
         _appearance = null;
         _runtime.Retire(current: ref _coordinator, closing: ref _closing);
@@ -419,7 +437,7 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _diagnostics.LostFocus();
-        _input.Clear();
+        _worldInput.LoseFocus();
     }
 
     private void Observe()

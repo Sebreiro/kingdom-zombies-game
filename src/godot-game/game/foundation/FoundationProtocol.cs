@@ -245,9 +245,8 @@ internal static class FoundationProtocol
             case "own":
                 Shape(value: body, names: ["SurvivorId", "ContainerId", "Width", "Height", "Nearby", "Quick",
                     "Availability"]);
-                ValidateRows(body: body, member: "Nearby", fields: ["Kind", "Id"]);
-                ValidateRows(body: body, member: "Quick", fields: ["Slot", "ItemId"]);
-                return frame.Epoch > 0 && frame.Token == 0 && frame.Rows.All(predicate: ValidPrivateItem);
+                return frame.Epoch > 0 && frame.Token == 0 && ValidOwnControls(body: body)
+                        && frame.Rows.All(predicate: ValidPrivateItem);
             case "external":
                 Shape(value: body, names: ["Kind", "TargetId", "Page", "PageCount", "ContainerId", "Width",
                     "Height"]);
@@ -255,6 +254,19 @@ internal static class FoundationProtocol
             default:
                 return false;
         }
+    }
+
+    private static bool ValidOwnControls(JsonElement body)
+    {
+        ValidateRows(body: body, member: "Nearby", fields: ["Kind", "Id"]);
+        ValidateRows(body: body, member: "Quick", fields: ["Slot", "ItemId", "Stamp"]);
+        return body.GetProperty(propertyName: "Nearby").EnumerateArray().All(predicate: target =>
+                Text(value: target, name: "Kind") is "Stash" or "Npc" or "Pile" or "Corpse"
+                        && Text(value: target, name: "Id").Length is >= 1 and <= 128)
+                && body.GetProperty(propertyName: "Quick").EnumerateArray().All(predicate: quick =>
+                        quick.GetProperty(propertyName: "Slot").GetInt32() is >= 1 and <= 4
+                                && quick.GetProperty(propertyName: "ItemId").GetInt64() > 0
+                                && quick.GetProperty(propertyName: "Stamp").GetString() is null or { Length: 64 });
     }
 
     private static bool ValidPrivateItem(JsonElement row)
@@ -307,7 +319,8 @@ internal static class FoundationProtocol
         ValidateRows(body: body, member: "Defenses", fields: ["Id", "X", "Y", "Living", "Completed", "IsWall"]);
         ValidateRows(body: body, member: "Loot", fields: ["Id", "X", "Y", "Kind"]);
         ValidateRows(body: body, member: "Arrows", fields: ["Id", "X", "Y", "VelocityX", "VelocityY"]);
-        return body.GetProperty(propertyName: "Elapsed").GetInt64() >= 0;
+        _ = FoundationEquipmentProjection.Read(revision: 0, world: body);
+        return true;
     }
 
     private static void ValidateRows(JsonElement body, string member, string[] fields)
