@@ -100,7 +100,8 @@ public sealed class FoundationSession
         return true;
     }
 
-    /// <summary>Moves all ready actors once using integer elapsed time supplied by the host.</summary>
+    /// <summary>Moves all ready actors once over the host's interval (previous time, current time].</summary>
+    /// <remarks>Eligibility can begin at its deadline. Recovery accrues only over elapsed time after it.</remarks>
     public void Step(long elapsedMilliseconds)
     {
         RequireActive();
@@ -114,12 +115,14 @@ public sealed class FoundationSession
         _publication = new RunPublication(snapshot: snapshot, world: current.World, elapsedMilliseconds: elapsed);
     }
 
-    /// <summary>Retains inherited callers through the same validation and stepping path.</summary>
+    /// <summary>Validates the complete legacy command and tick before replacing the held intent.</summary>
     public void Advance(FoundationMovementCommand command, long elapsedMilliseconds)
     {
         RequireActive();
         ArgumentNullException.ThrowIfNull(argument: command);
         ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
+        _ = checked(_publication.ElapsedMilliseconds + elapsedMilliseconds);
+        _ = checked(Snapshot.Revision + 1);
         long sequence = _intents.TryGetValue(key: "local", value: out FoundationHeldIntent? held)
                 ? checked(held.Sequence + 1) : 1;
         if (!TryAccept(command: command with { Sequence = sequence }, trustedBinding: "local",
@@ -149,6 +152,7 @@ public sealed class FoundationSession
 
     internal FoundationSession(string sessionId, string playerId, string actorId, RunWorld world)
     {
+        ArgumentNullException.ThrowIfNull(argument: world);
         world.Validate();
         var snapshot = new FoundationSnapshot(sessionId: sessionId, revision: 0, participants:
                 [new FoundationParticipantState(bindingId: "local", label: "Player 1", slot: 1, ready: true,
@@ -160,9 +164,21 @@ public sealed class FoundationSession
     internal bool CanReach(string bindingId, RunWorld.Access kind, string targetId)
     {
         RunPublication current = _publication;
-        FoundationParticipantState? participant = Find(snapshot: current.Snapshot, bindingId: bindingId);
-        return _active && participant?.Ready == true && current.World.Reachable(
-                actor: current.World.ActorContact(actor: participant.Actor), kind: kind, id: targetId);
+        FoundationActorState? actor = ReadyActor(snapshot: current.Snapshot, bindingId: bindingId);
+        return actor is not null && current.World.Reachable(
+                actor: current.World.ActorContact(actor: actor), kind: kind, id: targetId);
+    }
+
+    internal (bool insideCamp, bool safeDistance)? SafetyFor(string bindingId)
+    {
+        RunPublication current = _publication;
+        FoundationActorState? actor = ReadyActor(snapshot: current.Snapshot, bindingId: bindingId);
+        return actor is null ? null : current.World.Safety(actor: current.World.ActorContact(actor: actor));
+    }
+
+    internal bool TryReplaceRunWorld(RunWorld? candidate)
+    {
+        return _active && candidate is not null && TryPublish(participants: Snapshot.Participants, world: candidate);
     }
 
     private RunPublication _publication;
@@ -172,6 +188,12 @@ public sealed class FoundationSession
     private FoundationParticipantState? Find(string bindingId)
     {
         return Find(snapshot: Snapshot, bindingId: bindingId);
+    }
+
+    private FoundationActorState? ReadyActor(FoundationSnapshot snapshot, string bindingId)
+    {
+        return _active && Find(snapshot: snapshot, bindingId: bindingId) is { Ready: true } participant
+                ? participant.Actor : null;
     }
 
     private static FoundationParticipantState? Find(FoundationSnapshot snapshot, string bindingId)
@@ -211,18 +233,19 @@ public sealed class FoundationSession
                 slot: participant.Slot, ready: participant.Ready, actor: moved);
     }
 
-    private bool TryPublish(IEnumerable<FoundationParticipantState> participants)
+    private bool TryPublish(IEnumerable<FoundationParticipantState> participants, RunWorld? world = null)
     {
         try
         {
+            world?.Validate();
             RunPublication current = _publication;
             var snapshot = new FoundationSnapshot(sessionId: current.Snapshot.SessionId,
                     revision: checked(current.Snapshot.Revision + 1), participants: participants);
-            _publication = new RunPublication(snapshot: snapshot, world: current.World,
+            _publication = new RunPublication(snapshot: snapshot, world: world ?? current.World,
                     elapsedMilliseconds: current.ElapsedMilliseconds);
             return true;
         }
-        catch (InvalidDataException)
+        catch (Exception error) when (error is InvalidDataException or OverflowException)
         {
             return false;
         }

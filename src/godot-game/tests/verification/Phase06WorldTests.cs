@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using KingdomZombies.Core;
 using Shouldly;
 using Xunit;
@@ -34,6 +35,43 @@ public sealed class Phase06WorldTests
         session.Actor.PositionSubunits.ShouldBe(expected: -7997);
         session.LocalWorld.ShouldBe(expected: (1L, true, true, true));
         CanReach(session: session, kind: RunWorld.Access.Npc, id: "npc").ShouldBeFalse();
+    }
+
+    /// <summary>Each action sees the current actor and current blocker after earlier authority commits.</summary>
+    [Fact]
+    public void Phase06_E002_AccessIsRecheckedAfterMovementAndBlockerChanges()
+    {
+        RunWorld.Anchor stash = Anchor(id: RunWorld.StashId, kind: RunWorld.Access.Stash, x: -5000);
+        RunWorld.Anchor[] detachedAnchors = [stash];
+        RunWorld clear = World(anchors: detachedAnchors);
+        detachedAnchors[0] = Anchor(id: RunWorld.StashId, kind: RunWorld.Access.Stash, x: 10000);
+        FoundationSession session = Session(world: clear);
+        CanReach(session: session, kind: RunWorld.Access.Stash, id: RunWorld.StashId).ShouldBeTrue();
+
+        Accept(session: session, direction: -1);
+        session.Step(elapsedMilliseconds: 500);
+        CanReach(session: session, kind: RunWorld.Access.Stash, id: RunWorld.StashId).ShouldBeFalse();
+        Accept(session: session, direction: 1, sequence: 2);
+        session.Step(elapsedMilliseconds: 500);
+        session.LocalWorld.stashReachable.ShouldBeTrue();
+
+        FoundationSnapshot before = session.Snapshot;
+        RunWorld blocked = World(anchors: [stash], blockers: [Barrier(id: "closed", x: -6500)]);
+        session.TryReplaceRunWorld(candidate: blocked).ShouldBeTrue();
+        session.Snapshot.Revision.ShouldBe(expected: before.Revision + 1);
+        session.Actor.ShouldBeSameAs(expected: before.Participants[0].Actor);
+        session.LocalWorld.ShouldBe(expected: (1000L, true, true, false));
+        CanReach(session: session, kind: RunWorld.Access.Stash, id: RunWorld.StashId).ShouldBeFalse();
+
+        session.AddParticipant(bindingId: "guest", playerId: "player2", actorId: "actor2", label: "Guest")
+                .ShouldBeTrue();
+        session.TryReplaceRunWorld(candidate: clear).ShouldBeTrue();
+        session.CanReach(bindingId: "guest", kind: RunWorld.Access.Stash, targetId: RunWorld.StashId).ShouldBeFalse();
+        session.SafetyFor(bindingId: "guest").ShouldBeNull();
+        session.MarkReady(bindingId: "guest").ShouldBeTrue();
+        session.CanReach(bindingId: "guest", kind: RunWorld.Access.Stash, targetId: RunWorld.StashId).ShouldBeTrue();
+        session.SafetyFor(bindingId: "guest").ShouldBe(expected: ((bool insideCamp, bool safeDistance)?)(true, true));
+        session.LocalWorld.ShouldBe(expected: (1000L, true, true, true));
     }
 
     /// <summary>Each side without a living completed wall falls back to the main-building refuge.</summary>
@@ -95,12 +133,58 @@ public sealed class Phase06WorldTests
         session.LocalWorld.elapsedMilliseconds.ShouldBe(expected: 850);
     }
 
+    /// <summary>Defense order and display similarity do not affect which surviving wall sets either edge.</summary>
+    [Fact]
+    public void Phase06_E005_OuterWallLossUsesTheNextLivingWallOnThatSide()
+    {
+        RunWorld.Defense outerLeft = Defense(id: "outer-left", x: -20000);
+        RunWorld.Defense innerLeft = Defense(id: "inner-left", x: -14000);
+        RunWorld.Defense matchingLeft = Defense(id: "matching-left", x: -14000);
+        RunWorld.Defense outerRight = Defense(id: "outer-right", x: 19000);
+        RunWorld.Defense innerRight = Defense(id: "inner-right", x: 13000);
+        FoundationSession session = Session(world: World(defenses:
+                [outerRight, outerLeft, innerRight, matchingLeft, innerLeft]));
+
+        Accept(session: session, direction: -1);
+        session.Step(elapsedMilliseconds: 4000);
+        session.Actor.PositionSubunits.ShouldBe(expected: -20000);
+        session.LocalWorld.insideCamp.ShouldBeTrue();
+        session.TryReplaceRunWorld(candidate: World(defenses:
+                [innerLeft, matchingLeft, innerRight, outerLeft, outerRight])).ShouldBeTrue();
+        session.LocalWorld.insideCamp.ShouldBeTrue();
+
+        outerLeft = outerLeft with { Living = false };
+        session.TryReplaceRunWorld(candidate: World(defenses:
+                [outerLeft, outerRight, innerRight, innerLeft, matchingLeft])).ShouldBeTrue();
+        session.LocalWorld.insideCamp.ShouldBeFalse();
+        Accept(session: session, direction: 1, sequence: 2);
+        session.Step(elapsedMilliseconds: 2000);
+        session.Actor.PositionSubunits.ShouldBe(expected: -14000);
+        session.LocalWorld.insideCamp.ShouldBeTrue();
+
+        innerLeft = innerLeft with { Living = false };
+        session.TryReplaceRunWorld(candidate: World(defenses:
+                [outerLeft, outerRight, innerRight, innerLeft, matchingLeft])).ShouldBeTrue();
+        session.LocalWorld.insideCamp.ShouldBeTrue();
+        matchingLeft = matchingLeft with { Living = false };
+        session.TryReplaceRunWorld(candidate: World(defenses:
+                [outerLeft, outerRight, innerRight, innerLeft, matchingLeft])).ShouldBeTrue();
+        session.LocalWorld.insideCamp.ShouldBeFalse();
+
+        session.Step(elapsedMilliseconds: 11000);
+        session.Actor.PositionSubunits.ShouldBe(expected: 19000);
+        session.LocalWorld.insideCamp.ShouldBeTrue();
+        session.Step(elapsedMilliseconds: 1);
+        session.LocalWorld.insideCamp.ShouldBeFalse();
+    }
+
     /// <summary>The integral clock preserves precise boundaries and rejects invalid steps atomically.</summary>
     [Fact]
     public void Phase06_E006_ElapsedIsExactAndInvalidStepsAreAtomic()
     {
         CheckExactBoundaries();
         CheckRejectedElapsed();
+        CheckRejectedGeometry();
     }
 
     private static void CheckExactBoundaries()
@@ -140,6 +224,33 @@ public sealed class Phase06WorldTests
         session.LocalWorld.elapsedMilliseconds.ShouldBe(expected: long.MaxValue);
     }
 
+    private static void CheckRejectedGeometry()
+    {
+        FoundationSession session = Session();
+        session.Step(elapsedMilliseconds: 11);
+        FoundationSnapshot original = session.Snapshot;
+        var inverted = new RunWorld.Blocker(id: "inverted", minimum: Point(x: 1), maximum: Point(x: 0));
+        RunWorld[] invalid = [
+            World(blockers: [inverted]),
+            World(defenses: [Defense(id: "duplicate", x: 100)], blockers: [Barrier(id: "duplicate", x: 100)]),
+            World(ranges: new RunWorld.Ranges(refugeUnits: 0, dangerUnits: 12, localUnits: 3, stashUnits: 4)),
+            World(origin: Point(x: long.MaxValue)),
+            World(anchors: [Anchor(id: "unknown", kind: (RunWorld.Access)999, x: 100)]),
+        ];
+        foreach (RunWorld candidate in invalid)
+        {
+            session.TryReplaceRunWorld(candidate: candidate).ShouldBeFalse();
+            session.Snapshot.ShouldBeSameAs(expected: original);
+            session.LocalWorld.ShouldBe(expected: (11L, true, true, false));
+        }
+
+        Should.Throw<InvalidDataException>(actual: () => Session(world: invalid[0]));
+        session.TryReplaceRunWorld(candidate: null).ShouldBeFalse();
+        session.Close();
+        session.TryReplaceRunWorld(candidate: RunWorld.Foundation).ShouldBeFalse();
+        session.Snapshot.ShouldBeSameAs(expected: original);
+    }
+
     private static FoundationSession Session(RunWorld? world = null)
     {
         return new FoundationSession(sessionId: "session", playerId: "player", actorId: "actor",
@@ -147,10 +258,11 @@ public sealed class Phase06WorldTests
     }
 
     private static RunWorld World(long mainX = 0, RunWorld.Defense[]? defenses = null,
-            RunWorld.Blocker[]? blockers = null, RunWorld.Hostile[]? hostiles = null, RunWorld.Anchor[]? anchors = null)
+            RunWorld.Blocker[]? blockers = null, RunWorld.Hostile[]? hostiles = null, RunWorld.Anchor[]? anchors = null,
+            RunWorld.Point origin = default, RunWorld.Ranges? ranges = null)
     {
-        return new RunWorld(origin: default, groundContactSubunits: 0, mainBuilding: Point(x: mainX),
-                ranges: RunWorld.DefaultRanges, defenses: defenses ?? [], blockers: blockers ?? [],
+        return new RunWorld(origin: origin, groundContactSubunits: 0, mainBuilding: Point(x: mainX),
+                ranges: ranges ?? RunWorld.DefaultRanges, defenses: defenses ?? [], blockers: blockers ?? [],
                 hostiles: hostiles ?? [], anchors: anchors ?? []);
     }
 
