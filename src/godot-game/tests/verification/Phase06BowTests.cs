@@ -209,7 +209,7 @@ public sealed class Phase06BowTests
         }
     }
 
-    /// <summary>A victim moving through landing leaves the corpse at the impact position in either step grouping.</summary>
+    /// <summary>A moving victim leaves the corpse at the same impact position in either step grouping.</summary>
     [Fact]
     public void LethalFlightLeavesTheCorpseAtItsCommittedImpact()
     {
