@@ -4,7 +4,7 @@ plan: "01"
 subsystem: gameplay-authority
 tags: [godot, csharp, elapsed-time, camp-safety, local-access, headless]
 requires:
-  - phase: 03-temporary-lan-multiplayer
+  - phase: 03-four-player-lan-foundation
     provides: "Identified host authority, native Start and Host flows, and the legacy snapshot"
   - phase: 05-ci-and-repeatable-game-testing
     provides: "Pinned strict build, shared PR checks, and owned native observations"
