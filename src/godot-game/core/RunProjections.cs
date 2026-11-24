@@ -58,13 +58,15 @@ internal static class RunProjections
                 defense.Completed,
                 defense.IsWall,
             }),
-            Loot = root.Loot.Targets.Values.Where(predicate: target => world.Anchors.Contains(item: target.Anchor))
-                    .Select(selector: target => new
+            Loot = world.Anchors.Where(predicate: anchor => anchor.Kind == RunWorld.Access.Stash
+                    || root.Loot.Targets.TryGetValue(key: anchor.Id, value: out RunDeathAndLoot.Target? target)
+                            && target.Anchor == anchor)
+                    .Select(selector: anchor => new
                     {
-                        target.Anchor.Id,
-                        target.Anchor.Contact.X,
-                        target.Anchor.Contact.Y,
-                        Kind = target.Anchor.Kind.ToString(),
+                        anchor.Id,
+                        anchor.Contact.X,
+                        anchor.Contact.Y,
+                        Kind = anchor.Kind.ToString(),
                     }),
             Arrows = root.Combat.Arrows.Select(selector: arrow =>
             {

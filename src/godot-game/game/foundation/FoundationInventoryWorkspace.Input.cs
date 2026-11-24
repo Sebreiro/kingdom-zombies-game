@@ -43,7 +43,7 @@ internal sealed partial class FoundationInventoryWorkspace
     private void ItemInput(Button button, Model.Item item, bool external, long token, InputEvent input)
     {
         _gateway.RequireThread();
-        if (_pending.HasValue)
+        if (_pending.HasValue || external && token != External?.Token)
         {
             return;
         }
@@ -57,7 +57,7 @@ internal sealed partial class FoundationInventoryWorkspace
             else if (mouse.ButtonIndex == MouseButton.Left && mouse.CtrlPressed && External is { } target
                     && (external || target.Header.GetProperty(propertyName: "Kind").GetString() is "Stash"))
             {
-                Send(command: Model.Quick(item: item, token: target.Token, deposit: !external));
+                Send(command: Model.Quick(item: item, token: target.Token, deposit: !external), nearby: true);
             }
             else if (mouse.ButtonIndex == MouseButton.Left)
             {
@@ -114,15 +114,19 @@ internal sealed partial class FoundationInventoryWorkspace
         (Model.Placement placement, _) = PlacementAt(point: point);
         if (_model.Release(placement: placement) is { } action)
         {
-            Send(command: action);
+            Send(command: action, nearby: _externalDestination || action.Request.TryGetProperty(
+                    propertyName: "Token", value: out System.Text.Json.JsonElement token) && token.GetInt64() > 0);
         }
         else if (placement.Reason is not "Outside")
         {
-            Feedback(text: Copy(reason: placement.Reason));
+            ReportAction(text: Copy(reason: placement.Reason), nearby: _externalDestination);
         }
 
         Retire(node: _preview);
         _preview = null;
+        _previewGlyph = null;
+        _externalDestination = false;
+        PaintSlots(item: null);
         return true;
     }
 
@@ -130,6 +134,7 @@ internal sealed partial class FoundationInventoryWorkspace
     {
         _gateway.RequireThread();
         TargetRegion? target = _targets.LastOrDefault(predicate: region => Hits(region: region, point: point));
+        _externalDestination = target?.Token > 0;
         if (target is null || _model.Drag is not { } drag)
         {
             return (new Model.Placement(reason: "Outside"), point);
@@ -178,13 +183,63 @@ internal sealed partial class FoundationInventoryWorkspace
             _preview = new ColorRect { Name = "PlacementPreview", ZIndex = 12,
                 MouseFilter = Control.MouseFilterEnum.Ignore };
             _layer.AddChild(node: _preview);
+            _preview.Draw += DrawPreviewOutline;
+            _previewGlyph = TextLine(parent: _preview, text: "");
+            _previewGlyph.AddThemeFontSizeOverride(name: "font_size", fontSize: 22);
         }
         int pitch = FoundationInventoryGrid.Pitch;
         Model.Rect area = placement.Area ?? new Model.Rect(x: 0, y: 0, width: drag.Width, height: drag.Height);
         _preview.Position = origin + new Vector2(x: area.X * pitch, y: area.Y * pitch);
         _preview.Size = new Vector2(x: area.Width * pitch, y: area.Height * pitch);
-        _preview.Color = placement.Action is not null ? new Color(r: 0.63f, g: 0.83f, b: 0.70f, a: 0.55f)
+        _previewLegal = placement.Action is not null;
+        _preview.Color = _previewLegal ? new Color(r: 0.63f, g: 0.83f, b: 0.70f, a: 0.55f)
                 : new Color(r: 0.72f, g: 0.28f, b: 0.25f, a: 0.55f);
+        if (_previewGlyph is not null)
+        {
+            _previewGlyph.Text = _previewLegal ? "✓" : "×";
+        }
+
+        _preview.QueueRedraw();
+        PaintSlots(item: drag.Item);
+    }
+
+    private void DrawPreviewOutline()
+    {
+        _gateway.RequireThread();
+        if (_preview is not { } preview)
+        {
+            return;
+        }
+
+        Vector2 size = preview.Size;
+        if (_previewLegal)
+        {
+            preview.DrawRect(rect: new Rect2(position: Vector2.Zero, size: size), color: Colors.PaleGreen,
+                    filled: false, width: 3);
+            return;
+        }
+
+        var right = new Vector2(x: size.X, y: 0);
+        var bottom = new Vector2(x: 0, y: size.Y);
+        preview.DrawDashedLine(from: Vector2.Zero, to: right, color: Colors.LightCoral, width: 3, dash: 6);
+        preview.DrawDashedLine(from: right, to: size, color: Colors.LightCoral, width: 3, dash: 6);
+        preview.DrawDashedLine(from: size, to: bottom, color: Colors.LightCoral, width: 3, dash: 6);
+        preview.DrawDashedLine(from: bottom, to: Vector2.Zero, color: Colors.LightCoral, width: 3, dash: 6);
+    }
+
+    private void PaintSlots(Model.Item? item)
+    {
+        _gateway.RequireThread();
+        foreach (TargetRegion region in _targets)
+        {
+            if (region.Slot is not { } slot)
+            {
+                continue;
+            }
+
+            region.Control.Modulate = item is not null && Model.Compatible(item: item, slot: slot)
+                    ? region.Occupied is null ? Colors.PaleGreen : Colors.LightCoral : Colors.White;
+        }
     }
 
     private void ItemMenu(Button button, Model.Item item, bool external)
@@ -316,6 +371,13 @@ internal sealed partial class FoundationInventoryWorkspace
         Rect2 source = button.GetGlobalRect();
         long? parent = item.Location.Kind is "container" ? item.Location.GridId : null;
         RemovePopup();
+        ImmutableArray<long> requested = DesiredWindows(root: external ? External : Own, external: external);
+        if (requested.Length >= 16 && !requested.Contains(item: item.Id))
+        {
+            ReportAction(text: "Close a bag before opening another.", nearby: external);
+            return;
+        }
+
         if (_model.OpenBag(item: item, parent: parent, external: external, source: From(rect: source),
                 bounds: Bounds()) is not null)
         {
@@ -371,6 +433,10 @@ internal sealed partial class FoundationInventoryWorkspace
         {
             RemovePopup();
         }
+        else if (LeaveTargetList())
+        {
+            return true;
+        }
         else if (_model.Windows.Count > 0)
         {
             CloseBag(id: _model.Windows[^1].Item.Id);
@@ -402,8 +468,11 @@ internal sealed partial class FoundationInventoryWorkspace
         _model.Cancel();
         _movingBag = null;
         _press = null;
+        _externalDestination = false;
+        PaintSlots(item: null);
         Retire(node: _preview);
         _preview = null;
+        _previewGlyph = null;
         if (_amountField is not null)
         {
             RemovePopup();
@@ -451,7 +520,7 @@ internal sealed partial class FoundationInventoryWorkspace
         if (_model.Drag is { } drag && !Current(item: drag.Item))
         {
             CancelPreview();
-            Feedback(text: Copy(reason: "StaleItem"));
+            ReportAction(text: Copy(reason: "StaleItem"), nearby: drag.External);
         }
 
         foreach (Model.Window bag in _model.Windows.ToArray())
@@ -475,7 +544,7 @@ internal sealed partial class FoundationInventoryWorkspace
                         x: row.GetProperty(propertyName: "Stamp").GetString(), y: item.Stamp))) == true;
     }
 
-    private void Send(Model.Command command)
+    private void Send(Model.Command command, bool nearby = false)
     {
         _gateway.RequireThread();
         if (_pending.HasValue || _coordinator()?.SubmitRunAction(kind: command.Kind, request: command.Request)
@@ -484,14 +553,26 @@ internal sealed partial class FoundationInventoryWorkspace
             return;
         }
 
+        nearby |= command.Kind is "select" or "browse";
+        _highlight = null;
+        _deposit = command.Kind is "quick" && command.Request.GetProperty(propertyName: "Deposit").GetBoolean()
+                && _selected is { } stash ? (receipt.sequence, stash) : null;
+        _dirty = true;
         if (receipt.status is "Pending")
         {
             _pending = receipt.sequence;
-            Feedback(text: command.Kind is "food" ? "Consuming food…" : "Moving item…");
+            _externalPending = nearby;
+            ReportAction(text: command.Kind switch
+            {
+                "select" => "Opening inventory…",
+                "browse" => "Opening stash page…",
+                "food" => "Consuming food…",
+                _ => "Moving item…",
+            }, nearby: nearby);
         }
         else
         {
-            Feedback(text: Copy(reason: receipt.status));
+            CompleteAction(status: receipt.status, nearby: nearby);
         }
     }
 
@@ -501,7 +582,32 @@ internal sealed partial class FoundationInventoryWorkspace
         if (_pending is { } pending && _readback?.Feedback is { } feedback && feedback.sequence == pending)
         {
             _pending = null;
-            Feedback(text: Copy(reason: feedback.status));
+            CompleteAction(status: feedback.status, nearby: _externalPending);
+            _externalPending = false;
+            _dirty = true;
+        }
+    }
+
+    private void CompleteAction(string status, bool nearby)
+    {
+        if (nearby && status is not ("Ready" or "Accepted" or "Applied"))
+        {
+            _selecting = null;
+            _deposit = null;
+        }
+
+        ReportAction(text: Copy(reason: status), nearby: nearby);
+    }
+
+    private void ReportAction(string text, bool nearby)
+    {
+        if (nearby)
+        {
+            NearbyFeedback(text: text);
+        }
+        else
+        {
+            Feedback(text: text);
         }
     }
 
@@ -525,6 +631,7 @@ internal sealed partial class FoundationInventoryWorkspace
             "AccessLost" => "Move closer to a reachable inventory.",
             "Occupied" => "Unequip the current item before replacing it.",
             "Capacity" => "No room in this storage. Make space or choose another stack.",
+            "InvalidPage" => "That stash page is unavailable. Choose a page from the updated inventory.",
             "Cycle" => "A container cannot hold itself. Choose another container.",
             "Nesting" => "Container nesting limit reached. Choose a shallower grid.",
             "Cooldown" => "Food cooling down.",
@@ -532,7 +639,4 @@ internal sealed partial class FoundationInventoryWorkspace
         };
     }
 
-    partial void DrawExternal();
-    partial void InspectExternal();
-    partial void CloseExternal();
 }

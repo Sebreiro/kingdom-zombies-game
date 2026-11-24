@@ -148,6 +148,34 @@ async function verifyInventory(peer, subject, deadline, awaitRow) {
   return {open, held, closed};
 }
 
+async function verifyNearby(peer, subject, deadline, awaitRow) {
+  const interact = 69;
+  const panelPath = 'InventoryWorkspace/InventoryPanels/';
+  const tap = async code => {
+    await key(peer, subject, deadline, code, true);
+    await key(peer, subject, deadline, code, false);
+  };
+  await tap(interact);
+  const open = await awaitRow(row => row.ready && row.inventoryOpen && row.inventorySlots === 11,
+    'ordinary E opens reachable inventories without replacing carried equipment');
+  if (open.nearby?.kind !== 'Stash') {
+    await activate(peer, subject, deadline, panelPath + 'NearbyChoices/Rows/NearbyChoice_Stash');
+  }
+  const stash = await awaitRow(row => row.inventoryOpen && row.nearby?.kind === 'Stash' && row.nearby.page === 1,
+    'native selection installs the actual authorized stash and initial page');
+  assert.equal(stash.runAction?.status, 'Ready', 'NEARBY_AUTHORITY_ACCEPTED_TARGET');
+  await activate(peer, subject, deadline, panelPath + 'NextStashPage');
+  const next = await awaitRow(row => row.inventoryOpen && row.nearby?.page === 2,
+    'native Next installs the current second stash page');
+  await activate(peer, subject, deadline, panelPath + 'PreviousStashPage');
+  const previous = await awaitRow(row => row.frame > next.frame && row.inventoryOpen && row.nearby?.page === 1,
+    'native Previous uses the new grant and returns to the first page');
+  await tap(escapeKey);
+  const closed = await awaitRow(row => row.ready && !row.inventoryOpen && row.nearby?.page === 0,
+    'Escape removes the authorized panel and its selected page');
+  return {open, stash, next, previous, closed};
+}
+
 async function smoke(context, folder) {
   const nonce = crypto.randomUUID();
   const directory = path.join(folder, nonce);
@@ -177,6 +205,7 @@ async function smoke(context, folder) {
   let fresh;
   let actions;
   let inventory;
+  let nearby;
   let terminal;
   try {
     const awaitRow = (match, description) => waitFor([peer], deadline, () => latest(peer, nonce, match), description);
@@ -199,6 +228,7 @@ async function smoke(context, folder) {
     assert.equal(actor(steady, peer.profile).PositionSubunits, actor(stopped, peer.profile).PositionSubunits,
       'RELEASE_STOPPED_MOVEMENT');
     worldTransitions = verifyTransitions(peer, nonce, stopped);
+    nearby = await verifyNearby(peer, subject, deadline, awaitRow);
     fresh = await verifyFreshStart(peer, subject, deadline, awaitRow, before);
     actions = await verifyActionInput(peer, subject, deadline, awaitRow);
     inventory = await verifyInventory(peer, subject, deadline, awaitRow);
@@ -222,7 +252,8 @@ async function smoke(context, folder) {
   assert.ok(!/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output), 'NATIVE_ERROR_LOG');
   fs.writeFileSync(path.join(directory, 'movement.json'), JSON.stringify({
     nonce, revision: context.revision, pid: peer.pid, before, moved, stopped, steady,
-    fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, inventory, terminal,
+    fixtureInputs, worldBefore: worldTransitions[0], worldAfter: worldTransitions[1], fresh, actions, inventory, nearby,
+    terminal,
     inputDriver: 'synthetic-native-ParseInputEvent',
   }, null, 2) + '\n', { flag: 'wx' });
 }

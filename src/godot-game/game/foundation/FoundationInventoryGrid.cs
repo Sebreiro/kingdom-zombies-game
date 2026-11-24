@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Globalization;
 using Godot;
 using KingdomZombies.Proofs;
@@ -17,6 +18,7 @@ internal sealed class FoundationInventoryGrid
     }
 
     internal Control Add(Control parent, FoundationInventoryInteraction.Grid grid,
+            ImmutableArray<(int x, int y)> highlights,
             Action<Button, FoundationInventoryInteraction.Item, InputEvent> itemInput)
     {
         _gateway.RequireThread();
@@ -40,6 +42,11 @@ internal sealed class FoundationInventoryGrid
             board.AddChild(node: button);
             Decorate(button: button, item: item);
             button.GuiInput += value => itemInput(arg1: button, arg2: item, arg3: value);
+        }
+
+        if (!highlights.IsDefaultOrEmpty)
+        {
+            AddHighlights(board: board, cells: highlights);
         }
 
         return board;
@@ -101,6 +108,26 @@ internal sealed class FoundationInventoryGrid
 
     private readonly MainThreadGateway _gateway;
     private readonly FoundationInventoryArt _art;
+
+    private void AddHighlights(Control board, ImmutableArray<(int x, int y)> cells)
+    {
+        _gateway.RequireThread();
+        var overlay = new Control { Name = "ChangedCells", MouseFilter = Control.MouseFilterEnum.Ignore };
+        board.AddChild(node: overlay);
+        overlay.Draw += () => DrawHighlights(overlay: overlay, cells: cells);
+    }
+
+    private void DrawHighlights(Control overlay, ImmutableArray<(int x, int y)> cells)
+    {
+        _gateway.RequireThread();
+        foreach (var (x, y) in cells)
+        {
+            var frame = new Rect2(x: x * Pitch + 2, y: y * Pitch + 2, width: Pitch - 4, height: Pitch - 4);
+            overlay.DrawRect(rect: frame, color: new Color(r: 0.941f, g: 0.769f, b: 0.416f, a: 0.28f));
+            overlay.DrawRect(rect: frame, color: new Color(r: 0.941f, g: 0.769f, b: 0.416f), filled: false,
+                    width: 2);
+        }
+    }
 
     private void DrawCells(Control board, int width, int height)
     {

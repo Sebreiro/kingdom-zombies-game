@@ -50,7 +50,8 @@ internal sealed class FoundationDiagnostics
     internal void Observe(FoundationCoordinator? coordinator, long inputEvents, int direction,
             int nativeActors, bool polledRight, string? feedback = null, long nowMilliseconds = 0,
             FoundationServices? services = null, FoundationEquipmentProjection.Frame? appearance = null,
-            (decimal x, decimal y)? attackAim = null, bool inventoryOpen = false, int inventorySlots = 0)
+            (decimal x, decimal y)? attackAim = null, bool inventoryOpen = false, int inventorySlots = 0,
+            (string kind, int page)? nearby = null)
     {
         string? output = FoundationObservationScope.Directory();
         string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -81,7 +82,8 @@ internal sealed class FoundationDiagnostics
                 Height = subject.At.y - appearance.Ground, appearance.Revision },
             runAction = authority.HasValue ? new { authority.Value.sequence, authority.Value.status } : null,
             aim = attackAim.HasValue ? new { attackAim.Value.x, attackAim.Value.y } : null,
-            inventoryOpen, inventorySlots,
+            inventoryOpen, inventorySlots, nearby = nearby.HasValue ? new { nearby.Value.kind, nearby.Value.page }
+                    : null,
         });
         File.AppendAllText(path: Path.Combine(path1: output, path2: "frames.ndjson"),
                 contents: record + Environment.NewLine);

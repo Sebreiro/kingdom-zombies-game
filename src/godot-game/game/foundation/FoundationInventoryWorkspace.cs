@@ -35,6 +35,11 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
 
         _model.Show(external: command is FoundationInput.WorkspaceCommand.Interact);
+        if (command is FoundationInput.WorkspaceCommand.Interact)
+        {
+            OpenNearby();
+        }
+
         _dirty = true;
         RefreshWindows();
         Project();
@@ -58,7 +63,8 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         _coordinator = coordinator;
     }
 
-    internal int VisibleSlotCount => _targets.Count(predicate: region => region.Kind is "equipment");
+    internal int VisibleSlotCount => _targets.Count(predicate: region =>
+            region.Kind is "equipment" && region.Token == 0);
 
     internal void Observe(FoundationRunReadback? readback, string? owner, long epoch, bool connected)
     {
@@ -72,9 +78,9 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
 
         _readback = connected ? readback : null;
+        UpdateNotice();
         if (!_model.Open)
         {
-            UpdateNotice();
             return;
         }
 
@@ -92,6 +98,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     internal void Release()
     {
         _gateway.RequireThread();
+        ResetExternal();
         _model.Reset();
         RemoveLayer();
         _readback = null;
@@ -127,6 +134,8 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     private ulong _noticeUntil;
     private Control? _opener;
     private ColorRect? _preview;
+    private Label? _previewGlyph;
+    private bool _previewLegal;
     private LineEdit? _amountField;
     private Label? _amountText;
     private FoundationRunReadback? _readback;
@@ -143,7 +152,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     private ImmutableArray<long> _requestedExternal = [];
 
     private FoundationRunView? Own => View(scope: "own");
-    private FoundationRunView? External => View(scope: "external");
+    private FoundationRunView? External => AuthorizedExternal();
 
     private void Project()
     {
@@ -199,13 +208,14 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         _content = Surface(parent: _layer, name: "InventoryPanels", frame: bounds, opacity: 0.88f);
         Button close = ButtonAt(parent: _content, name: "CloseInventory", text: "Close inventory",
                 at: new Model.Rect(x: bounds.Width - 166, y: 4, width: 156, height: 44), action: Close);
-        _message = LabelAt(parent: _content, text: _feedback,
-                at: new Model.Rect(x: 16, y: 464, width: bounds.Width - 32, height: 46));
+        _message = LabelAt(parent: _content, text: _feedback, at: new Model.Rect(x: 16, y: 464,
+                width: (_model.External ? NearbyLeft : bounds.Width) - 32, height: 46));
         DrawEquipment();
         DrawStorage();
         DrawExternal();
         DrawBags();
-        RestoreFocus(previous: focused, fallback: close);
+        PaintSlots(item: _model.Drag?.Item);
+        RestoreFocus(previous: focused, fallback: _nearbyFocus ?? close);
         _dirty = false;
     }
 
@@ -283,13 +293,13 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     }
 
     private void DrawSlot(Control parent, string slot, Model.Item? item, string owner, string kind, long token,
-            Model.Rect frame)
+            Model.Rect frame, ScrollContainer? clip = null)
     {
         _gateway.RequireThread();
         string label = SlotName(slot: slot);
         var button = new Button
         {
-            Name = kind + "_" + slot,
+            Name = (token > 0 ? "nearby_" : "") + kind + "_" + slot,
             Text = item is null ? label + "\nEmpty" : label,
             TooltipText = item is null ? label + " empty" : "",
             Alignment = HorizontalAlignment.Center,
@@ -304,7 +314,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
                     token: token, input: input);
         }
 
-        _targets.Add(item: new TargetRegion(control: button, clip: null, grid: null, slot: slot, owner: owner,
+        _targets.Add(item: new TargetRegion(control: button, clip: clip, grid: null, slot: slot, owner: owner,
                 kind: kind, occupied: item, token: token, quick: null));
     }
 
@@ -354,7 +364,8 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
                 external: external);
     }
 
-    private void AddBoard(VBoxContainer parent, Model.Grid grid, bool external)
+    private void AddBoard(VBoxContainer parent, Model.Grid grid, bool external,
+            ImmutableArray<(int x, int y)> highlights = default)
     {
         _gateway.RequireThread();
         if (_grid is null)
@@ -362,7 +373,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
             return;
         }
 
-        Control board = _grid.Add(parent: parent, grid: grid,
+        Control board = _grid.Add(parent: parent, grid: grid, highlights: highlights,
                 itemInput: (button, item, input) => ItemInput(button: button, item: item, external: external,
                         token: grid.Token, input: input));
         _targets.Add(item: new TargetRegion(control: board, clip: parent.GetParent() as ScrollContainer,
@@ -433,7 +444,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
 
         ImmutableArray<long> own = DesiredWindows(root: Own, external: false);
-        ImmutableArray<long> external = DesiredWindows(root: External, external: true);
+        ImmutableArray<long> external = _model.External ? DesiredWindows(root: External, external: true) : [];
         if ((!own.SequenceEqual(second: _requestedOwn) || !external.SequenceEqual(second: _requestedExternal))
                 && coordinator.RequestRunWorkspace(own: own, external: external))
         {
@@ -445,7 +456,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     private ImmutableArray<long> DesiredWindows(FoundationRunView? root, bool external)
     {
         IEnumerable<long> equipped = Items(view: root).Where(predicate: item => item.StorageWidth.HasValue
-                && (external || item.Location.Kind is "equipment")).Select(selector: item => item.Id);
+                && item.Location.Kind is "equipment" or "corpse").Select(selector: item => item.Id);
         return [.. equipped.Concat(second: _model.Windows.Where(predicate: window => window.External == external)
                 .Select(selector: window => window.Item.Id)).Distinct().Take(count: 16)];
     }

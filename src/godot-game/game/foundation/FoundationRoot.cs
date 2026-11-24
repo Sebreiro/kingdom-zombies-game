@@ -162,7 +162,8 @@ public sealed partial class FoundationRoot : Control
                 polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D), feedback: _runtime.Feedback,
                 nowMilliseconds: _runtime.NowMilliseconds, services: _services, appearance: _appearance?.Frame,
                 attackAim: _worldInput.LastAttackAim, inventoryOpen: _inventory.CapturesWorld,
-                inventorySlots: _inventory.VisibleSlotCount);
+                inventorySlots: _inventory.VisibleSlotCount,
+                nearby: (_inventory.ExternalKind, _inventory.ExternalPage));
         Observe();
     }
 
@@ -360,6 +361,7 @@ public sealed partial class FoundationRoot : Control
         (string survivorId, long generation, long deathGeneration)? control = _coordinator.LocalRunControl;
         _inventory.Observe(readback: readback, owner: control?.survivorId, epoch: control?.generation ?? 0,
                 connected: !_coordinator.WaitingForHost);
+        _inventory.UpdateTargetMarker(world: world);
         (double x, double y)? aim = _worldInput.Point(readback: readback, frame: _appearance?.Frame);
         if (readback is not null && (readback.World.HasValue || _appearance is not null))
         {

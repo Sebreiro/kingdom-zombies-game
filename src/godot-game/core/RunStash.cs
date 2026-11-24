@@ -60,11 +60,11 @@ internal static class RunStash
                 newValue: remainder with { Location = cell }), cell: cell, nextItemId: merged.NextItemId);
     }
 
-    internal static RunInventory? Withdraw(RunInventory inventory, RunDefinitions definitions,
+    internal static RunInventory? WithdrawToCarried(RunInventory inventory, RunDefinitions definitions,
             RunPopulation population, RunInventory.ItemPath expected, string survivorId)
     {
         RunInventory.Item? source = RunItemTransfer.Current(inventory: inventory, expected: expected);
-        if (source is null || expected.Root is not RunInventory.StashCell)
+        if (source is null || expected.IsCarriedBy(survivorId: survivorId))
         {
             return null;
         }

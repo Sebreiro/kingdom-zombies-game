@@ -272,7 +272,7 @@ internal sealed class RunItemActions
             Drop drop => DropOnGround(access: access, drop: drop, candidate: out candidate, site: out site),
             Merge merge => MergeStacks(access: access, merge: merge, source: source, candidate: out candidate),
             Place place => PlaceItem(access: access, place: place, source: source, candidate: out candidate),
-            QuickTransfer quick => TransferStash(access: access, quick: quick, candidate: out candidate),
+            QuickTransfer quick => TransferQuick(access: access, quick: quick, candidate: out candidate),
             Assign assignment => AssignFood(access: access, assignment: assignment, candidate: out candidate),
             _ => Status.Incompatible,
         };
@@ -334,27 +334,28 @@ internal sealed class RunItemActions
         return Status.Incompatible;
     }
 
-    private static Status TransferStash(Access access, QuickTransfer quick, out RunInventory? candidate)
+    private static Status TransferQuick(Access access, QuickTransfer quick, out RunInventory? candidate)
     {
         candidate = null;
-        if (access.Progress.Selection is not { Target.Kind: RunWorld.Access.Stash } selected
-                || quick.Token != selected.Token)
+        if (access.Progress.Selection is not { } selected || quick.Token != selected.Token)
         {
             return Status.AccessLost;
         }
 
         FoundationSession.RunPublication root = access.Root;
         string survivor = access.Lease.SurvivorId;
-        if (quick.Direction == QuickDirection.Deposit && quick.Expected.IsCarriedBy(survivorId: survivor))
+        if (quick.Direction == QuickDirection.Deposit && selected.Target.Kind == RunWorld.Access.Stash
+                && quick.Expected.IsCarriedBy(survivorId: survivor))
         {
             candidate = RunStash.Deposit(inventory: root.Inventory, definitions: root.Definitions,
                     expected: quick.Expected);
             return Status.Capacity;
         }
 
-        if (quick.Direction == QuickDirection.Withdraw && quick.Expected.Root is RunInventory.StashCell)
+        if (quick.Direction == QuickDirection.Withdraw && RunExternalAccess.Contains(selection: selected,
+                location: quick.Expected.Root))
         {
-            candidate = RunStash.Withdraw(inventory: root.Inventory, definitions: root.Definitions,
+            candidate = RunStash.WithdrawToCarried(inventory: root.Inventory, definitions: root.Definitions,
                     population: root.Population, expected: quick.Expected, survivorId: survivor);
             return Status.Capacity;
         }

@@ -20,16 +20,21 @@ internal sealed partial class FoundationInventoryWorkspace
         _gateway.RequireThread();
         var panel = new Panel { Name = name, MouseFilter = Control.MouseFilterEnum.Stop };
         Put(control: panel, frame: frame);
-        panel.AddThemeStyleboxOverride(name: "panel", stylebox: new StyleBoxFlat
+        if (_art is { } art)
         {
-            BgColor = new Color(r: 0.094f, g: 0.145f, b: 0.169f, a: opacity),
-            BorderColor = new Color(r: 0.49f, g: 0.37f, b: 0.25f),
-            BorderWidthTop = 4,
-            BorderWidthBottom = 4,
-            BorderWidthLeft = 4,
-            BorderWidthRight = 4,
-        });
+            panel.AddThemeStyleboxOverride(name: "panel", stylebox: art.Theme.GetStylebox(name: "panel",
+                    themeType: "PanelContainer"));
+        }
         parent.AddChild(node: panel);
+        var backing = new ColorRect
+        {
+            Name = "PanelBacking",
+            Color = new Color(r: 0.094f, g: 0.145f, b: 0.169f, a: opacity),
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Position = new Vector2(x: 8, y: 8),
+            Size = new Vector2(x: frame.Width - 16, y: frame.Height - 16),
+        };
+        panel.AddChild(node: backing);
         return panel;
     }
 

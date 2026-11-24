@@ -89,6 +89,53 @@ internal sealed partial class FoundationInventoryInteraction
                         result: out int amount) && amount >= 1 && amount <= maximum ? amount : null;
     }
 
+    internal static Command? PageRequest(string text, int current, int total, long token)
+    {
+        return token > 0 && Number(text: text, maximum: total) is { } page && page != current
+                ? new Command(kind: "browse", request: JsonSerializer.SerializeToElement(
+                        value: new { Token = token, Page = page })) : null;
+    }
+
+    internal static ImmutableArray<(string kind, string id)> Nearby(JsonElement? own)
+    {
+        return own is { } header ? [.. header.GetProperty(propertyName: "Nearby").EnumerateArray()
+                .Select(selector: row => (Text(row: row, field: "Kind"), Text(row: row, field: "Id")))] : [];
+    }
+
+    internal static (string kind, string id) ExternalTarget(JsonElement header)
+    {
+        return (Text(row: header, field: "Kind"), Text(row: header, field: "TargetId"));
+    }
+
+    internal static Command SelectTarget((string kind, string id) target)
+    {
+        return new Command(kind: "select", request: JsonSerializer.SerializeToElement(
+                value: new { TargetKind = target.kind, TargetId = target.id }));
+    }
+
+    internal static (ImmutableArray<(int x, int y)> cells, int more)? DepositHighlight(
+            JsonElement header, (string kind, string id) target, long sequence)
+    {
+        JsonElement effect = header.GetProperty(propertyName: "Effect");
+        if (sequence <= 0 || target.kind is not "Stash" || ExternalTarget(header: header) != target
+                || effect.ValueKind != JsonValueKind.Object
+                || effect.GetProperty(propertyName: "Sequence").GetInt64() != sequence
+                || effect.GetProperty(propertyName: "PageNumber").GetInt32()
+                        != header.GetProperty(propertyName: "Page").GetInt32())
+        {
+            return null;
+        }
+
+        int width = header.GetProperty(propertyName: "Width").GetInt32();
+        int height = header.GetProperty(propertyName: "Height").GetInt32();
+        ImmutableArray<(int x, int y)> cells = [.. effect.GetProperty(propertyName: "Cells").EnumerateArray()
+                .Select(selector: row => (x: row.GetProperty(propertyName: "X").GetInt32(),
+                        y: row.GetProperty(propertyName: "Y").GetInt32()))
+                .Where(predicate: cell => cell.x >= 0 && cell.x < width && cell.y >= 0 && cell.y < height)
+                .Distinct()];
+        return (cells, effect.GetProperty(propertyName: "MorePages").GetInt32());
+    }
+
     internal Placement CheckGrid(Grid grid, int x, int y)
     {
         if (Drag is not { ChoosingAmount: false } drag)
@@ -240,10 +287,10 @@ internal sealed partial class FoundationInventoryInteraction
         }
     }
 
-    internal void AccessLost(bool keepExternal)
+    internal void AccessLost(bool keepExternal, bool aimedExternal = false)
     {
         _windows.RemoveAll(match: window => window.External);
-        if (Drag is { External: true })
+        if (Drag is { External: true } || aimedExternal)
         {
             Cancel();
         }
