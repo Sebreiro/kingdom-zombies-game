@@ -1,8 +1,9 @@
 ---
 phase: 06-survivors-inventory-and-combat
-reviewed: 2026-11-24T19:25:19Z
+reviewed: 2026-11-24T21:42:39Z
 depth: deep
-revision: d05115541a751c574b1dde3b70bc42a8a5a347fe
+revision: 17fb851c2bfd81ba050fa094527ef21d7707690c
+initial_review_revision: d05115541a751c574b1dde3b70bc42a8a5a347fe
 base_revision: b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6
 files_reviewed: 121
 files_reviewed_list:
@@ -128,23 +129,43 @@ files_reviewed_list:
   - src/godot-game/tools/lan-checks/rendered.cjs
   - src/godot-game/tools/lan-checks/windows-input.ps1
 findings:
-  critical: 7
-  warning: 4
+  critical: 0
+  warning: 0
   info: 0
-  total: 11
+  total: 0
   necessity: 0
-status: issues_found
+status: clean
 ---
 
 # Phase 06 Code Review
 
-**Reviewed revision** `d05115541a751c574b1dde3b70bc42a8a5a347fe`
+**Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
 **Target revision** `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6` (`origin/dev`)
 
 **Depth** Deep
 
-**Status** Issues found. This revision has unresolved first-render blockers.
+**Status** Clean independent source review. The phase still requires rendered evidence.
+
+## Final disposition
+
+The independent reviewer cleared every original blocker and warning on the final source revision. The review covers the cumulative Phase 6 changes against `origin/dev`, with the original 121-file review inventory retained above and subsequent repair revisions listed below.
+
+| Reviewed source | Result |
+| --- | --- |
+| `d051155` | Seven blockers and four warnings in the initial whole-phase review. |
+| `176e1298` | The first repair kept post-impact recovery ahead of early hits and could hide every nearby target in a sufficiently crowded run. |
+| `8c948bb` | Impact chronology and nearby target paging fixed. Oversized loose loot and stash-effect messages could still revoke valid recipient views. Open bag capacity needed explicit handling. |
+| `5b41a04` | Bounded loose-item pages, exact stash changed-cell encoding, maximum-size escaped target IDs and explicit window capacity verified. An off-page authorized bag window still closed. |
+| `8d0cc81` | A selected bag and its descendants survived page navigation and closed on real transfer. A later review reproduced a gap on an unrelated multipart inventory refresh and a focus change to the wrong bag. |
+| `f642777` | Clean game code. The host retains the previous coherent view when its new capture confirms the same recipient scope. A changed token, container, target, ground placement or control epoch revokes the affected view. A delayed revoked part cannot reopen it. The workspace restores focus to the exact control path. |
+| `17fb851` | Clean. The saved LAN scenario waits for the first equipment-window response and confirms paging preserves the exact owned rows and revision. This source change is confined to the scenario driver. |
+
+The original public view, movement predicate, saved cues, native appearance selection, combat range, bow release, camera evidence, exact package crops and nearby outline findings remain closed. The inventory refresh and focus repair changed six files. The reviewer checked the host/guest publication boundary, the exact focus path and the focused native and wire receipts. The staged RED receipts reproduced both final findings. The staged GREEN `ffdd9c6d-48c4-4c59-873d-4c131f0b53b3` passed 204 pure tests and the native host-plus-three-guest case. The earlier clean asset replay `1dc1a810-ed21-4906-af64-6c8166508e73` passed all four repaired rows on `8d0cc81`, including all 180 source obligations across 19 native cohorts. Rendered outcomes belong to the phase evidence.
+
+## Original review record
+
+The original observations below refer to `d05115541a751c574b1dde3b70bc42a8a5a347fe`. Their closed dispositions are recorded above.
 
 ## Summary
 
