@@ -43,11 +43,23 @@ internal sealed partial class FoundationCoordinator
     {
         long now = Now();
         ExpireAdmissions(now: now);
+        _runInbox.Expire(now: now);
+        if (!IsHost && _connection?.Connected != true)
+        {
+            _runInbox.Disconnect(revision: _remote?.Revision ?? 0);
+            _remoteWorld = null;
+        }
+
         if (_session is not null)
         {
             foreach ((int sender, FoundationPeerBinding peer) in _peers.ToArray())
             {
-                if (peer.Ready ? now - peer.LastResponse >= ResponseTimeoutMilliseconds
+                if (!StringComparer.Ordinal.Equals(x: peer.ConnectionGeneration,
+                        y: _connection?.PeerGeneration(peer: sender)))
+                {
+                    RemovePeer(sender: sender, peer: peer, reason: "connection-replaced");
+                }
+                else if (peer.Ready ? now - peer.LastResponse >= ResponseTimeoutMilliseconds
                         : now - peer.StartedAt >= JoinTimeoutMilliseconds)
                 {
                     RemovePeer(sender: sender, peer: peer, reason: "response-timeout");
@@ -112,8 +124,13 @@ internal sealed partial class FoundationCoordinator
         _closingAt = Now();
         _session = null;
         _remote = null;
+        _remoteWorld = null;
+        _runInbox.Clear();
+        _respawnPoll.Clear();
+        RunActionFeedback = null;
         BindingId = "";
         _localActor = "";
+        _hostPeerGeneration = "";
         _sequence = 0;
         if (!_draining)
         {

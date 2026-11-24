@@ -57,10 +57,35 @@ public sealed class FoundationSession
     public (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows)> views)? ReadRunViews(
                     (string session, string binding, string player) identity, long? ownGrid = null,
-                    long? externalGrid = null)
+                    long? externalGrid = null, bool includeItems = true)
     {
         return UnderInventoryAuthority(action: current => RunProjections.Private(session: this, root: current,
-                identity: identity, ownGrid: ownGrid, externalGrid: externalGrid));
+                identity: identity, ownGrid: ownGrid, externalGrid: externalGrid, includeItems: includeItems));
+    }
+
+    /// <summary>Reads the access fence and identifies immutable inventory changes for publication.</summary>
+    public (long revision, long epoch, long token, long inventoryVersion)? ReadRunViewFence(
+            (string session, string binding, string player) identity)
+    {
+        lock (_gate)
+        {
+            RunPublication root = _publication;
+            if (RunProjections.Control(root: _active ? root : null, identity: identity) is not { } control)
+            {
+                return null;
+            }
+
+            if (!ReferenceEquals(objA: _announcedInventory, objB: root.Inventory))
+            {
+                _announcedInventoryVersion = checked(_announcedInventoryVersion + 1);
+                _announcedInventory = root.Inventory;
+            }
+
+            long token = control.generation == 0 ? 0 : ItemActions.SelectionFor(controller:
+                    new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,
+                            generation: control.generation))?.Token ?? 0;
+            return (root.Snapshot.Revision, control.generation, token, _announcedInventoryVersion);
+        }
     }
 
     /// <summary>Executes an authenticated living-control action at the current authority revision.</summary>
@@ -627,6 +652,8 @@ public sealed class FoundationSession
     private ImmutableDictionary<(string binding, long epoch), RunSuccession.Ack> _respawnReceipts = [];
     private volatile RunPublication _publication;
     private volatile bool _active = true;
+    private RunInventory? _announcedInventory;
+    private long _announcedInventoryVersion;
 
     private RunSnapshotDocument CaptureRunDocument()
     {

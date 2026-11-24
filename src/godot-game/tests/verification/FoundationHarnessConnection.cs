@@ -18,6 +18,7 @@ internal sealed class FoundationHarnessConnection : IConnectionService
     public void Join(string address, int port) { Connected = true; }
     public void Send(int peer, ReadOnlyMemory<byte> payload, bool reliable = true)
     {
+        WireSent.Add(item: (peer, payload.ToArray(), reliable));
         Sent.Add(item: (peer, FoundationProtocol.Decode(bytes: payload), reliable));
     }
 
@@ -36,6 +37,7 @@ internal sealed class FoundationHarnessConnection : IConnectionService
     internal int CloseCount { get; private set; }
     internal Dictionary<int, string> PeerGenerations { get; } = [];
     internal List<(int Peer, FoundationEnvelope Envelope, bool Reliable)> Sent { get; } = [];
+    internal List<(int Peer, byte[] Payload, bool Reliable)> WireSent { get; } = [];
     internal void Enqueue(int sender, FoundationEnvelope envelope, string? generation = null)
     {
         Raw(sender: sender, payload: FoundationProtocol.Encode(envelope: envelope), generation: generation);

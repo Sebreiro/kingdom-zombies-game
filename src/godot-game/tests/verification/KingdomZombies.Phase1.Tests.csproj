@@ -25,6 +25,11 @@
     <Compile Include="../../multiplayer-abstractions/SessionAdvertisement.cs" Link="SessionAdvertisement.cs" />
     <Compile Include="../../game/foundation/FoundationInput.cs" Link="FoundationInput.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
+    <Compile Include="../../game/foundation/FoundationCoordinator.RunWire.cs" Link="FoundationCoordinator.RunWire.cs" />
+    <Compile Include="../../game/foundation/FoundationViewInbox.cs" Link="FoundationViewInbox.cs" />
+    <Compile Include="../../game/foundation/FoundationRunFrame.cs" Link="FoundationRunFrame.cs" />
+    <Compile Include="../../game/foundation/FoundationRunView.cs" Link="FoundationRunView.cs" />
+    <Compile Include="../../game/foundation/FoundationRunReadback.cs" Link="FoundationRunReadback.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.Admission.cs"
              Link="FoundationCoordinator.Admission.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.Lifetime.cs"

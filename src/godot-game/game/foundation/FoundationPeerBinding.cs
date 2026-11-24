@@ -26,4 +26,12 @@ internal sealed class FoundationPeerBinding
     internal long LastResponse { get; set; }
     internal long HeartbeatSequence { get; set; }
     internal bool Ready { get; set; }
+    internal long RunSequence { get; set; }
+    internal string RunAction { get; set; } = "";
+    internal string RunStatus { get; set; } = "";
+    internal long RunViewSerial { get; set; }
+    internal long LastRunStatus { get; set; }
+    internal (long epoch, long token, long inventory) RunViewFence { get; set; }
+    internal long? OwnGrid { get; set; }
+    internal long? ExternalGrid { get; set; }
 }

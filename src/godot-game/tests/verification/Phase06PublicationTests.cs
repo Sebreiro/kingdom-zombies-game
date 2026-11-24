@@ -1,6 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
@@ -26,6 +32,49 @@ public sealed class Phase06PublicationTests
         var hello = new FoundationEnvelope(kind: "hello", playerId: "peer", label: "Guest");
         FoundationProtocol.Decode(bytes: FoundationProtocol.Encode(envelope: hello)).ProtocolVersion
                 .ShouldBe(expected: 2);
+    }
+
+    /// <summary>Real page parts install together and are fenced after the guest loses stash access.</summary>
+    [Fact]
+    public void LargeScopedPageInstallsAtomicallyAndRevocationFencesDelayedFrames()
+    {
+        var room = new Room(read: ReadLargeConfig);
+        FoundationCoordinator guest = room.Join(sender: 2);
+        int page = FillLargePage(session: Session(coordinator: room.Host));
+        guest.Submit(direction: 1).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest, elapsed: 2000);
+        guest.Submit(direction: 0).ShouldBeTrue();
+        _ = guest.SubmitRunAction(kind: "select", request: StashSelection()).ShouldNotBeNull();
+        room.Exchange(sender: 2, guest: guest);
+        long token = guest.ReadRunRender().ShouldNotBeNull().Views["external"].Token;
+        _ = guest.SubmitRunAction(kind: "browse", request:
+                JsonSerializer.SerializeToElement(value: new { Token = token, Page = page })).ShouldNotBeNull();
+        room.Receive(sender: 2);
+        byte[][] parts = HoldExternalPage(room: room, sender: 2);
+        parts.Length.ShouldBeGreaterThan(expected: 1);
+        parts.Max(selector: bytes => bytes.Length).ShouldBeLessThanOrEqualTo(expected: FoundationProtocol.MaximumBytes);
+        room.Send(sender: 2, guest: guest);
+        room.ReceivePart(sender: 2, guest: guest, data: parts[^1]);
+        room.ReceivePart(sender: 2, guest: guest, data: parts[^1]);
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
+        room.Exchange(sender: 2, guest: guest, elapsed: 16);
+        foreach (byte[] part in parts.SkipLast(count: 1).Reverse())
+        {
+            room.ReceivePart(sender: 2, guest: guest, data: part);
+        }
+
+        FoundationRunView open = guest.ReadRunRender().ShouldNotBeNull().Views["external"];
+        open.Rows.Length.ShouldBe(expected: 4096);
+        open.Rows.Select(selector: ItemId).Distinct().Count().ShouldBe(expected: 4096);
+        guest.Submit(direction: -1).ShouldBeTrue();
+        room.Exchange(sender: 2, guest: guest, elapsed: 1200);
+        foreach (byte[] part in parts)
+        {
+            room.ReceivePart(sender: 2, guest: guest, data: part);
+        }
+
+        guest.ReadRunRender()?.Views.ContainsKey(key: "external").ShouldBe(expected: false);
+        guest.Ready.ShouldBeTrue();
     }
 
     private static void CheckSolo()
@@ -151,5 +200,130 @@ public sealed class Phase06PublicationTests
     private static long ItemId(JsonElement item)
     {
         return item.GetProperty(propertyName: "Id").GetInt64();
+    }
+
+    private static JsonElement StashSelection()
+    {
+        return JsonSerializer.SerializeToElement(value: new { TargetKind = "Stash", TargetId = "foundation.stash" });
+    }
+
+    private static FoundationSession Session(FoundationCoordinator coordinator)
+    {
+        FieldInfo field = typeof(FoundationCoordinator).GetField(name: "_session",
+                bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance).ShouldNotBeNull();
+        return field.GetValue(obj: coordinator).ShouldBeOfType<FoundationSession>();
+    }
+
+    private static byte[] ReadLargeConfig(string path, int limit)
+    {
+        using Stream stream = typeof(FoundationSession).Assembly.GetManifestResourceStream(name: path)
+                ?? throw new InvalidOperationException(message: path);
+        using var output = new MemoryStream();
+        stream.CopyTo(destination: output);
+        byte[] bytes = output.ToArray();
+        if (path is not "content/config/inventory.json")
+        {
+            return bytes;
+        }
+
+        JsonNode root = JsonNode.Parse(utf8Json: bytes).ShouldNotBeNull();
+        root["stash"].ShouldNotBeNull()["pageGrid"] = new JsonArray(items: [JsonValue.Create(value: 64),
+            JsonValue.Create(value: 64)]);
+        return JsonSerializer.SerializeToUtf8Bytes(value: root);
+    }
+
+    private static int FillLargePage(FoundationSession session)
+    {
+        RunInventory before = session.Inventory;
+        RunDefinitions.Item rule = session.Definitions.Items["IT-01"];
+        int index = before.StashPageCount;
+        ImmutableArray<RunInventory.Item> filled = [.. before.Items, .. Enumerable.Range(start: 0, count: 4096)
+                .Select(selector: cell => new RunInventory.Item(id: before.NextItemId + cell,
+                        definitionId: rule.Id, quantity: 1, condition: null, location: RunItemTransfer.Stash(
+                                definition: rule, page: index, x: cell % 64, y: cell / 64), storageGrid: null))];
+        session.TryEditInventory(edit: (inventory, _, _) => new RunInventory(items: filled,
+                stashGrid: inventory.StashGrid, stashPageCount: index + 1, nextItemId: inventory.NextItemId + 4096))
+                .ShouldBeTrue();
+        return index + 1;
+    }
+
+    private static byte[][] HoldExternalPage(Room room, int sender)
+    {
+        byte[][] parts = [.. room.HostPort.WireSent.Where(predicate: row => row.Peer == sender && row.Reliable
+                && IsExternalPart(data: row.Payload)).Select(selector: row => row.Payload)];
+        _ = room.HostPort.WireSent.RemoveAll(match: row => row.Peer == sender && IsExternalPart(data: row.Payload));
+        return parts;
+    }
+
+    private static bool IsExternalPart(byte[] data)
+    {
+        FoundationEnvelope envelope = FoundationProtocol.Decode(bytes: data);
+        return envelope.Kind is "view-part" && envelope.Game?.Scope is "external";
+    }
+
+    private sealed class Room
+    {
+        internal Room(Func<string, int, byte[]?>? read = null)
+        {
+            Host = new FoundationCoordinator(playerId: "host", label: "Host", connection: HostPort);
+            Host.Start(host: true, read: read);
+        }
+
+        internal FoundationHarnessConnection HostPort { get; } = new();
+        internal FoundationCoordinator Host { get; }
+
+        internal FoundationCoordinator Join(int sender)
+        {
+            var port = new FoundationHarnessConnection();
+            _ports.Add(key: sender, value: port);
+            var guest = new FoundationCoordinator(playerId: "guest" + sender, label: "Guest", connection: port);
+            guest.Join(address: "test-local", port: 24680);
+            for (int pulse = 0; pulse < 3; pulse++)
+            {
+                Exchange(sender: sender, guest: guest);
+            }
+
+            guest.Ready.ShouldBeTrue();
+            return guest;
+        }
+
+        internal void Exchange(int sender, FoundationCoordinator guest, long elapsed = 0)
+        {
+            guest.Update(elapsedMilliseconds: 0);
+            Receive(sender: sender, elapsed: elapsed);
+            Send(sender: sender, guest: guest);
+        }
+
+        internal void Receive(int sender, long elapsed = 0)
+        {
+            FoundationHarnessConnection port = _ports[sender];
+            foreach ((int _, byte[] data, bool _) in port.WireSent)
+            {
+                HostPort.Raw(sender: sender, payload: data);
+            }
+
+            port.WireSent.Clear();
+            Host.Update(elapsedMilliseconds: elapsed);
+        }
+
+        internal void Send(int sender, FoundationCoordinator guest)
+        {
+            foreach ((int _, byte[] data, bool _) in HostPort.WireSent.Where(
+                    predicate: packet => packet.Peer == sender))
+            {
+                _ports[sender].Raw(sender: 1, payload: data);
+            }
+
+            _ = HostPort.WireSent.RemoveAll(match: packet => packet.Peer == sender);
+            guest.Update(elapsedMilliseconds: 0);
+        }
+
+        internal void ReceivePart(int sender, FoundationCoordinator guest, byte[] data)
+        {
+            _ports[sender].Raw(sender: 1, payload: data);
+            guest.Update(elapsedMilliseconds: 0);
+        }
+
+        private readonly Dictionary<int, FoundationHarnessConnection> _ports = [];
     }
 }

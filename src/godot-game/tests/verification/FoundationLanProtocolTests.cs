@@ -176,7 +176,7 @@ public sealed class FoundationLanProtocolTests
                     comparisonType: StringComparison.Ordinal),
             json.Replace(oldValue: "-8000", newValue: "NaN", comparisonType: StringComparison.Ordinal),
             json.Replace(oldValue: "-8000", newValue: "59001", comparisonType: StringComparison.Ordinal),
-            json.Replace(oldValue: "\"ProtocolVersion\":1", newValue: "\"ProtocolVersion\":2",
+            json.Replace(oldValue: "\"ProtocolVersion\":2", newValue: "\"ProtocolVersion\":1",
                     comparisonType: StringComparison.Ordinal),
             json.Replace(oldValue: "\"Kind\":\"state\"", newValue: "\"Kind\":\"state\",\"extra\":0",
                     comparisonType: StringComparison.Ordinal),

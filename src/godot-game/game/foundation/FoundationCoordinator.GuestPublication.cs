@@ -8,6 +8,7 @@ namespace KingdomZombies.Foundation;
 internal sealed partial class FoundationCoordinator
 {
     private string _localActor = "";
+    private string _hostPeerGeneration = "";
 
     private void ReceiveGuest(FoundationEnvelope envelope)
     {
@@ -33,15 +34,15 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
-        if (envelope.Kind is "end" && _remote is not null
-                && StringComparer.Ordinal.Equals(x: envelope.SessionId, y: _remote.SessionId)
-                && StringComparer.Ordinal.Equals(x: envelope.BindingId, y: BindingId)
-                && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
-                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: _localActor))
+        if (envelope.Kind is "action-result" or "view-part" or "view-revoke")
         {
-            Send(peer: 1, envelope: new FoundationEnvelope(kind: "end-ack", sessionId: _remote.SessionId,
-                    bindingId: BindingId, playerId: PlayerId, actorId: _localActor, attemptId: _attempt));
-            Fail(reason: "The host ended the session. Host or join another session.");
+            ReceiveGuestRun(envelope: envelope);
+            return;
+        }
+
+        if (envelope.Kind is "end")
+        {
+            ReceiveHostEnd(envelope: envelope);
             return;
         }
 
@@ -61,13 +62,76 @@ internal sealed partial class FoundationCoordinator
         {
             InstallBaseline(envelope: envelope, candidate: candidate);
         }
-        else if (_remote is not null && candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
+        else
+        {
+            InstallState(envelope: envelope, candidate: candidate);
+        }
+    }
+
+    private bool IsKnownHostGeneration(string generation)
+    {
+        return _remote is null || StringComparer.Ordinal.Equals(x: _hostPeerGeneration, y: generation);
+    }
+
+    private void InstallState(FoundationEnvelope envelope, FoundationSnapshot candidate)
+    {
+        if (_remote is null || !candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
                 x: p.BindingId, y: BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)
                 && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor) && (!Ready || p.Ready)))
         {
-            _remote = candidate;
-            _lastResponse = Now();
+            return;
         }
+
+        _remote = candidate;
+        _remoteWorld = envelope.Game?.Body;
+        if (_remoteWorld is { } world)
+        {
+            _runInbox.ObservePublic(world: world, revision: candidate.Revision, binding: BindingId);
+        }
+
+        _lastResponse = Now();
+    }
+
+    private void ReceiveHostEnd(FoundationEnvelope envelope)
+    {
+        if (!IsCurrentHostMessage(envelope: envelope))
+        {
+            return;
+        }
+
+        Send(peer: 1, envelope: new FoundationEnvelope(kind: "end-ack", sessionId: envelope.SessionId,
+                bindingId: BindingId, playerId: PlayerId, actorId: _localActor, attemptId: _attempt));
+        Fail(reason: "The host ended the session. Host or join another session.");
+    }
+
+    private void ReceiveGuestRun(FoundationEnvelope envelope)
+    {
+        if (_connection?.Connected != true || !IsCurrentHostMessage(envelope: envelope)
+                || envelope.Game is not { } game)
+        {
+            RejectedPackets++;
+            return;
+        }
+
+        if (envelope.Kind is "action-result")
+        {
+            if (envelope.Sequence <= _sequence && envelope.Sequence >= (RunActionFeedback?.sequence ?? 0))
+            {
+                RunActionFeedback = (envelope.Sequence, game.Status, game.Replayed);
+            }
+        }
+        else if (!_runInbox.Offer(envelope: envelope, now: Now()))
+        {
+            RejectedPackets++;
+        }
+    }
+
+    private bool IsCurrentHostMessage(FoundationEnvelope envelope)
+    {
+        return _remote is not null && StringComparer.Ordinal.Equals(x: envelope.SessionId, y: _remote.SessionId)
+                && StringComparer.Ordinal.Equals(x: envelope.BindingId, y: BindingId)
+                && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
+                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: _localActor);
     }
 
     private bool RegressesActorTime(FoundationSnapshot candidate)
@@ -97,6 +161,7 @@ internal sealed partial class FoundationCoordinator
         _remote = candidate;
         BindingId = envelope.BindingId;
         _localActor = envelope.ActorId;
+        _hostPeerGeneration = _connection?.PeerGeneration(peer: 1) ?? "";
         InstalledRevision = candidate.Revision;
         _lastResponse = Now();
         RecordEvent(value: "baseline-installed:" + BindingId);

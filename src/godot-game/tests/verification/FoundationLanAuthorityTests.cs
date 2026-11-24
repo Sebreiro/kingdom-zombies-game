@@ -167,6 +167,13 @@ public sealed class FoundationLanAuthorityTests
         host.Update(elapsedMilliseconds: 0);
         FoundationEnvelope ready = hostPort.Sent.Last().Envelope;
         hostPort.Sent.Last().Reliable.ShouldBeFalse();
+        foreach (FoundationEnvelope part in hostPort.Sent.Where(predicate: row =>
+                row.Envelope.Kind is "view-part" && row.Envelope.Game?.Scope is "status")
+                .Select(selector: row => row.Envelope))
+        {
+            guestPort.Enqueue(sender: 1, envelope: part);
+        }
+
         guestPort.Enqueue(sender: 1, envelope: ready);
         guest.Update(elapsedMilliseconds: 0);
         guest.Ready.ShouldBeTrue();

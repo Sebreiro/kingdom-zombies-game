@@ -107,6 +107,7 @@ internal sealed partial class FoundationCoordinator
         {
             _session.Step(elapsedMilliseconds: elapsedMilliseconds);
             ReadLocalWorld(session: _session);
+            RefreshRunViews();
         }
         _publicationElapsed = checked(_publicationElapsed + elapsedMilliseconds);
         _livenessElapsed = checked(_livenessElapsed + elapsedMilliseconds);
@@ -126,23 +127,22 @@ internal sealed partial class FoundationCoordinator
 
     internal bool Submit(int direction)
     {
-        FoundationActorState? actor = LocalActor;
-        if (actor is null || direction is < -1 or > 1)
-        {
-            return false;
-        }
+        return SubmitRunMotion(direction: direction, sprint: false, jump: false);
+    }
 
-        var command = new FoundationMovementCommand(sessionId: actor.SessionId, playerId: PlayerId,
-                actorId: actor.ActorId, direction: direction, bindingId: BindingId, sequence: checked(++_sequence));
-        if (_session is not null)
+    internal bool SubmitRunMotion(int direction, bool sprint, bool jump)
+    {
+        return direction is >= -1 and <= 1 && SubmitRunAction(kind: "move",
+                request: JsonSerializer.SerializeToElement(value: new
+                {
+                    Direction = direction,
+                    Sprint = sprint,
+                    Jump = jump
+                })) is
         {
-            return Accept(command: command, binding: BindingId, player: PlayerId, actor: actor.ActorId);
-        }
-
-        Send(peer: 1, envelope: new FoundationEnvelope(kind: "intent", sessionId: command.SessionId,
-                playerId: command.PlayerId, actorId: command.ActorId, bindingId: command.BindingId,
-                sequence: command.Sequence, direction: command.Direction, attemptId: _attempt));
-        return true;
+            status: "Pending" or "Accepted" or "Overloaded" or "InsufficientStamina"
+                    or "Airborne"
+        };
     }
 
     internal (string survivorId, long generation, long deathGeneration)? ReadBoundRunControl(int sender)
@@ -293,7 +293,7 @@ internal sealed partial class FoundationCoordinator
                 {
                     ReceiveHost(sender: packet.Sender, envelope: envelope);
                 }
-                else if (packet.Sender == 1)
+                else if (packet.Sender == 1 && IsKnownHostGeneration(generation: packet.PeerGeneration))
                 {
                     ReceiveGuest(envelope: envelope);
                 }
@@ -302,7 +302,8 @@ internal sealed partial class FoundationCoordinator
                     or InvalidOperationException or KeyNotFoundException or OverflowException or FormatException)
             {
                 RejectedPackets++;
-                RecordEvent(value: "packet-rejected:" + error.Message);
+                string reason = error.Message is "WIRE_INCOMPATIBLE" ? "incompatible" : "invalid";
+                RecordEvent(value: "packet-rejected:" + reason);
                 if (IsHost && error is InvalidDataException && error.Message is "WIRE_INCOMPATIBLE")
                 {
                     Reject(sender: packet.Sender, reason: "Incompatible protocol or content.");
@@ -314,26 +315,8 @@ internal sealed partial class FoundationCoordinator
                 }
             }
         }
-    }
 
-    private bool Accept(FoundationMovementCommand command, string binding, string player, string actor)
-    {
-        bool accepted = _session?.TryAccept(command: command, trustedBinding: binding, trustedPlayer: player,
-                trustedActor: actor) == true;
-        if (accepted)
-        {
-            AcceptedIntents++;
-            LastAcceptedIntent = command;
-            LastAcceptedRevision = _session?.Snapshot.Revision ?? -1;
-            _pendingPublication = true;
-        }
-        else
-        {
-            RejectedPackets++;
-            RecordEvent(value: "intent-rejected:ownership-readiness-sequence");
-        }
-
-        return accepted;
+        FinishRespawnPoll();
     }
 
     private void BroadcastState()
@@ -344,7 +327,24 @@ internal sealed partial class FoundationCoordinator
         }
 
         FoundationSnapshot state = HostPublication();
+        var current = _session.ReadRunPublic();
+        FoundationRunFrame? model = current is { } publicRun && publicRun.roster.Revision == state.Revision
+                ? new FoundationRunFrame { Body = publicRun.world } : null;
         foreach ((int sender, FoundationPeerBinding peer) in _peers)
+        {
+            SendRunState(sender: sender, peer: peer, state: state, model: model);
+        }
+    }
+
+    private void SendRunState(int sender, FoundationPeerBinding peer, FoundationSnapshot state,
+            FoundationRunFrame? model)
+    {
+        try
+        {
+            Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
+                    revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId, game: model));
+        }
+        catch (InvalidDataException error) when (model is not null && error.Message is "WIRE_SIZE")
         {
             Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
                     revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId));

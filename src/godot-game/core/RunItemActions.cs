@@ -23,6 +23,12 @@ internal sealed class RunItemActions
         });
     }
 
+    internal RunExternalAccess.Selection? SelectionFor(Controller controller)
+    {
+        return _session.UnderInventoryAuthority(action: current => Authenticate(current: current,
+                controller: controller)?.Progress.Selection);
+    }
+
     internal Outcome Submit(Controller controller, long sequence, Request request)
     {
         return _session.UnderInventoryAuthority(action: current =>

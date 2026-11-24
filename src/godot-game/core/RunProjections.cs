@@ -73,7 +73,7 @@ internal static class RunProjections
     internal static (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
             ImmutableArray<JsonElement> rows)> views)? Private(FoundationSession session,
                     FoundationSession.RunPublication? root, (string session, string binding, string player) identity,
-                    long? ownGrid, long? externalGrid)
+                    long? ownGrid, long? externalGrid, bool includeItems)
     {
         if (root is null || Control(root: root, identity: identity) is not { } control)
         {
@@ -100,9 +100,9 @@ internal static class RunProjections
             Teammates = succession?.Teammates.Select(selector: teammate =>
                     new { teammate.BindingId, teammate.Slot, teammate.SurvivorId }),
         });
-        if (control.generation == 0)
+        if (control.generation == 0 || !includeItems)
         {
-            return (root.Snapshot.Revision, [("status", 0, 0, status, [])]);
+            return (root.Snapshot.Revision, [("status", control.generation, 0, status, [])]);
         }
 
         var controller = new RunItemActions.Controller(sessionId: identity.session, bindingId: identity.binding,

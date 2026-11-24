@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using KingdomZombies.Core;
 
 namespace KingdomZombies.Foundation;
@@ -13,11 +15,14 @@ internal static class FoundationProtocol
     internal const string Content =
             "foundation.fixture.v1|foundation.ground.v1|foundation.building.v1|foundation.player.v1";
     internal const int MaximumBytes = 32768;
+    internal const int Version = 2;
+    internal const int MaximumViewRows = 4096;
+    internal const int MaximumViewParts = 256;
 
     internal static byte[] Encode(FoundationEnvelope envelope)
     {
         byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(value: envelope);
-        if (bytes.Length > MaximumBytes)
+        if (bytes.Length > MaximumBytes - NativeHeaderBytes)
         {
             throw new InvalidDataException(message: "WIRE_SIZE");
         }
@@ -35,9 +40,9 @@ internal static class FoundationProtocol
         using JsonDocument document = JsonDocument.Parse(utf8Json: bytes, options:
                 new JsonDocumentOptions { MaxDepth = 16 });
         JsonElement root = document.RootElement;
+        Compatible(value: root, version: "ProtocolVersion", expected: Version);
         Shape(value: root, names: ["Kind", "SessionId", "PlayerId", "ActorId", "BindingId", "Label", "Sequence",
-            "Direction", "Revision", "Snapshot", "ProtocolVersion", "ContentId", "AttemptId"]);
-        Compatible(value: root, version: "ProtocolVersion");
+            "Direction", "Revision", "Snapshot", "ProtocolVersion", "ContentId", "AttemptId", "Game"]);
         var envelope = new FoundationEnvelope(kind: Text(value: root, name: "Kind"),
                 sessionId: Text(value: root, name: "SessionId"), playerId: Text(value: root, name: "PlayerId"),
                 actorId: Text(value: root, name: "ActorId"), bindingId: Text(value: root, name: "BindingId"),
@@ -47,17 +52,89 @@ internal static class FoundationProtocol
                 revision: root.GetProperty(propertyName: "Revision").GetInt64(),
                 snapshot: root.GetProperty(propertyName: "Snapshot").ValueKind == JsonValueKind.Null ? null
                         : ReadSnapshot(value: root.GetProperty(propertyName: "Snapshot")),
-                attemptId: Text(value: root, name: "AttemptId"));
+                attemptId: Text(value: root, name: "AttemptId"),
+                game: root.GetProperty(propertyName: "Game").Deserialize<FoundationRunFrame>(options: _gameOptions));
         Validate(envelope: envelope);
         return envelope;
     }
 
+    internal static ImmutableArray<byte[]> EncodeView(ImmutableArray<JsonElement> rows,
+            Func<FoundationRunFrame, FoundationEnvelope> envelope, FoundationRunFrame template)
+    {
+        if (rows.IsDefault || rows.Length > MaximumViewRows)
+        {
+            throw new InvalidDataException(message: "WIRE_VIEW_ROWS");
+        }
+
+        if (rows.IsEmpty)
+        {
+            return [Encode(envelope: envelope(arg: template with { Parts = 1 }))];
+        }
+
+        ImmutableArray<ImmutableArray<JsonElement>>.Builder chunks =
+                ImmutableArray.CreateBuilder<ImmutableArray<JsonElement>>();
+        for (int offset = 0; offset < rows.Length;)
+        {
+            int length = FittingRows(rows: rows, offset: offset, envelope: envelope, template: template);
+            if (length <= 0 || chunks.Count == MaximumViewParts)
+            {
+                throw new InvalidDataException(message: "WIRE_VIEW_PARTS");
+            }
+
+            chunks.Add(item: rows.Slice(start: offset, length: length));
+            offset += length;
+        }
+
+        return [.. chunks.Select(selector: (chunk, index) => Encode(envelope: envelope(arg: template with
+        {
+            Part = index,
+            Parts = chunks.Count,
+            Rows = chunk,
+        })))];
+    }
+
+    private const int NativeHeaderBytes = 8;
     private static readonly string[] _contentFields = ["FixtureId", "GroundId", "BuildingId", "PlayerContentId"];
+    private static readonly JsonSerializerOptions _gameOptions = new()
+    {
+        AllowDuplicateProperties = false,
+        RespectNullableAnnotations = true,
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
+    };
+
+    private static int FittingRows(ImmutableArray<JsonElement> rows, int offset,
+            Func<FoundationRunFrame, FoundationEnvelope> envelope, FoundationRunFrame template)
+    {
+        int first = 1;
+        int last = rows.Length - offset;
+        while (first <= last)
+        {
+            int middle = first + (last - first) / 2;
+            FoundationEnvelope candidate = envelope(arg: template with
+            {
+                Part = MaximumViewParts - 1,
+                Parts = MaximumViewParts,
+                Rows = rows.Slice(start: offset, length: middle),
+            });
+            int size = JsonSerializer.SerializeToUtf8Bytes(value: candidate).Length;
+            if (size <= MaximumBytes - NativeHeaderBytes)
+            {
+                first = middle + 1;
+            }
+            else
+            {
+                last = middle - 1;
+            }
+        }
+
+        return last;
+    }
 
     private static void Validate(FoundationEnvelope envelope)
     {
-        if (envelope.Kind is not ("hello" or "baseline" or "ack" or "state" or "intent" or "ping" or "bye"
-                or "end" or "end-ack" or "cancel" or "reject") || envelope.Sequence < 0 || envelope.Revision < 0
+        if (envelope.Kind is not ("hello" or "baseline" or "ack" or "state" or "ping" or "bye"
+                or "end" or "end-ack" or "cancel" or "reject" or "action" or "action-result" or "view-part"
+                or "view-revoke") || envelope.Sequence < 0 || envelope.Revision < 0
                 || envelope.Direction is < -1 or > 1 || envelope.Label.EnumerateRunes().Count() > 256
                 || new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId,
                     envelope.AttemptId }
@@ -69,7 +146,7 @@ internal static class FoundationProtocol
         bool identity = new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId }
                 .All(predicate: value => !string.IsNullOrWhiteSpace(value: value));
         if (envelope.Kind is "hello" && (string.IsNullOrWhiteSpace(value: envelope.PlayerId)
-                || string.IsNullOrWhiteSpace(value: envelope.Label)) || envelope.Kind is "intent" or "ack"
+                || string.IsNullOrWhiteSpace(value: envelope.Label)) || envelope.Kind is "ack"
                         && !identity || envelope.Kind is "baseline" or "state" && (envelope.Snapshot is null
                                 || !StringComparer.Ordinal.Equals(x: envelope.SessionId,
                                         y: envelope.Snapshot.SessionId)
@@ -77,12 +154,170 @@ internal static class FoundationProtocol
         {
             throw new InvalidDataException(message: "WIRE_REQUIRED");
         }
+
+        if (envelope.Snapshot is not null && envelope.Kind is not ("baseline" or "state")
+                || !ValidRunFrame(envelope: envelope, identity: identity))
+        {
+            throw new InvalidDataException(message: "WIRE_GAMEPLAY");
+        }
+    }
+
+    private static bool ValidRunFrame(FoundationEnvelope envelope, bool identity)
+    {
+        if (envelope.Game is not { } frame)
+        {
+            return envelope.Kind is not ("action" or "action-result" or "view-part" or "view-revoke");
+        }
+
+        if (frame.Epoch < 0 || frame.View < 0 || frame.Token < 0 || frame.Part < 0 || frame.Parts < 0
+                || frame.Survivor.Length > 128 || frame.Rows.IsDefault
+                || frame.Rows.Length > MaximumViewRows || frame.Body is { ValueKind: not JsonValueKind.Object }
+                || envelope.Label.Length > 0 || envelope.Direction != 0
+                || frame.Rows.Any(predicate: row => row.ValueKind != JsonValueKind.Object))
+        {
+            return false;
+        }
+
+        return envelope.Kind switch
+        {
+            "action" => identity && envelope.Sequence > 0 && ValidAction(frame: frame)
+                    && frame.Status.Length == 0 && !frame.Replayed && NoViewScope(frame: frame),
+            "action-result" => identity && envelope.Sequence > 0 && frame.Status.Length is >= 1 and <= 32
+                    && KnownAction(action: frame.Action) && frame.Body is null && frame.Rows.IsEmpty
+                    && frame.Survivor.Length == 0 && frame.Epoch == 0 && NoViewScope(frame: frame),
+            "view-part" => identity && ValidScope(scope: frame.Scope) && frame.View > 0 && frame.Body is not null
+                    && frame.Parts is >= 1 and <= MaximumViewParts && frame.Part < frame.Parts
+                    && NoActionFields(frame: frame) && ValidScopeBody(frame: frame),
+            "view-revoke" => identity && ValidScope(scope: frame.Scope) && frame.View > 0 && frame.Body is null
+                    && frame.Rows.IsEmpty && frame.Part == 0 && frame.Parts == 0 && NoActionFields(frame: frame)
+                    && frame.Epoch == 0 && frame.Token == 0,
+            "state" or "baseline" => frame.Body is { } body && frame.Rows.IsEmpty && NoActionFields(frame: frame)
+                    && NoViewScope(frame: frame) && frame.Epoch == 0 && ValidWorld(body: body),
+            _ => false,
+        };
+    }
+
+    private static bool NoViewScope(FoundationRunFrame frame)
+    {
+        return frame.Scope.Length == 0 && frame.View == 0 && frame.Token == 0 && frame.Part == 0 && frame.Parts == 0;
+    }
+
+    private static bool NoActionFields(FoundationRunFrame frame)
+    {
+        return frame.Action.Length == 0 && frame.Status.Length == 0 && frame.Survivor.Length == 0 && !frame.Replayed;
+    }
+
+    private static bool ValidAction(FoundationRunFrame frame)
+    {
+        return KnownAction(action: frame.Action) && frame.Epoch > 0 && frame.Rows.IsEmpty
+                && frame.Body is { } body && (frame.Action is "respawn"
+                        ? frame.Survivor.Length == 0 && !body.EnumerateObject().Any()
+                        : frame.Survivor.Length > 0);
+    }
+
+    private static bool KnownAction(string action)
+    {
+        return action is "move" or "attack" or "food" or "select" or "browse" or "close" or "drop" or "quick"
+                or "place" or "merge" or "respawn" or "window";
+    }
+
+    private static bool ValidScope(string scope)
+    {
+        return scope is "status" or "own" or "external";
+    }
+
+    private static bool ValidScopeBody(FoundationRunFrame frame)
+    {
+        if (frame.Body is not { } body)
+        {
+            return false;
+        }
+
+        switch (frame.Scope)
+        {
+            case "status":
+                Shape(value: body, names: ["SurvivorId", "Generation", "DeathGeneration", "Status", "OpensAt",
+                    "DeathX", "DeathY", "Health", "Stamina", "MaximumHealth", "MaximumStamina", "RootTime",
+                    "Teammates"]);
+                ValidateRows(body: body, member: "Teammates", fields: ["BindingId", "Slot", "SurvivorId"]);
+                return frame.Rows.IsEmpty && frame.Token == 0 && frame.Parts == 1
+                        && body.GetProperty(propertyName: "Generation").GetInt64() == frame.Epoch;
+            case "own":
+                Shape(value: body, names: ["SurvivorId", "ContainerId", "Width", "Height", "Nearby", "Quick",
+                    "Availability"]);
+                ValidateRows(body: body, member: "Nearby", fields: ["Kind", "Id"]);
+                ValidateRows(body: body, member: "Quick", fields: ["Slot", "ItemId"]);
+                return frame.Epoch > 0 && frame.Token == 0 && frame.Rows.All(predicate: ValidPrivateItem);
+            case "external":
+                Shape(value: body, names: ["Kind", "TargetId", "Page", "PageCount", "ContainerId", "Width",
+                    "Height"]);
+                return frame.Epoch > 0 && frame.Token > 0 && frame.Rows.All(predicate: ValidPrivateItem);
+            default:
+                return false;
+        }
+    }
+
+    private static bool ValidPrivateItem(JsonElement row)
+    {
+        Shape(value: row, names: ["Id", "DefinitionId", "Quantity", "Condition", "StorageWidth", "StorageHeight",
+            "FootprintWidth", "FootprintHeight", "CanonicalIcon", "Rotatable", "MaxStack", "MaximumCondition",
+            "Legacy", "Location", "Stamp"]);
+        JsonElement location = row.GetProperty(propertyName: "Location");
+        string kind = Text(value: location, name: "Kind");
+        switch (kind)
+        {
+            case "equipment" or "corpse":
+                Shape(value: location, names: ["Kind", "TargetId", "Slot"]);
+                break;
+            case "ground":
+                Shape(value: location, names: ["Kind", "TargetId"]);
+                break;
+            case "stash" or "container":
+                Shape(value: location, names: ["Kind", "GridId", "X", "Y", "Rotated", "Width", "Height"]);
+                break;
+            default:
+                return false;
+        }
+
+        return row.GetProperty(propertyName: "Id").GetInt64() > 0
+                && row.GetProperty(propertyName: "Quantity").GetInt32() is >= 1 and <= 10000
+                && row.GetProperty(propertyName: "FootprintWidth").GetInt32() is >= 1 and <= 64
+                && row.GetProperty(propertyName: "FootprintHeight").GetInt32() is >= 1 and <= 64
+                && Text(value: row, name: "DefinitionId").Length is >= 1 and <= 128
+                && Text(value: row, name: "Stamp").Length == 64;
+    }
+
+    private static bool ValidWorld(JsonElement body)
+    {
+        Shape(value: body, names: ["Elapsed", "OriginX", "Ground", "CampLeft", "CampRight", "Actors", "Defenses",
+            "Loot", "Arrows"]);
+        foreach (JsonElement actor in body.GetProperty(propertyName: "Actors").EnumerateArray())
+        {
+            Shape(value: actor, names: ["Id", "X", "Y", "Facing", "Hostile", "BindingId", "Equipment"]);
+            foreach (JsonElement item in actor.GetProperty(propertyName: "Equipment").EnumerateArray())
+            {
+                Shape(value: item, names: ["Slot", "DefinitionId"]);
+            }
+        }
+
+        ValidateRows(body: body, member: "Defenses", fields: ["Id", "X", "Y", "Living", "Completed", "IsWall"]);
+        ValidateRows(body: body, member: "Loot", fields: ["Id", "X", "Y", "Kind"]);
+        ValidateRows(body: body, member: "Arrows", fields: ["Id", "X", "Y", "VelocityX", "VelocityY"]);
+        return body.GetProperty(propertyName: "Elapsed").GetInt64() >= 0;
+    }
+
+    private static void ValidateRows(JsonElement body, string member, string[] fields)
+    {
+        foreach (JsonElement row in body.GetProperty(propertyName: member).EnumerateArray())
+        {
+            Shape(value: row, names: fields);
+        }
     }
 
     private static FoundationSnapshot ReadSnapshot(JsonElement value)
     {
         Shape(value: value, names: ["SessionId", "Revision", "Participants", "SchemaVersion", "ContentId"]);
-        Compatible(value: value, version: "SchemaVersion");
+        Compatible(value: value, version: "SchemaVersion", expected: 1);
         JsonElement array = value.GetProperty(propertyName: "Participants");
         if (array.ValueKind != JsonValueKind.Array || array.GetArrayLength() is < 1 or > 4)
         {
@@ -131,9 +366,9 @@ internal static class FoundationProtocol
         }
     }
 
-    private static void Compatible(JsonElement value, string version)
+    private static void Compatible(JsonElement value, string version, int expected)
     {
-        if (value.GetProperty(propertyName: version).GetInt32() != 1
+        if (value.GetProperty(propertyName: version).GetInt32() != expected
                 || !StringComparer.Ordinal.Equals(x: Text(value: value, name: "ContentId"), y: Content))
         {
             throw new InvalidDataException(message: "WIRE_INCOMPATIBLE");
@@ -153,7 +388,7 @@ internal static class FoundationProtocol
             throw new InvalidDataException(message: "WIRE_OBJECT");
         }
 
-        string[] actual = [..value.EnumerateObject().Select(selector: property => property.Name)];
+        string[] actual = [.. value.EnumerateObject().Select(selector: property => property.Name)];
         if (actual.Length != names.Length || actual.Distinct(comparer: StringComparer.Ordinal).Count()
                 != actual.Length || actual.Except(second: names, comparer: StringComparer.Ordinal).Any())
         {
