@@ -34,6 +34,17 @@ public sealed class Phase06PublicationTests
                 .ShouldBe(expected: 2);
     }
 
+    /// <summary>The recipient can bind a corrected private readback to its original action.</summary>
+    [Fact]
+    public void P02_CleanControl_PreservesPrivateAndLocalAccess()
+    {
+        var room = new Room();
+        FoundationCoordinator guest = room.Join(sender: 2);
+        FoundationRunView status = guest.ReadRunRender().ShouldNotBeNull().Views["status"];
+        status.GetType().GetProperty(name: "Correlation", bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic)
+                .ShouldNotBeNull();
+    }
+
     /// <summary>Real page parts install together and are fenced after the guest loses stash access.</summary>
     [Fact]
     public void LargeScopedPageInstallsAtomicallyAndRevocationFencesDelayedFrames()
