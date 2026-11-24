@@ -5619,7 +5619,7 @@ Source SHA256: `9379b50244a47c16da9da1c613aad621af84be1e152d8996cbd938da63e57009
 
 ### src/godot-game/content/fixtures/crowds.json
 
-Source SHA256: `f70f3e68d2acd44aeea649384362c0bf3159e6850cd32027b147e12a9c70b791`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `3941f57ee3f98a59d3aad67bb89f5f59ff5ebe95e4af7fe4000e0e1dbfd5894c`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8170,7 +8170,7 @@ Source SHA256: `54fc6b5cc758cd82e69a81abae28ff08f6e05387a86782c934a6b26f458fb346
 
 ### src/godot-game/content/packs/player-identities.json
 
-Source SHA256: `b8a4a8eea4ba319030810577d0c809b2925d2eda8d68df2a86d9a28da49a6826`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `6fdcc3e0eaa5a2f525b08e8366d4e89a3b704fc0f8b093e6b66250012453e553`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8269,7 +8269,7 @@ Source SHA256: `b8a4a8eea4ba319030810577d0c809b2925d2eda8d68df2a86d9a28da49a6826
 | `/sourceBindings` | array | complete children below |
 | `/sourceBindings/*` | object | complete children below |
 | `/sourceBindings/*/file` | string | "content/packs/ui-identity.json" |
-| `/sourceBindings/*/sha256` | string | "5d222708cc1e8853d2584067d0aaa3faf70b694c54cad283b43aaa95ab1f7107" |
+| `/sourceBindings/*/sha256` | string | "be272268f877766199b7371d7cd14400b56aa3c63b4f3b42f6dcee95e039afb8" |
 | `/wildlife` | object | complete children below |
 | `/wildlife/rabbit` | object | complete children below |
 | `/wildlife/rabbit/idle` | string | "bunny_stand" |
@@ -8568,7 +8568,7 @@ Source SHA256: `e21c933b36bacd5f81206b33f7a9680bedd89bd5e580b12f5004ab212895d1f4
 
 ### src/godot-game/content/packs/ui-camp.json
 
-Source SHA256: `d52c1b9d34948dc77964cd915fdc9ccb19f428d87a9d6a401c74de292285221d`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `b2436dc638985a6b6074a7e0da116f56c4b364c51ebd275d5cc1dc2ec0403f9f`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8591,7 +8591,7 @@ Source SHA256: `d52c1b9d34948dc77964cd915fdc9ccb19f428d87a9d6a401c74de292285221d
 
 ### src/godot-game/content/packs/ui-identity.json
 
-Source SHA256: `5d222708cc1e8853d2584067d0aaa3faf70b694c54cad283b43aaa95ab1f7107`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `be272268f877766199b7371d7cd14400b56aa3c63b4f3b42f6dcee95e039afb8`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8773,7 +8773,7 @@ Source SHA256: `5d222708cc1e8853d2584067d0aaa3faf70b694c54cad283b43aaa95ab1f7107
 | `/bindingSources` | array | complete children below |
 | `/bindingSources/*` | object | complete children below |
 | `/bindingSources/*/file` | string | "src/godot-game/foundation/FoundationInput.cs" |
-| `/bindingSources/*/sha256` | string | "caed7f7b5cd0eca46813aa7a0909f99307cf33d155407a063263cf3fca528b63" |
+| `/bindingSources/*/sha256` | string | "55c477e859143b8c8a3429396518eb2094cece492f37df3cef6cce8fbe2d394a" |
 | `/bindingScope` | string | "Source-backed current foundation/inspection keys; remapping fixtures do not claim a delivered gameplay remapping system." |
 | `/conditionPolicy` | string | "One exact item canonical icon at every condition; numeric current / maximum and separate Broken glyph at zero; no condition display for null maximum." |
 | `/selection` | object | complete children below |
@@ -8790,7 +8790,7 @@ Source SHA256: `5d222708cc1e8853d2584067d0aaa3faf70b694c54cad283b43aaa95ab1f7107
 
 ### src/godot-game/content/packs/ui-inventory.json
 
-Source SHA256: `2e7af07998c52287d5e0375c015ed6e93464277aa4fc8a0cad2f5aee781c4f56`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `bdaf46db82e8d82ada3ede5ba7bd552c609d247b829d21d8004db35fe8fac601`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8955,7 +8955,7 @@ Source SHA256: `cdfbbf4880fdcc14d200dcb3df0b4ac173fec4a30c65d15a6736a7d30591341a
 
 ### src/godot-game/content/packs/ui-legacy-stash.json
 
-Source SHA256: `523e9266e7e7dd29b7ad706bd3bfa6467ee62bbe2071afbe2f10d2294b36f396`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `d9156a7fcc78cbbc5140dfca6fd4e875a82fa5b6523d7abc29d87c00b84d41a6`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8978,7 +8978,7 @@ Source SHA256: `523e9266e7e7dd29b7ad706bd3bfa6467ee62bbe2071afbe2f10d2294b36f396
 
 ### src/godot-game/content/packs/ui-map-warnings.json
 
-Source SHA256: `c4469af325f9ab37d940a8032d424a57f129d26af8acaf65fa7fdfd0f59838bc`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `7123851e3da859a847bdf20addc9e287fc366e6ef0564feb1d45dc7648d6f3f0`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
