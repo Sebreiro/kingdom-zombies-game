@@ -532,10 +532,13 @@ public sealed class RunnerContractTests
                 + "const m=require('./src/godot-game/tools/verification/required-cases.json'),row=m.cases[0];"
                 + "a.deepEqual(m.cases.filter(r=>Object.hasOwn(r,'childTimeoutMs'))"
                 + ".map(r=>[r.id,r.childTimeoutMs]).sort(),[['R-67.positive',60000],['ac-08.complete',75000],"
-                + "['engine.generated-boundary',120000],['rules.godot-companion-negative',60000]]);"
+                + "['edge.rule-03.adjacency',90000],['engine.generated-boundary',120000],"
+                + "['rules.generated-callsite-origin',90000],['rules.godot-companion-negative',60000],"
+                + "['rules.suppression-duplicate',90000]]);"
                 + "for(const [id,argument,outerMs] of [['ac-08.complete','75s',77000],"
                 + "['R-67.positive','60s',62000],['R-67.negative','45s',45000],"
-                + "['engine.generated-boundary','120s',122000],"
+                + "['edge.rule-03.adjacency','90s',92000],['engine.generated-boundary','120s',122000],"
+                + "['rules.generated-callsite-origin','90s',92000],['rules.suppression-duplicate','90s',92000],"
                 + "['rules.godot-companion-negative','60s',62000],"
                 + "['rules.godot-companion-positive','45s',45000]]){"
                 + "a.deepEqual(c.caseTimeout(m.cases.find(r=>r.id===id),m),{argument,outerMs})}"
@@ -568,7 +571,7 @@ public sealed class RunnerContractTests
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
         (int? Capacity, string Argument, int Outer)[] cases =
         [
-            (120000, "120s", 122000), (75000, "75s", 77000), (60000, "60s", 62000),
+            (120000, "120s", 122000), (90000, "90s", 92000), (75000, "75s", 77000), (60000, "60s", 62000),
             (null, "45s", 1800), (1, "1s", 3000),
         ];
         foreach ((int? Capacity, string Argument, int Outer) item in cases)
