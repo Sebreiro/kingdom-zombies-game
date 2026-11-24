@@ -85,6 +85,7 @@ internal sealed partial class FoundationInventoryWorkspace
         if (_model.Drag is null && _press is { } press && point.DistanceTo(to: press.At) >= 4
                 && _model.Begin(item: press.Item, external: press.External, token: press.Token, split: press.Split))
         {
+            _grid?.HideFocusDetails();
             _opener = press.Opener;
             if (_model.Drag?.ChoosingAmount == true)
             {
@@ -245,6 +246,7 @@ internal sealed partial class FoundationInventoryWorkspace
     private void ItemMenu(Button button, Model.Item item, bool external)
     {
         _gateway.RequireThread();
+        _grid?.HideFocusDetails();
         CancelPreview();
         RemovePopup();
         _opener = button;
@@ -260,7 +262,8 @@ internal sealed partial class FoundationInventoryWorkspace
         if (!external && item.Food)
         {
             Option(parent: options, text: "Assign to quick slot", action: () => AssignMenu(item: item, source: source));
-            Option(parent: options, text: "Consume", action: () => MenuAction(command: Model.Consume(item: item)));
+            Option(parent: options, text: "Consume", action: () => MenuAction(command: Model.Consume(item: item)))
+                    .TooltipText = "Consume one " + (_art?.Name(item: item) ?? item.Definition);
         }
         if (!external)
         {
@@ -498,6 +501,7 @@ internal sealed partial class FoundationInventoryWorkspace
     private void RemoveLayer()
     {
         _gateway.RequireThread();
+        _grid?.HideFocusDetails();
         CancelPreview();
         RemovePopup();
         Retire(node: _layer);

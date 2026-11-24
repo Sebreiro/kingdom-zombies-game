@@ -65,6 +65,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
 
     internal int VisibleSlotCount => _targets.Count(predicate: region =>
             region.Kind is "equipment" && region.Token == 0);
+    internal bool FocusDetailsVisible => _grid?.FocusDetailsVisible == true;
 
     internal void Observe(FoundationRunReadback? readback, string? owner, long epoch, bool connected)
     {
@@ -113,6 +114,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     internal void LoseFocus()
     {
         _gateway.RequireThread();
+        _grid?.HideFocusDetails();
         CancelPreview();
         RemovePopup();
         _movingBag = null;
@@ -201,6 +203,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
 
         string? focused = _root.GetViewport().GuiGetFocusOwner()?.Name.ToString();
+        _grid?.HideFocusDetails();
         Retire(node: _content);
         _targets.Clear();
         _bagPanels.Clear();

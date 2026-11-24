@@ -147,6 +147,10 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
                 + "ionInventoryGrid|Decorate(Button,Item,bool)",
         "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|ShowFocusDetails(Button,string)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|HideFocusDetails()",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
                 + "ionInventoryGrid|DrawCells(Control,int,int)",
         "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
                 + "ionInventoryGrid|AddCount(Button,int)",

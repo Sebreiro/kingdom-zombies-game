@@ -163,7 +163,8 @@ public sealed partial class FoundationRoot : Control
                 nowMilliseconds: _runtime.NowMilliseconds, services: _services, appearance: _appearance?.Frame,
                 attackAim: _worldInput.LastAttackAim, inventoryOpen: _inventory.CapturesWorld,
                 inventorySlots: _inventory.VisibleSlotCount,
-                nearby: (_inventory.ExternalKind, _inventory.ExternalPage));
+                nearby: (_inventory.ExternalKind, _inventory.ExternalPage),
+                inventoryDetails: _inventory.FocusDetailsVisible);
         Observe();
     }
 

@@ -133,6 +133,10 @@ async function verifyInventory(peer, subject, deadline, awaitRow) {
   const open = await awaitRow(row => row.inventoryOpen && row.inventorySlots === 11,
     'ordinary I opens eleven native equipment slots');
   await key(peer, subject, deadline, inventoryKey, false);
+  await input(peer, subject, deadline,
+    {action: 'focus', control: 'InventoryWorkspace/InventoryPanels/equipment_torso-clothing'});
+  const details = await awaitRow(row => row.inventoryOpen && row.inventoryDetails,
+    'keyboard focus shows the equipped item details');
   await key(peer, subject, deadline, rightKey, true);
   const held = await awaitRow(row => row.inventoryOpen && row.polledRight
     && actor(row, peer.profile)?.ElapsedMilliseconds > actor(open, peer.profile).ElapsedMilliseconds + 30,
@@ -142,10 +146,11 @@ async function verifyInventory(peer, subject, deadline, awaitRow) {
     'INVENTORY_PRESERVES_ACTOR_POSITION');
   await key(peer, subject, deadline, escapeKey, true);
   await key(peer, subject, deadline, escapeKey, false);
-  const closed = await awaitRow(row => row.ready && !row.inventoryOpen && row.polledRight && row.direction === 0,
+  const closed = await awaitRow(row => row.ready && !row.inventoryOpen && !row.inventoryDetails
+      && row.polledRight && row.direction === 0,
     'Escape dismisses inventory and keeps the old physical hold blocked');
   await key(peer, subject, deadline, rightKey, false);
-  return {open, held, closed};
+  return {open, details, held, closed};
 }
 
 async function verifyNearby(peer, subject, deadline, awaitRow) {

@@ -17,6 +17,8 @@ internal sealed class FoundationInventoryGrid
         _art = art;
     }
 
+    internal bool FocusDetailsVisible => _focusedDetails is not null;
+
     internal Control Add(Control parent, FoundationInventoryInteraction.Grid grid,
             ImmutableArray<(int x, int y)> highlights,
             Action<Button, FoundationInventoryInteraction.Item, InputEvent> itemInput)
@@ -55,7 +57,11 @@ internal sealed class FoundationInventoryGrid
     internal void Decorate(Button button, FoundationInventoryInteraction.Item item, bool equipment = false)
     {
         _gateway.RequireThread();
-        button.TooltipText = Details(item: item);
+        string details = Details(item: item);
+        button.TooltipText = details;
+        button.FocusEntered += () => ShowFocusDetails(button: button, details: details);
+        button.FocusExited += () => ClearFocusDetails(button: button);
+        button.MouseEntered += () => ClearFocusDetails(button: button);
         var image = new TextureRect
         {
             Name = "Icon",
@@ -106,8 +112,76 @@ internal sealed class FoundationInventoryGrid
         return result;
     }
 
+    internal void HideFocusDetails()
+    {
+        _gateway.RequireThread();
+        if (_focusedDetails is not null)
+        {
+            _focusedDetails.GetParent()?.RemoveChild(node: _focusedDetails);
+            _focusedDetails.QueueFree();
+        }
+
+        _focusedDetails = null;
+        _focusedItem = null;
+    }
+
     private readonly MainThreadGateway _gateway;
     private readonly FoundationInventoryArt _art;
+    private Panel? _focusedDetails;
+    private Button? _focusedItem;
+
+    private void ClearFocusDetails(Button button)
+    {
+        if (ReferenceEquals(objA: _focusedItem, objB: button))
+        {
+            HideFocusDetails();
+        }
+    }
+
+    private void ShowFocusDetails(Button button, string details)
+    {
+        _gateway.RequireThread();
+        HideFocusDetails();
+        Rect2 item = button.GetGlobalRect();
+        if (item.HasPoint(point: button.GetGlobalMousePosition())
+                || button.FindParent(pattern: "InventoryWorkspace") is not Control layer)
+        {
+            return;
+        }
+
+        Vector2 viewport = layer.GetViewportRect().Size;
+        const int Width = 300;
+        int height = Math.Clamp(value: 22 + details.Length / 30 * 17
+                + (details.Split(separator: '\n').Length - 1) * 17, min: 80, max: 300);
+        float left = item.End.X + Width + 26 <= viewport.X ? item.End.X + 10 : item.Position.X - Width - 10;
+        var panel = new Panel
+        {
+            Name = "FocusedItemDetails",
+            Position = new Vector2(x: Math.Clamp(value: left, min: 24, max: viewport.X - Width - 24),
+                    y: Math.Clamp(value: item.Position.Y, min: 24, max: viewport.Y - height - 24)),
+            Size = new Vector2(x: Width, y: height),
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            ZIndex = 24,
+        };
+        panel.AddThemeStyleboxOverride(name: "panel", stylebox: new StyleBoxFlat
+        {
+            BgColor = new Color(r: 0.094f, g: 0.145f, b: 0.169f),
+            BorderColor = new Color(r: 0.957f, g: 0.949f, b: 0.91f),
+            BorderWidthTop = 1, BorderWidthBottom = 1, BorderWidthLeft = 1, BorderWidthRight = 1,
+        });
+        var label = new Label
+        {
+            Text = details,
+            Position = new Vector2(x: 12, y: 8),
+            Size = new Vector2(x: Width - 24, y: height - 16),
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+        };
+        layer.AddChild(node: panel);
+        panel.AddChild(node: label);
+        _focusedItem = button;
+        _focusedDetails = panel;
+    }
 
     private void AddHighlights(Control board, ImmutableArray<(int x, int y)> cells)
     {
