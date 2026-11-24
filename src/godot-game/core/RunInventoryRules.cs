@@ -60,6 +60,12 @@ internal static class RunInventoryRules
                 : definition.Footprint;
     }
 
+    internal static bool InBounds(RunInventory.GridCell cell, RunDefinitions.Size bounds)
+    {
+        return cell.X >= 0 && cell.Y >= 0 && cell.X <= bounds.Width - cell.Footprint.Width
+                && cell.Y <= bounds.Height - cell.Footprint.Height;
+    }
+
     internal static bool KeepsIdentities(RunInventory current, RunInventory candidate)
     {
         if (candidate.Items.IsDefault || candidate.NextItemId < current.NextItemId)
@@ -81,14 +87,7 @@ internal static class RunInventoryRules
         return true;
     }
 
-    private static bool MatchesDefinition(RunInventory.Item item, RunDefinitions.Item definition)
-    {
-        return item.Quantity > 0 && item.Quantity <= definition.MaxStack && item.StorageGrid == definition.Storage
-                && (definition.MaximumCondition is { } maximum
-                        ? item.Condition >= 0 && item.Condition <= maximum : item.Condition is null);
-    }
-
-    private static bool SlotAccepts(RunInventory.Equipment location, RunDefinitions.Item definition,
+    internal static bool SlotAccepts(RunInventory.Equipment location, RunDefinitions.Item definition,
             RunPopulation population)
     {
         return RunDefinitions.EquipmentSlots.Contains(value: location.Slot, comparer: StringComparer.Ordinal)
@@ -96,6 +95,13 @@ internal static class RunInventoryRules
                         || definition.Slot is "either-logical-hand" && location.Slot is "left-hand" or "right-hand")
                 && population.Survivors.Any(predicate: survivor =>
                         StringComparer.Ordinal.Equals(x: survivor.Id, y: location.SurvivorId));
+    }
+
+    private static bool MatchesDefinition(RunInventory.Item item, RunDefinitions.Item definition)
+    {
+        return item.Quantity > 0 && item.Quantity <= definition.MaxStack && item.StorageGrid == definition.Storage
+                && (definition.MaximumCondition is { } maximum
+                        ? item.Condition >= 0 && item.Condition <= maximum : item.Condition is null);
     }
 
     private static RunDefinitions.Size? GridBounds(RunInventory inventory, RunInventory.GridCell cell,
@@ -114,10 +120,9 @@ internal static class RunInventoryRules
             RunDefinitions.Size? bounds, HashSet<(RunInventory.GridKind kind, long id, int x, int y)> occupied)
     {
         RunDefinitions.Size size = cell.Footprint;
-        if (bounds is not { } grid || cell.X < 0 || cell.Y < 0
-                || cell.Rotated && !definition.Rotatable || size != Footprint(definition: definition,
-                        rotated: cell.Rotated) || cell.X > grid.Width - size.Width
-                || cell.Y > grid.Height - size.Height)
+        if (bounds is not { } grid || cell.Rotated && !definition.Rotatable
+                || size != Footprint(definition: definition, rotated: cell.Rotated)
+                || !InBounds(cell: cell, bounds: grid))
         {
             return false;
         }

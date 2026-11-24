@@ -77,21 +77,39 @@ internal sealed class RunItemActions
         if (sequence == progress.Sequence)
         {
             return new Outcome(status: progress.Status, replayed: true,
-                    view: Project(access: access, inventory: inventory, revision: revision));
+                    view: Project(access: access, inventory: inventory, revision: revision),
+                    stashEffect: progress.Selection is { Target.Kind: RunWorld.Access.Stash }
+                            ? progress.StashEffect : null);
         }
 
-        Status status = request switch
+        RunStash.PageEffect? effect = null;
+        Status status;
+        if (request is Transfer transfer)
         {
-            Select select => Choose(access: access, target: select.Target, sequence: sequence),
-            Close close => CloseSelection(progress: progress, token: close.Token),
-            Transfer transfer => Commit(access: access, transfer: transfer, inventory: ref inventory,
-                    revision: ref revision),
-            _ => Status.Incompatible,
-        };
+            status = Commit(access: access, transfer: transfer, change: out RunItemTransfer.Change? change);
+            if (change is not null)
+            {
+                inventory = change.After;
+                revision = _session.Snapshot.Revision;
+                effect = FollowDeposit(progress: progress, transfer: transfer, change: change, sequence: sequence);
+            }
+        }
+        else
+        {
+            status = request switch
+            {
+                Select select => Choose(access: access, target: select.Target, sequence: sequence),
+                Close close => CloseSelection(progress: progress, token: close.Token),
+                Browse browse => BrowsePage(access: access, browse: browse, sequence: sequence),
+                _ => Status.Incompatible,
+            };
+        }
+
         progress.Sequence = sequence;
         progress.Status = status;
+        progress.StashEffect = effect;
         return new Outcome(status: status,
-                view: Project(access: access, inventory: inventory, revision: revision));
+                view: Project(access: access, inventory: inventory, revision: revision), stashEffect: effect);
     }
 
     private static Status Choose(Access access, RunExternalAccess.Target target, long sequence)
@@ -118,24 +136,56 @@ internal sealed class RunItemActions
         return Status.Ready;
     }
 
-    private Status Commit(Access access, Transfer transfer, ref RunInventory inventory, ref long revision)
+    private static Status BrowsePage(Access access, Browse browse, long sequence)
     {
+        if (access.Progress.Selection is not { Target.Kind: RunWorld.Access.Stash } selected
+                || selected.Token != browse.Token)
+        {
+            return Status.AccessLost;
+        }
+
+        if (!RunStash.TryPageIndex(pageNumber: browse.PageNumber, pageCount: access.Root.Inventory.StashPageCount,
+                index: out int index))
+        {
+            return Status.InvalidPage;
+        }
+
+        access.Progress.Selection = new RunExternalAccess.Selection(target: selected.Target, token: sequence,
+                pageIndex: index);
+        return Status.Ready;
+    }
+
+    private static RunStash.PageEffect? FollowDeposit(Progress progress, Transfer transfer,
+            RunItemTransfer.Change change, long sequence)
+    {
+        if (transfer is not QuickTransfer { Direction: QuickDirection.Deposit }
+                || progress.Selection is not { } selected
+                || RunStash.ChangedPages(change: change) is not { } effect)
+        {
+            return null;
+        }
+
+        if (selected.PageIndex != effect.PageNumber - 1)
+        {
+            progress.Selection = new RunExternalAccess.Selection(target: selected.Target, token: sequence,
+                    pageIndex: effect.PageNumber - 1);
+        }
+
+        return effect;
+    }
+
+    private Status Commit(Access access, Transfer transfer, out RunItemTransfer.Change? change)
+    {
+        change = null;
         Status failure = Prepare(access: access, transfer: transfer, candidate: out RunInventory? candidate);
         if (candidate is null)
         {
             return failure;
         }
 
-        if (!_session.TryEditInventory(edit: (current, _, _) => ReferenceEquals(objA: current,
-                objB: access.Root.Inventory) ? candidate : null, change: out RunItemTransfer.Change? change)
-                || change is null)
-        {
-            return Status.Incompatible;
-        }
-
-        inventory = change.After;
-        revision = _session.Snapshot.Revision;
-        return Status.Applied;
+        return _session.TryEditInventory(edit: (current, _, _) => ReferenceEquals(objA: current,
+                objB: access.Root.Inventory) ? candidate : null, change: out change) ? Status.Applied
+                : Status.Incompatible;
     }
 
     private static Status Prepare(Access access, Transfer transfer, out RunInventory? candidate)
@@ -159,6 +209,7 @@ internal sealed class RunItemActions
             Drop drop => DropOnGround(access: access, drop: drop, candidate: out candidate),
             Merge merge => MergeStacks(access: access, merge: merge, source: source, candidate: out candidate),
             Place place => PlaceItem(access: access, place: place, source: source, candidate: out candidate),
+            QuickTransfer quick => TransferStash(access: access, quick: quick, candidate: out candidate),
             _ => Status.Incompatible,
         };
     }
@@ -197,7 +248,7 @@ internal sealed class RunItemActions
         }
 
         Status placement = RunItemTransfer.CheckPlacement(inventory: inventory, definition:
-                access.Root.Definitions.Items[source.DefinitionId], source: source,
+                access.Root.Definitions.Items[source.DefinitionId], population: access.Root.Population, source: source,
                 destination: place.Destination, split: place.Amount.HasValue);
         if (placement != Status.Ready)
         {
@@ -209,6 +260,34 @@ internal sealed class RunItemActions
                         destination: place.Destination)
                 : RunItemTransfer.Move(inventory: inventory, expected: place.Expected,
                         destination: place.Destination);
+        return Status.Incompatible;
+    }
+
+    private static Status TransferStash(Access access, QuickTransfer quick, out RunInventory? candidate)
+    {
+        candidate = null;
+        if (access.Progress.Selection is not { Target.Kind: RunWorld.Access.Stash } selected
+                || quick.Token != selected.Token)
+        {
+            return Status.AccessLost;
+        }
+
+        FoundationSession.RunPublication root = access.Root;
+        string survivor = access.Lease.SurvivorId;
+        if (quick.Direction == QuickDirection.Deposit && quick.Expected.IsCarriedBy(survivorId: survivor))
+        {
+            candidate = RunStash.Deposit(inventory: root.Inventory, definitions: root.Definitions,
+                    expected: quick.Expected);
+            return Status.Capacity;
+        }
+
+        if (quick.Direction == QuickDirection.Withdraw && quick.Expected.Root is RunInventory.StashCell)
+        {
+            candidate = RunStash.Withdraw(inventory: root.Inventory, definitions: root.Definitions,
+                    population: root.Population, expected: quick.Expected, survivorId: survivor);
+            return Status.Capacity;
+        }
+
         return Status.Incompatible;
     }
 
@@ -299,7 +378,10 @@ internal sealed class RunItemActions
         StaleItem,
         Incompatible,
         Capacity,
+        InvalidPage,
     }
+
+    internal enum QuickDirection { Deposit, Withdraw }
 
     internal sealed record Controller
     {
@@ -335,6 +417,18 @@ internal sealed class RunItemActions
         }
 
         internal long Token { get; }
+    }
+
+    internal sealed record Browse : Request
+    {
+        internal Browse(long token, decimal pageNumber)
+        {
+            Token = token;
+            PageNumber = pageNumber;
+        }
+
+        internal long Token { get; }
+        internal decimal PageNumber { get; }
     }
 
     internal abstract record Transfer : Request
@@ -387,6 +481,17 @@ internal sealed class RunItemActions
         internal string PileId { get; }
     }
 
+    internal sealed record QuickTransfer : Transfer
+    {
+        internal QuickTransfer(RunInventory.ItemPath expected, long token, QuickDirection direction)
+                : base(expected: expected, token: token)
+        {
+            Direction = direction;
+        }
+
+        internal QuickDirection Direction { get; }
+    }
+
     internal sealed class View
     {
         internal View(long revision, string survivorId, ImmutableArray<RunExternalAccess.Target> nearby,
@@ -414,20 +519,23 @@ internal sealed class RunItemActions
         internal ImmutableArray<(int slot, long itemId)> QuickReferences { get; }
         internal Status Availability { get; }
         internal int? StashPageCount { get; }
+        internal int? StashPageNumber => StashPageCount.HasValue ? Selection?.PageIndex + 1 : null;
     }
 
     internal sealed class Outcome
     {
-        internal Outcome(Status status, View? view, bool replayed = false)
+        internal Outcome(Status status, View? view, bool replayed = false, RunStash.PageEffect? stashEffect = null)
         {
             Status = status;
             View = view;
             Replayed = replayed;
+            StashEffect = stashEffect;
         }
 
         internal Status Status { get; }
         internal View? View { get; }
         internal bool Replayed { get; }
+        internal RunStash.PageEffect? StashEffect { get; }
     }
 
     private sealed class Progress
@@ -442,6 +550,7 @@ internal sealed class RunItemActions
         internal Status Status { get; set; }
         internal RunExternalAccess.Selection? Selection { get; set; }
         internal bool SelectionLost { get; set; }
+        internal RunStash.PageEffect? StashEffect { get; set; }
     }
 
     private sealed class Access

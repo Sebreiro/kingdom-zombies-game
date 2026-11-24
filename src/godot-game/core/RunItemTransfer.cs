@@ -90,10 +90,15 @@ internal static class RunItemTransfer
     }
 
     internal static RunItemActions.Status CheckPlacement(RunInventory inventory, RunDefinitions.Item definition,
-            RunInventory.Item source, RunInventory.Location destination, bool split)
+            RunPopulation population, RunInventory.Item source, RunInventory.Location destination, bool split)
     {
         if (destination is RunInventory.Equipment equipment)
         {
+            if (!RunInventoryRules.SlotAccepts(location: equipment, definition: definition, population: population))
+            {
+                return RunItemActions.Status.Incompatible;
+            }
+
             return inventory.Equipped(survivorId: equipment.SurvivorId, slot: equipment.Slot) is not null
                     ? RunItemActions.Status.Capacity : RunItemActions.Status.Ready;
         }
@@ -117,7 +122,7 @@ internal static class RunItemTransfer
             return RunItemActions.Status.Incompatible;
         }
 
-        return cell.X > grid.Width - cell.Footprint.Width || cell.Y > grid.Height - cell.Footprint.Height
+        return !RunInventoryRules.InBounds(cell: cell, bounds: grid)
                 || inventory.Items.Any(predicate: item => (split || item.Id != source.Id)
                         && item.Location is RunInventory.GridCell occupied && Overlaps(first: cell, second: occupied))
                 ? RunItemActions.Status.Capacity : RunItemActions.Status.Ready;

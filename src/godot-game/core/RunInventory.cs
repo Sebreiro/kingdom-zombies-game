@@ -26,35 +26,7 @@ internal sealed class RunInventory
 
     internal static RunInventory Create(RunDefinitions definitions, RunPopulation population)
     {
-        ImmutableArray<Item>.Builder items = ImmutableArray.CreateBuilder<Item>();
-        foreach (RunPopulation.Survivor survivor in population.Survivors)
-        {
-            foreach (string id in definitions.StartingOutfit)
-            {
-                RunDefinitions.Item definition = definitions.Items[id];
-                string slot = definition.Slot ?? throw new InvalidOperationException(message: "RUN_OUTFIT_SLOT");
-                items.Add(item: new Item(id: items.Count + 1L, definitionId: id, quantity: 1,
-                        condition: definition.MaximumCondition,
-                        location: new Equipment(survivorId: survivor.Id, slot: slot),
-                        storageGrid: definition.Storage));
-            }
-        }
-
-        var pages = new List<bool[]> { new bool[definitions.StashGrid.Width * definitions.StashGrid.Height] };
-        foreach (RunDefinitions.StartingStack stack in definitions.StartingStash)
-        {
-            RunDefinitions.Item definition = definitions.Items[stack.ItemId];
-            for (int index = 0; index < stack.Count; index++)
-            {
-                StashCell cell = Place(pages: pages, grid: definitions.StashGrid, item: definition);
-                items.Add(item: new Item(id: items.Count + 1L, definitionId: stack.ItemId,
-                        quantity: stack.Quantity, condition: definition.MaximumCondition, location: cell,
-                        storageGrid: definition.Storage));
-            }
-        }
-
-        return new RunInventory(items: items.ToImmutable(), stashGrid: definitions.StashGrid,
-                stashPageCount: pages.Count, nextItemId: items.Count + 1L);
+        return population.CreateInitialInventory(definitions: definitions);
     }
 
     internal Item? Find(long itemId)
@@ -110,65 +82,6 @@ internal sealed class RunInventory
         }
 
         return null;
-    }
-
-    private static StashCell Place(List<bool[]> pages, RunDefinitions.Size grid, RunDefinitions.Item item)
-    {
-        StashCell? cell = FindCell(pages: pages, grid: grid, size: item.Footprint, rotated: false);
-        if (cell is null && item.Rotatable && item.Footprint.Width != item.Footprint.Height)
-        {
-            cell = FindCell(pages: pages, grid: grid,
-                    size: new RunDefinitions.Size(width: item.Footprint.Height, height: item.Footprint.Width),
-                    rotated: true);
-        }
-
-        if (cell is null)
-        {
-            bool rotated = item.Footprint.Width > grid.Width || item.Footprint.Height > grid.Height;
-            RunDefinitions.Size footprint = rotated
-                    ? new RunDefinitions.Size(width: item.Footprint.Height, height: item.Footprint.Width)
-                    : item.Footprint;
-            cell = new StashCell(page: pages.Count, x: 0, y: 0, rotated: rotated, footprint: footprint);
-            pages.Add(item: new bool[grid.Width * grid.Height]);
-        }
-
-        bool[] occupied = pages[cell.Page];
-        for (int row = cell.Y; row < cell.Y + cell.Footprint.Height; row++)
-        {
-            for (int column = cell.X; column < cell.X + cell.Footprint.Width; column++)
-            {
-                occupied[row * grid.Width + column] = true;
-            }
-        }
-
-        return cell;
-    }
-
-    private static StashCell? FindCell(List<bool[]> pages, RunDefinitions.Size grid, RunDefinitions.Size size,
-            bool rotated)
-    {
-        for (int page = 0; page < pages.Count; page++)
-        {
-            for (int y = 0; y <= grid.Height - size.Height; y++)
-            {
-                for (int x = 0; x <= grid.Width - size.Width; x++)
-                {
-                    if (Fits(occupied: pages[page], width: grid.Width, x: x, y: y, size: size))
-                    {
-                        return new StashCell(page: page, x: x, y: y, rotated: rotated, footprint: size);
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private static bool Fits(bool[] occupied, int width, int x, int y, RunDefinitions.Size size)
-    {
-        return Enumerable.Range(start: y, count: size.Height).All(predicate: row =>
-                Enumerable.Range(start: x, count: size.Width)
-                        .All(predicate: column => !occupied[row * width + column]));
     }
 
     internal sealed record Item

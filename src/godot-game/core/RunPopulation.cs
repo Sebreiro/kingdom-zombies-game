@@ -36,6 +36,36 @@ internal sealed class RunPopulation
                 lastControlGeneration: 1);
     }
 
+    internal RunInventory CreateInitialInventory(RunDefinitions definitions)
+    {
+        ImmutableArray<RunInventory.Item>.Builder items = ImmutableArray.CreateBuilder<RunInventory.Item>();
+        foreach (Survivor survivor in Survivors)
+        {
+            foreach (string id in definitions.StartingOutfit)
+            {
+                RunDefinitions.Item definition = definitions.Items[id];
+                string slot = definition.Slot ?? throw new InvalidOperationException(message: "RUN_OUTFIT_SLOT");
+                items.Add(item: new RunInventory.Item(id: items.Count + 1L, definitionId: id, quantity: 1,
+                        condition: definition.MaximumCondition, location: new RunInventory.Equipment(
+                                survivorId: survivor.Id, slot: slot), storageGrid: definition.Storage));
+            }
+        }
+
+        var inventory = new RunInventory(items: items.ToImmutable(), stashGrid: definitions.StashGrid,
+                stashPageCount: 1, nextItemId: items.Count + 1L);
+        foreach (RunDefinitions.StartingStack stack in definitions.StartingStash)
+        {
+            RunDefinitions.Item definition = definitions.Items[stack.ItemId];
+            for (int index = 0; index < stack.Count; index++)
+            {
+                inventory = RunStash.AddStartingStack(inventory: inventory, definition: definition,
+                        quantity: stack.Quantity);
+            }
+        }
+
+        return inventory;
+    }
+
     internal RunPopulation? Reserve(string sessionId, string playerId, string bindingId, int slot)
     {
         if (slot is < 2 or > 4 || !StringComparer.Ordinal.Equals(x: sessionId, y: Leases[0].SessionId)
