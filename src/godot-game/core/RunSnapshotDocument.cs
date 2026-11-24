@@ -150,6 +150,7 @@ internal sealed class RunSnapshotDocument
     internal sealed class InventoryData
     {
         public required SizeData StashGrid { get; init; }
+        public required bool LegacyStash { get; init; }
         public required int StashPageCount { get; init; }
         public required long NextItemId { get; init; }
         public required int MaximumContainerLevels { get; init; }
@@ -278,6 +279,7 @@ internal sealed class RunSnapshotDocument
         public required WaitData[] Waiting { get; init; }
         public required int Seed { get; init; }
         public required long DrawPosition { get; init; }
+        public required string RuntimeContract { get; init; }
     }
 
     internal sealed class WaitData

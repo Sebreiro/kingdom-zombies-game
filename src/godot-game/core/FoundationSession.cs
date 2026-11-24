@@ -864,7 +864,9 @@ public sealed class FoundationSession
     {
         return RunInventoryRules.KeepsIdentities(current: current.Inventory, candidate: candidate)
                 && RunInventoryRules.IsValid(inventory: candidate, definitions: current.Definitions,
-                        population: population);
+                        population: population)
+                && (current.Inventory.SavedLayout?.AllowsContinuation(before: current.Inventory, after: candidate,
+                        definitions: current.Definitions) ?? true);
     }
 
     private void RequireActive()

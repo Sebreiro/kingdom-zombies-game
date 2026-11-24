@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -19,8 +21,16 @@ internal static class RunSnapshotCodec
     internal static (RunSnapshotDocument document, FoundationSession.RunPublication publication) Decode(
             ReadOnlySpan<byte> data, RunDefinitions definitions)
     {
-        RunSnapshotDocument document = JsonSerializer.Deserialize<RunSnapshotDocument>(utf8Json: data,
-                options: _options) ?? throw new InvalidDataException(message: "RUN_SNAPSHOT_DOCUMENT");
+        var reader = new Utf8JsonReader(jsonData: data);
+        using var json = JsonDocument.ParseValue(reader: ref reader);
+        if (reader.Read())
+        {
+            throw new InvalidDataException(message: "RUN_SNAPSHOT_DOCUMENT");
+        }
+
+        ValidateArrayEntries(element: json.RootElement);
+        RunSnapshotDocument document = json.RootElement.Deserialize<RunSnapshotDocument>(options: _options)
+                ?? throw new InvalidDataException(message: "RUN_SNAPSHOT_DOCUMENT");
         if (document.Version != Version || document.Elapsed < 0)
         {
             throw new InvalidDataException(message: "RUN_SNAPSHOT_VERSION_OR_CLOCK");
@@ -42,6 +52,7 @@ internal static class RunSnapshotCodec
                 elapsedMilliseconds: document.Elapsed, definitions: definitions, population: population,
                 inventory: inventory, combat: Restore(row: document.Combat), loot: Restore(row: document.Loot),
                 succession: Restore(row: document.Succession));
+        ValidateRun(root: root, document: document);
         return (document, root);
     }
 
@@ -73,8 +84,375 @@ internal static class RunSnapshotCodec
     private const int Version = 1;
     private static readonly JsonSerializerOptions _options = new()
     {
+        AllowDuplicateProperties = false,
+        RespectNullableAnnotations = true,
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
     };
+
+    private static void ValidateArrayEntries(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Object)
+        {
+            foreach (JsonProperty property in element.EnumerateObject())
+            {
+                ValidateArrayEntries(element: property.Value);
+            }
+        }
+        else if (element.ValueKind == JsonValueKind.Array)
+        {
+            foreach (JsonElement entry in element.EnumerateArray())
+            {
+                Require(valid: entry.ValueKind != JsonValueKind.Null, problem: "NULL_RECORD");
+                ValidateArrayEntries(element: entry);
+            }
+        }
+    }
+
+    private static void ValidateRun(FoundationSession.RunPublication root, RunSnapshotDocument document)
+    {
+        var survivors = root.Population.Survivors
+                .ToDictionary(keySelector: survivor => survivor.Id, comparer: StringComparer.Ordinal);
+        ValidatePopulation(root: root, survivors: survivors, issued: document.Population.IssuedBindings);
+        ValidateLoot(root: root, survivors: survivors);
+        ValidateCombat(root: root, survivors: survivors);
+        ValidateSuccession(root: root, document: document);
+        ValidateReceipts(root: root, document: document, survivors: survivors);
+        Require(valid: ReferenceEquals(objA: root.Inventory, objB: RunQuickReferences.Invalidate(
+                inventory: root.Inventory, definitions: root.Definitions)), problem: "QUICK_REFERENCES");
+    }
+
+    private static void ValidatePopulation(FoundationSession.RunPublication root,
+            Dictionary<string, RunPopulation.Survivor> survivors, string[] issued)
+    {
+        RunPopulation population = root.Population;
+        Require(valid: population.Survivors.Any(predicate: survivor => !survivor.Hostile)
+                && population.LastControlGeneration >= 1
+                && population.IssuedBindings.Count == issued.Length
+                && issued.All(predicate: id => ValidId(id: id)), problem: "POPULATION");
+        foreach (RunPopulation.Survivor survivor in survivors.Values)
+        {
+            Require(valid: ValidSurvivor(root: root, survivor: survivor), problem: "SURVIVOR");
+        }
+
+        var generations = new HashSet<long>();
+        var occupied = new HashSet<string>(comparer: StringComparer.Ordinal);
+        var bindings = new HashSet<string>(comparer: StringComparer.Ordinal);
+        foreach (RunPopulation.Lease lease in population.Leases)
+        {
+            Require(valid: ValidLease(root: root, lease: lease) && generations.Add(item: lease.Generation)
+                    && occupied.Add(item: lease.SurvivorId) && bindings.Add(item: lease.BindingId)
+                    && survivors.TryGetValue(key: lease.SurvivorId, value: out RunPopulation.Survivor? owner)
+                    && owner.EligibleForControl && HasParticipant(root: root, lease: lease), problem: "LEASE");
+        }
+
+        foreach (RunDeathAndLoot.Death death in root.Loot.Deaths.Values)
+        {
+            if (death.Lease is { } retired)
+            {
+                Require(valid: ValidLease(root: root, lease: retired) && generations.Add(item: retired.Generation)
+                        && StringComparer.Ordinal.Equals(x: retired.SurvivorId, y: death.SurvivorId),
+                        problem: "RETIRED_LEASE");
+            }
+        }
+
+        foreach (FoundationParticipantState participant in root.Snapshot.Participants)
+        {
+            bool death = root.Loot.Deaths.Values.Any(predicate: entry => entry.Lease is { } retired
+                    && MatchesParticipant(participant: participant, lease: retired));
+            Require(valid: population.IssuedBindings.Contains(item: participant.BindingId)
+                    && participant.Actor.ElapsedMilliseconds <= root.ElapsedMilliseconds
+                    && (bindings.Contains(item: participant.BindingId) || participant.Ready && death),
+                    problem: "PARTICIPATION");
+        }
+    }
+
+    private static bool ValidSurvivor(FoundationSession.RunPublication root, RunPopulation.Survivor survivor)
+    {
+        long now = root.ElapsedMilliseconds;
+        return ValidId(id: survivor.Id) && ValidId(id: survivor.Role)
+                && survivor.PositionSubunitsExact is >= -59000 and <= 59000
+                && survivor.Facing is -1 or 1 && survivor.Health >= 0
+                && survivor.Health <= root.Definitions.MaximumHealth && survivor.Stamina >= 0
+                && survivor.Stamina <= root.Definitions.MaximumStamina && survivor.HeightSubunits >= 0
+                && survivor.HeightSubunits <= root.Definitions.Locomotion.JumpHeight * RunWorld.SubunitsPerUnit
+                && (survivor.JumpStartedAt.HasValue || survivor.HeightSubunits == 0)
+                && ValidPast(time: survivor.LastStaminaSpend, now: now)
+                && ValidPast(time: survivor.RestStartedAt, now: now)
+                && ValidPast(time: survivor.JumpStartedAt, now: now)
+                && survivor.FoodAvailableAt is not < 0 && survivor.AttackAvailableAt is not < 0
+                && Enum.IsDefined(value: survivor.SprintBlock)
+                && (survivor.SprintFence is not { } stamp || stamp.generation >= 1
+                        && stamp.generation <= root.Population.LastControlGeneration && stamp.sequence >= 1)
+                && (survivor.Health > 0 || root.Loot.Deaths.ContainsKey(key: survivor.Id));
+    }
+
+    private static bool ValidLease(FoundationSession.RunPublication root, RunPopulation.Lease lease)
+    {
+        return StringComparer.Ordinal.Equals(x: lease.SessionId, y: root.Snapshot.SessionId)
+                && root.Population.IssuedBindings.Contains(item: lease.BindingId) && ValidId(id: lease.PlayerId)
+                && lease.Slot is >= 1 and <= 4 && lease.Generation >= 1
+                && lease.Generation <= root.Population.LastControlGeneration;
+    }
+
+    private static bool HasParticipant(FoundationSession.RunPublication root, RunPopulation.Lease lease)
+    {
+        return root.Snapshot.Participants.Any(predicate: participant => MatchesParticipant(participant: participant,
+                lease: lease));
+    }
+
+    private static bool MatchesParticipant(FoundationParticipantState participant, RunPopulation.Lease lease)
+    {
+        return StringComparer.Ordinal.Equals(x: participant.BindingId, y: lease.BindingId)
+                && StringComparer.Ordinal.Equals(x: participant.Actor.PlayerId, y: lease.PlayerId)
+                && participant.Slot == lease.Slot;
+    }
+
+    private static void ValidateLoot(FoundationSession.RunPublication root,
+            Dictionary<string, RunPopulation.Survivor> survivors)
+    {
+        RunDeathAndLoot.State loot = root.Loot;
+        var corpses = new HashSet<string>(comparer: StringComparer.Ordinal);
+        var serials = new Dictionary<long, string>();
+        Require(valid: loot.LastTargetId >= 0, problem: "LOOT_COUNTER");
+        foreach (RunDeathAndLoot.Death death in loot.Deaths.Values)
+        {
+            Require(valid: corpses.Add(item: death.CorpseId) && ValidPast(time: death.At, now: root.ElapsedMilliseconds)
+                    && ValidPoint(point: death.Contact)
+                    && survivors.TryGetValue(key: death.SurvivorId, value: out RunPopulation.Survivor? survivor)
+                    && survivor.Health == 0 && (death.Lease is null || !survivor.Hostile), problem: "DEATH");
+            CheckTargetSerial(id: death.CorpseId, kind: RunWorld.Access.Corpse, last: loot.LastTargetId,
+                    serials: serials);
+            if (loot.Targets.TryGetValue(key: death.CorpseId, value: out RunDeathAndLoot.Target? corpse))
+            {
+                Require(valid: corpse.Generated && corpse.Anchor.Kind == RunWorld.Access.Corpse
+                        && corpse.Anchor.Contact == death.Contact
+                        && (corpse.EmptySince is null || corpse.EmptySince >= death.At),
+                        problem: "CORPSE_LINK");
+            }
+        }
+
+        foreach (RunDeathAndLoot.Target target in loot.Targets.Values)
+        {
+            ValidateTarget(root: root, target: target, corpses: corpses, serials: serials);
+        }
+
+        foreach (RunInventory.Item item in root.Inventory.Items)
+        {
+            Require(valid: item.Location switch
+            {
+                RunInventory.Ground pile => HasTarget(loot: loot, id: pile.PileId, kind: RunWorld.Access.Pile),
+                RunInventory.CorpseEquipment corpse => HasTarget(loot: loot, id: corpse.CorpseId,
+                        kind: RunWorld.Access.Corpse),
+                _ => true,
+            }, problem: "LOOT_OWNERSHIP");
+        }
+
+        Require(valid: root.World.Anchors.All(predicate: anchor => anchor.Kind is not
+                (RunWorld.Access.Corpse or RunWorld.Access.Pile) || HasTarget(loot: loot, id: anchor.Id,
+                        kind: anchor.Kind)), problem: "LOOT_ANCHOR");
+    }
+
+    private static void ValidateTarget(FoundationSession.RunPublication root, RunDeathAndLoot.Target target,
+            HashSet<string> corpses, Dictionary<long, string> serials)
+    {
+        RunWorld.Anchor anchor = target.Anchor;
+        Require(valid: ValidId(id: anchor.Id) && ValidPoint(point: anchor.Contact)
+                && anchor.Kind is RunWorld.Access.Corpse or RunWorld.Access.Pile
+                && ValidPast(time: target.EmptySince, now: root.ElapsedMilliseconds)
+                && root.Inventory.HasLoot(id: anchor.Id) == (target.EmptySince is null)
+                && (target.EmptySince is not { } empty || root.ElapsedMilliseconds - empty
+                        < root.Definitions.LootEmptyDelay), problem: "LOOT_TIMER");
+        if (target.Generated)
+        {
+            Require(valid: root.World.Anchors.Contains(item: anchor)
+                    && (anchor.Kind != RunWorld.Access.Corpse || corpses.Contains(item: anchor.Id)),
+                    problem: "GENERATED_LOOT");
+            CheckTargetSerial(id: anchor.Id, kind: anchor.Kind, last: root.Loot.LastTargetId, serials: serials);
+        }
+    }
+
+    private static void CheckTargetSerial(string id, RunWorld.Access kind, long last,
+            Dictionary<long, string> serials)
+    {
+        string prefix = kind == RunWorld.Access.Corpse ? "run.corpse." : "run.pile.";
+        Require(valid: id.StartsWith(value: prefix, comparisonType: StringComparison.Ordinal)
+                && long.TryParse(s: id.AsSpan(start: prefix.Length), style: NumberStyles.None,
+                        provider: CultureInfo.InvariantCulture, result: out long serial)
+                && serial > 0 && serial <= last && StringComparer.Ordinal.Equals(x: id,
+                        y: prefix + serial.ToString(provider: CultureInfo.InvariantCulture))
+                && (serials.TryAdd(key: serial, value: id) || StringComparer.Ordinal.Equals(x: id, y: serials[serial])),
+                problem: "LOOT_ID");
+    }
+
+    private static bool HasTarget(RunDeathAndLoot.State loot, string id, RunWorld.Access kind)
+    {
+        return loot.Targets.TryGetValue(key: id, value: out RunDeathAndLoot.Target? target)
+                && target.Anchor.Kind == kind;
+    }
+
+    private static void ValidateCombat(FoundationSession.RunPublication root,
+            Dictionary<string, RunPopulation.Survivor> survivors)
+    {
+        RunCombat.State combat = root.Combat;
+        Require(valid: combat.LastArrowId >= 0, problem: "ARROW_COUNTER");
+        var ids = new HashSet<long>();
+        foreach (RunProjectiles.Arrow arrow in combat.Arrows)
+        {
+            Require(valid: arrow.Id > 0 && arrow.Id <= combat.LastArrowId && ids.Add(item: arrow.Id)
+                    && survivors.TryGetValue(key: arrow.SourceId, value: out RunPopulation.Survivor? shooter)
+                    && shooter.Hostile == arrow.Hostile && arrow.Damage is >= 0 and <= 10000
+                    && ValidPast(time: arrow.LaunchedAt, now: root.ElapsedMilliseconds)
+                    && arrow.ExpiresAt > root.ElapsedMilliseconds && arrow.ExpiresAt <= arrow.LaunchedAt + 600000
+                    && arrow.Aim.Valid && ValidVector(vector: arrow.Position) && ValidVector(vector: arrow.Velocity)
+                    && arrow.Velocity != (0, 0), problem: "ARROW");
+        }
+
+        foreach (RunProjectiles.Impact impact in combat.Impacts)
+        {
+            Require(valid: impact.ArrowId > 0 && impact.ArrowId <= combat.LastArrowId && ids.Add(item: impact.ArrowId)
+                    && ValidId(id: impact.TargetId) && Enum.IsDefined(value: impact.Kind)
+                    && ValidPast(time: impact.At, now: root.ElapsedMilliseconds)
+                    && ValidImpact(impact: impact, root: root, survivors: survivors), problem: "ARROW_IMPACT");
+        }
+
+        var fatalities = new HashSet<string>(comparer: StringComparer.Ordinal);
+        foreach (RunDamage.Hit hit in combat.FatalHits)
+        {
+            Require(valid: ValidHit(hit: hit, root: root, survivors: survivors) && hit.Lethal
+                    && fatalities.Add(item: hit.TargetId)
+                    && root.Loot.Deaths.TryGetValue(key: hit.TargetId, value: out RunDeathAndLoot.Death? death)
+                    && death.At == hit.At, problem: "FATAL_HIT");
+        }
+
+        Require(valid: fatalities.Count == root.Loot.Deaths.Count, problem: "FATAL_HIT_COUNT");
+    }
+
+    private static bool ValidImpact(RunProjectiles.Impact impact, FoundationSession.RunPublication root,
+            Dictionary<string, RunPopulation.Survivor> survivors)
+    {
+        return impact.Kind switch
+        {
+            RunProjectiles.Kind.Survivor => impact.Hit is { } hit && hit.At == impact.At
+                    && hit.Damage == impact.Damage && StringComparer.Ordinal.Equals(x: hit.TargetId, y: impact.TargetId)
+                    && ValidHit(hit: hit, root: root, survivors: survivors)
+                    && (!hit.Lethal || root.Combat.FatalHits.Contains(item: hit)),
+            RunProjectiles.Kind.Terrain => impact.Hit is null && impact.Damage == 0,
+            RunProjectiles.Kind.Defense => impact.Hit is null && impact.Damage is >= 0 and <= 10000,
+            _ => false,
+        };
+    }
+
+    private static bool ValidHit(RunDamage.Hit hit, FoundationSession.RunPublication root,
+            Dictionary<string, RunPopulation.Survivor> survivors)
+    {
+        return survivors.TryGetValue(key: hit.SourceId, value: out RunPopulation.Survivor? source)
+                && survivors.TryGetValue(key: hit.TargetId, value: out RunPopulation.Survivor? target)
+                && source.Hostile != target.Hostile && hit.Raw is >= 0 and <= 10000
+                && hit.Damage >= 0 && hit.Damage <= hit.Raw && hit.HealthBefore > 0
+                && hit.HealthBefore <= root.Definitions.MaximumHealth
+                && hit.HealthAfter == Math.Max(val1: 0, val2: hit.HealthBefore - hit.Damage)
+                && ValidPast(time: hit.At, now: root.ElapsedMilliseconds);
+    }
+
+    private static void ValidateSuccession(FoundationSession.RunPublication root, RunSnapshotDocument document)
+    {
+        RunSuccession.State state = root.Succession;
+        var waiting = new HashSet<string>(comparer: StringComparer.Ordinal);
+        Require(valid: state.DrawPosition is >= 0 and <= ReplayRandom.MaxDrawPosition
+                && StringComparer.Ordinal.Equals(x: document.Succession.RuntimeContract,
+                        y: ReplayRandom.PinnedRuntimeContract), problem: "RANDOM_CONTINUATION");
+        foreach (RunSuccession.Wait ticket in state.Waiting)
+        {
+            RunDeathAndLoot.Death? death = root.Loot.Deaths.Values.Where(predicate: previous =>
+                    previous.Lease is { } lease && StringComparer.Ordinal.Equals(x: lease.BindingId,
+                            y: ticket.BindingId)).MaxBy(keySelector: previous => previous.Lease?.Generation);
+            Require(valid: waiting.Add(item: ticket.BindingId) && death?.Lease is { } retired
+                    && retired.Generation == ticket.Epoch && retired.Slot == ticket.Slot
+                    && ticket.At >= death.At + root.Definitions.RespawnDelay && ticket.At <= root.ElapsedMilliseconds
+                    && root.Population.FindLease(bindingId: ticket.BindingId) is null
+                    && root.Snapshot.Participants.Any(predicate: participant => participant.Ready
+                            && MatchesParticipant(participant: participant, lease: retired))
+                    && document.RespawnReceipts.Any(predicate: receipt => receipt.Epoch == ticket.Epoch
+                            && receipt.Status == RunSuccession.Status.Waiting
+                            && StringComparer.Ordinal.Equals(x: receipt.BindingId, y: ticket.BindingId)),
+                    problem: "WAITING_SUCCESSOR");
+        }
+    }
+
+    private static void ValidateReceipts(FoundationSession.RunPublication root, RunSnapshotDocument document,
+            Dictionary<string, RunPopulation.Survivor> survivors)
+    {
+        RunPopulation population = root.Population;
+        Require(valid: document.Intents.All(predicate: row => ValidFence(population: population,
+                binding: row.BindingId, generation: row.Generation) && row.Sequence > 0
+                && row.Direction is >= -1 and <= 1),
+                problem: "MOTION_RECEIPT");
+        Require(valid: document.FoodReceipts.All(predicate: row => ValidFence(population: population,
+                binding: row.BindingId, generation: row.Generation) && row.Sequence > 0
+                && Enum.IsDefined(value: row.Status)), problem: "FOOD_RECEIPT");
+        Require(valid: document.AttackReceipts.All(predicate: row => survivors.ContainsKey(key: row.Id)
+                && row.Generation >= 0 && row.Generation <= population.LastControlGeneration && row.Sequence > 0
+                && Enum.IsDefined(value: row.Status)), problem: "ATTACK_RECEIPT");
+        Require(valid: document.RespawnReceipts.All(predicate: row => row.Sequence > 0
+                && Enum.IsDefined(value: row.Status) && root.Loot.Deaths.Values.Any(predicate: death =>
+                        death.Lease is { } lease && lease.Generation == row.Epoch
+                                && StringComparer.Ordinal.Equals(x: lease.BindingId, y: row.BindingId))),
+                problem: "RESPAWN_RECEIPT");
+        Require(valid: document.ItemReceipts.All(predicate: row => ValidItemReceipt(root: root, row: row)),
+                problem: "ITEM_RECEIPT");
+    }
+
+    private static bool ValidItemReceipt(FoundationSession.RunPublication root, ItemReceiptData row)
+    {
+        RunDefinitions.Size stash = root.Inventory.StashGrid;
+        return ValidFence(population: root.Population, binding: row.BindingId, generation: row.Generation)
+                && row.Sequence >= 0 && Enum.IsDefined(value: row.Status)
+                && (row.Selection is not { } selection || !row.SelectionLost && ValidId(id: selection.Id)
+                        && Enum.IsDefined(value: selection.Kind) && selection.Token > 0
+                        && selection.Token <= row.Sequence
+                        && selection.PageIndex >= 0 && selection.PageIndex < root.Inventory.StashPageCount
+                        && (selection.Kind == RunWorld.Access.Stash || selection.PageIndex == 0))
+                && (row.StashEffect is not { } effect || effect.PageNumber >= 1
+                        && effect.PageNumber <= root.Inventory.StashPageCount && effect.MorePages >= 0
+                        && effect.ChangedCells.Select(selector: cell => (cell.X, cell.Y)).Distinct().Count()
+                                == effect.ChangedCells.Length
+                        && effect.ChangedCells.All(predicate: cell => cell.X >= 0 && cell.X < stash.Width
+                                && cell.Y >= 0 && cell.Y < stash.Height));
+    }
+
+    private static bool ValidFence(RunPopulation population, string binding, long generation)
+    {
+        return population.IssuedBindings.Contains(item: binding) && generation >= 1
+                && generation <= population.LastControlGeneration;
+    }
+
+    private static bool ValidId(string id)
+    {
+        return !string.IsNullOrWhiteSpace(value: id) && id.Length <= 128;
+    }
+
+    private static bool ValidPast(decimal? time, long now)
+    {
+        return time is null || time >= 0 && time <= now;
+    }
+
+    private static bool ValidPoint(RunWorld.Point point)
+    {
+        return point.X is >= -1000000000 and <= 1000000000 && point.Y is >= -1000000000 and <= 1000000000;
+    }
+
+    private static bool ValidVector((decimal x, decimal y) vector)
+    {
+        return vector.x is >= -1000100000 and <= 1000100000 && vector.y is >= -1000100000 and <= 1000100000;
+    }
+
+    private static void Require(bool valid, string problem)
+    {
+        if (!valid)
+        {
+            throw new InvalidDataException(message: "RUN_SNAPSHOT_" + problem);
+        }
+    }
 
     private static ParticipantData Capture(FoundationParticipantState row)
     {
@@ -105,6 +483,7 @@ internal static class RunSnapshotCodec
         return new InventoryData
         {
             StashGrid = Capture(row: inventory.StashGrid),
+            LegacyStash = inventory.SavedLayout?.LegacyStash == true,
             StashPageCount = inventory.StashPageCount,
             NextItemId = inventory.NextItemId,
             MaximumContainerLevels = inventory.SavedLayout?.MaximumContainerLevels
@@ -147,9 +526,11 @@ internal static class RunSnapshotCodec
             throw new InvalidDataException(message: "RUN_SNAPSHOT_CONTAINER_LIMIT");
         }
 
+        RunDefinitions.Size stash = Restore(row: row.StashGrid);
         var saved = new RunSavedLayout(maximumContainerLevels: row.MaximumContainerLevels,
+                legacyStash: row.LegacyStash || stash != definitions.StashGrid,
                 items: layouts.ToImmutable());
-        return new RunInventory(items: items.MoveToImmutable(), stashGrid: Restore(row: row.StashGrid),
+        return new RunInventory(items: items.MoveToImmutable(), stashGrid: stash,
                 stashPageCount: row.StashPageCount, nextItemId: row.NextItemId, savedLayout: saved,
                 quickReferences: row.QuickReferences.ToImmutableDictionary(
                         keySelector: reference => (reference.SurvivorId, reference.Slot),
@@ -351,10 +732,14 @@ internal static class RunSnapshotCodec
             Ground = row.GroundContactSubunits,
             MainBuilding = Capture(row: row.MainBuilding),
             Ranges = Capture(row: row.Settings),
-            Defenses = [.. row.Defenses.Select(selector: Capture)],
-            Blockers = [.. row.Blockers.Select(selector: Capture)],
-            Hostiles = [.. row.Hostiles.Select(selector: Capture)],
-            Anchors = [.. row.Anchors.Select(selector: Capture)],
+            Defenses = [.. row.Defenses.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                    .Select(selector: Capture)],
+            Blockers = [.. row.Blockers.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                    .Select(selector: Capture)],
+            Hostiles = [.. row.Hostiles.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                    .Select(selector: Capture)],
+            Anchors = [.. row.Anchors.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                    .Select(selector: Capture)],
         };
     }
 
@@ -362,10 +747,14 @@ internal static class RunSnapshotCodec
     {
         return new RunWorld(origin: Restore(row: row.Origin), groundContactSubunits: row.Ground,
                 mainBuilding: Restore(row: row.MainBuilding), ranges: Restore(row: row.Ranges),
-                defenses: [.. row.Defenses.Select(selector: Restore)],
-                blockers: [.. row.Blockers.Select(selector: Restore)],
-                hostiles: [.. row.Hostiles.Select(selector: Restore)],
-                anchors: [.. row.Anchors.Select(selector: Restore)]);
+                defenses: [.. row.Defenses.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                        .Select(selector: Restore)],
+                blockers: [.. row.Blockers.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                        .Select(selector: Restore)],
+                hostiles: [.. row.Hostiles.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                        .Select(selector: Restore)],
+                anchors: [.. row.Anchors.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                        .Select(selector: Restore)]);
     }
 
     private static DefenseData Capture(RunWorld.Defense row)
@@ -436,8 +825,10 @@ internal static class RunSnapshotCodec
     {
         return new PopulationData
         {
-            Survivors = [.. row.Survivors.Select(selector: Capture)],
-            Leases = [.. row.Leases.Select(selector: Capture)],
+            Survivors = [.. row.Survivors.OrderBy(keySelector: item => item.Id, comparer: StringComparer.Ordinal)
+                    .Select(selector: Capture)],
+            Leases = [.. row.Leases.OrderBy(keySelector: item => item.Slot)
+                    .Select(selector: Capture)],
             IssuedBindings = [.. row.IssuedBindings.Order(comparer: StringComparer.Ordinal)],
             LastControlGeneration = row.LastControlGeneration,
         };
@@ -445,8 +836,9 @@ internal static class RunSnapshotCodec
 
     private static RunPopulation Restore(PopulationData row)
     {
-        return new RunPopulation(survivors: [.. row.Survivors.Select(selector: Restore)],
-                leases: [.. row.Leases.Select(selector: Restore)],
+        return new RunPopulation(survivors: [.. row.Survivors.OrderBy(keySelector: survivor => survivor.Id,
+                comparer: StringComparer.Ordinal).Select(selector: Restore)],
+                leases: [.. row.Leases.OrderBy(keySelector: lease => lease.Slot).Select(selector: Restore)],
                 issuedBindings: row.IssuedBindings.ToImmutableHashSet(equalityComparer: StringComparer.Ordinal),
                 lastControlGeneration: row.LastControlGeneration);
     }
@@ -517,18 +909,24 @@ internal static class RunSnapshotCodec
     {
         return new CombatData
         {
-            FatalHits = [.. row.FatalHits.Select(selector: Capture)],
-            Arrows = [.. row.Arrows.Select(selector: Capture)],
-            Impacts = [.. row.Impacts.Select(selector: Capture)],
+            FatalHits = [.. row.FatalHits.OrderBy(keySelector: hit => hit.At).ThenBy(
+                    keySelector: hit => hit.TargetId, comparer: StringComparer.Ordinal).Select(selector: Capture)],
+            Arrows = [.. row.Arrows.OrderBy(keySelector: item => item.Id)
+                    .Select(selector: Capture)],
+            Impacts = [.. row.Impacts.OrderBy(keySelector: impact => (impact.At, impact.ArrowId))
+                    .Select(selector: Capture)],
             LastArrowId = row.LastArrowId,
         };
     }
 
     private static RunCombat.State Restore(CombatData row)
     {
-        return new RunCombat.State(fatalHits: [.. row.FatalHits.Select(selector: Restore)],
-                arrows: [.. row.Arrows.Select(selector: Restore)],
-                impacts: [.. row.Impacts.Select(selector: Restore)], lastArrowId: row.LastArrowId);
+        return new RunCombat.State(fatalHits: [.. row.FatalHits.OrderBy(keySelector: hit => hit.At)
+                .ThenBy(keySelector: hit => hit.TargetId, comparer: StringComparer.Ordinal)
+                .Select(selector: Restore)],
+                arrows: [.. row.Arrows.OrderBy(keySelector: arrow => arrow.Id).Select(selector: Restore)],
+                impacts: [.. row.Impacts.OrderBy(keySelector: impact => (impact.At, impact.ArrowId))
+                        .Select(selector: Restore)], lastArrowId: row.LastArrowId);
     }
 
     private static HitData Capture(RunDamage.Hit row)
@@ -665,15 +1063,18 @@ internal static class RunSnapshotCodec
     {
         return new SuccessionData
         {
-            Waiting = [.. row.Waiting.Select(selector: Capture)],
+            Waiting = [.. row.Waiting.OrderBy(keySelector: item => (item.At, item.Slot))
+                    .Select(selector: Capture)],
             Seed = row.Seed,
             DrawPosition = row.DrawPosition,
+            RuntimeContract = ReplayRandom.PinnedRuntimeContract,
         };
     }
 
     private static RunSuccession.State Restore(SuccessionData row)
     {
-        return new RunSuccession.State(waiting: [.. row.Waiting.Select(selector: Restore)], seed: row.Seed,
+        return new RunSuccession.State(waiting: [.. row.Waiting.OrderBy(keySelector: ticket => (ticket.At, ticket.Slot))
+                .Select(selector: Restore)], seed: row.Seed,
                 drawPosition: row.DrawPosition);
     }
 }
