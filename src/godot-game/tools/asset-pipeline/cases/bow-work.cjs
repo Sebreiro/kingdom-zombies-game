@@ -322,7 +322,9 @@ for r in pack['components']:
   kind,index=r['key'].split('.');row=['spit','splash','stain','axe'].index(kind);col=int(index);w,h=master.size;cell=master.crop((col*w//4,row*h//4,(col+1)*w//4,(row+1)*h//4));cell.putalpha(cell.getchannel('A').point(lambda a:255 if a>=128 else 0));crop=cell.crop(cell.getbbox());size={'spit':(8,5),'splash':(16,16),'stain':(16,5),'axe':(10,16)}[kind];ratio=min(size[0]/crop.width,size[1]/crop.height);expected=crop.resize((max(1,round(crop.width*ratio)),max(1,round(crop.height*ratio))),Image.Resampling.NEAREST)
  x,y,w,h=r['atlasRect'];actual=atlas.crop((x,y,x+w,y+h));assert actual.size==expected.size and actual.tobytes()==expected.tobytes() and sha(expected.tobytes())==r['rgbaSha256'] and r['rgbRetained']
 for family,body in [('a','CH-01'),('b','CH-08'),('c','CH-06')]:
- for path in [f'src/godot-game/content/packs/bodies-{family}.json',f'src/godot-game/assets/characters/bodies-{family}.png',f'src/godot-game/content/animation/fits-{family}.json']:assert data['retained/'+path]==(root/path).read_bytes()
+ for path in [f'src/godot-game/content/packs/bodies-{family}.json',f'src/godot-game/assets/characters/bodies-{family}.png',f'src/godot-game/content/animation/fits-{family}.json']:
+  live=path.replace('src/godot-game/','src/godot-game/game/',1)
+  assert data['retained/'+path]==(root/live).read_bytes()
  assert data[f'retained/bodies-{family}/masters/{body}.png'] and data[f'retained/bodies-{family}/prompts/{body}.txt']
 assert [c['id'] for c in pack['actions']]==['Sit','Stand','Gather','Put away','Build','Hammer','Repair','Chop','Pickup','Carry','Deliver','Stash','Equip','Eat','Spit','Burst']
 assert pack['obligations']==[f'AN-{i:02}' for i in range(10,17)]

@@ -93,7 +93,8 @@ internal static class RunProjectiles
     }
 
     private static IEnumerable<Contact> Trace(Arrow arrow, RunWorld world, RunPopulation population,
-            long previous, long now, Func<RunPopulation.Survivor, decimal?> survivor)
+            long previous, long now,
+            Func<RunPopulation.Survivor, (decimal at, (decimal x, decimal height, long? jump) pose)?> survivor)
     {
         decimal from = Math.Max(val1: previous, val2: arrow.LaunchedAt);
         decimal to = Math.Min(val1: now, val2: arrow.ExpiresAt);
@@ -128,9 +129,10 @@ internal static class RunProjectiles
         foreach (RunPopulation.Survivor target in population.Survivors)
         {
             if (target.Health > 0 && target.Hostile != arrow.Hostile
-                    && survivor(arg: target) is { } at)
+                    && survivor(arg: target) is { } collision)
             {
-                yield return new Contact(arrow: arrow, targetId: target.Id, kind: Kind.Survivor, at: at);
+                yield return new Contact(arrow: arrow, targetId: target.Id, kind: Kind.Survivor, at: collision.at,
+                        pose: collision.pose);
             }
         }
     }
@@ -170,6 +172,16 @@ internal static class RunProjectiles
         if (receipt is null)
         {
             return null;
+        }
+
+        if (receipt.Lethal && contact.Pose is { } pose)
+        {
+            survivor = survivor with
+            {
+                PositionSubunitsExact = pose.x,
+                HeightSubunits = pose.height,
+                JumpStartedAt = pose.jump,
+            };
         }
 
         frame.Inventory = inventory;
@@ -256,18 +268,21 @@ internal static class RunProjectiles
 
     internal sealed record Contact
     {
-        internal Contact(Arrow arrow, string targetId, Kind kind, decimal at)
+        internal Contact(Arrow arrow, string targetId, Kind kind, decimal at,
+                (decimal x, decimal height, long? jump)? pose = null)
         {
             Arrow = arrow;
             TargetId = targetId;
             Kind = kind;
             At = at;
+            Pose = pose;
         }
 
         internal Arrow Arrow { get; }
         internal string TargetId { get; }
         internal Kind Kind { get; }
         internal decimal At { get; }
+        internal (decimal x, decimal height, long? jump)? Pose { get; }
     }
 
     private sealed class Sweep

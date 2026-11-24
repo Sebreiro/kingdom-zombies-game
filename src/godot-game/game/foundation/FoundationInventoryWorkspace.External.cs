@@ -34,7 +34,7 @@ internal sealed partial class FoundationInventoryWorkspace
                 Polygon = [new Vector2(x: -9, y: -17), new Vector2(x: 0, y: -12),
                     new Vector2(x: 9, y: -17), new Vector2(x: 0, y: -7)],
                 Color = new Color(r: 0.941f, g: 0.769f, b: 0.416f),
-                ZIndex = 43,
+                ZIndex = 56,
             };
             world.AddChild(node: _targetMarker);
             var outline = new Line2D

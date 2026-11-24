@@ -6,7 +6,7 @@ const {draws} = require('../../tools/lan-checks/rendered.cjs');
 const {named, within, key, actor, own, nearby, item, external} = run;
 const roles = ['host', 'guest-1', 'guest-2', 'guest-3'];
 const center = (row, id) => Math.max(-320, Math.min(320,
-  (actor(row, id).X - row.phase06.World.OriginX) * 16 / 1000));
+  (actor(row, id)?.X - row.phase06.World.OriginX) * 16 / 1000));
 const stableCamera = (frame, draw) => frame.input.spectator.Camera === draw.input.spectator.Camera
   && Math.abs(frame.cameraX - draw.cameraX) < 0.02;
 const follows = (row, draw, id) => row.spectator?.Followed?.Survivor === id
@@ -123,11 +123,13 @@ async function succession(state) {
     && row.phase06.World.Corpses.some(entry => entry.SurvivorId === previous.actor && draw.appearance
       .some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
   const initial = actor(death.draw.input, identities[1].actor).X;
+  await run.focus(state, guests[0]);
   await run.moveUntil(state, guests[0], key.right, row => actor(row)?.X > initial + 1150,
     'living teammate separates from retired camera');
   const deathHold = await run.committed(host, (row, draw) => row.spectator?.Visible
     && !row.spectator.Followed && actor(row, identities[1].actor).X > initial + 1150
     && stableCamera(death.draw, draw), 'death camera remains fixed while a teammate travels', death.draw.drawFrame);
+  await run.focus(state, host);
   const firstFollow = await run.choose(state, host, named('NextTeammate'));
   const next = await run.picture(state, host, 'succession-next', (row, draw) =>
     follows(row, draw, identities[1].actor) && Math.abs(draw.cameraX - deathHold.cameraX) > 10, firstFollow);
@@ -139,6 +141,7 @@ async function succession(state) {
   const chosen = await run.picture(state, host, 'succession-chosen', (row, draw) =>
     follows(row, draw, identities[2].actor) && row.spectator.CanRespawn);
   const targetX = actor(chosen.draw.input, identities[2].actor).X;
+  await run.focus(state, guests[1]);
   await run.moveUntil(state, guests[1], key.right, row => actor(row)?.X > targetX + 1150, 'followed teammate travels');
   const tracking = await run.committed(host, (row, draw) => follows(row, draw, identities[2].actor)
     && Math.abs(draw.cameraX - chosen.draw.cameraX) > 10
@@ -147,10 +150,12 @@ async function succession(state) {
   await run.menu(state, guests[1]);
   const hold = await run.picture(state, host, 'succession-lost', (row, draw) => row.spectator?.Visible
     && !row.spectator.Followed && !!row.spectator.FollowNotice && stableCamera(tracking, draw), tracking.drawFrame);
-  await run.moveUntil(state, guests[2], key.right, row => actor(row)?.Movement === 'walk', 'different teammate travels');
+  const other = actor(hold.draw.input, identities[3].actor).X;
+  await run.focus(state, guests[2]);
+  await run.moveUntil(state, guests[2], key.right, row => actor(row)?.X > other + 300, 'different teammate travels');
   const lostHold = await run.committed(host, (row, draw) => row.spectator?.FollowNotice
-    && !row.spectator.Followed && stableCamera(hold.draw, draw), 'lost target camera holds across committed draws',
-  hold.draw.drawFrame);
+    && !row.spectator.Followed && actor(row, identities[3].actor)?.X > other + 300 && stableCamera(hold.draw, draw),
+  'lost target camera holds across committed draws', hold.draw.drawFrame);
   await run.join(state, guests[1], session);
   await run.focus(state, host);
   await run.choose(state, host, named('Respawn'));

@@ -5,8 +5,8 @@ namespace KingdomZombies.Core;
 /// <summary>Clips an arrow against linear horizontal motion and exact parabolic jump height.</summary>
 internal static class RunTrajectoryContact
 {
-    internal static decimal? First(RunProjectiles.Arrow arrow, RunWorld world, RunLocomotion.Motion[] slices,
-            RunLocomotion.Settings tuning, long from, long to)
+    internal static (decimal at, (decimal x, decimal height, long? jump) pose)? First(RunProjectiles.Arrow arrow,
+            RunWorld world, RunLocomotion.Motion[] slices, RunLocomotion.Settings tuning, long from, long to)
     {
         foreach (RunLocomotion.Motion slice in slices)
         {
@@ -24,7 +24,8 @@ internal static class RunTrajectoryContact
                     maximum: 250, duration: last, first: ref first, last: ref last)
                     && Vertical(path: path, from: start + first, to: start + last) is { } contact)
             {
-                return decimal.Round(d: contact, decimals: 6);
+                decimal impact = Math.Clamp(value: decimal.Round(d: contact, decimals: 6), min: start, max: end);
+                return (impact, path.Pose(at: impact));
             }
         }
 
@@ -85,19 +86,18 @@ internal static class RunTrajectoryContact
 
         internal decimal X(decimal at)
         {
-            return _arrow.At(now: at).x - _world.Origin.X - _slice.X - (at - _slice.From) * _slice.Velocity;
+            return _arrow.At(now: at).x - _world.Origin.X - Position(at: at);
         }
 
         internal decimal Y(decimal at)
         {
-            decimal jump = 0;
-            if (_slice.Jump is { } start)
-            {
-                decimal progress = (at - start) / _tuning.JumpDuration;
-                jump = 4 * _tuning.JumpHeight * RunWorld.SubunitsPerUnit * progress * (1 - progress);
-            }
+            return _arrow.At(now: at).y - _world.Origin.Y - _world.GroundContactSubunits - Height(at: at);
+        }
 
-            return _arrow.At(now: at).y - _world.Origin.Y - _world.GroundContactSubunits - jump;
+        internal (decimal x, decimal height, long? jump) Pose(decimal at)
+        {
+            decimal height = Height(at: at);
+            return (Position(at: at), height, height > 0 ? _slice.Jump : null);
         }
 
         internal decimal TurningAt()
@@ -113,5 +113,21 @@ internal static class RunTrajectoryContact
         private readonly RunWorld _world;
         private readonly RunLocomotion.Motion _slice;
         private readonly RunLocomotion.Settings _tuning;
+
+        private decimal Position(decimal at)
+        {
+            return _slice.X + (at - _slice.From) * _slice.Velocity;
+        }
+
+        private decimal Height(decimal at)
+        {
+            if (_slice.Jump is not { } start)
+            {
+                return 0;
+            }
+
+            decimal progress = (at - start) / _tuning.JumpDuration;
+            return 4 * _tuning.JumpHeight * RunWorld.SubunitsPerUnit * progress * (1 - progress);
+        }
     }
 }

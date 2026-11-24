@@ -438,7 +438,16 @@ async function runTracer(root,context,{interrupt=false,compiled}={}){
   const project=inside(context.directory,'project');fs.mkdirSync(project);
   for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(root,'src/godot-game/game/'+file),inside(project,file),{recursive:true});
   save(project,'probe.gd',probeScript(context.nonce,source.image,interrupt));
-  const imported=await command(context,'native-import',tool.executable,['--headless','--path',project,'--editor','--import','--quit']);
+  const settings=inside(project,'project.godot'),authored=fs.readFileSync(settings);
+  let imported;
+  try {
+    imported=await command(context,'native-import',tool.executable,['--headless','--path',project,'--editor','--import','--quit']);
+  } finally {
+    const editor=fs.readFileSync(settings);
+    fs.writeFileSync(settings,authored);
+    save(context.directory,'tracer-import-settings.json',{editor:hash(editor),runtime:hash(fs.readFileSync(settings)),
+      source:hash(authored)});
+  }
   need(imported.stderr.trim()===''&&!/Unicode parsing error|ERROR:|SCRIPT ERROR:|FATAL|WARNING:|leaked/i.test(imported.stdout+imported.stderr),'NATIVE_IMPORT_ERROR',FILES.scene);
   let loaded;
   try{loaded=await command(context,'native-loader',tool.executable,['--headless','--path',project,'--script','res://probe.gd'],

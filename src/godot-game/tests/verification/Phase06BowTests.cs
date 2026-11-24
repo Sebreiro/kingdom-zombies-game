@@ -209,16 +209,39 @@ public sealed class Phase06BowTests
         }
     }
 
-    private static FoundationSession JumpWithArrow(bool landsOnArrow)
+    /// <summary>A victim moving through landing leaves the corpse at the impact position in either step grouping.</summary>
+    [Fact]
+    public void LethalFlightLeavesTheCorpseAtItsCommittedImpact()
+    {
+        FoundationSession whole = JumpWithArrow(landsOnArrow: true, lethal: true);
+        FoundationSession split = JumpWithArrow(landsOnArrow: true, lethal: true);
+        whole.Step(elapsedMilliseconds: 850);
+        split.Step(elapsedMilliseconds: 400);
+        split.Step(elapsedMilliseconds: 400);
+        RunProjectiles.Impact first = Combat(session: whole).Impacts.Single();
+        Combat(session: split).Impacts.Single().ShouldBe(expected: first);
+        split.Step(elapsedMilliseconds: 50);
+        RunDeathAndLoot.Death corpse = Phase06DeathTests.Loot(session: whole).Deaths[Phase06MeleeTests.Owner];
+        Phase06DeathTests.Loot(session: split).Deaths[Phase06MeleeTests.Owner].ShouldBe(expected: corpse);
+        (corpse.Contact.X, corpse.Contact.Y, corpse.At).ShouldBe(expected: (-3200L, 0L, 1800m));
+    }
+
+    private static FoundationSession JumpWithArrow(bool landsOnArrow, bool lethal = false)
     {
         FoundationSession session = Phase06MeleeTests.Start(world: World());
         RunItemActions.Controller controller = Phase06MeleeTests.Control();
         session.TryAcceptMotion(controller: controller, sequence: 1, input: new RunLocomotion.Input(right: true))
                 .accepted.ShouldBeTrue();
         session.Step(elapsedMilliseconds: 1000);
-        session.TryAcceptMotion(controller: controller, sequence: 2, input: new RunLocomotion.Input(jump: true))
+        session.TryAcceptMotion(controller: controller, sequence: 2, input: new RunLocomotion.Input(right: lethal,
+                jump: true))
                 .accepted.ShouldBeTrue();
-        StartEnemyBow(session: session, arrows: 1, position: landsOnArrow ? 15000 : -7500);
+        if (lethal)
+        {
+            session.TryUpdateVitals(survivorId: Phase06MeleeTests.Owner, health: 1, stamina: 100).ShouldBeTrue();
+        }
+
+        StartEnemyBow(session: session, arrows: 1, position: lethal ? 16800 : landsOnArrow ? 15000 : -7500);
         session.AttackUncontrolled(survivorId: "archer", sequence: 1, aim: new RunCombat.Aim(
                 x: landsOnArrow ? -10000 : 10000, y: 0)).Status.ShouldBe(expected: RunCombat.Status.Accepted);
         return session;
