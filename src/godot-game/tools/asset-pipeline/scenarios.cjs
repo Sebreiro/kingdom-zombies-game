@@ -1516,7 +1516,7 @@ function validateProcessRuntime(root,build,owner) {
   const object=observer.decode(e.artifact(root,runtime.object,1048576).data);
   const handshake=observer.decode(e.artifact(root,runtime.pidPacket,1048576).data);
   const id=treePaths(tree[2]).get(observer.HUB);
-  e.need(owner.pid===runtime.pid && path.resolve(runtime.observedImage)===path.resolve(root,owner.executable.path) &&
+  e.need(owner.pid===runtime.pid && path.resolve(runtime.observedImage)===path.resolve(e.located(root,owner.executable.path)) &&
     handshake[0]==='set_pid' && equal(handshake[2],[owner.pid]) && tree[1]===handshake[1] &&
     tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && id &&
     object[2].find(row=>row[0]===id)?.[2]?.some(row=>row[0]===observer.RUNTIME_PROPERTY&&row[5]===runtime.marker),'RENDERED_LIVE_RUNTIME_OWNER');
