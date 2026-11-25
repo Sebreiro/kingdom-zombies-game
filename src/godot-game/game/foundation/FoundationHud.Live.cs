@@ -12,6 +12,11 @@ internal sealed partial class FoundationHud
     {
         _gateway.RequireThread();
         Hide();
+        if (_hint is not null)
+        {
+            _hint.VisibilityChanged -= KeepHintClosed;
+        }
+
         _panel?.QueueFree();
         _damage?.QueueFree();
         _art?.Dispose();
@@ -65,6 +70,7 @@ internal sealed partial class FoundationHud
     {
         _gateway.RequireThread();
         Current = null;
+        _browsing = false;
         _pulseUntil = 0;
         _sprintUntil = 0;
         _previousSprint = "";
@@ -97,6 +103,8 @@ internal sealed partial class FoundationHud
     private Tile? _ammo;
     private readonly Tile?[] _food = new Tile?[4];
     private Button? _openButton;
+    private Label? _hint;
+    private bool _browsing;
     private long _pulseUntil;
     private long _sprintUntil;
     private string _previousSprint = "";
@@ -117,8 +125,15 @@ internal sealed partial class FoundationHud
         BuildVitals(parent: _panel);
         BuildActions(parent: _panel);
         BuildDamage();
-        Label hint = _root.GetNode<Label>(path: "Hint");
-        Place(control: hint, at: new Rect2(x: 702, y: 22, width: 224, height: 82));
+        _hint = _root.GetNode<Label>(path: "Hint");
+        _hint.Theme = _art.Theme;
+        _hint.AddThemeStyleboxOverride(name: "normal", stylebox: new StyleBoxFlat
+        {
+            BgColor = new Color(r: 0.094f, g: 0.145f, b: 0.169f), ContentMarginLeft = 4, ContentMarginRight = 4,
+            ContentMarginTop = 3, ContentMarginBottom = 3
+        });
+        Place(control: _hint, at: new Rect2(x: 636, y: 7, width: 290, height: 97));
+        _hint.VisibilityChanged += KeepHintClosed;
         Control roster = _root.GetNode<Control>(path: "Roster");
         roster.Position = new Vector2(x: 936, y: 4);
     }
@@ -131,9 +146,9 @@ internal sealed partial class FoundationHud
         _stamina = AddMeter(parent: parent, name: "Stamina", at: new Rect2(x: 24, y: 56, width: 264, height: 26),
                 fill: new Color(r: 0.569f, g: 0.733f, b: 0.643f));
         _rest = Text(parent: parent, name: "RestState", at: new Rect2(x: 304, y: 24, width: 138, height: 26));
-        _money = Text(parent: parent, name: "CarriedMoney", at: new Rect2(x: 452, y: 24, width: 230, height: 26));
-        _load = Text(parent: parent, name: "CarriedLoad", at: new Rect2(x: 304, y: 55, width: 350, height: 25));
-        _speed = Text(parent: parent, name: "LoadModifiers", at: new Rect2(x: 304, y: 81, width: 384, height: 24));
+        _money = Text(parent: parent, name: "CarriedMoney", at: new Rect2(x: 452, y: 24, width: 176, height: 26));
+        _load = Text(parent: parent, name: "CarriedLoad", at: new Rect2(x: 304, y: 55, width: 324, height: 25));
+        _speed = Text(parent: parent, name: "LoadModifiers", at: new Rect2(x: 304, y: 81, width: 324, height: 24));
         _movementNotice = Text(parent: parent, name: "MovementNotice",
                 at: new Rect2(x: 24, y: 84, width: 274, height: 26));
     }
@@ -148,11 +163,11 @@ internal sealed partial class FoundationHud
         row.OffsetBottom = -24;
         _left = AddTile(parent: row, label: "Left hand", x: 24, width: 106);
         _right = AddTile(parent: row, label: "Right hand", x: 138, width: 106);
-        _ammo = AddTile(parent: row, label: "Ready arrows", x: 252, width: 94);
+        _ammo = AddTile(parent: row, label: "Ready arrows", x: 252, width: 108);
         for (int index = 0; index < _food.Length; index++)
         {
             _food[index] = AddTile(parent: row, label: "Slot " + Hud.Number(value: index + 1),
-                    x: 354 + index * 76, width: 68);
+                    x: 368 + index * 72, width: 68);
         }
 
         _openButton = new Button { Name = "OpenInventory", Text = "Open inventory",
@@ -240,6 +255,25 @@ internal sealed partial class FoundationHud
 
             _openButton.Disabled = browsing;
         }
+
+        _browsing = browsing;
+        if (browsing && _hint is not null)
+        {
+            _hint.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Keeps the world help hidden while any inventory surface captures the world (D-08). The root shows the help for
+    /// every drivable frame after this HUD observes it, so this follows that show and hides it again.
+    /// </summary>
+    private void KeepHintClosed()
+    {
+        _gateway.RequireThread();
+        if (_browsing && _hint is { Visible: true } hint)
+        {
+            hint.Visible = false;
+        }
     }
 
     private string SprintNotice(Hud state)
@@ -286,10 +320,10 @@ internal sealed partial class FoundationHud
                 width: width - 39, height: 3), color: new Color(r: 0.569f, g: 0.733f, b: 0.643f));
         ColorRect shade = Fill(parent: box, name: "Cooldown", at: new Rect2(x: 3, y: 19, width: width - 6, height: 26),
                 color: new Color(r: 0.04f, g: 0.05f, b: 0.07f, a: 0.66f));
-        Label title = Text(parent: box, name: "Title", at: new Rect2(x: 4, y: 2, width: width - 8, height: 15));
-        title.AddThemeFontSizeOverride(name: "font_size", fontSize: 13);
+        Label title = Text(parent: box, name: "Title", at: new Rect2(x: 4, y: 2, width: width - 8, height: 19));
+        title.AddThemeFontSizeOverride(name: "font_size", fontSize: 16);
         title.Text = label;
-        Label value = Text(parent: box, name: "Value", at: new Rect2(x: 34, y: 19, width: width - 39, height: 23));
+        Label value = Text(parent: box, name: "Value", at: new Rect2(x: 34, y: 21, width: width - 39, height: 22));
         value.TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis;
         return new Tile(box: box, icon: icon, condition: condition, shade: shade, value: value, title: label,
                 width: width);
@@ -305,7 +339,11 @@ internal sealed partial class FoundationHud
 
         tile.Icon.Texture = item is null ? null : _art?.Icon(definition: item.Definition, icon: item.Icon);
         string name = item is null ? "" : _art?.Name(definition: item.Definition) ?? item.Definition;
-        tile.Value.Text = item is null ? quietEmpty ? "" : "Empty"
+        tile.Value.Position = item is null ? new Vector2(x: 4, y: 23) : new Vector2(x: 34, y: 21);
+        tile.Value.Size = new Vector2(x: item is null ? tile.Width - 8 : tile.Width - 39, y: 22);
+        tile.Value.TextOverrunBehavior = item is null ? TextServer.OverrunBehavior.NoTrimming
+                : TextServer.OverrunBehavior.TrimEllipsis;
+        tile.Value.Text = item is null ? quietEmpty ? "" : "empty"
                 : item.Condition == 0 ? "× Broken" : Hud.Number(value: item.Quantity);
         string wear = item is { Condition: { } condition, Maximum: { } maximum }
                 ? "\nCondition " + Hud.Number(value: condition) + " / " + Hud.Number(value: maximum) : "";
