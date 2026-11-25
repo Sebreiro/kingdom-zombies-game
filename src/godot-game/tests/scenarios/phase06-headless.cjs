@@ -71,8 +71,8 @@ function profileRoot(state, role) {
   if (!fs.existsSync(file)) {
     fs.mkdirSync(root, {recursive: true});
     const id = crypto.randomBytes(16).toString('hex');
-    fs.writeFileSync(file, JSON.stringify({schema: 1, selected: id, profiles: [{id, name: profileNames[role], ordinal: 1}]}),
-      {flag: 'wx'});
+    const profiles = [{id, name: profileNames[role], ordinal: 1}];
+    fs.writeFileSync(file, JSON.stringify({schema: 1, selected: id, profiles}), {flag: 'wx'});
   }
   return root;
 }
@@ -173,16 +173,19 @@ async function reset(state) {
 // A receipt belongs to a submitted request only when its kind matches, it is not a replay and its sequence follows
 // the one observed before submission. The workspace submits its own window, page and close requests, and their
 // receipts can replace the requested one within a single poll (F13: place Applied for 45 ms, then workspace Ready),
-// so every frame written since submission is read, not only the latest. Other receipts are recorded, never accepted.
+// so every frame written since submission is read, not only the latest. Other receipts seen while waiting, before
+// the accepted one or replacing it, are recorded in the case evidence and never accepted.
 function receipt(state, peer, kind, before, label, ms = 15_000) {
   const file = path.join(peer.directory, 'frames.ndjson');
   const interleaved = state.interleaved ??= [];
   return wait(state, () => {
     const seen = receiptsAfter(lines(file), before);
     const index = seen.findIndex(({entry}) => matches(entry, kind));
-    for (const {row, entry} of index < 0 ? seen : seen.slice(0, index)) {
-      if (!interleaved.some(noted => noted.role === peer.role && sameReceipt(noted, entry)))
-        interleaved.push({role: peer.role, awaiting: kind, frame: row.frame, ...entry});
+    for (const [position, {row, entry}] of seen.entries()) {
+      if (position === index || interleaved.some(noted => noted.role === peer.role && sameReceipt(noted, entry)))
+        continue;
+      interleaved.push({role: peer.role, awaiting: kind, relation: index < 0 || position < index ? 'before' : 'after',
+        frame: row.frame, ...entry});
     }
     if (index < 0) return null;
     const {row} = seen[index];

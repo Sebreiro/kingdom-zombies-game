@@ -350,20 +350,21 @@ function receiptFrames(t, rows) {
 }
 
 test('Receipt_ExactKind_IgnoresInterleaved', async t => {
-  await t.test('a later workspace receipt is recorded, and the place receipt is the one accepted', async t => {
+  await t.test('the replacing workspace receipt is recorded, and the place receipt is the one accepted', async t => {
     const {state, peer, before} = receiptFrames(t, [[701, 15, 'external-items-page', 'Ready'],
       [754, 16, 'place', 'Applied'], [757, 17, 'workspace', 'Ready']]);
     const row = await native.receipt(state, peer, 'place', before, 'place receipt');
     assert.deepEqual([row.frame, row.runAction.status], [754, 'Applied']);
-    assert.deepEqual(state.interleaved ?? [], []);
+    assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.kind, entry.status, entry.relation]),
+      [[17, 'workspace', 'Ready', 'after']]);
   });
   await t.test('receipts of other kinds before the match are recorded, never accepted', async t => {
     const {state, peer, before} = receiptFrames(t, [[1, 3, 'select', 'Ready'], [2, 4, 'workspace', 'Ready'],
       [3, 5, 'place', 'Applied']]);
     const row = await native.receipt(state, peer, 'place', before, 'place receipt');
     assert.equal(row.runAction.sequence, 5);
-    assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.kind, entry.awaiting]),
-      [[4, 'workspace', 'place']]);
+    assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.kind, entry.awaiting, entry.relation]),
+      [[4, 'workspace', 'place', 'before']]);
   });
   await t.test('a replayed result or an earlier sequence is never the submitted request\'s receipt', async t => {
     const {state, peer, before} = receiptFrames(t, [[1, 4, 'select', 'Ready'], [2, 5, 'place', 'Applied', true],
