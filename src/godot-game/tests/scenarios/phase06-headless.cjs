@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const network = require('../../tools/lan-checks/network.cjs');
@@ -59,10 +60,27 @@ async function open(context, rendered = false) {
   return state;
 }
 
+// Each role owns one distinctly named profile (UI-SPEC player identity markers). The root sits outside the role
+// directory and is passed as the retained root, so a rejoin of the same role keeps the same profile.
+const profileNames = {solo: 'Survivor', host: 'Host', 'guest-1': 'Guest 1', 'guest-2': 'Guest 2', 'guest-3': 'Guest 3'};
+
+function profileRoot(state, role) {
+  assert(Object.hasOwn(profileNames, role), 'unnamed phase06 role ' + role);
+  const root = path.join(state.directory, 'profiles', role);
+  const file = path.join(root, 'profiles.json');
+  if (!fs.existsSync(file)) {
+    fs.mkdirSync(root, {recursive: true});
+    const id = crypto.randomBytes(16).toString('hex');
+    fs.writeFileSync(file, JSON.stringify({schema: 1, selected: id, profiles: [{id, name: profileNames[role], ordinal: 1}]}),
+      {flag: 'wx'});
+  }
+  return root;
+}
+
 async function launch(state, role) {
   const previous = state.peers.find(peer => peer.role === role);
   if (previous) return previous;
-  const peer = network.launch(state, role, state.port);
+  const peer = network.launch(state, role, state.port, profileRoot(state, role));
   state.peers.push(peer);
   await wait(state, () => current(peer)?.pid === peer.pid && current(peer)?.profile?.PlayerId === peer.profile,
     role + ' ordinary profile and menu');
@@ -332,6 +350,8 @@ function privacy(agreement, peers) {
   for (const row of agreement) {
     assert.equal(row.snapshot.Participants.length, 4);
     assert(row.snapshot.Participants.every(entry => entry.Ready));
+    assert.deepEqual(peers.map(peer => row.snapshot.Participants.find(entry => entry.Actor.PlayerId === peer.profile)
+      ?.Label), peers.map(peer => profileNames[peer.role]), 'each player publishes its own distinct profile name');
     assert.equal(own(row).Header.SurvivorId, row.phase06.control);
     assert(own(row).Rows.length >= 3 && own(row).Rows.every(entry => entry.Location.TargetId === row.phase06.control));
     personal.push(...own(row).Rows.map(entry => entry.Id));
@@ -534,5 +554,5 @@ module.exports = {open, reset, close: state => close(state), cases: {
   'phase06.headless.lifecycle': lifecycle,
   'phase06.headless.lan-privacy': lanPrivacy,
 }, helpers: {open, close, ended, key, current, actor, own, nearby, external, item, wait, observe, launch, seed,
-  evidence, privacy, inject, motionInterval}};
+  evidence, privacy, inject, motionInterval, profileNames}};
 

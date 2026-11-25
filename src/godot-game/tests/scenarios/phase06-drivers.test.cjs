@@ -337,3 +337,55 @@ function loadWith(file, stubs) {
   return loaded.exports;
 }
 
+const lan = require('./phase06-lan.cjs').helpers;
+const people = [['local', 'Host'], ['b1', 'Guest 1'], ['b2', 'Guest 2'], ['b3', 'Guest 3']];
+
+// A receiver's draw: the snapshot's ready participants and the four roster rows FoundationHud.Project draws.
+function rosterDraw(binding, texts = null) {
+  const Participants = people.map(([BindingId, Label], index) => ({BindingId, Label, Slot: index + 1, Ready: true,
+    Actor: {PlayerId: 'player-' + index}}));
+  const rows = texts ?? Participants.map(entry => 'P' + entry.Slot + (entry.BindingId === binding ? ' (You)' : '')
+    + ' · ' + entry.Label);
+  return {bindingId: binding, snapshot: {Participants},
+    controls: [control('Roster/Header', 'Connected · 4/4 players'), ...rows.map((text, index) =>
+      control('Roster/Player' + (index + 1), text))]};
+}
+
+test('Roster_DistinctNames_MatchSnapshotSlots', async t => {
+  await t.test('every receiver accepts its own correct roster', () => {
+    for (const [binding] of people) assert.equal(lan.rosterMatches(rosterDraw(binding)), true, binding);
+  });
+  await t.test('swapped names are rejected', () => {
+    assert.equal(lan.rosterMatches(rosterDraw('b1', ['P1 · Guest 1', 'P2 (You) · Host', 'P3 · Guest 2',
+      'P4 · Guest 3'])), false);
+  });
+  await t.test('a duplicated (You) marker is rejected', () => {
+    assert.equal(lan.rosterMatches(rosterDraw('b1', ['P1 (You) · Host', 'P2 (You) · Guest 1', 'P3 · Guest 2',
+      'P4 · Guest 3'])), false);
+  });
+  await t.test('the marker on another player\'s row is rejected', () => {
+    assert.equal(lan.rosterMatches(rosterDraw('b2', ['P1 · Host', 'P2 (You) · Guest 1', 'P3 · Guest 2',
+      'P4 · Guest 3'])), false);
+  });
+  await t.test('equal names cannot prove distinct identities', () => {
+    const draw = rosterDraw('b1', ['P1 · Player 1', 'P2 (You) · Player 1', 'P3 · Player 1', 'P4 · Player 1']);
+    for (const entry of draw.snapshot.Participants) entry.Label = 'Player 1';
+    assert.equal(lan.rosterMatches(draw), false);
+  });
+  await t.test('a hidden or missing row is rejected', () => {
+    const hidden = rosterDraw('local');
+    hidden.controls[4].visible = false;
+    assert.equal(lan.rosterMatches(hidden), false);
+    const missing = rosterDraw('local');
+    missing.controls.pop();
+    assert.equal(lan.rosterMatches(missing), false);
+  });
+  await t.test('the four controlled bodies must stand one body width apart', () => {
+    const bodies = xs => ({actors: xs.map(screenX => ({screenX, visible: true}))});
+    assert.equal(lan.spread(bodies([611.5, 635.5, 659.5, 683.5])), true);
+    assert.equal(lan.spread(bodies([611.5, 621.1, 659.5, 683.5])), false, 'run-1 bodies 9.6 px apart');
+    assert.equal(lan.spread(bodies([611.5, 611.5, 659.5, 683.5])), false);
+    assert.equal(lan.spread(bodies([611.5, 635.5, 659.5])), false);
+  });
+});
+

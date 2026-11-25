@@ -36,23 +36,59 @@ async function allPictures(state, label, condition) {
     (row, draw) => condition(row, draw, peer))));
 }
 
+// The roster names every ready participant 'P{slot} · {label}' in slot order and marks only the receiver's own row
+// with ' (You)' after its number (FoundationHud.Project, UI-SPEC player identity markers). Names must be distinct.
+function rosterMatches(draw) {
+  const ready = (draw?.snapshot?.Participants ?? []).filter(entry => entry.Ready).sort((a, b) => a.Slot - b.Slot);
+  if (ready.length !== roles.length || new Set(ready.map(entry => entry.Label)).size !== ready.length) return false;
+  const rows = (draw.controls ?? []).filter(entry => /^Roster\/Player\d$/.test(entry.path) && entry.visible);
+  return rows.length === ready.length && ready.every((entry, index) => rows.find(row => row.path === 'Roster/Player'
+    + (index + 1))?.text === 'P' + entry.Slot + (entry.BindingId === draw.bindingId ? ' (You)' : '') + ' · '
+    + entry.Label) && rows.filter(row => row.text.includes('(You)')).length === 1;
+}
+
+// Spec 3.1 defines u as about a standing survivor's body width; the world draws 1000 subunits (1 u) as 16 px.
+const bodyWidth = 16;
+
+// The four controlled bodies stand at pairwise different drawn X, at least one body width apart.
+function spread(draw) {
+  const bodies = (draw?.actors ?? []).filter(entry => entry.visible).map(entry => entry.screenX);
+  return bodies.length === roles.length
+    && bodies.every((x, index) => bodies.slice(index + 1).every(other => Math.abs(x - other) >= bodyWidth));
+}
+
+// Guest n walks right by at least 1.5 n u of its own position units; the host stays.
+const separation = [0, 1500, 3000, 4500];
+
 async function population(state) {
   const start = state.input.records.length;
-  const {guests, session, roster, identities} = await startLan(state, null);
+  const {host, guests, session, roster, identities} = await startLan(state, null);
   assert(roster.every(draw => draw.input.phase06.World.Actors.length === 8
     && draw.input.phase06.World.Actors.every(entry => !entry.Hostile)));
-  const mover = guests[0];
-  await run.focus(state, mover);
-  const id = identities[1].actor;
-  const initial = actor(roster[1].input).X;
-  const movement = await run.moveUntil(state, mover, key.right,
-    row => actor(row)?.X > initial + 420, 'guest physically moves its survivor');
+  const targets = roster.map((draw, index) => ({id: identities[index].actor,
+    x: actor(draw.input).X + separation[index]}));
+  const movement = [];
+  for (const [index, mover] of guests.entries()) {
+    const target = targets[index + 1];
+    await run.focus(state, mover);
+    movement.push(await run.moveUntil(state, mover, key.right, row => actor(row)?.X >= target.x,
+      mover.role + ' physically walks its survivor apart'));
+  }
   const pictures = await allPictures(state, 'population', (row, draw) => formed(row, session)
-    && actor(row, id)?.X > initial + 420
+    && targets.every(target => actor(row, target.id)?.X >= target.x)
+    && actor(row, targets[0].id)?.X === actor(roster[0].input).X
     && draw.appearance.filter(entry => entry.kind === 'Actors' && entry.visible).length === 8
     && draw.appearance.filter(entry => entry.crown).length === 4
-    && draw.actors.some(entry => entry.local && entry.insideCamera));
-  return run.finish(state, 'phase06.lan.population', state.peers, start, {identities, movement}, pictures);
+    && draw.actors.some(entry => entry.local && entry.insideCamera)
+    && spread(draw) && rosterMatches(draw) && profilesBound(draw, state.peers) && run.settledView(draw));
+  assert.equal(host, state.peers[0]);
+  return run.finish(state, 'phase06.lan.population', state.peers, start, {identities, targets, movement}, pictures);
+}
+
+// Every receiver shows each player's own profile name on that player's participant.
+function profilesBound(draw, peers) {
+  return peers.every(peer => draw.snapshot.Participants.find(entry => entry.Actor.PlayerId === peer.profile)?.Label
+    === run.profileNames[peer.role]);
 }
 
 async function withdraw(state, peer, point) {
@@ -176,5 +212,5 @@ module.exports = {open: context => run.open(context, roles), reset: run.reset, c
   'phase06.lan.population': population,
   'phase06.lan.conflicts': conflicts,
   'phase06.lan.succession': succession,
-}};
+}, helpers: {rosterMatches, spread}};
 

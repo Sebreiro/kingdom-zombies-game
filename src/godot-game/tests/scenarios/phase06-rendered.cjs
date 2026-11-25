@@ -303,5 +303,5 @@ async function drag(state, peer, from, to, held = async () => null) {
 module.exports = {open, close, reset, enter, join, menu, key, last, after, committed, focus, send, press, tap,
   pointer, click, choose, control, named, title, within, actor, own, nearby, item, external, moveUntil, picture, finish,
   stash, bagWindow, drag, settledView, fixture: native.inject, privacy: native.privacy,
-  motionInterval: native.motionInterval};
+  motionInterval: native.motionInterval, profileNames: native.profileNames};
 
