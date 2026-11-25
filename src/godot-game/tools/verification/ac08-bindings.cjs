@@ -1,5 +1,6 @@
 'use strict';
-// Derives and checks the ac-08 repository-stage bindings from the bytes at a revision.
+// Derives and checks the ac-08 repository-stage bindings, and the caller hashes and repository stages that repeat them,
+// from the bytes at a revision. --check also requires one ExemptionTests theory row per derived stage id.
 // It regenerates the bindings from current bytes; it is not a replay of a one-shot binding utility.
 //   node src/godot-game/tools/verification/ac08-bindings.cjs [--check] [--rev <revision>]   (default: --check --rev HEAD)
 //   node src/godot-game/tools/verification/ac08-bindings.cjs --write                        (derives from HEAD)
@@ -20,6 +21,13 @@ const EXCLUDED_ROOTS = ['.claude/', '.codex/', '.agents/', '.planning/'];
 const SOURCES_ACTION = 'repository-sources';
 const CHUNK = 16;
 const KEY_COUNT = 42;
+// A caller repeats the ac-08 auth, shape and source stages as its 'repository' stages (check.cjs callerExpected), and
+// each stage id must be a data row of the xUnit theory that runs it (check.cjs producer discovery).
+const CALLER_ACTION = 'repository';
+const CALLER_SOURCE_ACTIONS = ['repository-auth', 'repository-shape', SOURCES_ACTION];
+const CALLER_BASE_MS = 180000;
+const CALLER_STAGE_MS = 48000;
+const THEORY_FILE = 'src/godot-game/tests/verification/ExemptionTests.cs';
 
 class BindingError extends Error {
   constructor(code, message) {
@@ -175,6 +183,68 @@ function callers(catalogs) {
   return catalogs.flatMap(catalog => (catalog.cases || []).filter(item => item.callerStages));
 }
 
+/**
+ * Derives a caller's stage list from the ac-08 stages: its contiguous 'repository' run becomes one stage per ac-08
+ * auth, shape and source stage, under the caller's own id prefix, and overallMs follows the stage count. A caller
+ * with no 'repository' stage is returned unchanged.
+ */
+function deriveCallerStages(callerStages, repositoryStages) {
+  const stages = callerStages.stages;
+  const first = stages.findIndex(stage => stage.action === CALLER_ACTION);
+  if (first < 0) return callerStages;
+  const count = stages.filter(stage => stage.action === CALLER_ACTION).length;
+  if (stages.slice(first, first + count).some(stage => stage.action !== CALLER_ACTION))
+    throw new BindingError('AC08_CALLER', 'repository stages are not contiguous in ' + stages[first].id);
+  const sample = stages[first], suffix = '-' + sample.sourceStageId;
+  if (typeof sample.sourceStageId !== 'string' || !sample.id.endsWith(suffix) || sample.id.length === suffix.length)
+    throw new BindingError('AC08_CALLER', 'no caller prefix in ' + sample.id);
+  const prefix = sample.id.slice(0, -suffix.length);
+  const run = repositoryStages.filter(stage => CALLER_SOURCE_ACTIONS.includes(stage.action))
+    .map(stage => ({id: prefix + '-' + stage.id, action: CALLER_ACTION, sourceStageId: stage.id}));
+  const next = [...stages.slice(0, first), ...run, ...stages.slice(first + count)];
+  return {...callerStages, stages: next, overallMs: CALLER_BASE_MS + next.length * CALLER_STAGE_MS};
+}
+
+/** Applies the derived ac-08 block to both catalogs: the repository case, then every caller's hash and stages. */
+function applyDerived(catalogs, derived) {
+  repositoryCase(catalogs[0]).repositoryStages = derived;
+  const repositorySha256 = sha256(JSON.stringify(derived));
+  for (const row of callers(catalogs)) {
+    row.callerStages = deriveCallerStages(row.callerStages, derived.stages);
+    row.callerStages.repositorySha256 = repositorySha256;
+  }
+  return repositorySha256;
+}
+
+/** Reads the string data rows of the [InlineData] attributes directly above a theory method. */
+function theoryRows(text, method) {
+  const lines = text.split(/\r?\n/);
+  const at = lines.findIndex(line => new RegExp('\\bvoid\\s+' + method + '\\s*\\(').test(line));
+  if (at < 0) throw new BindingError('AC08_THEORY', method + ' not found in ' + THEORY_FILE);
+  const rows = [];
+  for (let index = at - 1; index >= 0 && lines[index].trim().startsWith('['); index--) {
+    const match = /^\[InlineData\("([^"]+)"\)\]$/.exec(lines[index].trim());
+    if (match) rows.unshift(match[1]);
+  }
+  return rows;
+}
+
+/** Names every stage id the theories lack and every theory row no stage declares. */
+function theoryDifferences(text, derived, rows) {
+  const differences = [];
+  const pairs = [[derived.stages.map(stage => stage.id), derived.method]];
+  const methods = new Set(rows.map(item => item.callerStages.method));
+  for (const method of methods)
+    pairs.push([rows.filter(item => item.callerStages.method === method).flatMap(item => item.callerStages.stages.map(stage => stage.id)), method]);
+  for (const [ids, method] of pairs) {
+    const name = method.split('.').pop(), declared = theoryRows(text, name), want = new Set(ids), have = new Set(declared);
+    for (const id of ids) if (!have.has(id)) differences.push('theory ' + name + ' lacks ' + id);
+    for (const id of declared) if (!want.has(id)) differences.push('theory ' + name + ' extra ' + id);
+    if (have.size !== declared.length) differences.push('theory ' + name + ' duplicate row');
+  }
+  return differences;
+}
+
 /** Checks the catalogs committed at a revision against the derivation from that revision's bytes. */
 function check(root, revision = 'HEAD') {
   const commit = resolveRevision(root, revision);
@@ -184,9 +254,16 @@ function check(root, revision = 'HEAD') {
   const derived = derive(root, commit, declared);
   const differences = compare(derived, declared);
   const repositorySha256 = sha256(JSON.stringify(derived));
-  const rows = callers(catalogs);
-  for (const item of rows)
+  const rows = callers(catalogs), wanted = [];
+  for (const item of rows) {
     if (item.callerStages.repositorySha256 !== repositorySha256) differences.push('caller ' + item.id);
+    const want = deriveCallerStages(item.callerStages, derived.stages);
+    if (JSON.stringify(want.stages) !== JSON.stringify(item.callerStages.stages)) differences.push('caller ' + item.id + ' stages');
+    if (want.overallMs !== item.callerStages.overallMs) differences.push('caller ' + item.id + ' overallMs');
+    wanted.push({...item, callerStages: want});
+  }
+  // The theories are compared with the derived stage ids, so a stale catalog cannot hide a missing row.
+  differences.push(...theoryDifferences(blobs(root, commit, [THEORY_FILE]).get(THEORY_FILE).toString('utf8'), derived, wanted));
   return {
     revision: commit, differences, repositorySha256, callers: rows.length, rows: derived.sources.length,
     checked: derived.sources.filter(row => row.kind !== 'outside-validator').length,
@@ -216,9 +293,9 @@ function write(root) {
   if (JSON.stringify(derived.keys) !== JSON.stringify(declared.keys) || JSON.stringify(derived.cohorts) !== JSON.stringify(declared.cohorts))
     throw new BindingError('AC08_KEYS', 'keys or cohorts changed');
   if (derived.keys.length !== KEY_COUNT) throw new BindingError('AC08_KEYS', derived.keys.length + ' keys expected ' + KEY_COUNT);
-  item.repositoryStages = derived;
-  const repositorySha256 = sha256(JSON.stringify(derived));
-  for (const row of callers(catalogs)) row.callerStages.repositorySha256 = repositorySha256;
+  const repositorySha256 = applyDerived(catalogs, derived);
+  const missing = theoryDifferences(fs.readFileSync(path.join(root, THEORY_FILE), 'utf8'), derived, callers(catalogs));
+  if (missing.length) throw new BindingError('AC08_THEORY', 'add or remove these [InlineData] rows first: ' + missing.slice(0, 8).join(' | '));
   CATALOGS.forEach((file, index) => fs.writeFileSync(path.join(root, file), serialize(catalogs[index])));
   return {repositorySha256, callers: callers(catalogs).length, rows: derived.sources.length};
 }
@@ -256,7 +333,8 @@ function main(argv) {
 
 module.exports = {
   CATALOG, CALLER_CATALOG, CATALOGS, CASE_ID, KEY_COUNT, BindingError, sha256, serialize, blobs, trackedPaths, kindOf,
-  rebuildStages, derive, compare, check, dirtyEntries, refuseDirty, write, repositoryCase
+  rebuildStages, derive, compare, check, dirtyEntries, refuseDirty, write, repositoryCase, deriveCallerStages, applyDerived,
+  theoryRows, theoryDifferences, THEORY_FILE
 };
 
 if (require.main === module) {

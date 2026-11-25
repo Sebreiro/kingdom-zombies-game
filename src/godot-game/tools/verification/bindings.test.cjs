@@ -51,11 +51,11 @@ test('ac-08 derivation reproduces both committed catalogs byte for byte at the l
   assert.deepEqual(ac08.compare(derived, declared), []);
   assert.equal(derived.keys.length, ac08.KEY_COUNT);
   const copy = structuredClone(catalogs);
-  ac08.repositoryCase(copy[0]).repositoryStages = derived;
-  const repositorySha256 = ac08.sha256(JSON.stringify(derived));
-  let callers = 0;
-  for (const catalog of copy) for (const item of catalog.cases) if (item.callerStages) { item.callerStages.repositorySha256 = repositorySha256; callers++; }
-  assert.equal(callers, 6);
+  const repositorySha256 = ac08.applyDerived(copy, derived);
+  assert.equal(repositorySha256, ac08.sha256(JSON.stringify(derived)));
+  const callers = copy.flatMap(catalog => catalog.cases.filter(item => item.callerStages));
+  assert.equal(callers.length, 6);
+  for (const item of callers) assert.equal(item.callerStages.repositorySha256, repositorySha256, item.id);
   ac08.CATALOGS.forEach((file, index) => assert.equal(ac08.serialize(copy[index]), bytes.get(file).toString('utf8'), file));
   const result = ac08.check(ROOT, revision);
   assert.deepEqual(result.differences, []);
@@ -89,6 +89,41 @@ test('ac-08 negative controls name the planted row, and an unchanged copy passes
     const declared = structuredClone(derived), expected = plant(declared);
     assert.ok(ac08.compare(derived, declared).includes(expected), name + ' must name ' + expected);
   }
+});
+
+test('ac-08 caller repository stages follow each derived source stage, and other callers stay unchanged', () => {
+  const {catalogs, derived} = derivedAtReproduction();
+  const sources = derived.stages.filter(stage => stage.action === 'repository-sources').length;
+  const grown = structuredClone(derived);
+  grown.stages.push({id: 'repository-sources-' + sources, action: 'repository-sources', sources: ['x.cs']});
+  for (const item of catalogs.flatMap(catalog => catalog.cases.filter(row => row.callerStages))) {
+    const same = ac08.deriveCallerStages(item.callerStages, derived.stages);
+    assert.deepEqual(same, item.callerStages, item.id + ' is already derived');
+    const next = ac08.deriveCallerStages(item.callerStages, grown.stages);
+    const repository = item.callerStages.stages.filter(stage => stage.action === 'repository');
+    if (!repository.length) {
+      assert.equal(next, item.callerStages, item.id + ' has no repository stage');
+      continue;
+    }
+    const prefix = repository[0].id.slice(0, -('-' + repository[0].sourceStageId).length);
+    assert.equal(next.stages.length, item.callerStages.stages.length + 1, item.id);
+    assert.ok(next.stages.some(stage => stage.id === prefix + '-repository-sources-' + sources
+      && stage.sourceStageId === 'repository-sources-' + sources), item.id + ' names the new source stage');
+    assert.equal(next.overallMs, 180000 + next.stages.length * 48000, item.id);
+  }
+});
+
+test('ac-08 theory rows: a missing and an extra [InlineData] row are named, and the committed theory passes', () => {
+  const {catalogs, derived} = derivedAtReproduction();
+  const callers = catalogs.flatMap(catalog => catalog.cases.filter(row => row.callerStages));
+  const text = fs.readFileSync(path.join(ROOT, ac08.THEORY_FILE), 'utf8');
+  assert.deepEqual(ac08.theoryDifferences(text, derived, callers), []);
+  const last = derived.stages.filter(stage => stage.action === 'repository-sources').at(-1).id;
+  const missing = text.replace(new RegExp('^ *\\[InlineData\\("' + last + '"\\)\\]\\r?\\n', 'm'), '');
+  assert.deepEqual(ac08.theoryDifferences(missing, derived, callers),
+    ['theory Check_RepositoryStage_RequiresBoundedCompleteOriginalConjunction lacks ' + last]);
+  const extra = text.replace('[InlineData("' + last + '")]', '[InlineData("' + last + '")]\n    [InlineData("repository-sources-999")]');
+  assert.ok(ac08.theoryDifferences(extra, derived, callers).some(line => line.endsWith('extra repository-sources-999')));
 });
 
 test('ac-08 --write refuses a dirty tree, but not the two catalogs or the excluded roots', () => {
