@@ -7,14 +7,14 @@ current_phase_name: Survivors, inventory, and combat
 current_plan: 15
 status: executing
 stopped_at: "06-15 checkpoint: initial phase-end run failed; awaiting repairs and re-review"
-last_updated: "2026-11-24T23:53:51.288Z"
-last_activity: 2026-11-24
-last_activity_desc: Plan 06-14 verified the Release package and clean whole-phase source review
-state_head: 74334799ef7332907971b362f7fd972c225a8f35
+last_updated: "2026-11-25T00:44:03.845Z"
+last_activity: 2026-11-25
+last_activity_desc: Gap-closure plans 06-16 to 06-25 created after the failed initial phase-end run
+state_head: 09e28818a9e0263680313852df867373229b9625
 progress:
   total_phases: 12
   completed_phases: 5
-  total_plans: 105
+  total_plans: 115
   completed_plans: 78
   percent: 42
 ---
@@ -33,15 +33,15 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 
 ## Current Position
 
-Phase: 06 (Survivors, inventory, and combat) — EXECUTING
+Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
 Current Plan: 15
-Total Plans in Phase: 15
-Status: Executing Phase 06
-Last activity: 2026-11-24 — Plan 06-14 verified the Release package and clean whole-phase source review
+Total Plans in Phase: 25
+Status: Ready to execute
+Last activity: 2026-11-25 — Gap-closure plans 06-16 to 06-25 created after the failed initial phase-end run
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 78 of 105 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 78 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 

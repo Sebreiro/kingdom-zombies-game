@@ -416,7 +416,7 @@ Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/
 4. Players can fight with fists, one or two one-handed weapons, or a mouse-aimed bow consuming real opposite-hand arrows with manual refill. Costs/timing, armor, retained broken gear, no friendly damage, friendly arrow passthrough, and blocking-defense hits match the specification.
 5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Respawn enables one second after death and requires an explicit request before assignment or waiting. Random succession preserves the eligible survivor's state/location/gear, concurrent requests never share a successor, and queued requests automatically receive newly available survivors in request order without gaining loot from crowns. Spectating follows living teammates through Previous/Next and a teammate list. Camera handover is smooth nearby and cuts when distant.
 
-**Plans:** 15 plans
+**Plans:** 25 plans (06-16–06-25 close the gaps in [06-VERIFICATION](phases/06-survivors-inventory-and-combat/06-VERIFICATION.md))
 **Wave 1**
 - [x] 06-01 — [Authoritative world time, camp safety and access](phases/06-survivors-inventory-and-combat/06-01-PLAN.md)
 
@@ -457,7 +457,37 @@ Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/
 **Wave 13** *(blocked on Wave 12 completion)*
 - [x] 06-14 — [Asset integration and whole-phase code review](phases/06-survivors-inventory-and-combat/06-14-PLAN.md)
 
-**Wave 14** *(blocked on Wave 13 completion)*
+**Wave 14** *(blocked on Wave 13 completion; gap closure)*
+- [ ] 06-16 — [Rule-suite fixture inventory and MTP producer pin](phases/06-survivors-inventory-and-combat/06-16-PLAN.md)
+
+**Wave 15** *(blocked on Wave 14 completion; gap closure)*
+- [ ] 06-17 — [Test-name rule conformance](phases/06-survivors-inventory-and-combat/06-17-PLAN.md)
+
+**Wave 16** *(blocked on Wave 15 completion; gap closure)*
+- [ ] 06-18 — [Debug export, LAN permission consumer and native census](phases/06-survivors-inventory-and-combat/06-18-PLAN.md)
+
+**Wave 17** *(blocked on Wave 16 completion; gap closure)*
+- [ ] 06-19 — [Inherited rendered runner import preparation and run reporting](phases/06-survivors-inventory-and-combat/06-19-PLAN.md)
+
+**Wave 18** *(blocked on Wave 17 completion; gap closure)*
+- [ ] 06-20 — [Inventory workspace and HUD contract repairs](phases/06-survivors-inventory-and-combat/06-20-PLAN.md)
+
+**Wave 19** *(blocked on Wave 18 completion; gap closure)*
+- [ ] 06-21 — [Solo rendered driver, shared evidence and key receipts](phases/06-survivors-inventory-and-combat/06-21-PLAN.md)
+
+**Wave 20** *(blocked on Wave 19 completion; gap closure)*
+- [ ] 06-22 — [Four-role LAN driver and receipt race](phases/06-survivors-inventory-and-combat/06-22-PLAN.md)
+
+**Wave 21** *(blocked on Wave 20 completion; gap closure)*
+- [ ] 06-23 — [Original inspection handoff driver](phases/06-survivors-inventory-and-combat/06-23-PLAN.md)
+
+**Wave 22** *(blocked on Wave 21 completion; gap closure)*
+- [ ] 06-24 — [Final bindings, no-window gate and independent review](phases/06-survivors-inventory-and-combat/06-24-PLAN.md)
+
+**Wave 23** *(blocked on Wave 22 completion; gap closure)*
+- [ ] 06-25 — [Focused repair rerun and evidence record](phases/06-survivors-inventory-and-combat/06-25-PLAN.md)
+
+**Wave 24** *(blocked on Wave 23 completion)*
 - [ ] 06-15 — [Grouped gameplay verification and phase closeout](phases/06-survivors-inventory-and-combat/06-15-PLAN.md)
 
 **UI hint:** yes
