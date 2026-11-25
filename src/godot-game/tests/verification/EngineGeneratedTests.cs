@@ -250,6 +250,27 @@ public sealed class EngineGeneratedTests
         CanonicalHash(value: document.RootElement.GetProperty(propertyName: collection)).ShouldBe(expected: expected);
     }
 
+    /// <summary>
+    /// Requires a current replay to list every historical input first, by exact path and order, followed only by
+    /// strictly ordinal-ascending added paths. Returns the inputs whose bytes the replay must carry: changed
+    /// historical inputs in order, then every added input.
+    /// </summary>
+    internal static string[] ReplaySnapshotPaths(IReadOnlyList<(string Path, string Sha256)> recorded,
+            IReadOnlyList<(string Path, string Sha256)> historical)
+    {
+        (recorded.Count >= historical.Count && recorded.Take(count: historical.Count).Select(selector: row =>
+                row.Path).SequenceEqual(second: historical.Select(selector: row => row.Path),
+                        comparer: StringComparer.Ordinal)).ShouldBeTrue(customMessage: "REPLAY_HISTORICAL_INPUTS");
+        string[] added = [.. recorded.Skip(count: historical.Count).Select(selector: row => row.Path)];
+        var original = new HashSet<string>(collection: historical.Select(selector: row => row.Path),
+                comparer: StringComparer.Ordinal);
+        (added.All(predicate: path => !original.Contains(item: path)) && added.Zip(second: added.Skip(count: 1))
+                .All(predicate: pair => StringComparer.Ordinal.Compare(x: pair.First, y: pair.Second) < 0))
+                .ShouldBeTrue(customMessage: "REPLAY_ADDED_INPUTS");
+        return [.. recorded.Zip(second: historical).Where(predicate: pair => !StringComparer.Ordinal.Equals(
+                x: pair.First.Sha256, y: pair.Second.Sha256)).Select(selector: pair => pair.First.Path), .. added];
+    }
+
     private const string ObservationHash = "269b35849296cc035e9c8a717b4231c52ba42ca8c4a353d42a020fe1c37a5485";
     private static string? _producerStage;
     private static int _producerReceipt;
@@ -1285,21 +1306,21 @@ public sealed class EngineGeneratedTests
         JsonElement inputs = replay.GetProperty(propertyName: "sourceInputs");
         CanonicalHash(value: inputs).ShouldBe(expected: Text(row: replay, name: "sourceInputsSha256"));
         JsonElement[] recorded = [.. inputs.EnumerateArray()];
-        JsonElement[] historical = [.. cohort.GetProperty(propertyName: "sourceInputs").EnumerateArray()];
-        recorded.Select(selector: row => Text(row: row, name: "path")).ShouldBe(expected: historical.Select(
-                selector: row => Text(row: row, name: "path")), comparer: StringComparer.Ordinal);
-        IEnumerable<string> changed = recorded.Zip(second: historical).Where(predicate: pair =>
-                !StringComparer.Ordinal.Equals(x: Text(row: pair.First, name: "sha256"),
-                        y: Text(row: pair.Second, name: "sha256"))).Select(selector: pair =>
-                                Text(row: pair.First, name: "path"));
+        string[] snapshots = ReplaySnapshotPaths(recorded: ReplayInputs(rows: recorded),
+                historical: ReplayInputs(rows: [.. cohort.GetProperty(propertyName: "sourceInputs").EnumerateArray()]));
         replay.GetProperty(propertyName: "sourceSnapshots").EnumerateArray().Select(selector: row =>
-                Text(row: row, name: "path")).ShouldBe(expected: changed, comparer: StringComparer.Ordinal);
+                Text(row: row, name: "path")).ShouldBe(expected: snapshots, comparer: StringComparer.Ordinal);
         foreach (JsonElement input in recorded)
         {
             _ = InputBytes(input: input, registry: registry, current: true);
         }
 
         return inputs;
+    }
+
+    private static (string Path, string Sha256)[] ReplayInputs(JsonElement[] rows)
+    {
+        return [.. rows.Select(selector: row => (Text(row: row, name: "path"), Text(row: row, name: "sha256")))];
     }
 
     private static bool MatchesInputs(JsonElement inputs, string[] actual)
