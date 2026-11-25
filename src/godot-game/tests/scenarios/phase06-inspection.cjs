@@ -6,6 +6,8 @@ const path = require('node:path');
 const handoff = require('../../tools/asset-pipeline/handoff.json')['6'];
 const scenarios = require('../../tools/asset-pipeline/scenarios.cjs');
 const evidence = require('../../tools/asset-pipeline/evidence.cjs');
+// evidence.cjs has no hash export; it uses this content.cjs function internally.
+const {hash} = require('../../tools/asset-pipeline/content.cjs');
 const contracts = require('../../tools/asset-pipeline/rendered-contracts.cjs');
 const processes = require('../../tools/asset-pipeline/rendered-process.cjs');
 const desktop = require('../../tools/gameplay-checks/rendered.cjs');
@@ -141,9 +143,63 @@ const select = (id, name, label, checks = []) =>
 const transport = (id, name, checks) => click(id, slots + '/' + name, checks, characterScroll);
 const paces = (pose, seconds) => [sample('movement', 'walk'), sample('lowerPose', pose),
   sample('strideSeconds', seconds), sample('lowerOffset', [0, 0]), exists(character + '/Art/Body_lower')];
-const jump = (pose, stage, offset, seconds) => [sample('movement', 'jump'), sample('lowerPose', pose),
-  sample('stage', stage), sample('lowerOffset', offset), sample('strideSeconds', seconds),
-  exists(character + '/Art/Body_lower')];
+
+// CharacterPresentation sampling: a sample covers [start, end) less a 1e-8 tolerance, Step advances by
+// nextSampleSeconds, walk loops and jump holds just before its end. The same double arithmetic as the C# source.
+const tolerance = 0.00000001;
+const authoredClip = (definition, clip) => definition.clips[clip];
+
+function authoredSample(definition, clip, seconds) {
+  const samples = authoredClip(definition, clip);
+  let time = seconds;
+  for (const row of samples) {
+    if (time < row.duration - tolerance) return row;
+    time -= row.duration;
+  }
+  return samples.at(-1);
+}
+
+function remaining(definition, clip, seconds) {
+  let time = seconds;
+  for (const row of authoredClip(definition, clip)) {
+    if (time < row.duration - tolerance) return row.duration - time;
+    time -= row.duration;
+  }
+  return 0.0000001;
+}
+
+function steppedTimes(definition, clip, steps) {
+  const length = authoredClip(definition, clip).reduce((sum, row) => sum + row.duration, 0);
+  const times = [0];
+  for (let index = 0; index < steps; index++) {
+    const next = times.at(-1) + remaining(definition, clip, times.at(-1));
+    times.push(clip === 'jump' ? Math.min(length - 0.0000001, next) : next % length);
+  }
+  return times;
+}
+
+function authoredChecks(definition, clip, seconds) {
+  const row = authoredSample(definition, clip, seconds);
+  return [sample('movement', clip), sample('lowerPose', row.pose), sample('stage', row.stage),
+    sample('lowerOffset', row.offset), sample('strideSeconds', seconds), exists(character + '/Art/Body_lower')];
+}
+
+function h16Steps(definition) {
+  const walk = steppedTimes(definition, 'walk', 2);
+  const jump = steppedTimes(definition, 'jump', 3);
+  return [
+    characterStep('authored-walk', 'CH-01'),
+    select('start-walk', 'Movement', 'Walk', authoredChecks(definition, 'walk', walk[0])),
+    transport('exact-second-frame', 'Step', authoredChecks(definition, 'walk', walk[1])),
+    transport('held-walk-endpoint', 'Step', authoredChecks(definition, 'walk', walk[2])),
+    select('start-jump', 'Movement', 'Jump', authoredChecks(definition, 'jump', jump[0])),
+    transport('step-nonuniform-jump', 'Step', authoredChecks(definition, 'jump', jump[1])),
+    transport('step-held-jump', 'Step', authoredChecks(definition, 'jump', jump[2])),
+    transport('step-jump-landing', 'Step', authoredChecks(definition, 'jump', jump[3])),
+  ];
+}
+
+const locomotionFile = root => path.join(root, 'src/godot-game/game/content/animation/locomotion-melee.json');
 
 async function restore(state, item, lifetime = 1) {
   const step = {id: 'reset-' + lifetime, control: resources, checks: contracts.baseline, async drive(driver) {
@@ -164,7 +220,7 @@ function fixture(state, relative, transform) {
   const source = fs.readFileSync(file);
   const changed = transform(source);
   return {
-    identity: {path: relative, original: evidence.hash(source), prepared: changed ? evidence.hash(changed) : null},
+    identity: {path: relative, original: hash(source), prepared: changed ? hash(changed) : null},
     edit() {
       assert.deepEqual(fs.readFileSync(file), source, relative + ' already changed');
       if (changed) fs.writeFileSync(file, changed);
@@ -208,16 +264,11 @@ recipes.set('heldout.H14', async state => {
   ]};
 });
 
-recipes.set('heldout.H16', simple('Authored body registration, frame step and loop boundaries', [
-  characterStep('authored-walk', 'CH-01'),
-  select('start-walk', 'Movement', 'Walk', paces('walk-near', 0)),
-  transport('exact-second-frame', 'Step', paces('walk-far', 0.12)),
-  transport('held-walk-endpoint', 'Step', paces('walk-near', 0)),
-  select('start-jump', 'Movement', 'Jump', jump('run', 'takeoff', [0, 0], 0)),
-  transport('step-nonuniform-jump', 'Step', jump('walk-far', 'airborne-up', [0, -6], 0.08)),
-  transport('step-held-jump', 'Step', jump('walk-near', 'airborne-down', [0, -3], 0.24)),
-  transport('step-jump-landing', 'Step', jump('run', 'landing', [0, 1], 0.4)),
-]));
+// Expectations derive from the authored track of the checkout under test, never from observations.
+recipes.set('heldout.H16', async state => ({
+  stimulus: 'Authored body registration, frame step and loop boundaries',
+  steps: h16Steps(JSON.parse(fs.readFileSync(locomotionFile(state.root), 'utf8'))),
+}));
 
 recipes.set('heldout.H17', simple('Current transport reset and silent persistent corpse restore', [
   characterStep('character-preview', 'CH-04'),
@@ -360,6 +411,6 @@ async function reset(state) {
   state.currentItem = null;
 }
 
-module.exports = {open, close, reset,
-  cases: Object.fromEntries(handoff.map(id => ['asset-pipeline.' + id, state => perform(state, id)]))};
+module.exports = {open, close, reset, recipes, fixture,
+  cases:Object.fromEntries(handoff.map(id => ['asset-pipeline.' + id, state => perform(state, id)]))};
 

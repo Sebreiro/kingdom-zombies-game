@@ -589,16 +589,19 @@ public sealed class CharacterPresentation
                 .Sum(selector: value => value.GetProperty(propertyName: "duration").GetDouble());
     }
 
+    /// <summary>Selects a sample with the boundary tolerance of Remaining, so a step lands on the next one.</summary>
     private JsonElement Sample(string clip, double time)
     {
         JsonElement samples = _definition.GetProperty(propertyName: "clips").GetProperty(propertyName: clip);
         foreach (JsonElement sample in samples.EnumerateArray())
         {
-            time -= sample.GetProperty(propertyName: "duration").GetDouble();
-            if (time < 0)
+            double duration = sample.GetProperty(propertyName: "duration").GetDouble();
+            if (time < duration - 0.00000001)
             {
                 return sample;
             }
+
+            time -= duration;
         }
 
         return samples[samples.GetArrayLength() - 1];

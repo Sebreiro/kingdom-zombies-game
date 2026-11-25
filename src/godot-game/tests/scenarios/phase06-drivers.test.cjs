@@ -493,3 +493,91 @@ test('Succession_RespawnGateAndHandover_FollowTheirRules', async t => {
   });
 });
 
+const inspectionFile = path.join(__dirname, 'phase06-inspection.cjs');
+const inspection = require('./phase06-inspection.cjs');
+const gameRoot = path.resolve(__dirname, '../../game');
+const sha256 = data => require('node:crypto').createHash('sha256').update(data).digest('hex');
+
+// A prepared project copy holding the named authored files, as open() prepares it.
+function preparedProject(t, files) {
+  const root = scratch(t);
+  for (const file of files) {
+    fs.mkdirSync(path.dirname(path.join(root, 'project', file)), {recursive: true});
+    fs.copyFileSync(path.join(gameRoot, file), path.join(root, 'project', file));
+  }
+  return {root, build: {sourceProject: {path: 'project'}}};
+}
+
+test('InspectionDriver_FixtureIdentity_UsesExportedHash', async t => {
+  await t.test('the driver binds the content.cjs hash, and evidence.cjs still has none (run-1 F10)', () => {
+    assert.equal(typeof require('../../tools/asset-pipeline/content.cjs').hash, 'function');
+    assert.equal(require('../../tools/asset-pipeline/evidence.cjs').hash, undefined);
+    const source = stripped(fs.readFileSync(inspectionFile, 'utf8'));
+    assert.match(source, /const\s*\{\s*hash\s*\}\s*=\s*require\(''\)/);
+    assert.doesNotMatch(source, /evidence\.hash\b/);
+  });
+  await t.test('H14 builds its recipe with the original and prepared stimulus hashes', async () => {
+    const state = preparedProject(t, ['content/fixtures/crowds.json']);
+    const file = path.join(state.root, 'project/content/fixtures/crowds.json');
+    const original = fs.readFileSync(file);
+    const recipe = await inspection.recipes.get('heldout.H14')(state);
+    const authored = JSON.parse(original);
+    authored.actors.find(row => row.id === 'corpse-000').equipment = {};
+    assert.deepEqual(recipe.stimulus, {path: 'content/fixtures/crowds.json', original: sha256(original),
+      prepared: sha256(Buffer.from(JSON.stringify(authored)))});
+    assert.notEqual(recipe.stimulus.prepared, recipe.stimulus.original);
+    assert.deepEqual(fs.readFileSync(file), original, 'building the recipe edits nothing');
+    assert.equal(typeof recipe.cleanup, 'function');
+  });
+  await t.test('an edit stays in the prepared copy and restore writes the original bytes back', () => {
+    const state = preparedProject(t, ['content/animation/fits-c.json']);
+    const file = path.join(state.root, 'project/content/animation/fits-c.json');
+    const original = fs.readFileSync(file);
+    const removed = inspection.fixture(state, 'content/animation/fits-c.json', () => null);
+    assert.deepEqual(removed.identity, {path: 'content/animation/fits-c.json', original: sha256(original),
+      prepared: null});
+    removed.edit();
+    assert.equal(fs.existsSync(file), false);
+    removed.restore();
+    assert.deepEqual(fs.readFileSync(file), original);
+    assert.throws(() => inspection.fixture(state, '../outside.json', () => null));
+  });
+});
+
+test('H16Expectations_AuthoredLocomotion_MatchSteps', async t => {
+  const definition = JSON.parse(fs.readFileSync(path.join(gameRoot, 'content/animation/locomotion-melee.json'), 'utf8'));
+  const {steps} = await inspection.recipes.get('heldout.H16')({root: path.resolve(gameRoot, '../../..')});
+  const fields = step => Object.fromEntries(step.checks.filter(check => check.match === 'field')
+    .map(check => [check.key, check.value]));
+  // Step k from a clip start lands on authored sample k at the sum of the k earlier durations; walk loops.
+  const expected = (clip, step) => {
+    const rows = definition.clips[clip];
+    const index = clip === 'walk' ? step % rows.length : step;
+    const start = rows.slice(0, index).reduce((sum, row) => sum + row.duration, 0);
+    return {movement: clip, row: rows[index], start};
+  };
+  const plan = {'start-walk': ['walk', 0], 'exact-second-frame': ['walk', 1], 'held-walk-endpoint': ['walk', 2],
+    'start-jump': ['jump', 0], 'step-nonuniform-jump': ['jump', 1], 'step-held-jump': ['jump', 2],
+    'step-jump-landing': ['jump', 3]};
+
+  await t.test('the original H16 step identities and order are kept', () => {
+    assert.deepEqual(steps.map(step => step.id), ['authored-walk', ...Object.keys(plan)]);
+  });
+  await t.test('every step expects the authored pace, stage, offset and time', () => {
+    for (const [id, [clip, index]] of Object.entries(plan)) {
+      const want = expected(clip, index);
+      const got = fields(steps.find(step => step.id === id));
+      assert.equal(got.movement, want.movement, id);
+      assert.equal(got.lowerPose, want.row.pose, id);
+      assert.equal(got.stage, want.row.stage, id);
+      assert.deepEqual(got.lowerOffset, want.row.offset, id);
+      assert(Math.abs(got.strideSeconds - want.start) < 1e-9, id + ' ' + got.strideSeconds + ' ' + want.start);
+    }
+  });
+  await t.test('the run-1 failing step expects the authored airborne-down sample at 0.24 s', () => {
+    const held = fields(steps.find(step => step.id === 'step-held-jump'));
+    assert.deepEqual(held, {movement: 'jump', lowerPose: 'walk-near', stage: 'airborne-down', lowerOffset: [0, -3],
+      strideSeconds: 0.24});
+  });
+});
+
