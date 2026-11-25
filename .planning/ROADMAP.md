@@ -743,3 +743,13 @@ Scope: rename the identifiers that still carry delivery-phase numbers after the 
 
 Plans:
 - [ ] TBD (promote with /gsd-review-backlog when ready)
+
+### Phase 999.2: Derive the producer registry and pin its cohort identity once (BACKLOG)
+
+**Goal:** [Captured for future planning]
+Scope: (a) a script that regenerates `docs/code/engine-generated-spans.json` from current sources, extending what `src/godot-game/tools/verification/current-replay.cjs` does for `currentProducerReplay`. (b) Keep the Godot producer cohort id and its hashes in one pinned place instead of the ~37 copies in `ExemptionValidator.cs`, `ExemptionTests.cs` and `required-cases.json`. Changing the pin must stay a separate, reviewed edit, and tests must never read their expected id from the file they check. Captured by the creator during Phase 6 plan 06-16 on 2026-11-25. Not to be implemented in Phase 6.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
