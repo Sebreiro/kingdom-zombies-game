@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace KingdomZombies.Phase1.Tests;
 /// <summary>Reads one selected consumer's evaluated compiler inputs for a bounded source-policy scan.</summary>
@@ -78,6 +79,18 @@ internal sealed class ConsumerCompilation
         return CSharpCompilation.Create(assemblyName: _assembly, syntaxTrees: trees, references: _references,
                 options: new CSharpCompilationOptions(outputKind: OutputKind.DynamicallyLinkedLibrary,
                         nullableContextOptions: NullableContextOptions.Enable, allowUnsafe: true));
+    }
+
+    /// <summary>Returns the other evaluated authored inputs that declare the same partial type.</summary>
+    internal IReadOnlyList<SyntaxTree> Partials(CSharpCompilation compilation, TypeDeclarationSyntax type)
+    {
+        INamedTypeSymbol symbol = compilation.GetSemanticModel(syntaxTree: type.SyntaxTree).GetDeclaredSymbol(
+                declarationSyntax: type) ?? throw new InvalidDataException(message: "CONSUMER_PARTIAL_TYPE "
+                        + type.Identifier.ValueText);
+        return [.. symbol.DeclaringSyntaxReferences.Select(selector: reference => reference.SyntaxTree)
+                .Where(predicate: tree => !StringComparer.Ordinal.Equals(x: tree.FilePath, y: type.SyntaxTree.FilePath)
+                        && _authored.Contains(value: tree.FilePath, comparer: StringComparer.Ordinal))
+                .Distinct()];
     }
 
     /// <summary>Incomplete semantic subjects fail closed before unresolved operations could be ignored.</summary>

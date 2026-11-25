@@ -210,16 +210,15 @@ public sealed class FoundationLanPermissionTests
             MethodDeclarationSyntax method, string guard)
     {
         CSharpCompilation compilation = consumer.Create(source: source, path: path);
-        string clone = "using KingdomZombies.Foundation;\n" + source.Replace(
-                oldValue: "namespace KingdomZombies.Foundation;",
-                newValue: "namespace KingdomZombies.Foundation.Adjacent;", comparisonType: StringComparison.Ordinal);
-        SyntaxTree cloneTree = consumer.Parse(source: clone, path: path);
-        CSharpCompilation wrongNamespace = compilation.AddSyntaxTrees(cloneTree);
-        ConsumerCompilation.RequireValid(compilation: wrongNamespace);
-        EngineAccessPolicy.CheckTree(tree: cloneTree, compilation: wrongNamespace).ShouldNotBeEmpty();
         SyntaxTree original = compilation.SyntaxTrees.Single(predicate: tree => StringComparer.Ordinal.Equals(
                 x: tree.FilePath, y: path));
         TypeDeclarationSyntax type = original.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>().First();
+        SyntaxTree[] clones = [Adjacent(consumer: consumer, source: source, path: path),
+            ..consumer.Partials(compilation: compilation, type: type).Select(selector: tree => Adjacent(
+                    consumer: consumer, source: tree.GetText().ToString(), path: tree.FilePath))];
+        CSharpCompilation wrongNamespace = compilation.AddSyntaxTrees(trees: clones);
+        ConsumerCompilation.RequireValid(compilation: wrongNamespace);
+        EngineAccessPolicy.CheckTree(tree: clones[0], compilation: wrongNamespace).ShouldNotBeEmpty();
         string qualifiers = method.Modifiers.Any(kind: SyntaxKind.StaticKeyword) ? "private static" : "private";
         MemberDeclarationSyntax async = SyntaxFactory.ParseMemberDeclaration(text: qualifiers
                 + " async System.Threading.Tasks.Task " + method.Identifier.ValueText
@@ -228,5 +227,19 @@ public sealed class FoundationLanPermissionTests
                 ?? throw new InvalidDataException(message: "ASYNC_CONTROL");
         string changed = original.GetRoot().ReplaceNode(oldNode: type, newNode: type.AddMembers(async)).ToFullString();
         EngineAccessPolicy.Check(source: changed, path: path, consumer: consumer).ShouldNotBeEmpty();
+    }
+
+    /// <summary>Moves one authored partial to an adjacent namespace; callers move every partial of the type.</summary>
+    private static SyntaxTree Adjacent(ConsumerCompilation consumer, string source, string path)
+    {
+        const string Actual = "namespace KingdomZombies.Foundation;";
+        if (!source.Contains(value: Actual, comparisonType: StringComparison.Ordinal))
+        {
+            throw new InvalidDataException(message: "ADJACENT_NAMESPACE " + path);
+        }
+
+        return consumer.Parse(source: "using KingdomZombies.Foundation;\n" + source.Replace(oldValue: Actual,
+                newValue: "namespace KingdomZombies.Foundation.Adjacent;", comparisonType: StringComparison.Ordinal),
+                path: path);
     }
 }
