@@ -22,7 +22,7 @@ public sealed class Phase06PublicationTests
 {
     /// <summary>A current connection can invoke the same scoped gameplay dispatcher as a local player.</summary>
     [Fact]
-    public void TrustedGuestAndSoloUseOneDispatcher()
+    public void Dispatcher_TrustedGuestAndSolo_UseOneAuthority()
     {
         CheckSolo();
         CheckContestedGuest();
@@ -30,7 +30,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>The current compatibility epoch identifies the bounded recipient protocol.</summary>
     [Fact]
-    public void GameplayVersionIdentifiesScopedPublicationFrames()
+    public void GameplayVersion_CurrentEpoch_IdentifiesScopedPublicationFrames()
     {
         var hello = new FoundationEnvelope(kind: "hello", playerId: "peer", label: "Guest");
         FoundationProtocol.Decode(bytes: FoundationProtocol.Encode(envelope: hello)).ProtocolVersion
@@ -39,7 +39,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>Real oversized wire parts keep roster and world paired while private death fencing proceeds.</summary>
     [Fact]
-    public void OversizedPublicFramesInstallTogetherAndDoNotDelayPrivateFencing()
+    public void PublicFrames_Oversized_InstallTogetherWithoutDelayingPrivateFencing()
     {
         var room = new Room(read: ReadLargeConfig, fixture: "wire");
         FoundationCoordinator guest = room.Join(sender: 2);
@@ -85,7 +85,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>A legal vicinity above the old cap still advertises reachable targets.</summary>
     [Fact]
-    public void SaturatedNearbyListsKeepTheStashAndEveryBoundedPageAvailable()
+    public void NearbyList_Saturated_KeepsStashAndEveryBoundedPageAvailable()
     {
         const int Piles = 17000;
         RunWorld.Anchor[] anchors =
@@ -117,7 +117,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>A full nearby page fits even when every legal identity needs six wire bytes per character.</summary>
     [Fact]
-    public void MaximumLengthEscapedNearbyIdsFitOneNativeFrame()
+    public void NearbyIds_MaximumEscapedLength_FitOneNativeFrame()
     {
         string prefix = "\u6800".PadLeft(totalWidth: 126, paddingChar: '\u6800');
         RunWorld.Anchor[] anchors = [.. Enumerable.Range(start: 0, count: 80).Select(selector: index =>
@@ -139,7 +139,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>Recipients can page through thousands of loose items and act on original references.</summary>
     [Fact]
-    public void LooseLootPagesRetainAuthorizedTokensAndExactNonInitialItemReferences()
+    public void LooseLootPages_ThousandsOfItems_RetainTokensAndExactItemReferences()
     {
         var room = new Room(read: ReadLargeConfig, fixture: "wire");
         FoundationCoordinator guest = room.Join(sender: 2);
@@ -176,7 +176,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>An unchanged authorized bag tree remains usable through a delayed unrelated refresh.</summary>
     [Fact]
-    public void AuthorizedOffPageWindowsSurviveRefreshAndFenceOldPartsOnTransfer()
+    public void OffPageWindows_RefreshThenTransfer_SurviveAndFenceOldParts()
     {
         var room = new Room(read: ReadLargeConfig, fixture: "wire");
         FoundationCoordinator guest = room.Join(sender: 2);
@@ -215,7 +215,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>A full legal stash page pulse crosses the real wire and highlights all exact changed cells.</summary>
     [Fact]
-    public void FullStashGridPulseFitsTheWireWithoutLosingCells()
+    public void StashGridPulse_FullPage_FitsWireWithoutLosingCells()
     {
         var room = new Room(read: ReadFullFootprintConfig);
         FoundationCoordinator guest = room.Join(sender: 2);
@@ -288,7 +288,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>Real page parts install together and are fenced after the guest loses stash access.</summary>
     [Fact]
-    public void LargeScopedPageInstallsAtomicallyAndRevocationFencesDelayedFrames()
+    public void ScopedPage_LargeThenRevoked_InstallsAtomicallyAndFencesDelayedFrames()
     {
         var room = new Room(read: ReadLargeConfig);
         FoundationCoordinator guest = room.Join(sender: 2);
@@ -339,7 +339,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>A ready guest can wait while dead, then use the same connection with a new survivor epoch.</summary>
     [Fact]
-    public void SpectatorRetainsConnectionAndNewControlRejectsTheOldEpoch()
+    public void Spectator_NewControl_RetainsConnectionAndRejectsOldEpoch()
     {
         var room = new Room();
         FoundationCoordinator guest = room.Join(sender: 2);
@@ -378,7 +378,7 @@ public sealed class Phase06PublicationTests
 
     /// <summary>Typed peer requests route jump, combat and food into the same authority.</summary>
     [Fact]
-    public void GuestMotionAttackAndFoodTraverseTheGameplayWire()
+    public void GuestRequests_MotionAttackAndFood_TraverseGameplayWire()
     {
         var room = new Room();
         FoundationCoordinator guest = room.Join(sender: 2);

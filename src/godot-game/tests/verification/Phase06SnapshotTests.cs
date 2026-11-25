@@ -142,7 +142,7 @@ public sealed class Phase06SnapshotTests
 
     /// <summary>Active sprint, bow recovery and flinch restore into the exact same public appearance.</summary>
     [Fact]
-    public void RunSnapshotPreservesCurrentAppearanceWithoutReplayingTheCue()
+    public void RunSnapshot_ActiveCues_PreserveAppearanceWithoutReplay()
     {
         FoundationSession source = Phase06MeleeTests.Start();
         RunItemActions.Controller controller = Phase06MeleeTests.Control();

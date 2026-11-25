@@ -75,7 +75,7 @@ public sealed class Phase06UiStateTests
 
     /// <summary>HUD food references use one shared real cooldown and held arrow counts ignore reserves.</summary>
     [Fact]
-    public void Phase06_HudReadsOnlyCarriedFoodAndReadyArrows()
+    public void Hud_ReservesPresent_ReadsOnlyCarriedFoodAndReadyArrows()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         RunInventory.Item bag = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack");
@@ -186,7 +186,7 @@ public sealed class Phase06UiStateTests
 
     /// <summary>A queued request completes once when a genuine candidate is released.</summary>
     [Fact]
-    public void Phase06_SpectatorWaitsWithoutRepeatingTheRequest()
+    public void Spectator_QueuedRequest_CompletesWithoutRepeating()
     {
         FoundationSession session = Phase06SuccessionTests.Start(count: 2);
         Join(session: session, ordinal: 2);
@@ -216,7 +216,7 @@ public sealed class Phase06UiStateTests
     [InlineData(2000, true, true)]
     [InlineData(2000, false, false)]
     [InlineData(20000, true, false)]
-    public void Phase06_SpectatorCameraCutsAcrossUnknownOrDistantViews(int elapsed, bool known, bool smooth)
+    public void SpectatorCamera_UnknownOrDistantView_Cuts(int elapsed, bool known, bool smooth)
     {
         FoundationSession session = Phase06MeleeTests.Start();
         var state = new FoundationSpectator();

@@ -200,7 +200,7 @@ public sealed class Phase06StashTests
 
     /// <summary>A partial merge remains detached when the remainder cannot fit any carried grid.</summary>
     [Fact]
-    public void QuickWithdrawalWithNoRoomRejectsWithoutAPartialMerge()
+    public void QuickWithdrawal_NoRoom_RejectsWithoutPartialMerge()
     {
         FoundationSession session = Start(stacks: [Stack(id: "IT-02", quantity: 5)]);
         RunInventory.ItemPath arrows = Seed(session: session, id: "IT-02", quantity: 29,
@@ -220,7 +220,7 @@ public sealed class Phase06StashTests
 
     /// <summary>A contested last stash item appears only in the winner's personal inventory.</summary>
     [Fact]
-    public async Task QuickWithdrawalOfTheLastStashItemPublishesOneOwner()
+    public async Task QuickWithdrawal_ContestedLastStashItem_PublishesOneOwner()
     {
         FoundationSession session = Start(stacks: [Stack(id: "IT-01", quantity: 11)]);
         session.AddParticipant(bindingId: "guest", playerId: "guest-player", actorId: "guest-actor", label: "Guest")
