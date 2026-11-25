@@ -4,18 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 06
 current_phase_name: Survivors, inventory, and combat
-current_plan: 18
+current_plan: 19
 status: executing
-stopped_at: Completed 06-17-PLAN.md
-last_updated: "2026-11-25T12:25:05.175Z"
+stopped_at: Completed 06-18-PLAN.md
+last_updated: "2026-11-25T15:21:03.633Z"
 last_activity: 2026-11-25
-last_activity_desc: 06-17 renamed the 43 R-48 test-name violations (F5)
-state_head: 5ebf612f8d80b660cb8a69edee4ad66fbff83e92
+last_activity_desc: 06-18 repaired the ExportDebug build (F8), the LAN partial-type proof (F6) and the native census count (F9)
+state_head: fb301ca8d65e1c9424b45f6e15a6a883f72b7a36
 progress:
   total_phases: 12
   completed_phases: 5
   total_plans: 115
-  completed_plans: 80
+  completed_plans: 81
   percent: 42
 ---
 
@@ -34,14 +34,14 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 ## Current Position
 
 Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
-Current Plan: 18
+Current Plan: 19
 Total Plans in Phase: 25
 Status: Ready to execute
-Last activity: 2026-11-25 — 06-17 renamed the 43 R-48 test-name violations (F5); 06-18 is next
+Last activity: 2026-11-25 — 06-18 repaired the ExportDebug build (F8), the LAN partial-type proof (F6) and the native census count (F9); 06-19 is next
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 80 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 81 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -98,6 +98,7 @@ Milestone progress: 5 of 12 phases, 80 of 115 planned plans complete with two Ph
 | Phase 04 P26 | 130min | 2 tasks | 14 files |
 | Phase 06 P16 | 689min | 2 tasks | 11 files |
 | Phase 06 P17 | 5min | 3 tasks | 12 files |
+| Phase 06 P18 | 175min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -196,6 +197,9 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 05, 2026-11-23]: After PR #6 moved the tools, the creator moved the renewal of the Phase 4 review-bound gates (`runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts`, `--verify-completion`) to Phase 11 under TEST-12. They stay expected-blocked without pass credit until then. Phase 5 still makes the Phase 4 checks it runs work in the relocated tree, including the recipes that assume the original `.phase4` folder. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-46.
 - [Phase 06]: 06-16 closed F2, F4, F7 and R-67: fixtures copy FoundationPublicWorld.cs; the MTP pin names the current proof csproj; the suppression scan binds under the consumer's assembly name (creator option b); the current Godot producer replay may append inputs after the exact ordered historical ones and is derived only by current-replay.cjs (creator option A); historical replay fixture builds run concurrently with sequential restores, keeping R-67's 60 s limit (creator option 1). The ac-08 binding rows and the bindings tools test stay with 06-24's ac08-bindings.cjs --write.
 - [Phase 06]: 06-17: F5 closes by renaming the 43 R-48 violations; R-48 and its checker stay unchanged, with no allowlist
+- [Phase 06]: 06-18: Core defines DEBUG only in ExportDebug, mirroring the Godot SDK, so ExportDebug exports compile while ExportRelease and Release exclude fixture code (F8)
+- [Phase 06]: 06-18: the LAN namespace control clones every authored partial of the checked type; production FoundationHud stays a two-file partial (F6)
+- [Phase 06]: 06-18: the native permission census requires exactly 252 tuples; the evidence.cjs presenter derivation (372 policy vs 252 compiled) is deferred in deferred-items.md
 
 ### Pending Todos
 
@@ -253,9 +257,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-25T12:25:04.555Z
-Stopped at: Completed 06-17-PLAN.md
-Resume file: [06-18-PLAN.md](phases/06-survivors-inventory-and-combat/06-18-PLAN.md)
+Last session: 2026-11-25T15:21:02.994Z
+Stopped at: Completed 06-18-PLAN.md
+Resume file: [06-19-PLAN.md](phases/06-survivors-inventory-and-combat/06-19-PLAN.md)
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
