@@ -223,6 +223,7 @@ async function inventory(state) {
   const {peer, first} = await enter(state, 'solo', 'field');
   await tap(state, peer, key.inventory);
   const shown = await observe(state, peer, row => row.inventoryOpen && row.inventorySlots === 11, 'native equip view');
+  const browsing = await jumpWhileBrowsing(state, peer);
   const bag = item(shown, 'own', 'IT-23');
   assert(bag?.StorageWidth > 0);
   const windows = own => inject(state, peer, {action: 'phase06-workspace', own, external: []});
@@ -248,8 +249,26 @@ async function inventory(state) {
     'one real berry spent');
   const stale = await action(state, peer, 'assign', {Item: reference(berries), Slot: 2}, 'StaleItem');
   assert(!own(stale).Header.Quick.some(entry => entry.Slot === 2));
-  return evidence(state, 'phase06.headless.inventory', [peer], {first, shown, carried, nesting, assigned, consumed,
-    cooldown, changed, stale});
+  return evidence(state, 'phase06.headless.inventory', [peer], {first, shown, browsing, carried, nesting, assigned,
+    consumed, cooldown, changed, stale});
+}
+
+// The workspace captures the jump key (D-08, D-37): every committed frame after a Space tap keeps it open and grounded.
+async function jumpWhileBrowsing(state, peer) {
+  const committed = () => lines(path.join(peer.directory, 'frames.ndjson')).filter(row => row.phase06?.World);
+  const before = committed().at(-1);
+  assert.equal(before.inventoryOpen, true, 'JUMP_KEY_BASELINE');
+  await tap(state, peer, key.jump);
+  const later = await observe(state, peer, row => row.frame > before.frame
+    && row.phase06.World.Elapsed >= before.phase06.World.Elapsed + 250, 'committed frames after Space while browsing');
+  const span = committed().filter(row => row.frame > before.frame && row.frame <= later.frame);
+  assert(span.length > 1, 'JUMP_KEY_SPAN');
+  for (const row of span) {
+    assert.equal(row.inventoryOpen, true, 'JUMP_KEY_CLOSED_INVENTORY');
+    assert.equal(actor(row).Y, row.phase06.World.Ground, 'JUMP_KEY_LEFT_GROUND');
+    assert.notEqual(actor(row).Movement, 'jump', 'JUMP_KEY_STARTED_JUMP');
+  }
+  return later;
 }
 
 async function combat(state) {

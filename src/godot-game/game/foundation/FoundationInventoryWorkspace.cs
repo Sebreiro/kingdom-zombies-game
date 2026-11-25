@@ -215,12 +215,12 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
                 at: new Model.Rect(x: bounds.Width - 166, y: 4, width: 156, height: 44), action: Close);
         _message = LabelAt(parent: _content, text: _feedback, at: new Model.Rect(x: 16, y: 464,
                 width: (_model.External ? NearbyLeft : bounds.Width) - 32, height: 46));
-        DrawEquipment();
+        Button? headwear = DrawEquipment();
         DrawStorage();
         DrawExternal();
         DrawBags();
         PaintSlots(item: _model.Drag?.Item);
-        RestoreFocus(previous: focused?.ToString(), fallback: _nearbyFocus ?? close);
+        RestoreFocus(previous: focused?.ToString(), fallback: _nearbyFocus ?? headwear ?? close);
         _dirty = false;
     }
 
@@ -236,12 +236,12 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         (focus ?? fallback).GrabFocus();
     }
 
-    private void DrawEquipment()
+    private Button? DrawEquipment()
     {
         _gateway.RequireThread();
         if (_content is null || _art is null)
         {
-            return;
+            return null;
         }
 
         LabelAt(parent: _content, text: "Equipment", at: new Model.Rect(x: 16, y: 4, width: 300, height: 36),
@@ -257,17 +257,20 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         };
         _content.AddChild(node: silhouette);
         ImmutableArray<Model.Item> equipment = Items(view: Own);
+        Button? first = null;
         for (int index = 0; index < Model.Slots.Length; index++)
         {
             string slot = Model.Slots[index];
             Model.Item? item = equipment.FirstOrDefault(predicate: entry =>
                     StringComparer.Ordinal.Equals(x: entry.Location.Slot, y: slot));
             var rect = new Model.Rect(x: index < 6 ? 16 : 212, y: 48 + index % 6 * 59, width: 96, height: 51);
-            DrawSlot(parent: _content, slot: slot, item: item, owner: _owner,
+            Button button = DrawSlot(parent: _content, slot: slot, item: item, owner: _owner,
                     kind: "equipment", token: 0, frame: rect);
+            first ??= button;
         }
 
         DrawQuick();
+        return first;
     }
 
     private void DrawStorage()
@@ -296,7 +299,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
     }
 
-    private void DrawSlot(Control parent, string slot, Model.Item? item, string owner, string kind, long token,
+    private Button DrawSlot(Control parent, string slot, Model.Item? item, string owner, string kind, long token,
             Model.Rect frame, ScrollContainer? clip = null)
     {
         _gateway.RequireThread();
@@ -320,6 +323,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
 
         _targets.Add(item: new TargetRegion(control: button, clip: clip, grid: null, slot: slot, owner: owner,
                 kind: kind, occupied: item, token: token, quick: null));
+        return button;
     }
 
     private void DrawQuick()
