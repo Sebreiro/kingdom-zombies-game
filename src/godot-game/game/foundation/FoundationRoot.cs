@@ -68,10 +68,20 @@ public sealed partial class FoundationRoot : Control
         ReturnToMenu();
     }
 
-    /// <summary>Consumes native key events through the same route used by player controls.</summary>
+    /// <summary>
+    /// Records every delivered key before routing, including keys the inventory workspace consumes, then consumes
+    /// native key events through the same route used by player controls.
+    /// </summary>
     public override void _Input(InputEvent @event)
     {
         _gateway.RequireThread();
+        if (@event is InputEventKey received)
+        {
+            _inputEvents++;
+            _diagnostics.RecordInput(key: (int)received.PhysicalKeycode, pressed: received.Pressed,
+                    echo: received.Echo);
+        }
+
         bool handled = _inventory.Input(input: @event);
         if (handled)
         {
@@ -89,8 +99,6 @@ public sealed partial class FoundationRoot : Control
             return;
         }
 
-        _inputEvents++;
-        _diagnostics.RecordInput(key: (int)key.PhysicalKeycode, pressed: key.Pressed, echo: key.Echo);
         if (popup)
         {
             return;

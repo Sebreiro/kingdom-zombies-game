@@ -258,6 +258,75 @@ test('SettledView_PendingOrClipped_Rejected', async t => {
   });
 });
 
+const escapeKey = 4194305;
+
+// The scripted game applies one D-14 effect per acknowledged Escape press and acknowledges every delivered key.
+function scriptedEscapes(t, scenes, {acknowledge = () => true, apply = () => true} = {}) {
+  const directory = scratch(t);
+  const peer = fakePeer(directory, 'solo', 4201);
+  let scene = 0, events = 0;
+  const show = (lastInput) => writeDraw(peer, {inputEvents: events, lastInput, ...scenes[scene].input},
+    scenes[scene].controls);
+  show(null);
+  const input = fakeInput(directory, (target, request) => {
+    if (request.action !== 'key' || !acknowledge(request)) return;
+    if (request.pressed && apply(scene)) scene = Math.min(scene + 1, scenes.length - 1);
+    events += 1;
+    show({key: request.key === 27 ? escapeKey : request.key, pressed: request.pressed, echo: false});
+  });
+  return {state: {directory, nonce, peers: [peer], input}, peer, sent: input.records};
+}
+
+const workspace = name => 'InventoryWorkspace/' + name;
+const inRun = (controls, open = true) => ({input: {inventoryOpen: open, phase06: {Views: {}}},
+  controls: [control('Menu/Start', 'Start', {visible: false}), ...controls]});
+const d14Scenes = () => [
+  inRun([control(workspace('ItemMenu/Options/QuantityToMove'), '3'), control(workspace('InventoryPanels/Bag_58/CloseBag_58')),
+    control(workspace('InventoryPanels/Bag_63/CloseBag_63'))]),
+  inRun([control(workspace('InventoryPanels/Bag_58/CloseBag_58')), control(workspace('InventoryPanels/Bag_63/CloseBag_63'))]),
+  inRun([control(workspace('InventoryPanels/Bag_58/CloseBag_58'))]),
+  inRun([]),
+  inRun([], false),
+  {input: {inventoryOpen: false}, controls: menuControls()},
+];
+
+test('Menu_EscapeEffects_FollowD14Order', async t => {
+  await t.test('each acknowledged Escape shows the next D-14 effect until the menu', async t => {
+    const {state, peer, sent} = scriptedEscapes(t, d14Scenes());
+    const steps = await run.menu(state, peer);
+    assert.deepEqual(steps, ['cancel drag or split preview', 'close bag window', 'close bag window',
+      'close inventory window', 'return to ordinary menu']);
+    const escapes = sent.filter(row => row.action === 'key');
+    assert.equal(escapes.length, 10);
+    assert(escapes.every((row, index) => row.key === 27 && row.pressed === (index % 2 === 0)));
+  });
+
+  await t.test('an acknowledged Escape without its effect fails with the step name', async t => {
+    const {state, peer} = scriptedEscapes(t, d14Scenes(), {apply: scene => scene !== 2});
+    await assert.rejects(run.menu(state, peer), /solo Escape acknowledged without its D-14 effect "close bag window"/);
+  });
+
+  await t.test('an open item menu closes before the bag windows', async t => {
+    const scenes = d14Scenes().slice(2);
+    scenes.unshift(inRun([control(workspace('ItemMenu/Options/@Label@116'), 'Berries'),
+      control(workspace('InventoryPanels/Bag_58/CloseBag_58'))]));
+    const {state, peer} = scriptedEscapes(t, scenes);
+    assert.deepEqual((await run.menu(state, peer)).slice(0, 2), ['close item menu', 'close bag window']);
+  });
+
+  await t.test('an unacknowledged press still releases the key and reports the receipt', async t => {
+    const {state, peer, sent} = scriptedEscapes(t, d14Scenes(), {acknowledge: request => !request.pressed});
+    await assert.rejects(run.menu(state, peer), /RENDERED_DEADLINE native event solo\/27\/true/);
+    assert.deepEqual(sent.filter(row => row.action === 'key').map(row => row.pressed), [true, false]);
+  });
+
+  await t.test('the menu already shown needs no Escape', async t => {
+    const {state, peer, sent} = scriptedEscapes(t, d14Scenes().slice(-1));
+    assert.deepEqual(await run.menu(state, peer), []);
+    assert.equal(sent.filter(row => row.action === 'key').length, 0);
+  });
+});
+
 function loadWith(file, stubs) {
   const loaded = new Module(file, module);
   loaded.filename = file;

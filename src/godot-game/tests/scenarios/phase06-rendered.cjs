@@ -108,9 +108,13 @@ function press(state, peer, code, pressed) {
   return render.nativeKey(state, state.input, peer, code, pressed);
 }
 
+// The release is always delivered, so a press whose receipt failed cannot leave the key held and turn the next
+// press of the same key into an echo.
 async function tap(state, peer, code) {
-  await press(state, peer, code, true);
-  await press(state, peer, code, false);
+  let failure;
+  try { await press(state, peer, code, true); } catch (error) { failure = error; }
+  try { await press(state, peer, code, false); } catch (error) { failure ??= error; }
+  if (failure) throw failure;
 }
 
 function pointer(state, peer, point, button, pressed) {
@@ -168,14 +172,45 @@ async function join(state, peer, session) {
     'current recipient admission');
 }
 
+const shown = (draw, pattern) => draw.controls.filter(entry => entry.visible && pattern.test(entry.path)).length;
+const menuShown = draw => draw.controls.some(entry => entry.path === 'Menu/Start' && entry.visible);
+const dragging = /\/(?:PlacementPreview|QuantityToMove)$/;
+const browsing = draw => draw.input.inventoryOpen === true;
+
+// D-14: Escape cancels an active drag and leaves browsing open, then closes the active inventory window, and only
+// then reaches the in-run Escape action that returns to the menu. The workspace closes its item menu, nearby target
+// list and bag windows, in that order, before the workspace itself.
+const escapeOrder = [
+  {step: 'cancel drag or split preview', active: draw => browsing(draw) && shown(draw, dragging) > 0,
+    done: draw => browsing(draw) && shown(draw, dragging) === 0},
+  {step: 'close item menu', active: draw => browsing(draw) && shown(draw, /\/ItemMenu\//) > 0,
+    done: draw => browsing(draw) && shown(draw, /\/ItemMenu\//) === 0},
+  {step: 'leave nearby target list', active: draw => browsing(draw) && !!draw.input.phase06?.Views?.external
+      && shown(draw, /\/NearbyChoice_[^/]+$/) > 0,
+    done: draw => browsing(draw) && shown(draw, /\/NearbyChoice_[^/]+$/) === 0},
+  {step: 'close bag window', active: draw => browsing(draw) && shown(draw, /\/CloseBag_[^/]+$/) > 0,
+    done: (draw, before) => browsing(draw) && shown(draw, /\/CloseBag_[^/]+$/) < shown(before, /\/CloseBag_[^/]+$/)},
+  {step: 'close inventory window', active: browsing, done: draw => !browsing(draw)},
+  {step: 'return to ordinary menu', active: () => true, done: menuShown},
+];
+
+// Each Escape must be acknowledged as a native key and then show the effect its D-14 step names. A missing effect
+// fails with that step; there is no silent retry. Returns the steps taken.
 async function menu(state, peer) {
   await focus(state, peer);
-  for (let attempt = 0; attempt < 20; attempt++) {
-    if (last(peer)?.controls.some(entry => entry.path === 'Menu/Start' && entry.visible)) return;
+  const steps = [];
+  for (let count = 0; count < 16; count++) {
+    const before = last(peer);
+    if (menuShown(before)) return steps;
+    const {step, done} = escapeOrder.find(entry => entry.active(before));
     await tap(state, peer, key.escape);
-    await after(peer, frame => frame.drawn, 'Escape redraw');
+    try { await after(peer, draw => done(draw, before), 'Escape effect ' + step, before.drawFrame); }
+    catch (error) {
+      throw new Error(peer.role + ' Escape acknowledged without its D-14 effect "' + step + '": ' + error.message);
+    }
+    steps.push(step);
   }
-  throw new Error(peer.role + ' did not return to ordinary menu');
+  throw new Error(peer.role + ' did not reach the ordinary menu through the D-14 Escape order');
 }
 
 async function reset(state) {
