@@ -16,7 +16,8 @@ internal static class RestoreMutationProof
     {
         var fixture = new BuildFixture(tests: true);
         fixture.Restore();
-        fixture.Build().Exit.ShouldBe(expected: 0);
+        (int Exit, string Output) restored = fixture.Build();
+        restored.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_CLEAN_BUILD: " + restored.Output);
         (int Exit, string Output) clean = Run(root: fixture.DirectoryPath, report: "clean.xml");
         clean.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_CLEAN_TARGET: " + clean.Output);
         string path = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/ExampleStateStore.cs");

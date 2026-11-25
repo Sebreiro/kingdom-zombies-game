@@ -32,6 +32,7 @@ internal static class FoundationLinkedSources
         "src/godot-game/game/foundation/FoundationCoordinator.cs",
         "src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs",
         "src/godot-game/game/foundation/FoundationViewInbox.cs",
+        "src/godot-game/game/foundation/FoundationPublicWorld.cs",
         "src/godot-game/game/foundation/FoundationRunFrame.cs",
         "src/godot-game/game/foundation/FoundationRunView.cs",
         "src/godot-game/game/foundation/FoundationRunReadback.cs",
