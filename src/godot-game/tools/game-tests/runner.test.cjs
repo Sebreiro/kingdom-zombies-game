@@ -122,3 +122,32 @@ test('PreparedProject_InheritedRendered_LoadsImportedAtlases', async t => {
   assert.equal(args[args.indexOf('--path') + 1], native.project);
   assert.notEqual(args[args.indexOf('--path') + 1], path.join(context.root, 'src/godot-game/game'));
 });
+
+test('PreparedProject_RenderedLanSuite_UsesOneCopy', async t => {
+  const network = require('../lan-checks/network.cjs');
+  const native = require('../lan-checks/rendered.cjs');
+  const scenarios = require('../lan-checks/scenarios.cjs');
+  const suite = {...nativeScratch(t), ownsDesktopLock: true};
+  const launched = [];
+  t.mock.method(network, 'launch', (context, role) => {
+    const directory = path.join(context.directory, role);
+    fs.mkdirSync(directory);
+    launched.push({role, project: context.project, rendered: context.rendered});
+    return {role, directory, pid: 40_000 + launched.length, profile: 'profile-' + role, exit: {code: 0}};
+  });
+  t.mock.method(network, 'cleanup', async () => {});
+  t.mock.method(native, 'until', async () => true);
+  t.mock.method(native, 'driver', () => ({start: async () => {}, close: async () => {},
+    send: async () => { throw new Error('RECORDED_DRIVER_ONLY'); }}));
+  const {results, launches} = await scenarios.run(suite, [{id: 'rendered.recorded-launch', runGroup: 'G3', order: 1}]);
+  const project = path.join(suite.directory, 'imported-game');
+  assertCleanImport(suite, project);
+  assert.deepEqual(launched.map(row => row.role), ['host', 'guest1', 'guest2', 'guest3']);
+  assert(launched.every(row => row.project === project && row.rendered === true), 'every role launches the prepared copy');
+  assert.deepEqual(launches.map(row => row.role), ['host', 'guest1', 'guest2', 'guest3']);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].status, 'fail');
+  assert.match(results[0].message, /RECORDED_DRIVER_ONLY/);
+  assert.equal(results[0].preparedProject.path, 'imported-game');
+  assert.deepEqual(results[0].preparedProject.assemblies.map(row => row.name), ['KingdomZombies.dll', 'KingdomZombies.Core.dll']);
+});

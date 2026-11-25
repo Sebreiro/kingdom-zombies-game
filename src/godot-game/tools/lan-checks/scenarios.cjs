@@ -342,10 +342,18 @@ async function close(state){
   for(const peer of [...new Set([...state.peers,...state.extra])])try{await net.cleanup(peer);}catch(error){errors.push(error.message);}
   if(errors.length)throw new Error('OWNED_SCENARIO_CLEANUP '+errors.join('; '));
 }
-async function run(context,items){
-  const unlock=context.ownsDesktopLock?()=>{}:acquireLock(context.root,context.nonce),results=[],launches=[],states=[];
-  const identity={nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,revision:context.revision,osFingerprint:context.osFingerprint};
+// Every rendered role starts from one imported copy of the current game in the invocation directory.
+async function prepare(context){
+  const {project,assemblies}=await require('../gameplay-checks/rendered.cjs').prepareRenderedProject(context);
+  return {...context,project,preparedProject:{path:path.relative(context.directory,project).split(path.sep).join('/'),assemblies}};
+}
+async function run(outer,items){
+  const unlock=outer.ownsDesktopLock?()=>{}:acquireLock(outer.root,outer.nonce),results=[],launches=[],states=[];
+  const identity={nonce:outer.nonce,input:outer.input,tool:outer.tool,platform:outer.platform,revision:outer.revision,osFingerprint:outer.osFingerprint};
+  let context=outer;
   try{
+    try{context=await prepare(outer);identity.preparedProject=context.preparedProject;}
+    catch(error){for(const item of items)results.push({id:item.id,status:'blocked',...identity,message:'PROJECT_PREPARE '+error.message});return {results,launches};}
     for(const group of ['G2','G3','G4']){
       const selected=items.filter(row=>row.runGroup===group).sort((a,b)=>a.order-b.order);if(!selected.length)continue;
       let state;
@@ -368,4 +376,4 @@ async function run(context,items){
   for(const result of results)for(const peer of [...result.peers??[],...result.additionalPeers??[]]){peer.launch=artifact(path.join(peer._peer.directory,'launch.json'));peer.log=artifact(path.join(peer._peer.directory,'console.log'));peer.draws=artifact(path.join(peer._peer.directory,'draws.ndjson'));peer.terminal=artifact(path.join(peer._peer.directory,'terminal.json'));delete peer._peer;}
   return {results,launches};
 }
-module.exports={run,click,text,menu,host,browse,join,roster,resetFour,create,close,raceJoins};
+module.exports={run,prepare,click,text,menu,host,browse,join,roster,resetFour,create,close,raceJoins};
