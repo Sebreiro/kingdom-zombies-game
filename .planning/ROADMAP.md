@@ -416,7 +416,7 @@ Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/
 4. Players can fight with fists, one or two one-handed weapons, or a mouse-aimed bow consuming real opposite-hand arrows with manual refill. Costs/timing, armor, retained broken gear, no friendly damage, friendly arrow passthrough, and blocking-defense hits match the specification.
 5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Respawn enables one second after death and requires an explicit request before assignment or waiting. Random succession preserves the eligible survivor's state/location/gear, concurrent requests never share a successor, and queued requests automatically receive newly available survivors in request order without gaining loot from crowns. Spectating follows living teammates through Previous/Next and a teammate list. Camera handover is smooth nearby and cuts when distant.
 
-**Plans:** 25 plans (06-16–06-25 close the gaps in [06-VERIFICATION](phases/06-survivors-inventory-and-combat/06-VERIFICATION.md))
+**Plans:** 15/25 plans executed (06-16–06-25 close the gaps in [06-VERIFICATION](phases/06-survivors-inventory-and-combat/06-VERIFICATION.md))
 **Wave 1**
 - [x] 06-01 — [Authoritative world time, camp safety and access](phases/06-survivors-inventory-and-combat/06-01-PLAN.md)
 
@@ -458,7 +458,7 @@ Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/
 - [x] 06-14 — [Asset integration and whole-phase code review](phases/06-survivors-inventory-and-combat/06-14-PLAN.md)
 
 **Wave 14** *(blocked on Wave 13 completion; gap closure)*
-- [ ] 06-16 — [Rule-suite fixture inventory and MTP producer pin](phases/06-survivors-inventory-and-combat/06-16-PLAN.md)
+- [x] 06-16 — [Rule-suite fixture inventory and MTP producer pin](phases/06-survivors-inventory-and-combat/06-16-PLAN.md)
 
 **Wave 15** *(blocked on Wave 14 completion; gap closure)*
 - [ ] 06-17 — [Test-name rule conformance](phases/06-survivors-inventory-and-combat/06-17-PLAN.md)
@@ -721,7 +721,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
 | 4. Asset production | 35/37, 2 waived | Complete under closure exception | 2026-11-22 |
 | 5. CI and repeatable game testing | 4/4 | Complete | 2026-11-24 |
-| 6. Survivors, inventory, and combat | 14/15 | In progress | - |
+| 6. Survivors, inventory, and combat | 15/25 | In Progress | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |
 | 8. Zombie campaign and outcomes | 0/TBD | Not started | - |
 | 9. Persistence and complete player experience | 0/TBD | Not started | - |

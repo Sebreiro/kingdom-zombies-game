@@ -4,18 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 06
 current_phase_name: Survivors, inventory, and combat
-current_plan: 15
+current_plan: 17
 status: executing
-stopped_at: "06-15 checkpoint: initial phase-end run failed; awaiting repairs and re-review"
-last_updated: "2026-11-25T00:44:03.845Z"
+stopped_at: Completed 06-16-PLAN.md
+last_updated: "2026-11-25T12:17:25.059Z"
 last_activity: 2026-11-25
-last_activity_desc: Gap-closure plans 06-16 to 06-25 created after the failed initial phase-end run
-state_head: 09e28818a9e0263680313852df867373229b9625
+last_activity_desc: 06-16 repaired the rule-suite fixtures, MTP pin, suppression scan and Godot producer replay
+state_head: a7d2a2a3ac1f043771c888ff234dca419bf4dd33
 progress:
   total_phases: 12
   completed_phases: 5
   total_plans: 115
-  completed_plans: 78
+  completed_plans: 79
   percent: 42
 ---
 
@@ -34,14 +34,14 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 ## Current Position
 
 Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
-Current Plan: 15
+Current Plan: 17
 Total Plans in Phase: 25
 Status: Ready to execute
-Last activity: 2026-11-25 — Gap-closure plans 06-16 to 06-25 created after the failed initial phase-end run
+Last activity: 2026-11-25 — 06-16 repaired the rule-suite fixtures, MTP pin, suppression scan and Godot producer replay; 06-17 is next
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 78 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 79 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -96,6 +96,7 @@ Milestone progress: 5 of 12 phases, 78 of 115 planned plans complete with two Ph
 | Phase 04 P37 | 99min | 2 tasks | 12 files |
 | Phase 04 P03 | 20min | 2 tasks | 8 files |
 | Phase 04 P26 | 130min | 2 tasks | 14 files |
+| Phase 06 P16 | 689min | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -192,6 +193,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 05]: Approved shared test preparation, focused checks and automatic scratch cleanup after durable evidence is saved. Exact builds are kept only for diagnosis or handoff. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md). — Reduce the disk footprint and repeated setup measured in Phase 4 while retaining required verification.
 - [Phase 05, 2026-11-23]: The creator approved the test-scope amendment. Phase 5 is reduced to a shared runner and catalog, three tiers, basic PR checks and the existing solo/LAN scenarios. Coverage certification with the eight IDs, full hosted runs, evidence reuse and exhaustive runner trials move to Phase 11 under the new TEST-12, and five cheaper testing rules apply to Phases 6–10. See the amended [05-SPEC.md](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) and [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-35–D-46. Plan Phase 5 from the amended specification and context.
 - [Phase 05, 2026-11-23]: After PR #6 moved the tools, the creator moved the renewal of the Phase 4 review-bound gates (`runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts`, `--verify-completion`) to Phase 11 under TEST-12. They stay expected-blocked without pass credit until then. Phase 5 still makes the Phase 4 checks it runs work in the relocated tree, including the recipes that assume the original `.phase4` folder. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-46.
+- [Phase 06]: 06-16 closed F2, F4, F7 and R-67: fixtures copy FoundationPublicWorld.cs; the MTP pin names the current proof csproj; the suppression scan binds under the consumer's assembly name (creator option b); the current Godot producer replay may append inputs after the exact ordered historical ones and is derived only by current-replay.cjs (creator option A); historical replay fixture builds run concurrently with sequential restores, keeping R-67's 60 s limit (creator option 1). The ac-08 binding rows and the bindings tools test stay with 06-24's ac08-bindings.cjs --write.
 
 ### Pending Todos
 
@@ -249,9 +251,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-24T23:53:50.696Z
-Stopped at: 06-15 checkpoint: initial phase-end run failed; awaiting repairs and re-review
-Resume file: [06-VERIFICATION.md](phases/06-survivors-inventory-and-combat/06-VERIFICATION.md), with the failure causes in [06-RENDERED-EVIDENCE.md](phases/06-survivors-inventory-and-combat/06-RENDERED-EVIDENCE.md)
+Last session: 2026-11-25T12:17:06.578Z
+Stopped at: Completed 06-16-PLAN.md
+Resume file: [06-17-PLAN.md](phases/06-survivors-inventory-and-combat/06-17-PLAN.md)
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
