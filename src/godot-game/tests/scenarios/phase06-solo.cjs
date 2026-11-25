@@ -23,7 +23,8 @@ async function world(state) {
   assert.notEqual(stationary[0].Id, stationary[1].Id);
   assert.deepEqual(camp.Defenses.map(({Id, Living}) => [Id, Living]),
     [['fixture.living-wall', true], ['fixture.broken-wall', false]]);
-  const walked = await dash(state, peer, row => actor(row)?.X > actor(initial).X + 500, 'controlled native walk');
+  const walked = await run.moveUntil(state, peer, key.right, row => actor(row)?.X > actor(initial).X + 500,
+    'controlled native walk');
   const moved = await run.picture(state, peer, 'world-walked', (row, draw) => {
     const local = draw.actors.find(entry => entry.local);
     return local?.insideCamera && local.visible && actor(row)?.X > actor(initial).X + 500

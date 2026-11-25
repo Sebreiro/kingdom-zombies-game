@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const network = require('../../tools/lan-checks/network.cjs');
+const terminal = require('../../tools/lan-checks/terminal.cjs');
 const {environment} = require('../../tools/lan-checks/check.cjs');
 const {lines} = require('../../tools/lan-checks/rendered.cjs');
 
@@ -113,13 +114,20 @@ async function close(state, stop = leaveWorkspace) {
     } catch (error) { errors.push(error.message); }
   }
   assert.deepEqual(errors, []);
+  // A rendered group writes the record in its own close, after its owned input driver has also closed.
   if (!state.rendered) ended(state);
 }
 
+// Both group kinds write the record only after every role's terminal record proves an ordinary Quit with exit 0.
 function ended(state) {
-  fs.writeFileSync(path.join(state.directory, 'ordinary-cleanup.json'), JSON.stringify({
-    nonce: state.nonce, roles: state.peers.map(({role, pid}) => ({role, pid})),
-  }), {flag: 'wx'});
+  const roles = state.peers.map(peer => {
+    const record = terminal.validate(JSON.parse(fs.readFileSync(path.join(peer.directory, 'terminal.json'), 'utf8')));
+    assert(record.pid === peer.pid && record.role === peer.role && !record.expectedLoss,
+      peer.role + ' did not complete its ordinary Quit');
+    return {role: peer.role, pid: peer.pid};
+  });
+  fs.writeFileSync(path.join(state.directory, 'ordinary-cleanup.json'), JSON.stringify({nonce: state.nonce, roles}),
+    {flag: 'wx'});
 }
 
 function evidence(state, id, peers, observations, captures = []) {
