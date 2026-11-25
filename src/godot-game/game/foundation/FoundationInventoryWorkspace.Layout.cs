@@ -7,6 +7,22 @@ namespace KingdomZombies.Foundation;
 
 internal sealed partial class FoundationInventoryWorkspace
 {
+    private const int EquipmentTop = 44;
+    private const int EquipmentWidth = 96;
+    private const int SlotFontSize = 16;
+    private const int SlotIconRegion = 34;
+
+    /// <summary>
+    /// Places an own equipment slot in its column of the 320 px equipment column: 96 px slot columns at x 16 and 208
+    /// around the 80 px silhouette, with 8 px gaps. A slot is a label region over an icon region of
+    /// <see cref="SlotIconRegion"/> px (24 px icon, 4 px condition bar). A label that wraps gets one more 24 px body
+    /// line, so the wrapped label never reaches the icon region.
+    /// </summary>
+    private static Model.Rect EquipmentFrame(int column, int top, bool wrapped)
+    {
+        return new Model.Rect(x: column == 0 ? 16 : 208, y: top, width: EquipmentWidth, height: wrapped ? 84 : 60);
+    }
+
     private Model.Rect Bounds()
     {
         _gateway.RequireThread();

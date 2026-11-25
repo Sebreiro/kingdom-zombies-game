@@ -69,7 +69,7 @@ internal sealed class FoundationInventoryGrid
             ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            Position = new Vector2(x: 4, y: 2),
+            Position = new Vector2(x: 4, y: equipment ? button.Size.Y - 34 : 2),
             Size = new Vector2(x: Math.Max(val1: 20, val2: button.Size.X - 8),
                     y: Math.Max(val1: 22, val2: equipment ? 24 : button.Size.Y - 6)),
         };
@@ -252,8 +252,16 @@ internal sealed class FoundationInventoryGrid
         button.AddChild(node: strip);
         if (condition == 0)
         {
-            var broken = new Label { Text = "× Broken", Position = new Vector2(x: 4, y: 0),
-                MouseFilter = Control.MouseFilterEnum.Ignore };
+            var broken = new Label
+            {
+                Name = "Broken",
+                Text = "× Broken",
+                Position = new Vector2(x: 4, y: button.Size.Y - 34),
+                Size = new Vector2(x: button.Size.X - 8, y: 24),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
             button.AddChild(node: broken);
         }
     }

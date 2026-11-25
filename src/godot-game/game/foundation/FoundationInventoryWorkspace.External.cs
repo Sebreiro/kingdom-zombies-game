@@ -360,7 +360,7 @@ internal sealed partial class FoundationInventoryWorkspace
     {
         _gateway.RequireThread();
         (string kind, string id) target = Model.ExternalTarget(header: view.Header);
-        var gear = new Control { Name = "NearbyEquipment", CustomMinimumSize = new Vector2(x: 392, y: 216) };
+        var gear = new Control { Name = "NearbyEquipment", CustomMinimumSize = new Vector2(x: 392, y: 252) };
         parent.AddChild(node: gear);
         string kind = target.kind is "Corpse" ? "corpse" : "equipment";
         for (int index = 0; index < Model.Slots.Length; index++)
@@ -369,7 +369,7 @@ internal sealed partial class FoundationInventoryWorkspace
             Model.Item? item = items.FirstOrDefault(predicate: row =>
                     StringComparer.Ordinal.Equals(x: row.Location.Slot, y: slot));
             DrawSlot(parent: gear, slot: slot, item: item, owner: target.id, kind: kind, token: view.Token,
-                    frame: new Model.Rect(x: index % 3 * 132, y: index / 3 * 54, width: 124, height: 50),
+                    frame: new Model.Rect(x: index % 3 * 132, y: index / 3 * 64, width: 124, height: 60),
                     clip: parent.GetParent() as ScrollContainer);
         }
 

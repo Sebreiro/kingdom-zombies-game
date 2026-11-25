@@ -213,8 +213,8 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         _content = Surface(parent: _layer, name: "InventoryPanels", frame: bounds, opacity: 0.88f);
         Button close = ButtonAt(parent: _content, name: "CloseInventory", text: "Close inventory",
                 at: new Model.Rect(x: bounds.Width - 166, y: 4, width: 156, height: 44), action: Close);
-        _message = LabelAt(parent: _content, text: _feedback, at: new Model.Rect(x: 16, y: 464,
-                width: (_model.External ? NearbyLeft : bounds.Width) - 32, height: 46));
+        _message = LabelAt(parent: _content, text: _feedback, at: new Model.Rect(x: 336, y: 464,
+                width: (_model.External ? NearbyLeft : bounds.Width) - 352, height: 46));
         Button? headwear = DrawEquipment();
         DrawStorage();
         DrawExternal();
@@ -257,13 +257,18 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         };
         _content.AddChild(node: silhouette);
         ImmutableArray<Model.Item> equipment = Items(view: Own);
+        Font font = _art.Theme.DefaultFont;
+        int[] tops = [EquipmentTop, EquipmentTop];
         Button? first = null;
         for (int index = 0; index < Model.Slots.Length; index++)
         {
             string slot = Model.Slots[index];
             Model.Item? item = equipment.FirstOrDefault(predicate: entry =>
                     StringComparer.Ordinal.Equals(x: entry.Location.Slot, y: slot));
-            var rect = new Model.Rect(x: index < 6 ? 16 : 212, y: 48 + index % 6 * 59, width: 96, height: 51);
+            int column = index < 6 ? 0 : 1;
+            Model.Rect rect = EquipmentFrame(column: column, top: tops[column], wrapped: font.GetStringSize(
+                    text: SlotName(slot: slot), fontSize: SlotFontSize).X > EquipmentWidth - 8);
+            tops[column] = rect.Y + rect.Height + 4;
             Button button = DrawSlot(parent: _content, slot: slot, item: item, owner: _owner,
                     kind: "equipment", token: 0, frame: rect);
             first ??= button;
@@ -307,14 +312,40 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         var button = new Button
         {
             Name = (token > 0 ? "nearby_" : "") + kind + "_" + slot,
-            Text = item is null ? label + "\nEmpty" : label,
             TooltipText = item is null ? label + " empty" : "",
-            Alignment = HorizontalAlignment.Center,
         };
-        button.AddThemeFontSizeOverride(name: "font_size", fontSize: 12);
         Put(control: button, frame: frame);
         parent.AddChild(node: button);
-        if (item is not null)
+        var title = new Label
+        {
+            Name = "Label",
+            Text = label,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        title.AddThemeFontSizeOverride(name: "font_size", fontSize: SlotFontSize);
+        button.AddChild(node: title);
+        title.Position = new Vector2(x: 4, y: 2);
+        title.Size = new Vector2(x: frame.Width - 8, y: frame.Height - SlotIconRegion - 4);
+        if (item is null)
+        {
+            var region = new Rect2(x: 4, y: frame.Height - SlotIconRegion, width: frame.Width - 8, height: 24);
+            button.AddChild(node: new TextureRect { Name = "Icon", Position = region.Position, Size = region.Size,
+                MouseFilter = Control.MouseFilterEnum.Ignore });
+            var marker = new Label
+            {
+                Name = "Empty",
+                Text = "Empty",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            button.AddChild(node: marker);
+            marker.Position = region.Position;
+            marker.Size = region.Size;
+        }
+        else
         {
             _grid?.Decorate(button: button, item: item, equipment: true);
             button.GuiInput += input => ItemInput(button: button, item: item, external: token > 0,
@@ -349,7 +380,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
                 TooltipText = reference.ValueKind == JsonValueKind.Object
                         ? "Slot " + title + " assigned" : "Slot " + title + " empty. Drag carried food here.",
             };
-            Put(control: button, frame: new Model.Rect(x: 16 + (slot - 1) * 58, y: 408,
+            Put(control: button, frame: new Model.Rect(x: 16 + (slot - 1) * 58, y: 464,
                     width: 52, height: 46));
             _content.AddChild(node: button);
             _targets.Add(item: new TargetRegion(control: button, clip: null, grid: null, slot: null,

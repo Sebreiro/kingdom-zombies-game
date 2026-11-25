@@ -401,8 +401,8 @@ internal sealed partial class FoundationHud
         _gateway.RequireThread();
         var label = new Label { Name = name, MouseFilter = Control.MouseFilterEnum.Ignore,
             VerticalAlignment = VerticalAlignment.Center };
-        Place(control: label, at: at);
         parent.AddChild(node: label);
+        Place(control: label, at: at);
         return label;
     }
 

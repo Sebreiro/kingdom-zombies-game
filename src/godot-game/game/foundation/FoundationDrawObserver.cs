@@ -210,15 +210,26 @@ internal sealed class FoundationDrawObserver
         _gateway.RequireThread();
         Control control = _root.GetNode<Control>(path: path);
         Rect2 rect = control.GetGlobalRect();
+        string text = control is Label label ? label.Text
+                : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "";
+        float measured = control.GetThemeFont(name: "font").GetMultilineStringSize(text: text,
+                fontSize: control.GetThemeFontSize(name: "font_size")).X;
+        float room = control.Size.X - (control is Label or Button
+                ? control.GetThemeStylebox(name: "normal").GetMinimumSize().X : 0);
+        bool clipped = text.Length > 0 && (rect.Size.X <= 0 || rect.Size.Y <= 0 || control switch
+        {
+            Label shown => shown.GetLineCount() > shown.GetVisibleLineCount()
+                    || (shown.AutowrapMode == TextServer.AutowrapMode.Off && measured > room + 0.5f),
+            Button => measured > room + 0.5f,
+            _ => false,
+        });
         _controls.Add(item: new { path, x = rect.GetCenter().X, y = rect.GetCenter().Y,
             session = control.GetMeta(name: "session", @default: "").AsString(),
             width = rect.Size.X, height = rect.Size.Y, visible = control.IsVisibleInTree(),
             selectedIndex = control is OptionButton selector ? selector.Selected : -1,
             popupVisible = control is OptionButton popup ? popup.GetPopup().Visible : false,
             popupFocusedIndex = control is OptionButton highlight ? highlight.GetPopup().GetFocusedItem() : -1,
-            focused = control.HasFocus(), disabled = control is BaseButton { Disabled: true },
-            text = control is Label label ? label.Text
-                    : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "" });
+            focused = control.HasFocus(), disabled = control is BaseButton { Disabled: true }, text, clipped });
     }
 
     private string? Request()
