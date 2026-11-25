@@ -24,3 +24,11 @@ Out-of-scope problems found while executing gap plans. Each needs an owner befor
 ### One more foundation presenter tuple for the 06-18 evidence derivation
 
 - 06-20 adds the guarded presenter `FoundationHud.KeepHintClosed()` to `EngineAccessPolicy._presenters`. The 06-18 item above (`guardedHostTuples`) now sees 373 policy tuples. Its repair decision is unchanged.
+
+## Found during 06-23
+
+### Cause of the core.permissions failure: stale ac-08.complete source hashes
+
+- **Cause.** The message names only the first drifted file. The case `ac-08.complete` in `src/godot-game/tools/verification/required-cases.json` binds the SHA-256 of every source in its `repositoryStages.sources` list, and these were last bound at `b9aaa2b`. Before 06-23, 39 sources and 2 bindings (`generated-callsite-adaptations.json`, `engine-generated-spans.json`) had drifted through Phase 6 work. `CharacterPresentation.cs` is the first of them in path order.
+- **06-23 effect.** 06-23 changes `CharacterPresentation.cs` (already drifted) and `CharacterPresentationTests.cs` (one more drifted source). The failure message is unchanged: game-tests `28f3fd59-6a18-4edd-848e-80c70719119e`, gameplay-checks `229f4785-0178-4ba8-b73f-ce1d49cc9470`, `FAIL core.permissions: src/godot-game/core/CharacterPresentation.cs`.
+- **Why not fixed in 06-23.** Rebinding means re-deriving the staged producer inputs and observations of `ac-08.complete` for about 40 Phase 6 files. That is outside the 06-23 file list. Its owner must decide whether to rebind the case or rederive its staged inputs.
