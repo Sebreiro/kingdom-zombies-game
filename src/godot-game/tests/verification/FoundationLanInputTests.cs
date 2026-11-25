@@ -42,7 +42,7 @@ public sealed class FoundationLanInputTests
 
     /// <summary>Native jump input requires a one-shot, focus-fenced consumer.</summary>
     [Fact]
-    public void Input_JumpAndAttackRequireFreshWorldPresses()
+    public void Input_JumpAndAttack_RequireFreshWorldPresses()
     {
         var input = new FoundationInput();
         input.Set(key: 32, pressed: true);
@@ -65,7 +65,7 @@ public sealed class FoundationLanInputTests
 
     /// <summary>Opening or leaving a panel fences held modifiers, old clicks and pending discrete actions.</summary>
     [Fact]
-    public void Input_WorkspaceTransitionClearsMovementAndPendingPresses()
+    public void Input_WorkspaceTransition_ClearsMovementAndPendingPresses()
     {
         var input = new FoundationInput();
         const int Shift = 4194325;
@@ -98,7 +98,7 @@ public sealed class FoundationLanInputTests
 
     /// <summary>Cursor resolution honors current world origin, invert-Y ground and finite action bounds.</summary>
     [Fact]
-    public void Input_CursorCoordinatesResolveToExactBoundedHostAim()
+    public void Input_CursorCoordinates_ResolveToBoundedHostAim()
     {
         FoundationInput.Aim(localX: 64, localY: 492, origin: -300, ground: 700)
                 .ShouldBe(expected: (3700m, 3700m));
@@ -110,7 +110,7 @@ public sealed class FoundationLanInputTests
 
     /// <summary>An actual held bow stays toward the cursor with zero nocked arrows or synthetic release.</summary>
     [Fact]
-    public void Input_UnloadedBowRetainsAimAndCannotRelease()
+    public void Input_UnloadedBow_RetainsAimAndCannotRelease()
     {
         string content = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/game/content");
         var presentation = new CharacterPresentation(
@@ -135,7 +135,7 @@ public sealed class FoundationLanInputTests
 
     /// <summary>A numbered food press uses current recipient authority without exposing its nested window.</summary>
     [Fact]
-    public void Input_QuickFoodUsesItsPermittedReferenceWithoutAnOpenGrid()
+    public void Input_QuickFood_UsesPermittedReferenceWithoutOpenGrid()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         RunInventory.Item bag = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack");

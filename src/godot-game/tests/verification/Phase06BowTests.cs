@@ -187,7 +187,7 @@ public sealed class Phase06BowTests
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public void JumpAndLandingFollowTheSameTrajectoryAcrossHostSteps(bool landsOnArrow)
+    public void JumpAndLanding_SplitHostSteps_FollowSameTrajectory(bool landsOnArrow)
     {
         FoundationSession whole = JumpWithArrow(landsOnArrow: landsOnArrow);
         FoundationSession split = JumpWithArrow(landsOnArrow: landsOnArrow);
@@ -211,7 +211,7 @@ public sealed class Phase06BowTests
 
     /// <summary>A moving victim leaves the corpse at the same impact position in either step grouping.</summary>
     [Fact]
-    public void LethalFlightLeavesTheCorpseAtItsCommittedImpact()
+    public void LethalFlight_SplitHostSteps_LeavesCorpseAtCommittedImpact()
     {
         FoundationSession whole = JumpWithArrow(landsOnArrow: true, lethal: true);
         FoundationSession split = JumpWithArrow(landsOnArrow: true, lethal: true);
@@ -230,7 +230,7 @@ public sealed class Phase06BowTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void AlreadyRestingSurvivorAppliesImpactAtTheSubtick(bool lethal)
+    public void ArrowImpact_AlreadyRestingSurvivor_AppliesAtSubtick(bool lethal)
     {
         FoundationSession whole = RestingUnderArrow(health: lethal ? 21 : 99.95m);
         FoundationSession split = RestingUnderArrow(health: lethal ? 21 : 99.95m);

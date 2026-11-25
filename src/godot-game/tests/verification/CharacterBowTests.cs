@@ -92,7 +92,7 @@ public sealed class CharacterBowTests
 
     /// <summary>The committed last arrow drives a detached recovery cue without replay or visual inventory.</summary>
     [Fact]
-    public void CommittedLastArrowSamplesRecoveryThenReturnsToQuietAim()
+    public void LastArrow_CommittedRelease_SamplesRecoveryThenQuietAim()
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",

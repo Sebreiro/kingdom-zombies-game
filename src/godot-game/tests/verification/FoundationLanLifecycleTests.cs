@@ -38,7 +38,7 @@ public sealed class FoundationLanLifecycleTests
 
     /// <summary>Provider loss has no replacement identity and uses the configured response deadline.</summary>
     [Fact]
-    public void Lifetime_ProviderDisconnectPreservesTheExactResponseDeadline()
+    public void Lifetime_ProviderDisconnect_PreservesExactResponseDeadline()
     {
         (FoundationCoordinator host, FoundationHarnessConnection port, FoundationEnvelope baseline,
                 FoundationScenarioClock clock) = Pending();
