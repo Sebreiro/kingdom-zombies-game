@@ -245,6 +245,7 @@ internal static class ExemptionValidator
                 collection: "local", expected: "392edce1377fc22d685cc140295c46042dd78e88bacea06244a21a4d7a30afa9");
         using var callsites = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(
                 path1: ProofProtocol.Root, path2: "docs/code/generated-callsite-adaptations.json")));
+        EngineGeneratedTests.PrepareProducerRoots(registry: callsites.RootElement);
         EngineGeneratedTests.VerifyInventories(registry: callsites.RootElement, baselineCount: 18,
                 baselineHash: "1900d6a9acc3d1ee6c1ea45d9c75dc19ad7dd319341811a8c92e4703a4ad8adb");
         int added = callsites.RootElement.GetProperty(propertyName: "local").GetArrayLength() - 18;
