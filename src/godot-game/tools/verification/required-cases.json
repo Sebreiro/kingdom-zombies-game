@@ -4666,7 +4666,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "af5a8e46ea71ab2348428abfac83bb90a46b51c8201ade577a85b71d25c9a858"
+            "sha256": "38d12b57850f64cf59840baf7f8eae82d4b953689537011bdcee8222397aa242"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationRunnerTests.cs",
@@ -6205,7 +6205,7 @@
             "sha256": null
           }
         ],
-        "sourceSetSha256": "eac72db0e2810a5b16f4ffffd945a54c4140d49285b368f19d1aefdc77e60ee2",
+        "sourceSetSha256": "45d7beba47d4d0fe07bbb109cdc550e17e0d1a6d2473f0f6b035b029c54ecf00",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
@@ -9695,7 +9695,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
+        "repositorySha256": "ee8b61987aae5b0277f9049b507dc10dd9524a1f755aa78b500e886a8d74230a",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1236000,
@@ -12960,7 +12960,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
+        "repositorySha256": "ee8b61987aae5b0277f9049b507dc10dd9524a1f755aa78b500e886a8d74230a",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -17376,7 +17376,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
+        "repositorySha256": "ee8b61987aae5b0277f9049b507dc10dd9524a1f755aa78b500e886a8d74230a",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -17494,7 +17494,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
+        "repositorySha256": "ee8b61987aae5b0277f9049b507dc10dd9524a1f755aa78b500e886a8d74230a",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -17647,7 +17647,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
+        "repositorySha256": "ee8b61987aae5b0277f9049b507dc10dd9524a1f755aa78b500e886a8d74230a",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1236000,
