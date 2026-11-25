@@ -249,6 +249,11 @@ None - no external service configuration required.
 - 06-21 and 06-22 can consume `controls[].clipped`. They are the first to exercise it in a rendered run and should confirm it is false for the slot labels, tile values and Hint.
 - Later plans that change game C# must re-derive the current producer replay again (`current-replay.cjs --write`, then rebind the two registry hashes).
 
+## Self-Check: PASSED
+
+- Commits on the branch: 731d839, 96a54db, 2abf677, bf003d1 (`git log 91b96a6..HEAD`).
+- Files present: FoundationInventoryWorkspace.Layout.cs, FoundationDrawObserver.cs (`clipped` present), FoundationHud.Live.cs (`"Empty"` count 0), 06-20-SUMMARY.md.
+
 ---
 *Phase: 06-survivors-inventory-and-combat*
 *Completed: 2026-11-25*

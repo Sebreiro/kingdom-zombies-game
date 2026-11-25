@@ -4,18 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 06
 current_phase_name: Survivors, inventory, and combat
-current_plan: 20
+current_plan: 21
 status: executing
-stopped_at: Completed 06-19-PLAN.md
-last_updated: "2026-11-25T15:39:39.152Z"
+stopped_at: Completed 06-20-PLAN.md
+last_updated: "2026-11-25T17:23:03.454Z"
 last_activity: 2026-11-25
-last_activity_desc: 06-19 made the inherited Phase 2 and Phase 3 rendered runners launch a prepared imported copy (F1) and gave the run report real durations and launch counts
-state_head: b1fb1faf6e29a41dce13e1b4e9e74f4d5d56bbfa
+last_activity_desc: 06-20 kept the inventory open on Space, rendered empty action-bar tiles and world help in full, labeled equipment slots apart from their icons and added clipped to draw observations
+state_head: 8e77d83f24c82ea742ef0dbeb903ae5cd5fb2552
 progress:
   total_phases: 12
   completed_phases: 5
   total_plans: 115
-  completed_plans: 82
+  completed_plans: 83
   percent: 42
 ---
 
@@ -34,14 +34,14 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 ## Current Position
 
 Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
-Current Plan: 20
+Current Plan: 21
 Total Plans in Phase: 25
 Status: Ready to execute
-Last activity: 2026-11-25 — 06-19 made the inherited rendered runners launch a prepared imported copy (F1) and gave the run report real durations and launch counts; 06-20 is next
+Last activity: 2026-11-25 — 06-20 kept the inventory open on Space, rendered empty action-bar tiles and world help in full, labeled equipment slots apart from their icons and added clipped to draw observations; 06-21 is next
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 82 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 83 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -100,6 +100,7 @@ Milestone progress: 5 of 12 phases, 82 of 115 planned plans complete with two Ph
 | Phase 06 P17 | 5min | 3 tasks | 12 files |
 | Phase 06 P18 | 175min | 3 tasks | 5 files |
 | Phase 06 P19 | 17min | 3 tasks | 8 files |
+| Phase 06 P20 | 90min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -203,6 +204,10 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 06]: 06-18: the native permission census requires exactly 252 tuples; the evidence.cjs presenter derivation (372 policy vs 252 compiled) is deferred in deferred-items.md
 - [Phase 06]: 06-19: F1 is repaired in runner preparation. Both inherited rendered runners start one run-owned imported copy whose KingdomZombies and Core assemblies must equal the build; production loading is unchanged.
 - [Phase 06]: 06-19: Scenario drivers expose launched processes as state.peers or state.launches records with a pid; scenario groups report the maximum per-case count, and unrecorded report values are 0 marked not-recorded.
+- [Phase 06]: 06-20: World help hiding lives in the HUD; FoundationRoot re-shows Hint after the HUD observes, so the guarded presenter FoundationHud.KeepHintClosed() re-hides it from VisibilityChanged while browsing
+- [Phase 06]: 06-20: World help uses the HUD body font at (636, 7, 290, 97); the longest WorldHint needs four 24 px lines, so the backplate rises into the top safe margin rather than scrolling or clipping
+- [Phase 06]: 06-20: Quick-food slots moved to content y 464 and workspace feedback to x 336 so eleven labeled equipment slots fit between y 44 and 448
+- [Phase 06]: 06-20: After any game C# change, re-derive currentProducerReplay (current-replay.cjs --write) and rebind the two spans-registry hashes in required-cases.json
 
 ### Pending Todos
 
@@ -260,8 +265,8 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-25T15:39:38.520Z
-Stopped at: Completed 06-19-PLAN.md
+Last session: 2026-11-25T17:23:02.793Z
+Stopped at: Completed 06-20-PLAN.md
 Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
