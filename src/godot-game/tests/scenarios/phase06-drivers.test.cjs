@@ -426,3 +426,69 @@ test('Roster_DistinctNames_MatchSnapshotSlots', async t => {
   });
 });
 
+// A dead host's committed draw: the spectator camera, the drawn camera center and one teammate's position.
+function heldDraw(drawFrame, cameraX, teammateX, extra = {}) {
+  return {drawFrame, cameraX, input: {spectator: {Visible: true, Followed: null, Camera: -128, ...extra},
+    phase06: {World: {Actors: [{Id: 'survivor-02', X: teammateX}]}}}};
+}
+
+test('Succession_CameraHold_RequiresDistinctDraws', async t => {
+  await t.test('one pose over two distinct draws while the teammate travels is a hold', () => {
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(11, -128, -7400),
+      heldDraw(40, -128, -6850)], 'survivor-02', 1150), true);
+  });
+  await t.test('a single draw is rejected', () => {
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -6850)], 'survivor-02', 0), false);
+  });
+  await t.test('the same draw twice is not two committed draws', () => {
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(10, -128, -6850)], 'survivor-02', 1150), false);
+  });
+  await t.test('a moving camera is rejected', () => {
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(20, -118.4, -6850)], 'survivor-02', 1150),
+      false);
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(20, -128, -6850, {Camera: -118.4})],
+      'survivor-02', 1150), false);
+  });
+  await t.test('a teammate that did not travel cannot separate the poses', () => {
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(20, -128, -7900)], 'survivor-02', 1150), false);
+  });
+  await t.test('a followed or hidden spectator is not a hold', () => {
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(20, -128, -6850,
+      {Followed: {Survivor: 'survivor-02'}})], 'survivor-02', 1150), false);
+    assert.equal(lan.cameraHold([heldDraw(10, -128, -8000), heldDraw(20, -128, -6850, {Visible: false})],
+      'survivor-02', 1150), false);
+  });
+});
+
+// Committed frames of a dead host: its status view times and the corpse recording the death.
+function deadFrame(frame, rootTime, canRespawn, opensAt = 1115, deathAt = 115) {
+  return {frame, spectator: {Visible: true, CanRespawn: canRespawn}, phase06: {Views: {status: {Header:
+    {OpensAt: opensAt, RootTime: rootTime}}}, World: {Corpses: [{SurvivorId: 'survivor-01', At: deathAt}]}}};
+}
+
+test('Succession_RespawnGateAndHandover_FollowTheirRules', async t => {
+  await t.test('disabled before the authoritative second and enabled after it', () => {
+    const gate = lan.respawnGate([deadFrame(1, 152, false), deadFrame(2, 1100, false), deadFrame(3, 1137, true)],
+      'survivor-01');
+    assert.deepEqual(gate, {deathAt: 115, opens: 1115, disabledFrames: 2, enabledFrame: 3});
+  });
+  await t.test('an early enabled button or a gate other than one second is rejected', () => {
+    assert.equal(lan.respawnGate([deadFrame(1, 152, false), deadFrame(2, 900, true)], 'survivor-01'), null);
+    assert.equal(lan.respawnGate([deadFrame(1, 152, false, 615), deadFrame(2, 700, true, 615)], 'survivor-01'),
+      null);
+    assert.equal(lan.respawnGate([deadFrame(1, 1200, true)], 'survivor-01'), null, 'no disabled frame observed');
+  });
+  const notice = (frame, Camera, Smoothing) => ({frame, spectator: {TransferNotice: 'Control transferred · s-05',
+    Camera, Smoothing}});
+  await t.test('a successor within a quarter span hands over smoothly', () => {
+    assert.deepEqual(lan.handover([notice(1, -110, true), notice(2, -119, true), notice(3, null, false)], -110, -128),
+      {held: -110, target: -128, expected: 'smooth', observed: 'smooth'});
+  });
+  await t.test('a distant successor cuts, and a near cut does not meet the rule', () => {
+    assert.equal(lan.handover([notice(1, 300, false)], -128, 300).observed, 'cut');
+    assert.equal(lan.handover([notice(1, 300, false)], -128, 300).expected, 'cut');
+    const near = lan.handover([notice(1, -128, false)], -110, -128);
+    assert.notEqual(near.observed, near.expected);
+  });
+});
+

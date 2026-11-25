@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const run = require('./phase06-rendered.cjs');
 const {helpers: native} = require('./phase06-headless.cjs');
-const {lines} = require('../../tools/lan-checks/rendered.cjs');
+const {draws, lines} = require('../../tools/lan-checks/rendered.cjs');
 const {named, within, key, actor, own, nearby, item, external} = run;
 const roles = ['host', 'guest-1', 'guest-2', 'guest-3'];
 const center = (row, id) => Math.max(-320, Math.min(320,
@@ -176,30 +176,52 @@ async function succession(state) {
   const start = state.input.records.length;
   const {host, guests, session, identities} = await startLan(state, 'life');
   const previous = identities[0];
+  const frames = from => recorder(() => lines(path.join(host.directory, 'frames.ndjson')), 'frame', from);
+  // The host's committed draws after a known draw, so a hold is judged over every draw between it and a later one.
+  const span = from => {
+    const later = recorder(() => draws(host), 'drawFrame', from.drawFrame + 1);
+    return to => [from, ...later().filter(draw => draw.drawFrame <= to.drawFrame && draw.input?.phase06?.World)];
+  };
+  const settled = predicate => (row, draw) => predicate(row, draw) && run.settledView(draw);
   await run.focus(state, host);
   await run.fixture(state, host, {action: 'fixture-attack', Target: 'fixture.melee-a'});
-  const death = await run.picture(state, host, 'succession-death', (row, draw) => row.spectator?.Visible
+  const death = await run.picture(state, host, 'succession-death', settled((row, draw) => row.spectator?.Visible
     && !own(row) && !row.hud && Number.isFinite(row.spectator.Camera) && !row.spectator.Followed
+    && !row.spectator.CanRespawn && respawnButton(draw)?.disabled === true
     && row.phase06.World.Corpses.some(entry => entry.SurvivorId === previous.actor && draw.appearance
-      .some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
+      .some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown))));
+  const dying = frames(death.draw.input.frame);
+  const afterDeath = span(death.draw);
+  const opened = await run.committed(host, (row, draw) => dying().length > 0 && afterDeath(draw).length > 0
+    && row.spectator?.CanRespawn && respawnButton(draw)?.disabled === false,
+  'Respawn enabled after the one second gate', death.draw.drawFrame);
+  const gate = respawnGate(dying().filter(row => row.frame <= opened.input.frame), previous.actor);
+  assert(gate, 'Respawn stays disabled before one second after death and is enabled after it (AC-02)');
+
   const initial = actor(death.draw.input, identities[1].actor).X;
   await run.focus(state, guests[0]);
   await run.moveUntil(state, guests[0], key.right, row => actor(row)?.X > initial + 1150,
     'living teammate separates from retired camera');
   const deathHold = await run.committed(host, (row, draw) => row.spectator?.Visible
-    && !row.spectator.Followed && actor(row, identities[1].actor).X > initial + 1150
-    && stableCamera(death.draw, draw), 'death camera remains fixed while a teammate travels', death.draw.drawFrame);
+    && actor(row, identities[1].actor).X > initial + 1150 && cameraHold(afterDeath(draw),
+      identities[1].actor, 1150), 'death camera remains fixed while a teammate travels', death.draw.drawFrame);
+
   await run.focus(state, host);
+  const order = eligible(deathHold.input);
+  assert.deepEqual(order.map(entry => entry.SurvivorId), identities.slice(1).map(entry => entry.actor),
+    'only living teammates, in slot order');
   const firstFollow = await run.choose(state, host, named('NextTeammate'));
-  const next = await run.picture(state, host, 'succession-next', (row, draw) =>
-    follows(row, draw, identities[1].actor) && Math.abs(draw.cameraX - deathHold.cameraX) > 10, firstFollow);
+  const next = await run.picture(state, host, 'succession-next', settled((row, draw) =>
+    follows(row, draw, order[0].SurvivorId) && Math.abs(draw.cameraX - deathHold.cameraX) > 10
+    && choicesMatch(row, draw)), firstFollow);
   const previousFollow = await run.choose(state, host, named('PreviousTeammate'));
-  const prior = await run.picture(state, host, 'succession-previous', row => row.spectator?.Followed?.Survivor
-    === identities[3].actor, previousFollow);
-  const slot = next.draw.snapshot.Participants.find(row => row.BindingId === identities[2].binding).Slot;
-  await run.choose(state, host, named('Teammate_' + slot));
-  const chosen = await run.picture(state, host, 'succession-chosen', (row, draw) =>
-    follows(row, draw, identities[2].actor) && row.spectator.CanRespawn);
+  const prior = await run.picture(state, host, 'succession-previous', settled((row, draw) =>
+    follows(row, draw, order.at(-1).SurvivorId) && choicesMatch(row, draw)), previousFollow);
+  assert.equal(order[1].SurvivorId, identities[2].actor);
+  await run.choose(state, host, named('Teammate_' + order[1].Slot));
+  const chosen = await run.picture(state, host, 'succession-chosen', settled((row, draw) =>
+    follows(row, draw, identities[2].actor) && row.spectator.CanRespawn && respawnButton(draw)?.disabled === false
+    && choicesMatch(row, draw)));
   const targetX = actor(chosen.draw.input, identities[2].actor).X;
   await run.focus(state, guests[1]);
   await run.moveUntil(state, guests[1], key.right, row => actor(row)?.X > targetX + 1150, 'followed teammate travels');
@@ -207,34 +229,117 @@ async function succession(state) {
     && Math.abs(draw.cameraX - chosen.draw.cameraX) > 10
     && actor(row, identities[2].actor).Movement === 'idle', 'actual camera tracks selected teammate',
   chosen.draw.drawFrame);
+
   await run.menu(state, guests[1]);
-  const hold = await run.picture(state, host, 'succession-lost', (row, draw) => row.spectator?.Visible
-    && !row.spectator.Followed && !!row.spectator.FollowNotice && stableCamera(tracking, draw), tracking.drawFrame);
+  const hold = await run.picture(state, host, 'succession-lost', settled((row, draw) => row.spectator?.Visible
+    && !row.spectator.Followed && !!row.spectator.FollowNotice && stableCamera(tracking, draw)
+    && !eligible(row).some(entry => entry.SurvivorId === identities[2].actor)), tracking.drawFrame);
   const other = actor(hold.draw.input, identities[3].actor).X;
+  const afterLoss = span(hold.draw);
   await run.focus(state, guests[2]);
   await run.moveUntil(state, guests[2], key.right, row => actor(row)?.X > other + 300, 'different teammate travels');
   const lostHold = await run.committed(host, (row, draw) => row.spectator?.FollowNotice
-    && !row.spectator.Followed && actor(row, identities[3].actor)?.X > other + 300 && stableCamera(hold.draw, draw),
+    && actor(row, identities[3].actor)?.X > other + 300
+    && cameraHold(afterLoss(draw), identities[3].actor, 300),
   'lost target camera holds across committed draws', hold.draw.drawFrame);
+
   await run.join(state, guests[1], session);
   await run.focus(state, host);
+  // The host's view once the rejoined guest is ready again: the survivors then bound to nobody are the candidates.
+  const respawnFrom = await run.committed(host, (row, draw) => formed(row, session) && row.spectator?.CanRespawn
+    && stableCamera(lostHold, draw), 'four ready players before Respawn', lostHold.drawFrame);
+  const transferring = frames(respawnFrom.input.frame + 1);
+  const unbound = respawnFrom.input.phase06.World.Actors.filter(entry => !entry.Hostile && !entry.BindingId)
+    .map(entry => entry.Id);
   await run.choose(state, host, named('Respawn'));
-  const transfer = await run.picture(state, host, 'succession-transfer', row => formed(row, session)
-    && row.phase06.epoch > 0 && row.phase06.control !== previous.actor
-    && row.bindingId === previous.binding && row.playerId === previous.player && !!row.spectator?.TransferNotice);
+  const transfer = await run.picture(state, host, 'succession-transfer', (row, draw) => transferring().length > 0
+    && formed(row, session) && row.phase06.epoch > 0 && row.phase06.control !== previous.actor
+    && unbound.includes(row.phase06.control) && row.bindingId === previous.binding && row.playerId === previous.player
+    && row.spectator?.TransferNotice === 'Control transferred · ' + row.phase06.control
+    && draw.controls.some(entry => named('ControlTransferred')(entry) && entry.visible
+      && entry.text === row.spectator.TransferNotice), respawnFrom.drawFrame);
   const successor = transfer.draw.input.phase06.control;
   assert(!identities.slice(1).some(entry => entry.actor === successor));
+  const camera = handover(transferring().filter(row => row.frame <= transfer.draw.input.frame), respawnFrom.cameraX,
+    center(transfer.draw.input, successor));
+  assert(camera && camera.observed === camera.expected, 'transfer camera follows the quarter-span rule: '
+    + JSON.stringify(camera));
   const final = await allPictures(state, 'succession-current', (row, draw, peer) => formed(row, session)
     && actor(row, successor)?.BindingId === previous.binding
     && (peer === host || row.phase06.control === identities[roles.indexOf(peer.role)].actor)
     && draw.appearance.some(entry => entry.id === successor && entry.crown && entry.visible));
   return run.finish(state, 'phase06.lan.succession', state.peers, start,
-    {identities, successor, deathHold, tracking, lostHold}, [death, next, prior, chosen, hold, transfer, ...final]);
+    {identities, gate, order, successor, unbound, camera, deathHold, tracking, lostHold},
+    [death, next, prior, chosen, hold, transfer, ...final]);
+}
+
+// Keeps every row of a stream from 'from' on, read at each call. The shared reader retains only its latest 256 rows,
+// so a span is judged on every row seen while it is being polled.
+function recorder(read, key, from) {
+  const rows = new Map();
+  return () => {
+    for (const row of read()) if (row[key] >= from) rows.set(row[key], row);
+    return [...rows.values()].sort((a, b) => a[key] - b[key]);
+  };
+}
+
+const respawnButton = draw => draw.controls.find(entry => named('SpectatorCard/Respawn')(entry) && entry.visible);
+
+// The dead player's living teammates from its own status view, ready in the roster and in slot order.
+function eligible(row) {
+  const ready = new Set((row.snapshot?.Participants ?? []).filter(entry => entry.Ready).map(entry => entry.BindingId));
+  return (row.phase06.Views.status?.Header.Teammates ?? []).filter(entry => ready.has(entry.BindingId)
+    && entry.BindingId !== row.bindingId).sort((a, b) => a.Slot - b.Slot);
+}
+
+// The selector lists exactly the eligible teammates' slots, in slot order.
+function choicesMatch(row, draw) {
+  const shown = draw.controls.filter(entry => /\/Teammates\/Teammate_\d+$/.test(entry.path) && entry.visible)
+    .sort((a, b) => a.y - b.y).map(entry => Number(entry.path.split('_').at(-1)));
+  return JSON.stringify(shown) === JSON.stringify(eligible(row).map(entry => entry.Slot));
+}
+
+// D-33/D-34: a held camera keeps one pose over at least two distinct committed draws while a teammate deliberately
+// moves at least `distance` subunits between the first and the last of them. A single draw or a moving camera fails.
+function cameraHold(span, teammate, distance) {
+  const held = span.filter(draw => draw?.input?.spectator?.Visible && !draw.input.spectator.Followed);
+  if (held.length !== span.length || new Set(held.map(draw => draw.drawFrame)).size < 2) return false;
+  const [first] = held;
+  const moved = actor(held.at(-1).input, teammate)?.X - actor(first.input, teammate)?.X;
+  return held.every(draw => stableCamera(first, draw)) && Math.abs(moved) >= distance;
+}
+
+// AC-02 over committed frames from death to the enabled button: every frame before the authoritative opening time is
+// disabled, the opening is one second after the recorded death, and some frame after it is enabled.
+function respawnGate(rows, survivor) {
+  const dead = rows.filter(row => row.spectator?.Visible && row.phase06?.Views?.status?.Header.OpensAt != null);
+  const corpse = dead[0]?.phase06.World.Corpses.find(entry => entry.SurvivorId === survivor);
+  if (!corpse || !dead.length) return null;
+  const opens = dead[0].phase06.Views.status.Header.OpensAt;
+  const time = row => row.phase06.Views.status.Header.RootTime;
+  const early = dead.filter(row => time(row) < opens);
+  const late = dead.filter(row => time(row) >= opens);
+  if (opens - corpse.At !== 1000 || !early.length || !late.some(row => row.spectator.CanRespawn)
+    || early.some(row => row.spectator.CanRespawn)) return null;
+  return {deathAt: corpse.At, opens, disabledFrames: early.length, enabledFrame: late.find(row =>
+    row.spectator.CanRespawn).frame};
+}
+
+// UI-SPEC: a successor within a quarter of the 1280 px camera span from the held center gets a 0.25 s smooth
+// handover; a greater displacement cuts to it. Judged from the committed frames that show the transfer notice.
+function handover(rows, held, target) {
+  const transfer = rows.filter(row => row.spectator?.TransferNotice?.startsWith('Control transferred'));
+  if (!transfer.length || !Number.isFinite(held) || !Number.isFinite(target)) return null;
+  const expected = Math.abs(target - held) <= 1280 / 4 ? 'smooth' : 'cut';
+  const between = value => value > Math.min(held, target) && value < Math.max(held, target);
+  const observed = transfer.some(row => row.spectator.Smoothing && between(row.spectator.Camera)) ? 'smooth'
+    : !transfer[0].spectator.Smoothing && Math.abs(transfer[0].spectator.Camera - target) < 0.02 ? 'cut' : 'none';
+  return {held, target, expected, observed};
 }
 
 module.exports = {open: context => run.open(context, roles), reset: run.reset, close: run.close, cases: {
   'phase06.lan.population': population,
   'phase06.lan.conflicts': conflicts,
   'phase06.lan.succession': succession,
-}, helpers: {rosterMatches, spread}};
+}, helpers: {rosterMatches, spread, cameraHold, respawnGate, handover, eligible, choicesMatch}};
 
