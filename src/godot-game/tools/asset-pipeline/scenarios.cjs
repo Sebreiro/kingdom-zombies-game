@@ -966,7 +966,10 @@ function treePaths(raw, types = null) {
 async function nativeObserver(budget, signal) {
   const {encode, decode} = require('./native-observer.cjs');
   const {hash} = require('./content.cjs');
-  let channel, pid, pidPacket, thread, pending, trouble, received = 0;
+  let channel, pid, pidPacket, thread, trouble, received = 0;
+  // Requests awaiting a response, oldest first. A request abandoned at its deadline keeps its place, so its late
+  // response is discarded instead of answering the next request that expects the same message.
+  const outstanding = [];
   const server = net.createServer(socket => {
     if (channel || socket.remoteAddress !== '127.0.0.1') {socket.destroy();return;}
     channel = socket;
@@ -990,9 +993,11 @@ async function nativeObserver(budget, signal) {
             [pid]=payload;thread=sourceThread;pidPacket=raw;
           }
           if (['error','debug_enter'].includes(message)) throw new Error('RENDERED_NATIVE_ERROR ' + message);
-          if (pending?.response === message) {
-            e.need(sourceThread===thread && !pending.value,'RENDERED_NATIVE_RESPONSE');
-            pending.value = {payload,raw,sha256:hash(raw)};
+          const index = outstanding.findIndex(entry => entry.response === message);
+          if (index >= 0) {
+            const [entry] = outstanding.splice(index,1);
+            e.need(sourceThread===thread,'RENDERED_NATIVE_RESPONSE');
+            if (!entry.abandoned) entry.value = {payload,raw,sha256:hash(raw)};
           }
         }
       } catch (error) {trouble ??= error;socket.destroy();}
@@ -1010,12 +1015,14 @@ async function nativeObserver(budget, signal) {
     }
   }
   async function request(message, response, args, deadline) {
-    e.need(!pending && channel && !channel.destroyed, 'RENDERED_NATIVE_CONNECTION');
+    e.need(outstanding.every(entry => entry.abandoned) && channel && !channel.destroyed, 'RENDERED_NATIVE_CONNECTION');
+    e.need(outstanding.length < 16, 'RENDERED_NATIVE_BACKLOG');
     const body = encode([message,thread,args]), header = Buffer.alloc(4);
     header.writeUInt32LE(body.length);
-    pending = {response};
+    const entry = {response,abandoned:false,value:null};
+    outstanding.push(entry);
     channel.write(Buffer.concat([header,body]));
-    try {return await waitFor(() => pending.value,deadline);} finally {pending = null;}
+    try {return await waitFor(() => entry.value,deadline);} finally {entry.abandoned = !entry.value;}
   }
   async function snapshot(ownedPid, checks, deadline=Date.now()+budget(12000)) {
     await waitFor(() => pid,deadline);
@@ -1398,7 +1405,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     if (runtime && subject && fs.existsSync(path.join(root,trace))) record.hostTrace=e.reference(root,trace,16*1024*1024);
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
-  return {checkpoint,restore,close,inspect:checks=>native.snapshot(pid,checks),
+  return {checkpoint,restore,close,release:()=>input.release(),inspect:checks=>native.snapshot(pid,checks),
     get usable(){return Boolean(pid && !terminal && !error);}};
 }
 
@@ -1837,6 +1844,6 @@ module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, cover
   finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
   repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
-  runInspectionLane, inspectionSession,
+  runInspectionLane, inspectionSession, nativeObserver,
   sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
   runRendered, verifyCompletion};

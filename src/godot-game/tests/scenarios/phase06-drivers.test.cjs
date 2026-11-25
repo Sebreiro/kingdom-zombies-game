@@ -581,3 +581,135 @@ test('H16Expectations_AuthoredLocomotion_MatchSteps', async t => {
   });
 });
 
+// A Godot remote debugger stand-in: frames are a little-endian u32 length and an encoded [message, thread, payload].
+function fakeDebugger(port) {
+  const {encode} = require('../../tools/asset-pipeline/native-observer.cjs');
+  const frame = value => {
+    const body = encode(value), header = Buffer.alloc(4);
+    header.writeUInt32LE(body.length);
+    return Buffer.concat([header, body]);
+  };
+  const socket = require('node:net').connect(port, '127.0.0.1');
+  let buffer = Buffer.alloc(0), requests = 0;
+  socket.on('data', chunk => {
+    buffer = Buffer.concat([buffer, chunk]);
+    while (buffer.length >= 4 && buffer.length >= buffer.readUInt32LE() + 4) {
+      buffer = buffer.subarray(buffer.readUInt32LE() + 4);
+      requests++;
+    }
+  });
+  return {socket, frame, get requests() { return requests; },
+    tree: id => frame(['scene:scene_tree', 7, [0, 'root', 'Window', id, '', 0]])};
+}
+
+async function until(test, limit = 5000) {
+  const end = Date.now() + limit;
+  while (!test()) {
+    assert(Date.now() < end, 'condition not reached');
+    await new Promise(resolve => setTimeout(resolve, 5));
+  }
+}
+
+// The run-1 inspection state when H16 failed: a failed step, the hub alive and a fixture possibly edited.
+function failedInspection(t, session, files = ['content/animation/locomotion-melee.json']) {
+  const state = {...preparedProject(t, files), relative: 'inspection-run', revision: 'test', invocation: 'test',
+    budget: () => 1000, evidence: [], resets: [], session};
+  return state;
+}
+
+function mockedSession(events, {checkpoint, release, restore} = {}) {
+  return {usable: true, events,
+    async release() { events.push('release'); await release?.(); },
+    async checkpoint(item, step) {
+      events.push('checkpoint ' + step.id);
+      if (checkpoint) return checkpoint(item, step);
+      throw new Error('RENDERED_NATIVE_SETTLE mocked');
+    },
+    async inspect() { throw new Error('RENDERED_NATIVE_DEADLINE mocked'); },
+    async restore(item, steps, invocation, lifetime) {
+      events.push('restore ' + item.id + ' ' + steps.map(step => step.id).join(',') + ' ' + lifetime);
+      await restore?.();
+      return {checkpoints: [], baseline: {path: 'baseline.json'}};
+    }};
+}
+
+test('InspectionReset_AfterFailedStep_RestoresFixtureAndBaseline', async t => {
+  const scenarios = require('../../tools/asset-pipeline/scenarios.cjs');
+
+  await t.test('a late response to an abandoned native request is discarded, not a second answer (run-1 cause)',
+    async () => {
+      const controller = new AbortController();
+      const observer = await scenarios.nativeObserver((ms = 40) => ms, controller.signal);
+      const fake = fakeDebugger(Number(observer.endpoint.split(':').at(-1)));
+      try {
+        fake.socket.write(fake.frame(['set_pid', 7, [4242]]));
+        // The settle deadline expires with the scene-tree request in flight, as it did after H16 step-held-jump.
+        await assert.rejects(observer.snapshot(4242, [], Date.now() + 150), /RENDERED_NATIVE_DEADLINE/);
+        const reset = observer.snapshot(4242, [], Date.now() + 5000);
+        await until(() => fake.requests === 2);
+        fake.socket.write(Buffer.concat([fake.tree(1), fake.tree(2)]));
+        const observed = await reset;
+        assert.equal(observed.tree.payload[3], 2, 'the reset request receives its own response');
+      } finally {
+        fake.socket.destroy();
+        await observer.close();
+      }
+    });
+
+  await t.test('reset after a failed step releases input, restores the fixture, then the baseline', async () => {
+    const events = [];
+    const state = failedInspection(t, mockedSession(events, {checkpoint: async (item, step) => {
+      // The error step edits locomotion-melee.json in the prepared copy, then its selection fails.
+      await step.drive.call(step, {click: async () => {}, tap: async () => {}, hold: async () => {},
+        release: async () => {}});
+    }}));
+    const file = path.join(state.root, 'project/content/animation/locomotion-melee.json');
+    const original = fs.readFileSync(file);
+    const id = 'asset-pipeline.UIH.CHARACTER-PREVIEW.error';
+    // The case's own cleanup fails once, as a locked file would, so only the reset can restore the bytes.
+    const recipe = inspection.recipes.get('UIH.CHARACTER-PREVIEW.error');
+    let failures = 1;
+    inspection.recipes.set('UIH.CHARACTER-PREVIEW.error', async current => {
+      const built = await recipe(current);
+      return {...built, cleanup() {
+        if (failures-- > 0) throw new Error('EBUSY mocked fixture restore');
+        return built.cleanup();
+      }};
+    });
+    t.after(() => inspection.recipes.set('UIH.CHARACTER-PREVIEW.error', recipe));
+    await assert.rejects(inspection.cases[id](state), /EBUSY mocked/);
+    assert.notDeepEqual(fs.readFileSync(file), original, 'the failed case left its fixture edit');
+    await inspection.reset(state);
+    assert.deepEqual(fs.readFileSync(file), original);
+    assert.deepEqual(events, ['checkpoint failed-character', 'release',
+      'restore ' + id + ' reset-2 2']);
+    assert.equal(state.currentItem, null);
+    const record = JSON.parse(fs.readFileSync(path.join(state.root, state.resets[0].path), 'utf8'));
+    assert.deepEqual([record.id, record.completed, record.failures], [id, ['RELEASE', 'FIXTURE', 'BASELINE'], []]);
+  });
+
+  await t.test('a failed release still restores the fixture and names the failing stage', async () => {
+    const events = [];
+    const state = failedInspection(t, mockedSession(events, {release: async () => {
+      throw new Error('RENDERED_PROCESS_LOST inspection-hub');
+    }}));
+    const variant = inspection.fixture(state, 'content/animation/locomotion-melee.json', () => Buffer.from('{}'));
+    variant.edit();
+    Object.assign(state, {currentItem: {id: 'asset-pipeline.heldout.H16'}, cleanup: variant.restore});
+    await assert.rejects(inspection.reset(state),
+      /^Error: INSPECTION_RESET_RELEASE asset-pipeline\.heldout\.H16: RENDERED_PROCESS_LOST inspection-hub$/);
+    assert.equal(fs.readFileSync(path.join(state.root, 'project', variant.identity.path), 'utf8')[0], '{');
+    assert.notEqual(fs.readFileSync(path.join(state.root, 'project', variant.identity.path), 'utf8'), '{}');
+    assert.deepEqual(events, ['release'], 'an unusable hub gets no baseline restore');
+  });
+
+  await t.test('a baseline restore failure names its stage and native cause', async () => {
+    const state = failedInspection(t, mockedSession([], {restore: async () => {
+      throw new Error('RENDERED_NATIVE_SETTLE baseline');
+    }}));
+    state.currentItem = {id: 'asset-pipeline.heldout.H17'};
+    await assert.rejects(inspection.reset(state),
+      /INSPECTION_RESET_BASELINE asset-pipeline\.heldout\.H17: RENDERED_NATIVE_SETTLE baseline/);
+  });
+});
+

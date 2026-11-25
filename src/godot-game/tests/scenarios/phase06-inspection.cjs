@@ -29,7 +29,7 @@ async function open(context) {
   const relative = path.relative(context.root, context.directory).replaceAll(path.sep, '/');
   const session = await scenarios.inspectionSession(context.root, relative + '/inspection', 'G1-hub', build,
     {physical: desktop.ownedInput, decodePng: desktop.decodePng, dpiAwareInput: true}, budget, controller.signal);
-  return {...context, relative, build, preparation, session, controller, budget, evidence: [], launches: []};
+  return {...context, relative, build, preparation, session, controller, budget, evidence: [], resets: [], launches: []};
 }
 
 async function close(state) {
@@ -40,7 +40,8 @@ async function close(state) {
   assert.equal(evidence.git(state.root, ['rev-parse', 'HEAD']).trim(), state.revision);
   assert.equal(evidence.git(state.root, ['status', '--porcelain']).trim(), '');
   evidence.writeExclusive(state.root, state.relative + '/' + recordName,
-    {revision: state.revision, process: finished.ref, preparation: state.preparation, cases: state.evidence});
+    {revision: state.revision, process: finished.ref, preparation: state.preparation, cases: state.evidence,
+      resets: state.resets});
 }
 
 async function perform(state, legacyId) {
@@ -49,12 +50,17 @@ async function perform(state, legacyId) {
   state.currentItem = item;
   const checkpoints = [];
   const {steps, stimulus, cleanup} = await recipes.get(legacyId)(state);
+  // Recorded until it succeeds, so reset can restore a fixture this case left edited.
+  state.cleanup = cleanup ?? null;
   try {
     for (const step of steps) {
       state.budget();
       checkpoints.push(await state.session.checkpoint(item, {...step, owner: state.session}, state.invocation));
     }
-  } finally { await cleanup?.(); }
+  } finally {
+    await cleanup?.();
+    state.cleanup = null;
+  }
   assert.deepEqual(checkpoints.map(point => point.id), steps.map(step => step.id));
   assert(checkpoints.length);
   const reset = await restore(state, item);
@@ -405,9 +411,34 @@ recipes.set('UIH.UI-COLLECTIONS.zero-one-many', async state => ({
 
 assert.deepEqual([...recipes.keys()].sort(), [...handoff].sort(), 'exact Phase 6 asset handoff recipes');
 
+// Reset after any outcome, in order: release held input, restore the fixture files the case changed through its
+// recorded cleanup, then return the hub to the authored baseline with the original restore steps. Only a stage
+// that fails blocks the remaining cases, and its error names the stage and cause. No process is relaunched.
 async function reset(state) {
-  assert(state.session.usable);
-  if (state.currentItem) await restore(state, state.currentItem, 2);
+  const item = state.currentItem;
+  if (!item) return;
+  const completed = [], failures = [];
+  let recovery = null;
+  const stage = async (name, action) => {
+    try {
+      await action();
+      completed.push(name);
+    } catch (error) {
+      failures.push('INSPECTION_RESET_' + name + ' ' + item.id + ': ' + error.message);
+    }
+  };
+  await stage('RELEASE', () => state.session.release());
+  await stage('FIXTURE', async () => {
+    await state.cleanup?.();
+    state.cleanup = null;
+  });
+  if (!failures.length) await stage('BASELINE', async () => {
+    assert(state.session.usable, 'inspection hub process unavailable');
+    recovery = await restore(state, item, 2);
+  });
+  state.resets.push(evidence.writeExclusive(state.root, state.relative + '/' + item.id + '-reset.json',
+    {id: item.id, revision: state.revision, completed, failures, recovery}));
+  if (failures.length) throw new Error(failures.join(' | '));
   state.currentItem = null;
 }
 
