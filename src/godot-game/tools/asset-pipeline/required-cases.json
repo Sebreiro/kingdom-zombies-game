@@ -2868,7 +2868,7 @@
         "id": "content.source-boundaries",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-        "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+        "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2945,7 +2945,7 @@
         "id": "content.archive-boundaries",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-        "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+        "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3022,7 +3022,7 @@
         "id": "content.source-relations",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-        "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+        "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3099,7 +3099,7 @@
         "id": "content.domain-relations",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-        "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+        "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3177,7 +3177,7 @@
         "id": "content.census",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-        "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+        "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3273,7 +3273,7 @@
         "id": "content.native-permissions",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-        "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+        "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5617,14 +5617,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5642,14 +5642,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5667,14 +5667,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5692,14 +5692,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5717,14 +5717,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5742,14 +5742,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6142,14 +6142,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6167,14 +6167,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6192,14 +6192,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6217,14 +6217,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6267,14 +6267,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6317,14 +6317,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7464,14 +7464,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8427,14 +8427,14 @@
           "id": "content.census",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "content.native-permissions",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/census.cjs",
-          "moduleSha256": "d1270069927e33cb191adc144d53561fbcc5f7f6c34da5118453aedb2c96f6e4",
+          "moduleSha256": "24d805e9f87b752a6896feba7b40dc3300ecc6f35769867c47fd7d9afee77bf1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
