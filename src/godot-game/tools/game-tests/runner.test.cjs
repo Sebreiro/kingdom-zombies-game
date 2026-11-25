@@ -4,6 +4,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const {randomUUID} = require('node:crypto');
+const EventEmitter = require('node:events');
 const workspace = require('../workspace-paths.cjs');
 const {run} = require('../lan-checks/processes.cjs');
 const lan = require('../lan-checks/evidence.cjs');
@@ -76,4 +78,47 @@ test('new scenario rows share one driver and reset between ordered cases', async
   const results = await runScenarios(context, rows, driver);
   assert.deepEqual(events, ['open', 'first', 'reset', 'second', 'close']);
   assert.deepEqual(results.map(row => [row.id, row.status]), [['later.first', 'pass'], ['later.second', 'pass']]);
+});
+
+function nativeScratch(t) {
+  const root = workspace.checkoutRoot();
+  return {root, directory: scratch(t), nonce: randomUUID(), platform: process.platform + '-' + process.arch,
+    env: require('../lan-checks/check.cjs').environment(root)};
+}
+
+function assertCleanImport(context, project) {
+  assert.equal(path.dirname(project), context.directory);
+  assert(fs.readdirSync(path.join(project, '.godot/imported'))
+    .some(name => /^donor-kit\.png-[0-9a-f]{32}\.ctex$/.test(name)), 'imported donor-kit atlas');
+  assert.equal(fs.readFileSync(path.join(context.directory, 'game-import.stderr.log'), 'utf8').trim(), '');
+  assert.doesNotMatch(fs.readFileSync(path.join(context.directory, 'game-import.stdout.log'), 'utf8'),
+    /ERROR:|Failed to load|Error importing/);
+}
+
+function recordedChild() {
+  const child = new EventEmitter();
+  child.stdout = new EventEmitter();
+  child.stderr = new EventEmitter();
+  return child;
+}
+
+test('PreparedProject_InheritedRendered_LoadsImportedAtlases', async t => {
+  const {nativeContext} = require('../gameplay-checks/check.cjs');
+  const {createSession} = require('../gameplay-checks/rendered.cjs');
+  const context = nativeScratch(t);
+  const native = await nativeContext(context);
+  assertCleanImport(context, native.project);
+  assert.deepEqual(native.preparedProject.assemblies.map(row => row.name), ['KingdomZombies.dll', 'KingdomZombies.Core.dll']);
+  const launches = [];
+  const directory = path.join(context.directory, 'session');
+  fs.mkdirSync(directory);
+  const session = createSession({...native, directory, engine: 'recorded-engine'}, (executable, args, options) => {
+    launches.push({executable, args, cwd: options.cwd});
+    return recordedChild();
+  });
+  await session.close();
+  assert.equal(launches.length, 1);
+  const {args} = launches[0];
+  assert.equal(args[args.indexOf('--path') + 1], native.project);
+  assert.notEqual(args[args.indexOf('--path') + 1], path.join(context.root, 'src/godot-game/game'));
 });
