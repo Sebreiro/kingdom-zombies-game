@@ -744,8 +744,8 @@ async function proveCompiledNativePermissions(context){
  need(discoveryCommand.stderr==='','NATIVE_PERMISSIONS_DISCOVERY_STDERR');
  const discovery=content.parse(Buffer.from(discoveryCommand.stdout),'native permission discovery');
  const tests=discovery.tests;
- need(Array.isArray(tests)&&tests.length===251&&new Set(tests.map(test=>test.uid)).size===251&&
-  new Set(tests.map(test=>test.testUid)).size===251&&tests.every(test=>/^[a-f0-9]{64}$/.test(test.uid)&&
+ need(Array.isArray(tests)&&tests.length===252&&new Set(tests.map(test=>test.uid)).size===252&&
+  new Set(tests.map(test=>test.testUid)).size===252&&tests.every(test=>/^[a-f0-9]{64}$/.test(test.uid)&&
    /^[a-f0-9]{64}$/.test(test.testUid)&&test.type.namespace===namespace&&test.type.typeName===typeName&&
    test.type.methodName===testMethod&&test.displayName.startsWith(`${method}(`)),
   'NATIVE_PERMISSIONS_DISCOVERY_SELECTION');
