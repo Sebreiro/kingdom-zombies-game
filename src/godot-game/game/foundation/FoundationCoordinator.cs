@@ -249,7 +249,7 @@ internal sealed partial class FoundationCoordinator
         long sequence = checked(++_sequence);
         (string status, bool replayed, _) = DispatchBoundRunAction(sender: 0,
                 key: (owner.survivorId, owner.generation, sequence), kind: action, request: request);
-        RunActionFeedback = (sequence, status, replayed);
+        RunActionFeedback = (sequence, action, status, replayed);
         return status is not ("AccessLost" or "InvalidAction");
     }
 #endif

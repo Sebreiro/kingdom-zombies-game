@@ -337,6 +337,43 @@ function loadWith(file, stubs) {
   return loaded.exports;
 }
 
+// The reproduced F13 stream (game-tests 069f23d0, guest-3 frames 701-757): the place receipt is the latest for 45 ms,
+// then the workspace's own window request replaces it.
+function receiptFrames(t, rows) {
+  const directory = scratch(t);
+  const peer = {role: 'guest-3', pid: 7, directory, quitRequested: false};
+  const state = {nonce, peers: [peer]};
+  const frame = ([number, sequence, kind, status, replayed = false]) => ({frame: number, pid: 7, nonce,
+    provenance: 'read-only-state-observation', phase06: {World: {}}, runAction: {sequence, kind, status, replayed}});
+  fs.writeFileSync(path.join(directory, 'frames.ndjson'), rows.map(row => JSON.stringify(frame(row)) + '\n').join(''));
+  return {state, peer, before: frame(rows[0])};
+}
+
+test('Receipt_ExactKind_IgnoresInterleaved', async t => {
+  await t.test('a later workspace receipt is recorded, and the place receipt is the one accepted', async t => {
+    const {state, peer, before} = receiptFrames(t, [[701, 15, 'external-items-page', 'Ready'],
+      [754, 16, 'place', 'Applied'], [757, 17, 'workspace', 'Ready']]);
+    const row = await native.receipt(state, peer, 'place', before, 'place receipt');
+    assert.deepEqual([row.frame, row.runAction.status], [754, 'Applied']);
+    assert.deepEqual(state.interleaved ?? [], []);
+  });
+  await t.test('receipts of other kinds before the match are recorded, never accepted', async t => {
+    const {state, peer, before} = receiptFrames(t, [[1, 3, 'select', 'Ready'], [2, 4, 'workspace', 'Ready'],
+      [3, 5, 'place', 'Applied']]);
+    const row = await native.receipt(state, peer, 'place', before, 'place receipt');
+    assert.equal(row.runAction.sequence, 5);
+    assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.kind, entry.awaiting]),
+      [[4, 'workspace', 'place']]);
+  });
+  await t.test('a replayed result or an earlier sequence is never the submitted request\'s receipt', async t => {
+    const {state, peer, before} = receiptFrames(t, [[1, 4, 'select', 'Ready'], [2, 5, 'place', 'Applied', true],
+      [3, 3, 'place', 'Applied']]);
+    await assert.rejects(native.receipt(state, peer, 'place', before, 'place receipt', 300),
+      /SUBJECT_TIMEOUT place receipt/);
+    assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.replayed]), [[5, true]]);
+  });
+});
+
 const lan = require('./phase06-lan.cjs').helpers;
 const people = [['local', 'Host'], ['b1', 'Guest 1'], ['b2', 'Guest 2'], ['b3', 'Guest 3']];
 

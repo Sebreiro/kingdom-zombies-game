@@ -605,7 +605,7 @@ public sealed class Phase06PublicationTests
         first.RunActionFeedback.ShouldNotBeNull().status.ShouldBe(expected: "Applied");
         room.HostPort.Raw(sender: 2, payload: retry);
         room.Exchange(sender: 2, guest: first);
-        first.RunActionFeedback.ShouldNotBeNull().ShouldBe(expected: (winner.sequence, "Applied", true));
+        first.RunActionFeedback.ShouldNotBeNull().ShouldBe(expected: (winner.sequence, "place", "Applied", true));
         (long sequence, string status) loser = second.SubmitRunAction(kind: "place", request:
                 Equipment(source: club, owner: secondOwner, slot: "right-hand", token: otherToken)).ShouldNotBeNull();
         room.Exchange(sender: 3, guest: second);

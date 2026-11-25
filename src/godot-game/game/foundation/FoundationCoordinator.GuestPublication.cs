@@ -146,7 +146,7 @@ internal sealed partial class FoundationCoordinator
             if (CurrentReceipt(frame: game) && envelope.Sequence <= _sequence
                     && envelope.Sequence >= (RunActionFeedback?.sequence ?? 0))
             {
-                RunActionFeedback = (envelope.Sequence, game.Status, game.Replayed);
+                RunActionFeedback = (envelope.Sequence, game.Action, game.Status, game.Replayed);
                 RememberHudFeedback(epoch: game.Epoch, kind: game.Action, status: game.Status,
                         replayed: game.Replayed);
             }
@@ -171,7 +171,7 @@ internal sealed partial class FoundationCoordinator
     {
         _guestRunReadback = Ready && _remote is { } roster
                 ? new FoundationRunReadback(roster: roster, world: _remoteWorld, views: _runInbox.Views,
-                        feedback: RunActionFeedback)
+                        feedback: RunReceipt)
                 : null;
     }
 

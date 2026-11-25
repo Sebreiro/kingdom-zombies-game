@@ -1,8 +1,10 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const path = require('node:path');
 const run = require('./phase06-rendered.cjs');
-const {draws} = require('../../tools/lan-checks/rendered.cjs');
+const {helpers: native} = require('./phase06-headless.cjs');
+const {lines} = require('../../tools/lan-checks/rendered.cjs');
 const {named, within, key, actor, own, nearby, item, external} = run;
 const roles = ['host', 'guest-1', 'guest-2', 'guest-3'];
 const center = (row, id) => Math.max(-320, Math.min(320,
@@ -91,11 +93,24 @@ function profilesBound(draw, peers) {
     === run.profileNames[peer.role]);
 }
 
+// Ctrl+click in frame-separated native steps: Ctrl is acknowledged, the pointer rests on the cell for a drawn frame,
+// and the click is handled while Ctrl is still held for another drawn frame. Run 1's burst (Ctrl, click and release
+// delivered within draws 511-513) submitted no quick request at all.
 async function withdraw(state, peer, point) {
   await run.press(state, peer, key.control, true);
-  try { await run.click(state, peer, point); }
-  finally { await run.press(state, peer, key.control, false); }
+  try {
+    const before = run.last(peer).drawFrame;
+    await run.pointer(state, peer, point);
+    const resting = await run.after(peer, () => true, 'drawn with the pointer on the contested cell', before + 1);
+    await run.click(state, peer, point);
+    await run.after(peer, () => true, 'drawn after the Ctrl click', resting.drawFrame + 1);
+  } finally { await run.press(state, peer, key.control, false); }
 }
+
+const money = row => row.phase06.Views.status.Header.Hud.Money;
+const quick = (peer, before) => native.receiptsAfter(lines(path.join(peer.directory, 'frames.ndjson')), before)
+  .filter(({entry}) => entry.kind === 'quick' && entry.replayed === false).map(({row, entry}) => ({frame: row.frame,
+    ...entry}));
 
 async function conflicts(state) {
   const start = state.input.records.length;
@@ -110,28 +125,35 @@ async function conflicts(state) {
   const source = item(originals[1].draw.input, 'external', 'IT-01');
   const secondItem = item(originals[2].draw.input, 'external', 'IT-01');
   assert(source && secondItem && source.Id === secondItem.Id && source.Stamp === secondItem.Stamp);
+  // Each role's committed carried total: its own original money plus what its own applied withdrawal moved.
+  const committed = new Map(state.peers.map((peer, index) => [peer, money(originals[index].draw.input)]));
   const occupied = within('/NearbyStorage/', 'Item_' + source.Id);
   const losingPoint = await run.control(second, occupied);
 
   await run.focus(state, first);
-  const winnerSequence = run.last(first).input.runAction?.sequence ?? 0;
+  const winnerBefore = run.last(first);
   await withdraw(state, first, await run.control(first, occupied));
-  const winner = await run.committed(first, row => row.runAction?.sequence > winnerSequence
-    && row.runAction.status === 'Applied' && external(row)?.Rows.every(entry => entry.Id !== source.Id),
-    'one authority withdrawal and corrected source');
+  const winnerReceipt = await native.receipt(state, first, 'quick', winnerBefore.input, 'one authority withdrawal');
+  assert.equal(winnerReceipt.runAction.status, 'Applied', 'the first withdrawal applies');
+  committed.set(first, committed.get(first) + source.Quantity);
+  const winner = await run.committed(first, row => external(row)?.Rows.every(entry => entry.Id !== source.Id)
+    && money(row) === committed.get(first), 'corrected source and the winner\'s committed total',
+  winnerBefore.drawFrame);
   await run.focus(state, second);
   const before = run.last(second);
+  const staleCell = before.controls.some(entry => occupied(entry) && entry.visible);
   await withdraw(state, second, losingPoint);
+  // A stale visible cell sends a quick request, whose own receipt must deny it; a corrected cell sends none.
+  const denial = staleCell ? await native.receipt(state, second, 'quick', before.input, 'contested withdrawal denial')
+    : null;
+  assert(!denial || ['AccessLost', 'StaleItem'].includes(denial.runAction.status),
+    'the losing attempt is denied, not applied: ' + denial?.runAction.status);
   const corrected = await run.committed(second, row => external(row)?.Rows.every(entry => entry.Id !== source.Id)
-    && row.phase06.Views.status.Header.Hud.Money === 0, 'contested cell corrected without duplicate',
-    before.drawFrame);
-  const laterReceipts = draws(second).filter(draw => draw.drawFrame > before.drawFrame
-    && draw.input.runAction?.sequence > (before.input.runAction?.sequence ?? 0))
-    .map(draw => draw.input.runAction.status);
-  assert(!laterReceipts.includes('Applied'), 'losing attempt must not apply');
-  const observedStale = laterReceipts.some(status => status === 'AccessLost' || status === 'StaleItem');
-  assert(observedStale || !before.controls.some(entry => occupied(entry) && entry.visible),
-    'contested physical action lacked either visible correction or a denial');
+    && money(row) === committed.get(second), 'contested cell corrected without duplicate', before.drawFrame);
+  const laterReceipts = quick(second, before.input);
+  assert(!laterReceipts.some(entry => entry.status === 'Applied'), 'losing attempt must not apply');
+  const observedStale = laterReceipts.some(entry => entry.status === 'AccessLost' || entry.status === 'StaleItem');
+  assert(observedStale || !staleCell, 'contested physical action lacked either visible correction or a denial');
 
   const still = actor(corrected.input).X;
   await run.tap(state, second, key.right);
@@ -142,10 +164,12 @@ async function conflicts(state) {
   const denied = await run.picture(state, second, 'conflict-revoked', row => !external(row)
     && !nearby(row).some(entry => entry.Kind === 'Stash'));
   const final = await allPictures(state, 'conflict-current', (row, _, peer) => formed(row, session)
-    && row.phase06.Views.status.Header.Hud.Money === (peer === first ? source.Quantity : 0)
-    && (peer === host || peer === second || external(row)?.Rows.every(entry => entry.Id !== source.Id)));
+    && money(row) === committed.get(peer) && (external(row)?.Rows ?? []).every(entry => entry.Id !== source.Id));
+  assert.equal(committed.get(host), money(originals[0].draw.input));
   return run.finish(state, 'phase06.lan.conflicts', state.peers, start,
-    {source, winner, before, corrected, observedStale, laterReceipts}, [...originals, ...final, denied]);
+    {source, winnerReceipt, winner, before, denial, corrected, observedStale, laterReceipts,
+      committed: state.peers.map(peer => ({role: peer.role, money: committed.get(peer)}))},
+    [...originals, ...final, denied]);
 }
 
 async function succession(state) {

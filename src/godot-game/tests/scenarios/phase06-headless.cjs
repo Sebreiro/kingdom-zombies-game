@@ -152,8 +152,11 @@ function evidence(state, id, peers, observations, captures = []) {
   assert(peers.length && Object.keys(observations).length, id + ' lacks observations');
   const roles = peers.map(({role, pid, profile}) => ({role, pid, profile}));
   const file = path.join(state.directory, id + '.json');
+  // Receipts of other requests seen while a case awaited its own; recorded, never accepted (see receipt()).
+  const interleaved = state.interleaved ?? [];
+  state.interleaved = [];
   fs.writeFileSync(file, JSON.stringify({id, revision: state.revision, nonce: state.nonce, rendered: state.rendered,
-    roles, observations, captures}, null, 2), {flag: 'wx'});
+    roles, observations, interleaved, captures}, null, 2), {flag: 'wx'});
   return [file, path.join(state.directory, 'ordinary-cleanup.json'),
     ...peers.flatMap(peer => ['launch.json', 'frames.ndjson', 'terminal.json', 'console.log']
     .map(name => path.join(peer.directory, name))), ...captures];
@@ -167,10 +170,49 @@ async function reset(state) {
   await wait(state, () => !current(peer)?.ready && !current(peer)?.phase06, 'ordinary solo reset');
 }
 
+// A receipt belongs to a submitted request only when its kind matches, it is not a replay and its sequence follows
+// the one observed before submission. The workspace submits its own window, page and close requests, and their
+// receipts can replace the requested one within a single poll (F13: place Applied for 45 ms, then workspace Ready),
+// so every frame written since submission is read, not only the latest. Other receipts are recorded, never accepted.
+function receipt(state, peer, kind, before, label, ms = 15_000) {
+  const file = path.join(peer.directory, 'frames.ndjson');
+  const interleaved = state.interleaved ??= [];
+  return wait(state, () => {
+    const seen = receiptsAfter(lines(file), before);
+    const index = seen.findIndex(({entry}) => matches(entry, kind));
+    for (const {row, entry} of index < 0 ? seen : seen.slice(0, index)) {
+      if (!interleaved.some(noted => noted.role === peer.role && sameReceipt(noted, entry)))
+        interleaved.push({role: peer.role, awaiting: kind, frame: row.frame, ...entry});
+    }
+    if (index < 0) return null;
+    const {row} = seen[index];
+    assert.equal(row.pid, peer.pid, label);
+    assert.equal(row.nonce, state.nonce, label);
+    assert.equal(row.provenance, 'read-only-state-observation');
+    return row;
+  }, label, ms);
+}
+
+const matches = (entry, kind) => entry.kind === kind && entry.replayed === false;
+const sameReceipt = (a, b) => a.sequence === b.sequence && a.kind === b.kind && a.status === b.status
+  && a.replayed === b.replayed;
+
+// Each distinct receipt committed after `before` (a frame record), in order, with the first frame that showed it.
+function receiptsAfter(rows, before) {
+  const after = {frame: before?.frame ?? 0, sequence: before?.runAction?.sequence ?? 0};
+  const seen = [];
+  for (const row of rows) {
+    const entry = row.runAction;
+    if (row.frame <= after.frame || !row.phase06?.World || !(entry?.sequence > after.sequence)) continue;
+    if (!seen.some(noted => sameReceipt(noted.entry, entry))) seen.push({row, entry});
+  }
+  return seen;
+}
+
 async function action(state, peer, kind, request, expected) {
-  const previous = current(peer)?.runAction?.sequence ?? 0;
+  const before = current(peer);
   await inject(state, peer, {action: 'phase06-action', kind, request});
-  const result = await observe(state, peer, row => row.runAction?.sequence > previous, kind + ' receipt');
+  const result = await receipt(state, peer, kind, before, kind + ' receipt');
   if (expected) assert.equal(result.runAction.status, expected, kind);
   return result;
 }
@@ -264,11 +306,10 @@ async function inventory(state) {
   await tap(state, peer, key.inventory);
   await observe(state, peer, row => !row.inventoryOpen, 'inventory closed');
   await tap(state, peer, key.food1);
-  const consumed = await observe(state, peer, row => row.runAction?.sequence > assigned.runAction.sequence,
-    'native quick food receipt');
+  const consumed = await receipt(state, peer, 'food', assigned, 'native quick food receipt');
   assert.equal(consumed.runAction.status, 'Consumed');
   await tap(state, peer, key.food1);
-  const cooldown = await observe(state, peer, row => row.runAction?.sequence > consumed.runAction.sequence, 'native cooldown receipt');
+  const cooldown = await receipt(state, peer, 'food', consumed, 'native cooldown receipt');
   assert.match(cooldown.runAction.status, /cooldown/i);
   await windows([bag.Id, pouch.Id]);
   const changed = await observe(state, peer, row => item(row, 'own.2', 'IT-08')?.Quantity === berries.Quantity - 1,
@@ -306,7 +347,7 @@ async function combat(state) {
   assert(item(fired, 'own', 'IT-07').Condition < item(first, 'own', 'IT-07').Condition, 'actual bow wear');
   await observe(state, peer, row => actor(row)?.StrikeAt === null, 'bow cooldown ended');
   await shot(state, peer);
-  const empty = await observe(state, peer, row => row.runAction?.sequence > fired.runAction.sequence, 'empty ammo receipt');
+  const empty = await receipt(state, peer, 'attack', fired, 'empty ammo receipt');
   assert.equal(empty.runAction.status, 'EmptyAmmo');
   assert.equal(item(empty, 'own', 'IT-07').Condition, item(fired, 'own', 'IT-07').Condition);
   await inject(state, peer, {action: 'fixture-attack', Target: 'fixture.bow'});
@@ -554,5 +595,5 @@ module.exports = {open, reset, close: state => close(state), cases: {
   'phase06.headless.lifecycle': lifecycle,
   'phase06.headless.lan-privacy': lanPrivacy,
 }, helpers: {open, close, ended, key, current, actor, own, nearby, external, item, wait, observe, launch, seed,
-  evidence, privacy, inject, motionInterval, profileNames}};
+  evidence, privacy, inject, motionInterval, profileNames, receipt, receiptsAfter}};
 

@@ -12,7 +12,7 @@ internal sealed partial class FoundationCoordinator
 {
     internal (string survivorId, long generation, long deathGeneration)? LocalRunControl =>
             _session is not null ? ReadBoundRunControl(sender: 0) : _runInbox.Control;
-    internal (long sequence, string status, bool replayed)? RunActionFeedback { get; private set; }
+    internal (long sequence, string kind, string status, bool replayed)? RunActionFeedback { get; private set; }
     internal (long epoch, long at, string kind, string text)? ActionHudFeedback { get; private set; }
     internal (long epoch, long at, string kind, string text)? VitalsHudFeedback { get; private set; }
 
@@ -49,7 +49,7 @@ internal sealed partial class FoundationCoordinator
                         sequence: sequence, request: request, status: outcome.status);
             }
 
-            RunActionFeedback = (sequence, outcome.status, outcome.replayed);
+            RunActionFeedback = (sequence, kind, outcome.status, outcome.replayed);
             RememberHudFeedback(epoch: epoch, kind: kind, status: outcome.status, replayed: outcome.replayed);
             return (sequence, outcome.status);
         }
@@ -92,7 +92,7 @@ internal sealed partial class FoundationCoordinator
                 views: local.views.ToImmutableDictionary(keySelector: view => view.scope,
                         elementSelector: view => new FoundationRunView(revision: local.revision, epoch:
                                 view.generation, token: view.token, header: view.header, rows: view.rows),
-                        keyComparer: StringComparer.Ordinal), feedback: RunActionFeedback);
+                        keyComparer: StringComparer.Ordinal), feedback: RunReceipt);
     }
 
     internal bool RequestRunWindows(long? ownGrid, long? externalGrid)
@@ -191,6 +191,8 @@ internal sealed partial class FoundationCoordinator
     private ImmutableArray<long> _localExternalWindows = [];
     private (long epoch, int page) _localNearby;
     private (long token, int page) _localExternalPage;
+    private (long sequence, string status, bool replayed)? RunReceipt => RunActionFeedback is { } receipt
+            ? (receipt.sequence, receipt.status, receipt.replayed) : null;
 
     private void RememberHudFeedback(long epoch, string kind, string status, bool replayed)
     {
@@ -431,7 +433,7 @@ internal sealed partial class FoundationCoordinator
             (string status, bool replayed) = results[index];
             if (sender == 0)
             {
-                RunActionFeedback = (envelope.Sequence, status, replayed);
+                RunActionFeedback = (envelope.Sequence, "respawn", status, replayed);
             }
             else if (CurrentReadyPeer(sender: sender) is { } peer && Bound(envelope: envelope, peer: peer))
             {
