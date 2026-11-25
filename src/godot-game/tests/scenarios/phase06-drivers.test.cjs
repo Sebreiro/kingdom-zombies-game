@@ -190,6 +190,74 @@ test('SoloDriver_AllCases_ReferenceDefinedHelpers', async t => {
   });
 });
 
+// Shapes recorded in run-1 solo draws 914 (three carried grids still loading) and 927 (installed boards).
+const hud = () => [control('RunHud/Health/Value', 'Health 100 / 100'), control('RunHud/CarriedLoad',
+  'Load 8.02 kg · Normal'), control('RunHud/Actions/Slot1/Value', 'Empty'), control(
+  'InventoryWorkspace/InventoryPanels/CloseInventory', 'Close inventory')];
+const carried = name => 'InventoryWorkspace/InventoryPanels/CarriedStorage/Rows/' + name;
+const equipped = [{Id: 1, DefinitionId: 'IT-11', StorageWidth: 2}, {Id: 2, DefinitionId: 'IT-12', StorageWidth: 2},
+  {Id: 3, DefinitionId: 'IT-17', StorageWidth: null}, {Id: 58, DefinitionId: 'IT-23', StorageWidth: 4}];
+const grid = (id, rows) => ({Header: {ContainerId: id}, Rows: rows.map(Id => ({Id}))});
+
+function pendingDraw() {
+  return {drawFrame: 914, input: {inventoryOpen: true, inventorySlots: 11, phase06: {Views: {own: {Rows: equipped},
+    'own.2': grid(2, []), 'own.1': grid(1, []), 'own.3': grid(58, [63, 65, 66])}}},
+  controls: [...hud(), control(carried('@Label@56'), 'Basic shirt'), control(carried('@Label@57'), 'Opening inventory…'),
+    control(carried('@Label@58'), 'Trousers'), control(carried('@Label@59'), 'Opening inventory…'),
+    control(carried('@Label@60'), 'Small backpack'), control(carried('@Label@61'), 'Opening inventory…')]};
+}
+
+function installedDraw() {
+  return {drawFrame: 927, input: {inventoryOpen: true, inventorySlots: 11, phase06: {Views: {own: {Rows: equipped},
+    'own.2': grid(63, [64]), 'own.1': grid(58, [63, 65, 66]), 'own.4': grid(2, []), 'own.3': grid(1, [])}}},
+  controls: [...hud(), control(carried('@Label@101'), 'Basic shirt'), control(carried('ItemCells')),
+    control(carried('@Label@102'), 'Trousers'), control(carried('@Label@104'), 'Small backpack'),
+    ...[63, 65, 66].map(id => control(carried('@Control@105/Item_' + id))),
+    control(carried('@Control@105/Item_65/@Label@106'), '9')]};
+}
+
+test('SettledView_PendingOrClipped_Rejected', async t => {
+  await t.test('run-1 draw 914 with pending carried grids is rejected', () => {
+    assert.equal(run.settledView(pendingDraw()), false);
+  });
+
+  await t.test('draw 927 with a clipped HUD or workspace text is rejected', () => {
+    for (const target of ['RunHud/CarriedLoad', carried('@Label@104')]) {
+      const draw = installedDraw();
+      draw.controls.find(entry => entry.path === target).clipped = true;
+      assert.equal(run.settledView(draw), false, target);
+    }
+  });
+
+  await t.test('draw 927 with installed boards and unclipped text is accepted', () => {
+    assert.equal(run.settledView(installedDraw()), true);
+  });
+
+  await t.test('an unreported clip state, a missing grid or an undrawn item is rejected', () => {
+    const unreported = installedDraw();
+    delete unreported.controls[0].clipped;
+    const missing = installedDraw();
+    delete missing.input.phase06.Views['own.4'];
+    const undrawn = installedDraw();
+    undrawn.controls = undrawn.controls.filter(entry => !entry.path.endsWith('/Item_66'));
+    for (const draw of [unreported, missing, undrawn]) assert.equal(run.settledView(draw), false);
+  });
+
+  await t.test('a closed inventory needs only settled, unclipped text', () => {
+    const world = {input: {inventoryOpen: false}, controls: hud()};
+    assert.equal(run.settledView(world), true);
+    world.controls.push(control('InventoryWorkspace/Feedback', 'Opening stash page…'));
+    assert.equal(run.settledView(world), false);
+  });
+
+  await t.test('every solo picture uses the settled predicate', () => {
+    const source = fs.readFileSync(soloFile, 'utf8');
+    assert.equal(source.match(/run\.picture\(/g).length, 1, 'only the settled wrapper calls run.picture');
+    assert.match(source, /const shot = [^;]*run\.picture\([^;]*run\.settledView\(draw\) && predicate\(row, draw\)/s);
+    assert(source.match(/await shot\(/g).length >= 20, 'solo images go through the settled wrapper');
+  });
+});
+
 function loadWith(file, stubs) {
   const loaded = new Module(file, module);
   loaded.filename = file;

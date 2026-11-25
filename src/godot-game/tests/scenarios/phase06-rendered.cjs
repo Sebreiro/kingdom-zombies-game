@@ -19,6 +19,29 @@ const own = native.own;
 const nearby = native.nearby;
 const external = native.external;
 const item = native.item;
+// Copy the workspace shows while an authorized view is still being installed.
+const pendingCopy = new Set(['Opening inventory…', 'Opening stash page…']);
+const textLayers = /^(?:RunHud|InventoryWorkspace)\//;
+// FoundationInventoryWorkspace.PointerMove starts a drag once the pointer is this far from the press.
+const dragStart = 4;
+
+// A picture may show only a settled view: no pending view copy, every HUD and workspace text observed unclipped,
+// and, while the inventory is open, an installed grid for every carried storage item with each of its items drawn.
+function settledView(draw) {
+  const shown = (draw?.controls ?? []).filter(entry => entry.visible);
+  if (shown.some(entry => pendingCopy.has(entry.text))) return false;
+  if (shown.some(entry => textLayers.test(entry.path) && entry.clipped !== false)) return false;
+  const row = draw?.input;
+  if (!row?.inventoryOpen) return true;
+  const views = row.phase06?.Views;
+  if (!views?.own) return false;
+  const grids = Object.entries(views).filter(([scope]) => scope.startsWith('own.')).map(([, view]) => view);
+  return views.own.Rows.filter(entry => entry.StorageWidth > 0).every(storage => {
+    const grid = grids.find(view => view.Header?.ContainerId === storage.Id);
+    return !!grid && grid.Rows.every(content => shown.some(entry => entry.path.includes('/CarriedStorage/')
+      && entry.path.endsWith('/Item_' + content.Id)));
+  });
+}
 
 async function open(context, roles) {
   assert.equal(process.platform, 'win32', 'saved physical procedure needs Windows');
@@ -228,15 +251,22 @@ async function bagWindow(state, peer, selector, id, scope) {
     'physically opened bag window');
 }
 
-async function drag(state, peer, from, to) {
+// One drawn frame separates the press, the start-threshold crossing and the destination, so the game handles the
+// press before any motion. held(before) runs while the button is still down; its result is returned.
+async function drag(state, peer, from, to, held = async () => null) {
+  const before = last(peer).drawFrame;
   await pointer(state, peer, from, 'left', true);
   try {
-    await pointer(state, peer, {x: from.x + (to.x > from.x ? 8 : -8), y: from.y});
+    const pressed = await after(peer, () => true, 'drawn after native press', before + 1);
+    await pointer(state, peer, {x: from.x + (to.x >= from.x ? 2 : -2) * dragStart, y: from.y});
+    await after(peer, () => true, 'drawn after drag start threshold', pressed.drawFrame);
     await pointer(state, peer, to);
+    return await held(before);
   } finally { await pointer(state, peer, to, 'left', false); }
 }
 
 module.exports = {open, close, reset, enter, join, menu, key, last, after, committed, focus, send, press, tap,
   pointer, click, choose, control, named, title, within, actor, own, nearby, item, external, moveUntil, picture, finish,
-  stash, bagWindow, drag, fixture: native.inject, privacy: native.privacy, motionInterval: native.motionInterval};
+  stash, bagWindow, drag, settledView, fixture: native.inject, privacy: native.privacy,
+  motionInterval: native.motionInterval};
 

@@ -8,6 +8,10 @@ const {named, within, title, key, actor, own, nearby, external, item} = run;
 const saved = (state, name, peer, start, observations, pictures) =>
   run.finish(state, 'phase06.solo.' + name, [peer], start, observations, pictures);
 const at = state => state.peers[0];
+// Every solo image shows a settled, unclipped view in addition to the case's own state.
+const shot = (state, peer, label, predicate, minimumFrame) => run.picture(state, peer, label,
+  (row, draw) => run.settledView(draw) && predicate(row, draw), minimumFrame);
+const field = draw => draw.controls.find(entry => named('QuantityToMove')(entry) && entry.visible);
 const contents = (row, id) => Object.entries(row.phase06.Views).find(([scope, view]) =>
   scope.startsWith('own.') && view.Header.ContainerId === id)?.[1].Rows ?? [];
 
@@ -25,7 +29,7 @@ async function world(state) {
     [['fixture.living-wall', true], ['fixture.broken-wall', false]]);
   const walked = await run.moveUntil(state, peer, key.right, row => actor(row)?.X > actor(initial).X + 500,
     'controlled native walk');
-  const moved = await run.picture(state, peer, 'world-walked', (row, draw) => {
+  const moved = await shot(state, peer, 'world-walked', (row, draw) => {
     const local = draw.actors.find(entry => entry.local);
     return local?.insideCamera && local.visible && actor(row)?.X > actor(initial).X + 500
       && draw.appearance.filter(entry => entry.kind === 'Actors' && entry.visible).length === camp.Actors.length
@@ -54,7 +58,7 @@ async function movement(state) {
     try {
       const sprintStart = await run.committed(peer, row => actor(row)?.Movement === 'faster',
         'committed sprint starts', walked.drawFrame);
-      sprinted = await run.picture(state, peer, 'movement-sprint', row => {
+      sprinted = await shot(state, peer, 'movement-sprint', row => {
         sprint = run.motionInterval(sprintStart.input, row, 'faster');
         return sprint?.speed > walking.speed && sprint.spent > 0;
       }, sprintStart.drawFrame);
@@ -64,7 +68,7 @@ async function movement(state) {
   await run.press(state, peer, key.jump, true);
   let airborne;
   try {
-    airborne = await run.picture(state, peer, 'movement-air', row => {
+    airborne = await shot(state, peer, 'movement-air', row => {
       const player = actor(row);
       return player?.Movement === 'jump' && player.Y > row.phase06.World.Ground;
     }, beforeJump.drawFrame);
@@ -89,7 +93,7 @@ async function inventory(state) {
   const peer = at(state), start = state.input.records.length;
   await run.enter(state, peer, 'field');
   await run.tap(state, peer, key.inventory);
-  const equipped = await run.picture(state, peer, 'inventory-equipped', row => row.inventoryOpen
+  const equipped = await shot(state, peer, 'inventory-equipped', row => row.inventoryOpen
     && row.inventorySlots === 11 && !!item(row, 'own', 'IT-23'));
   const bag = item(equipped.draw.input, 'own', 'IT-23');
   await run.bagWindow(state, peer, named('equipment_backpack'), bag.Id, 'own');
@@ -98,7 +102,7 @@ async function inventory(state) {
   const pouch = contents(open.input, bag.Id).find(entry => entry.DefinitionId === 'IT-22');
   const inBag = name => within('/Bag_' + bag.Id + '/', name);
   await run.bagWindow(state, peer, inBag('Item_' + pouch.Id), pouch.Id, 'own');
-  const nested = await run.picture(state, peer, 'inventory-nested', row => contents(row, pouch.Id)
+  const nested = await shot(state, peer, 'inventory-nested', row => contents(row, pouch.Id)
     .some(entry => entry.DefinitionId === 'IT-08' && entry.Quantity === 6));
   const berries = contents(nested.draw.input, pouch.Id).find(entry => entry.DefinitionId === 'IT-08');
   const inPouch = name => within('/Bag_' + pouch.Id + '/', name);
@@ -109,18 +113,23 @@ async function inventory(state) {
   await run.choose(state, peer, title('Slot 1'));
   const assigned = await run.committed(peer, row => own(row)?.Header.Quick.some(entry =>
     entry.Slot === 1 && entry.ItemId === berries.Id), 'physical context assignment');
+  // Shift-press the stack, cross the drag start threshold onto the empty pouch cell (1, 0) and see the exact split
+  // field open with Half = floor(6 / 2) while the button is still held.
+  const stack = await run.control(peer, seedItem);
+  const pouchBoard = await run.control(peer, inPouch('ItemCells'));
+  const emptyCell = {x: pouchBoard.x - pouchBoard.width / 2 + 48, y: pouchBoard.y - pouchBoard.height / 2 + 16};
+  const half = String(Math.floor(berries.Quantity / 2));
   await run.press(state, peer, key.shift, true);
+  let opened;
   try {
-    const stack = await run.control(peer, seedItem);
-    const source = {x: stack.x, y: stack.y};
-    await run.drag(state, peer, source, {x: source.x + 10, y: source.y});
+    opened = await run.drag(state, peer, {x: stack.x, y: stack.y}, emptyCell, before => run.after(peer,
+      draw => field(draw)?.text === half, 'Shift-drag opens the split field', before));
   } finally { await run.press(state, peer, key.shift, false); }
-  const split = await run.picture(state, peer, 'inventory-split', (_, draw) =>
-    draw.controls.some(entry => named('QuantityToMove')(entry) && entry.text === '3'));
+  const split = await shot(state, peer, 'inventory-split', (_, draw) => field(draw)?.text === half,
+    opened.drawFrame - 1);
   await run.choose(state, peer, title('Move quantity'));
   const board = await run.control(peer, inPouch('ItemCells'));
-  const emptyCell = {x: board.x - board.width / 2 + 48, y: board.y - board.height / 2 + 16};
-  await run.click(state, peer, emptyCell);
+  await run.click(state, peer, {x: board.x - board.width / 2 + 48, y: board.y - board.height / 2 + 16});
   const divided = await run.committed(peer, row => {
     const stack = contents(row, pouch.Id).filter(entry => entry.DefinitionId === berries.DefinitionId);
     return stack.length === 2 && stack.every(entry => entry.Quantity === 3)
@@ -131,12 +140,15 @@ async function inventory(state) {
   const from = await run.control(peer, inBag('Item_' + ammo.Id));
   const bagBoard = await run.control(peer, inBag('ItemCells'));
   const destination = {x: bagBoard.x - bagBoard.width / 2 + 16, y: bagBoard.y - bagBoard.height / 2 + 80};
-  await run.pointer(state, peer, from, 'left', true);
-  try {
-    await run.pointer(state, peer, destination);
+  const preview = draw => draw.controls.find(entry => named('PlacementPreview')(entry) && entry.visible);
+  await run.drag(state, peer, from, destination, async before => {
+    const upright = await run.after(peer, draw => preview(draw)?.height > preview(draw).width,
+      'upright ammunition placement preview', before);
     await run.tap(state, peer, key.rotate);
-  } finally { await run.pointer(state, peer, destination, 'left', false); }
-  const rotated = await run.picture(state, peer, 'inventory-rotated', row => {
+    return run.after(peer, draw => preview(draw)?.width > preview(draw).height, 'rotated placement preview',
+      upright.drawFrame);
+  });
+  const rotated = await shot(state, peer, 'inventory-rotated', row => {
     const moved = contents(row, bag.Id).find(entry => entry.Id === ammo.Id);
     return moved?.Location.Rotated === true && moved.Location.X === 0 && moved.Location.Y === 2;
   });
@@ -156,10 +168,10 @@ async function stash(state) {
   const joined = await run.enter(state, peer, 'field');
   const selection = await overlappingSelection(state, peer, joined);
   await run.stash(state, peer);
-  const first = await run.picture(state, peer, 'stash-first', row => external(row)?.Header.Page === 1
+  const first = await shot(state, peer, 'stash-first', row => external(row)?.Header.Page === 1
     && external(row).Header.PageCount > 1 && row.nearby.kind === 'Stash');
   await run.choose(state, peer, named('NextStashPage'));
-  const second = await run.picture(state, peer, 'stash-next', row => external(row)?.Header.Page === 2
+  const second = await shot(state, peer, 'stash-next', row => external(row)?.Header.Page === 2
     && row.nearby.page === 2, first.draw.drawFrame);
   await run.choose(state, peer, named('PreviousStashPage'));
   const back = await run.committed(peer, row => external(row)?.Header.Page === 1, 'returned to original stash page');
@@ -167,13 +179,13 @@ async function stash(state) {
   await run.press(state, peer, key.control, true);
   try { await run.choose(state, peer, within('/NearbyStorage/', 'Item_' + money.Id)); }
   finally { await run.press(state, peer, key.control, false); }
-  const committed = await run.picture(state, peer, 'stash-withdrawal', row => row.runAction?.status === 'Applied'
+  const committed = await shot(state, peer, 'stash-withdrawal', row => row.runAction?.status === 'Applied'
     && external(row)?.Rows.every(entry => entry.Id !== money.Id)
     && row.phase06.Views.status.Header.Hud.Money >= money.Quantity, back.drawFrame);
   await run.choose(state, peer, named('CloseInventory'));
   await run.moveUntil(state, peer, key.left, row => !nearby(row).some(entry => entry.Kind === 'Stash'),
     'walk out of the stash access range');
-  const revoked = await run.picture(state, peer, 'stash-out-of-range', row => !external(row)
+  const revoked = await shot(state, peer, 'stash-out-of-range', row => !external(row)
     && !nearby(row).some(entry => entry.Kind === 'Stash'));
   return saved(state, 'stash', peer, start, {back, money, cleared: selection.cleared},
     [...selection.pictures, first, second, committed, revoked]);
@@ -190,7 +202,7 @@ async function overlappingSelection(state, peer, joined) {
   for (const [index, id] of [first, second].entries()) {
     if (index) await run.choose(state, peer, named('NearbyTarget'));
     await run.choose(state, peer, named('NearbyChoice_Npc_' + Buffer.from(id).toString('hex').toUpperCase()));
-    pictures.push(await run.picture(state, peer, 'nearby-outline-' + index, (row, draw) => {
+    pictures.push(await shot(state, peer, 'nearby-outline-' + index, (row, draw) => {
       const marks = draw.appearance.filter(art => art.kind === 'NearbySelection' && art.visible);
       return external(row)?.Header.TargetId === id && marks.length === 1 && marks[0].id === id && marks[0].outlined;
     }));
@@ -206,23 +218,23 @@ async function combat(state) {
   await run.enter(state, peer, 'bow');
   const point = {x: 760, y: 370};
   await run.pointer(state, peer, point);
-  const initial = await run.picture(state, peer, 'combat-ready', (row, draw) => actor(row)?.ArrowReady
+  const initial = await shot(state, peer, 'combat-ready', (row, draw) => actor(row)?.ArrowReady
     && item(row, 'own', 'IT-02')?.Quantity === 1 && !!row.hud && draw.crosshair);
   const bow = item(initial.draw.input, 'own', 'IT-07');
   const before = await run.click(state, peer, point);
-  const fired = await run.picture(state, peer, 'combat-fired', (row, draw) => row.aim && !actor(row)?.ArrowReady
+  const fired = await shot(state, peer, 'combat-fired', (row, draw) => row.aim && !actor(row)?.ArrowReady
     && !item(row, 'own', 'IT-02') && item(row, 'own', 'IT-07')?.Condition < bow.Condition
     && draw.appearance.some(art => art.id === row.phase06.control && art.bowStage === 'recovery'), before);
   await run.committed(peer, row => actor(row)?.StrikeAt === null, 'bow ready to test the empty attempt');
   await run.click(state, peer, point);
-  const empty = await run.picture(state, peer, 'combat-empty', (row, draw) => row.runAction?.status === 'EmptyAmmo'
+  const empty = await shot(state, peer, 'combat-empty', (row, draw) => row.runAction?.status === 'EmptyAmmo'
     && !actor(row)?.ArrowReady && item(row, 'own', 'IT-07')?.Condition === item(fired.draw.input, 'own', 'IT-07').Condition
     && row.hud.Ammo === 0 && draw.crosshair && draw.appearance.some(art =>
       art.id === row.phase06.control && art.bowStage === 'aim') && draw.controls.some(entry =>
       named('ActionNotice')(entry) && !entry.text));
   await run.fixture(state, peer, {action: 'fixture-attack', Target: 'fixture.bow'});
   await run.fixture(state, peer, {action: 'fixture-step', Elapsed: 500});
-  const defense = await run.picture(state, peer, 'combat-broken-defense', row => row.phase06.World.Defenses
+  const defense = await shot(state, peer, 'combat-broken-defense', row => row.phase06.World.Defenses
     .find(entry => entry.Id === 'fixture.living-wall')?.Living === false);
   return saved(state, 'combat', peer, start, {point}, [initial, fired, empty, defense]);
 }
@@ -234,13 +246,13 @@ async function life(state) {
   await run.moveUntil(state, peer, key.right, row => actor(row)?.X > actor(first.input).X + 300,
     'separate the death and eligible near successor camera centers');
   await run.fixture(state, peer, {action: 'fixture-attack', Target: 'fixture.melee-a'});
-  const dead = await run.picture(state, peer, 'life-death', (row, draw) => row.spectator?.Visible && !row.hud && !own(row)
+  const dead = await shot(state, peer, 'life-death', (row, draw) => row.spectator?.Visible && !row.hud && !own(row)
     && row.phase06.World.Corpses.some(entry => entry.SurvivorId === previous
       && entry.Equipment.some(piece => piece.DefinitionId === 'IT-23')
       && draw.appearance.some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
-  const gate = await run.picture(state, peer, 'life-ready', row => row.spectator?.CanRespawn);
+  const gate = await shot(state, peer, 'life-ready', row => row.spectator?.CanRespawn);
   await run.choose(state, peer, named('Respawn'));
-  const transferred = await run.picture(state, peer, 'life-transfer', row => row.phase06.control !== previous
+  const transferred = await shot(state, peer, 'life-transfer', row => row.phase06.control !== previous
     && row.phase06.epoch > 0 && row.bindingId === first.bindingId && !!row.spectator?.TransferNotice
     && !row.spectator.Smoothing);
   const near = handover(peer, gate.draw.drawFrame, transferred.draw);
@@ -254,7 +266,7 @@ async function life(state) {
   'near handover travels through successive intermediate native draws toward the successor');
   const corpse = dead.draw.input.phase06.World.Corpses.find(entry => entry.SurvivorId === previous);
   await run.fixture(state, peer, {action: 'fixture-step', Elapsed: 180000});
-  const cleanup = await run.picture(state, peer, 'life-cleanup', row => row.phase06.World.Corpses
+  const cleanup = await shot(state, peer, 'life-cleanup', row => row.phase06.World.Corpses
     .some(entry => entry.Id === corpse.Id) && row.phase06.World.Loot.some(entry => entry.Id === 'fixture.supplies')
     && !row.phase06.World.Loot.some(entry => entry.Id === 'fixture.empty'));
   await run.menu(state, peer);
@@ -272,9 +284,9 @@ function handover(peer, previousDraw, lastDraw) {
 async function farHandover(state, peer) {
   const first = await run.enter(state, peer, 'far');
   await run.fixture(state, peer, {action: 'fixture-attack', Target: 'fixture.melee-a'});
-  const dead = await run.picture(state, peer, 'life-distant-death', row => row.spectator?.CanRespawn);
+  const dead = await shot(state, peer, 'life-distant-death', row => row.spectator?.CanRespawn);
   await run.choose(state, peer, named('Respawn'));
-  const live = await run.picture(state, peer, 'life-distant-cut', row => row.phase06.epoch > 0
+  const live = await shot(state, peer, 'life-distant-cut', row => row.phase06.epoch > 0
     && first.input.phase06.control !== row.phase06.control && !!row.spectator?.TransferNotice);
   const cut = handover(peer, dead.draw.drawFrame, live.draw);
   assert(cut.length > 0 && Math.abs(cut[0].cameraX - dead.draw.cameraX) > 300
