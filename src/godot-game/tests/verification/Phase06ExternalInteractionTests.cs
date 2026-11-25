@@ -17,7 +17,7 @@ public sealed class Phase06ExternalInteractionTests
 {
     /// <summary>Page requests use the committed token, preserve identity and reject malformed input.</summary>
     [Fact]
-    public void Phase06_ExternalPagerUsesCurrentTokenAndRejectsBadInput()
+    public void ExternalPager_CurrentToken_RejectsBadInput()
     {
         FoundationSession session = Start();
         RunInventory before = session.Inventory;
@@ -52,7 +52,7 @@ public sealed class Phase06ExternalInteractionTests
 
     /// <summary>Equal-label permitted targets stay distinct and a claimed survivor loses the old scope.</summary>
     [Fact]
-    public void Phase06_NearbySelectionsUseStablePermittedIdentities()
+    public void NearbySelection_EqualLabels_UseStablePermittedIdentities()
     {
         FoundationSession session = Start();
         (string kind, string id) first = ("Npc", "survivor-02");
@@ -76,7 +76,7 @@ public sealed class Phase06ExternalInteractionTests
 
     /// <summary>Access loss closes exterior descendants and cancels affected previews without moving items.</summary>
     [Fact]
-    public void Phase06_ExternalRevocationKeepsIndependentOwnWindows()
+    public void ExternalRevocation_AccessLost_KeepsIndependentOwnWindows()
     {
         FoundationSession session = Start();
         RunInventory.Item bag = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack");
@@ -106,7 +106,7 @@ public sealed class Phase06ExternalInteractionTests
 
     /// <summary>Open nested windows survive automatic requests at the real recipient limit.</summary>
     [Fact]
-    public void Phase06_WindowSelectorsKeepExistingBagsAtTheProtocolLimit()
+    public void WindowSelectors_ProtocolLimit_KeepExistingBags()
     {
         FoundationSession session = Start();
         RunInventory.Item bag = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack");
@@ -136,7 +136,7 @@ public sealed class Phase06ExternalInteractionTests
 
     /// <summary>Quick transfer projects an effect only for the matching action and current stash page.</summary>
     [Fact]
-    public void Phase06_DepositEffectUsesTheSelectedStashAndExactAction()
+    public void DepositEffect_SelectedStashPage_UsesExactAction()
     {
         FoundationSession session = Start();
         RunInventory.Item item = Phase06MeleeTests.Equip(session: session, id: "IT-03", slot: "left-hand");
@@ -163,7 +163,7 @@ public sealed class Phase06ExternalInteractionTests
     [InlineData("Npc", "survivor-02")]
     [InlineData("Corpse", "nearby-corpse")]
     [InlineData("Pile", "nearby-pile")]
-    public void Phase06_QuickWithdrawUsesActualCarryWithoutEquipping(string kind, string targetId)
+    public void QuickWithdraw_ActualCarry_MergesWithoutEquipping(string kind, string targetId)
     {
         FoundationSession session = Start();
         RunInventory.Item bag = Phase06MeleeTests.Equip(session: session, id: "IT-23", slot: "backpack");

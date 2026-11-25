@@ -236,7 +236,7 @@ public sealed class Phase06PopulationTests
 
     /// <summary>Missing, malformed, oversized and contradictory authored bytes fail with the source path.</summary>
     [Fact]
-    public void RejectsInvalidRunDefinitionsBeforeBuildingInventory()
+    public void RunDefinitions_InvalidBytes_RejectedBeforeBuildingInventory()
     {
         string path = "content/config/run.json";
         InvalidDataException missing = Should.Throw<InvalidDataException>(actual: () => RunDefinitions.Load(
@@ -263,7 +263,7 @@ public sealed class Phase06PopulationTests
 
     /// <summary>The coordinator reads authored settings before it opens a host port or starts a solo run.</summary>
     [Fact]
-    public void ReadsSuppliedResourcesBeforeOpeningTransport()
+    public void Coordinator_SuppliedResources_ReadBeforeOpeningTransport()
     {
         var port = new FoundationHarnessConnection();
         var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);

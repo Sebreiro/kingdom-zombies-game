@@ -15,7 +15,7 @@ public sealed class Phase06InventoryInteractionTests
 {
     /// <summary>Outside release and closing never produce a request or alter a real carried source.</summary>
     [Fact]
-    public void Phase06_PreviewCancellationPreservesTheCommittedSource()
+    public void PreviewCancellation_OutsideReleaseOrClose_PreservesCommittedSource()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         RunInventory.Item equipped = Phase06MeleeTests.Equip(session: session, id: "IT-03", slot: "left-hand");
@@ -35,7 +35,7 @@ public sealed class Phase06InventoryInteractionTests
 
     /// <summary>Rotation uses the full authored footprint and an occupied hand never invites a swap.</summary>
     [Fact]
-    public void Phase06_InventoryPreviewChecksRotatedCellsAndManualReplacement()
+    public void InventoryPreview_RotatedOrOccupied_ChecksCellsAndManualReplacement()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         Model.Item knife = Read(session: session, id: Phase06MeleeTests.Equip(
@@ -62,7 +62,7 @@ public sealed class Phase06InventoryInteractionTests
 
     /// <summary>The split preview validates whole quantities and preserves the exact source stamp.</summary>
     [Fact]
-    public void Phase06_SplitPreviewBoundsAndQuantityUseTheCurrentStack()
+    public void SplitPreview_CurrentStack_BoundsQuantity()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         (RunInventory.Item bag, RunInventory.Item food) = WithFood(session: session);
@@ -85,7 +85,7 @@ public sealed class Phase06InventoryInteractionTests
 
     /// <summary>Nested close cascades and reopen restores only the remembered position of the manual opening.</summary>
     [Fact]
-    public void Phase06_BagWindowsCloseByParentAndRememberClampedPosition()
+    public void BagWindows_ParentClosed_CloseAndRememberClampedPosition()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         (RunInventory.Item bag, RunInventory.Item food) = WithFood(session: session);
@@ -117,7 +117,7 @@ public sealed class Phase06InventoryInteractionTests
 
     /// <summary>Extra windows remain in the recipient scope and Assign changes only a carried reference.</summary>
     [Fact]
-    public void Phase06_InventoryWindowsAndQuickAssignmentUseHostAuthority()
+    public void InventoryWindows_QuickAssignment_UseHostAuthority()
     {
         FoundationSession session = Phase06MeleeTests.Start();
         (RunInventory.Item bag, RunInventory.Item food) = WithFood(session: session);

@@ -108,7 +108,7 @@ public sealed class Phase06FixtureTests
 
     /// <summary>Ordinary starts retain the exact eight survivors and authored kit beside the isolated seed.</summary>
     [Fact]
-    public void Phase06_FixtureDoesNotAlterNormalStartup()
+    public void Fixture_NormalStartup_KeepsConfiguredKit()
     {
         FoundationSession ordinary = Phase06MeleeTests.Start();
         FoundationSession seeded = Start(mode: "field");
@@ -124,7 +124,7 @@ public sealed class Phase06FixtureTests
 
     /// <summary>Two real lethal contacts preserve the armed body and independently expire the empty body.</summary>
     [Fact]
-    public void Phase06_FixtureKeepsSeparateCorpseOwnership()
+    public void Fixture_TwoLethalContacts_KeepSeparateCorpseOwnership()
     {
         FoundationSession session = Start(mode: "life");
         session.TryUpdateVitals(survivorId: RunCombatFixture.First, health: 1, stamina: 100).ShouldBeTrue();
@@ -154,7 +154,7 @@ public sealed class Phase06FixtureTests
     [Theory]
     [InlineData("life", -8000)]
     [InlineData("far", 30000)]
-    public void Phase06_FixtureSuccessorRangePreservesTheSeededSurvivor(string mode, int position)
+    public void Fixture_SuccessorRange_PreservesSeededSurvivor(string mode, int position)
     {
         FoundationSession session = Start(mode: mode);
         Trigger(session: session, id: RunCombatFixture.First, sequence: 1).status.ShouldBe(expected: "Accepted");
