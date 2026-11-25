@@ -4514,7 +4514,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "16e7d55b6688fb0d375629fd73329a6080d11885c4b7030a837274cc17543fc0"
+            "sha256": "489397722677f6480f3d0608f5ccac069b87c53f80681430e8855193ea00b023"
           },
           {
             "path": "src/godot-game/tests/verification/ExemptionValidator.cs",
@@ -6205,7 +6205,7 @@
             "sha256": null
           }
         ],
-        "sourceSetSha256": "8ca39569206449c5e607799dee40dc9ce1a378e6a2cf70514a520840cd24169a",
+        "sourceSetSha256": "eac72db0e2810a5b16f4ffffd945a54c4140d49285b368f19d1aefdc77e60ee2",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
@@ -9695,10 +9695,10 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "51a084626889b31400b91eb44bb8782ad09ac8ffbba6b17324becf4bb609b0a6",
+        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
         "childMs": 45000,
         "setupMs": 60000,
-        "overallMs": 1044000,
+        "overallMs": 1236000,
         "stages": [
           {
             "id": "r50-game-build",
@@ -9788,6 +9788,26 @@
             "id": "r50-repository-sources-14",
             "action": "repository",
             "sourceStageId": "repository-sources-14"
+          },
+          {
+            "id": "r50-repository-sources-15",
+            "action": "repository",
+            "sourceStageId": "repository-sources-15"
+          },
+          {
+            "id": "r50-repository-sources-16",
+            "action": "repository",
+            "sourceStageId": "repository-sources-16"
+          },
+          {
+            "id": "r50-repository-sources-17",
+            "action": "repository",
+            "sourceStageId": "repository-sources-17"
+          },
+          {
+            "id": "r50-repository-sources-18",
+            "action": "repository",
+            "sourceStageId": "repository-sources-18"
           }
         ]
       }
@@ -12940,7 +12960,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "51a084626889b31400b91eb44bb8782ad09ac8ffbba6b17324becf4bb609b0a6",
+        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -17356,7 +17376,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "51a084626889b31400b91eb44bb8782ad09ac8ffbba6b17324becf4bb609b0a6",
+        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -17474,7 +17494,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "51a084626889b31400b91eb44bb8782ad09ac8ffbba6b17324becf4bb609b0a6",
+        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -17627,10 +17647,10 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "51a084626889b31400b91eb44bb8782ad09ac8ffbba6b17324becf4bb609b0a6",
+        "repositorySha256": "25b28d316ce8620c49af4df9a1a5262f5b14adb6154650e5e0f6857308068fbc",
         "childMs": 45000,
         "setupMs": 60000,
-        "overallMs": 1044000,
+        "overallMs": 1236000,
         "stages": [
           {
             "id": "exempt-repository-auth",
@@ -17716,6 +17736,26 @@
             "id": "exempt-repository-sources-14",
             "action": "repository",
             "sourceStageId": "repository-sources-14"
+          },
+          {
+            "id": "exempt-repository-sources-15",
+            "action": "repository",
+            "sourceStageId": "repository-sources-15"
+          },
+          {
+            "id": "exempt-repository-sources-16",
+            "action": "repository",
+            "sourceStageId": "repository-sources-16"
+          },
+          {
+            "id": "exempt-repository-sources-17",
+            "action": "repository",
+            "sourceStageId": "repository-sources-17"
+          },
+          {
+            "id": "exempt-repository-sources-18",
+            "action": "repository",
+            "sourceStageId": "repository-sources-18"
           },
           {
             "id": "exempt-bypass-restored",
