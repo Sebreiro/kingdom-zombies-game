@@ -4,18 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 06
 current_phase_name: Survivors, inventory, and combat
-current_plan: 22
+current_plan: 23
 status: executing
-stopped_at: Completed 06-21-PLAN.md
-last_updated: "2026-11-25T18:10:43.000Z"
+stopped_at: Completed 06-22-PLAN.md
+last_updated: "2026-11-25T19:18:20.330Z"
 last_activity: 2026-11-25
-last_activity_desc: 06-21 made every delivered key acknowledged, reset rendered drivers through the D-14 Escape order, took solo images only from settled unclipped views and frame-stepped the native drag
-state_head: b3133877a6f854762bfecd2762d8177c0b06a22b
+last_activity_desc: 06-22 proved F13 a driver correlation defect and made drivers accept only the exact receipt of each request, gave the LAN roles distinct names and spread bodies, and judged succession holds over distinct committed draws
+state_head: f59d4036f609bb668fd39c90e3e34ddfa8824980
 progress:
   total_phases: 12
   completed_phases: 5
   total_plans: 115
-  completed_plans: 84
+  completed_plans: 85
   percent: 42
 ---
 
@@ -34,14 +34,14 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 ## Current Position
 
 Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
-Current Plan: 22
+Current Plan: 23
 Total Plans in Phase: 25
 Status: Ready to execute
-Last activity: 2026-11-25 — 06-21 made every delivered key acknowledged, reset rendered drivers through the D-14 Escape order, took solo images only from settled unclipped views and frame-stepped the native drag; 06-22 is next
+Last activity: 2026-11-25 — 06-22 proved F13 a driver correlation defect and made drivers accept only the exact receipt of each request, gave the LAN roles distinct names and spread bodies, and judged succession holds over distinct committed draws; 06-23 is next
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 84 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 85 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -102,6 +102,7 @@ Milestone progress: 5 of 12 phases, 84 of 115 planned plans complete with two Ph
 | Phase 06 P19 | 17min | 3 tasks | 8 files |
 | Phase 06 P20 | 90min | 3 tasks | 10 files |
 | Phase 06 P21 | 41min | 3 tasks | 8 files |
+| Phase 06 P22 | 64min | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -212,6 +213,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 06]: 06-21: The run-1 split failure was on the driver side (press, moves and release in one burst; no drag ever began); the product split rule is unchanged
 - [Phase 06]: 06-21: FoundationRoot._Input records every key receipt before workspace routing; handled keys still never reach world input
 - [Phase 06]: 06-21: Rendered pictures require settledView(draw); resets follow the D-14 Escape order and fail with the missing step; ordinary-cleanup.json is written only after validated ordinary Quit records
+- [Phase 06]: 06-22: F13 is a driver correlation defect (mechanism a): the watcher's place receipt is replaced 47-100 ms later by the workspace's own window request receipt; drivers now accept only the receipt whose kind matches, not replayed, with a later sequence, read from every frame since submission (20/20 consecutive lan-privacy passes on 1e897ba)
+- [Phase 06]: 06-22: RunActionFeedback carries the receipt kind and runAction observes kind and replayed; FoundationRunReadback keeps its three-field Feedback; product publication unchanged
 
 ### Pending Todos
 
@@ -269,8 +272,8 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-25T18:10:43.000Z
-Stopped at: Completed 06-21-PLAN.md
+Last session: 2026-11-25T19:18:19.666Z
+Stopped at: Completed 06-22-PLAN.md
 Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
