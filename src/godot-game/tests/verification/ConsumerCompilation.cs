@@ -13,6 +13,9 @@ internal sealed class ConsumerCompilation
     /// <summary>Gets the exact evaluated project identity used for source ownership.</summary>
     internal string Project { get; }
 
+    /// <summary>Gets the evaluated assembly name, so friend-assembly access matches the real build.</summary>
+    internal string AssemblyName => _assembly;
+
     /// <summary>Gets every evaluated Compile input; emitted generator outputs are added separately.</summary>
     internal IReadOnlyList<string> AuthoredPaths => _authored;
 

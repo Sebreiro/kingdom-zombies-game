@@ -25,7 +25,7 @@ internal static class ExemptionValidator
         SyntaxTree tree = consumer.Parse(source: content, path: path);
         SyntaxNode root = tree.GetRoot();
         var errors = new List<string>();
-        SemanticModel model = CSharpCompilation.Create(assemblyName: "SuppressionScan", syntaxTrees: [tree],
+        SemanticModel model = CSharpCompilation.Create(assemblyName: consumer.AssemblyName, syntaxTrees: [tree],
                 references: consumer.References).GetSemanticModel(syntaxTree: tree);
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (SyntaxTrivia trivia in root.DescendantTrivia(descendIntoTrivia: true))
