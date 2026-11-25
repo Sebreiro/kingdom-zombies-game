@@ -27,11 +27,12 @@ async function open(context) {
   const relative = path.relative(context.root, context.directory).replaceAll(path.sep, '/');
   const session = await scenarios.inspectionSession(context.root, relative + '/inspection', 'G1-hub', build,
     {physical: desktop.ownedInput, decodePng: desktop.decodePng, dpiAwareInput: true}, budget, controller.signal);
-  return {...context, relative, build, preparation, session, controller, budget, evidence: []};
+  return {...context, relative, build, preparation, session, controller, budget, evidence: [], launches: []};
 }
 
 async function close(state) {
   const finished = await state.session.close();
+  state.launches.push({role: finished.record.role, pid: finished.record.pid});
   evidence.validateProcess(finished.record);
   scenarios.validateProcessRuntime(state.root, state.build, finished.record);
   assert.equal(evidence.git(state.root, ['rev-parse', 'HEAD']).trim(), state.revision);

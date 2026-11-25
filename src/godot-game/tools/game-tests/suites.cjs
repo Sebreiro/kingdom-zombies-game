@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {randomUUID, createHash} = require('node:crypto');
 const workspace = require('../workspace-paths.cjs');
-const {run} = require('../lan-checks/processes.cjs');
+const processes = require('../lan-checks/processes.cjs');
 const {exact, reconcile, relative, requiredFile, writeJson} = require('./report.cjs');
 
 const tools = 'src/godot-game/tools';
@@ -40,7 +40,7 @@ async function command(context, executable, args, timeout) {
   const file = 'child-' + randomUUID() + '.json';
   let record;
   try {
-    record = await run(executable, args, {cwd: context.root, env: process.env, onOutput: text => process.stdout.write(text)}, timeout);
+    record = await processes.run(executable, args, {cwd: context.root, env: process.env, onOutput: text => process.stdout.write(text)}, timeout);
   } catch (error) {
     record = error.record ?? {executable, args, error: error.message};
   }
@@ -204,6 +204,21 @@ async function refreshRuntime(context, group) {
   return {group, prepared, result: {...result, artifacts: result.artifacts.map(file => prefix + '/' + file)}};
 }
 
+// Reports carry numeric timing and launch facts. A value an adapter did not record is 0 and says so.
+function measured(row) {
+  const duration = [row.durationMs, row.durationMilliseconds].find(value => Number.isFinite(value) && value >= 0);
+  const launches = Number.isSafeInteger(row.launchCount) && row.launchCount >= 0 ? row.launchCount : undefined;
+  return {...row, durationMs: duration === undefined ? 0 : Math.round(duration), launchCount: launches ?? 0,
+    ...(duration === undefined ? {timing: 'not-recorded'} : {}), ...(launches === undefined ? {launchRecord: 'not-recorded'} : {})};
+}
+
+// Shared-session groups put the whole group's process count on every case, so their count is not summed.
+function groupLaunches(id, rows, results) {
+  return id.endsWith('.rendered') || rows[0].adapter === 'scenario'
+    ? Math.max(0, ...results.map(row => row.launchCount))
+    : results.reduce((total, row) => total + row.launchCount, 0);
+}
+
 async function runGroups(context, selected) {
   const results = [];
   const groups = [];
@@ -244,12 +259,12 @@ async function runGroups(context, selected) {
     } catch (error) {
       groupResults = blocked(rows, error);
     }
+    groupResults = groupResults.map(measured);
     results.push(...groupResults);
     groups.push({id, ids: rows.map(row => row.id), durationMilliseconds: Date.now() - started,
-      launchCount: id.endsWith('.rendered') ? Math.max(0, ...groupResults.map(row => row.launchCount ?? 0))
-        : groupResults.reduce((total, row) => total + (row.launchCount ?? 0), 0)});
+      launchCount: groupLaunches(id, rows, groupResults)});
   }
   return {results, groups, preparation, runtimeRefreshes};
 }
 
-module.exports = {runGroups, tasks};
+module.exports = {runGroups, tasks, measured};

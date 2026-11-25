@@ -230,6 +230,7 @@ function portableProcess(state, role, directory) {
   const child = spawn(executable, ['--headless'], {cwd: directory, env, windowsHide: true,
     stdio: ['ignore', 'pipe', 'pipe']});
   const peer = {role: nativeRole, directory: out, pid: child.pid, child, exit: null, output: '', attest};
+  state.launches.push({role: nativeRole, pid: child.pid});
   for (const stream of [child.stdout, child.stderr]) stream.on('data', bytes => { peer.output += bytes; });
   child.once('error', error => { peer.error = error; });
   terminal.track(peer, state);
@@ -260,6 +261,7 @@ async function bootUnmodified(state, directory) {
   const {env, out, attest} = portableEnvironment(state, role);
   const command = await require('../../tools/asset-pipeline/check.cjs').command(state, role,
     path.join(directory, 'KingdomZombies.exe'), ['--headless', '--quit-after', '60'], {env, cwd: directory});
+  state.launches.push({role, pid: command.pid});
   assert(!/ERROR:|SCRIPT ERROR:|Unhandled exception|FATAL/.test(command.stdout + command.stderr));
   const frames = lines(path.join(out, 'frames.ndjson'));
   assert(frames.length >= 8);
@@ -351,7 +353,7 @@ async function open(context) {
   const nonce = path.basename(context.directory);
   assert.match(nonce, /^[a-f0-9-]{36}$/);
   fs.writeFileSync(path.join(context.directory, 'observation.owner'), nonce, {flag: 'wx'});
-  return {...context, nonce, caseId: id};
+  return {...context, nonce, caseId: id, launches: []};
 }
 
 async function packaged(state) {

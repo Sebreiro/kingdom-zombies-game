@@ -7,6 +7,14 @@ const {exact, relative, requiredFile, writeJson} = require('./report.cjs');
 const rootPath = 'src/godot-game/tests/scenarios/';
 const driverPath = /^src\/godot-game\/tests\/scenarios\/(?:[\w.-]+\/)*[\w.-]+\.cjs$/;
 
+// Every launched game process is one record in the driver state's peers or launches. A relaunch is a new record.
+function launchedProcesses(state) {
+  const records = new Set([...(state?.peers ?? []), ...(state?.launches ?? [])]);
+  return [...records].filter(record => Number.isSafeInteger(record?.pid) && record.pid > 0).length;
+}
+
+const elapsed = started => Math.max(0, Math.round(performance.now() - started));
+
 async function runScenarios(context, rows, driver) {
   exact(rows.map(row => row.id), Object.keys(driver.cases ?? {}).filter(id => rows.some(row => row.id === id)));
   const ordered = [...rows].sort((a, b) => a.order - b.order);
@@ -16,14 +24,15 @@ async function runScenarios(context, rows, driver) {
   try {
     for (const row of ordered) {
       if (blocked) {
-        results.push({id: row.id, status: 'blocked', message: blocked});
+        results.push({id: row.id, status: 'blocked', message: blocked, durationMs: 0});
         continue;
       }
+      const started = performance.now();
       try {
         const evidence = await driver.cases[row.id](state, context);
-        results.push({id: row.id, status: 'pass', artifacts: evidence});
+        results.push({id: row.id, status: 'pass', artifacts: evidence, durationMs: elapsed(started)});
       } catch (error) {
-        results.push({id: row.id, status: 'fail', message: error.message});
+        results.push({id: row.id, status: 'fail', message: error.message, durationMs: elapsed(started)});
       }
       if (row !== ordered.at(-1)) {
         try {
@@ -42,6 +51,8 @@ async function runScenarios(context, rows, driver) {
       final.status = 'fail';
       final.message = final.message ? final.message + '\n' + cleanup : cleanup;
     }
+    const launchCount = launchedProcesses(state);
+    for (const result of results) result.launchCount = launchCount;
   }
   return results;
 }
@@ -74,7 +85,7 @@ async function main(planFile) {
   if (results.some(row => row.status !== 'pass')) process.exitCode = 1;
 }
 
-module.exports = {runScenarios, driverPath};
+module.exports = {runScenarios, launchedProcesses, driverPath};
 if (require.main === module) {
   main(process.argv[2]).catch(error => {
     console.error(error.message);

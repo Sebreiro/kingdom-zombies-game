@@ -403,12 +403,13 @@ async function runScenarios(context,items,session) {
   let blocked;
   for (const item of ordered) {
       const identity={id:item.id,nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform};
-      if(blocked || session.exited) {results.push({...identity,status:'blocked',message:blocked??'GAME_PROCESS_LOST'});continue;}
+      if(blocked || session.exited) {results.push({...identity,status:'blocked',message:blocked??'GAME_PROCESS_LOST',durationMilliseconds:0});continue;}
       // The first scenario owns startup output; later scenarios start after recovery.
-      const logStart=results.length===0?0:session.log.length;
-      try { results.push({...identity,status:'pass',...await tracer(context,item.id,session,logStart),nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0}}); }
+      const logStart=results.length===0?0:session.log.length,started=performance.now();
+      const duration=()=>Math.round(performance.now()-started);
+      try { results.push({...identity,status:'pass',...await tracer(context,item.id,session,logStart),nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0},durationMilliseconds:duration()}); }
       catch(error) {
-        results.push({...identity,...error.partial,status:'fail',message:error.message,nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0}});
+        results.push({...identity,...error.partial,status:'fail',message:error.message,nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0},durationMilliseconds:duration()});
         if(!session.exited) try {await session.reset();} catch(resetError){blocked='SESSION_UNUSABLE '+resetError.message;}
         else blocked='GAME_PROCESS_LOST';
       }

@@ -151,3 +151,84 @@ test('PreparedProject_RenderedLanSuite_UsesOneCopy', async t => {
   assert.equal(results[0].preparedProject.path, 'imported-game');
   assert.deepEqual(results[0].preparedProject.assemblies.map(row => row.name), ['KingdomZombies.dll', 'KingdomZombies.Core.dll']);
 });
+
+test('RunScenarios_MockDriver_RecordsDurationsAndLaunches', async t => {
+  const {runScenarios} = require('./scenario-group.cjs');
+  const context = {directory: scratch(t)};
+  const rows = [{id: 'mock.first', order: 1}, {id: 'mock.second', order: 2}, {id: 'mock.third', order: 3}];
+  const peer = state => state.peers.push({role: 'peer-' + state.peers.length, pid: 50_000 + state.peers.length});
+  const driver = {
+    open() { return {peers: []}; },
+    cases: {
+      async 'mock.first'(state) { peer(state); await new Promise(resolve => setTimeout(resolve, 25)); return ['first.json']; },
+      'mock.second'(state) { peer(state); throw new Error('mock failure'); },
+      'mock.third'() { throw new Error('a blocked case must not run'); }
+    },
+    reset(state) { if (state.peers.length === 2) throw new Error('mock reset'); },
+    close() {}
+  };
+  const results = await runScenarios(context, rows, driver);
+  assert.deepEqual(results.map(row => row.status), ['pass', 'fail', 'blocked']);
+  for (const result of results) {
+    assert(Number.isSafeInteger(result.durationMs) && result.durationMs >= 0, result.id + ' durationMs');
+    assert.equal(result.launchCount, 2, result.id + ' launchCount');
+  }
+  assert(results[0].durationMs >= 20, 'measured wall time');
+  assert.equal(results[2].durationMs, 0);
+  assert.equal(results[2].message, 'Scenario reset failed: mock reset');
+});
+
+test('RunGroups_LegacyAdapters_ReportNumericTiming', async t => {
+  const basic = require('./basic.cjs');
+  const processes = require('../lan-checks/processes.cjs');
+  const {runGroups} = require('./suites.cjs');
+  const root = scratch(t);
+  const context = {root, directory: path.join(root, 'invocation'), revision: 'a'.repeat(40)};
+  fs.mkdirSync(context.directory);
+  const runs = adapter => workspace.locations(root).runs(adapter);
+  t.mock.method(basic, 'executeBasic', async () => ({results: [], prepared: true}));
+  t.mock.method(processes, 'run', async (executable, args) => {
+    const tool = args[0];
+    if (tool.endsWith('gameplay-checks/check.cjs')) {
+      const directory = runs('gameplay-checks', 'recorded');
+      fs.mkdirSync(directory, {recursive: true});
+      const file = path.join(directory, 'summary.json');
+      fs.writeFileSync(file, JSON.stringify({revision: context.revision, status: 'pass', selected: ['core.timed'],
+        results: [{id: 'core.timed', status: 'pass', durationMilliseconds: 1234.4}]}));
+      return {streamsClosed: true, code: 0, stdout: 'PASS 1/1 selected obligations; ' + path.relative(root, file) + '\n'};
+    }
+    if (tool.endsWith('asset-pipeline/check.cjs')) {
+      const directory = runs('asset-pipeline', 'recorded');
+      fs.mkdirSync(directory, {recursive: true});
+      fs.writeFileSync(path.join(directory, 'result.json'), JSON.stringify({id: 'source.untimed', revision: context.revision,
+        status: 'pass'}));
+      return {streamsClosed: true, code: 0, stdout: 'PASS source.untimed ' + path.relative(root, directory) + '\n'};
+    }
+    const plan = JSON.parse(fs.readFileSync(args[1], 'utf8'));
+    fs.writeFileSync(path.join(plan.context.directory, 'scenario.json'), '{}');
+    fs.writeFileSync(path.join(plan.context.directory, 'results.json'), JSON.stringify(plan.rows.map(row => ({id: row.id,
+      status: 'pass', artifacts: ['scenario.json'], durationMs: 7, launchCount: 2}))));
+    return {streamsClosed: true, code: 0, stdout: ''};
+  });
+  const selected = [
+    {id: 'gameplay-checks.core.timed', adapter: 'gameplay-checks', tier: 1, legacyId: 'core.timed'},
+    {id: 'asset-pipeline.source.untimed', adapter: 'asset-pipeline', tier: 1, legacyId: 'source.untimed'},
+    {id: 'mock.scenario.first', adapter: 'scenario', tier: 1, runGroup: 'mock.scenario', order: 1,
+      driver: 'src/godot-game/tests/scenarios/mock.cjs'},
+    {id: 'mock.scenario.second', adapter: 'scenario', tier: 1, runGroup: 'mock.scenario', order: 2,
+      driver: 'src/godot-game/tests/scenarios/mock.cjs'}
+  ];
+  const {results, groups} = await runGroups(context, selected);
+  assert.deepEqual(results.map(row => row.status), ['pass', 'pass', 'pass', 'pass']);
+  for (const result of results) {
+    assert(Number.isSafeInteger(result.durationMs) && result.durationMs >= 0, result.id + ' durationMs');
+    assert(Number.isSafeInteger(result.launchCount) && result.launchCount >= 0, result.id + ' launchCount');
+  }
+  const byId = Object.fromEntries(results.map(row => [row.id, row]));
+  assert.equal(byId['gameplay-checks.core.timed'].durationMs, 1234);
+  assert.equal(byId['gameplay-checks.core.timed'].timing, undefined);
+  assert.equal(byId['asset-pipeline.source.untimed'].durationMs, 0);
+  assert.equal(byId['asset-pipeline.source.untimed'].timing, 'not-recorded');
+  assert.equal(byId['asset-pipeline.source.untimed'].launchRecord, 'not-recorded');
+  assert.equal(groups.find(group => group.id === 'mock.scenario').launchCount, 2);
+});
