@@ -345,10 +345,12 @@ async function inventory(state) {
   const berries = item(nesting, 'own.2', 'IT-08');
   const assigned = await action(state, peer, 'assign', {Item: reference(berries), Slot: 1}, 'Applied');
   assert.equal(own(assigned).Header.Quick[0].ItemId, berries.Id);
+  // Collected from the assignment on, so the food receipt is judged over every frame since it.
+  const sinceAssigned = framesAfter(peer, assigned);
   await tap(state, peer, key.inventory);
-  await observe(state, peer, row => !row.inventoryOpen, 'inventory closed');
+  await observe(state, peer, row => sinceAssigned().length > 0 && !row.inventoryOpen, 'inventory closed');
   await tap(state, peer, key.food1);
-  const consumed = await receipt(state, peer, 'food', assigned, 'native quick food receipt');
+  const consumed = await receipt(state, peer, 'food', assigned, 'native quick food receipt', {frames: sinceAssigned});
   assert.equal(consumed.runAction.status, 'Consumed');
   await tap(state, peer, key.food1);
   const cooldown = await receipt(state, peer, 'food', consumed, 'native cooldown receipt');
@@ -388,9 +390,11 @@ async function combat(state) {
   await shot(state, peer);
   const fired = await observe(state, peer, row => !actor(row).ArrowReady && !item(row, 'own', 'IT-02'), 'actual arrow spent');
   assert(item(fired, 'own', 'IT-07').Condition < item(first, 'own', 'IT-07').Condition, 'actual bow wear');
-  await observe(state, peer, row => actor(row)?.StrikeAt === null, 'bow cooldown ended');
+  // Collected from the spent arrow on, through the cooldown, so the empty-ammo receipt is judged over every frame.
+  const sinceFired = framesAfter(peer, fired);
+  await observe(state, peer, row => sinceFired().length > 0 && actor(row)?.StrikeAt === null, 'bow cooldown ended');
   await shot(state, peer);
-  const empty = await receipt(state, peer, 'attack', fired, 'empty ammo receipt');
+  const empty = await receipt(state, peer, 'attack', fired, 'empty ammo receipt', {frames: sinceFired});
   assert.equal(empty.runAction.status, 'EmptyAmmo');
   assert.equal(item(empty, 'own', 'IT-07').Condition, item(fired, 'own', 'IT-07').Condition);
   await inject(state, peer, {action: 'fixture-attack', Target: 'fixture.bow'});
