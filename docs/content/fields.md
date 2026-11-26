@@ -5619,7 +5619,7 @@ Source SHA256: `9379b50244a47c16da9da1c613aad621af84be1e152d8996cbd938da63e57009
 
 ### src/godot-game/content/fixtures/crowds.json
 
-Source SHA256: `dd428d968c49c30b3fac927ca921d6ce956deb6a5c3f0efa7cae1787550918b5`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `8b5aa28a447273972c1f858cee897dc85c3e7ad1316e2c4acff305588682cdc1`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8170,7 +8170,7 @@ Source SHA256: `54fc6b5cc758cd82e69a81abae28ff08f6e05387a86782c934a6b26f458fb346
 
 ### src/godot-game/content/packs/player-identities.json
 
-Source SHA256: `62c0eda577a7f5c367ccd3993d89144be364c0731c3af6ffeff87036e6b7b1ec`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `ca78280ee7e2338d7f53f2c6758b05e8c9c8cb0c8a0d33034f9d517dd581eb32`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8269,7 +8269,7 @@ Source SHA256: `62c0eda577a7f5c367ccd3993d89144be364c0731c3af6ffeff87036e6b7b1ec
 | `/sourceBindings` | array | complete children below |
 | `/sourceBindings/*` | object | complete children below |
 | `/sourceBindings/*/file` | string | "content/packs/ui-identity.json" |
-| `/sourceBindings/*/sha256` | string | "193980e81cebf56e7cf4914a70ffbf4e34b47082e718f9a95c25d1314c398a3c" |
+| `/sourceBindings/*/sha256` | string | "ef8e3e482101ae3f2104b5bf0afc376c2695d9661735c4efe8718c3925e03beb" |
 | `/wildlife` | object | complete children below |
 | `/wildlife/rabbit` | object | complete children below |
 | `/wildlife/rabbit/idle` | string | "bunny_stand" |
@@ -8568,7 +8568,7 @@ Source SHA256: `e21c933b36bacd5f81206b33f7a9680bedd89bd5e580b12f5004ab212895d1f4
 
 ### src/godot-game/content/packs/ui-camp.json
 
-Source SHA256: `f86190a32c0e8efe60f1d73ef3c72cb414f3f3a2028a2a6f1641d3c58480c368`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `e4bb51de2f72a7292d94cbe042a8b71c72a3e11e023e834bad951a5f84a26e36`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8591,7 +8591,7 @@ Source SHA256: `f86190a32c0e8efe60f1d73ef3c72cb414f3f3a2028a2a6f1641d3c58480c368
 
 ### src/godot-game/content/packs/ui-identity.json
 
-Source SHA256: `193980e81cebf56e7cf4914a70ffbf4e34b47082e718f9a95c25d1314c398a3c`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `ef8e3e482101ae3f2104b5bf0afc376c2695d9661735c4efe8718c3925e03beb`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8790,7 +8790,7 @@ Source SHA256: `193980e81cebf56e7cf4914a70ffbf4e34b47082e718f9a95c25d1314c398a3c
 
 ### src/godot-game/content/packs/ui-inventory.json
 
-Source SHA256: `8d73f1fd12698abcd4c7e3909b53eb99a4ff633bfd45897c632bc4dada967309`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `01b3a7966130573bd006988ce93af0214b5c4f89530ff8d945be8f0d1e2ec61e`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8955,7 +8955,7 @@ Source SHA256: `cdfbbf4880fdcc14d200dcb3df0b4ac173fec4a30c65d15a6736a7d30591341a
 
 ### src/godot-game/content/packs/ui-legacy-stash.json
 
-Source SHA256: `901b4e9e8f27b8698ab1d83a7949f2b8c66690e27b739f96ab29b8f2d84e2a8c`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `9f238fdca126e5b5dd1c9c01667f5b267cb6e2ad662ace8fbf78d7fb5240e27d`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8978,7 +8978,7 @@ Source SHA256: `901b4e9e8f27b8698ab1d83a7949f2b8c66690e27b739f96ab29b8f2d84e2a8c
 
 ### src/godot-game/content/packs/ui-map-warnings.json
 
-Source SHA256: `3138eec681f0cbd52c523ddea335f1a099201903bb90ebf2767f2e52e7df0105`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `baaf20982118064f20791934cb3e2496ec9f6594a81afc741648039db323865a`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
