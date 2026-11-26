@@ -332,7 +332,7 @@
   },
   "textPackBinding": {
     "path": "content/packs/text-data.json",
-    "sha256": "6ecca95e1e695fdda6590319dcdfabe1c315711111af955b15b6f51ef36c2767"
+    "sha256": "1d4f0e31e267e76303d0bc0797517f69baf04fee881a0412abfb6832dc634411"
   },
   "runtimeInclusion": "The exporter verifies exact indexed runtime bytes alongside Godot's imported resources, the independent register and the packaged inspection guide.",
   "futureExecutableGates": {
