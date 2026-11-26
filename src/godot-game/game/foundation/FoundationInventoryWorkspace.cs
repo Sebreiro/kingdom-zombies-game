@@ -304,6 +304,10 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
     }
 
+    /// <summary>
+    /// Draws one equipment slot. Its title is a mouse-ignored child label, so the button itself carries the slot name:
+    /// as its accessible name and ahead of the item details in its tooltip (UI-SPEC accessible names).
+    /// </summary>
     private Button DrawSlot(Control parent, string slot, Model.Item? item, string owner, string kind, long token,
             Model.Rect frame, ScrollContainer? clip = null)
     {
@@ -313,6 +317,8 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         {
             Name = (token > 0 ? "nearby_" : "") + kind + "_" + slot,
             TooltipText = item is null ? label + " empty" : "",
+            AccessibilityName = item is null ? label + " empty"
+                    : label + " · " + (_art?.Name(item: item) ?? item.Definition),
         };
         Put(control: button, frame: frame);
         parent.AddChild(node: button);
@@ -348,6 +354,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         else
         {
             _grid?.Decorate(button: button, item: item, equipment: true);
+            button.TooltipText = button.TooltipText.Length > 0 ? label + "\n" + button.TooltipText : label;
             button.GuiInput += input => ItemInput(button: button, item: item, external: token > 0,
                     token: token, input: input);
         }
