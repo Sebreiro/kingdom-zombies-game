@@ -139,7 +139,8 @@ public sealed class FoundationLanPermissionTests
                 comparisonType: StringComparison.Ordinal);
         EngineAccessPolicy.Check(source: removedGuard, path: path, consumer: consumer).ShouldNotBeEmpty();
         string suffix = method.ReturnType.ToString() is "void" ? ""
-                : method.ReturnType.ToString() is "bool" ? " return false; " : " return []; ";
+                : method.ReturnType.ToString() is "bool" ? " return false; "
+                : method.ReturnType.ToString() is "long" ? " return 0; " : " return []; ";
         string positive = ReplaceBody(source: source, method: method, body: guard + Native + suffix);
         EngineAccessPolicy.Check(source: positive, path: path, consumer: consumer).ShouldBeEmpty();
         foreach (string body in new[] { Native + suffix, Native + guard + suffix,
