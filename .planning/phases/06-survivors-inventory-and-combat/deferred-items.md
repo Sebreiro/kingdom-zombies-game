@@ -32,3 +32,20 @@ Out-of-scope problems found while executing gap plans. Each needs an owner befor
 - **Cause.** The message names only the first drifted file. The case `ac-08.complete` in `src/godot-game/tools/verification/required-cases.json` binds the SHA-256 of every source in its `repositoryStages.sources` list, and these were last bound at `b9aaa2b`. Before 06-23, 39 sources and 2 bindings (`generated-callsite-adaptations.json`, `engine-generated-spans.json`) had drifted through Phase 6 work. `CharacterPresentation.cs` is the first of them in path order.
 - **06-23 effect.** 06-23 changes `CharacterPresentation.cs` (already drifted) and `CharacterPresentationTests.cs` (one more drifted source). The failure message is unchanged: game-tests `28f3fd59-6a18-4edd-848e-80c70719119e`, gameplay-checks `229f4785-0178-4ba8-b73f-ce1d49cc9470`, `FAIL core.permissions: src/godot-game/core/CharacterPresentation.cs`.
 - **Why not fixed in 06-23.** Rebinding means re-deriving the staged producer inputs and observations of `ac-08.complete` for about 40 Phase 6 files. That is outside the 06-23 file list. Its owner must decide whether to rebind the case or rederive its staged inputs.
+
+## Found during 06-24
+
+### Verification build fixtures leave their scratch copies behind
+
+- **Where:** `src/godot-game/tests/verification/BuildFixture.cs:27` creates `.local/temp/build-<guid>` (via `WorkspacePaths.Temp`) and copies the shared build inputs into it. Nothing deletes the folder afterwards.
+- **Symptom:** each folder holds about 55 MB, and a full no-window gate creates about 280 of them. On 2026-11-26 they filled drive D: to 91 MB free. With the creator's approval, 1,024 such folders (about 43 GB) were deleted.
+- **Why not fixed in 06-24:** the fixture's lifetime and cleanup are outside the 06-24 files. Until its owner fixes it, delete `.local/temp/build-*` in the worktree after each run finishes, never during one.
+
+### The phase06.lan.population catalog action text is stale
+
+- **Where:** `src/godot-game/tools/game-tests/catalog.json:303`, the `phase06.lan.population` action "Physically join each role then move one guest with D." Since 06-22 all three guests walk apart (`phase06-lan.cjs` `population`). 06-22-SUMMARY recorded the drift and named 06-24 as owner.
+- **Why not fixed in 06-24:** the catalog text is bound by catalog hashes, and 06-24's gap-repair fixes do not edit the catalog. The owner of the final catalog bindings must decide whether to correct the text and re-derive its bindings.
+
+### The 06-20 presenter tuple is gone again
+
+- 06-24 GR-07 removes `FoundationHud.KeepHintClosed()` and its `EngineAccessPolicy._presenters` row. The 06-18 `guardedHostTuples` item above again sees 372 policy tuples. Its repair decision is unchanged.
