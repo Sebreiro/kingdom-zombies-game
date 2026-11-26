@@ -165,8 +165,6 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
                 + "UpdateActions(FoundationHudState,string?,bool)",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
-                + "KeepHintClosed()",
-        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
                 + "AddMeter(Control,string,Rect2,Color)",
         "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
                 + "AddTile(Control,string,int,int)",

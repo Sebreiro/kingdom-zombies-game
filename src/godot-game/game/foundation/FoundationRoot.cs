@@ -414,7 +414,7 @@ public sealed partial class FoundationRoot : Control
                 now: _runtime.NowMilliseconds, visible: _spectator.State.CanDrive);
         Label hint = GetNode<Label>(path: "Hint");
         hint.Text = _coordinator.WorldHint(instructions: hint.Text);
-        hint.Visible = _spectator.State.CanDrive;
+        hint.Visible = _spectator.State.CanDrive && !_inventory.CapturesWorld;
         _coordinator.ObserveWorldHint(hint: hint.Text, visible: hint.IsVisibleInTree());
     }
 

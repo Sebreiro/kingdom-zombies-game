@@ -12,11 +12,6 @@ internal sealed partial class FoundationHud
     {
         _gateway.RequireThread();
         Hide();
-        if (_hint is not null)
-        {
-            _hint.VisibilityChanged -= KeepHintClosed;
-        }
-
         _panel?.QueueFree();
         _damage?.QueueFree();
         _art?.Dispose();
@@ -70,7 +65,6 @@ internal sealed partial class FoundationHud
     {
         _gateway.RequireThread();
         Current = null;
-        _browsing = false;
         _pulseUntil = 0;
         _sprintUntil = 0;
         _previousSprint = "";
@@ -103,8 +97,6 @@ internal sealed partial class FoundationHud
     private Tile? _ammo;
     private readonly Tile?[] _food = new Tile?[4];
     private Button? _openButton;
-    private Label? _hint;
-    private bool _browsing;
     private long _pulseUntil;
     private long _sprintUntil;
     private string _previousSprint = "";
@@ -125,15 +117,14 @@ internal sealed partial class FoundationHud
         BuildVitals(parent: _panel);
         BuildActions(parent: _panel);
         BuildDamage();
-        _hint = _root.GetNode<Label>(path: "Hint");
-        _hint.Theme = _art.Theme;
-        _hint.AddThemeStyleboxOverride(name: "normal", stylebox: new StyleBoxFlat
+        Label hint = _root.GetNode<Label>(path: "Hint");
+        hint.Theme = _art.Theme;
+        hint.AddThemeStyleboxOverride(name: "normal", stylebox: new StyleBoxFlat
         {
             BgColor = new Color(r: 0.094f, g: 0.145f, b: 0.169f), ContentMarginLeft = 4, ContentMarginRight = 4,
             ContentMarginTop = 3, ContentMarginBottom = 3
         });
-        Place(control: _hint, at: new Rect2(x: 636, y: 7, width: 290, height: 97));
-        _hint.VisibilityChanged += KeepHintClosed;
+        Place(control: hint, at: new Rect2(x: 636, y: 7, width: 290, height: 97));
         Control roster = _root.GetNode<Control>(path: "Roster");
         roster.Position = new Vector2(x: 936, y: 4);
     }
@@ -254,25 +245,6 @@ internal sealed partial class FoundationHud
             }
 
             _openButton.Disabled = browsing;
-        }
-
-        _browsing = browsing;
-        if (browsing && _hint is not null)
-        {
-            _hint.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Keeps the world help hidden while any inventory surface captures the world (D-08). The root shows the help for
-    /// every drivable frame after this HUD observes it, so this follows that show and hides it again.
-    /// </summary>
-    private void KeepHintClosed()
-    {
-        _gateway.RequireThread();
-        if (_browsing && _hint is { Visible: true } hint)
-        {
-            hint.Visible = false;
         }
     }
 
