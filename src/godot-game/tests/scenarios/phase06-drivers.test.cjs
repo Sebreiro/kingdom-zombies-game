@@ -251,6 +251,21 @@ test('SettledView_PendingOrClipped_Rejected', async t => {
     assert.equal(run.settledView(world), false);
   });
 
+  await t.test('a clipped world help, roster row, spectator card label or transfer notice is rejected', () => {
+    const layered = () => ({input: {inventoryOpen: false}, controls: [...hud(),
+      control('Hint', 'A/D move · Space jump · E interact · I inventory · Rest is unsafe with an enemy nearby'),
+      control('Roster/Header', 'Connected · 4/4 players'), control('Roster/Player1', 'P1 (You) · Host'),
+      control('SpectatorCard/Heading', 'Spectating'), control('SpectatorCard/FollowStatus', 'Following P2 · Guest 1'),
+      control('SpectatorCard/Respawn', 'Respawn'), control('ControlTransferred', 'Control transferred · survivor.4')]});
+    assert.equal(run.settledView(layered()), true);
+    for (const target of ['Hint', 'Roster/Header', 'Roster/Player1', 'SpectatorCard/FollowStatus',
+      'SpectatorCard/Respawn', 'ControlTransferred']) {
+      const draw = layered();
+      draw.controls.find(entry => entry.path === target).clipped = true;
+      assert.equal(run.settledView(draw), false, target);
+    }
+  });
+
   await t.test('every solo picture uses the settled predicate', () => {
     const source = fs.readFileSync(soloFile, 'utf8');
     assert.equal(source.match(/run\.picture\(/g).length, 1, 'only the settled wrapper calls run.picture');

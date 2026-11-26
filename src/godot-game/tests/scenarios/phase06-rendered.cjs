@@ -21,11 +21,13 @@ const external = native.external;
 const item = native.item;
 // Copy the workspace shows while an authorized view is still being installed.
 const pendingCopy = new Set(['Opening inventory…', 'Opening stash page…']);
-const textLayers = /^(?:RunHud|InventoryWorkspace)\//;
+// Every observed run text (FoundationDrawObserver): the HUD, workspace, spectator card and transfer notice layers,
+// the world help and each roster row.
+const textLayers = /^(?:(?:RunHud|InventoryWorkspace|SpectatorCard|ControlTransferred)(?:\/|$)|Hint$|Roster\/[^/]+$)/;
 // FoundationInventoryWorkspace.PointerMove starts a drag once the pointer is this far from the press.
 const dragStart = 4;
 
-// A picture may show only a settled view: no pending view copy, every HUD and workspace text observed unclipped,
+// A picture may show only a settled view: no pending view copy, every observed run text (textLayers) unclipped,
 // and, while the inventory is open, an installed grid for every carried storage item with each of its items drawn.
 function settledView(draw) {
   const shown = (draw?.controls ?? []).filter(entry => entry.visible);
