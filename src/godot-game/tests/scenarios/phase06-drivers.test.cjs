@@ -712,4 +712,3 @@ test('InspectionReset_AfterFailedStep_RestoresFixtureAndBaseline', async t => {
       /INSPECTION_RESET_BASELINE asset-pipeline\.heldout\.H17: RENDERED_NATIVE_SETTLE baseline/);
   });
 });
-
