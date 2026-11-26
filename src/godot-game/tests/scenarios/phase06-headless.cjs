@@ -152,8 +152,8 @@ function evidence(state, id, peers, observations, captures = []) {
   assert(peers.length && Object.keys(observations).length, id + ' lacks observations');
   const roles = peers.map(({role, pid, profile}) => ({role, pid, profile}));
   const file = path.join(state.directory, id + '.json');
-  // Receipts of other requests seen while a case awaited its own; recorded, never accepted (see receipt()).
-  const interleaved = state.interleaved ?? [];
+  // Receipts of other requests seen while this case awaited its own; recorded, never accepted (see receipt()).
+  const interleaved = (state.interleaved ?? []).filter(entry => entry.case === id);
   state.interleaved = [];
   fs.writeFileSync(file, JSON.stringify({id, revision: state.revision, nonce: state.nonce, rendered: state.rendered,
     roles, observations, interleaved, captures}, null, 2), {flag: 'wx'});
@@ -162,7 +162,19 @@ function evidence(state, id, peers, observations, captures = []) {
     .map(name => path.join(peer.directory, name))), ...captures];
 }
 
+// Each case starts with no interleaved receipts and tags the ones it records with its own id, so a case that fails
+// before writing its evidence cannot leave its receipts in the next case's record.
+function begin(state, id) {
+  state.case = id;
+  state.interleaved = [];
+}
+
+// The scenario group runs a case through this wrapper, which starts its receipt record.
+const tracked = cases => Object.fromEntries(Object.entries(cases).map(([id, run]) => [id,
+  (state, context) => { begin(state, id); return run(state, context); }]));
+
 async function reset(state) {
+  state.interleaved = [];
   const peer = state.peers.find(entry => entry.role === 'solo');
   if (!peer || !current(peer)?.ready) return;
   await tap(state, peer, key.escape);
@@ -170,22 +182,46 @@ async function reset(state) {
   await wait(state, () => !current(peer)?.ready && !current(peer)?.phase06, 'ordinary solo reset');
 }
 
+// Collects every row of a stream numbered `from` or later across reads. The shared reader keeps only its latest 256
+// rows, and diagnostics (frame) and the draw observer (drawFrame) number each row they write consecutively, so a
+// number missing between `from` and the newest collected row means rows were dropped between reads. The span then
+// fails closed with FRAME_SPAN_GAP instead of judging an incomplete interval.
+function contiguous(read, key, from) {
+  const rows = new Map();
+  return () => {
+    for (const row of read()) if (row[key] >= from) rows.set(row[key], row);
+    const ordered = [...rows.values()].sort((a, b) => a[key] - b[key]);
+    const gap = ordered.findIndex((row, index) => row[key] !== from + index);
+    if (gap >= 0) {
+      throw new Error('FRAME_SPAN_GAP ' + key + ' ' + (from + gap) + ' missing before ' + ordered[gap][key]);
+    }
+    return ordered;
+  };
+}
+
+// Every committed frame of a peer written after `before` (a frame record), collected without gaps.
+const framesAfter = (peer, before) => contiguous(() => lines(path.join(peer.directory, 'frames.ndjson')), 'frame',
+  (before?.frame ?? 0) + 1);
+
 // A receipt belongs to a submitted request only when its kind matches, it is not a replay and its sequence follows
-// the one observed before submission. The workspace submits its own window, page and close requests, and their
-// receipts can replace the requested one within a single poll (F13: place Applied for 45 ms, then workspace Ready),
-// so every frame written since submission is read, not only the latest. Other receipts seen while waiting, before
-// the accepted one or replacing it, are recorded in the case evidence and never accepted.
-function receipt(state, peer, kind, before, label, ms = 15_000) {
-  const file = path.join(peer.directory, 'frames.ndjson');
+// the one observed before submission. When the driver knows the sequence the game allocated to the request (a DEBUG
+// phase06 action names it in its input ack), only that exact sequence is the receipt. The workspace submits its own
+// window, page and close requests, and their receipts can replace the requested one within a single poll (F13: place
+// Applied for 45 ms, then workspace Ready), so every frame written since submission is read, without gaps, not only
+// the latest. Other receipts seen while waiting, before the accepted one or replacing it, are recorded in the case
+// evidence and never accepted.
+// `frames` may be a framesAfter(peer, before) reader the caller has already been polling while it gave the input.
+function receipt(state, peer, kind, before, label, options = {}) {
+  const {ms = 15_000, submitted = null, frames = framesAfter(peer, before)} = options;
   const interleaved = state.interleaved ??= [];
   return wait(state, () => {
-    const seen = receiptsAfter(lines(file), before);
-    const index = seen.findIndex(({entry}) => matches(entry, kind));
+    const seen = receiptsAfter(frames(), before);
+    const index = seen.findIndex(({entry}) => matches(entry, kind, submitted));
     for (const [position, {row, entry}] of seen.entries()) {
       if (position === index || interleaved.some(noted => noted.role === peer.role && sameReceipt(noted, entry)))
         continue;
-      interleaved.push({role: peer.role, awaiting: kind, relation: index < 0 || position < index ? 'before' : 'after',
-        frame: row.frame, ...entry});
+      interleaved.push({case: state.case, role: peer.role, awaiting: kind, submitted,
+        relation: index < 0 || position < index ? 'before' : 'after', frame: row.frame, ...entry});
     }
     if (index < 0) return null;
     const {row} = seen[index];
@@ -196,7 +232,8 @@ function receipt(state, peer, kind, before, label, ms = 15_000) {
   }, label, ms);
 }
 
-const matches = (entry, kind) => entry.kind === kind && entry.replayed === false;
+const matches = (entry, kind, submitted) => entry.kind === kind && entry.replayed === false
+  && (submitted === null || entry.sequence === submitted);
 const sameReceipt = (a, b) => a.sequence === b.sequence && a.kind === b.kind && a.status === b.status
   && a.replayed === b.replayed;
 
@@ -214,8 +251,10 @@ function receiptsAfter(rows, before) {
 
 async function action(state, peer, kind, request, expected) {
   const before = current(peer);
-  await inject(state, peer, {action: 'phase06-action', kind, request});
-  const result = await receipt(state, peer, kind, before, kind + ' receipt');
+  const submitted = await inject(state, peer, {action: 'phase06-action', kind, request});
+  assert(Number.isSafeInteger(submitted) && submitted > (before.runAction?.sequence ?? 0),
+    kind + ' input ack names the submitted sequence: ' + submitted);
+  const result = await receipt(state, peer, kind, before, kind + ' receipt', {submitted});
   if (expected) assert.equal(result.runAction.status, expected, kind);
   return result;
 }
@@ -325,13 +364,14 @@ async function inventory(state) {
 
 // The workspace captures the jump key (D-08, D-37): every committed frame after a Space tap keeps it open and grounded.
 async function jumpWhileBrowsing(state, peer) {
-  const committed = () => lines(path.join(peer.directory, 'frames.ndjson')).filter(row => row.phase06?.World);
-  const before = committed().at(-1);
+  const before = lines(path.join(peer.directory, 'frames.ndjson')).filter(row => row.phase06?.World).at(-1);
   assert.equal(before.inventoryOpen, true, 'JUMP_KEY_BASELINE');
+  // Read at every poll, so the judged span holds every committed frame from Space to the later frame, or fails.
+  const frames = framesAfter(peer, before);
   await tap(state, peer, key.jump);
-  const later = await observe(state, peer, row => row.frame > before.frame
+  const later = await observe(state, peer, row => frames().length > 0 && row.frame > before.frame
     && row.phase06.World.Elapsed >= before.phase06.World.Elapsed + 250, 'committed frames after Space while browsing');
-  const span = committed().filter(row => row.frame > before.frame && row.frame <= later.frame);
+  const span = frames().filter(row => row.frame <= later.frame && row.phase06?.World);
   assert(span.length > 1, 'JUMP_KEY_SPAN');
   for (const row of span) {
     assert.equal(row.inventoryOpen, true, 'JUMP_KEY_CLOSED_INVENTORY');
@@ -590,13 +630,14 @@ async function openLooseBagTree(state, peer, panels, bag) {
   return {pouch, contents};
 }
 
-module.exports = {open, reset, close: state => close(state), cases: {
+module.exports = {open, reset, close: state => close(state), cases: tracked({
   'phase06.headless.world': world,
   'phase06.headless.start': start,
   'phase06.headless.inventory': inventory,
   'phase06.headless.combat': combat,
   'phase06.headless.lifecycle': lifecycle,
   'phase06.headless.lan-privacy': lanPrivacy,
-}, helpers: {open, close, ended, key, current, actor, own, nearby, external, item, wait, observe, launch, seed,
-  evidence, privacy, inject, motionInterval, profileNames, receipt, receiptsAfter}};
+}), helpers: {open, close, ended, key, current, actor, own, nearby, external, item, wait, observe, launch, seed,
+  evidence, privacy, inject, motionInterval, profileNames, receipt, receiptsAfter, contiguous, framesAfter, begin,
+  tracked}};
 

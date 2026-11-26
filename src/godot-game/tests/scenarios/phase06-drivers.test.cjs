@@ -365,15 +365,18 @@ function loadWith(file, stubs) {
 }
 
 // The reproduced F13 stream (game-tests 069f23d0, guest-3 frames 701-757): the place receipt is the latest for 45 ms,
-// then the workspace's own window request replaces it.
-function receiptFrames(t, rows) {
+// then the workspace's own window request replaces it. Diagnostics write every frame, so each listed receipt stays
+// the latest in the unlisted frames up to the next one; `skip` drops frames to simulate rows lost between reads.
+function receiptFrames(t, rows, skip = []) {
   const directory = scratch(t);
   const peer = {role: 'guest-3', pid: 7, directory, quitRequested: false};
   const state = {nonce, peers: [peer]};
-  const frame = ([number, sequence, kind, status, replayed = false]) => ({frame: number, pid: 7, nonce,
+  const frame = (number, [, sequence, kind, status, replayed = false]) => ({frame: number, pid: 7, nonce,
     provenance: 'read-only-state-observation', phase06: {World: {}}, runAction: {sequence, kind, status, replayed}});
-  fs.writeFileSync(path.join(directory, 'frames.ndjson'), rows.map(row => JSON.stringify(frame(row)) + '\n').join(''));
-  return {state, peer, before: frame(rows[0])};
+  const written = rows.flatMap((row, index) => Array.from({length: (rows[index + 1]?.[0] ?? row[0] + 1) - row[0]},
+    (_, offset) => frame(row[0] + offset, row))).filter(entry => !skip.includes(entry.frame));
+  fs.writeFileSync(path.join(directory, 'frames.ndjson'), written.map(row => JSON.stringify(row) + '\n').join(''));
+  return {state, peer, before: frame(rows[0][0], rows[0])};
 }
 
 test('Receipt_ExactKind_IgnoresInterleaved', async t => {
@@ -396,9 +399,75 @@ test('Receipt_ExactKind_IgnoresInterleaved', async t => {
   await t.test('a replayed result or an earlier sequence is never the submitted request\'s receipt', async t => {
     const {state, peer, before} = receiptFrames(t, [[1, 4, 'select', 'Ready'], [2, 5, 'place', 'Applied', true],
       [3, 3, 'place', 'Applied']]);
-    await assert.rejects(native.receipt(state, peer, 'place', before, 'place receipt', 300),
+    await assert.rejects(native.receipt(state, peer, 'place', before, 'place receipt', {ms: 300}),
       /SUBJECT_TIMEOUT place receipt/);
     assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.replayed]), [[5, true]]);
+  });
+  await t.test('a known submitted sequence accepts only its own receipt, not an earlier same-kind one', async t => {
+    const {state, peer, before} = receiptFrames(t, [[40, 8, 'select', 'Ready'], [41, 9, 'quick', 'Applied'],
+      [44, 10, 'workspace', 'Ready'], [46, 11, 'quick', 'AccessLost']]);
+    const row = await native.receipt(state, peer, 'quick', before, 'quick receipt', {submitted: 11});
+    assert.deepEqual([row.frame, row.runAction.sequence, row.runAction.status], [46, 11, 'AccessLost']);
+    assert.deepEqual(state.interleaved.map(entry => [entry.sequence, entry.kind, entry.submitted, entry.relation]),
+      [[9, 'quick', 11, 'before'], [10, 'workspace', 11, 'before']]);
+    const other = receiptFrames(t, [[40, 8, 'select', 'Ready'], [41, 9, 'quick', 'Applied']]);
+    await assert.rejects(native.receipt(other.state, other.peer, 'quick', other.before, 'quick receipt',
+      {ms: 300, submitted: 12}), /SUBJECT_TIMEOUT quick receipt/);
+  });
+  await t.test('frames dropped between reads fail the receipt closed instead of skipping its rows', async t => {
+    const {state, peer, before} = receiptFrames(t, [[701, 15, 'external-items-page', 'Ready'],
+      [754, 16, 'place', 'Applied'], [757, 17, 'workspace', 'Ready']], [720]);
+    await assert.rejects(native.receipt(state, peer, 'place', before, 'place receipt', {ms: 300}),
+      /FRAME_SPAN_GAP frame 720 missing before 721/);
+  });
+});
+
+test('Conflicts_StaleCell_DecidedFromTheRestingDraw', () => {
+  const source = fs.readFileSync(lanFile, 'utf8');
+  assert.match(source, /async function withdraw\([^)]*\) \{[^]*?return resting;/, 'withdraw returns the resting draw');
+  assert.match(source, /const resting = await withdraw\(state, second, [^;]*;[^]*?const staleCell = resting\.controls/);
+  assert.doesNotMatch(source, /staleCell = before\./, 'a draw sampled before the pointer moved cannot decide it');
+});
+
+test('FrameSpan_DroppedRows_FailClosed', async t => {
+  await t.test('rows collected across reads stay contiguous from the reference on', () => {
+    let rows = [{drawFrame: 9}, {drawFrame: 10}, {drawFrame: 11}];
+    const span = native.contiguous(() => rows, 'drawFrame', 10);
+    assert.deepEqual(span().map(row => row.drawFrame), [10, 11]);
+    rows = [{drawFrame: 12}, {drawFrame: 13}];
+    assert.deepEqual(span().map(row => row.drawFrame), [10, 11, 12, 13], 'earlier reads are kept');
+    rows = [{drawFrame: 15}];
+    assert.throws(span, /FRAME_SPAN_GAP drawFrame 14 missing before 15/);
+  });
+  await t.test('a span whose first row was already dropped fails', () => {
+    assert.throws(native.contiguous(() => [{frame: 6}, {frame: 7}], 'frame', 5), /FRAME_SPAN_GAP frame 5/);
+  });
+});
+
+test('Interleaved_Receipts_BelongToTheirCase', async t => {
+  await t.test('a new case starts empty and its evidence lists only its own receipts', async t => {
+    const {state, peer, before} = receiptFrames(t, [[1, 3, 'select', 'Ready'], [2, 4, 'workspace', 'Ready'],
+      [3, 5, 'place', 'Applied']]);
+    Object.assign(state, {directory: scratch(t), revision: 'test', rendered: false});
+    const order = [];
+    const cases = native.tracked({
+      'case.failed': async current => {
+        order.push(current.case);
+        await native.receipt(current, peer, 'place', before, 'place receipt');
+        throw new Error('failed before its evidence');
+      },
+      'case.next': async current => {
+        order.push(current.case, current.interleaved.length);
+        current.interleaved.push({case: 'case.other', sequence: 99});
+        current.interleaved.push({case: 'case.next', sequence: 7});
+        return native.evidence(current, 'case.next', [peer], {checked: true});
+      }});
+    await assert.rejects(cases['case.failed'](state), /failed before its evidence/);
+    assert.deepEqual(state.interleaved.map(entry => [entry.case, entry.sequence]), [['case.failed', 4]]);
+    await cases['case.next'](state);
+    assert.deepEqual(order, ['case.failed', 'case.next', 0]);
+    const written = JSON.parse(fs.readFileSync(path.join(state.directory, 'case.next.json'), 'utf8'));
+    assert.deepEqual(written.interleaved, [{case: 'case.next', sequence: 7}]);
   });
 });
 

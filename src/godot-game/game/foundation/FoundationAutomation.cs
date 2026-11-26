@@ -55,6 +55,10 @@ internal static class FoundationAutomation
         return mode;
     }
 
+    /// <summary>
+    /// Delivers one owned input request and acknowledges it with one newline-terminated line: the request's sequence,
+    /// then the run-action sequence a DEBUG phase06 action submitted, if any.
+    /// </summary>
     internal static void Tick(Control root, MainThreadGateway gateway, FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
@@ -84,11 +88,13 @@ internal static class FoundationAutomation
             throw new InvalidOperationException(message: "DRIVER_NONCE");
         }
 
-        Deliver(root: root, request: request, gateway: gateway, coordinator: coordinator);
+        long submitted = Deliver(root: root, request: request, gateway: gateway, coordinator: coordinator);
         File.Delete(path: file);
-        File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents:
-                request.GetProperty(propertyName: "sequence").GetInt64().ToString(
-                        provider: CultureInfo.InvariantCulture));
+        string acknowledged = request.GetProperty(propertyName: "sequence").GetInt64().ToString(
+                provider: CultureInfo.InvariantCulture);
+        File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents: (submitted > 0
+                ? acknowledged + " " + submitted.ToString(provider: CultureInfo.InvariantCulture) : acknowledged)
+                + "\n");
     }
 
     private static string? ReadRequest(string file)
@@ -103,7 +109,8 @@ internal static class FoundationAutomation
         }
     }
 
-    private static void Deliver(Control root, JsonElement request, MainThreadGateway gateway,
+    /// <summary>Delivers one request; returns the run-action sequence it submitted, or 0 for none.</summary>
+    private static long Deliver(Control root, JsonElement request, MainThreadGateway gateway,
             FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
@@ -137,12 +144,12 @@ internal static class FoundationAutomation
         else if (action is "spectator-proof-lethal" && DisplayServer.GetName() is "headless"
                 && coordinator?.ObserveLethalAttack() == true)
         {
-            return;
+            return 0;
         }
         else if (action is "fixture-attack" or "fixture-step" && OwnedPhase()
                 && coordinator?.FixtureAction(action: action, request: request) == true)
         {
-            return;
+            return 0;
         }
         else if (action is "phase06-focused" && OwnedPhase() && DisplayServer.GetName() is "headless")
         {
@@ -154,31 +161,34 @@ internal static class FoundationAutomation
         }
         else if (action is "phase06-action" or "phase06-workspace" && OwnedPhase()
                 && DisplayServer.GetName() is "headless" && coordinator is not null
-                && SubmitPhase06(coordinator: coordinator, action: action, request: request))
+                && SubmitPhase06(coordinator: coordinator, action: action, request: request) is { } submitted)
         {
-            return;
+            return submitted;
         }
 #endif
         else
         {
             throw new InvalidOperationException(message: "DRIVER_ACTION");
         }
+
+        return 0;
     }
 
 #if DEBUG
-    private static bool SubmitPhase06(FoundationCoordinator coordinator, string action, JsonElement request)
+    /// <summary>Null when refused; otherwise the allocated run-action sequence, or 0 for a host workspace.</summary>
+    private static long? SubmitPhase06(FoundationCoordinator coordinator, string action, JsonElement request)
     {
         if (action is "phase06-workspace")
         {
             return coordinator.RequestRunWorkspace(own: request.GetProperty(propertyName: "own")
                     .Deserialize<ImmutableArray<long>>(), external: request.GetProperty(propertyName: "external")
-                            .Deserialize<ImmutableArray<long>>());
+                            .Deserialize<ImmutableArray<long>>()) ? 0 : null;
         }
 
         string? kind = request.GetProperty(propertyName: "kind").GetString();
         return kind is "select" or "browse" or "quick" or "place" or "merge" or "drop" or "assign" or "food" or "close"
-                && coordinator.SubmitRunAction(kind: kind, request: request.GetProperty(propertyName: "request"))
-                        .HasValue;
+                ? coordinator.SubmitRunAction(kind: kind, request: request.GetProperty(propertyName: "request"))
+                        ?.sequence : null;
     }
 #endif
 

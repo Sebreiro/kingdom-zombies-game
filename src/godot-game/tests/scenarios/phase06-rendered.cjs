@@ -216,6 +216,7 @@ async function menu(state, peer) {
 }
 
 async function reset(state) {
+  state.interleaved = [];
   for (const peer of [...state.peers].reverse()) await menu(state, peer);
   assert(state.peers.every(peer => !last(peer)?.input.phase06));
 }

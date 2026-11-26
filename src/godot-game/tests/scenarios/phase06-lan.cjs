@@ -99,20 +99,24 @@ function profilesBound(draw, peers) {
 
 // Ctrl+click in frame-separated native steps: Ctrl is acknowledged, the pointer rests on the cell for a drawn frame,
 // and the click is handled while Ctrl is still held for another drawn frame. Run 1's burst (Ctrl, click and release
-// delivered within draws 511-513) submitted no quick request at all.
-async function withdraw(state, peer, point) {
+// delivered within draws 511-513) submitted no quick request at all. `frames` (a native.framesAfter reader) is read
+// at every drawn step, so the peer's committed frames stay gap-free while the input is given. Returns the draw the
+// click follows.
+async function withdraw(state, peer, point, frames) {
+  const drawn = () => { frames(); return true; };
   await run.press(state, peer, key.control, true);
   try {
     const before = run.last(peer).drawFrame;
     await run.pointer(state, peer, point);
-    const resting = await run.after(peer, () => true, 'drawn with the pointer on the contested cell', before + 1);
+    const resting = await run.after(peer, drawn, 'drawn with the pointer on the contested cell', before + 1);
     await run.click(state, peer, point);
-    await run.after(peer, () => true, 'drawn after the Ctrl click', resting.drawFrame + 1);
+    await run.after(peer, drawn, 'drawn after the Ctrl click', resting.drawFrame + 1);
+    return resting;
   } finally { await run.press(state, peer, key.control, false); }
 }
 
 const money = row => row.phase06.Views.status.Header.Hud.Money;
-const quick = (peer, before) => native.receiptsAfter(lines(path.join(peer.directory, 'frames.ndjson')), before)
+const quick = (frames, before) => native.receiptsAfter(frames, before)
   .filter(({entry}) => entry.kind === 'quick' && entry.replayed === false).map(({row, entry}) => ({frame: row.frame,
     ...entry}));
 
@@ -136,8 +140,10 @@ async function conflicts(state) {
 
   await run.focus(state, first);
   const winnerBefore = run.last(first);
-  await withdraw(state, first, await run.control(first, occupied));
-  const winnerReceipt = await native.receipt(state, first, 'quick', winnerBefore.input, 'one authority withdrawal');
+  const winnerFrames = native.framesAfter(first, winnerBefore.input);
+  await withdraw(state, first, await run.control(first, occupied), winnerFrames);
+  const winnerReceipt = await native.receipt(state, first, 'quick', winnerBefore.input, 'one authority withdrawal',
+    {frames: winnerFrames});
   assert.equal(winnerReceipt.runAction.status, 'Applied', 'the first withdrawal applies');
   committed.set(first, committed.get(first) + source.Quantity);
   const winner = await run.committed(first, row => external(row)?.Rows.every(entry => entry.Id !== source.Id)
@@ -145,16 +151,19 @@ async function conflicts(state) {
   winnerBefore.drawFrame);
   await run.focus(state, second);
   const before = run.last(second);
-  const staleCell = before.controls.some(entry => occupied(entry) && entry.visible);
-  await withdraw(state, second, losingPoint);
-  // A stale visible cell sends a quick request, whose own receipt must deny it; a corrected cell sends none.
-  const denial = staleCell ? await native.receipt(state, second, 'quick', before.input, 'contested withdrawal denial')
-    : null;
+  const secondFrames = native.framesAfter(second, before.input);
+  const resting = await withdraw(state, second, losingPoint, secondFrames);
+  // The click follows the resting draw: a cell still visible there sends a quick request, whose own receipt must
+  // deny it; a cell already corrected there sends none. A draw sampled before the pointer moved cannot decide it.
+  const staleCell = resting.controls.some(entry => occupied(entry) && entry.visible);
+  const denial = staleCell ? await native.receipt(state, second, 'quick', before.input, 'contested withdrawal denial',
+    {frames: secondFrames}) : null;
   assert(!denial || ['AccessLost', 'StaleItem'].includes(denial.runAction.status),
     'the losing attempt is denied, not applied: ' + denial?.runAction.status);
-  const corrected = await run.committed(second, row => external(row)?.Rows.every(entry => entry.Id !== source.Id)
-    && money(row) === committed.get(second), 'contested cell corrected without duplicate', before.drawFrame);
-  const laterReceipts = quick(second, before.input);
+  const corrected = await run.committed(second, row => secondFrames().length > 0
+    && external(row)?.Rows.every(entry => entry.Id !== source.Id) && money(row) === committed.get(second),
+  'contested cell corrected without duplicate', before.drawFrame);
+  const laterReceipts = quick(secondFrames(), before.input);
   assert(!laterReceipts.some(entry => entry.status === 'Applied'), 'losing attempt must not apply');
   const observedStale = laterReceipts.some(entry => entry.status === 'AccessLost' || entry.status === 'StaleItem');
   assert(observedStale || !staleCell, 'contested physical action lacked either visible correction or a denial');
@@ -171,7 +180,7 @@ async function conflicts(state) {
     && money(row) === committed.get(peer) && (external(row)?.Rows ?? []).every(entry => entry.Id !== source.Id));
   assert.equal(committed.get(host), money(originals[0].draw.input));
   return run.finish(state, 'phase06.lan.conflicts', state.peers, start,
-    {source, winnerReceipt, winner, before, denial, corrected, observedStale, laterReceipts,
+    {source, winnerReceipt, winner, before, resting, staleCell, denial, corrected, observedStale, laterReceipts,
       committed: state.peers.map(peer => ({role: peer.role, money: committed.get(peer)}))},
     [...originals, ...final, denied]);
 }
@@ -180,10 +189,10 @@ async function succession(state) {
   const start = state.input.records.length;
   const {host, guests, session, identities} = await startLan(state, 'life');
   const previous = identities[0];
-  const frames = from => recorder(() => lines(path.join(host.directory, 'frames.ndjson')), 'frame', from);
+  const frames = from => native.contiguous(() => lines(path.join(host.directory, 'frames.ndjson')), 'frame', from);
   // The host's committed draws after a known draw, so a hold is judged over every draw between it and a later one.
   const span = from => {
-    const later = recorder(() => draws(host), 'drawFrame', from.drawFrame + 1);
+    const later = native.contiguous(() => draws(host), 'drawFrame', from.drawFrame + 1);
     return to => [from, ...later().filter(draw => draw.drawFrame <= to.drawFrame && draw.input?.phase06?.World)];
   };
   await run.focus(state, host);
@@ -276,16 +285,6 @@ async function succession(state) {
     [death, next, prior, chosen, hold, transfer, ...final]);
 }
 
-// Keeps every row of a stream from 'from' on, read at each call. The shared reader retains only its latest 256 rows,
-// so a span is judged on every row seen while it is being polled.
-function recorder(read, key, from) {
-  const rows = new Map();
-  return () => {
-    for (const row of read()) if (row[key] >= from) rows.set(row[key], row);
-    return [...rows.values()].sort((a, b) => a[key] - b[key]);
-  };
-}
-
 const respawnButton = draw => draw.controls.find(entry => named('SpectatorCard/Respawn')(entry) && entry.visible);
 
 // The dead player's living teammates from its own status view, ready in the roster and in slot order.
@@ -340,9 +339,9 @@ function handover(rows, held, target) {
   return {held, target, expected, observed};
 }
 
-module.exports = {open: context => run.open(context, roles), reset: run.reset, close: run.close, cases: {
+module.exports = {open: context => run.open(context, roles), reset: run.reset, close: run.close, cases: native.tracked({
   'phase06.lan.population': population,
   'phase06.lan.conflicts': conflicts,
   'phase06.lan.succession': succession,
-}, helpers: {rosterMatches, spread, cameraHold, respawnGate, handover, eligible, choicesMatch}};
+}), helpers: {rosterMatches, spread, cameraHold, respawnGate, handover, eligible, choicesMatch}};
 
