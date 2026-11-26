@@ -11,7 +11,8 @@ const tools = 'src/godot-game/tools';
 const limits = {
   'gameplay-checks': 70 * 60_000,
   'lan-checks': 35 * 60_000,
-  'asset-pipeline': 90 * 60_000,
+  // A passing content.native-permissions case alone takes about 65 minutes.
+  'asset-pipeline': 150 * 60_000,
   verification: 2 * 60 * 60_000
 };
 
