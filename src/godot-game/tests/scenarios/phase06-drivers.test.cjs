@@ -13,6 +13,7 @@ const {helpers: native} = require('./phase06-headless.cjs');
 
 const nonce = '00000000-0000-4000-8000-000000000621';
 const soloFile = path.join(__dirname, 'phase06-solo.cjs');
+const lanFile = path.join(__dirname, 'phase06-lan.cjs');
 
 function scratch(t) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'kz-phase06-drivers-'));
@@ -255,6 +256,17 @@ test('SettledView_PendingOrClipped_Rejected', async t => {
     assert.equal(source.match(/run\.picture\(/g).length, 1, 'only the settled wrapper calls run.picture');
     assert.match(source, /const shot = [^;]*run\.picture\([^;]*run\.settledView\(draw\) && predicate\(row, draw\)/s);
     assert(source.match(/await shot\(/g).length >= 20, 'solo images go through the settled wrapper');
+  });
+
+  await t.test('every LAN picture uses the settled predicate', () => {
+    const source = fs.readFileSync(lanFile, 'utf8');
+    assert.equal(source.match(/run\.picture\(/g).length, 1, 'only the settled wrapper calls run.picture');
+    assert.match(source, /const shot = [^;]*run\.picture\([^;]*run\.settledView\(draw\) && predicate\(row, draw\)/s);
+    assert.match(source, /function allPictures\([^)]*\) \{\s*return Promise\.all\(state\.peers\.map\(peer => shot\(/);
+    for (const label of ['conflict-revoked', 'succession-death', 'succession-next', 'succession-previous',
+      'succession-chosen', 'succession-lost', 'succession-transfer']) {
+      assert.match(source, new RegExp("await shot\\(state, (?:host|second), '" + label + "'"), label);
+    }
   });
 });
 

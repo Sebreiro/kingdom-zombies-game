@@ -33,8 +33,12 @@ async function startLan(state, mode) {
   return {host, guests, session, roster, identities};
 }
 
+// Every LAN image shows a settled, unclipped view in addition to the case's own state.
+const shot = (state, peer, label, predicate, minimumFrame) => run.picture(state, peer, label,
+  (row, draw) => run.settledView(draw) && predicate(row, draw), minimumFrame);
+
 async function allPictures(state, label, condition) {
-  return Promise.all(state.peers.map(peer => run.picture(state, peer, label + '-' + peer.role,
+  return Promise.all(state.peers.map(peer => shot(state, peer, label + '-' + peer.role,
     (row, draw) => condition(row, draw, peer))));
 }
 
@@ -82,7 +86,7 @@ async function population(state) {
     && draw.appearance.filter(entry => entry.kind === 'Actors' && entry.visible).length === 8
     && draw.appearance.filter(entry => entry.crown).length === 4
     && draw.actors.some(entry => entry.local && entry.insideCamera)
-    && spread(draw) && rosterMatches(draw) && profilesBound(draw, state.peers) && run.settledView(draw));
+    && spread(draw) && rosterMatches(draw) && profilesBound(draw, state.peers));
   assert.equal(host, state.peers[0]);
   return run.finish(state, 'phase06.lan.population', state.peers, start, {identities, targets, movement}, pictures);
 }
@@ -161,7 +165,7 @@ async function conflicts(state) {
   await run.choose(state, second, named('CloseInventory'));
   await run.moveUntil(state, second, key.left, row => !nearby(row).some(entry => entry.Kind === 'Stash'),
     'ordinary guest movement leaves stash reach');
-  const denied = await run.picture(state, second, 'conflict-revoked', row => !external(row)
+  const denied = await shot(state, second, 'conflict-revoked', row => !external(row)
     && !nearby(row).some(entry => entry.Kind === 'Stash'));
   const final = await allPictures(state, 'conflict-current', (row, _, peer) => formed(row, session)
     && money(row) === committed.get(peer) && (external(row)?.Rows ?? []).every(entry => entry.Id !== source.Id));
@@ -182,14 +186,13 @@ async function succession(state) {
     const later = recorder(() => draws(host), 'drawFrame', from.drawFrame + 1);
     return to => [from, ...later().filter(draw => draw.drawFrame <= to.drawFrame && draw.input?.phase06?.World)];
   };
-  const settled = predicate => (row, draw) => predicate(row, draw) && run.settledView(draw);
   await run.focus(state, host);
   await run.fixture(state, host, {action: 'fixture-attack', Target: 'fixture.melee-a'});
-  const death = await run.picture(state, host, 'succession-death', settled((row, draw) => row.spectator?.Visible
+  const death = await shot(state, host, 'succession-death', (row, draw) => row.spectator?.Visible
     && !own(row) && !row.hud && Number.isFinite(row.spectator.Camera) && !row.spectator.Followed
     && !row.spectator.CanRespawn && respawnButton(draw)?.disabled === true
     && row.phase06.World.Corpses.some(entry => entry.SurvivorId === previous.actor && draw.appearance
-      .some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown))));
+      .some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
   const dying = frames(death.draw.input.frame);
   const afterDeath = span(death.draw);
   const opened = await run.committed(host, (row, draw) => dying().length > 0 && afterDeath(draw).length > 0
@@ -211,17 +214,17 @@ async function succession(state) {
   assert.deepEqual(order.map(entry => entry.SurvivorId), identities.slice(1).map(entry => entry.actor),
     'only living teammates, in slot order');
   const firstFollow = await run.choose(state, host, named('NextTeammate'));
-  const next = await run.picture(state, host, 'succession-next', settled((row, draw) =>
+  const next = await shot(state, host, 'succession-next', (row, draw) =>
     follows(row, draw, order[0].SurvivorId) && Math.abs(draw.cameraX - deathHold.cameraX) > 10
-    && choicesMatch(row, draw)), firstFollow);
+    && choicesMatch(row, draw), firstFollow);
   const previousFollow = await run.choose(state, host, named('PreviousTeammate'));
-  const prior = await run.picture(state, host, 'succession-previous', settled((row, draw) =>
-    follows(row, draw, order.at(-1).SurvivorId) && choicesMatch(row, draw)), previousFollow);
+  const prior = await shot(state, host, 'succession-previous', (row, draw) =>
+    follows(row, draw, order.at(-1).SurvivorId) && choicesMatch(row, draw), previousFollow);
   assert.equal(order[1].SurvivorId, identities[2].actor);
   await run.choose(state, host, named('Teammate_' + order[1].Slot));
-  const chosen = await run.picture(state, host, 'succession-chosen', settled((row, draw) =>
+  const chosen = await shot(state, host, 'succession-chosen', (row, draw) =>
     follows(row, draw, identities[2].actor) && row.spectator.CanRespawn && respawnButton(draw)?.disabled === false
-    && choicesMatch(row, draw)));
+    && choicesMatch(row, draw));
   const targetX = actor(chosen.draw.input, identities[2].actor).X;
   await run.focus(state, guests[1]);
   await run.moveUntil(state, guests[1], key.right, row => actor(row)?.X > targetX + 1150, 'followed teammate travels');
@@ -231,9 +234,9 @@ async function succession(state) {
   chosen.draw.drawFrame);
 
   await run.menu(state, guests[1]);
-  const hold = await run.picture(state, host, 'succession-lost', settled((row, draw) => row.spectator?.Visible
+  const hold = await shot(state, host, 'succession-lost', (row, draw) => row.spectator?.Visible
     && !row.spectator.Followed && !!row.spectator.FollowNotice && stableCamera(tracking, draw)
-    && !eligible(row).some(entry => entry.SurvivorId === identities[2].actor)), tracking.drawFrame);
+    && !eligible(row).some(entry => entry.SurvivorId === identities[2].actor), tracking.drawFrame);
   const other = actor(hold.draw.input, identities[3].actor).X;
   const afterLoss = span(hold.draw);
   await run.focus(state, guests[2]);
@@ -252,7 +255,7 @@ async function succession(state) {
   const unbound = respawnFrom.input.phase06.World.Actors.filter(entry => !entry.Hostile && !entry.BindingId)
     .map(entry => entry.Id);
   await run.choose(state, host, named('Respawn'));
-  const transfer = await run.picture(state, host, 'succession-transfer', (row, draw) => transferring().length > 0
+  const transfer = await shot(state, host, 'succession-transfer', (row, draw) => transferring().length > 0
     && formed(row, session) && row.phase06.epoch > 0 && row.phase06.control !== previous.actor
     && unbound.includes(row.phase06.control) && row.bindingId === previous.binding && row.playerId === previous.player
     && row.spectator?.TransferNotice === 'Control transferred · ' + row.phase06.control
