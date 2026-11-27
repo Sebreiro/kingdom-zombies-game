@@ -61,7 +61,10 @@ internal sealed partial class FoundationInventoryInteraction
         return flagged || held;
     }
 
-    /// <summary>Identifies the drawn private views by scope, token, header and committed row stamps.</summary>
+    /// <summary>
+    /// Identifies every readback view except status by its scope, token and header text, then its rows: the committed
+    /// row stamps, or the full row text for nearby. A change to the status view alone never makes a projection stale.
+    /// </summary>
     internal static string Version(FoundationRunReadback? readback)
     {
         return string.Join(separator: "|", values: readback?.Views.OrderBy(keySelector: pair => pair.Key,
