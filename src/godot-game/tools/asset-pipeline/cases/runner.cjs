@@ -13,7 +13,7 @@ const workspace = require('../../workspace-paths.cjs');
 
 function rejectsMissingCompletion() {
   const result = spawnSync(process.execPath, [
-    'tools/phase4/check.cjs', '--verify-completion',
+    'src/godot-game/tools/asset-pipeline/check.cjs', '--verify-completion',
     content.tempPath('missing-phase4-runner-negative-fixture','completion.json')
   ], {cwd:ROOT, encoding:'utf8', windowsHide:true, timeout:15000});
   assert.ifError(result.error);

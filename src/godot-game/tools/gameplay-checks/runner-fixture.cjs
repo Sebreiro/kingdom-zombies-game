@@ -50,19 +50,28 @@ async function run(mode) {
         fs.writeFileSync(project,source);
       }
     }
+    const art=path.join(current.isolatedInputRoot,'src/godot-game/game/foundation/FoundationInventoryArt.cs');
+    const themed=fs.readFileSync(art,'utf8');
+    assert.ok(themed.includes('res://assets/ui/InspectionTheme.tres'));
+    // The current project admits the theme but still rejects any other Foundation reference outside Foundation and
+    // the declared inspection set, even to the icon another project role declares and copies.
+    fs.writeFileSync(art,themed+'\n// res://assets/ui/kingdom-zombies-icon.png\n');
+    try {
+      rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'outside-inspection')}),
+        error=>error.message==='UNDECLARED_RESOURCE assets/ui/kingdom-zombies-icon.png');
+    } finally {
+      fs.writeFileSync(art,themed);
+    }
     fs.copyFileSync(path.join(root,'src/godot-game/game/icon.svg'),path.join(path.dirname(project),'icon.svg'));
     const historical=source.replace(/^run\/main_scene\.asset_inspection=.*\r?\n/m,'')
       .replace('res://assets/ui/kingdom-zombies-icon.png','res://icon.svg');
     fs.writeFileSync(project,historical);
     rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'theme-without-inspection')}),
       error=>error.message==='UNDECLARED_RESOURCE assets/ui/InspectionTheme.tres');
-    const art=path.join(current.isolatedInputRoot,'src/godot-game/game/foundation/FoundationInventoryArt.cs');
-    const themed=fs.readFileSync(art,'utf8');
-    assert.ok(themed.includes('res://assets/ui/InspectionTheme.tres'));
     fs.writeFileSync(art,themed.replaceAll('res://assets/ui/InspectionTheme.tres','res://foundation/Foundation.tscn'));
     const foundation=validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'foundation')});
     assert.deepEqual(foundation.projectResourceRoles,{'run/main_scene':'foundation/Foundation.tscn','config/icon':'icon.svg'});
-    console.log('PASS current three resource roles, historical Foundation roles and three undeclared resource controls');
+    console.log('PASS current three resource roles, historical Foundation roles and four undeclared resource controls');
     return {directory,mode};
   }
   const context={directory,nonce:crypto.randomUUID(),input:'input',tool:'tool',platform:process.platform+'-'+process.arch};
