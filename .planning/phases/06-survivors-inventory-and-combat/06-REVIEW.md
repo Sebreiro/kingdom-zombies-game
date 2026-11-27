@@ -1,14 +1,15 @@
 ---
 phase: 06-survivors-inventory-and-combat
-reviewed: 2026-11-27T16:29:14Z
+reviewed: 2026-11-27T22:50:35Z
 depth: deep
-revision: c2d24563389c22628deb301dda4f4d2a8e791997
+revision: ea3e2ad9ff8312eea5ae3a10bbe7390e085bbdfe
 base_revision: a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d
-files_reviewed: 73
+files_reviewed: 77
 files_reviewed_list:
   - docs/code/engine-generated-spans.json
   - docs/code/generated-callsite-adaptations.json
   - docs/content/fields.md
+  - docs/workflow/foundation-checks.md
   - src/godot-game/core/CharacterPresentation.cs
   - src/godot-game/core/KingdomZombies.Core.csproj
   - src/godot-game/game/content/fixtures/crowds.json
@@ -29,7 +30,9 @@ files_reviewed_list:
   - src/godot-game/game/foundation/FoundationDrawObserver.cs
   - src/godot-game/game/foundation/FoundationHud.Live.cs
   - src/godot-game/game/foundation/FoundationInventoryGrid.cs
+  - src/godot-game/game/foundation/FoundationInventoryInteraction.cs
   - src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs
+  - src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs
   - src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs
   - src/godot-game/game/foundation/FoundationInventoryWorkspace.cs
   - src/godot-game/game/foundation/FoundationRoot.cs
@@ -74,6 +77,7 @@ files_reviewed_list:
   - src/godot-game/tools/gameplay-checks/check.cjs
   - src/godot-game/tools/gameplay-checks/rendered.cjs
   - src/godot-game/tools/gameplay-checks/required-cases.json
+  - src/godot-game/tools/gameplay-checks/runner-fixture.cjs
   - src/godot-game/tools/lan-checks/scenarios.cjs
   - src/godot-game/tools/verification/ac08-bindings.cjs
   - src/godot-game/tools/verification/bindings.test.cjs
@@ -81,13 +85,13 @@ files_reviewed_list:
   - src/godot-game/tools/verification/required-cases.json
 findings:
   critical: 0
-  warning: 0
-  info: 0
-  total: 0
-  necessity: 0
-status: clean
-rereview_files_reviewed: 6
-rereview_delta: ab9df14..c2d2456
+  warning: 1
+  info: 4
+  total: 5
+  necessity: 1
+status: issues_found
+rereview_files_reviewed: 11
+rereview_delta: 784a0c5..ea3e2ad
 prior_review:
   reviewed: 2026-11-24T21:42:39Z
   depth: deep
@@ -228,7 +232,7 @@ prior_review:
 
 # Phase 06 Code Review
 
-Latest review: see [Gap-repair re-review 5 (2026-11-27)](#gap-repair-re-review-5-2026-11-27) at the end of this file.
+Latest review: see [Run 2 repair review (2026-11-27)](#run-2-repair-review-2026-11-27) at the end of this file. Its status is `issues_found`: RR-01 (P2) and RR-02 to RR-05 (P3) are open.
 
 **Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
@@ -1172,5 +1176,117 @@ The scratch copies of the pre-delta sources, the word diff and the decode and st
 - Q1's statements about what happens after `Deliver` returns are read from source order. No failing `File.Delete` or malformed `sequence` was produced in a run.
 - The fixer's reported runs were not repeated, apart from the checks above. They are narration, not evidence used here.
 - This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Run 2 repair review (2026-11-27)
+
+**Reviewed revision** `ea3e2ad9ff8312eea5ae3a10bbe7390e085bbdfe` (clean tree, pushed)
+
+**Fix-delta range** `784a0c5..ea3e2ad`, source commit ea3e2ad. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. The delta repairs the Run 2 failures R2-1, R2-2/R2-5, R2-3 and R2-7 recorded in `06-RENDERED-EVIDENCE.md` (invocation `a0e0ad44-adde-4344-b584-75e7f99bc5e3`). The repair commits are:
+
+- a3769d3 (E, R2-7): `rendered.cjs` calls `validateReferences(foundation, current ? [...foundation, ...inspection] : foundation)`. The creator approved this widening of the Phase 2 resource-isolation proof. A new rejection control in `runner-fixture.cjs` strips the theme from the historical Foundation copy, and `foundation-checks.md` is updated.
+- 25b5357 (C, R2-3): `FoundationDrawObserver.cs:75` looks up `WorldInput/Aim` instead of `Aim`.
+- c1ac475 (D, R2-1): the inventory projection fingerprint moves into the engine-free model as `Model.Version`, `Projected` and `Stale(...)`. Each draw records its version, and close/reset clears it.
+- 58c3749 (B, R2-2/R2-5): an item press counts as modified when `mouse.CtrlPressed`/`ShiftPressed` is set or `Godot.Input.IsKeyPressed(Key.Ctrl/Shift)` reports the key held (the new `Modifier`). The cause is inferred, not observed.
+- 2b30e5e, ea3e2ad: mechanical rederivations (current-replay spans, the two producer `registries.spans.sha256` rows, and the ac-08 bindings including the gameplay-checks `core.permissions` caller row).
+
+`git diff --stat 784a0c5..ea3e2ad`: 11 files, 147 insertions, 49 deletions.
+
+**Depth** Deep.
+
+**Status** Issues found: 0 P0/P1, 1 P2 (RR-01) and 4 P3 (RR-02 to RR-05, one of them a necessity finding), all open. The R2-1, R2-3 and R2-7 repairs hold when traced against source. The R2-2/R2-5 repair is the weak point: nothing in source or evidence shows it addresses the observed failure. Every re-derived hash matches its check. Commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow at deep depth). This reviewer did not author the repairs and did not perform any earlier review in this file. Severity mapping: Critical = P0/P1, Warning = P2, Info = P3.
+
+### Files reviewed (11)
+
+These are exactly the files from `git diff --name-only 784a0c5..ea3e2ad`:
+
+- `docs/code/engine-generated-spans.json`
+- `docs/workflow/foundation-checks.md`
+- `src/godot-game/game/foundation/FoundationDrawObserver.cs`
+- `src/godot-game/game/foundation/FoundationInventoryInteraction.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs`
+- `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs`
+- `src/godot-game/tools/gameplay-checks/rendered.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/runner-fixture.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Per-commit verification
+
+**a3769d3 (R2-7).**
+
+- The declared, byte-identical copy rule still holds. `inspection` (`rendered.cjs:341-343`) is part of `inputs` (`:344`) whenever `current` is true. Every input is copied into `isolated-input` and hashed (`:348-357`), `validateReferences` reads the isolated copies (`:360`), and the copy hashes are re-checked at `:372-374`. The theme's own dependencies are still checked against `inspection` at `:371`.
+- The historical path still rejects the theme. When `current` is false, `inspection` is `[]` and the declared set is `foundation`. The only static `res://` literals in `game/foundation/` are `Foundation.tscn:3`, `FoundationNativeRegression.cs:70`, `FoundationRoot.cs:378` and `FoundationInventoryArt.cs:31` (the theme), so the theme is the only undeclared literal and the new control's exact-message expectation (`runner-fixture.cjs:57-58`) is deterministic. The control rewrites the literal only in the temporary isolated copy (`:59-62`).
+- The widening admits nothing outside the declared inspection list, but it admits the whole eight-entry list (including `inspection/Inspection.tscn` and `inspection/InspectionRoot.cs`), not only the theme. See RR-03.
+- `foundation-checks.md:22` and the new comment at `rendered.cjs:366-368` are true: `current` is keyed on the `run/main_scene.asset_inspection` role (`:322`). The PASS line's "three undeclared resource controls" count is right, and its consumer (`asset-pipeline/cases/runner.cjs:81`) matches the unchanged prefix.
+
+**25b5357 (R2-3).**
+
+- `WorldInput/Aim` is the right node. `FoundationWorldInput.AttachWorld` (`FoundationWorldInput.cs:35-45`) adds the `WorldInput` Control to the FoundationRoot and `Aim` under it. The observer's `_root` is the same node (`FoundationRoot.cs:65`, `FoundationDiagnostics.cs:19`). `Aim` has lived under `WorldInput` since 729d651, so the bare lookup could never resolve, matching "false in all 2619 solo draws".
+- The semantics match D-41. The observer reports `IsVisibleInTree()`, not existence. `WorldInput` is never hidden, so the value equals `Aim.Visible`, which `Point()` (`:172-191`) sets true only in gameplay with IT-07 in a hand, and which `Refresh` (`:117-120`), `LoseFocus` (`:89`) and `DetachWorld` clear.
+
+**c1ac475 (R2-1).**
+
+- Pre-repair cause confirmed from source: `_version` was updated only in `Observe` and never cleared on close, so a reopen through `Handle` drew without recording a version, and byte-identical returning windows matched the stale value.
+- `Draw` now records `Projected(Version(_readback))` on every successful draw (`FoundationInventoryWorkspace.cs:221`), `Model.Close` clears it (`FoundationInventoryInteraction.cs:37`), as do `Reset` and `Release`, and `Observe` redraws on `_dirty || Stale(...)` (`:91`).
+- Traces of a normal reopen, a same-frame close and reopen on the host, and a guest with a lagging readback found no missed or extra redraw. `Version` is a verbatim move of `Fingerprint`. A `Draw` that throws never records, and its `Close` clears the record. `AccessLost` does not close the model. No dangling reference to the removed helper remains.
+- The new tests fail on the pre-repair tree only by not compiling. See RR-02.
+
+**58c3749 (R2-2/R2-5).**
+
+- D-21 placement is unchanged: `Model.Quick`, the `External is { } target && (external || Kind is "Stash")` gate and the `Send(...)` call are byte-identical. Only the modifier predicate changed.
+- The engine-access policy is met: `Godot.Input.IsKeyPressed` is called inside `ItemInput`, which is registered in `EngineAccessPolicy.cs:235-236` and begins with `_gateway.RequireThread()` (`Input.cs:45`). `Modifier` is engine-free.
+- No realistic new false positive was found. Godot releases pressed keys on focus-out (engine knowledge, not read from the pinned engine source). Each LAN peer is its own process with its own `Input` state. No other Ctrl binding exists in `game/`. Shift is the sprint key, but a physically held Shift already set `ShiftPressed` before this change.
+- The cause remains unproven. See RR-01.
+
+**2b30e5e, ea3e2ad (rederivations).** The word diff over the three JSON files shows only SHA-256 tokens and the four `currentProducerReplay.sourceSnapshots[].contentBase64` values. Each new hash equals the working-tree bytes (`FoundationDrawObserver.cs` `ff74fee8…`, `FoundationInventoryInteraction.cs` `bd93a079…`, `FoundationInventoryWorkspace.Input.cs` `7104189f…`, `FoundationInventoryWorkspace.cs` `dcc81383…`, `Phase06InventoryInteractionTests.cs` `b6cc48a7…`, `engine-generated-spans.json` `ba95a5a4…`), and all four decoded snapshots equal the files on disk. The historical `producerSources` rows are unchanged. No pre-delta hash of the changed files is still referenced at HEAD outside `.planning/`. The aggregates (`sourceInputsSha256`, `sourceSetSha256`, six `repositorySha256` caller rows) are confirmed by the check tools below.
+
+### Findings
+
+| ID | Severity | File:line | Problem | Fix |
+| --- | --- | --- | --- | --- |
+| RR-01 | P2 (Warning) | `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs:193-196`; `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs:46-68` | False statement and unobserved repair. The test summary states as fact that the rendered Ctrl-click carries no modifier flag, which was never observed (R2-2/R2-5 say the cause is not proven). Source points the other way: the driver sends Ctrl through `SendInput` (`lan-checks/windows-input.ps1:46-56`), which updates the OS key state, so `mouse.CtrlPressed` would normally already be true. `ItemInput` has four other silent no-request exits that match the symptom and are not recorded: `_pending.HasValue`, a stale drawn token against `External?.Token` (`:46`, plausible given the R2-1 stale projection in the same run), `External` null or unauthorized, and `Kind` not `Stash` (`:59`). The next run can tell neither which predicate carried a passing click nor which guard dropped a failing one. | Reword the summary to state only the rule ("A held Ctrl or Shift counts even when the click event carries no modifier flag"). Add a read-only record of the last item press, taken inside the guarded `ItemInput` and exposed to the `phase06` sample of `FoundationDrawObserver`: `{ctrlFlag, ctrlHeld, shiftFlag, shiftHeld, external, drawnToken, currentToken, pending, externalKind, branch}`, with `branch` one of `pending`, `token`, `quick`, `press`, `menu`, `no-external` or `kind`. Have the stash and conflicts scenarios report or assert it. |
+| RR-02 | P3 (Info) | `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs:145-191`; wiring at `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs:91,221` | The reopen tests call `workspace.Projected(...)` themselves, so they assume the Draw-time recording whose absence caused R2-1. Deleting `_model.Projected(...)` from `Draw` (`:221`) or moving it back under `Observe` leaves every test green. The tests drive the host/solo coordinator only; the guest `_guestRunReadback` path is not exercised. "Reproduce the rendered reopen" overstates what they bind. | Soften the summary to "models the reopen contract", or add a source-structure (Roslyn method-body) assertion that `Draw` records `_model.Projected(version: Model.Version(readback: _readback))` and `Observe` uses `_model.Stale(...)`, as `FoundationLanPermissionTests` already does elsewhere. Optionally add a guest-coordinator variant. |
+| RR-03 | P3 (Info) | `src/godot-game/tools/gameplay-checks/rendered.cjs:369`; `src/godot-game/tools/gameplay-checks/runner-fixture.cjs:56-62` | No control shows the widened current path still rejects a Foundation `res://` literal outside the Foundation and inspection sets (for example `res://assets/ui/kingdom-zombies-icon.png`), so a further widening would pass unnoticed. The widening admits all eight inspection entries, not only the theme. The new control's only caller (`asset-pipeline/cases/runner.cjs:77`) sits after the pre-existing `rejectsMissingCompletion` break, so it does not currently run. | Add a current-path rejection control that injects `res://assets/ui/kingdom-zombies-icon.png` into the isolated `FoundationInventoryArt.cs` and expects `UNDECLARED_RESOURCE assets/ui/kingdom-zombies-icon.png`. Optionally narrow `:369` to `current ? [...foundation, 'assets/ui/InspectionTheme.tres'] : foundation`; the theme's fonts are already checked at `:371`. |
+| RR-04 | P3 (Info, necessity) | `src/godot-game/game/foundation/FoundationInventoryInteraction.cs:43` | `_projected = Open ? version : null` guards a state no caller can produce: the only caller, `Draw` (`FoundationInventoryWorkspace.cs:221`), returns early unless `_layer` exists (`:197`), and `_layer` exists only while the model is open. The guard is cheap and pinned by `ProjectionVersion_Closed_RecordsNothing`. | Human scope decision: keep it as a documented model invariant, or drop the conditional together with the first two assertions of `ProjectionVersion_Closed_RecordsNothing`. |
+| RR-05 | P3 (Info) | `src/godot-game/game/foundation/FoundationInventoryInteraction.cs:64-74` | The `Version` summary says it hashes views "by scope, token, header and committed row stamps", but `nearby` rows contribute their full `GetRawText()` (`:72-73`) and the `status` view is excluded (`:68`). The exclusion matters: status changes alone never cause a redraw. | Reword, for example: "Identifies the drawn views except status, by scope, token, header and committed row stamps (full rows for nearby)." |
+
+### Notes and questions (not findings)
+
+- **N1** The creator approved the R2-7 widening. The code widens to the whole inspection list, including the inspection scene and script, not only the theme the commit names. Confirm the approval covers that, or narrow as in RR-03.
+- **N2** Foundation also loads `"res://" + path` dynamically (`FoundationAppearanceAssets.cs:71,117`, `FoundationInventoryArt.cs:97,107,125`, `FoundationRoot.cs:274`). The static literal scan cannot see these. This predates the delta.
+- **N3** The new code uses `Godot.Input.IsKeyPressed` (logical keycode), while `FoundationRoot.PollKeys` and `FoundationLanPermissionTests` use `IsPhysicalKeyPressed`. For Ctrl and Shift the two agree, and `Key.Ctrl` matches either Ctrl key.
+- **N4** `draw.crosshair` proves visibility only. A scenario that wants the crosshair at the cursor would also need `Aim.Position` against the cursor.
+- **N5** Project rules: no changed C# line exceeds 120 characters; no comments inside member bodies (the new XML docs sit on members); new calls use named arguments; the new test names follow Method_State_Expected; `ItemInput` stays under the body-length limit.
+- **Modifier observation.** The brief asked whether a read-only observation of the item-press modifier state should be added so the next on-screen run proves the cause. The reviewer judged that it should and made it part of the RR-01 fix.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings ea3e2ad9ff83 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=7998eb1180c9e2af3b055dc69d2daa73947e0c00440efc82bf01ed3014727ac7` (exit 0) |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 54043277453bf0fc44e9e47344d4d1a13c5d1ba3e4bfd5f02ad42fc03d3be0be` (exit 0) |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` (exit 0) |
+| Scratch script: SHA-256 of the six changed bound files against every spans and cases row, and `contentBase64` decode with byte comparison | All current rows match; all four decoded snapshots equal the disk bytes |
+| Scratch script: `git grep` at HEAD for the pre-delta hashes of `rendered.cjs`, `runner-fixture.cjs`, `foundation-checks.md` and `gameplay-checks/required-cases.json` | None referenced |
+| `git diff --word-diff=porcelain 784a0c5..ea3e2ad` on the three JSON files | Only hash and `contentBase64` tokens changed |
+| awk line-length check on the five changed C# files | No line over 120 characters |
+
+The scratch scripts were written outside the repository and deleted afterward.
+
+### Pre-existing break (out of scope)
+
+`asset-pipeline.runner.prelaunch-source` fails in `rejectsMissingCompletion` (`src/godot-game/tools/asset-pipeline/cases/runner.cjs:14-21`). It spawns `tools/phase4/check.cjs`, which has not existed since 11a7ca3 (`src/godot-game/tools/phase4` is absent). This is not a finding against this delta. Its one effect on this delta is that the changed `runner-fixture.cjs` resource-roles control, called at `runner.cjs:77`, does not currently run (RR-03).
+
+### Evidence limits
+
+- Source review plus the three `--check` tools only. No Godot launch, build, xUnit, rendered, LAN or fixture run. The three new xUnit tests and the new runner-fixture control were not executed.
+- The engine and Win32 claims (focus-out key release, `MK_CONTROL` on `SendInput` clicks) come from knowledge of the engine and platform, not from the pinned 4.7.2 engine source.
+- The Run 2 artifacts under `.local/runs/game-tests/a0e0ad44-adde-4344-b584-75e7f99bc5e3/` were not reopened. Run facts come from `06-RENDERED-EVIDENCE.md`.
+- This review does not replace the phase-end rendered evidence or the human qualitative components.
 
 _Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
