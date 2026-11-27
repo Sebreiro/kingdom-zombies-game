@@ -54,7 +54,8 @@ internal sealed partial class FoundationInventoryWorkspace
             {
                 ItemMenu(button: button, item: item, external: external);
             }
-            else if (mouse.ButtonIndex == MouseButton.Left && mouse.CtrlPressed && External is { } target
+            else if (mouse.ButtonIndex == MouseButton.Left && Model.Modifier(flagged: mouse.CtrlPressed,
+                    held: Godot.Input.IsKeyPressed(keycode: Key.Ctrl)) && External is { } target
                     && (external || target.Header.GetProperty(propertyName: "Kind").GetString() is "Stash"))
             {
                 Send(command: Model.Quick(item: item, token: target.Token, deposit: !external), nearby: true);
@@ -62,7 +63,8 @@ internal sealed partial class FoundationInventoryWorkspace
             else if (mouse.ButtonIndex == MouseButton.Left)
             {
                 _press = new Press(opener: button, item: item, external: external, token: token,
-                        at: mouse.GlobalPosition, split: mouse.ShiftPressed);
+                        at: mouse.GlobalPosition, split: Model.Modifier(flagged: mouse.ShiftPressed,
+                                held: Godot.Input.IsKeyPressed(keycode: Key.Shift)));
             }
         }
         else if (input is InputEventKey { Pressed: true, Echo: false } key

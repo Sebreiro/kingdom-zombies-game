@@ -52,6 +52,15 @@ internal sealed partial class FoundationInventoryInteraction
         return !StringComparer.Ordinal.Equals(x: _projected, y: version);
     }
 
+    /// <summary>
+    /// Gets whether an item press is modified. A held key counts even when the platform click carries no modifier
+    /// flag, so a physical Ctrl or Shift held across the click still selects quick transfer or a split.
+    /// </summary>
+    internal static bool Modifier(bool flagged, bool held)
+    {
+        return flagged || held;
+    }
+
     /// <summary>Identifies the drawn private views by scope, token, header and committed row stamps.</summary>
     internal static string Version(FoundationRunReadback? readback)
     {

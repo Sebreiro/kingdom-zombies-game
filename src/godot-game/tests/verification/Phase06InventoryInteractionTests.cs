@@ -190,6 +190,19 @@ public sealed class Phase06InventoryInteractionTests
         workspace.Stale(version: "own0{}").ShouldBeTrue();
     }
 
+    /// <summary>
+    /// A Ctrl or Shift key held across a physical click counts when the platform click carries no modifier flag, as
+    /// in the rendered Ctrl-click withdrawal whose acknowledged Ctrl press submitted no quick request.
+    /// </summary>
+    [Fact]
+    public void Modifier_HeldWithoutEventFlag_IsActive()
+    {
+        Model.Modifier(flagged: false, held: true).ShouldBeTrue();
+        Model.Modifier(flagged: true, held: false).ShouldBeTrue();
+        Model.Modifier(flagged: true, held: true).ShouldBeTrue();
+        Model.Modifier(flagged: false, held: false).ShouldBeFalse();
+    }
+
     private static (string session, string binding, string player) Identity(FoundationSession session)
     {
         return (session.Snapshot.SessionId, "local", "host");
