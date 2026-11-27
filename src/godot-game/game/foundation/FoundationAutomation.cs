@@ -58,6 +58,7 @@ internal static class FoundationAutomation
     /// <summary>
     /// Delivers one owned input request and acknowledges it with one newline-terminated line: the request's sequence,
     /// then the sequence a DEBUG phase06 run action allocated, if any; never for a workspace request, even a guest's.
+    /// A refused request throws DRIVER_ACTION before any ack is written and stays in input.request.
     /// </summary>
     internal static void Tick(Control root, MainThreadGateway gateway, FoundationCoordinator? coordinator)
     {
@@ -109,7 +110,10 @@ internal static class FoundationAutomation
         }
     }
 
-    /// <summary>Delivers one request; returns the run-action sequence it submitted, or 0 for none.</summary>
+    /// <summary>
+    /// Delivers one request; returns the run-action sequence a DEBUG phase06 run action allocated, else 0, also for
+    /// every workspace request, even a guest's; a refused request throws DRIVER_ACTION.
+    /// </summary>
     private static long Deliver(Control root, JsonElement request, MainThreadGateway gateway,
             FoundationCoordinator? coordinator)
     {
