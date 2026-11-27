@@ -65,6 +65,39 @@ internal sealed partial class FoundationInventoryInteraction
     }
 
     /// <summary>
+    /// Chooses what a left or right item press does: a pending request or a stale drawn external token drops it
+    /// silently, right opens the menu, a modified left click quick-transfers when an authorized external view exists
+    /// and the item is external or that view is a stash, and every other left click starts a split or plain drag
+    /// press. A modified click that falls back names why: no external view, or a deposit into a view that is not a
+    /// stash.
+    /// </summary>
+    internal static string PressBranch(ItemPress press)
+    {
+        if (press.Pending.HasValue)
+        {
+            return "pending";
+        }
+
+        if (press.External && press.DrawnToken != press.ExternalToken)
+        {
+            return "token";
+        }
+
+        if (press.Right)
+        {
+            return "menu";
+        }
+
+        if (!Modifier(flagged: press.CtrlFlag, held: press.CtrlHeld))
+        {
+            return press.Split ? "split" : "drag";
+        }
+
+        return press.ExternalKind is null ? "no-external" : press.External || press.ExternalKind is "Stash" ? "quick"
+                : "not-stash";
+    }
+
+    /// <summary>
     /// Identifies every readback view except status by its scope, token and header text, then its rows: the committed
     /// row stamps, or the full row text for nearby. A change to the status view alone never makes a projection stale.
     /// </summary>
@@ -635,6 +668,51 @@ internal sealed partial class FoundationInventoryInteraction
         internal long? Parent { get; init; }
         internal bool External { get; init; }
         internal Rect Frame { get; init; }
+    }
+
+    /// <summary>
+    /// One left or right item press as item input read it, kept for read-only observation: the click's Ctrl and Shift
+    /// flags beside the held keys, the token the cell was drawn with beside the current authorized external token,
+    /// the pending request, the external view's kind (null without one) and the branch the press takes.
+    /// </summary>
+    internal sealed record ItemPress
+    {
+        internal ItemPress(long sequence, long item, bool external, bool right, bool ctrlFlag, bool ctrlHeld,
+                bool shiftFlag, bool shiftHeld, long drawnToken, long? externalToken, long? pending,
+                bool externalPending, string? externalKind)
+        {
+            Sequence = sequence;
+            Item = item;
+            External = external;
+            Right = right;
+            CtrlFlag = ctrlFlag;
+            CtrlHeld = ctrlHeld;
+            ShiftFlag = shiftFlag;
+            ShiftHeld = shiftHeld;
+            DrawnToken = drawnToken;
+            ExternalToken = externalToken;
+            Pending = pending;
+            ExternalPending = externalPending;
+            ExternalKind = externalKind;
+            Split = Modifier(flagged: shiftFlag, held: shiftHeld);
+            Branch = PressBranch(press: this);
+        }
+
+        internal long Sequence { get; init; }
+        internal long Item { get; init; }
+        internal bool External { get; init; }
+        internal bool Right { get; init; }
+        internal bool CtrlFlag { get; init; }
+        internal bool CtrlHeld { get; init; }
+        internal bool ShiftFlag { get; init; }
+        internal bool ShiftHeld { get; init; }
+        internal long DrawnToken { get; init; }
+        internal long? ExternalToken { get; init; }
+        internal long? Pending { get; init; }
+        internal bool ExternalPending { get; init; }
+        internal string? ExternalKind { get; init; }
+        internal bool Split { get; init; }
+        internal string Branch { get; init; }
     }
 
     [StructLayout(layoutKind: LayoutKind.Auto)]

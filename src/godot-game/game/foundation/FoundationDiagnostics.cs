@@ -52,7 +52,7 @@ internal sealed class FoundationDiagnostics
             FoundationServices? services = null, FoundationEquipmentProjection.Frame? appearance = null,
             (decimal x, decimal y)? attackAim = null, bool inventoryOpen = false, int inventorySlots = 0,
             (string kind, int page)? nearby = null, bool inventoryDetails = false, FoundationHudState? hud = null,
-            FoundationSpectator? spectator = null)
+            FoundationSpectator? spectator = null, FoundationInventoryInteraction.ItemPress? itemPress = null)
     {
         string? output = FoundationObservationScope.Directory();
         string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -86,7 +86,7 @@ internal sealed class FoundationDiagnostics
                 authority.Value.status, authority.Value.replayed } : null,
             aim = attackAim.HasValue ? new { attackAim.Value.x, attackAim.Value.y } : null,
             inventoryOpen, inventorySlots, inventoryDetails,
-            phase06 = ReadPhase06(coordinator: coordinator),
+            phase06 = ReadPhase06(coordinator: coordinator, itemPress: itemPress),
             nearby = nearby.HasValue ? new { nearby.Value.kind, nearby.Value.page }
                     : null,
             hud = hud is null ? null : new { hud.Health, hud.Stamina, hud.Load, hud.Ammo, slots = hud.Food.Length },
@@ -107,7 +107,8 @@ internal sealed class FoundationDiagnostics
     private object? _lastInput;
     private FoundationDrawObserver? _draw;
 
-    private static object? ReadPhase06(FoundationCoordinator? coordinator)
+    private static object? ReadPhase06(FoundationCoordinator? coordinator,
+            FoundationInventoryInteraction.ItemPress? itemPress)
     {
 #if DEBUG
         if (!FoundationAutomation.OwnedPhase() || coordinator?.ReadRunRender() is not { } current)
@@ -125,7 +126,11 @@ internal sealed class FoundationDiagnostics
                 entry.Value.Rows,
             }, comparer: StringComparer.Ordinal),
             control = coordinator.LocalRunControl?.survivorId, epoch = coordinator.LocalRunControl?.generation,
-            deathEpoch = coordinator.LocalRunControl?.deathGeneration };
+            deathEpoch = coordinator.LocalRunControl?.deathGeneration,
+            ItemPress = itemPress is null ? null : new { itemPress.Sequence, itemPress.Item, itemPress.External,
+                Button = itemPress.Right ? "right" : "left", itemPress.CtrlFlag, itemPress.CtrlHeld,
+                itemPress.ShiftFlag, itemPress.ShiftHeld, itemPress.DrawnToken, itemPress.ExternalToken,
+                itemPress.Pending, itemPress.ExternalPending, itemPress.ExternalKind, itemPress.Branch } };
 #else
         return null;
 #endif

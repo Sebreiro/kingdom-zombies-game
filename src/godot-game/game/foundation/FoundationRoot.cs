@@ -182,7 +182,8 @@ public sealed partial class FoundationRoot : Control
                 attackAim: _worldInput.LastAttackAim, inventoryOpen: _inventory.CapturesWorld,
                 inventorySlots: _inventory.VisibleSlotCount,
                 nearby: (_inventory.ExternalKind, _inventory.ExternalPage),
-                inventoryDetails: _inventory.FocusDetailsVisible, hud: _hud.Current, spectator: _spectator.State);
+                inventoryDetails: _inventory.FocusDetailsVisible, hud: _hud.Current, spectator: _spectator.State,
+                itemPress: _inventory.LastPress);
         Observe();
     }
 

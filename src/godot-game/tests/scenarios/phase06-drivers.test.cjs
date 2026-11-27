@@ -422,6 +422,23 @@ test('Receipt_ExactKind_IgnoresInterleaved', async t => {
   });
 });
 
+test('ExplainPress_FailedWait_NamesLastItemPress', async t => {
+  const peer = fakePeer(scratch(t), 'solo', 4100);
+  const press = {Sequence: 3, Item: 25, External: true, Button: 'left', CtrlFlag: false, CtrlHeld: true,
+    ShiftFlag: false, ShiftHeld: false, DrawnToken: 4, ExternalToken: 4, Pending: null, ExternalPending: false,
+    ExternalKind: 'Stash', Branch: 'quick'};
+  const draw = writeDraw(peer, {phase06: {World: {}, ItemPress: press}}, []);
+  assert.deepEqual(run.itemPress(draw), press);
+  assert.equal(run.itemPress({input: {phase06: {World: {}}}}), null);
+  assert.equal(await run.explainPress(peer, Promise.resolve(draw)), draw);
+  await assert.rejects(run.explainPress(peer, Promise.reject(new Error('RENDERED_DEADLINE solo stash-withdrawal'))),
+    error => error.message === 'RENDERED_DEADLINE solo stash-withdrawal itemPress=' + JSON.stringify(press));
+  const source = fs.readFileSync(soloFile, 'utf8') + fs.readFileSync(lanFile, 'utf8');
+  for (const label of ['stash-withdrawal', 'one authority withdrawal', 'contested withdrawal denial']) {
+    assert.match(source, new RegExp('explainPress\\([^;]*\'' + label + '\''), label + ' names the last item press');
+  }
+});
+
 test('Conflicts_StaleCell_DecidedFromTheRestingDraw', () => {
   const source = fs.readFileSync(lanFile, 'utf8');
   assert.match(source, /async function withdraw\([^)]*\) \{[^]*?return resting;/, 'withdraw returns the resting draw');

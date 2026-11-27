@@ -142,8 +142,9 @@ async function conflicts(state) {
   const winnerBefore = run.last(first);
   const winnerFrames = native.framesAfter(first, winnerBefore.input);
   await withdraw(state, first, await run.control(first, occupied), winnerFrames);
-  const winnerReceipt = await native.receipt(state, first, 'quick', winnerBefore.input, 'one authority withdrawal',
-    {frames: winnerFrames});
+  const winnerReceipt = await run.explainPress(first, native.receipt(state, first, 'quick', winnerBefore.input,
+    'one authority withdrawal', {frames: winnerFrames}));
+  const winnerPress = run.itemPress(run.last(first));
   assert.equal(winnerReceipt.runAction.status, 'Applied', 'the first withdrawal applies');
   committed.set(first, committed.get(first) + source.Quantity);
   const winner = await run.committed(first, row => external(row)?.Rows.every(entry => entry.Id !== source.Id)
@@ -156,8 +157,9 @@ async function conflicts(state) {
   // The click follows the resting draw: a cell still visible there sends a quick request, whose own receipt must
   // deny it; a cell already corrected there sends none. A draw sampled before the pointer moved cannot decide it.
   const staleCell = resting.controls.some(entry => occupied(entry) && entry.visible);
-  const denial = staleCell ? await native.receipt(state, second, 'quick', before.input, 'contested withdrawal denial',
-    {frames: secondFrames}) : null;
+  const denial = staleCell ? await run.explainPress(second, native.receipt(state, second, 'quick', before.input,
+    'contested withdrawal denial', {frames: secondFrames})) : null;
+  const loserPress = run.itemPress(run.last(second));
   assert(!denial || ['AccessLost', 'StaleItem'].includes(denial.runAction.status),
     'the losing attempt is denied, not applied: ' + denial?.runAction.status);
   const corrected = await run.committed(second, row => secondFrames().length > 0
@@ -180,7 +182,8 @@ async function conflicts(state) {
     && money(row) === committed.get(peer) && (external(row)?.Rows ?? []).every(entry => entry.Id !== source.Id));
   assert.equal(committed.get(host), money(originals[0].draw.input));
   return run.finish(state, 'phase06.lan.conflicts', state.peers, start,
-    {source, winnerReceipt, winner, before, resting, staleCell, denial, corrected, observedStale, laterReceipts,
+    {source, winnerReceipt, winnerPress, winner, before, resting, staleCell, denial, loserPress, corrected,
+      observedStale, laterReceipts,
       committed: state.peers.map(peer => ({role: peer.role, money: committed.get(peer)}))},
     [...originals, ...final, denied]);
 }

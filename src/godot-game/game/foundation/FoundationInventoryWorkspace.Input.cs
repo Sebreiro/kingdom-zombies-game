@@ -9,6 +9,9 @@ namespace KingdomZombies.Foundation;
 
 internal sealed partial class FoundationInventoryWorkspace
 {
+    /// <summary>Gets the last left or right item press and the branch it took, for read-only observation.</summary>
+    internal Model.ItemPress? LastPress { get; private set; }
+
     internal bool Input(InputEvent input)
     {
         _gateway.RequireThread();
@@ -43,31 +46,32 @@ internal sealed partial class FoundationInventoryWorkspace
     private void ItemInput(Button button, Model.Item item, bool external, long token, InputEvent input)
     {
         _gateway.RequireThread();
-        if (_pending.HasValue || external && token != External?.Token)
+        if (input is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left or MouseButton.Right } mouse)
         {
-            return;
-        }
-
-        if (input is InputEventMouseButton { Pressed: true } mouse)
-        {
-            if (mouse.ButtonIndex == MouseButton.Right)
+            FoundationRunView? target = External;
+            var press = new Model.ItemPress(sequence: (LastPress?.Sequence ?? 0) + 1, item: item.Id, external: external,
+                    right: mouse.ButtonIndex == MouseButton.Right, ctrlFlag: mouse.CtrlPressed,
+                    ctrlHeld: Godot.Input.IsKeyPressed(keycode: Key.Ctrl), shiftFlag: mouse.ShiftPressed,
+                    shiftHeld: Godot.Input.IsKeyPressed(keycode: Key.Shift), drawnToken: token,
+                    externalToken: target?.Token, pending: _pending, externalPending: _externalPending,
+                    externalKind: target is null ? null : Model.ExternalTarget(header: target.Header).kind);
+            LastPress = press;
+            if (press.Branch is "menu")
             {
                 ItemMenu(button: button, item: item, external: external);
             }
-            else if (mouse.ButtonIndex == MouseButton.Left && Model.Modifier(flagged: mouse.CtrlPressed,
-                    held: Godot.Input.IsKeyPressed(keycode: Key.Ctrl)) && External is { } target
-                    && (external || target.Header.GetProperty(propertyName: "Kind").GetString() is "Stash"))
+            else if (press.Branch is "quick" && target is not null)
             {
                 Send(command: Model.Quick(item: item, token: target.Token, deposit: !external), nearby: true);
             }
-            else if (mouse.ButtonIndex == MouseButton.Left)
+            else if (press.Branch is "split" or "drag" or "no-external" or "not-stash")
             {
                 _press = new Press(opener: button, item: item, external: external, token: token,
-                        at: mouse.GlobalPosition, split: Model.Modifier(flagged: mouse.ShiftPressed,
-                                held: Godot.Input.IsKeyPressed(keycode: Key.Shift)));
+                        at: mouse.GlobalPosition, split: press.Split);
             }
         }
-        else if (input is InputEventKey { Pressed: true, Echo: false } key
+        else if (!_pending.HasValue && (!external || token == External?.Token)
+                && input is InputEventKey { Pressed: true, Echo: false } key
                 && (key.Keycode == Key.Menu || key.ShiftPressed && key.Keycode == Key.F10))
         {
             ItemMenu(button: button, item: item, external: external);

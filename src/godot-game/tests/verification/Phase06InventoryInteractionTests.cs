@@ -226,8 +226,8 @@ public sealed class Phase06InventoryInteractionTests
     }
 
     /// <summary>
-    /// A Ctrl or Shift key held across a physical click counts when the platform click carries no modifier flag, as
-    /// in the rendered Ctrl-click withdrawal whose acknowledged Ctrl press submitted no quick request.
+    /// A held Ctrl or Shift counts even when the click event carries no modifier flag. That the rendered Ctrl-click
+    /// withdrawal reached item input without the flag is an inference; the item press observation records both.
     /// </summary>
     [Fact]
     public void Modifier_HeldWithoutEventFlag_IsActive()
@@ -238,9 +238,40 @@ public sealed class Phase06InventoryInteractionTests
         Model.Modifier(flagged: false, held: false).ShouldBeFalse();
     }
 
+    /// <summary>
+    /// Each observed item press names the branch item input takes: the pending and stale-token silent exits, the
+    /// menu, a quick transfer, a split or plain drag, and why a modified click fell back to a drag press.
+    /// </summary>
+    [Fact]
+    public void PressBranch_ObservedPress_NamesTakenBranch()
+    {
+        Press().Branch.ShouldBe(expected: "quick");
+        Press(ctrlFlag: false).Branch.ShouldBe(expected: "quick");
+        Press(pending: 7).Branch.ShouldBe(expected: "pending");
+        Press(externalToken: 5).Branch.ShouldBe(expected: "token");
+        Press(externalToken: null, externalKind: null).Branch.ShouldBe(expected: "token");
+        Press(right: true).Branch.ShouldBe(expected: "menu");
+        Press(ctrlFlag: false, ctrlHeld: false).Branch.ShouldBe(expected: "drag");
+        Press(ctrlFlag: false, ctrlHeld: false, shiftHeld: true).Split.ShouldBeTrue();
+        Press(ctrlFlag: false, ctrlHeld: false, shiftHeld: true).Branch.ShouldBe(expected: "split");
+        Press(external: false, externalToken: null, externalKind: null).Branch.ShouldBe(expected: "no-external");
+        Press(external: false, externalKind: "Pile").Branch.ShouldBe(expected: "not-stash");
+        Press(external: false).Branch.ShouldBe(expected: "quick");
+        Press(externalKind: "Pile").Branch.ShouldBe(expected: "quick");
+    }
+
     private static (string session, string binding, string player) Identity(FoundationSession session)
     {
         return (session.Snapshot.SessionId, "local", "host");
+    }
+
+    private static Model.ItemPress Press(bool external = true, bool right = false, bool ctrlFlag = true,
+            bool ctrlHeld = true, bool shiftHeld = false, long? externalToken = 4, long? pending = null,
+            string? externalKind = "Stash")
+    {
+        return new Model.ItemPress(sequence: 1, item: 25, external: external, right: right, ctrlFlag: ctrlFlag,
+                ctrlHeld: ctrlHeld, shiftFlag: false, shiftHeld: shiftHeld, drawnToken: 4, externalToken: externalToken,
+                pending: pending, externalPending: false, externalKind: externalKind);
     }
 
     private static Model.Item Read(FoundationSession session, long id, long? grid = null)

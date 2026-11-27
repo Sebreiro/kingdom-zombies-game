@@ -180,15 +180,16 @@ async function stash(state) {
   await run.press(state, peer, key.control, true);
   try { await run.choose(state, peer, within('/NearbyStorage/', 'Item_' + money.Id)); }
   finally { await run.press(state, peer, key.control, false); }
-  const committed = await shot(state, peer, 'stash-withdrawal', row => row.runAction?.status === 'Applied'
-    && external(row)?.Rows.every(entry => entry.Id !== money.Id)
-    && row.phase06.Views.status.Header.Hud.Money >= money.Quantity, back.drawFrame);
+  const committed = await run.explainPress(peer, shot(state, peer, 'stash-withdrawal', row =>
+    row.runAction?.status === 'Applied' && external(row)?.Rows.every(entry => entry.Id !== money.Id)
+    && row.phase06.Views.status.Header.Hud.Money >= money.Quantity, back.drawFrame));
+  const press = run.itemPress(committed.draw);
   await run.choose(state, peer, named('CloseInventory'));
   await run.moveUntil(state, peer, key.left, row => !nearby(row).some(entry => entry.Kind === 'Stash'),
     'walk out of the stash access range');
   const revoked = await shot(state, peer, 'stash-out-of-range', row => !external(row)
     && !nearby(row).some(entry => entry.Kind === 'Stash'));
-  return saved(state, 'stash', peer, start, {back, money, cleared: selection.cleared},
+  return saved(state, 'stash', peer, start, {back, money, press, cleared: selection.cleared},
     [...selection.pictures, first, second, committed, revoked]);
 }
 

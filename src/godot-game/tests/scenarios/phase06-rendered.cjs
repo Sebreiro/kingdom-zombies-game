@@ -80,6 +80,20 @@ function after(peer, predicate, label, before = 0) {
   }, peer.role + ' ' + label);
 }
 
+// The last left or right item press the peer's workspace observed (`phase06.ItemPress` in its latest draw): the
+// click's Ctrl and Shift flags beside the held keys, the drawn and current external tokens, the pending request,
+// the external kind and the branch item input took. Null before any press.
+const itemPress = draw => draw?.input?.phase06?.ItemPress ?? null;
+
+// Awaits a wait that follows an item click; when it fails, its message also names the peer's last item press, so a
+// Ctrl-click that submitted nothing reports which branch the workspace took.
+async function explainPress(peer, waiting) {
+  try { return await waiting; } catch (error) {
+    error.message += ' itemPress=' + JSON.stringify(itemPress(last(peer)));
+    throw error;
+  }
+}
+
 function committed(peer, predicate, label, before = 0) {
   return after(peer, frame => frame.input.phase06?.World && predicate(frame.input, frame), label, before);
 }
@@ -305,6 +319,6 @@ async function drag(state, peer, from, to, held = async () => null) {
 
 module.exports = {open, close, reset, enter, join, menu, key, last, after, committed, focus, send, press, tap,
   pointer, click, choose, control, named, title, within, actor, own, nearby, item, external, moveUntil, picture, finish,
-  stash, bagWindow, drag, settledView, fixture: native.inject, privacy: native.privacy,
+  stash, bagWindow, drag, settledView, itemPress, explainPress, fixture: native.inject, privacy: native.privacy,
   motionInterval: native.motionInterval, profileNames: native.profileNames};
 
