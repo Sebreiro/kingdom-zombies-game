@@ -9829,7 +9829,7 @@
         {
           "path": "src/godot-game/content/fixtures/crowds.json",
           "bytes": 207148,
-          "sha256": "8b5aa28a447273972c1f858cee897dc85c3e7ad1316e2c4acff305588682cdc1"
+          "sha256": "bb0bd39be6f63828b0f3aee9197cccb351ca968613b36c786caecac9bcdb246d"
         }
       ],
       "sourceCases": [
@@ -9960,7 +9960,7 @@
         {
           "path": "src/godot-game/content/packs/ui-identity.json",
           "bytes": 28424,
-          "sha256": "ef8e3e482101ae3f2104b5bf0afc376c2695d9661735c4efe8718c3925e03beb"
+          "sha256": "6e7c5548603bdd0397ba994ada7d98229ffd99440c97a256179081a82bc49892"
         }
       ],
       "sourceCases": [
@@ -10022,7 +10022,7 @@
         {
           "path": "src/godot-game/content/fixtures/crowds.json",
           "bytes": 207148,
-          "sha256": "8b5aa28a447273972c1f858cee897dc85c3e7ad1316e2c4acff305588682cdc1"
+          "sha256": "bb0bd39be6f63828b0f3aee9197cccb351ca968613b36c786caecac9bcdb246d"
         }
       ],
       "sourceCases": [

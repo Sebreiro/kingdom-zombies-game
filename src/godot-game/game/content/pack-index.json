@@ -19,7 +19,7 @@
       "id": "file.913d8941c01c0b9691a7",
       "path": "docs/content/fields.md",
       "bytes": 2669521,
-      "sha256": "b9e8a7617146f7268ef343e69017013abab4f91e1b539da4457900dadd130772",
+      "sha256": "db8622f0a73a68034d059a47e34613cd41aec7823745d3fabb11e37adc508dbe",
       "version": 1,
       "role": "source-support"
     },
@@ -619,7 +619,7 @@
       "id": "file.1de392368b796634707d",
       "path": "src/godot-game/content/fixtures/crowds.json",
       "bytes": 207148,
-      "sha256": "8b5aa28a447273972c1f858cee897dc85c3e7ad1316e2c4acff305588682cdc1",
+      "sha256": "bb0bd39be6f63828b0f3aee9197cccb351ca968613b36c786caecac9bcdb246d",
       "version": 1,
       "role": "runtime"
     },
@@ -691,7 +691,7 @@
       "id": "file.b06c3bcbf43bbc4a501b",
       "path": "src/godot-game/content/packs/compatibility.json",
       "bytes": 1123,
-      "sha256": "8a343b4c30ad9358b50d5f9bd25dbce7d40410166896c27a0d02a1f9b8e3153f",
+      "sha256": "5d504c131f4409843e787718f7361b57487eadf0c76853873af7fbc04ffc82c6",
       "version": 1,
       "role": "runtime"
     },
@@ -715,7 +715,7 @@
       "id": "file.ed8cf7ea71864c983adc",
       "path": "src/godot-game/content/packs/delivery.json",
       "bytes": 102615,
-      "sha256": "ab98d87193d929fe572d189c889d6184ec9d176948852fb81b85b968db72de58",
+      "sha256": "40c14ae594337548898b6fa55218c139d54ff19cdbc5d21d41f2c041003caa0a",
       "version": 1,
       "role": "runtime"
     },
@@ -763,7 +763,7 @@
       "id": "file.dfba54ca637bbfe7aeea",
       "path": "src/godot-game/content/packs/player-identities.json",
       "bytes": 88969,
-      "sha256": "ca78280ee7e2338d7f53f2c6758b05e8c9c8cb0c8a0d33034f9d517dd581eb32",
+      "sha256": "00a19d61448f0475e676152c7f07744ea5b9048a175ac108beabeb1b9870ba13",
       "version": 1,
       "role": "runtime"
     },
@@ -778,8 +778,8 @@
     {
       "id": "file.439290d849049e1308b4",
       "path": "src/godot-game/content/packs/text-data.json",
-      "bytes": 235843,
-      "sha256": "b1b45057d451b6e4d8e365dd5831cd8c2887ed8be25fe47df0202a7c0986269c",
+      "bytes": 235847,
+      "sha256": "cdb54339c69e8dd3a4747256e25abc3817d8009ebddb092b85ad482a8a54f8f8",
       "version": 1,
       "role": "runtime"
     },
@@ -795,7 +795,7 @@
       "id": "file.0af63ae8483f5520c338",
       "path": "src/godot-game/content/packs/ui-camp.json",
       "bytes": 2212,
-      "sha256": "e4bb51de2f72a7292d94cbe042a8b71c72a3e11e023e834bad951a5f84a26e36",
+      "sha256": "b8bebd310ab2936037b38ca931b6ec6abba6e534e97f705dd49c7cb1fbd3fd40",
       "version": 1,
       "role": "runtime"
     },
@@ -803,7 +803,7 @@
       "id": "file.eb746566b5159bf491bb",
       "path": "src/godot-game/content/packs/ui-identity.json",
       "bytes": 28424,
-      "sha256": "ef8e3e482101ae3f2104b5bf0afc376c2695d9661735c4efe8718c3925e03beb",
+      "sha256": "6e7c5548603bdd0397ba994ada7d98229ffd99440c97a256179081a82bc49892",
       "version": 1,
       "role": "runtime"
     },
@@ -811,7 +811,7 @@
       "id": "file.ff4aaa11e46e0b6a22f8",
       "path": "src/godot-game/content/packs/ui-inventory.json",
       "bytes": 2060,
-      "sha256": "01b3a7966130573bd006988ce93af0214b5c4f89530ff8d945be8f0d1e2ec61e",
+      "sha256": "27db8db58a1944badfc3a0873d50c107603f8127976c4a9facdae68b87a63cb0",
       "version": 1,
       "role": "runtime"
     },
@@ -827,7 +827,7 @@
       "id": "file.daeb8de897f4ed10c203",
       "path": "src/godot-game/content/packs/ui-legacy-stash.json",
       "bytes": 2074,
-      "sha256": "9f238fdca126e5b5dd1c9c01667f5b267cb6e2ad662ace8fbf78d7fb5240e27d",
+      "sha256": "3116d3c44bd4d19e3ea6e5519d37e38f9d554bef2b84c8288b85a091374e52ff",
       "version": 1,
       "role": "runtime"
     },
@@ -835,7 +835,7 @@
       "id": "file.7121a345da52c058d872",
       "path": "src/godot-game/content/packs/ui-map-warnings.json",
       "bytes": 1603,
-      "sha256": "baaf20982118064f20791934cb3e2496ec9f6594a81afc741648039db323865a",
+      "sha256": "aa301bbcacd644de7a5db6e8aa766c7674d1c94e51140a0507a65d7b6a3380fb",
       "version": 1,
       "role": "runtime"
     },
@@ -1018,8 +1018,8 @@
     {
       "id": "file.9243a7eb4fd3259a5cb9",
       "path": "src/godot-game/foundation/FoundationRoot.cs",
-      "bytes": 23630,
-      "sha256": "5149af8375f85388877d75df564babe1a585dbda0c5ab61760a927b8db2c0193",
+      "bytes": 23679,
+      "sha256": "96e0f4c449dac1b9fe72d1190d0cb59ced401dfe2316230a689c7fe4e4deccfb",
       "version": 1,
       "role": "source-support"
     },
@@ -1075,7 +1075,7 @@
       "id": "file.8ad5f271f27a8b5b02f4",
       "path": "tools/phase4/required-cases.json",
       "bytes": 691440,
-      "sha256": "b786a927581d6a87ac7dfd795575701b4d76ed985a228efd8f279ec439c58190",
+      "sha256": "29eaed11b42cbec80287c5d3f65919bc7565e1477472a11871eb77428d2899dc",
       "version": 1,
       "role": "source-support"
     }
