@@ -182,6 +182,9 @@ async function run(mode) {
     rejects(()=>select(catalog,['--case','core.authority,missing']),/^Error: SELECTION_UNKNOWN$/);
     rejects(()=>select(catalog,['--case','core.authority,core.authority']),/^Error: SELECTION_DUPLICATE$/);
     rejects(()=>select({cases:selected},['--all','--group','rendered']),/USAGE/);
+    // The resource isolation controls also run here, so they execute in the runner.integrity case as well as in the
+    // asset-pipeline prelaunch-source case.
+    await run('resource-roles');
     console.log('PASS empty, missing, duplicate, unknown, stale, corrupt, missing-image, traversal and invalid selection controls');
   } else if(mode==='processes') {
     await command(process.execPath,['-e','process.stdout.write("positive")']).then(row=>assert.equal(row.stdout,'positive'));
