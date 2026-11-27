@@ -1,8 +1,8 @@
 ---
 phase: 06-survivors-inventory-and-combat
-reviewed: 2026-11-27T01:55:15Z
+reviewed: 2026-11-27T11:07:42Z
 depth: deep
-revision: 860bb9348054077ac7a647cfb5661ed71046dbbf
+revision: 607ce09b6d4350abd64c2d55801e59fdf82d833d
 base_revision: a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d
 files_reviewed: 73
 files_reviewed_list:
@@ -82,12 +82,12 @@ files_reviewed_list:
 findings:
   critical: 0
   warning: 0
-  info: 2
-  total: 2
+  info: 1
+  total: 1
   necessity: 0
 status: issues_found
-rereview_files_reviewed: 28
-rereview_delta: 25470d0..860bb93
+rereview_files_reviewed: 6
+rereview_delta: f177954..607ce09
 prior_review:
   reviewed: 2026-11-24T21:42:39Z
   depth: deep
@@ -228,7 +228,7 @@ prior_review:
 
 # Phase 06 Code Review
 
-Latest review: see [Gap-repair re-review (2026-11-27)](#gap-repair-re-review-2026-11-27) at the end of this file.
+Latest review: see [Gap-repair re-review 2 (2026-11-27)](#gap-repair-re-review-2-2026-11-27) at the end of this file.
 
 **Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
@@ -793,3 +793,110 @@ These are exactly the files from `git diff --name-only 25470d0..860bb93`, exclud
 - This re-review does not replace the phase-end rendered evidence or the human qualitative components.
 
 _Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or the review of 0e8b859)_
+
+## Gap-repair re-review 2 (2026-11-27)
+
+**Reviewed revision** `607ce09b6d4350abd64c2d55801e59fdf82d833d` (clean tree)
+
+**Fix-delta range** `f177954..607ce09`. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `f177954` is the commit that recorded the re-review of `860bb93`. The four fixer commits are 24d7de9 (NR-01), d5b2566 (NR-02), 9285731 (current-replay rebind) and 607ce09 (ac-08 rebind).
+
+**Depth** Deep. The reviewer followed every changed symbol to its callers and consumers, including some outside the 6 files:
+
+- `native.contiguous` / `contiguous()` and `framesAfter()` in `phase06-headless.cjs:185-204`, and how solo now gets `native` (`phase06-solo.cjs:5`, the module that `phase06-rendered.cjs:9` already loads; there is no require cycle)
+- the shared 256-row reader `lines()`/`draws()` and `until()` (`lan-checks/rendered.cjs:9-32`), and `capture()` (`:68-82`)
+- `run.picture`, `committed`, `after`, `choose`, `control`, `click` and `settledView` (`phase06-rendered.cjs:32-46,71-138,243-257`), which decide when a `shot` predicate, and so the span poll, runs
+- the draw observer's numbering and write order (`FoundationDrawObserver.cs:67-80,254-261`): `_frame++` on every draw, the `draws.ndjson` row appended before the capture JSON is published
+- the LAN `transferring` span used as the model (`phase06-lan.cjs:263-275`)
+- `Tick`, `Deliver` and `SubmitPhase06` (`FoundationAutomation.cs:58-98,120-193`), `SubmitRunAction` and `RequestRunWorkspace` (`FoundationCoordinator.RunWire.cs:19-57,123-143`), the only `input.ack` reader (`lan-checks/network.cjs:79-86`) and its injected-action caller `action()` (`phase06-headless.cjs:252-260`), plus the workspace callers (`:339`, `:520`)
+- the game-tests catalog wiring of `phase06.solo.*` (`game-tests/catalog.json:29-256`, `catalog.test.cjs`), the drivers test's helper-definition check (`phase06-drivers.test.cjs:153-170`)
+- the pin consumers `ac08-bindings.cjs`, `current-replay.cjs` and `asset-bindings.cjs`, and every pin location of the changed sources under `src/` and `docs/`
+- the R-10 line-length rule (`docs/code/rule-matrix.md:25`, `tools/code-rules/LineLengthAnalyzer.cs`)
+
+**Status** Issues found: 0 P0/P1/P2 and 1 new P3 finding (NR-03), open. NR-01 and NR-02 are resolved. Deviations (a), (b), (c) and (d) are acceptable. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (6)
+
+These are exactly the files from `git diff --name-only f177954..607ce09`, excluding `.planning/`:
+
+- `docs/code/engine-generated-spans.json`
+- `src/godot-game/game/foundation/FoundationAutomation.cs`
+- `src/godot-game/tests/scenarios/phase06-drivers.test.cjs`
+- `src/godot-game/tests/scenarios/phase06-solo.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Dispositions of NR-01 and NR-02
+
+| ID | Disposition | Fix commit(s) | Evidence at `607ce09` |
+| --- | --- | --- | --- |
+| NR-01 | **Resolved** | 24d7de9 | `since()` (`phase06-solo.cjs:283-287`) builds `native.contiguous(() => draws(peer), 'drawFrame', previousDraw.drawFrame + 1)`, so the span starts on the frame after the reference draw, and a missing first row throws `FRAME_SPAN_GAP` (`phase06-headless.cjs:189-200`). It reads once at once, while the reference is still in the 256-row buffer. The near span is anchored on `gate.draw` (:255) and the distant span on `dead.draw` (:300), both before `run.choose(... 'Respawn')` (:256, :301). `nearSpan()` / `farSpan()` is the first conjunct of the `life-transfer` and `life-distant-cut` predicates (:257, :302), so `after()` polls it on every latest draw it evaluates during the Respawn, handover and match wait (`phase06-rendered.cjs:71-80`). `picture()` polls it once more after the capture (:251), and `handover()` polls it a final time (:291). `until()` does not catch predicate errors (`rendered.cjs:27-32`), so a gap fails the case. The upper bound is correct: the observer appends the `draws.ndjson` row before it publishes the capture JSON (`FoundationDrawObserver.cs:259-261`), so when `capture()` returns, the row for `lastDraw.drawFrame` is already in the file, and `handover()` keeps `drawFrame <= lastDraw.drawFrame` (:291). The span is therefore gap-free from reference+1 through the captured draw, or the case fails. `phase06-drivers.test.cjs:432-447` pins the `+ 1` anchor, the initial read, the order "span, then Respawn, then the shot", the span as the first predicate conjunct, the `<= lastDraw.drawFrame` bound, and the absence of any `draws(peer).filter`. A mutation run of those assertions against eight altered copies of the solo source killed all eight: no `+ 1`, no initial read, poll moved behind other conjuncts, span created after Respawn, no upper bound, wrong reference, rolling-buffer read, tail slice. A behavioral run of the extracted `since`/`handover` over synthetic buffers confirmed the start frame, the bound, and `FRAME_SPAN_GAP` on a dropped first row and on a roll-over between polls. |
+| NR-02 | **Resolved** at the two cited summaries. A sibling comment in the only reader still states the older wording (NR-03). | d5b2566 | `Tick` (`FoundationAutomation.cs:58-61`) now says the line carries "the sequence a DEBUG phase06 run action allocated, if any; never for a workspace request, even a guest's". `SubmitPhase06` (:178) says "Null when refused; else the allocated run-action sequence, or 0 for any workspace request." Both match the code. `phase06-action` returns `SubmitRunAction(...)?.sequence` (:188-191). That value is always `++_sequence` > 0, on host and guest (`RunWire.cs:32,54,58`), and `Tick` writes it as the second number (:95-97). `phase06-workspace` returns `0` whenever `RequestRunWorkspace` succeeds, on host (`RunWire.cs:131-136`) and on guest, where a `workspace` run action is allocated but not reported (:138-142). So `Tick` writes the request sequence alone. A refusal (`null`) falls through to `DRIVER_ACTION` (:164-171), and no ack is written. Other actions return 0. The change touches only two `///` lines (git diff), and both are 120 characters or fewer (118 max). |
+
+### Verdicts on fixer deviations
+
+| ID | Verdict | Reason |
+| --- | --- | --- |
+| (a) Shared `since()` that reads once immediately and fails closed with `FRAME_SPAN_GAP` | **Acceptable** | The immediate read is needed. `contiguous()` keeps only rows it has seen. Without that first read, the span would begin collecting only at the first predicate evaluation, after the `choose` lookup and the click acknowledgement, and the earliest rows could already be gone. With the read, the rows are captured while the reference is still buffered, and a lost row surfaces as a gap error rather than a short span. One helper serves both handovers, so the two cannot drift. It matches the LAN pattern (`phase06-lan.cjs:263`), and the drivers test pins its exact shape. |
+| (b) A capture longer than the 256-row buffer fails loudly (`FRAME_SPAN_GAP`) instead of passing falsely; LAN `transferring` has the same exposure | **Acceptable** | The unpolled windows are: `choose` (a lookup of the already-visible Respawn button plus one acknowledged click), any draws where `settledView` or the `World` precondition stops `after()` before the predicate, and `capture()` (one main-thread `SavePng` plus PNG validation). They are short compared with the buffer, which lasts about 1 s at a 240 Hz refresh (re-review Q4). If one ever overflows, the case fails with a named error; it cannot judge a partial span. LAN `transferring` (`phase06-lan.cjs:263-267`) behaves the same way. Q1 below names the structural fix if the error ever fires. |
+| (c) NR-02 comment-only: guest workspace sequences are still not reported in `input.ack` | **Acceptable** | NR-02 offered that option. No caller needs the number: `phase06-headless.cjs:339,520` ignore the workspace result, and `action()` is the only consumer of a reported sequence (:252-260). The writer contract now states the behavior exactly. Reporting the guest number later would be an additive change to an optional field the reader already parses (`network.cjs:84`). The remaining gap is the reader's own comment (NR-03). |
+| (d) Pre-existing lines over 120 characters left alone; new lines are 120 characters or fewer | **Acceptable**, with one correction to the narration | Both halves hold. Comparing HEAD with `f177954` line by line, every line over 120 is unchanged: `phase06-solo.cjs:164,213,232` (121, 121, 123), and also `phase06-drivers.test.cjs:139,206,311,313,661` (125, 121, 126, 126, 121), which the fixer did not mention. The fixer cited 164, 213 and 232 for both files, but those are the solo lines only. The added lines are at most 115 characters (solo), 120 (drivers) and 118 (`FoundationAutomation.cs`). The project's only enforced length rule is R-10 / SCR0007, a Roslyn analyzer for "Project-owned C# and configuration" (`rule-matrix.md:25`, `LineLengthAnalyzer.cs:9-19`). `.editorconfig` sets no limit for `.cjs`. The long `.cjs` lines break no enforced rule, and the C# change stays within SCR0007. |
+
+### New findings
+
+#### NR-03: The `input.ack` reader still states the acknowledgement contract that NR-02 corrected
+
+**Severity** INFO · P3 · **Disposition** open (not accepted: a one-line fix, and it is the consumer side of the contract NR-02 just corrected)
+
+**File** `src/godot-game/tools/lan-checks/network.cjs:82`. This line is pre-existing and outside the delta, but it is the only reader of the contract the delta corrected.
+
+**Trigger** The comment above the only `input.ack` parser says: "The ack line names this request's sequence, then the run-action sequence a DEBUG phase06 action submitted, if any." That is word for word the `Tick` wording NR-02 found misleading. A guest `phase06-workspace` request does submit a `workspace` run action and allocate a sequence (`FoundationCoordinator.RunWire.cs:138-142`), but the ack never reports it (`FoundationAutomation.cs:181-186`). The writer summary (:58-61) now says so explicitly. The reader comment does not.
+
+**Consequence** The writer and the reader document different contracts. Someone extending a driver reads `network.cjs`, not the C# summary, and may expect `input()` to return the guest workspace sequence. They would get `null`, which `action()`-style checks reject with `Number.isSafeInteger`, or they would fall back to kind matching. No current caller is affected.
+
+**Rule** `docs/code/review-checklist.md:7` (comments explain intent and describe actual behavior). `docs/workflow/code-review.md` step 5 (accurate evidence). This is the same rule as NR-02.
+
+**Fix** Reword `network.cjs:82` to match the writer, for example: `// The ack line names this request's sequence, then the sequence an injected phase06-action allocated, if any; never one for phase06-workspace, even a guest's.` Then rerun `ac08-bindings.cjs --write`/`--check` if the repository digest covers the file.
+
+### Re-confirmed 06-24 Task 2 checks touched by the delta
+
+| # | Check | Result |
+| --- | --- | --- |
+| 3 | F13 receipts matched exactly, without retries | **Pass (unchanged).** The delta changes no executable code on the receipt path. `Deliver`/`SubmitPhase06` are byte-identical apart from the two summaries. |
+| 5 | Rebound pins derived, not hand-edited | **Pass.** `ac08-bindings.cjs --check`, `current-replay.cjs --check` and `asset-bindings.cjs --check` all pass on HEAD. The recomputed SHA-256 of `FoundationAutomation.cs` is `718cee23…8e40` (8539 bytes). It appears once in verification `required-cases.json` and twice in `engine-generated-spans.json`: the hashed input list and the current `sourceSnapshots` row, whose `contentBase64` decodes byte-for-byte to the current file. The other `FoundationAutomation.cs` snapshot (`f08fd4ab…`) is a historical cohort row, unchanged by the delta. The spans registry hash `5764ed51…4ad9` equals the recomputed file hash and appears 3 times in verification `required-cases.json`. The repository digest `3c65f396…8924` appears 5 times there and once in gameplay-checks `required-cases.json`, matching the `ac08-bindings --check` output. `sourceInputsSha256` `d004298d…8463` matches the `current-replay --check` output. `sourceSetSha256` `3f36a2e8…5375` appears once. No previous value remains anywhere under `src/` or `docs/`: `FoundationAutomation.cs` `d195ee73…d702`, solo `84e5c238…5cad`, drivers `e83c68c5…07a6`, spans `21e51b9b…01b1`, repository `88a5db98…6c29`, inputs `d58431d3…6eab`, source set `0cd001eb…58e2`. `phase06-solo.cjs` and `phase06-drivers.test.cjs` have no hash pin (the solo row is `outside-validator` with `sha256: null`, `required-cases.json:4074-4077`). Their change reaches the pins only through the repository digest, which 607ce09 rebound after both source commits. |
+| 8 | Predicates reject unsettled, clipped or single-draw evidence | **Pass.** Every solo picture still goes through `shot` → `settledView` (`phase06-solo.cjs:13-14`). Both solo handover spans are now gap-free from the reference draw through the captured draw, or they fail with `FRAME_SPAN_GAP` (NR-01). The near handover still needs at least two monotone intermediate draws (:264-268), and the distant cut is judged from the first committed transfer draw of a complete span (:304-307). Headless and LAN spans are unchanged. |
+
+### Questions (not defect findings)
+
+- **Q1** Both rendered handover spans (solo here, LAN `transferring`) depend on in-process polling staying ahead of a 256-row window. If a `FRAME_SPAN_GAP` ever fires on a fast display, would you rather read `draws.ndjson` from a recorded byte offset, which is bounded by file size rather than row count, than enlarge the shared buffer?
+- **Q2** `handover()` keeps only draws that already show `TransferNotice` in the new epoch (`phase06-solo.cjs:292-293`, pre-existing). If the epoch changed one draw before the notice appeared, a smoothed first draw of the new epoch would be filtered out instead of failing the distant "cuts on the first committed draw" assertion. Does the spectator publish `TransferNotice` in the same snapshot that raises the epoch? If so, no change is needed.
+- **Q3** The new drivers test reads the raw solo source and does not strip comments first, unlike the helper-definition test (`phase06-drivers.test.cjs:154`), so a commented copy of the pinned shape would also satisfy it. Should it use `stripped()` for consistency?
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --short` | `607ce09b6d4350abd64c2d55801e59fdf82d833d`; clean |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 71 pass, 0 fail, 0 skip (70 before, plus `SoloHandover_Spans_ReadWithoutGaps`) |
+| `node --test --test-isolation=none src/godot-game/tools/verification/bindings.test.cjs` | 21 pass, 0 fail |
+| `node --test --test-isolation=none src/godot-game/tools/game-tests/runner.test.cjs` | 9 pass, 0 fail |
+| `node --test --test-isolation=none src/godot-game/tools/game-tests/catalog.test.cjs` | 16 pass, 0 fail |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings 607ce09b6d43 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=3c65f396053327b0887116cffe58159d5da571e130188bb6be09ded4bc7a8924` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 d004298da3da1358bdcd060fe2bfe8fc94bf055abd46b3cae424530547068463` |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `git diff --check f177954..HEAD -- . ':!.planning'` | No output, exit 0 |
+| Load check: `require('phase06-solo.cjs')` | Six case keys load; `helpers.contiguous` is a function |
+| SHA-256 and byte counts (Node `crypto`) of the six changed files at HEAD and the three changed sources at `f177954`, plus a pin search of every old and new value under `src/` and `docs/` | Results as listed in check 5 |
+| Decode the `engine-generated-spans.json` `FoundationAutomation.cs` snapshots | The current row equals the file byte-for-byte |
+| Line-length comparison of HEAD against `f177954` for the three changed sources | As listed in deviation (d) |
+| Behavioral run of extracted `since`/`handover` over synthetic buffers, and a mutation run of the new drivers-test assertions (scratch scripts outside the repository, deleted afterward) | All behavioral assertions hold; 8/8 mutants killed |
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The span polling was judged from source, a synthetic behavioral run and the observer's write order. It was not observed on a real rendered stream.
+- That the comment-only C# change still compiles and passes SCR rules is inferred from its being confined to two `///` lines of 118 characters or fewer. No build was run.
+- Whether polling keeps ahead of the 256-row window on a given display (deviation (b)) depends on the refresh rate and capture time. The about 1 s margin comes from the earlier re-review's Q4 measurements, not from a new run.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
