@@ -18633,7 +18633,7 @@
         "registries": {
           "spans": {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "5764ed51e3a9e44fc79f4db7fae087331c67773f1ac1f616a4e64dcbea034ad9",
+            "sha256": "b663e054cebe59a3a16f1bd8e78c143eab796c482b4394df5e86da2223cfc80b",
             "cohorts": [
               {
                 "id": "phase1-baseline",
@@ -19694,7 +19694,7 @@
         "registries": {
           "spans": {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "5764ed51e3a9e44fc79f4db7fae087331c67773f1ac1f616a4e64dcbea034ad9",
+            "sha256": "b663e054cebe59a3a16f1bd8e78c143eab796c482b4394df5e86da2223cfc80b",
             "cohorts": [
               {
                 "id": "phase1-baseline",
