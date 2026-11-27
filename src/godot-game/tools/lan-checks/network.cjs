@@ -79,7 +79,8 @@ async function waitFor(peers,deadline,predicate,message){
 async function input(peer,context,deadline,request){
   const sequence=++peer.sequence,file=path.join(peer.directory,'input.request');
   fs.writeFileSync(file+'.tmp',JSON.stringify({nonce:context.nonce,sequence,...request}));fs.renameSync(file+'.tmp',file);
-  // The ack line names this request's sequence, then the run-action sequence a DEBUG phase06 action submitted, if any.
+  // The ack line names this request's sequence, then the run-action sequence a DEBUG phase06 run action allocated,
+  // if any; never for a workspace request, even a guest's.
   const ack=await waitFor([peer],deadline,()=>{const file=path.join(peer.directory,'input.ack');if(!fs.existsSync(file))return null;
     const match=/^(\d+)(?: (\d+))?\n$/.exec(fs.readFileSync(file,'utf8'));return match?.[1]===String(sequence)?{submitted:match[2]===undefined?null:Number(match[2])}:null;},'input ack '+peer.role);
   return ack.submitted;
