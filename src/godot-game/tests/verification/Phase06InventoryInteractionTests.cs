@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using KingdomZombies.Core;
 using KingdomZombies.Foundation;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Shouldly;
 using Xunit;
 using Model = KingdomZombies.Foundation.FoundationInventoryInteraction;
@@ -143,8 +146,9 @@ public sealed class Phase06InventoryInteractionTests
     }
 
     /// <summary>
-    /// Reproduces the rendered reopen: the closed workspace drew its windows, the reopened one draws before they
-    /// return, and the returning windows are byte-identical to the earlier drawing yet still require a new projection.
+    /// Models the rendered reopen contract on a real solo coordinator: the closed workspace drew its windows, the
+    /// reopened one draws before they return, and the returning windows are byte-identical to the earlier drawing yet
+    /// still require a new projection. The test records each draw itself; the workspace wiring is bound separately.
     /// </summary>
     [Fact]
     public void ProjectionVersion_ReopenedBeforeIdenticalWindowsReturn_IsStale()
@@ -191,6 +195,34 @@ public sealed class Phase06InventoryInteractionTests
         workspace.Projected(version: "own0{}");
         workspace.Reset();
         workspace.Stale(version: "own0{}").ShouldBeTrue();
+    }
+
+    /// <summary>
+    /// Binds the workspace wiring the projection tests model: only Draw records a version, as its last projection
+    /// step, and Observe reprojects dirty or stale readback. Solo, host and guest readback all reach the workspace
+    /// through this one Observe, so the binding covers each of them without an engine.
+    /// </summary>
+    [Fact]
+    public void ProjectionWiring_WorkspaceSource_RecordsEachDrawAndReprojectsStaleReadback()
+    {
+        MethodDeclarationSyntax[] methods = [.. Directory.GetFiles(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "src/godot-game/game/foundation"), searchPattern: "FoundationInventoryWorkspace*.cs")
+                .SelectMany(selector: file => CSharpSyntaxTree.ParseText(text: File.ReadAllText(path: file),
+                        cancellationToken: TestContext.Current.CancellationToken).GetRoot(
+                                cancellationToken: TestContext.Current.CancellationToken).DescendantNodes()
+                        .OfType<MethodDeclarationSyntax>())];
+        methods.Where(predicate: method => method.DescendantNodes().OfType<InvocationExpressionSyntax>().Any(
+                predicate: call => call.Expression.ToString() is "_model.Projected")).Select(
+                        selector: method => method.Identifier.ValueText).ShouldBe(expected: ["Draw"]);
+        methods.Single(predicate: method => method.Identifier.ValueText is "Draw").Body.ShouldNotBeNull().Statements
+                .TakeLast(count: 2).Select(selector: statement => statement.ToString()).ShouldBe(expected:
+                        ["_model.Projected(version: Model.Version(readback: _readback));", "_dirty = false;"]);
+        IfStatementSyntax reproject = methods.Single(predicate: method => method.Identifier.ValueText is "Observe")
+                .Body.ShouldNotBeNull().Statements.OfType<IfStatementSyntax>().Last();
+        reproject.Condition.ToString().ShouldBe(expected: "_dirty || _model.Stale(version: Model.Version("
+                + "readback: _readback))");
+        reproject.Statement.DescendantNodes().OfType<ExpressionStatementSyntax>().Select(
+                selector: statement => statement.ToString()).ShouldBe(expected: ["Project();"]);
     }
 
     /// <summary>
