@@ -1,8 +1,8 @@
 ---
 phase: 06-survivors-inventory-and-combat
-reviewed: 2026-11-27T13:56:27Z
+reviewed: 2026-11-27T16:29:14Z
 depth: deep
-revision: ad960f33e223da15e75fcda294c3cb57114fc51c
+revision: c2d24563389c22628deb301dda4f4d2a8e791997
 base_revision: a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d
 files_reviewed: 73
 files_reviewed_list:
@@ -82,12 +82,12 @@ files_reviewed_list:
 findings:
   critical: 0
   warning: 0
-  info: 1
-  total: 1
+  info: 0
+  total: 0
   necessity: 0
-status: issues_found
-rereview_files_reviewed: 4
-rereview_delta: 5f7ca93..ad960f3
+status: clean
+rereview_files_reviewed: 6
+rereview_delta: ab9df14..c2d2456
 prior_review:
   reviewed: 2026-11-24T21:42:39Z
   depth: deep
@@ -228,7 +228,7 @@ prior_review:
 
 # Phase 06 Code Review
 
-Latest review: see [Gap-repair re-review 4 (2026-11-27)](#gap-repair-re-review-4-2026-11-27) at the end of this file.
+Latest review: see [Gap-repair re-review 5 (2026-11-27)](#gap-repair-re-review-5-2026-11-27) at the end of this file.
 
 **Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
@@ -1087,6 +1087,89 @@ The scratch copy of the pre-delta `FoundationAutomation.cs` and the decode scrip
 - No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The writer behavior was judged from source only.
 - That the comment-only C# change still compiles and passes the SCR rules is inferred from the identical comment-stripped file and the line lengths. No build was run.
 - The per-frame re-delivery in Q1 relies on the Godot .NET glue logging and continuing after an exception thrown from `_Process`. It was not observed in a run.
+- The fixer's reported runs were not repeated, apart from the checks above. They are narration, not evidence used here.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Gap-repair re-review 5 (2026-11-27)
+
+**Reviewed revision** `c2d24563389c22628deb301dda4f4d2a8e791997` (clean tree)
+
+**Fix-delta range** `ab9df14..c2d2456`, source commit c2d2456. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `ab9df14` is the commit that recorded gap-repair re-review 4. The three fixer commits are:
+
+- 3470f15 (NR-05): rewrites the `Tick` summary (`FoundationAutomation.cs:58-63`) and the `Deliver` summary (`:114`, now one line), the reader comment in `lan-checks/network.cjs:82-84`, and the receipt comment in `phase06-headless.cjs:207-208`. Only comment lines change.
+- 2b2cd34 (current-replay rebind): `engine-generated-spans.json` (the `FoundationAutomation.cs` source hash twice, the `currentProducerReplay.sourceSnapshots` `contentBase64` row, `sourceInputsSha256`) and verification `required-cases.json` (the source hash row, `sourceSetSha256`, the spans registry hash in the source-set `bindings` row and both `registries.spans.sha256` rows).
+- c2d2456 (ac-08 rebind): `repositorySha256` in both `required-cases.json` files (verification x5, gameplay-checks x1, including the `core.permissions` caller row).
+
+`git diff --stat ab9df14..c2d2456`: 6 files, 25 insertions, 26 deletions.
+
+**Depth** Deep. The reviewer checked every clause of the four rewritten comments against the code behind it, and searched `src/` and `docs/` for any other statement of the `input.request` / `input.ack` contract:
+
+- the writer, in execution order: `Tick` (`FoundationAutomation.cs:64-100`), with the early returns (`:69-84`, including the `IOException` swallow in `ReadRequest`, `:102-112`), `JsonDocument.Parse` (`:86`), the nonce check that throws `DRIVER_NONCE` (`:88-91`), `Deliver` (`:93`), `File.Delete` (`:94`), the `sequence` read (`:95-96`) and the ack write (`:97-99`)
+- every `Deliver` branch (`:115-177`): the plain native actions that fall through to `return 0` (`:120-144,176`), `spectator-proof-lethal` (`:146-150`), `fixture-attack` / `fixture-step` (`:151-155`), `phase06-focused` and its `DRIVER_FOCUS` throw (`:156-163`), `phase06-action` / `phase06-workspace` (`:164-169`) and the `DRIVER_ACTION` fall-through (`:171-174`); and `SubmitPhase06` (`:180-194`)
+- every sequence allocation those branches reach: `SubmitRunAction` (`FoundationCoordinator.RunWire.cs:19-59`, `checked(++_sequence)` at `:32`, returned at `:54` on the host and `:58` on a guest), `RequestRunWorkspace` (`:123-143`), `ObserveLethalAttack` (`FoundationCoordinator.cs:216-223`, allocation at `:221`) and `FixtureAction` (`:225-254`, allocation at `:249`)
+- the reader and its callers: `input()` (`lan-checks/network.cjs:79-88`), `stop()` (`:107-115`), `receipt()`, `matches()` and `action()` (`phase06-headless.cjs:206-260`), and every caller that sends `phase06-action`, `phase06-workspace`, `fixture-attack`, `fixture-step` or `spectator-proof-lethal` (`phase06-headless.cjs:254,339,400-423,520`, `phase06-solo.cjs:236-298`, `phase06-lan.cjs:199`, `game-tests/headless.cjs:196`)
+- the pins: a decode of each `FoundationAutomation.cs` `contentBase64` row, every occurrence of each old and new hash under `src/` and `docs/`, the pin rows of `network.cjs` and `phase06-headless.cjs`, and the three `--check` tools
+
+**Status** Clean: 0 P0/P1/P2/P3 findings open. NR-05 is resolved, and the delta introduces no defect. Every GR-* and NR-* finding in this file is now resolved or explicitly accepted: GR-01 to GR-09 in re-review 1 (with residuals accepted as D1 and D2), NR-01 and NR-02 in re-review 2, NR-03 in re-review 3, NR-04 in re-review 4 and NR-05 here. The delta changes no executable code, and every re-derived hash matches its check. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (6)
+
+These are exactly the files from `git diff --name-only ab9df14..c2d2456`:
+
+- `docs/code/engine-generated-spans.json`
+- `src/godot-game/game/foundation/FoundationAutomation.cs`
+- `src/godot-game/tests/scenarios/phase06-headless.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/lan-checks/network.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Disposition of NR-05
+
+| ID | Disposition | Fix commit(s) | Evidence at `c2d2456` |
+| --- | --- | --- | --- |
+| NR-05 | **Resolved** | 3470f15, rebound by 2b2cd34 and c2d2456 | All four comments now name the request action (`phase06-action`) instead of describing it as "a DEBUG phase06 run action", and the writer and reader comments list `fixture-attack` and `spectator-proof-lethal` with `phase06-workspace` as requests whose ack carries their own sequence alone. Clause by clause: (1) **"Delivers one input.request, deletes it and writes one newline-terminated input.ack line: the request's sequence"** (`FoundationAutomation.cs:59`). `Deliver` (`:93`), then `File.Delete` (`:94`), then the request's `sequence` formatted with the invariant culture (`:95-96`), written to `input.ack` and ending with `"\n"` (`:97-99`). (2) **"then, for a phase06-action request only, a space and the sequence that request allocated"** (`:60`). The second number is written only when `submitted > 0` (`:97-98`). Only the `phase06-action` / `phase06-workspace` branch can return a non-zero value (`:164-169`). Every other branch that returns does so with `0` (`:149`, `:154`, `:176`). Within that branch, `phase06-workspace` maps success to `0` (`:183-188`). `phase06-action` returns `SubmitRunAction(...)?.sequence` (`:190-193`). That value is the `checked(++_sequence)` allocated for this request (`RunWire.cs:32`) and returned at `:54` on the host and `:58` on a guest, so it is always > 0. A `null` (refused, or a kind outside the list) fails the `is { } submitted` pattern and falls through to `DRIVER_ACTION` (`:171-174`), so a reported second number always belongs to a `phase06-action` request. (3) **"Every other request, including phase06-workspace, fixture-attack and spectator-proof-lethal requests, acks its own sequence alone"** (`:60-61`). A guest `phase06-workspace` allocates a `workspace` sequence, which `.HasValue` drops (`RunWire.cs:138-142`). `FixtureAction` allocates at `FoundationCoordinator.cs:249` and `ObserveLethalAttack` at `:221`. `Deliver` returns `0` for all three (`FoundationAutomation.cs:149`, `:154`, and `:168` with the `0` from `SubmitPhase06` `:187`). This is the NR-05 trigger, and the comment now states it correctly. (4) **"An error thrown before Deliver returns (for example DRIVER_ACTION) leaves the request in place, with no ack"** (`:62`). Every throw that can happen before `Deliver` returns comes before `File.Delete` (`:94`): `JsonDocument.Parse` (`:86`), the `nonce` read and `DRIVER_NONCE` (`:88-91`), and inside `Deliver` the `GetProperty` / `GetNode` / `Deserialize` errors, `DRIVER_FOCUS` (`:161`) and `DRIVER_ACTION` (`:173`). None of them touches the file. The fixer's stated reason for the "before Deliver returns" limit also holds: the `sequence` property is first read at `:95`, after `File.Delete` at `:94`, so a missing or non-integer `sequence` would throw after the request was deleted. The clause therefore does not claim more than is true. "for example" also resolves re-review 4 Q2, which noted that only `DRIVER_ACTION` was named. (5) **`Deliver` summary** (`:114`): "returns the sequence a phase06-action request allocated, else 0." This matches (2) and (3). It no longer mentions the throw, but that is an omission, not a false statement. (6) **`network.cjs:82-84`** repeats (2) and (3) in reader terms. That matches the regex `/^(\d+)(?: (\d+))?\n$/` and the `submitted: null` / `Number(match[2])` return (`:85-86`). (7) **`phase06-headless.cjs:207-208`**, "(only a phase06-action request's input ack names it)", matches `action()`, the only caller that passes `submitted` (`:252-260`), and `matches()` (`:235-236`). The other comments on the contract are unchanged and correct: `SubmitPhase06` (`FoundationAutomation.cs:180`), `action()`'s assertion message (`phase06-headless.cjs:256`) and `stop()` (`network.cjs:110`). The changed C# lines are 120, 118, 117, 116 and 113 characters long (SCR0007 limit: at most 120, `LineLengthAnalyzer.cs:8,32`). They are all `///` lines outside member bodies, and the file has no `//` or `/* */` comment. |
+
+### New findings
+
+None.
+
+### Questions (not defect findings)
+
+- **Q1** The `Tick` summary covers errors thrown before `Deliver` returns, but not the three statements after it. If `File.Delete` throws (`:94`), the request has already taken effect, stays in place and is delivered again on the next frame, with no ack. If the `sequence` read (`:95-96`) or `File.WriteAllText` (`:97-99`) throws, the request is gone and no ack is written, so the reader times out. No current writer can cause the `sequence` case: `input()` always writes `sequence: ++peer.sequence` (`network.cjs:80-81`), and `stop()` writes a numeric one (`:113-114`). No caller passes a top-level `sequence` that the `...request` spread could override (`phase06-headless.cjs:254,339,400-423,520`, `phase06-solo.cjs:236-298`, `phase06-lan.cjs:199`, `game-tests/headless.cjs:196`). The comment states nothing false about these cases. Would you like `Tick` to read `sequence` before `Deliver`, so that only the I/O calls can fail after delivery? This is optional and not a defect.
+- **Q1 of re-review 4** (a refused request stays in `input.request` and is delivered again on every frame) still applies unchanged. It is a question, not a finding.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --short` | `c2d24563389c22628deb301dda4f4d2a8e791997`; clean (no output) before this file was edited |
+| `git log --oneline ab9df14..c2d2456`; `git diff --stat ab9df14..c2d2456`; `git show 3470f15` | Three commits: 3470f15, 2b2cd34, c2d2456. 6 files, 25 insertions and 26 deletions. 3470f15 changes only comment lines in its three source files. |
+| `git diff --check ab9df14..c2d2456` | No output, exit 0 |
+| Comment-stripped comparison (Node, scratch script) of each source file at `ab9df14` (scratch copy) and HEAD. `///` lines were removed for C#, whole-line `//` comments for `.cjs` | `FoundationAutomation.cs` identical (stripped SHA-256 prefix `e9a79f94d58f518a`, the same prefix re-review 4 recorded). `network.cjs` identical (`daccb3f4bf0dfc26`, the same as re-reviews 3 and 4). `phase06-headless.cjs` identical (`ef60b559a50b3317`). |
+| `node --check` of `network.cjs` and `phase06-headless.cjs` | Syntax OK |
+| Line lengths (awk and Node) | `FoundationAutomation.cs` has no line over 120, and no CR or non-ASCII character. Changed lines: `:59` 120, `:60` 118, `:61` 117, `:62` 116, `:114` 113. `network.cjs:82-84`: 115, 117, 33. `phase06-headless.cjs:206-208`: 115, 115, 119. SCR0007 does not apply to `.cjs`. |
+| `git diff --word-diff=porcelain ab9df14..c2d2456` of the three JSON files, tokens counted per file, and a filter for any changed token that is not a 64-hex hash or a base64 string | Only hash strings changed. Spans: `70354e2c…` → `73fd9078…` x2, `8a25b7c0…` → `3673e23d…` x1, `contentBase64` x1. Verification: `70354e2c…` → `73fd9078…` x1, `4efa0d9b…` → `6ace63da…` x1 (`sourceSetSha256`), `b663e054…` → `d3dc8550…` x3 (`:6216` source-set row, `:18636` and `:19697` `registries.spans.sha256`), `cba40be7…` → `a3390f2a…` x5. Gameplay-checks: `cba40be7…` → `a3390f2a…` x1 (`core.permissions` caller row, `:43`). The non-hash filter printed nothing. |
+| `sha256sum` of `engine-generated-spans.json`, `FoundationAutomation.cs`, `network.cjs`, `phase06-headless.cjs` | `d3dc8550fc15b2aef5a561075f98adcd64ecc2e766555dac00125759648445aa` (equal to the three verification rows); `73fd907845107aabcb599fe8decfc1c8f878b4b0e44762f41d9d84c9f7af89ca` (8780 bytes, equal to the three source-hash rows); `3d8c430c…a328`; `d9d23bc9…7a5c` |
+| Decode (Node, scratch script) of every `FoundationAutomation.cs` `contentBase64` row in the spans registry | `currentProducerReplay.sourceSnapshots[2]` decodes byte-for-byte to the current file (`73fd9078…`, 8780 bytes, `equalsCurrent=true`, and its `sha256` field agrees). `producerSources[4]` (`f08fd4ab…`, 3143 bytes) is the historical row, unchanged by the delta. |
+| Pin search (`grep -r`) under `src/` and `docs/` | No occurrence of any old value (`70354e2c…`, `8a25b7c0…`, `cba40be7…`, `4efa0d9b…`, `b663e054…`), and none of the old or new `network.cjs` / `phase06-headless.cjs` file hashes (`2259e22c…`, `5a99c645…`, `3d8c430c…`, `d9d23bc9…`). Both files are `kind: outside-validator`, `sha256: null` (verification `required-cases.json:4044-4047,5932-5935`). New values: `73fd9078…` 3, `3673e23d…` 1, `a3390f2a…` 6, `6ace63da…` 1, `d3dc8550…` 3. |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings c2d24563389c rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=a3390f2a554ee0d51b5346e94ecd8a710a233a89a335ecd4ceff88d10d33e90b` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 3673e23d6bfe262a005a0c9ea4495197416bceacbe79906bf14b0f544f8fb2b8` |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 71 pass, 0 fail, 0 skip |
+| `git grep -n -i -E 'input\.ack\|input\.request\|input ack\|run-action sequence\|acknowledg\|DRIVER_ACTION\|DRIVER_NONCE' -- src docs ':!*.json'`; a `git grep` of comments mentioning `ack`, `submitted` or `sequence` in the scenario, lan-checks, game-tests and foundation sources; a `git grep` of `docs/` and `*.md` for `phase06-action`, `phase06-workspace`, `fixture-attack`, `spectator-proof-lethal` and `driver ack` | The only statements of the ack and sequence contract are `FoundationAutomation.cs:59-62,114,180`, `network.cjs:82-84,110` and `phase06-headless.cjs:207-208,256`. All of them match the code. No document under `docs/` describes the contract. Outside `.planning/`, the other hits are unrelated acknowledgements: native input, quit, baseline, capture publication, respawn receipts and the Windows `DRIVER_ACTION` in `lan-checks/windows-input.ps1:244`, which is a different helper's error. |
+| `git blame -L 58,63 -L 114,114 -L 180,180` of `FoundationAutomation.cs` | `:59-62` and `:114` come from 3470f15. `:180` comes from d5b2566 and is unchanged. |
+
+The scratch copies of the pre-delta sources, the word diff and the decode and strip scripts were written outside the repository and deleted afterward.
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The writer behavior was judged from source only.
+- That the comment-only C# change still compiles and passes the SCR rules is inferred from the identical comment-stripped file and the line lengths. No build was run.
+- Q1's statements about what happens after `Deliver` returns are read from source order. No failing `File.Delete` or malformed `sequence` was produced in a run.
 - The fixer's reported runs were not repeated, apart from the checks above. They are narration, not evidence used here.
 - This re-review does not replace the phase-end rendered evidence or the human qualitative components.
 
