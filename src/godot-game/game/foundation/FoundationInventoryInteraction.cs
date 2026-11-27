@@ -34,6 +34,34 @@ internal sealed partial class FoundationInventoryInteraction
         External = false;
         Drag = null;
         _windows.Clear();
+        _projected = null;
+    }
+
+    /// <summary>Records the readback version the open workspace drew, whichever input or readback drew it.</summary>
+    internal void Projected(string version)
+    {
+        _projected = Open ? version : null;
+    }
+
+    /// <summary>
+    /// Gets whether current readback differs from the drawn version. A closed workspace has drawn nothing, so a
+    /// reopened one never treats returning windows as already drawn by an earlier opening.
+    /// </summary>
+    internal bool Stale(string version)
+    {
+        return !StringComparer.Ordinal.Equals(x: _projected, y: version);
+    }
+
+    /// <summary>Identifies the drawn private views by scope, token, header and committed row stamps.</summary>
+    internal static string Version(FoundationRunReadback? readback)
+    {
+        return string.Join(separator: "|", values: readback?.Views.OrderBy(keySelector: pair => pair.Key,
+                comparer: StringComparer.Ordinal).Where(predicate: pair => pair.Key is not "status").Select(
+                        selector: pair => pair.Key + pair.Value.Token.ToString(provider: CultureInfo.InvariantCulture)
+                                + pair.Value.Header.GetRawText() + string.Join(separator: ",", values:
+                                        pair.Value.Rows.Select(selector: row => pair.Key is "nearby"
+                                                ? row.GetRawText() : row.GetProperty(
+                                                        propertyName: "Stamp").GetString()))) ?? []);
     }
 
     internal void Reset()
@@ -337,6 +365,7 @@ internal sealed partial class FoundationInventoryInteraction
 
     private readonly List<Window> _windows = [];
     private readonly Dictionary<long, Rect> _positions = [];
+    private string? _projected;
 
     private static Command Place(Preview drag, Location destination, Item? container, long token)
     {

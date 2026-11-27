@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text.Json;
 using KingdomZombies.Core;
+using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
 using Model = KingdomZombies.Foundation.FoundationInventoryInteraction;
@@ -139,6 +140,54 @@ public sealed class Phase06InventoryInteractionTests
         status.ShouldBe(expected: "Applied");
         session.Inventory.Find(itemId: food.Id)?.Quantity.ShouldBe(expected: 5);
         session.Inventory.QuickReferences[(survivor, 3)].ShouldBe(expected: food.Id);
+    }
+
+    /// <summary>
+    /// Reproduces the rendered reopen: the closed workspace drew its windows, the reopened one draws before they
+    /// return, and the returning windows are byte-identical to the earlier drawing yet still require a new projection.
+    /// </summary>
+    [Fact]
+    public void ProjectionVersion_ReopenedBeforeIdenticalWindowsReturn_IsStale()
+    {
+        var solo = new FoundationCoordinator(playerId: "p1", label: "Host");
+        solo.Start(host: false, fixture: "field");
+        solo.Update(elapsedMilliseconds: 0);
+        ImmutableArray<long> storage = [.. solo.ReadRunRender().ShouldNotBeNull().Views["own"].Rows
+                .Select(selector: Model.ReadItem).Where(predicate: item => item.StorageWidth.HasValue
+                        && item.Location.Kind is "equipment").Select(selector: item => item.Id)];
+        storage.ShouldNotBeEmpty();
+        var workspace = new Model();
+        workspace.Show(external: false);
+        solo.RequestRunWorkspace(own: storage, external: []).ShouldBeTrue();
+        string drawn = Model.Version(readback: solo.ReadRunRender());
+        workspace.Projected(version: drawn);
+        workspace.Stale(version: drawn).ShouldBeFalse();
+        workspace.Close();
+        solo.RequestRunWorkspace(own: [], external: []).ShouldBeTrue();
+        string closed = Model.Version(readback: solo.ReadRunRender());
+        StringComparer.Ordinal.Equals(x: closed, y: drawn).ShouldBeFalse();
+        workspace.Show(external: false);
+        workspace.Projected(version: closed);
+        solo.RequestRunWorkspace(own: storage, external: []).ShouldBeTrue();
+        string returned = Model.Version(readback: solo.ReadRunRender());
+        returned.ShouldBe(expected: drawn);
+        workspace.Stale(version: returned).ShouldBeTrue();
+        workspace.Projected(version: returned);
+        workspace.Stale(version: returned).ShouldBeFalse();
+    }
+
+    /// <summary>A closed workspace records no drawn version, so its first projection after reopening draws.</summary>
+    [Fact]
+    public void ProjectionVersion_Closed_RecordsNothing()
+    {
+        var workspace = new Model();
+        workspace.Projected(version: "own0{}");
+        workspace.Stale(version: "own0{}").ShouldBeTrue();
+        workspace.Show(external: false);
+        workspace.Projected(version: "own0{}");
+        workspace.Stale(version: "own0{}").ShouldBeFalse();
+        workspace.Reset();
+        workspace.Stale(version: "own0{}").ShouldBeTrue();
     }
 
     private static (string session, string binding, string player) Identity(FoundationSession session)

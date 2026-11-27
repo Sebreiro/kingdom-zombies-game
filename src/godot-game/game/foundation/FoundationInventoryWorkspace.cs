@@ -88,10 +88,8 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         UpdateFeedback();
         InspectSurfaces();
         RefreshWindows();
-        string current = Fingerprint();
-        if (_dirty || !StringComparer.Ordinal.Equals(x: current, y: _version))
+        if (_dirty || _model.Stale(version: Model.Version(readback: _readback)))
         {
-            _version = current;
             Project();
         }
     }
@@ -141,7 +139,6 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
     private LineEdit? _amountField;
     private Label? _amountText;
     private FoundationRunReadback? _readback;
-    private string _version = "";
     private string _owner = "";
     private long _epoch;
     private long? _pending;
@@ -221,6 +218,7 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         DrawBags();
         PaintSlots(item: _model.Drag?.Item);
         RestoreFocus(previous: focused?.ToString(), fallback: _nearbyFocus ?? headwear ?? close);
+        _model.Projected(version: Model.Version(readback: _readback));
         _dirty = false;
     }
 
@@ -554,17 +552,6 @@ internal sealed partial class FoundationInventoryWorkspace : FoundationInput.IWo
         }
 
         return path.ToImmutable();
-    }
-
-    private string Fingerprint()
-    {
-        return string.Join(separator: "|", values: _readback?.Views.OrderBy(keySelector: pair => pair.Key,
-                comparer: StringComparer.Ordinal).Where(predicate: pair => pair.Key is not "status").Select(
-                        selector: pair => pair.Key + pair.Value.Token.ToString(provider: CultureInfo.InvariantCulture)
-                                + pair.Value.Header.GetRawText() + string.Join(separator: ",", values:
-                                        pair.Value.Rows.Select(selector: row => pair.Key is "nearby"
-                                                ? row.GetRawText() : row.GetProperty(
-                                                        propertyName: "Stamp").GetString()))) ?? []);
     }
 
     private static string SlotName(string slot)
