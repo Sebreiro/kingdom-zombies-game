@@ -363,7 +363,10 @@ function validateResources(context) {
       }
     }
   }
-  validateReferences(foundation,foundation);
+  // Foundation may name only its own files and, in the current project, the declared inspection resources copied
+  // above, such as the shared inventory theme. Without the inspection roles those resources are neither declared nor
+  // copied, so a Foundation reference to them is rejected.
+  validateReferences(foundation,current?[...foundation,...inspection]:foundation);
   // The inspection scene and theme declare their static dependencies. InspectionRoot owns its dynamic pack separately.
   if(current)validateReferences(['inspection/Inspection.tscn','assets/ui/InspectionTheme.tres'],inspection);
   for(const resource of resources) {

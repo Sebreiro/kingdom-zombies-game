@@ -54,9 +54,15 @@ async function run(mode) {
     const historical=source.replace(/^run\/main_scene\.asset_inspection=.*\r?\n/m,'')
       .replace('res://assets/ui/kingdom-zombies-icon.png','res://icon.svg');
     fs.writeFileSync(project,historical);
+    rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'theme-without-inspection')}),
+      error=>error.message==='UNDECLARED_RESOURCE assets/ui/InspectionTheme.tres');
+    const art=path.join(current.isolatedInputRoot,'src/godot-game/game/foundation/FoundationInventoryArt.cs');
+    const themed=fs.readFileSync(art,'utf8');
+    assert.ok(themed.includes('res://assets/ui/InspectionTheme.tres'));
+    fs.writeFileSync(art,themed.replaceAll('res://assets/ui/InspectionTheme.tres','res://foundation/Foundation.tscn'));
     const foundation=validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'foundation')});
     assert.deepEqual(foundation.projectResourceRoles,{'run/main_scene':'foundation/Foundation.tscn','config/icon':'icon.svg'});
-    console.log('PASS current three resource roles, historical Foundation roles and two undeclared resource controls');
+    console.log('PASS current three resource roles, historical Foundation roles and three undeclared resource controls');
     return {directory,mode};
   }
   const context={directory,nonce:crypto.randomUUID(),input:'input',tool:'tool',platform:process.platform+'-'+process.arch};
