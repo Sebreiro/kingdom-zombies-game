@@ -176,16 +176,19 @@ public sealed class Phase06InventoryInteractionTests
         workspace.Stale(version: returned).ShouldBeFalse();
     }
 
-    /// <summary>A closed workspace records no drawn version, so its first projection after reopening draws.</summary>
+    /// <summary>Closing or resetting forgets the drawn version, so the first draw after reopening projects.</summary>
     [Fact]
-    public void ProjectionVersion_Closed_RecordsNothing()
+    public void ProjectionVersion_ClosedOrReset_ForgetsDrawnVersion()
     {
         var workspace = new Model();
-        workspace.Projected(version: "own0{}");
         workspace.Stale(version: "own0{}").ShouldBeTrue();
         workspace.Show(external: false);
         workspace.Projected(version: "own0{}");
         workspace.Stale(version: "own0{}").ShouldBeFalse();
+        workspace.Close();
+        workspace.Stale(version: "own0{}").ShouldBeTrue();
+        workspace.Show(external: false);
+        workspace.Projected(version: "own0{}");
         workspace.Reset();
         workspace.Stale(version: "own0{}").ShouldBeTrue();
     }

@@ -37,10 +37,13 @@ internal sealed partial class FoundationInventoryInteraction
         _projected = null;
     }
 
-    /// <summary>Records the readback version the open workspace drew, whichever input or readback drew it.</summary>
+    /// <summary>
+    /// Records the readback version the open workspace drew, whichever input or readback drew it. Only a draw of the
+    /// open workspace records one; closing or resetting forgets it.
+    /// </summary>
     internal void Projected(string version)
     {
-        _projected = Open ? version : null;
+        _projected = version;
     }
 
     /// <summary>
