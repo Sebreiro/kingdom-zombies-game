@@ -429,6 +429,23 @@ test('Conflicts_StaleCell_DecidedFromTheRestingDraw', () => {
   assert.doesNotMatch(source, /staleCell = before\./, 'a draw sampled before the pointer moved cannot decide it');
 });
 
+test('SoloHandover_Spans_ReadWithoutGaps', () => {
+  const source = fs.readFileSync(soloFile, 'utf8');
+  assert.match(source, new RegExp(String.raw`function since\(peer, previousDraw\) \{\s*const span = `
+    + String.raw`native\.contiguous\(\(\) => draws\(peer\), 'drawFrame', previousDraw\.drawFrame \+ 1\);`
+    + String.raw`\s*span\(\);\s*return span;`), 'the handover span is a gap-free reader anchored after its reference');
+  assert.match(source,
+    /function handover\(span, lastDraw\) \{\s*return span\(\)\.filter\(draw => draw\.drawFrame <= lastDraw\.drawFrame/);
+  const spans = [['nearSpan', 'gate', 'life-transfer'], ['farSpan', 'dead', 'life-distant-cut']];
+  for (const [name, reference, label] of spans) {
+    assert.match(source, new RegExp('const ' + name + ' = since\\(peer, ' + reference + '\\.draw\\);\\s*'
+      + "await run\\.choose\\(state, peer, named\\('Respawn'\\)\\);\\s*const \\w+ = await shot\\(state, peer, '"
+      + label + "', row => " + name + '\\(\\)\\.length > 0\\s+&& '), label + ' polls its span before Respawn');
+    assert.match(source, new RegExp('= handover\\(' + name + ', '), label + ' judges the polled span');
+  }
+  assert.doesNotMatch(source, /draws\(peer\)\.filter/, 'no handover reads the rolling buffer once');
+});
+
 test('FrameSpan_DroppedRows_FailClosed', async t => {
   await t.test('rows collected across reads stay contiguous from the reference on', () => {
     let rows = [{drawFrame: 9}, {drawFrame: 10}, {drawFrame: 11}];

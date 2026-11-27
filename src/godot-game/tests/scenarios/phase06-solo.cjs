@@ -2,6 +2,7 @@
 
 const assert = require('node:assert/strict');
 const run = require('./phase06-rendered.cjs');
+const {helpers: native} = require('./phase06-headless.cjs');
 const {draws} = require('../../tools/lan-checks/rendered.cjs');
 const {named, within, title, key, actor, own, nearby, external, item} = run;
 
@@ -251,11 +252,12 @@ async function life(state) {
       && entry.Equipment.some(piece => piece.DefinitionId === 'IT-23')
       && draw.appearance.some(art => art.id === entry.Id && art.kind === 'Corpses' && art.visible && !art.crown)));
   const gate = await shot(state, peer, 'life-ready', row => row.spectator?.CanRespawn);
+  const nearSpan = since(peer, gate.draw);
   await run.choose(state, peer, named('Respawn'));
-  const transferred = await shot(state, peer, 'life-transfer', row => row.phase06.control !== previous
-    && row.phase06.epoch > 0 && row.bindingId === first.bindingId && !!row.spectator?.TransferNotice
-    && !row.spectator.Smoothing);
-  const near = handover(peer, gate.draw.drawFrame, transferred.draw);
+  const transferred = await shot(state, peer, 'life-transfer', row => nearSpan().length > 0
+    && row.phase06.control !== previous && row.phase06.epoch > 0 && row.bindingId === first.bindingId
+    && !!row.spectator?.TransferNotice && !row.spectator.Smoothing);
+  const near = handover(nearSpan, transferred.draw);
   const origin = dead.draw.cameraX;
   const destination = transferred.draw.cameraX;
   assert(Math.abs(origin - destination) > 2, 'near camera endpoints must differ');
@@ -275,8 +277,18 @@ async function life(state) {
     [dead, gate, transferred, cleanup, distant.dead, distant.live]);
 }
 
-function handover(peer, previousDraw, lastDraw) {
-  return draws(peer).filter(draw => draw.drawFrame > previousDraw && draw.drawFrame <= lastDraw.drawFrame
+// Every committed draw after a known draw, collected across reads without gaps (FRAME_SPAN_GAP otherwise). The
+// shared reader keeps only its latest 256 draws, so the span is read once before the Respawn click and then polled
+// by the picture that ends the handover.
+function since(peer, previousDraw) {
+  const span = native.contiguous(() => draws(peer), 'drawFrame', previousDraw.drawFrame + 1);
+  span();
+  return span;
+}
+
+// The transfer draws of a gap-free span, up to the picture that ends the handover.
+function handover(span, lastDraw) {
+  return span().filter(draw => draw.drawFrame <= lastDraw.drawFrame
     && draw.input.phase06?.epoch === lastDraw.input.phase06.epoch
     && draw.snapshot?.SessionId === lastDraw.snapshot.SessionId && draw.input.spectator?.TransferNotice);
 }
@@ -285,10 +297,11 @@ async function farHandover(state, peer) {
   const first = await run.enter(state, peer, 'far');
   await run.fixture(state, peer, {action: 'fixture-attack', Target: 'fixture.melee-a'});
   const dead = await shot(state, peer, 'life-distant-death', row => row.spectator?.CanRespawn);
+  const farSpan = since(peer, dead.draw);
   await run.choose(state, peer, named('Respawn'));
-  const live = await shot(state, peer, 'life-distant-cut', row => row.phase06.epoch > 0
+  const live = await shot(state, peer, 'life-distant-cut', row => farSpan().length > 0 && row.phase06.epoch > 0
     && first.input.phase06.control !== row.phase06.control && !!row.spectator?.TransferNotice);
-  const cut = handover(peer, dead.draw.drawFrame, live.draw);
+  const cut = handover(farSpan, live.draw);
   assert(cut.length > 0 && Math.abs(cut[0].cameraX - dead.draw.cameraX) > 300
     && cut.every(draw => !draw.input.spectator.Smoothing && Math.abs(draw.cameraX - live.draw.cameraX) < 0.02),
   'distant handover cuts on the first committed draw without an intermediate position');
