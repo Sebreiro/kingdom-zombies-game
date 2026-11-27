@@ -204,8 +204,8 @@ const framesAfter = (peer, before) => contiguous(() => lines(path.join(peer.dire
   (before?.frame ?? 0) + 1);
 
 // A receipt belongs to a submitted request only when its kind matches, it is not a replay and its sequence follows
-// the one observed before submission. When the driver knows the sequence the game allocated to the request (a DEBUG
-// phase06 action names it in its input ack), only that exact sequence is the receipt. The workspace submits its own
+// the one observed before submission. When the driver knows the sequence the game allocated to the request (only a
+// phase06-action request's input ack names it), only that exact sequence is the receipt. The workspace submits its own
 // window, page and close requests, and their receipts can replace the requested one within a single poll (F13: place
 // Applied for 45 ms, then workspace Ready), so every frame written since submission is read, without gaps, not only
 // the latest. Other receipts seen while waiting, before the accepted one or replacing it, are recorded in the case
