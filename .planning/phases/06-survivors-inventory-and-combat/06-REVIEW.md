@@ -1,8 +1,8 @@
 ---
 phase: 06-survivors-inventory-and-combat
-reviewed: 2026-11-27T11:07:42Z
+reviewed: 2026-11-27T11:32:05Z
 depth: deep
-revision: 607ce09b6d4350abd64c2d55801e59fdf82d833d
+revision: 0ae513a926a0a5d78a6c7a170cd0848635de52d5
 base_revision: a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d
 files_reviewed: 73
 files_reviewed_list:
@@ -86,8 +86,8 @@ findings:
   total: 1
   necessity: 0
 status: issues_found
-rereview_files_reviewed: 6
-rereview_delta: f177954..607ce09
+rereview_files_reviewed: 1
+rereview_delta: a80595e..0ae513a
 prior_review:
   reviewed: 2026-11-24T21:42:39Z
   depth: deep
@@ -228,7 +228,7 @@ prior_review:
 
 # Phase 06 Code Review
 
-Latest review: see [Gap-repair re-review 2 (2026-11-27)](#gap-repair-re-review-2-2026-11-27) at the end of this file.
+Latest review: see [Gap-repair re-review 3 (2026-11-27)](#gap-repair-re-review-3-2026-11-27) at the end of this file.
 
 **Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
@@ -897,6 +897,93 @@ These are exactly the files from `git diff --name-only f177954..607ce09`, exclud
 - No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The span polling was judged from source, a synthetic behavioral run and the observer's write order. It was not observed on a real rendered stream.
 - That the comment-only C# change still compiles and passes SCR rules is inferred from its being confined to two `///` lines of 118 characters or fewer. No build was run.
 - Whether polling keeps ahead of the 256-row window on a given display (deviation (b)) depends on the refresh rate and capture time. The about 1 s margin comes from the earlier re-review's Q4 measurements, not from a new run.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Gap-repair re-review 3 (2026-11-27)
+
+**Reviewed revision** `0ae513a926a0a5d78a6c7a170cd0848635de52d5` (clean tree)
+
+**Fix-delta range** `a80595e..0ae513a`. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `a80595e` is the commit that recorded gap-repair re-review 2. The only fixer commit is 0ae513a (NR-03). It changes only `src/godot-game/tools/lan-checks/network.cjs` (`git diff --stat`: 1 file, 2 insertions, 1 deletion).
+
+**Depth** Deep. The reviewer compared the new reader comment with every writer-side statement of the same contract and with the code behind it, and followed the reader's return value to its callers:
+
+- the reader itself: the `input.ack` regex `/^(\d+)(?: (\d+))?\n$/` and the `{submitted: null | Number}` return (`network.cjs:79-87`)
+- the writer: the `Tick` summary and the ack write (`FoundationAutomation.cs:58-61,91-97`), the `Deliver` summary and branches (`:112-175`, including the refusal fall-through to `DRIVER_ACTION` at `:169-171`), and the `SubmitPhase06` summary and body (`:177-192`)
+- `SubmitRunAction` (`FoundationCoordinator.RunWire.cs:19-57`), where every non-null result carries `checked(++_sequence)` (`:32`), and `RequestRunWorkspace` (`:123-142`): it returns `true` without allocating a sequence on the host (`:131-136`), and on a guest it allocates one through `SubmitRunAction(kind: "workspace", ...)` but returns only `.HasValue` (`:138-142`)
+- the callers of `input()`: `inject` (`phase06-headless.cjs:33`), `action()` (`:252-260`, the only consumer of a reported sequence, which requires `Number.isSafeInteger(submitted)`), the two `phase06-workspace` callers that ignore the result (`:339`, `:520`), the receipt-matching comment (`:206-213`), and the `network.cjs` callers `key`, `activate`, `stop`, which ignore it
+- every pin that could cover `network.cjs`: `ac08-bindings.cjs`, `current-replay.cjs`, `asset-bindings.cjs`, both `required-cases.json` files, and a search of `src/` and `docs/` for the old and new file hashes
+
+**Status** Issues found: 0 P0/P1/P2 and 1 new P3 finding (NR-04), open. NR-03 is resolved. The delta introduces no defect and no executable change. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (1)
+
+This is exactly the file from `git diff --name-only a80595e..0ae513a`:
+
+- `src/godot-game/tools/lan-checks/network.cjs`
+
+### Disposition of NR-03
+
+| ID | Disposition | Fix commit | Evidence at `0ae513a` |
+| --- | --- | --- | --- |
+| NR-03 | **Resolved** | 0ae513a | The reader comment (`network.cjs:82-83`) now says: "The ack line names this request's sequence, then the run-action sequence a DEBUG phase06 run action allocated, if any; never for a workspace request, even a guest's." That matches the `Tick` summary (`FoundationAutomation.cs:59-60`) almost word for word and matches the code. (1) **When the second number appears.** `Tick` writes `sequence + " " + submitted` only when `submitted > 0`, else the sequence alone, always ending with `\n` (`:95-97`). That is the shape the regex accepts. (2) **Which requests produce it.** `submitted` is non-zero only from the `#if DEBUG` `phase06-action` branch (`:162-167`). `SubmitPhase06` returns `SubmitRunAction(...)?.sequence` (`:188-190`), which is `++_sequence` > 0 on host and guest (`RunWire.cs:32,41,54,58`). Every other action returns 0 (`:147`, `:152`, `:174`). A release build has no such branch, which the comment's "DEBUG" covers. (3) **Workspace requests never produce it.** `phase06-workspace` maps a successful `RequestRunWorkspace` to `0` (`:180-185`), on the host (no sequence allocated, `RunWire.cs:131-136`) and on a guest (a `workspace` sequence is allocated but dropped by `.HasValue`, `:138-142`). "even a guest's" names exactly that case. (4) **Refusal.** A refused request (`SubmitPhase06` returns `null`, or `SubmitRunAction` returns `null`) falls through to `DRIVER_ACTION` (`:169-171`). `Tick` propagates the throw from `Deliver` (`:91`) before `File.Delete` and the ack write (`:92-97`), so no ack line exists. The comment, which describes the ack line, makes no claim about that case, and "if any" claims nothing false. The reader then times out with `SUBJECT_TIMEOUT input ack <role>` or fails on the child's exit (`network.cjs:74-78`). (5) **Reader's own return.** `match[2]` absent gives `submitted: null`, else `Number(match[2])` (`:85`), which matches "then ..., if any". The writer never writes `0` as the second number, so no caller can see `0`. The callers' use agrees: `action()` relies on the number for `phase06-action` (`phase06-headless.cjs:254-256`), and both workspace callers discard the result (`:339`, `:520`). |
+
+### New findings
+
+#### NR-04: The `Deliver` summary still says it returns the run-action sequence it submitted
+
+**Severity** INFO · P3 · **Disposition** open (not accepted: it is the last comment that still states the contract NR-02 and NR-03 corrected; see the cost note under Fix)
+
+**File** `src/godot-game/game/foundation/FoundationAutomation.cs:112`. This line is pre-existing (1ed3aa5) and outside this delta and outside the one-file review scope. It is reported because NR-03's disposition required a comparison with the writer, and this is the writer's middle layer between `SubmitPhase06` and `Tick`. Neither NR-02 nor re-review 2 named it.
+
+**Trigger** The summary says: "Delivers one request; returns the run-action sequence it submitted, or 0 for none." For a guest `phase06-workspace` request, `Deliver` does submit a run action: `RequestRunWorkspace` calls `SubmitRunAction(kind: "workspace", ...)`, which allocates `++_sequence` and sends it (`FoundationCoordinator.RunWire.cs:32,57-58,138-142`). But `SubmitPhase06` maps the result to `0` (`FoundationAutomation.cs:180-185`), so `Deliver` returns `0` (`:162-166`), which its summary defines as "none". The two summaries around it, `Tick` (`:59-60`) and `SubmitPhase06` (`:178`), and now the reader (`network.cjs:82-83`), all say a workspace request never reports a sequence. `Deliver` says the opposite.
+
+**Consequence** The documentation is now consistent everywhere except at the function that actually returns the value. A maintainer who reads `Deliver` to extend the driver would believe a guest workspace already returns its sequence, or that a `0` from `Deliver` means no run action was sent. No current caller is affected: `Deliver` is `private`, and its only caller `Tick` documents and implements the actual behavior.
+
+**Rule** `docs/code/review-checklist.md:7` (comments explain intent; the qualitative review checks that comments describe actual behavior). `docs/workflow/code-review.md:33` (P3, a minor actionable issue). This is the same rule as NR-02 and NR-03, reported once for the one remaining site.
+
+**Fix** Reword `:112` to match `:178`, within the 120-character SCR0007 limit, for example:
+
+```csharp
+    /// <summary>
+    /// Delivers one request; returns the sequence a DEBUG phase06 run action allocated, else 0, always for a workspace.
+    /// </summary>
+```
+
+Cost: `FoundationAutomation.cs` is hash-pinned (verification `required-cases.json` and the `engine-generated-spans.json` `sourceSnapshots` row), so the change needs the same rebinding as d5b2566: `ac08-bindings.cjs --write` / `current-replay.cjs --write`, then `--check`. If that cost is judged out of proportion for a `private` summary, accepting NR-04 explicitly as non-blocking is a reasonable alternative. The reviewer leaves that decision to the phase owner and records it as open.
+
+### Questions (not defect findings)
+
+- **Q1** A refused DEBUG phase06 request produces no ack line at all. `Tick` throws `DRIVER_ACTION` and leaves `input.request` in place, so the reader waits until its deadline (`SUBJECT_TIMEOUT input ack <role>`), unless the throw ends the child first. The new comment is accurate, because it describes only the ack line. Would you like the reader comment, or the `Tick` summary, to also say "a refused request is never acknowledged", so a driver author expects a timeout rather than `null`? This is optional and not a defect.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --porcelain` | `0ae513a926a0a5d78a6c7a170cd0848635de52d5`; clean (no output) |
+| `git log --oneline a80595e..HEAD`; `git diff --stat a80595e..HEAD`; `git diff a80595e..HEAD` | One commit, 0ae513a. One file, `network.cjs`, 2 insertions and 1 deletion. The only change is the `//` comment at `:82` becoming `:82-83`. |
+| `git diff --check a80595e..HEAD` | No output, exit 0 |
+| `node --check src/godot-game/tools/lan-checks/network.cjs`; `require()` of the module | Syntax OK; 15 exports load, `input` is a function |
+| Comment-stripped comparison (Node) of `network.cjs` at `a80595e` and HEAD, with every whole-line `//` comment removed | Identical (stripped SHA-256 prefix `daccb3f4bf0dfc26`). The file SHA-256 changed from `285b89d6…2de9` (28386 bytes) to `2259e22c…7bc9` (28442 bytes). |
+| Line lengths (Node) | New `:82` is 115 characters, new `:83` is 59 (the old `:82` was 119). The file has 36 lines over 120 before and after the delta, and none is new. R-10 / SCR0007 is a Roslyn analyzer for project-owned C# and configuration (`docs/code/rule-matrix.md:25`), so it does not apply to `.cjs`. Observation only. |
+| Pin search: `grep -rl` of both `network.cjs` hash prefixes under `src/` and `docs/`; reading the verification `required-cases.json` row | No match. The row (`required-cases.json:5931-5935`) is `kind: outside-validator`, `sha256: null`, so no hash pin covers the file. |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings 0ae513a926a0 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=3c65f396053327b0887116cffe58159d5da571e130188bb6be09ded4bc7a8924`. This is the same repository digest as at `607ce09`, so the digest does not cover `network.cjs` and nothing needed rebinding. |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 d004298da3da1358bdcd060fe2bfe8fc94bf055abd46b3cae424530547068463` (unchanged) |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` (loads `network.cjs`) | 71 pass, 0 fail, 0 skip |
+| `git blame -L 112,112` and `-L 58,61` of `FoundationAutomation.cs` | `:112` comes from 1ed3aa5, unchanged by d5b2566, which rewrote only `:60` (and `:178`) |
+| Read-only searches of `//` comments that mention sequence or ack in `FoundationAutomation.cs`, `FoundationCoordinator.RunWire.cs`, `phase06-headless.cjs` and `network.cjs` | `:112` is the only remaining statement that disagrees with the corrected contract |
+
+The scratch copy of the pre-delta `network.cjs` was written outside the repository and deleted afterward.
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The writer behavior was judged from source only.
+- What happens to the child process after `Tick` throws `DRIVER_ACTION` (logged or fatal) was not traced beyond `Tick`. Q1 and the refusal part of the NR-03 evidence rely only on the ack not being written, which is visible in `Tick`.
+- The fixer's reported runs at 0ae513a (101/101 node tests, game-tests `ebdc80a0` 21/21 no-window with nested lan-checks `969d44dd` 20/20) were not repeated, apart from the drivers test above. They are narration, not evidence used here.
 - This re-review does not replace the phase-end rendered evidence or the human qualitative components.
 
 _Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
