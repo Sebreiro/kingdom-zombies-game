@@ -57,7 +57,7 @@ internal static class FoundationAutomation
 
     /// <summary>
     /// Delivers one owned input request and acknowledges it with one newline-terminated line: the request's sequence,
-    /// then the run-action sequence a DEBUG phase06 action submitted, if any.
+    /// then the sequence a DEBUG phase06 run action allocated, if any; never for a workspace request, even a guest's.
     /// </summary>
     internal static void Tick(Control root, MainThreadGateway gateway, FoundationCoordinator? coordinator)
     {
@@ -175,7 +175,7 @@ internal static class FoundationAutomation
     }
 
 #if DEBUG
-    /// <summary>Null when refused; otherwise the allocated run-action sequence, or 0 for a host workspace.</summary>
+    /// <summary>Null when refused; else the allocated run-action sequence, or 0 for any workspace request.</summary>
     private static long? SubmitPhase06(FoundationCoordinator coordinator, string action, JsonElement request)
     {
         if (action is "phase06-workspace")
