@@ -72,7 +72,7 @@ internal sealed class FoundationDrawObserver
         using JsonDocument document = JsonDocument.Parse(json: Sample);
         _sample = document.RootElement;
         _world = _root.GetNodeOrNull<Node2D>(path: "World");
-        _crosshair = _root.GetNodeOrNull<Node2D>(path: "Aim")?.IsVisibleInTree() == true;
+        _crosshair = _root.GetNodeOrNull<Node2D>(path: "WorldInput/Aim")?.IsVisibleInTree() == true;
         ObserveActors();
         ObserveControls();
         _checkpoint = Request();
