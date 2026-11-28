@@ -295,9 +295,11 @@ recipes.set('heldout.H17', simple('Current transport reset and silent persistent
 
 recipes.set('heldout.H18', simple('Replace a body and its actual gear during combined locomotion and a strike', [
   characterStep('walking-melee-body', 'CH-04'),
-  select('held-left', 'left', 'IT-05', [sample('leftItem', 'IT-05')]),
-  select('held-right', 'right', 'IT-06', [sample('rightItem', 'IT-06')]),
-  select('start-locomotion', 'Movement', 'Walk', paces('walk-near', 0)),
+  // A static pose has no presentation sample yet (CharacterPreview.Compose), so held gear is read from its art.
+  select('held-left', 'left', 'IT-05', [check(character + '/Art/left_held', 'metadata/item', 'IT-05')]),
+  select('held-right', 'right', 'IT-06', [check(character + '/Art/right_held', 'metadata/item', 'IT-06')]),
+  select('start-locomotion', 'Movement', 'Walk', [...paces('walk-near', 0), sample('leftItem', 'IT-05'),
+    sample('rightItem', 'IT-06')]),
   select('start-melee', 'Action', 'Melee', [sample('action', 'melee'), sample('movement', 'walk')]),
   ...[1, 2, 3].map(index => transport('step-active-melee-' + index, 'Step',
     [sample('action', 'melee'), sample('movement', 'walk'), exists(character + '/Art/Body_lower')])),
