@@ -90,7 +90,7 @@ findings:
   info: 3
   total: 3
   necessity: 0
-status: issues_found
+status: clean
 rereview_files_reviewed: 29
 rereview_delta: 62952c3..f0890ca
 prior_review:
@@ -233,7 +233,7 @@ prior_review:
 
 # Phase 06 Code Review
 
-Latest review: see [RR repair review (2026-11-28)](#rr-repair-review-2026-11-28) at the end of this file. Its status is `issues_found`: RR-01 to RR-05 are resolved, and the new findings RR-06 to RR-08 (all P3) are open.
+Latest review: see [Orchestrator acceptance (2026-11-28)](#orchestrator-acceptance-2026-11-28) at the end of this file. Its status is `clean`: the orchestrator accepted the open RR repair review findings RR-06 to RR-08 (all P3) as non-blocking for the focused attempt Run 2a. They, and two older known failures, are deferred to the next repair round before the 06-15 final run. The underlying review is [RR repair review (2026-11-28)](#rr-repair-review-2026-11-28).
 
 **Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
@@ -1491,3 +1491,28 @@ The scratch scripts and extracted files were written to the session scratchpad a
 - This review does not replace the phase-end rendered evidence or the human qualitative components.
 
 _Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Orchestrator acceptance (2026-11-28)
+
+**Reviewed source** `f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6`, the source reviewed in "RR repair review (2026-11-28)". Only `.planning/` paths change after it.
+
+**Status** Clean for the focused attempt Run 2a. This is an orchestrator decision, not a new review. No source was re-read or changed for it.
+
+The orchestrator accepts the three open P3 (Info) findings of the RR repair review as non-blocking for the focused on-screen attempt Run 2a:
+
+| ID | Finding | Reason for acceptance |
+| --- | --- | --- |
+| RR-06 | A stale `LastPress` can be reported for a click that never reached `ItemInput`. | It affects only diagnostic reporting in the scenarios, not game behavior. Whoever diagnoses a Ctrl-click failure must compare `ItemPress.Sequence` across the draws before and after the click, so a stale record cannot be mistaken for the awaited press. |
+| RR-07 | The enum/string dispatch and the `init` setters in `PressBranch`. | It is a robustness and wording issue. The reviewer traced the current dispatch branch by branch and found no outcome change apart from the two declared safe edges, so game behavior is unchanged. |
+| RR-08 | "Always rejected" wording in `docs/workflow/foundation-checks.md:22` and `src/godot-game/tools/gameplay-checks/runner-fixture.cjs:57-58`. | It is an overstated sentence and comment. The check itself and game behavior are unchanged. |
+
+All three will be repaired in the next repair round, before the 06-15 final run. None of them changes game behavior.
+
+Two older known failures are deferred to the same repair round. Neither is caused by the RR delta (see "Pre-existing notes" in the RR repair review):
+
+- `asset-pipeline.runner.prelaunch-source` fails with `SELECTION_IMPACT_MISMATCH`. The cause is the too-broad `src` prefix in `impactClosure` at `src/godot-game/tools/asset-pipeline/scenarios.cjs:185`.
+- `asset-pipeline.acceptance.artifacts-source` fails with `EVIDENCE_NATIVE_HOST_EXTENT`. The cause is the hard-coded count of 251 presenter tuples at `src/godot-game/tools/asset-pipeline/evidence.cjs:782`, against the 372 tuples that exist.
+
+This acceptance authorizes only the focused attempt. It gives no Phase 6 credit, and the fresh full selected-set run and all judgments stay with 06-15.
+
+_Orchestrator acceptance recorded by the 06-25 executor at the orchestrator's instruction._
