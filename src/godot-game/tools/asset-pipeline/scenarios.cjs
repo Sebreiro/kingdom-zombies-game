@@ -1272,19 +1272,42 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const x = Math.floor(origin[0] + xOffset);
     const y = Math.floor(origin[1] + yOffset);
     e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
+    await requireUnclipped(node,x,y);
     return {x,y};
+  }
+  // A clipping ancestor hides its children outside its rectangle and stops input there, so a click at such a point
+  // would reach whatever control lies under it instead.
+  async function requireUnclipped(node,x,y) {
+    const ancestors=[];
+    for (let current=path.posix.dirname(node); current!=='/root'; current=path.posix.dirname(current)) {
+      ancestors.push(current);
+    }
+    const flags=await native.snapshot(pid,ancestors.map(ancestor => ({node:ancestor,property:'clip_contents'})));
+    for (const [index,ancestor] of ancestors.entries()) {
+      if (flags.values[index].value!==true) continue;
+      const clip=await controlBounds(ancestor);
+      const [left,top]=clip.origin;
+      e.need(x>=left && x<left+clip.width && y>=top && y<top+clip.height,'HUB_SMOKE_CONTROL_CLIPPED',
+        node+' point='+x+','+y+' clip='+ancestor+' rect='+[left,top,clip.width,clip.height].map(Math.round).join(','));
+    }
   }
   async function reveal(node,scroll,act) {
     e.need(node.startsWith(scroll+'/'),'INSPECTION_SCROLL_TARGET',node);
+    const trace=[];
+    let height=0;
     for(let attempt=0;attempt<20;attempt++){
       budget();
       const target=await controlBounds(node), clip=await controlBounds(scroll);
       const center=target.origin[1]+target.height/2, top=clip.origin[1], bottom=top+clip.height;
+      height=clip.height;
       if(center>=top+8&&center<=bottom-8)return;
-      const point=await clickControl(scroll+'/_v_scroll',{scrollPage:center<top? -1:1});
+      const page=center<top? -1:1;
+      trace.push(Math.round(center-top)+(page<0?'up':'down'));
+      const point=await clickControl(scroll+'/_v_scroll',{scrollPage:page});
       await act('click',point.x,point.y,0);
     }
-    throw new Error('INSPECTION_SCROLL_REQUIRED '+node);
+    throw new Error('INSPECTION_SCROLL_REQUIRED '+node+' clipHeight='+Math.round(height)+
+      ' centerFromClipTop='+trace.join(','));
   }
   async function checkpoint(item,step,invocation,recovery=false) {
     const prefix = relative + '/' + item.id + (recovery?'-recovery-':'-') + step.id;
