@@ -8,6 +8,8 @@ This record holds the Phase 6 phase-end runs at 1280×720 on the development Win
 
 The focused rerun (Run 2, below) did not pass: 28 passed, 13 failed and 16 blocked of the 57 run-1 cases. The one newly affected case passed, with P1–P4 pending.
 
+The focused attempt after repair rounds 1 and 2 (Run 2a, below) did not pass either: 27 passed, 28 failed and 2 blocked of the 57 run-1 cases. The one newly affected case passed again, with P1–P4 pending.
+
 ## Run 1: initial phase-end selection (failed)
 
 | Field | Value |
@@ -229,3 +231,167 @@ The 42 inherited lan-checks captures are under `65c172ab-5d2b-405d-9d26-37b39bf0
 ### Run 2 outcome
 
 Run 2 did not pass: 13 failed and 16 blocked in `a0e0ad44`. No repair is made in this record. Each repair round goes to a fresh executor and a fresh independent reviewer, and is appended here as Run 2a, 2b and so on. The fresh full selected-set run stays with 06-15.
+
+## Run 2a: focused attempt after repair rounds 1–2
+
+These focused results are diagnostic. They are not the phase's final pass, and no case below receives Phase 6 credit from them. The P1–P4 judgments, the solo and four-role image judgments and the 18 handoff judgments stay pending for 06-15. Run 1 and Run 2 above are unchanged. The `.local/runs` artifacts are kept; 06-15 owns their cleanup after its final record.
+
+| Field | Value |
+| --- | --- |
+| Invocation | `335e06c4-0187-48d8-8fd5-22b53a472f2a` |
+| Newly affected invocation | `13ecb196-ae48-4628-8930-c98adb93a4d1` |
+| Tested revision | `2e7e176f094f858d648b3d48c1a9532126376e48` (clean worktree, `sourceChanged` false in both reports) |
+| Review record | `.local/temp/phase06-review.json`: revision `2e7e176f094f858d648b3d48c1a9532126376e48`, reviewed source `f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6`, reviewer "gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow at deep depth; did not author the repairs); RR-06..08 accepted by the orchestrator", status `clean`, reviewed range `a9ac95f..f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6`. Between the reviewed source and the tested revision, only `.planning/phases/06-survivors-inventory-and-combat/06-REVIEW.md` changed (the RR repair review and the orchestrator acceptance of RR-06 to RR-08) |
+| Repaired range | `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d..f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6` (repair rounds 1 and 2) |
+| Commands | `node src/godot-game/tools/game-tests/check.cjs --failed .local/runs/game-tests/ee17949e-45ed-4486-9915-dc0b7029cdf1/summary.json --review .local/temp/phase06-review.json`, then `node src/godot-game/tools/game-tests/check.cjs --case asset-pipeline.rendered.hub-navigation --review .local/temp/phase06-review.json` |
+| Environment | Windows 10 Enterprise LTSC 2021 x64 (10.0.19044), Node 24.22.1, Godot 4.7.2 Mono, the development desktop at 1280×720 logical (3840×2160 physical); each game client measured 1280×720 physical pixels; PowerShell 7 (`pwsh`) on PATH for the run only. The Claude desktop app was minimized for the whole run. A read-only watcher logged every foreground change (`.local/temp/06-25-r2a-foreground.log`): the foreground passed only between the owned Godot clients, the drivers' own focus sink windows, the Windows desktop (`explorer` `Progman`/`Shell_TrayWnd`) and Idle. No other process took the foreground. MSI Afterburner with RTSS and the AMD Radeon overlay (`amdow`) were running; their performance overlay is drawn into the captures (top-right GPU/CPU/RAM/FPS block). No user window was minimized or closed |
+| Timing | `--failed`: started `2026-11-28T03:29:08.560Z`, finished `2026-11-28T06:09:42.151Z` (9633.591 s). `--case`: started `2026-11-28T06:10:13.073Z`, finished `2026-11-28T06:12:38.234Z` (145.161 s) |
+| Status | `--failed`: `fail`, 27 passed, 28 failed, 2 blocked of 57. `--case`: `needs_review`, 1 passed, 0 failed, 0 blocked of 1, with P1–P4 pending review |
+| Selection | `--failed` selected all 57 run-1 failed and blocked cases (`repairOf` `ee17949e-45ed-4486-9915-dc0b7029cdf1`); the three verification groups were narrowed to their failed members (21, 2 and 1 nested). `--case` selected the newly affected case below |
+
+### Newly affected selection
+
+The selection was recomputed after both repair rounds with the read-only catalog `select()` in phase-end mode for phase 6, with base `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d` and the 106 paths changed up to the tested revision. It selected 121 cases. Tier-3 rows whose reason is "declared input changed" or "affected by …" were kept, and the 57 run-1 failed and blocked ids were removed. One case remains, the same as in Run 2:
+
+- `asset-pipeline.rendered.hub-navigation`: affected by inspection, asset-rendered (it passed in run 1 and in Run 2).
+
+Newly affected rendered cases: `asset-pipeline.rendered.hub-navigation`
+
+### Groups
+
+| Invocation | Group | Pass | Fail | Blocked | Reported launches | Wall time |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `335e06c4` | phase06.solo | 0 | 4 | 2 | 1 | 52.267 s |
+| `335e06c4` | phase06.lan | 2 | 1 | 0 | 4 | 32.296 s |
+| `335e06c4` | phase06.headless | 1 | 0 | 0 | 4 | 24.584 s |
+| `335e06c4` | gameplay-checks.headless | 1 | 0 | 0 | 0 | 1025.632 s |
+| `335e06c4` | gameplay-checks.rendered | 8 | 1 | 0 | 1 | 229.317 s |
+| `335e06c4` | lan-checks.headless | 1 | 0 | 0 | 0 | 266.339 s |
+| `335e06c4` | lan-checks.rendered | 8 | 4 | 0 | 14 | 138.652 s |
+| `335e06c4` | asset-pipeline.headless | 3 | 0 | 0 | 0 | 4094.678 s |
+| `335e06c4` | phase06.inspection | 0 | 18 | 0 | 1 | 1049.298 s |
+| `335e06c4` | verification.rules | 1 (21 of 21 nested) | 0 | 0 | 0 | 1889.587 s |
+| `335e06c4` | verification.engine | 1 (2 of 2 nested) | 0 | 0 | 0 | 783.270 s |
+| `335e06c4` | verification.state | 1 (1 of 1 nested) | 0 | 0 | 0 | 28.159 s |
+| `13ecb196` | asset-pipeline.rendered | 1 | 0 | 0 | 1 | 124.114 s |
+
+Cases run by an inherited suite still report `durationMs` 0; their time is in the group wall time.
+
+### Case outcomes
+
+Passed in `335e06c4` (27): `phase06.lan.conflicts` (4.590 s), `phase06.lan.succession` (5.417 s), `phase06.headless.lan-privacy` (12.701 s), `gameplay-checks.core.permissions`, `gameplay-checks.rendered.tracer` (Critical), `gameplay-checks.rendered.menu`, `gameplay-checks.rendered.directions`, `gameplay-checks.rendered.distance`, `gameplay-checks.rendered.world`, `gameplay-checks.rendered.lifecycle`, `gameplay-checks.rendered.quit`, `gameplay-checks.rendered.resources`, `lan-checks.core.permissions`, `lan-checks.rendered.entry`, `lan-checks.rendered.browser`, `lan-checks.rendered.join-errors`, `lan-checks.rendered.profiles`, `lan-checks.rendered.focus`, `lan-checks.rendered.admission`, `lan-checks.rendered.guest-lifecycle`, `lan-checks.rendered.host-loss`, `asset-pipeline.content.native-permissions` (3946.133 s), `asset-pipeline.export.hub-consumer` (46.798 s), `asset-pipeline.export.portability` (101.402 s), `verification.rules`, `verification.engine`, `verification.state`.
+
+Compared with Run 2, `phase06.lan.conflicts` and `gameplay-checks.rendered.resources` now pass. `phase06.solo.world` and `phase06.solo.movement` passed their own steps but are reported failed through the solo group cleanup (R2a-1).
+
+Passed in `13ecb196` (1): `asset-pipeline.rendered.hub-navigation`, with P1–P4 pending review.
+
+Failed and blocked in `335e06c4`. Evidence paths are relative to `.local/runs/game-tests/335e06c4-0187-48d8-8fd5-22b53a472f2a/`. Where a cause is inferred rather than proven, the entry says so.
+
+| # | Case | Outcome | Original message | Evidence | Observed cause |
+| --- | --- | --- | --- | --- | --- |
+| R2a-1 | `phase06.solo.inventory` | fail (12.915 s) | `RENDERED_DEADLINE solo exact integral split preserves source identity` | `child-79ab3af2-d338-4c8a-bf7b-18b73aca92b8.json`; `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/console.log` lines 4–16; `…/solo/draws.ndjson` | Proven: the game threw `System.InvalidOperationException: The requested operation requires an element of type 'Number', but the target element has type 'Null'` in `FoundationInventoryWorkspace.PointerRelease` (`FoundationInventoryWorkspace.Input.cs:124`). An own-inventory `place` or `merge` request carries `Token = null` (`FoundationInventoryInteraction.cs:464-467` returns `null` when the drag is not external), and `TryGetProperty("Token")` succeeds on the JSON null, so `token.GetInt64()` throws. The release after "Move quantity" therefore never sent the split and never retired the placement preview. The line dates from 80d1485, before run 1; no earlier on-screen run reached a pointer drop |
+| R2a-2 | `phase06.solo.stash`, `phase06.solo.combat` | blocked | `Scenario reset failed: solo Escape acknowledged without its D-14 effect "cancel drag or split preview": RENDERED_DEADLINE solo Escape effect cancel drag or split preview` | as R2a-1 | Same cause as R2a-1: the preview left behind by the exception stayed visible, so the D-14 Escape step could not observe it cancelled. The stash Ctrl-click did not run |
+| R2a-3 | `phase06.solo.life` | fail | Same reset message as R2a-2, then `Owned scenario cleanup failed: … 'TERMINAL_NORMAL_QUIT solo'` | as R2a-1 | Same cause as R2a-1. The native `ERROR:` line in the console also fails the ordinary cleanup assertion (`phase06-headless.cjs:130-131`) |
+| R2a-4 | `phase06.solo.world`, `phase06.solo.movement` | fail (1.124 s, 2.396 s) | `ENOENT: no such file or directory, lstat '…\0cef6c79-e7d9-4538-a81c-88232e65421d\ordinary-cleanup.json'` | `0cef6c79-e7d9-4538-a81c-88232e65421d/results.json`, `phase06.solo.world.json`, `phase06.solo.movement.json` | Proven collateral of R2a-1: both cases wrote their evidence, but every case lists the group's `ordinary-cleanup.json` (`phase06-headless.cjs:160-161`), which is written only after an ordinary Quit (`:139-148`). The failed cleanup left it missing |
+| R2a-5 | `phase06.lan.population` | fail (1.656 s) | `DRIVER_ACK {"nonce":"128e5f25-aefc-4d1b-bd23-32b781185954","ok":false,"error":"DRIVER_MOUSE_POINT_NOT_OWNED","sequence":13,"observedAfter":"3040664764485100"}` | `child-4593ca34-bd68-4448-8eb4-8be229f8d137.json`; `128e5f25-aefc-4d1b-bd23-32b781185954/native-input-3548.json` records 11–14 | Proven symptom: guest-2 (pid 32928, window 127666716) was acknowledged as foreground at sequence 12, and the click on its `Menu/Join` at sequence 13 found another process's window at the point. This is the same case and the same sequence as R2-4, while the foreground log shows no external process. Inferred: an owned peer window, or a hit-testable overlay window, lies over the foreground client (see R2a-7) |
+| R2a-6 | `gameplay-checks.rendered.focus` | fail (2.839 s) | `INPUT_EXIT 1: SINK_POINT_NOT_OWNED` (`gameplay-checks/windows-input.ps1:112`) | `child-f447bccf-7d55-45b6-84e1-3ede1a302d2e.json` | The topmost focus sink was not foreground after `Activate`, and its caption point belonged to another window. Same failure as R2-6, now without any external foreground holder. Not proven which window covered the point: since the sink is topmost, only another topmost window can cover it (candidates: the taskbar or the AMD overlay window) |
+| R2a-7 | `lan-checks.rendered.moving-join`, `lan-checks.rendered.walkers` (Critical), `lan-checks.rendered.timing` | fail | `DRIVER_ACK {"nonce":"ac2ede97-e39d-4474-a815-8b77df7da101","ok":false,"error":"DRIVER_MOUSE_POINT_NOT_OWNED","sequence":4,…}` (moving-join), `…"sequence":24,…` (walkers), `…"sequence":60,…` (timing) | `ac2ede97-e39d-4474-a815-8b77df7da101/rendered.moving-join.failure.log`, `rendered.walkers.failure.log`, `rendered.timing.failure.log`, `summary.json` | Same sequences as R2-8 in Run 2, so the failure is deterministic, not an external window. No peer launch passes a window position (`lan-checks/network.cjs:56`), so the four 1280×720 clients open at the same place and overlap. Inferred: an owned peer window stays above the client the driver focused |
+| R2a-8 | `lan-checks.rendered.host-end` | fail | `DRIVER_ACK {"nonce":"ac2ede97-e39d-4474-a815-8b77df7da101","ok":false,"error":"DRIVER_FOCUS_POINT_NOT_OWNED target=6620682 actual=86183602 point=1450,617","sequence":1,"observedAfter":"3042352655480000"}` | `ac2ede97-e39d-4474-a815-8b77df7da101/rendered.host-end.failure.log` | Proven: the foreground log maps window 6620682 to Godot pid 13072 and window 86183602 to Godot pid 23876, both owned lan-checks clients. An owned peer window covered the host caption point (1450, 617), the same point as R2-9. This refutes Run 2's external-window inference for this case |
+| R2a-9 | `asset-pipeline.heldout.H14`, `asset-pipeline.heldout.H18` | fail (82.765 s, 58.796 s) | `INSPECTION_SCROLL_REQUIRED /root/Inspection/Shell/Workspace/Preview/Surface/Current/Character/Controls/Slots/left/Select` | `child-3dc43da2-3749-4873-9f24-e0250566e744.json`; `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H14-*` | Proven symptom: 20 scrollbar track clicks (`asset-pipeline/scenarios.cjs:1273-1285`) never brought the `left` equipment-slot selector into the 320-pixel `Character/Controls` scroll view. Earlier selectors further down (`Ammunition`, `BowSubject` in H14) were reached. Not proven: the failing reveal must scroll upward, so the upward page click at track offset 12 px does not take effect, or the container's `FollowFocus = true` (`CharacterPreview.cs:188-193`) scrolls back to the still-focused selector below |
+| R2a-10 | `asset-pipeline.heldout.H17` | fail (82.475 s) | `RENDERED_NATIVE_SETTLE …/ResourcePreview.metadata/resource_view expected "current death" observed "{\"id\":\"CH-13\",\"state\":\"persistent corpse\",…\"controller\":\"CorpsePreview\",…}" \| …/Art/Corpse.metadata/appearance expected 1 …` | `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-explicit-death-input.json`, `…-explicit-death-failed-settle.json` | Proven symptom: the State option click at (900, 645), two Down taps and Enter were all acknowledged, but the corpse stayed in `persistent corpse`. The same `choose` helper works for character selectors in the same case. Not proven: whether the popup opened, or whether the item list read from `popup/item_*` matched the rebuilt State control |
+| R2a-11 | `asset-pipeline.UIH.UI-COLLECTIONS.empty`, `.loading`, `.error`, `.populated`, `.partial`, `.overflow`, `.zero-one-many` | fail | `RENDERED_NATIVE_SETTLE …/ResourcePreview.metadata/resource_view expected "InventoryLayouts" observed "{\"id\":\"UI-12\",\"state\":\"inventory.broken\",…\"controller\":\"Source-bound UI presenter\",…}"` | `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.*` | Proven scenario defect: `phase06-inspection.cjs:383,393` checks `view('controller', 'InventoryLayouts')`, and `view` reads `ResourcePreview` `metadata/resource_view` (`:102`). That metadata names a UI resource's controller `Source-bound UI presenter` (`IdentityKit.cs:1213`). `InventoryLayouts` is written only to the `Surface` `ui_library` metadata (`IdentityKit.cs:856-859`). The state (`inventory.broken`) matched |
+| R2a-12 | `asset-pipeline.UIH.UI-COLLECTIONS.long-text` | fail | `RENDERED_GROUP_DEADLINE`, then `Owned scenario cleanup failed: EVIDENCE_PROCESS inspection-hub` | as R2a-11 | The group budget ran out after the earlier failures. The hub process then did not reach an ordinary end. Not separately diagnosed |
+| R2a-13 | `asset-pipeline.heldout.H16`, `asset-pipeline.UIH.CHARACTER-PREVIEW.empty`, `.loading`, `.error`, `.partial`, `.overflow`, `.long-text` | fail | `ENOENT: no such file or directory, lstat '…\d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a\inspection-cleanup.json'` | `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/results.json` and the cases' own `.json` records | Proven collateral of R2a-12: these seven cases completed their own steps and images, but they list the group's `inspection-cleanup.json`, which the failed cleanup never wrote |
+
+Shared root causes: R2a-1 to R2a-4 (6 cases) are one game defect. R2a-11 to R2a-13 (15 cases) follow one scenario defect plus the group deadline. R2a-5 to R2a-8 (6 cases) are the window-coverage family. R2a-9 (2 cases) and R2a-10 (1 case) are separate inspection-driving defects.
+
+### ItemPress records (RR-06 comparison)
+
+`input.phase06.ItemPress` was traced through every draw of each role (`.local/temp/06-25-r2a-press.cjs`), comparing `Sequence` before and after each click as RR-06 requires.
+
+- **Conflicts Ctrl-click (guest-1, `128e5f25-…/guest-1/draws.ndjson`).** Before the click no press existed (`ItemPress` null through draw 441). At draw 442 `Sequence` went from none to 1 with `Item` 25 (the IT-01 money cell), `External` true, `Button` left, `CtrlFlag` false, `CtrlHeld` true, `DrawnToken` 3 = `ExternalToken` 3, `ExternalKind` `Stash` and `Branch` `quick`. The quick withdrawal followed and the case passed. This proves the Run 1 and Run 2 Ctrl-click cause: the native click's `InputEventMouseButton.CtrlPressed` flag is false while Ctrl is physically held, and only the held-key fallback in the RR-01 press branch selects `quick`. The record disappears while the inventory is closed (draws 548 and 895) and reappears with the same `Sequence` 1 when it reopens at draw 584. That is the RR-06 staleness, visible but harmless here because the sequence was compared. `loserPress` is null because the losing guest never pressed an item.
+- **Stash Ctrl-click (solo).** Not reached: the stash case was blocked by R2a-2. The solo record shows four presses, all before the exception: three right-click menus (sequences 1–3, `Branch` `menu`) and the Shift-press on the berries (sequence 4, `ShiftFlag` true, `ShiftHeld` true, `Branch` `split`, draw 229). No later press was recorded, as expected, since the split drop goes through `PointerRelease`, not `ItemInput`.
+
+### Image identities from run 2a
+
+All images are decoded 1280×720 PNG files. They are diagnostic history, not acceptance evidence. The captures include the third-party performance overlay noted under Environment. Paths are relative to `.local/runs/game-tests/335e06c4-0187-48d8-8fd5-22b53a472f2a/`.
+
+| Image | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/draw-inventory-equipped-4.png` | 78891 | `7844779a9c8d34a972502d87ffbce8ca57e57206229d4a4d2899c263f3b16d38` |
+| `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/draw-inventory-nested-5.png` | 94700 | `97acd1534e94ebeb153d4441bcc65cb1594a5b4ab06430896bf30c2e62dfdb05` |
+| `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/draw-inventory-split-6.png` | 107898 | `bb3c6949bf72e7de2928b1970e7832f797cf8072d34224a00c08616f067acd17` |
+| `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/draw-movement-air-3.png` | 52614 | `41bcc34506eb738a013ab2c0a97abff1013b90f9adf7bcfe0d155d815d92d271` |
+| `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/draw-movement-sprint-2.png` | 51964 | `265ef8de7daab48d6ffc240e5ab0be04346a5baec0c859ba101ac901e45c7df9` |
+| `0cef6c79-e7d9-4538-a81c-88232e65421d/solo/draw-world-walked-1.png` | 51235 | `704980c3649c99595ef88c50319e9860a7ba6a0155243c941e0699c93b36e4ba` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-1/draw-conflict-current-guest-1-2.png` | 118357 | `9bf2e9dab4ac24044c608cf0b6932ad3bc4c666c6d557ec266c5fd46b7b6b136` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-1/draw-conflict-original-guest-1-1.png` | 116108 | `5ceec130acc6736aaf3d647bfad68bc779b17429c33b374c91c6fc7fd1dfcac3` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-1/draw-succession-current-guest-1-3.png` | 63607 | `4afc7c447e2713e3fbc49343132c6265965ecfab8f94a40c1c5867ba1894d9b3` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-2/draw-conflict-current-guest-2-3.png` | 62306 | `68fb581418bf18d7cd3da109b1492b9fa425c9051be506580f53033b3f3c9db3` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-2/draw-conflict-original-guest-2-1.png` | 115505 | `d229560a4d11b6c209abe540e79d54c62475473cf2bad0d6c10fb025a8f296f2` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-2/draw-conflict-revoked-2.png` | 62554 | `5d0184d1cae1ab75b6b7d3590c07a2f3fa703cba44703e91572f356190086050` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-2/draw-succession-current-guest-2-4.png` | 63645 | `94864d81a0cd09c7b4ee10946628cabc794a6a4ba7577b8252d9a69790a2c888` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-3/draw-conflict-current-guest-3-2.png` | 116035 | `72651bc7e79f2897bb04692fe8abce4657a1cdf0837e603fbe7289444a4ebeff` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-3/draw-conflict-original-guest-3-1.png` | 115348 | `8d3049b81700771e7137c69e737d249e0e4eaf7df909df275ca88f67453cf385` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/guest-3/draw-succession-current-guest-3-3.png` | 63823 | `f72a139ac28d144ddc2bfe61a77bf75573950eccf5587a44e459f6c46ab1bea3` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-conflict-current-host-2.png` | 71249 | `49dd0d28e1f4a4ffad9036b185221e291902d94c766c298628b0b96d66e161c4` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-conflict-original-host-1.png` | 70393 | `2c9befbb9b1144c86b9178fd25931f22c9de57006b61b1381d79dd34615c7fdb` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-chosen-6.png` | 54959 | `67597e8670bd59bd70866e16860a37da3286a27595f70b91b97d408a3d8342d8` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-current-host-9.png` | 76688 | `adb96cb2654972536fa9ac568bfc9a543bd0c47accb8849581ad6b4d91574275` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-death-3.png` | 57305 | `587c5826720bff9bb81c1a2f014abe636a353cfb86424940ca8f67dd564f86bf` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-lost-7.png` | 52579 | `8c13e0033e37404ce9b1be634865cfd2eac8fe52d803e434a971f411b79858f0` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-next-4.png` | 55903 | `8b943d17fc07fb8dc26ef3bb3405b629426a4ba826ccff7da62dd8a7e1d16cc0` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-previous-5.png` | 56105 | `3995698e3e839ac7e8a1d8ac98a44c99a172a0891878204a40d14512c33a1252` |
+| `128e5f25-aefc-4d1b-bd23-32b781185954/host/draw-succession-transfer-8.png` | 76726 | `34570e773d5920a5136924ff65ac5110415581cdd13d01692b6890a9edac4cdb` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.empty-character.png` | 92654 | `0686a3238a1ca5eec3b433a6c2356d0e38c882a77ad2387b1421574c44efd0be` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.empty-recovery-reset-1.png` | 129529 | `d7edf192c76c622d9ad3622dd35bec85a0966f7f9f96fa2b9372d4bc41c38834` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.empty-unavailable-character.png` | 65074 | `f4bd12d3fcdcc51dc5b0be569490497bb4c9fd7a158e5fb45c646c3da34f1d2c` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.error-failed-character.png` | 77011 | `96979864638046743eb10f6fc9652f943d3963eb2aaff0dc5ed71c0a60c44340` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.error-recovery-reset-1.png` | 129440 | `c9545cccd21fe8ad5d843f379b80402f94745671b4c27a0210a64369382868c6` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.error-restored-character.png` | 91291 | `949e8843ce0bfd8c9347c3ba5a98ae4384e1ec4fe882e1e45a2efefafb6a0570` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.loading-character.png` | 92783 | `3044a9458ee6288abe1ae8a65546733f464ec6562b2fcd78eaeb089ce88db105` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.loading-current-character-loading.png` | 72382 | `4577f1587e2ad0f3d0b364fbe8a16bdcf00d79d07632fafe8ad70fc34367eac5` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.loading-recovery-reset-1.png` | 129620 | `152f5bd2f63a3445e6d06312f44412f8ebc81efb0ee6f196271c6d2d5424dc41` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.long-text-character.png` | 91178 | `1aff5da3667b183f00394ed45c8d579c391e3225ac0894475c94d2b057f652ee` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.long-text-long-character-provenance.png` | 109571 | `0556f82caeed40881be801cf60dd85b2042027c056da0947fb598890d6fe49f9` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.long-text-recovery-reset-1.png` | 129759 | `b950eed7f8dad6e15b2d0a1accf417e7d0c3503e558ab971376ded9573babc5b` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.overflow-character.png` | 91375 | `a41059f3a7a5c7275b610b13dfd56f7b6c90a385948a7dde3a5a7a0084d088c9` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.overflow-reach-overflowed-transport.png` | 87956 | `023ce9d31e493ae95b3df1817f20b533e5b0e4518dabf0af2243d062c8bde809` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.overflow-recovery-reset-1.png` | 129483 | `4cb8ef4760ad4180719bf13d6b63ffc24d48ac66a762b1fb8510301e89fd9723` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.partial-failed-character.png` | 76907 | `88024a1d90a85d2b1f4a0110dc29090815fe844d4610150cd18ac905ae850f5f` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.partial-recovery-reset-1.png` | 129305 | `a870976bfc9642c40f9a48c39fd5e302108394b4468544db2c2528e66c3f2b62` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.CHARACTER-PREVIEW.partial-restored-character.png` | 91096 | `7730a79ddaabcddaac0a67825825329208b5119d81a1eefc3aefeee0f3aa7e07` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.empty-recovery-reset-2.png` | 129536 | `84a739a0371d9c0721c991628c67fd0120ce2ffd2dd864e3794a5edd59a8cf16` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.error-recovery-reset-2.png` | 129550 | `8eb6c204161d02822c0d8b0ffa93583d983aa4b28a47898bee214212dde10437` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.loading-recovery-reset-2.png` | 129405 | `0c0d385b0b3b97cc10ee26b8abdbee2461c41548af65aea0e941ff013f5ea8a0` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.overflow-recovery-reset-2.png` | 129442 | `a46fcc8d1188c4d942df8a46866a23e325124dbe5d2f32826057cf9e1e710fcd` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.partial-recovery-reset-2.png` | 129541 | `20ef5587625ce1f027c19e6f42f2deabdae53039859dbe7a23074aac87c0a191` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.populated-recovery-reset-2.png` | 129528 | `5229503e523a1fcbaa7009a990dbf793e4159f3b9d7dd5f0fb94c1775083335e` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.UIH.UI-COLLECTIONS.zero-one-many-recovery-reset-2.png` | 129402 | `327c127c2bbcddaa72081b3f6a5756433f791e1469c91a21053204e693e8ecae` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H14-actual-empty-ammo.png` | 95131 | `c4ab017e577e7d49922fa0471dadaa6ee39db673129b19449b8731ee2f41ef85` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H14-bow-preview.png` | 98927 | `6004647c8f09e35303d677ff4e720d27d55c3dae5489f8692ce49af97ddbbf81` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H14-recovery-reset-2.png` | 129516 | `e8afff2ea2948548c235c712ba9c60de5a6187fd4fef5ff3e525d934847352e1` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-authored-walk.png` | 100902 | `6a55819cd952afd2b1c15c7e92f74d272d40309462570515dee37a62da875429` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-exact-second-frame.png` | 96954 | `5111d4639141a4f27b273af5c25a1b769cbf364168585242e0f30e3cd686d056` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-held-walk-endpoint.png` | 97192 | `220e1489e722d716bcd76dcae2dc516187d472ab0b6ed8640bcdde76d6a552e0` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-recovery-reset-1.png` | 129574 | `935d9fbab6aa5c344001ac975e1403284b974994fb51c5306cf6663835c9a063` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-start-jump.png` | 95681 | `ff8093b74f856995df485cefc17a31a02b557c70ab0fa1a6fd70ac9404848390` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-start-walk.png` | 96381 | `9422cf6312fbd48946c6944a5e4212750f7d1e915aaafe1bd604a0c2a5ee2402` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-step-held-jump.png` | 97471 | `5eed5d85506122b3ae17e1269732281834cbeac8d59e0d96d8cf46f3e229af7e` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-step-jump-landing.png` | 97525 | `ad22deccd0bdf5b9c791574c0c79c80e65c70717518e3919e907f7a1d2aa7638` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H16-step-nonuniform-jump.png` | 97428 | `591baeddbdc1d36a6fcb420549eb18de187a7053a9b286eccb4fb5b316b362d2` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-active-melee.png` | 97317 | `d98189a787bf060d151aecfd6f22b4298ba04a024796f655e916dcaebbbe7f7a` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-advance-transport.png` | 98554 | `a68eb6b6c10bc4847cccef4a7c754efeea407bc58dbe7a239d0e894e58196edd` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-character-preview.png` | 98037 | `4d4bb9a526d94fc94135a93009ba2dee9f8947da5b002ec0530bc9fecc6cf3fc` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-persistent-corpse.png` | 86209 | `53b0e39d4c9fd8b0abebb4ea1dd04a6370ecd3d7792cb1b8c773514e99f3f0fe` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-recovery-reset-2.png` | 129577 | `652732ec67cf2184fd1e9fc97b36948206411621062510fa60fa649c50471c2d` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-reset-transport.png` | 96695 | `294a4ba0ffa61b91b7149b321e7772dd89866b497a063ac225522243e8aa386b` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H17-walking.png` | 96014 | `6ca6f3c05068213a46f16d8cff585c008c780183c41308c12307f95c918311fc` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H18-recovery-reset-2.png` | 129427 | `b99af6dd14df2681f0e8c1a7c702832fc8914b72e2e9586baf83824fe17613f4` |
+| `d4c4cd48-2b4e-4297-8c4d-f4611ef3f43a/inspection/asset-pipeline.heldout.H18-walking-melee-body.png` | 98333 | `11eab5448e9558637ddb4c06cceb930456e62f7d50a86d808f3049c716ea152f` |
+
+The 42 inherited lan-checks captures are under `ac2ede97-e39d-4474-a815-8b77df7da101/G2/` and `G3/`, and each case's `summary.json` lists them with their hashes. The P1–P4 hub captures of `13ecb196` are in asset-pipeline run `5be894bf-264b-41c2-a2b3-9a03f693537f/hub/`. Among them, `rendered.hub-smoke-source-details.png` is 145670 bytes with SHA-256 `452be5e6d6cbc2f3c18851a95c50e7bcd6bc8d0c112414777d2170654396f8b6`, and `rendered.hub-smoke-death-step.png` is 79630 bytes with SHA-256 `4258aa2b0846e275a4cdc87c1182d40d4f6384d0501ae3ee0993cbf69a188c99`. They stay pending review.
+
+### Run 2a outcome
+
+Run 2a did not pass: 28 failed and 2 blocked in `335e06c4`, and the newly affected case passed in `13ecb196`. No repair is made in this record. The next repair round also owns the orchestrator-accepted RR-06 to RR-08 and the two known older failures recorded in 06-REVIEW.md ("Orchestrator acceptance (2026-11-28)"). Each repair round goes to a fresh executor and a fresh independent reviewer, and is appended here as Run 2b and so on. The fresh full selected-set run stays with 06-15.
