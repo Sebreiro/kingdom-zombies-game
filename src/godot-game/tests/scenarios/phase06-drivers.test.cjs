@@ -896,3 +896,44 @@ test('UiCollections_ControllerCheck_ReadsLibrarySurface', async t => {
     }
   });
 });
+
+test('WindowSlot_RenderedPeers_TileWithoutOverlap', async t => {
+  const caption = 120, frame = 24;
+  const outer = slot => {
+    const [x, y] = network.windowPosition(slot).split(',').map(Number);
+    return {left: x - frame, top: y - caption, right: x + 1280 + frame, bottom: y + 720 + frame};
+  };
+
+  await t.test('the four slots keep each scaled window frame apart and inside a 2700x1780 desktop', () => {
+    const rects = network.WINDOW_SLOTS.map((_, slot) => outer(slot));
+    assert.equal(rects.length, 4);
+    for (const rect of rects) {
+      assert(rect.left >= 0 && rect.top >= 0 && rect.right <= 2700 && rect.bottom <= 1780, JSON.stringify(rect));
+    }
+    for (let a = 0; a < rects.length; a++) for (let b = a + 1; b < rects.length; b++) {
+      const overlap = rects[a].left < rects[b].right && rects[b].left < rects[a].right
+        && rects[a].top < rects[b].bottom && rects[b].top < rects[a].bottom;
+      assert(!overlap, 'slots ' + a + ' and ' + b + ' overlap');
+    }
+  });
+  await t.test('a launch takes the lowest free slot and a fifth peer shares one', () => {
+    assert.equal(network.windowSlot(new Set()), 0);
+    assert.equal(network.windowSlot(new Set([0, 1])), 2);
+    assert.equal(network.windowSlot(new Set([1, 3])), 0);
+    assert.equal(network.windowSlot(new Set([0, 1, 2, 3])), 0);
+    assert.throws(() => network.windowPosition(4), /WINDOW_SLOT 4/);
+  });
+  await t.test('a released claim frees its slot for the next launch', () => {
+    const first = network.claimWindowSlot(), second = network.claimWindowSlot();
+    try {
+      assert.notEqual(first.slot, second.slot);
+      first.release();
+      const third = network.claimWindowSlot();
+      assert.equal(third.slot, first.slot);
+      third.release();
+    } finally {
+      first.release();
+      second.release();
+    }
+  });
+});

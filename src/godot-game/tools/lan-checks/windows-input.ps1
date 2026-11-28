@@ -35,6 +35,7 @@ public static class LanDesktop {
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr window,out Rect rect);
     [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
     [DllImport("user32.dll")] public static extern IntPtr GetWindowLongPtr(IntPtr window,int index);
+    [DllImport("user32.dll",CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr window,System.Text.StringBuilder text,int count);
     [DllImport("user32.dll",SetLastError=true)] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
     [DllImport("user32.dll")] public static extern IntPtr GetThreadDpiAwarenessContext();
     [DllImport("user32.dll")] public static extern bool AreDpiAwarenessContextsEqual(IntPtr first,IntPtr second);
@@ -94,6 +95,21 @@ function Get-OwnedWindow([int]$SubjectId) {
     if ($record.window -eq [IntPtr]::Zero -or -not [LanDesktop]::IsWindow($record.window) -or $actualId -ne $SubjectId) { throw 'DRIVER_WINDOW_OWNERSHIP' }
     return $record.window
 }
+# Names the root window at a screen point, so a point-ownership failure identifies what covers the owned window.
+function Describe-PointWindow([LanDesktop+Point]$Point) {
+    $root=[LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($Point),2)
+    [uint32]$ownerId=0
+    [void][LanDesktop]::GetWindowThreadProcessId($root,[ref]$ownerId)
+    $title=[System.Text.StringBuilder]::new(256)
+    [void][LanDesktop]::GetWindowText($root,$title,$title.Capacity)
+    $rect=[LanDesktop+Rect]::new()
+    [void][LanDesktop]::GetWindowRect($root,[ref]$rect)
+    $name=(Get-Process -Id $ownerId -ErrorAction SilentlyContinue).ProcessName
+    $topmost=([LanDesktop]::GetWindowLongPtr($root,-20).ToInt64() -band 8) -ne 0
+    return "point=$($Point.X),$($Point.Y) covering window=$root pid=$ownerId process=$name " +
+        "owned=$($allowed.ContainsKey([int]$ownerId)) title='$($title.ToString())' " +
+        "rect=$($rect.L),$($rect.T),$($rect.R),$($rect.B) topmost=$topmost"
+}
 function Wait-Foreground([IntPtr]$Target,[int]$Milliseconds) {
     $elapsed=[Diagnostics.Stopwatch]::StartNew()
     do {
@@ -135,7 +151,7 @@ function Focus-Reachable([IntPtr]$Target) {
     $captionOffset=[Math]::Min(($outer.R-$outer.L)/3,[Math]::Max(50,$captionHeight*2))
     $titlePoint=[LanDesktop+Point]::new();$titlePoint.X=$clientOrigin.X+[int]$captionOffset;$titlePoint.Y=$outer.T+[int]($captionHeight/2)
     $pointRoot=[LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($titlePoint),2)
-    if ($pointRoot -ne $Target) { throw "DRIVER_FOCUS_POINT_NOT_OWNED target=$Target actual=$pointRoot point=$($titlePoint.X),$($titlePoint.Y)" }
+    if ($pointRoot -ne $Target) { throw "DRIVER_FOCUS_POINT_NOT_OWNED target=$Target $(Describe-PointWindow $titlePoint)" }
     if (-not [LanDesktop]::SetCursorPos($titlePoint.X,$titlePoint.Y)) { throw 'DRIVER_FOCUS_CURSOR' }
     $script:mouseHeld=$true
     [LanDesktop]::MouseButton($true);[LanDesktop]::MouseButton($false)
@@ -167,7 +183,7 @@ function Move-OwnedPointer([int]$SubjectId,[IntPtr]$Target,[int]$X,[int]$Y) {
     if (-not [LanDesktop]::ClientToScreen($Target,[ref]$point)) { throw 'DRIVER_MOUSE_POINT' }
     [uint32]$pointOwner=0
     [void][LanDesktop]::GetWindowThreadProcessId([LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($point),2),[ref]$pointOwner)
-    if ($pointOwner -ne $SubjectId) { throw 'DRIVER_MOUSE_POINT_NOT_OWNED' }
+    if ($pointOwner -ne $SubjectId) { throw "DRIVER_MOUSE_POINT_NOT_OWNED target=$Target $(Describe-PointWindow $point)" }
     if (-not [LanDesktop]::SetCursorPos($point.X,$point.Y)) { throw 'DRIVER_MOUSE_POINT' }
 }
 try {
@@ -218,7 +234,9 @@ try {
                     if (-not [LanDesktop]::ClientToScreen($window,[ref]$point) -or -not [LanDesktop]::SetCursorPos($point.X,$point.Y)) { throw 'DRIVER_MOUSE_POINT' }
                     [uint32]$pointOwner=0
                     [void][LanDesktop]::GetWindowThreadProcessId([LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($point),2),[ref]$pointOwner)
-                    if ($pointOwner -ne $subjectId) { throw 'DRIVER_MOUSE_POINT_NOT_OWNED' }
+                    if ($pointOwner -ne $subjectId) {
+                        throw "DRIVER_MOUSE_POINT_NOT_OWNED target=$window $(Describe-PointWindow $point)"
+                    }
                     $mouseHeld=$true
                     [LanDesktop]::MouseButton($true); [LanDesktop]::MouseButton($false)
                     $mouseHeld=$false
