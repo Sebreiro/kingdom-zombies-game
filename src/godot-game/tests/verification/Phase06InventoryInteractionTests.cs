@@ -87,6 +87,47 @@ public sealed class Phase06InventoryInteractionTests
         session.Inventory.Find(itemId: food.Id)?.Quantity.ShouldBe(expected: 5);
     }
 
+    /// <summary>
+    /// A drop released inside the player's own inventory carries a JSON null token, which reads as an own request
+    /// instead of throwing, while a drop onto an external grid still names its positive token.
+    /// </summary>
+    [Fact]
+    public void CarriesExternalToken_OwnInventoryDropWithNullToken_IsFalse()
+    {
+        FoundationSession session = Phase06MeleeTests.Start();
+        (RunInventory.Item bag, RunInventory.Item food) = WithFood(session: session);
+        Model.Item carried = Read(session: session, id: food.Id, grid: bag.Id);
+        var own = new Model.Grid(kind: "container", id: bag.Id, width: 4, height: 4,
+                container: Read(session: session, id: bag.Id), token: 0, items: [carried], ancestors: [bag.Id]);
+        var workspace = new Model();
+        workspace.Show(external: false);
+        workspace.Begin(item: carried, external: false, token: 0, split: false).ShouldBeTrue();
+        Model.Command drop = workspace.Release(placement: workspace.CheckGrid(grid: own, x: 1, y: 0))
+                .ShouldNotBeNull();
+        drop.Request.GetProperty(propertyName: "Token").ValueKind.ShouldBe(expected: JsonValueKind.Null);
+        drop.CarriesExternalToken.ShouldBeFalse();
+        var stash = new Model.Grid(kind: "stash", id: 0, width: 4, height: 4, container: null, token: 41,
+                items: [], ancestors: []);
+        workspace.Begin(item: carried, external: false, token: 0, split: false).ShouldBeTrue();
+        workspace.Release(placement: workspace.CheckGrid(grid: stash, x: 0, y: 0)).ShouldNotBeNull()
+                .CarriesExternalToken.ShouldBeTrue();
+        new Model.Command(kind: "place", request: JsonSerializer.SerializeToElement(value: new { Token = "41" }))
+                .CarriesExternalToken.ShouldBeFalse();
+    }
+
+    /// <summary>The pointer release routes the dropped request by the command's own token reading.</summary>
+    [Fact]
+    public void PointerRelease_WorkspaceSource_RoutesByCommandToken()
+    {
+        MethodDeclarationSyntax release = InputMethod(name: "PointerRelease");
+        release.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(predicate: call =>
+                call.Expression.ToString() is "Send").Select(selector: call => call.ArgumentList.ToString())
+                .ShouldBe(expected:
+                        ["(command: action, nearby: _externalDestination || action.CarriesExternalToken)"]);
+        release.DescendantNodes().OfType<IdentifierNameSyntax>().Any(predicate: name => StringComparer.Ordinal.Equals(
+                x: name.Identifier.ValueText, y: "GetInt64")).ShouldBeFalse();
+    }
+
     /// <summary>Nested close cascades and reopen restores only the remembered position of the manual opening.</summary>
     [Fact]
     public void BagWindows_ParentClosed_CloseAndRememberClampedPosition()
@@ -294,5 +335,15 @@ public sealed class Phase06InventoryInteractionTests
         session.TryEditInventory(edit: (inventory, _, _) => inventory.WithItems(items: inventory.Items.Add(item: food),
                 nextItemId: food.Id + 1)).ShouldBeTrue();
         return (bag, food);
+    }
+
+    private static MethodDeclarationSyntax InputMethod(string name)
+    {
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs"));
+        return CSharpSyntaxTree.ParseText(text: source, cancellationToken: TestContext.Current.CancellationToken)
+                .GetRoot(cancellationToken: TestContext.Current.CancellationToken).DescendantNodes()
+                .OfType<MethodDeclarationSyntax>().Single(predicate: method => StringComparer.Ordinal.Equals(
+                        x: method.Identifier.ValueText, y: name));
     }
 }

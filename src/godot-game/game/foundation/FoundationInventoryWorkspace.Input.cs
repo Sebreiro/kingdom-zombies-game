@@ -121,8 +121,7 @@ internal sealed partial class FoundationInventoryWorkspace
         (Model.Placement placement, _) = PlacementAt(point: point);
         if (_model.Release(placement: placement) is { } action)
         {
-            Send(command: action, nearby: _externalDestination || action.Request.TryGetProperty(
-                    propertyName: "Token", value: out System.Text.Json.JsonElement token) && token.GetInt64() > 0);
+            Send(command: action, nearby: _externalDestination || action.CarriesExternalToken);
         }
         else if (placement.Reason is not "Outside")
         {

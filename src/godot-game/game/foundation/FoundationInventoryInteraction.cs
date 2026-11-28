@@ -515,6 +515,14 @@ internal sealed partial class FoundationInventoryInteraction
 
         internal string Kind { get; init; }
         internal JsonElement Request { get; init; }
+
+        /// <summary>
+        /// Whether the request names a positive external token. A request inside the player's own inventory carries
+        /// no token or a JSON null one, so it never counts as external.
+        /// </summary>
+        internal bool CarriesExternalToken => Request.TryGetProperty(propertyName: "Token",
+                value: out JsonElement token) && token.ValueKind is JsonValueKind.Number
+                && token.TryGetInt64(value: out long value) && value > 0;
     }
 
     internal sealed record Item
