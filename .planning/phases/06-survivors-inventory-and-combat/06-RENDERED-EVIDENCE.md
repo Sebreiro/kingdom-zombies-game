@@ -395,3 +395,19 @@ The 42 inherited lan-checks captures are under `ac2ede97-e39d-4474-a815-8b77df7d
 ### Run 2a outcome
 
 Run 2a did not pass: 28 failed and 2 blocked in `335e06c4`, and the newly affected case passed in `13ecb196`. No repair is made in this record. The next repair round also owns the orchestrator-accepted RR-06 to RR-08 and the two known older failures recorded in 06-REVIEW.md ("Orchestrator acceptance (2026-11-28)"). Each repair round goes to a fresh executor and a fresh independent reviewer, and is appended here as Run 2b and so on. The fresh full selected-set run stays with 06-15.
+
+### Repair round 3 scope decisions
+
+These decisions were taken by the orchestrator for repair round 3 and are recorded here unchanged. They are not reopened by later repair rounds.
+
+1. **`asset-pipeline.runner.prelaunch-source` stays expected-blocked.** Round 3a (`58d8216`) cleared its `SELECTION_IMPACT_MISMATCH`. The next control, `unrelated-passing-case`, stops at `EVIDENCE_GIT` merge-base, because `verifyFixProof` (`asset-pipeline/scenarios.cjs:274`) needs the CR-01 fix commit `ef9e58c`. That commit exists only on `feature/04-asset-production`; PR #5 was squash-merged as `1a14684`. Under Phase 5 CONTEXT D-46 the `runner.prelaunch` gate stays expected-blocked, without pass credit, until Phase 11 (TEST-12). It is not repaired in Phase 6.
+2. **Eight pinned Phase 4 recipe cases are deferred.** They fail on pre-move paths, never ran earlier in this phase, and were selected only because the asset-bindings rederivation touched `pack-index.json` and `delivery.json`:
+   - `asset-pipeline.audio.feasibility` and `asset-pipeline.media.conversion`: `CAPTURED_ROOT_REQUIRED`, documented in `src/godot-game/tools/README.md`;
+   - `asset-pipeline.media.scale`: missing `tools/phase4/extract-media.py`;
+   - `asset-pipeline.bodies.b-wide` and `asset-pipeline.bodies.complete-fit`: missing `production/phase4/bodies-b.zip`;
+   - `asset-pipeline.buildings.defense-state`: missing `production/phase4/main-buildings.zip`;
+   - `asset-pipeline.export.profile`: missing local checkpoint `04-02-entry-93386745`;
+   - `asset-pipeline.export.layout`: `EXPORT_SOURCE_CASE` on `src/core/obj/…AssemblyAttributes.cs`.
+
+   These failures predate Phase 6 and are not caused by it. They are deferred to the D-43/D-46 relocated-tree provenance work and must be named as open items in 06-25-SUMMARY and in 06-15.
+3. **`asset-pipeline.export.profile-boundaries` is repaired in round 3b.** `export-profile.cjs:197` named `relative`, which 11a7ca3 had removed, so every native observation threw `ReferenceError: relative is not defined`. Round 3b (`a8588ef`) names the pinned console executable instead, as 11a7ca3 already did for the engine hash check. The case then passed on its own: game-tests `2a5841cd-9890-467c-ae5f-3a7ed99c442c` (asset-pipeline `a4dabad9-d75d-4df8-b61b-7aa5cf1df57d`), 1 passed of 1, on `a8588ef`.
