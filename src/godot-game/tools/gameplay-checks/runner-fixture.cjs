@@ -53,8 +53,9 @@ async function run(mode) {
     const art=path.join(current.isolatedInputRoot,'src/godot-game/game/foundation/FoundationInventoryArt.cs');
     const themed=fs.readFileSync(art,'utf8');
     assert.ok(themed.includes('res://assets/ui/InspectionTheme.tres'));
-    // The current project admits the theme but still rejects any other Foundation reference outside Foundation and
-    // the declared inspection set, even to the icon another project role declares and copies.
+    // The current project admits the theme but still rejects a static res:// literal in a Foundation file that names
+    // a resource outside Foundation and the declared inspection set, even the icon another project role declares and
+    // copies. Paths Foundation builds at runtime ("res://" + path) are outside this literal check.
     fs.writeFileSync(art,themed+'\n// res://assets/ui/kingdom-zombies-icon.png\n');
     try {
       rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'outside-inspection')}),
