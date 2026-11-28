@@ -182,7 +182,10 @@ function impactClosure(cases, files) {
   const starts = (...prefixes) => files.some(file => prefixes.some(prefix => file === prefix || file.startsWith(prefix+'/')));
   const shared = starts('src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets',
     'src/godot-game/Directory.Packages.props','src/godot-game/global.json','src/godot-game/NuGet.config');
-  const runtime = shared || starts('src','src/godot-game/tools/code-rules','src/godot-game/tests/verification');
+  // Runtime source is the game, core and multiplayer abstraction projects that lived under src/ before the workspace
+  // moved under src/godot-game; the moved tools, tests, references and production inputs are not runtime source.
+  const runtime = shared || starts('src/godot-game/core','src/godot-game/game','src/godot-game/multiplayer-abstractions',
+    'src/godot-game/tools/code-rules','src/godot-game/tests/verification');
   const inheritedGroups = {
     engine:['src/godot-game/game','docs/code','src/godot-game/tools/code-rules','src/godot-game/tests/verification'],
     graph:['src','docs/architecture','docs/code','src/godot-game/tests/verification','src/godot-game/tools/verification/projects.json'],

@@ -846,7 +846,9 @@ function selectionControls(context) {
     phase2Record.omitted.push({...structuredClone(record.omitted[0]),id:phase2.id});
     assert.deepEqual(scenarios.validateSelection(structuredClone(phase2Record),withPhase2,catalog,current,
       scenarios.impactClosure(withPhase2,['src/godot-game/tools/lan-checks/network.cjs'])).selected.map(item => item.id),record.selected.map(item => item.id));
-    for (const file of ['src/godot-game/tools/gameplay-checks/rendered.cjs','src/godot-game/tools/verification/check.cjs']) {
+    // Runtime source still affects legacy Phase 2 cases; a moved tool outside their runners (network.cjs above) does not.
+    for (const file of ['src/godot-game/tools/gameplay-checks/rendered.cjs','src/godot-game/tools/verification/check.cjs',
+      'src/godot-game/game/foundation/FoundationRoot.cs','src/godot-game/core/RunProjections.cs']) {
       reject('omit-phase2-after-'+file,/SELECTION_IMPACT_MISMATCH/,() =>
         scenarios.validateSelection(structuredClone(phase2Record),withPhase2,catalog,current,scenarios.impactClosure(withPhase2,[file])));
     }
