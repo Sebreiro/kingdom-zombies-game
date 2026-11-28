@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using KingdomZombies.Core;
 using KingdomZombies.Foundation;
@@ -286,19 +287,58 @@ public sealed class Phase06InventoryInteractionTests
     [Fact]
     public void PressBranch_ObservedPress_NamesTakenBranch()
     {
-        Press().Branch.ShouldBe(expected: "quick");
-        Press(ctrlFlag: false).Branch.ShouldBe(expected: "quick");
-        Press(pending: 7).Branch.ShouldBe(expected: "pending");
-        Press(externalToken: 5).Branch.ShouldBe(expected: "token");
-        Press(externalToken: null, externalKind: null).Branch.ShouldBe(expected: "token");
-        Press(right: true).Branch.ShouldBe(expected: "menu");
-        Press(ctrlFlag: false, ctrlHeld: false).Branch.ShouldBe(expected: "drag");
+        Press().Branch.ShouldBe(expected: Model.ItemPressBranch.Quick);
+        Press(ctrlFlag: false).Branch.ShouldBe(expected: Model.ItemPressBranch.Quick);
+        Press(pending: 7).Branch.ShouldBe(expected: Model.ItemPressBranch.Pending);
+        Press(externalToken: 5).Branch.ShouldBe(expected: Model.ItemPressBranch.Token);
+        Press(externalToken: null, externalKind: null).Branch.ShouldBe(expected: Model.ItemPressBranch.Token);
+        Press(right: true).Branch.ShouldBe(expected: Model.ItemPressBranch.Menu);
+        Press(ctrlFlag: false, ctrlHeld: false).Branch.ShouldBe(expected: Model.ItemPressBranch.Drag);
         Press(ctrlFlag: false, ctrlHeld: false, shiftHeld: true).Split.ShouldBeTrue();
-        Press(ctrlFlag: false, ctrlHeld: false, shiftHeld: true).Branch.ShouldBe(expected: "split");
-        Press(external: false, externalToken: null, externalKind: null).Branch.ShouldBe(expected: "no-external");
-        Press(external: false, externalKind: "Pile").Branch.ShouldBe(expected: "not-stash");
-        Press(external: false).Branch.ShouldBe(expected: "quick");
-        Press(externalKind: "Pile").Branch.ShouldBe(expected: "quick");
+        Press(ctrlFlag: false, ctrlHeld: false, shiftHeld: true).Branch
+                .ShouldBe(expected: Model.ItemPressBranch.Split);
+        Press(external: false, externalToken: null, externalKind: null).Branch
+                .ShouldBe(expected: Model.ItemPressBranch.NoExternal);
+        Press(external: false, externalKind: "Pile").Branch.ShouldBe(expected: Model.ItemPressBranch.NotStash);
+        Press(external: false).Branch.ShouldBe(expected: Model.ItemPressBranch.Quick);
+        Press(externalKind: "Pile").Branch.ShouldBe(expected: Model.ItemPressBranch.Quick);
+    }
+
+    /// <summary>A copied press derives its split choice and branch from the copied fields, so both agree.</summary>
+    [Fact]
+    public void ItemPress_CopiedWithChangedFields_DerivesMatchingBranch()
+    {
+        Model.ItemPress press = Press(ctrlFlag: false, ctrlHeld: false);
+        press.Branch.ShouldBe(expected: Model.ItemPressBranch.Drag);
+        (press with { Right = true }).Branch.ShouldBe(expected: Model.ItemPressBranch.Menu);
+        (press with { ShiftHeld = true }).Split.ShouldBeTrue();
+        (press with { ShiftHeld = true }).Branch.ShouldBe(expected: Model.ItemPressBranch.Split);
+        (press with { Pending = 3 }).Branch.ShouldBe(expected: Model.ItemPressBranch.Pending);
+        const BindingFlags Instance = BindingFlags.Instance | BindingFlags.NonPublic;
+        typeof(Model.ItemPress).GetProperty(name: nameof(Model.ItemPress.Branch), bindingAttr: Instance)
+                .ShouldNotBeNull().CanWrite.ShouldBeFalse();
+        typeof(Model.ItemPress).GetProperty(name: nameof(Model.ItemPress.Split), bindingAttr: Instance)
+                .ShouldNotBeNull().CanWrite.ShouldBeFalse();
+    }
+
+    /// <summary>
+    /// Item input dispatches every press branch by name in one switch whose default throws, so a renamed or added
+    /// branch cannot silently drop a click.
+    /// </summary>
+    [Fact]
+    public void ItemInput_EveryPressBranch_HasDispatchCase()
+    {
+        SwitchStatementSyntax dispatch = InputMethod(name: "ItemInput").DescendantNodes()
+                .OfType<SwitchStatementSyntax>().Single();
+        dispatch.Expression.ToString().ShouldBe(expected: "press.Branch");
+        dispatch.Sections.SelectMany(selector: section => section.Labels)
+                .SelectMany(selector: label => label.DescendantNodes().OfType<MemberAccessExpressionSyntax>())
+                .Where(predicate: access => access.Expression.ToString() is "Model.ItemPressBranch")
+                .Select(selector: access => access.Name.Identifier.ValueText).Order(comparer: StringComparer.Ordinal)
+                .ShouldBe(expected: [.. Enum.GetNames<Model.ItemPressBranch>()
+                        .Order(comparer: StringComparer.Ordinal)]);
+        dispatch.Sections.Single(predicate: section => section.Labels.Any(predicate: label =>
+                label is DefaultSwitchLabelSyntax)).Statements.Single().ShouldBeOfType<ThrowStatementSyntax>();
     }
 
     private static (string session, string binding, string player) Identity(FoundationSession session)

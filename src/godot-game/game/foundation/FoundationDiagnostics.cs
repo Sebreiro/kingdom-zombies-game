@@ -116,6 +116,19 @@ internal sealed class FoundationDiagnostics
             return null;
         }
 
+        string? branch = itemPress?.Branch switch
+        {
+            null => null,
+            FoundationInventoryInteraction.ItemPressBranch.Pending => "pending",
+            FoundationInventoryInteraction.ItemPressBranch.Token => "token",
+            FoundationInventoryInteraction.ItemPressBranch.Menu => "menu",
+            FoundationInventoryInteraction.ItemPressBranch.Quick => "quick",
+            FoundationInventoryInteraction.ItemPressBranch.Split => "split",
+            FoundationInventoryInteraction.ItemPressBranch.Drag => "drag",
+            FoundationInventoryInteraction.ItemPressBranch.NoExternal => "no-external",
+            FoundationInventoryInteraction.ItemPressBranch.NotStash => "not-stash",
+            _ => throw new InvalidOperationException(message: "ITEM_PRESS_BRANCH"),
+        };
         return new { coordinator.FixtureName, current.Roster.Revision, current.World,
             Views = current.Views.ToDictionary(keySelector: entry => entry.Key, elementSelector: entry => new
             {
@@ -130,7 +143,7 @@ internal sealed class FoundationDiagnostics
             ItemPress = itemPress is null ? null : new { itemPress.Sequence, itemPress.Item, itemPress.External,
                 Button = itemPress.Right ? "right" : "left", itemPress.CtrlFlag, itemPress.CtrlHeld,
                 itemPress.ShiftFlag, itemPress.ShiftHeld, itemPress.DrawnToken, itemPress.ExternalToken,
-                itemPress.Pending, itemPress.ExternalPending, itemPress.ExternalKind, itemPress.Branch } };
+                itemPress.Pending, itemPress.ExternalPending, itemPress.ExternalKind, Branch = branch } };
 #else
         return null;
 #endif

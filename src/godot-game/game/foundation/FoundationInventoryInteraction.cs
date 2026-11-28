@@ -71,30 +71,30 @@ internal sealed partial class FoundationInventoryInteraction
     /// press. A modified click that falls back names why: no external view, or a deposit into a view that is not a
     /// stash.
     /// </summary>
-    internal static string PressBranch(ItemPress press)
+    internal static ItemPressBranch PressBranch(ItemPress press)
     {
         if (press.Pending.HasValue)
         {
-            return "pending";
+            return ItemPressBranch.Pending;
         }
 
         if (press.External && press.DrawnToken != press.ExternalToken)
         {
-            return "token";
+            return ItemPressBranch.Token;
         }
 
         if (press.Right)
         {
-            return "menu";
+            return ItemPressBranch.Menu;
         }
 
         if (!Modifier(flagged: press.CtrlFlag, held: press.CtrlHeld))
         {
-            return press.Split ? "split" : "drag";
+            return press.Split ? ItemPressBranch.Split : ItemPressBranch.Drag;
         }
 
-        return press.ExternalKind is null ? "no-external" : press.External || press.ExternalKind is "Stash" ? "quick"
-                : "not-stash";
+        return press.ExternalKind is null ? ItemPressBranch.NoExternal
+                : press.External || press.ExternalKind is "Stash" ? ItemPressBranch.Quick : ItemPressBranch.NotStash;
     }
 
     /// <summary>
@@ -678,10 +678,25 @@ internal sealed partial class FoundationInventoryInteraction
         internal Rect Frame { get; init; }
     }
 
+    /// <summary>The branch a left or right item press takes; item input dispatches on every member.</summary>
+    internal enum ItemPressBranch
+    {
+        Pending,
+        Token,
+        Menu,
+        Quick,
+        Split,
+        Drag,
+        NoExternal,
+        NotStash,
+    }
+
     /// <summary>
-    /// One left or right item press as item input read it, kept for read-only observation: the click's Ctrl and Shift
-    /// flags beside the held keys, the token the cell was drawn with beside the current authorized external token,
-    /// the pending request, the external view's kind (null without one) and the branch the press takes.
+    /// One left or right item press as item input read it and the branch it takes: the click's Ctrl and Shift flags
+    /// beside the held keys, the token the cell was drawn with beside the current authorized external token, the
+    /// pending request and the external view's kind (null without one). The split choice and the branch are derived
+    /// from these fields on every read, so they cannot disagree with them. The last press is exposed for read-only
+    /// observation.
     /// </summary>
     internal sealed record ItemPress
     {
@@ -702,8 +717,6 @@ internal sealed partial class FoundationInventoryInteraction
             Pending = pending;
             ExternalPending = externalPending;
             ExternalKind = externalKind;
-            Split = Modifier(flagged: shiftFlag, held: shiftHeld);
-            Branch = PressBranch(press: this);
         }
 
         internal long Sequence { get; init; }
@@ -719,8 +732,8 @@ internal sealed partial class FoundationInventoryInteraction
         internal long? Pending { get; init; }
         internal bool ExternalPending { get; init; }
         internal string? ExternalKind { get; init; }
-        internal bool Split { get; init; }
-        internal string Branch { get; init; }
+        internal bool Split => Modifier(flagged: ShiftFlag, held: ShiftHeld);
+        internal ItemPressBranch Branch => PressBranch(press: this);
     }
 
     [StructLayout(layoutKind: LayoutKind.Auto)]

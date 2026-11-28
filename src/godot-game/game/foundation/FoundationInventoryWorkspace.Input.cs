@@ -56,18 +56,25 @@ internal sealed partial class FoundationInventoryWorkspace
                     externalToken: target?.Token, pending: _pending, externalPending: _externalPending,
                     externalKind: target is null ? null : Model.ExternalTarget(header: target.Header).kind);
             LastPress = press;
-            if (press.Branch is "menu")
+            switch (press.Branch)
             {
-                ItemMenu(button: button, item: item, external: external);
-            }
-            else if (press.Branch is "quick" && target is not null)
-            {
-                Send(command: Model.Quick(item: item, token: target.Token, deposit: !external), nearby: true);
-            }
-            else if (press.Branch is "split" or "drag" or "no-external" or "not-stash")
-            {
-                _press = new Press(opener: button, item: item, external: external, token: token,
-                        at: mouse.GlobalPosition, split: press.Split);
+                case Model.ItemPressBranch.Pending or Model.ItemPressBranch.Token:
+                    break;
+                case Model.ItemPressBranch.Menu:
+                    ItemMenu(button: button, item: item, external: external);
+                    break;
+                case Model.ItemPressBranch.Quick:
+                    Send(command: Model.Quick(item: item, token: target?.Token
+                            ?? throw new InvalidOperationException(message: "ITEM_PRESS_QUICK_WITHOUT_EXTERNAL"),
+                            deposit: !external), nearby: true);
+                    break;
+                case Model.ItemPressBranch.Split or Model.ItemPressBranch.Drag or Model.ItemPressBranch.NoExternal
+                        or Model.ItemPressBranch.NotStash:
+                    _press = new Press(opener: button, item: item, external: external, token: token,
+                            at: mouse.GlobalPosition, split: press.Split);
+                    break;
+                default:
+                    throw new InvalidOperationException(message: "ITEM_PRESS_BRANCH");
             }
         }
         else if (!_pending.HasValue && (!external || token == External?.Token)
