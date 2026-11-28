@@ -116,8 +116,7 @@ async function qualification(context) {
   const currentRevision=e.git(ROOT,['rev-parse','HEAD']).trim();
   const wrongCommit=e.git(ROOT,['rev-parse','5597c6d']).trim();
   const actualCommit=e.git(ROOT,['rev-parse','ef9e58c']).trim();
-  // ef9e58c (CR-01) predates the workspace move and touched the pre-move path, so the finding names that path.
-  const finding={id:'CR-01',paths:['tools/phase2/rendered.cjs']};
+  const finding={id:'CR-01',paths:['src/godot-game/tools/gameplay-checks/rendered.cjs']};
   reject('unrelated-fix-commit',/REVIEW_PROOF_COMMIT/,() => scenarios.verifyFixProof(ROOT,catalog,{revision:currentRevision},finding,
     {commit:wrongCommit,cases:[{id:'runner.prelaunch-source'}]}));
   reject('unrelated-passing-case',/REVIEW_PROOF_CASE/,() => scenarios.verifyFixProof(ROOT,catalog,{revision:currentRevision},finding,

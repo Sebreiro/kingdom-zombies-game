@@ -4369,7 +4369,7 @@
         "id": "runner.prelaunch",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-        "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+        "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4436,7 +4436,7 @@
         "id": "runner.selection",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-        "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+        "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4504,7 +4504,7 @@
         "id": "acceptance.judgments",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-        "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+        "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4571,7 +4571,7 @@
         "id": "acceptance.artifacts",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-        "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+        "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4643,7 +4643,7 @@
         "id": "runner.prelaunch-source",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-        "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+        "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4711,7 +4711,7 @@
         "id": "acceptance.artifacts-source",
         "status": "implemented-source-case",
         "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-        "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+        "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -8474,28 +8474,28 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8516,14 +8516,14 @@
           "id": "runner.prelaunch-source",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts-source",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8585,42 +8585,42 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.prelaunch-source",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts-source",
           "status": "implemented-source-case",
           "module": "src/godot-game/tools/asset-pipeline/cases/runner.cjs",
-          "moduleSha256": "2c8b1c913ae117ffce6230ba88913485cdc56ac22f2c6b7482ba1b475c2b4295",
+          "moduleSha256": "f4685235d1aae065d64b2d67113a81863abc8db849a70f867595989ccd4b7132",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
