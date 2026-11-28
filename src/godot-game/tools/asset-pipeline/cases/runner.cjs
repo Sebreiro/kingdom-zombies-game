@@ -1105,6 +1105,30 @@ async function completionReceiptControls(context) {
   return controls;
 }
 
+// The guarded-host extent is derived from the policy: a presenter outside the inspection and Foundation files, a
+// duplicate entry, or an inspection presenter without its compiled case each fail closed on a copied fixture root.
+function nativeHostExtentControls(context, reject) {
+  const e = require('../evidence.cjs');
+  const files = ['EngineAccessPolicy.cs','ContentNativePermissionTests.cs'].map(name => 'src/godot-game/tests/verification/'+name);
+  const [policy,test] = files.map(file => fs.readFileSync(path.join(ROOT,file),'utf8'));
+  const anchor = 'private static readonly HashSet<string> _presenters = new(comparer: StringComparer.Ordinal)\n    {\n';
+  assert.equal(policy.split(anchor).length,2,'presenter set anchor');
+  const fixture = (name, entry) => {
+    const root = path.join(context.directory,'native-host-'+name);
+    fs.mkdirSync(path.join(root,'src/godot-game/tests/verification'),{recursive:true});
+    fs.writeFileSync(path.join(root,files[0]),policy.replace(anchor,anchor+'        '+entry+',\n'));
+    fs.writeFileSync(path.join(root,files[1]),test);
+    return root;
+  };
+  const existing = policy.slice(policy.indexOf(anchor)+anchor.length).split(',\n')[0].trim();
+  reject('native-host-outside-owned-files',/EVIDENCE_NATIVE_HOST_EXTENT/,() => e.guardedHostTuples(
+    fixture('outside','"src/godot-game/game/other/Other.cs|KingdomZombies.Other|Run()"')));
+  reject('native-host-duplicate-entry',/EVIDENCE_NATIVE_HOST_EXTENT/,() => e.guardedHostTuples(
+    fixture('duplicate',existing)));
+  reject('native-host-without-compiled-case',/EVIDENCE_SET/,() => e.guardedHostTuples(
+    fixture('uncompiled','"src/godot-game/game/inspection/Other.cs|KingdomZombies.Inspection.Other|Run()"')));
+}
+
 async function artifactControls(context) {
   const e = require('../evidence.cjs');
   const receiptControls = await completionReceiptControls(context);
@@ -1115,7 +1139,8 @@ async function artifactControls(context) {
     const file = e.writeExclusive(context.directory,'test-source.cjs',Buffer.from(source + '\n'));
     const symbol = {path:file.path,member:'chooseExact',signature:'chooseExact()',line:1,sourceLine:source};
     const guarded = e.guardedHostTuples(ROOT);
-    assert.equal(guarded.length,251);
+    assert.ok(guarded.length > 0 && guarded.every(tuple => tuple.startsWith('src/godot-game/game/inspection/')));
+    nativeHostExtentControls(context,reject);
     const expected = {files:[file.path],cases:['sample.case'],native:['operation/exact',...guarded],guarded,archives:[]};
     const audit = {...current,schemaVersion:1,sourceSymbols:[symbol],nativeHostTuples:guarded,archives:[]};
     const inventory = {...current,schemaVersion:1,files:[file],sourceSymbols:[symbol],caseExports:expected.cases,nativePermits:expected.native,archives:[]};
