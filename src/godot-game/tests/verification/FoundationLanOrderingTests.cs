@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json;
 using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
@@ -77,9 +78,16 @@ public sealed class FoundationLanOrderingTests
         port.Enqueue(sender: 2, envelope: new FoundationEnvelope(kind: "hello", playerId: "guest", label: "Guest"));
         host.Update(elapsedMilliseconds: 0);
         FoundationEnvelope baseline = port.Sent[0].Envelope;
-        var intent = new FoundationEnvelope(kind: "intent", sessionId: baseline.SessionId,
+        var intent = new FoundationEnvelope(kind: "action", sessionId: baseline.SessionId,
                 bindingId: baseline.BindingId, playerId: baseline.PlayerId, actorId: baseline.ActorId, sequence: 1,
-                direction: 1);
+                game: new FoundationRunFrame
+                {
+                    Action = "move",
+                    Survivor = "survivor-02",
+                    Epoch = 2,
+                    Body = JsonSerializer.SerializeToElement(value:
+                            new { Direction = 1, Sprint = false, Jump = false }),
+                });
         port.Enqueue(sender: 2, envelope: intent);
         host.Update(elapsedMilliseconds: 0);
         host.AcceptedIntents.ShouldBe(expected: 0);

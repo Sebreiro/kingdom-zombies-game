@@ -5,7 +5,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 const baseline = require('../verification/check.cjs');
-const { rendered, command } = require('./rendered.cjs');
+const { rendered, command, prepareRenderedProject } = require('./rendered.cjs');
 const evidence = require('./evidence.cjs');
 const workspace = require('../workspace-paths.cjs');
 const {hash,requireTrue,inside,read,reconcile,loadReport,aggregate,verifyCompletion} = evidence;
@@ -119,9 +119,11 @@ async function main(root,args) {
       context.engine=process.platform==='win32'?engine.replace('_console.exe','.exe'):engine;
       if(process.platform==='win32')requireTrue(hash(fs.readFileSync(context.engine))==='45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','NATIVE_ENGINE_HASH');
       requireTrue((await command(engine,['--version'],{cwd:root,env})).stdout.trim()===pins.engineFullVersion,'ENGINE_VERSION');
+      const session=await nativeContext(context);
       const nativeDirectory=path.join(directory,'session');fs.mkdirSync(nativeDirectory);
-      const nativeResults=await rendered({...context,directory:nativeDirectory},native);
+      const nativeResults=await rendered({...session,directory:nativeDirectory},native);
       for(const result of nativeResults) {
+        result.preparedProject=session.preparedProject;
         if(result.images)for(const image of result.images){image.path='session/'+image.path;image.statePath='session/'+image.statePath;}
         if(result.status==='pass')try{reconcile([catalog.cases.find(row=>row.id===result.id)],[result],context);}catch(error){result.status='fail';result.message=error.message;}
         results.push(result);
@@ -142,6 +144,11 @@ async function main(root,args) {
   for(const failure of failures)console.error(failure.message);
   if(status!=='pass')process.exitCode=1;return summary;
 }
+// One imported copy of the current game serves every rendered case of the invocation.
+async function nativeContext(context,prepare) {
+  const {project,assemblies}=await prepareRenderedProject(context,prepare);
+  return {...context,project,preparedProject:{path:path.relative(context.directory,project).replaceAll('\\','/'),assemblies}};
+}
 // The input scope and tool identity are recorded in every summary; later consumers recompute them from these definitions.
 // Caller-stage inputs (the verification runner, its catalog and bootstrap) already sit under src, so every selection
 // uses the same three roots; listing them again would overlap and fail INPUT_DUPLICATE.
@@ -158,5 +165,5 @@ function toolIdentity(root,env=environment(root)){
     pins:hash(fs.readFileSync(path.join(root,'src/godot-game/tools/verification/toolchain.json'))),
     testBinary:hash(fs.readFileSync(path.join(root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
 }
-module.exports={main,select,reconcile,acquireLock,inputManifest,environment,toolIdentity};
+module.exports={main,select,reconcile,acquireLock,inputManifest,environment,toolIdentity,nativeContext};
 if(require.main===module)main(path.resolve(__dirname,'../../../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

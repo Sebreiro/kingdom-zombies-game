@@ -10,6 +10,7 @@
     <Compile Include="../../game/foundation/FoundationDisplay.cs" Link="FoundationDisplay.cs" />
     <Compile Include="../../game/foundation/FoundationPresentation.cs" Link="FoundationPresentation.cs" />
     <Compile Include="../../game/foundation/FoundationActorNode.cs" Link="FoundationActorNode.cs" />
+    <Compile Include="../../game/foundation/FoundationEquipmentProjection.cs" Link="FoundationEquipmentProjection.cs" />
     <Compile Include="../../game/foundation/FoundationCapturePublication.cs" Link="FoundationCapturePublication.cs" />
     <Compile Include="../../game/foundation/FoundationDrawRequest.cs" Link="FoundationDrawRequest.cs" />
     <Compile Include="../../game/foundation/FoundationObservationScope.cs" Link="FoundationObservationScope.cs" />
@@ -24,7 +25,16 @@
     <Compile Include="../../multiplayer-abstractions/PlayerProfile.cs" Link="PlayerProfile.cs" />
     <Compile Include="../../multiplayer-abstractions/SessionAdvertisement.cs" Link="SessionAdvertisement.cs" />
     <Compile Include="../../game/foundation/FoundationInput.cs" Link="FoundationInput.cs" />
+    <Compile Include="../../game/foundation/FoundationInventoryInteraction.cs" Link="FoundationInventoryInteraction.cs" />
+    <Compile Include="../../game/foundation/FoundationHudState.cs" Link="FoundationHudState.cs" />
+    <Compile Include="../../game/foundation/FoundationSpectator.cs" Link="FoundationSpectator.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
+    <Compile Include="../../game/foundation/FoundationCoordinator.RunWire.cs" Link="FoundationCoordinator.RunWire.cs" />
+    <Compile Include="../../game/foundation/FoundationViewInbox.cs" Link="FoundationViewInbox.cs" />
+    <Compile Include="../../game/foundation/FoundationPublicWorld.cs" Link="FoundationPublicWorld.cs" />
+    <Compile Include="../../game/foundation/FoundationRunFrame.cs" Link="FoundationRunFrame.cs" />
+    <Compile Include="../../game/foundation/FoundationRunView.cs" Link="FoundationRunView.cs" />
+    <Compile Include="../../game/foundation/FoundationRunReadback.cs" Link="FoundationRunReadback.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.Admission.cs"
              Link="FoundationCoordinator.Admission.cs" />
     <Compile Include="../../game/foundation/FoundationCoordinator.Lifetime.cs"

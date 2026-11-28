@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using KingdomZombies.Core;
 
 namespace KingdomZombies.Foundation;
@@ -8,6 +9,8 @@ namespace KingdomZombies.Foundation;
 internal sealed partial class FoundationCoordinator
 {
     private string _localActor = "";
+    private string _hostPeerGeneration = "";
+    private readonly FoundationPublicWorld _publicWorld = new();
 
     private void ReceiveGuest(FoundationEnvelope envelope)
     {
@@ -33,19 +36,20 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
-        if (envelope.Kind is "end" && _remote is not null
-                && StringComparer.Ordinal.Equals(x: envelope.SessionId, y: _remote.SessionId)
-                && StringComparer.Ordinal.Equals(x: envelope.BindingId, y: BindingId)
-                && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
-                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: _localActor))
+        if (envelope.Kind is "action-result" or "view-part" or "view-revoke")
         {
-            Send(peer: 1, envelope: new FoundationEnvelope(kind: "end-ack", sessionId: _remote.SessionId,
-                    bindingId: BindingId, playerId: PlayerId, actorId: _localActor, attemptId: _attempt));
-            Fail(reason: "The host ended the session. Host or join another session.");
+            ReceiveGuestRun(envelope: envelope);
             return;
         }
 
-        if (envelope.Kind is not ("baseline" or "state") || envelope.Snapshot is not FoundationSnapshot candidate)
+        if (envelope.Kind is "end")
+        {
+            ReceiveHostEnd(envelope: envelope);
+            return;
+        }
+
+        if (envelope.Kind is not ("baseline" or "state" or "world-part")
+                || envelope.Snapshot is not FoundationSnapshot candidate)
         {
             return;
         }
@@ -61,13 +65,122 @@ internal sealed partial class FoundationCoordinator
         {
             InstallBaseline(envelope: envelope, candidate: candidate);
         }
-        else if (_remote is not null && candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
-                x: p.BindingId, y: BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)
-                && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor) && (!Ready || p.Ready)))
+        else if (envelope.Kind is "world-part")
         {
-            _remote = candidate;
-            _lastResponse = Now();
+            ReceivePublicPart(envelope: envelope, candidate: candidate);
         }
+        else
+        {
+            InstallState(candidate: candidate, world: envelope.Game?.Body);
+        }
+    }
+
+    private bool IsKnownHostGeneration(string generation)
+    {
+        return _remote is null || StringComparer.Ordinal.Equals(x: _hostPeerGeneration, y: generation);
+    }
+
+    private bool CurrentRoster(FoundationSnapshot candidate)
+    {
+        return _remote is not null && candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
+                x: p.BindingId, y: BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)
+                && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor) && (!Ready || p.Ready));
+    }
+
+    private void ReceivePublicPart(FoundationEnvelope envelope, FoundationSnapshot candidate)
+    {
+        if (!CurrentRoster(candidate: candidate))
+        {
+            return;
+        }
+
+        _lastResponse = Now();
+        if (_publicWorld.Offer(envelope: envelope) is { } complete)
+        {
+            InstallState(candidate: complete.roster, world: complete.world);
+        }
+    }
+
+    private void InstallState(FoundationSnapshot candidate, JsonElement? world)
+    {
+        if (!CurrentRoster(candidate: candidate) || world is null && _remoteWorld is not null)
+        {
+            return;
+        }
+
+        _publicWorld.Discard(revision: candidate.Revision);
+        _remote = candidate;
+        _remoteWorld = world;
+        if (world is { } publicState)
+        {
+            _runInbox.ObservePublic(world: publicState, revision: candidate.Revision, binding: BindingId);
+        }
+
+        _lastResponse = Now();
+        RefreshGuestReadback();
+    }
+
+    private void ReceiveHostEnd(FoundationEnvelope envelope)
+    {
+        if (!IsCurrentHostMessage(envelope: envelope))
+        {
+            return;
+        }
+
+        Send(peer: 1, envelope: new FoundationEnvelope(kind: "end-ack", sessionId: envelope.SessionId,
+                bindingId: BindingId, playerId: PlayerId, actorId: _localActor, attemptId: _attempt));
+        Fail(reason: "The host ended the session. Host or join another session.");
+    }
+
+    private void ReceiveGuestRun(FoundationEnvelope envelope)
+    {
+        if (_connection?.Connected != true || !IsCurrentHostMessage(envelope: envelope)
+                || envelope.Game is not { } game)
+        {
+            RejectedPackets++;
+            return;
+        }
+
+        if (envelope.Kind is "action-result")
+        {
+            if (CurrentReceipt(frame: game) && envelope.Sequence <= _sequence
+                    && envelope.Sequence >= (RunActionFeedback?.sequence ?? 0))
+            {
+                RunActionFeedback = (envelope.Sequence, game.Action, game.Status, game.Replayed);
+                RememberHudFeedback(epoch: game.Epoch, kind: game.Action, status: game.Status,
+                        replayed: game.Replayed);
+            }
+        }
+        else if (!_runInbox.Offer(envelope: envelope, now: Now()))
+        {
+            RejectedPackets++;
+        }
+
+        RefreshGuestReadback();
+    }
+
+    private bool CurrentReceipt(FoundationRunFrame frame)
+    {
+        return LocalRunControl is { } control && (frame.Action is "respawn"
+                ? frame.Epoch == control.deathGeneration
+                : frame.Epoch == control.generation
+                        && StringComparer.Ordinal.Equals(x: frame.Survivor, y: control.survivorId));
+    }
+
+    private void RefreshGuestReadback()
+    {
+        _guestRunReadback = Ready && _remote is { } roster
+                ? new FoundationRunReadback(roster: roster, world: _remoteWorld, views: _runInbox.Views,
+                        feedback: RunReceipt)
+                : null;
+    }
+
+    private bool IsCurrentHostMessage(FoundationEnvelope envelope)
+    {
+        return _remote is not null && StringComparer.Ordinal.Equals(x: envelope.SessionId, y: _remote.SessionId)
+                && StringComparer.Ordinal.Equals(x: envelope.BindingId, y: BindingId)
+                && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
+                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: _localActor);
     }
 
     private bool RegressesActorTime(FoundationSnapshot candidate)
@@ -97,6 +210,7 @@ internal sealed partial class FoundationCoordinator
         _remote = candidate;
         BindingId = envelope.BindingId;
         _localActor = envelope.ActorId;
+        _hostPeerGeneration = _connection?.PeerGeneration(peer: 1) ?? "";
         InstalledRevision = candidate.Revision;
         _lastResponse = Now();
         RecordEvent(value: "baseline-installed:" + BindingId);

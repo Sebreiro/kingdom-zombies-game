@@ -2,20 +2,20 @@
 gsd_state_version: "1.0"
 milestone: v0.1
 milestone_name: Complete playable LAN campaign
-current_phase: 05
-current_phase_name: CI and repeatable game testing
-current_plan: 4
-status: completed
-stopped_at: "Phase 05 verified on b7e419c. Results are recorded on PR #15."
-last_updated: "2026-11-24T08:27:49.292Z"
-last_activity: 2026-11-24
-last_activity_desc: "Verified Phase 05 on Windows at 1280×720 and in hosted Windows and Ubuntu checks."
-state_head: b7e419c075bd0c97423142684099c9f5d588f0c9
+current_phase: 06
+current_phase_name: Survivors, inventory, and combat
+current_plan: 25
+status: executing
+stopped_at: Completed 06-24-PLAN.md
+last_updated: "2026-11-27T16:40:00.000Z"
+last_activity: 2026-11-27
+last_activity_desc: 06-24 derived the ac-08, asset and producer-replay bindings from the repaired source, passed the 71-case no-window gate, and reached a clean independent deep review of c2d2456 after five re-reviews (GR-01..09, NR-01..05 resolved)
+state_head: e4b556a4ee79de0476cf7e4aef15446af081762b
 progress:
   total_phases: 12
   completed_phases: 5
-  total_plans: 66
-  completed_plans: 64
+  total_plans: 115
+  completed_plans: 87
   percent: 42
 ---
 
@@ -33,15 +33,15 @@ Phase 4 closes on the reviewed source `5c637da`: a clean independent review and 
 
 ## Current Position
 
-Phase: 05 — CI and repeatable game testing
-Current Plan: 05-04 complete
-Total Plans in Phase: 4
-Status: Complete. [Phase 5 pull request](https://github.com/Sebreiro/kingdom-zombies-game/pull/15)
-Last activity: 2026-11-24 — Phase 5 verified all 92 selected Windows checks and recorded P1–P4. Windows and Ubuntu passed the hosted basic checks on the same source.
+Phase: 06 (Survivors, inventory, and combat) — READY TO EXECUTE
+Current Plan: 25
+Total Plans in Phase: 25
+Status: Ready to execute
+Last activity: 2026-11-27 — 06-24 derived the ac-08, asset and producer-replay bindings from the repaired source, passed the 71-case no-window gate, and reached a clean independent deep review of c2d2456 after five re-reviews (GR-01..09, NR-01..05 resolved); 06-25 is next
 
 Progress: [████░░░░░░] 42%
 
-Milestone progress: 5 of 12 phases, 64 of 66 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
+Milestone progress: 5 of 12 phases, 87 of 115 planned plans complete with two Phase 4 plans waived, and 29 of 136 requirements complete.
 
 ## Performance Metrics
 
@@ -96,6 +96,15 @@ Milestone progress: 5 of 12 phases, 64 of 66 planned plans complete with two Pha
 | Phase 04 P37 | 99min | 2 tasks | 12 files |
 | Phase 04 P03 | 20min | 2 tasks | 8 files |
 | Phase 04 P26 | 130min | 2 tasks | 14 files |
+| Phase 06 P16 | 689min | 2 tasks | 11 files |
+| Phase 06 P17 | 5min | 3 tasks | 12 files |
+| Phase 06 P18 | 175min | 3 tasks | 5 files |
+| Phase 06 P19 | 17min | 3 tasks | 8 files |
+| Phase 06 P20 | 90min | 3 tasks | 10 files |
+| Phase 06 P21 | 41min | 3 tasks | 8 files |
+| Phase 06 P22 | 64min | 3 tasks | 11 files |
+| Phase 06 P23 | 24min | 2 tasks | 6 files |
+| Phase 06 P24 | 2688min | 2 tasks | 35 files |
 
 ## Accumulated Context
 
@@ -192,6 +201,26 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 05]: Approved shared test preparation, focused checks and automatic scratch cleanup after durable evidence is saved. Exact builds are kept only for diagnosis or handoff. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md). — Reduce the disk footprint and repeated setup measured in Phase 4 while retaining required verification.
 - [Phase 05, 2026-11-23]: The creator approved the test-scope amendment. Phase 5 is reduced to a shared runner and catalog, three tiers, basic PR checks and the existing solo/LAN scenarios. Coverage certification with the eight IDs, full hosted runs, evidence reuse and exhaustive runner trials move to Phase 11 under the new TEST-12, and five cheaper testing rules apply to Phases 6–10. See the amended [05-SPEC.md](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) and [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-35–D-46. Plan Phase 5 from the amended specification and context.
 - [Phase 05, 2026-11-23]: After PR #6 moved the tools, the creator moved the renewal of the Phase 4 review-bound gates (`runner.prelaunch`, `runner.selection`, `acceptance.judgments`, `acceptance.artifacts`, `--verify-completion`) to Phase 11 under TEST-12. They stay expected-blocked without pass credit until then. Phase 5 still makes the Phase 4 checks it runs work in the relocated tree, including the recipes that assume the original `.phase4` folder. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) D-46.
+- [Phase 06]: 06-16 closed F2, F4, F7 and R-67: fixtures copy FoundationPublicWorld.cs; the MTP pin names the current proof csproj; the suppression scan binds under the consumer's assembly name (creator option b); the current Godot producer replay may append inputs after the exact ordered historical ones and is derived only by current-replay.cjs (creator option A); historical replay fixture builds run concurrently with sequential restores, keeping R-67's 60 s limit (creator option 1). The ac-08 binding rows and the bindings tools test stay with 06-24's ac08-bindings.cjs --write.
+- [Phase 06]: 06-17: F5 closes by renaming the 43 R-48 violations; R-48 and its checker stay unchanged, with no allowlist
+- [Phase 06]: 06-18: Core defines DEBUG only in ExportDebug, mirroring the Godot SDK, so ExportDebug exports compile while ExportRelease and Release exclude fixture code (F8)
+- [Phase 06]: 06-18: the LAN namespace control clones every authored partial of the checked type; production FoundationHud stays a two-file partial (F6)
+- [Phase 06]: 06-18: the native permission census requires exactly 252 tuples; the evidence.cjs presenter derivation (372 policy vs 252 compiled) is deferred in deferred-items.md
+- [Phase 06]: 06-19: F1 is repaired in runner preparation. Both inherited rendered runners start one run-owned imported copy whose KingdomZombies and Core assemblies must equal the build; production loading is unchanged.
+- [Phase 06]: 06-19: Scenario drivers expose launched processes as state.peers or state.launches records with a pid; scenario groups report the maximum per-case count, and unrecorded report values are 0 marked not-recorded.
+- [Phase 06]: 06-20: World help hiding lives in the HUD; FoundationRoot re-shows Hint after the HUD observes, so the guarded presenter FoundationHud.KeepHintClosed() re-hides it from VisibilityChanged while browsing
+- [Phase 06]: 06-20: World help uses the HUD body font at (636, 7, 290, 97); the longest WorldHint needs four 24 px lines, so the backplate rises into the top safe margin rather than scrolling or clipping
+- [Phase 06]: 06-20: Quick-food slots moved to content y 464 and workspace feedback to x 336 so eleven labeled equipment slots fit between y 44 and 448
+- [Phase 06]: 06-20: After any game C# change, re-derive currentProducerReplay (current-replay.cjs --write) and rebind the two spans-registry hashes in required-cases.json
+- [Phase 06]: 06-21: The run-1 split failure was on the driver side (press, moves and release in one burst; no drag ever began); the product split rule is unchanged
+- [Phase 06]: 06-21: FoundationRoot._Input records every key receipt before workspace routing; handled keys still never reach world input
+- [Phase 06]: 06-21: Rendered pictures require settledView(draw); resets follow the D-14 Escape order and fail with the missing step; ordinary-cleanup.json is written only after validated ordinary Quit records
+- [Phase 06]: 06-22: F13 is a driver correlation defect (mechanism a): the watcher's place receipt is replaced 47-100 ms later by the workspace's own window request receipt; drivers now accept only the receipt whose kind matches, not replayed, with a later sequence, read from every frame since submission (20/20 consecutive lan-privacy passes on 1e897ba)
+- [Phase 06]: 06-22: RunActionFeedback carries the receipt kind and runAction observes kind and replayed; FoundationRunReadback keeps its three-field Feedback; product publication unchanged
+- [Phase 06]: 06-23: H16 expectations were right; CharacterPresentation.Sample lacked the 1e-8 boundary tolerance of Remaining, so the step to 0.08 + 0.16 = 0.24 s showed airborne-up (latent Phase 4 code, unchanged since b9aaa2b); Sample now uses the same rule
+- [Phase 06]: 06-23: The run-1 inspection reset failed because a settle deadline abandoned an in-flight scene-tree request whose late response answered the reset; nativeObserver discards responses of abandoned requests, and the driver reset runs RELEASE, FIXTURE, BASELINE and names a failed stage
+- [Phase 06]: 06-24: ac08-bindings --write now derives each caller's repository stages, overallMs and the ExemptionTests theory rows, because Phase 6 grows the ac-08 source stages from 15 to 19; the game-tests asset-pipeline group limit is 150 minutes (a passing content.native-permissions case takes about 65)
+- [Phase 06]: 06-24: The gap-repair review is clean on reviewed source c2d24563389c22628deb301dda4f4d2a8e791997 after a full deep review and five re-reviews by fresh gsd-code-reviewer agents; .local/temp/phase06-review.json is written after the final planning commit because check.cjs --review requires revision === HEAD
 
 ### Pending Todos
 
@@ -218,6 +247,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 - [Process history] WINDOWS item 1 retains the missing original bootstrap RED record; later successful evidence does not recreate it. All original plan reports and failed attempts remain historical records. One-shot refactoring/binding utilities must not be reapplied.
 - [Release] Reference-PC hardware and required real mixed-OS LAN/endurance environments need actual recording and measurements before release acceptance.
 - [Phase 3 diagnostics] The completion CLI reports six supposed missing file references in 03-01-SUMMARY: four are executable command strings, and two are phase-relative `tdd/03-01-task*-red.json` paths. Both actual phase-local RED files exist. Independent verification checked the real artifacts and source links; the generic summary-path diagnostic remains disclosed without changing immutable summary metadata.
+- 06-15: initial phase-end run ee17949e on a9ac95f failed (66 pass, 39 fail, 18 blocked of 123; both Critical smoke cases failed). Repairs F1-F13 in 06-RENDERED-EVIDENCE.md change reviewed source and need a fresh independent review, a --failed rerun and a full selected-set rerun.
 
 ### Quick Tasks Completed
 
@@ -248,12 +278,16 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-24T08:27:49.292Z
-Stopped at: Phase 5 passed its required Windows, hosted and visual checks. [Phase 5 verification](phases/05-ci-and-repeatable-game-testing/05-VERIFICATION.md)
+Last session: 2026-11-27T16:40:00.000Z
+Stopped at: Completed 06-24-PLAN.md
 Resume file: None
 
 Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners.
 
-Next action: Review [Phase 5 pull request #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15). Phase 6 is next in the roadmap.
+[Phase 5 pull request #15](https://github.com/Sebreiro/kingdom-zombies-game/pull/15) merged into `dev` as `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6`. Phase 6 work continues on `feature/06-survivors-inventory-and-combat` in `D:/GitWorktrees/KingdomZombies/kz-06-survivors-inventory-and-combat`.
+
+Phase 6 implementation is published in [draft pull request #16](https://github.com/Sebreiro/kingdom-zombies-game/pull/16), targeting `dev`. Its first implementation commit is `6bd6750a1fc923bd15634574aee5e4bb1aa28803`.
+
+Phase 6 baseline on Windows used the pinned Node and `node src/godot-game/tools/game-tests/check.cjs --pr` from the linked checkout. Invocation `87cbb73a-e93f-412c-b053-fa41b043f8df` exited 0 on `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6` with four passes, zero failures and zero blocked cases. Strict build, repository validation, pure tests and headless solo gameplay passed.
 
 Repository layout continuation: [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) (`feature/quick-repository-layout`, quick tasks 261116-k3u, 261116-m0w and 261121-jmu) integrated `dev` (Phase 4 and PR #7) by quick task 261123-fsu, with every Phase 4 and PR #7 file at its [current layout location](../docs/architecture/repository-layout.md#historical-paths).

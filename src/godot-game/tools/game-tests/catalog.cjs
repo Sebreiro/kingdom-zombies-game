@@ -12,10 +12,21 @@ const catalogPath = tools + 'game-tests/catalog.json';
 const verificationPath = tools + 'verification/required-cases.json';
 const assetContentPath = tools + 'asset-pipeline/content.cjs';
 const gameContent = 'src/godot-game/game/content/';
+const characterInputs = ['src/godot-game/core/CharacterPresentation.cs',
+  'src/godot-game/game/inspection/CharacterPreview.cs', gameContent + 'animation/locomotion-melee.json',
+  gameContent + 'config/combat.json', gameContent + 'config/items.json',
+  ...['a', 'b', 'c'].flatMap(family => [gameContent + 'packs/bodies-' + family + '.json',
+    gameContent + 'animation/fits-' + family + '.json'])];
+const caseModule = name => tools + 'asset-pipeline/cases/' + name + '.cjs';
 const liveAssetInputs = {
+  'animation.cjs': [...characterInputs, 'src/godot-game/game/inspection/InspectionRoot.cs'],
+  'bow-work.cjs': [...characterInputs, caseModule('animation'), gameContent + 'animation/bow.json'],
   'ui-camp.cjs': [gameContent + 'packs/ui-camp.json', gameContent + 'packs/ui-map-warnings.json'],
   'ui-inventory.cjs': [gameContent + 'packs/ui-inventory.json', gameContent + 'packs/ui-legacy-stash.json'],
-  'corpses.cjs': [gameContent + 'packs/player-identities.json', gameContent + 'fixtures/crowds.json'],
+  'corpses.cjs': [...characterInputs, caseModule('animation'), 'src/godot-game/core/AppearanceState.cs',
+    'src/godot-game/game/inspection/CorpsePreview.cs', 'src/godot-game/game/inspection/CrowdPreview.cs',
+    gameContent + 'packs/corpses-wildlife.json', gameContent + 'packs/player-identities.json',
+    gameContent + 'fixtures/crowds.json'],
   'text-data.cjs': [gameContent + 'packs/text-data.json', gameContent + 'packs/compatibility.json',
     gameContent + 'packs/delivery.json', 'docs/content/fields.md']
 };
@@ -216,9 +227,10 @@ function assetRows(manifest, handoff) {
     const originalOwner = handoffPhases.get(item.id);
     requireValue(originalOwner, 'CATALOG_MISSING_ASSET_HANDOFF ' + item.id);
     const smoke = item.id === 'rendered.hub-navigation';
+    const phase06 = originalOwner === 6;
     const owner = smoke ? 5 : originalOwner === 4 ? 11 : originalOwner;
     return legacy('asset-pipeline', owner, item, {
-      status: smoke ? 'required' : 'planned',
+      status: smoke || phase06 ? 'required' : 'planned',
       acceptancePhase: smoke ? 5 : undefined,
       tier: 3, needsGameWindow: true, order: item.order,
       importance: smoke ? 'High' : item.importance === 'Critical' ? 'High' : item.importance,
@@ -228,7 +240,12 @@ function assetRows(manifest, handoff) {
       setup: smoke ? 'Launch the current reviewed, imported source inspection hub in a 1280×720 owned window.' : item.setup,
       actions: smoke ? ['Visit all eight categories using real input.', 'Read resource and category state and capture each category.'] : item.actions,
       expected: smoke ? 'Every category is reachable, has current observed state and supplies a decoded screenshot for P1–P4 review.' : item.expected,
-      freshProcessReason: 'The inspection hub or packaged subject needs its own scene, profile and process.'
+      freshProcessReason: 'The inspection hub or packaged subject needs its own scene, profile and process.',
+      ...(phase06 ? {
+        adapter: 'scenario', group: 'phase06.inspection', runGroup: 'phase06.inspection',
+        driver: 'src/godot-game/tests/scenarios/phase06-inspection.cjs', phaseEnd: true,
+        tags: ['phase06', 'inspection', 'asset-rendered']
+      } : {})
     });
   });
   const source = manifest.cases.map(item => {
@@ -426,9 +443,11 @@ function covers(pattern, file) {
 }
 
 function supportStampOnly(before, after) {
-  const stamp = /(\[base\+'foundation\/FoundationRoot\.cs',)\d+,'[a-f0-9]{64}'\]/g;
+  const stamp = /(\[base\+'foundation\/(FoundationRoot|FoundationInput)\.cs',)\d+,'[a-f0-9]{64}'\]/g;
   const baseline = [...before.matchAll(stamp)], current = [...after.matchAll(stamp)];
-  return baseline.length === 1 && current.length === 1 && baseline[0][0] !== current[0][0]
+  return baseline.length > 0 && baseline.length === current.length
+    && new Set(baseline.map(row => row[2])).size === baseline.length
+    && baseline.some((row, index) => row[0] !== current[index][0])
     && before.replace(stamp, '$1<version>]') === after.replace(stamp, '$1<version>]');
 }
 

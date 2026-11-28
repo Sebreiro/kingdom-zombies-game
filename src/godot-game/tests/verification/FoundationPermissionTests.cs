@@ -51,7 +51,7 @@ public sealed class FoundationPermissionTests
                 + "MainThreadGateway gateway) { ";
         const string Suffix = " }"
                 + " internal static void ProjectRoster(Node2D world, FoundationSnapshot snapshot, "
-                + "string bindingId, MainThreadGateway gateway) { } "
+                + "string bindingId, MainThreadGateway gateway, double? camera = null, bool ownLiving = true) { } "
                 + " private static void Changed() { } }";
         const string Body = "world.VisibilityChanged += Changed;";
         EngineAccessPolicy.Check(source: Prefix + "gateway.RequireThread(); " + Body + Suffix, path: Path,
@@ -71,7 +71,7 @@ public sealed class FoundationPermissionTests
         const string Guard = "gateway.RequireThread(); ";
         const string Suffix = " }"
                 + " internal static void ProjectRoster(Node2D world, FoundationSnapshot snapshot, "
-                + "string bindingId, MainThreadGateway gateway) { } "
+                + "string bindingId, MainThreadGateway gateway, double? camera = null, bool ownLiving = true) { } "
                 + " }";
         EngineAccessPolicy.Repository().ShouldBeEmpty();
         foreach (string body in new[] { "world.QueueFree();", "world.QueueFree(); " + Guard,

@@ -134,13 +134,21 @@ internal static class FoundationServiceSubstitutionProof
         FoundationEnvelope ack = guestPort.Sent.Last(predicate: row => row.Envelope.Kind is "ack").Envelope;
         hostPort.Enqueue(sender: 7, envelope: ack);
         host.Update(elapsedMilliseconds: 0);
+        foreach (FoundationEnvelope part in hostPort.Sent.Where(predicate: row =>
+                row.Envelope.Kind is "view-part" && row.Envelope.Game?.Scope is "status")
+                .Select(selector: row => row.Envelope))
+        {
+            guestPort.Enqueue(sender: 1, envelope: part);
+        }
+
         FoundationEnvelope state = hostPort.Sent.Last(predicate: row => row.Envelope.Kind is "state").Envelope;
         guestPort.Enqueue(sender: 1, envelope: state);
         guest.Update(elapsedMilliseconds: 0);
         guest.Ready.ShouldBeTrue();
         guest.LocalActor?.PlayerId.ShouldBe(expected: profile.PlayerId);
         guest.Submit(direction: 1).ShouldBeTrue();
-        FoundationEnvelope intent = guestPort.Sent.Last(predicate: row => row.Envelope.Kind is "intent").Envelope;
+        FoundationEnvelope intent = guestPort.Sent.Last(predicate: row => row.Envelope.Game?.Action is "move")
+                .Envelope;
         hostPort.Enqueue(sender: 7, envelope: intent);
         host.Update(elapsedMilliseconds: 1000);
         FoundationEnvelope moved = hostPort.Sent.Last(predicate: row => row.Envelope.Kind is "state").Envelope;

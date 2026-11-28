@@ -1,0 +1,45 @@
+# Phase 6 saved scenarios
+
+The [edge matrix](06-VALIDATION.md) supplies the exact pure test identities and later owners. The [signed specification](06-SPEC.md) defines the gameplay outcomes and phase boundaries. These cases exercise the Phase 6 portions of those requirements. An observed build revision, nonce, role and PID bind each retained artifact to the invocation.
+
+## Pure proof
+
+Run `node src/godot-game/tools/game-tests/edge-check.cjs 6` after the shared strict build. The exact census needs 132 passing edge identities and an explicit E074 deferment. E129 through E133 exercise a fresh fixture, two equal-looking targets, concurrent trigger replay, refusal outside the fixture, empty-only expiry and real hostile arrow spending. Normal startup conservation and actual near/far succession are additional exact `Phase06FixtureTests` cases. P01 clean/violation lives in `Phase06MeleeTests` and proves ally/crown behavior. P02 clean/violation lives in `Phase06PublicationTests` and proves private/local access. The pure runner translates no synthetic fixture into an ordinary scenario launch.
+
+## Headless group
+
+Select `phase06.headless` with the shared checker. All six rows are High because the runtime, authority and process observations are needed even when the rendered review is unavailable. The ordinary Start control selects the default world unless an invocation-owned fixture request exists. Gameplay keys go through Godot. Scoped production commands additionally exercise exact item stamps, paging and the two-recipient race, where native timing or pointer history would obscure the authority result.
+
+| Order and ID | Contract | Environment and inputs | Required current observations |
+| --- | --- | --- | --- |
+| 1 `phase06.headless.world` | AC-35, A-05 and A-22 portions | Solo field seed. Hold and release D, then press Space. | Three stationary hostile identities, two at equal contact, living and broken walls, a walked position and a native jump. |
+| 2 `phase06.headless.start` | AC-35, A-01 starting roster/kit portion | Normal Start. Move into reach and browse every stash page. | Exact eight ordinary survivors, one bound actor, configured outfit, all distinct configured opening stacks and quantities. |
+| 3 `phase06.headless.inventory` | AC-35, A-22/A-23/A-27 inventory and food portions | Field seed. Open I, request nested scopes, assign berries, close I, use 1 twice, submit old stamp. | Eleven slots, valid bag and pouch views, an assigned physical stack, exactly one consumed unit and a denied cooldown/stale attempt. |
+| 4 `phase06.headless.combat` | AC-35, A-22/A-26 combat portions | Bow seed. Fire via native mouse, try again empty, trigger the stationary bowman and step host time. | Opposite-hand arrow depletion, real bow wear once, quiet empty attempt and the hostile projectile's defense result. |
+| 5 `phase06.headless.lifecycle` | AC-35, A-27 current life/death portion | Life seed. Trigger real melee, wait for explicit Respawn, activate it and advance host time. | Old private control absent, one equipped corpse, gated then explicit same-binding succession, empty-only expiry. |
+| 6 `phase06.headless.lan-privacy` | AC-35, A-05/A-22/A-23 recipient and contention portions | Host and three guests, one allocated loopback port. Production join, independent scopes, two equipped bags, concurrent same-stamp stash requests, move one guest out of reach. | Four real PIDs/bindings/controls, disjoint own rows, public privacy, one withdrawal and one access denial as the instance changes ownership, corrected carried and stash views, revoked and remote-denied stash. |
+
+Compatible solo cases reuse the same imported production scene and PID. Escape returns to the menu and releases run state. Each new Start installs an independent run. The LAN row uses a distinct host and three guest PIDs with distinct profiles because a solo session cannot demonstrate ENet recipient isolation. Each action has a bounded wait for current scope or receipt. The driver retains per-row observation JSON, per-role launch/frame/terminal/log evidence, and validates ordinary Quit plus exit code zero for every launched child. Cleanup failure fails the group. No game window is launched by this group.
+
+## Rendered groups
+
+Run these saved active Windows rows after whole-phase review. Every row is High because the current visual, physical input or cross-peer presentation can fail while its pure rule still passes. Use `--group phase06.solo` for one viewport and `--group phase06.lan` for the four-role session. Each case starts with normal menus and the declared fresh run. Reserved fixture triggers drive only the environmental stimulus, such as a stationary hostile or an elapsed cleanup deadline. Gameplay keys, controls, cursor position, button gestures and typed addresses use the existing physical driver.
+
+| Order and ID | Source portion and setup | Production input | Required current observations |
+| --- | --- | --- | --- |
+| 1 `phase06.solo.world` | A-05 world and local layout. Field seed. | Start, walk with D and release. | Current camp borders and defense states, three stationary hostile identities, real local movement and visible authored survivor nodes. |
+| 2 `phase06.solo.movement` | A-23 current load and movement. Field seed. | Walk, hold Shift+D, jump, reverse in the air and open I. | Real movement poses and stamina, an airborne frame, landing and a panel that captures Space. |
+| 3 `phase06.solo.inventory` | A-22/A-23/A-43 visible current possessions. Field seed. | Open I, right-click real equipped and nested bags, assign a food stack, Shift-drag to split, rotate arrows with R, close and press 1. | Eleven slots, real stored identities, an integral 3/3 split, the same arrow stack rotated in legal cells and one food use followed by a cooldown denial. Saved geometry and legacy continuation still use the exact snapshot tests. |
+| 4 `phase06.solo.stash` | A-24/A-25 current local stash. Field seed. | Open E, choose stash, page forward/back, Ctrl-click an opening money stack, close and walk out of reach. | Current pages and total, one authoritative transfer to carried money, external lease revoked at range and no remote rows. |
+| 5 `phase06.solo.combat` | A-14/A-26/A-31 current bow, condition and defense. Bow seed. | Aim and click to fire, wait until ready, click empty, then trigger actual hostile bow and advance host time. | Committed hand ammo and condition, quiet unloaded aim and a living defense that becomes destroyed. |
+| 6 `phase06.solo.life` | A-04/A-26/A-27 current life and loot. Life seed. | Trigger real melee, inspect the gate, click Respawn and advance the empty lifetime. | Actual equipped body and no crown on it, spectator and explicit same-binding transfer, nonempty preservation and expired empty pile. |
+| 1 `phase06.lan.population` | A-01/A-05 normal roster and player control. No fixture. | Host and join three distinct profiles with physical input, then move one guest. | Eight current bodies, four unique bound survivors and rendered crowns, same guest motion on all four receivers, disjoint personal scopes. |
+| 2 `phase06.lan.conflicts` | A-24/A-28 current transfer and access. Field seed. | Three guests open the same stash. Two try the original money cell, then one closes and leaves range. | One physical withdrawal and one denied or already-corrected action, honest carried totals per role and revoked external authority out of reach. The headless companion executes the exact two-request race. |
+| 3 `phase06.lan.succession` | A-04/A-05/A-06/A-28 actual eligible replacement and exclusivity. Life seed. | Trigger host death, follow via Next/Previous/list, leave and rejoin the followed guest, then select Respawn. | Fixed hold after target loss, explicit transfer to a real previously unbound actor, same host player/binding, other living controls preserved and four recipients presenting the new crown. |
+
+Between rows, use ordinary Escape to clear UI/run lifetime and return the owned roles to menus. The LAN group returns guests first and reuses all four PIDs, profiles and the owned port. After the final row, normal Quit and exit zero are required in all roles. The shared runner receives per-role stream and terminal files, delivery and native key receipts, current state with exact nonce/PID/session/binding, and decoded 1280×720 PNGs paired with the corresponding draw and imported assembly hashes. A missing observation, wrong current role, stale draw, invalid screenshot or failed cleanup receives no pass. The rendered group and its physical results are pending the whole-phase review.
+
+## Ownership
+
+A-01, A-04–06, A-14, A-22–28, A-31 and A-43 retain their source aggregate ownership. The matrix specifies the exact boundary for each portion. Later work still owns buildings, tasks and jobs, autonomous enemies, world/endgame outcomes, persistence UX and extraction, hosted deployment, release conditions and inventory filtering. Phase 6 fixture arithmetic, production native controls and scoped LAN receipts provide evidence for the bounded Phase 6 portions only.
+

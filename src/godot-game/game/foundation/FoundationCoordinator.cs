@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -32,6 +33,8 @@ internal sealed partial class FoundationCoordinator
     internal FoundationActorState? LocalActor => Ready ? Snapshot?.Participants.First(predicate: p =>
             StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId)).Actor : null;
     internal bool IsHost => _session is not null;
+    internal (long elapsedMilliseconds, bool insideCamp, bool safeDistance, bool stashReachable)? LocalWorld
+    { get; private set; }
     internal bool WaitingForHost => Ready && !IsHost && _connection?.Connected != true;
     internal string Error { get; private set; } = "";
     internal long InstalledRevision { get; private set; } = -1;
@@ -43,20 +46,26 @@ internal sealed partial class FoundationCoordinator
     internal IReadOnlyList<string> Events => _events;
     internal bool Closed => _closed;
     internal bool Finished => _used && !_active;
+    internal string? FixtureName { get; private set; }
 
-    internal void Start(bool host, int port = 24680)
+    internal void Start(bool host, int port = 24680, bool observeWorld = false,
+            Func<string, int, byte[]?>? read = null, string? fixture = null)
     {
         RequireFresh();
         _used = true;
         _startedAt = Now();
+        string sessionId = Guid.NewGuid().ToString(format: "N");
+        string actorId = Guid.NewGuid().ToString(format: "N");
+        FoundationSession session = CreateSession(sessionId: sessionId, actorId: actorId,
+                observeWorld: observeWorld && !host, read: read, fixture: fixture);
         if (host)
         {
             (_connection ?? throw new InvalidOperationException(message: "CONNECTION_UNAVAILABLE")).Host(port: port);
         }
 
+        _session = session;
+        FixtureName = fixture;
         _active = true;
-        _session = new FoundationSession(sessionId: Guid.NewGuid().ToString(format: "N"),
-                playerId: PlayerId, actorId: Guid.NewGuid().ToString(format: "N"));
         RecordEvent(value: host ? "host-start" : "solo-start");
     }
 
@@ -96,7 +105,12 @@ internal sealed partial class FoundationCoordinator
             _helloSent = true;
         }
 
-        _session?.Step(elapsedMilliseconds: elapsedMilliseconds);
+        if (_session is not null)
+        {
+            _session.Step(elapsedMilliseconds: elapsedMilliseconds);
+            ReadLocalWorld(session: _session);
+            RefreshRunViews();
+        }
         _publicationElapsed = checked(_publicationElapsed + elapsedMilliseconds);
         _livenessElapsed = checked(_livenessElapsed + elapsedMilliseconds);
         if (_session is not null && (_pendingPublication || _publicationElapsed >= 16))
@@ -115,28 +129,165 @@ internal sealed partial class FoundationCoordinator
 
     internal bool Submit(int direction)
     {
-        FoundationActorState? actor = LocalActor;
-        if (actor is null || direction is < -1 or > 1)
+        return SubmitRunMotion(direction: direction, sprint: false, jump: false);
+    }
+
+    internal bool SubmitRunMotion(int direction, bool sprint, bool jump)
+    {
+        return direction is >= -1 and <= 1 && SubmitRunAction(kind: "move",
+                request: JsonSerializer.SerializeToElement(value: new
+                {
+                    Direction = direction,
+                    Sprint = sprint,
+                    Jump = jump
+                })) is
         {
-            return false;
+            status: "Pending" or "Accepted" or "Overloaded" or "InsufficientStamina"
+                    or "Airborne"
+        };
+    }
+
+    internal (string survivorId, long generation, long deathGeneration)? ReadBoundRunControl(int sender)
+    {
+        return RunIdentity(sender: sender) is { } identity ? _session?.ReadRunControl(identity: identity) : null;
+    }
+
+    internal (FoundationSnapshot roster, JsonElement world)? ReadRunPublic()
+    {
+        return _session?.ReadRunPublic();
+    }
+
+    internal (long revision, ImmutableArray<(string scope, long generation, long token, JsonElement header,
+            ImmutableArray<JsonElement> rows)> views)? ReadBoundRunViews(int sender, long? ownGrid = null,
+                    long? externalGrid = null, ImmutableArray<long> ownWindows = default,
+                    ImmutableArray<long> externalWindows = default, int nearbyPage = 1,
+                    (long token, int page) externalPage = default)
+    {
+        return RunIdentity(sender: sender) is { } identity ? _session?.ReadRunViews(identity: identity,
+                ownGrid: ownGrid, externalGrid: externalGrid, ownWindows: ownWindows,
+                externalWindows: externalWindows, nearbyPage: nearbyPage, externalPage: externalPage) : null;
+    }
+
+    internal (string status, bool replayed, long revision) DispatchBoundRunAction(int sender,
+            (string survivor, long epoch, long sequence) key, string kind, JsonElement request)
+    {
+        FoundationSession? session = _session;
+        if (session is null || RunIdentity(sender: sender) is not { } identity)
+        {
+            return ("AccessLost", false, session?.Snapshot.Revision ?? -1);
         }
 
-        var command = new FoundationMovementCommand(sessionId: actor.SessionId, playerId: PlayerId,
-                actorId: actor.ActorId, direction: direction, bindingId: BindingId, sequence: checked(++_sequence));
-        if (_session is not null)
+        if (kind is "respawn")
         {
-            return Accept(command: command, binding: BindingId, player: PlayerId, actor: actor.ActorId);
+            var result = DispatchBoundRunRespawns(requests: [(sender, key.epoch, key.sequence)])[0];
+            return (result.status, result.replayed, session.Snapshot.Revision);
         }
 
-        Send(peer: 1, envelope: new FoundationEnvelope(kind: "intent", sessionId: command.SessionId,
-                playerId: command.PlayerId, actorId: command.ActorId, bindingId: command.BindingId,
-                sequence: command.Sequence, direction: command.Direction, attemptId: _attempt));
-        return true;
+        return session.DispatchRunAction(identity: identity, key: key, kind: kind, request: request);
+    }
+
+    internal ImmutableArray<(string status, bool replayed)> DispatchBoundRunRespawns(
+            ImmutableArray<(int sender, long epoch, long sequence)> requests)
+    {
+        if (_session is not { } session)
+        {
+            return [.. requests.Select(selector: _ => ("AccessLost", false))];
+        }
+
+        return session.DispatchRunRespawns(session: session.Snapshot.SessionId,
+                requests: [.. requests.Select(selector: row =>
+                {
+                    var identity = RunIdentity(sender: row.sender);
+                    return (identity?.binding ?? "", identity?.player ?? "", row.epoch, row.sequence);
+                })]);
     }
 
     internal void Close()
     {
         BeginClose(drain: false);
+    }
+
+    internal static bool UseObservedWorld(long generation)
+    {
+        return generation == 1 && HasObservedWorldProof();
+    }
+
+#if DEBUG
+    internal bool ObserveLethalAttack()
+    {
+        return HasObservedWorldProof() && _session is { } session && RunIdentity(sender: 0) is { } identity
+                && ReadBoundRunControl(sender: 0) is { generation: > 0 } owner
+                && session.DispatchRunAction(identity: identity, key: (owner.survivorId, owner.generation,
+                        checked(++_sequence)), kind: "proof-lethal", request: JsonSerializer.SerializeToElement(
+                                value: new object())).status is "Applied";
+    }
+
+    internal bool FixtureAction(string action, JsonElement request)
+    {
+        if (FixtureName is null || _session is not { } session)
+        {
+            return false;
+        }
+
+        if (action is "fixture-step")
+        {
+            long elapsed = request.GetProperty(propertyName: "Elapsed").GetInt64();
+            if (elapsed is <= 0 or > 180000)
+            {
+                return false;
+            }
+
+            session.Step(elapsedMilliseconds: elapsed);
+            return true;
+        }
+
+        if (LocalRunControl is not { generation: > 0 } owner)
+        {
+            return false;
+        }
+
+        long sequence = checked(++_sequence);
+        (string status, bool replayed, _) = DispatchBoundRunAction(sender: 0,
+                key: (owner.survivorId, owner.generation, sequence), kind: action, request: request);
+        RunActionFeedback = (sequence, action, status, replayed);
+        return status is not ("AccessLost" or "InvalidAction");
+    }
+#endif
+
+#if DEBUG
+    internal static bool ShouldFailEntry(long generation)
+    {
+        return generation == 1 && Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
+                is string fault && StringComparer.Ordinal.Equals(x: fault,
+                        y: Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE"));
+    }
+#endif
+
+    internal string WorldHint(string instructions)
+    {
+        if (LocalWorld is not { } state)
+        {
+            return instructions;
+        }
+
+        string stash = state.stashReachable ? "Shared stash in reach." : "Shared stash out of reach.";
+        if (!state.safeDistance)
+        {
+            return instructions + "\n" + stash + " Rest is unsafe with an enemy nearby.";
+        }
+
+        string rest = state.insideCamp ? "Safe to rest." : "Rest is unsafe outside camp.";
+        return instructions + "\n" + stash + " " + rest;
+    }
+
+    internal void ObserveWorldHint(string hint, bool visible)
+    {
+        if (_worldTransition is not null)
+        {
+            string visibility = visible ? "visible" : "hidden";
+            RecordEvent(value: _worldTransition + "|" + visibility + "|" + hint);
+            _worldTransition = null;
+        }
     }
 
     private readonly IConnectionService? _connection;
@@ -157,6 +308,22 @@ internal sealed partial class FoundationCoordinator
     private bool _pendingPublication;
     private long _livenessElapsed;
     private long _heartbeatSequence;
+    private string? _worldTransition;
+
+    private static bool HasObservedWorldProof()
+    {
+#if DEBUG
+        string? seed = Environment.GetEnvironmentVariable(variable: "KZ_RUN_WORLD_PROOF");
+        string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
+        return seed is not null && StringComparer.Ordinal.Equals(x: seed, y: nonce)
+                && Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE") is "solo"
+                && Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER")
+                        is "synthetic-native-ParseInputEvent"
+                && FoundationObservationScope.Directory() is not null;
+#else
+        return false;
+#endif
+    }
 
     private void Receive()
     {
@@ -178,7 +345,7 @@ internal sealed partial class FoundationCoordinator
                 {
                     ReceiveHost(sender: packet.Sender, envelope: envelope);
                 }
-                else if (packet.Sender == 1)
+                else if (packet.Sender == 1 && IsKnownHostGeneration(generation: packet.PeerGeneration))
                 {
                     ReceiveGuest(envelope: envelope);
                 }
@@ -187,7 +354,8 @@ internal sealed partial class FoundationCoordinator
                     or InvalidOperationException or KeyNotFoundException or OverflowException or FormatException)
             {
                 RejectedPackets++;
-                RecordEvent(value: "packet-rejected:" + error.Message);
+                string reason = error.Message is "WIRE_INCOMPATIBLE" ? "incompatible" : "invalid";
+                RecordEvent(value: "packet-rejected:" + reason);
                 if (IsHost && error is InvalidDataException && error.Message is "WIRE_INCOMPATIBLE")
                 {
                     Reject(sender: packet.Sender, reason: "Incompatible protocol or content.");
@@ -199,26 +367,8 @@ internal sealed partial class FoundationCoordinator
                 }
             }
         }
-    }
 
-    private bool Accept(FoundationMovementCommand command, string binding, string player, string actor)
-    {
-        bool accepted = _session?.TryAccept(command: command, trustedBinding: binding, trustedPlayer: player,
-                trustedActor: actor) == true;
-        if (accepted)
-        {
-            AcceptedIntents++;
-            LastAcceptedIntent = command;
-            LastAcceptedRevision = _session?.Snapshot.Revision ?? -1;
-            _pendingPublication = true;
-        }
-        else
-        {
-            RejectedPackets++;
-            RecordEvent(value: "intent-rejected:ownership-readiness-sequence");
-        }
-
-        return accepted;
+        FinishRespawnPoll();
     }
 
     private void BroadcastState()
@@ -229,10 +379,45 @@ internal sealed partial class FoundationCoordinator
         }
 
         FoundationSnapshot state = HostPublication();
+        var current = _session.ReadRunPublic();
+        FoundationRunFrame? model = current is { } publicRun && publicRun.roster.Revision == state.Revision
+                ? new FoundationRunFrame { Body = publicRun.world } : null;
         foreach ((int sender, FoundationPeerBinding peer) in _peers)
         {
+            SendRunState(sender: sender, peer: peer, state: state, model: model);
+        }
+    }
+
+    private void SendRunState(int sender, FoundationPeerBinding peer, FoundationSnapshot state,
+            FoundationRunFrame? model)
+    {
+        if (!peer.PublicParts.IsEmpty)
+        {
+            FlushPublicParts(sender: sender, peer: peer);
+            return;
+        }
+
+        try
+        {
             Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
-                    revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId));
+                    revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId, game: model));
+        }
+        catch (InvalidDataException error) when (model?.Body is not null && error.Message is "WIRE_SIZE")
+        {
+            JsonElement world = model.Body.Value;
+            peer.PublicParts = ImmutableQueue.CreateRange(items: FoundationPublicWorld.Encode(roster: state,
+                    world: world, attempt: peer.Baseline.AttemptId));
+            FlushPublicParts(sender: sender, peer: peer);
+        }
+    }
+
+    private void FlushPublicParts(int sender, FoundationPeerBinding peer)
+    {
+        for (int sent = 0; sent < 4 && !peer.PublicParts.IsEmpty && _connection?.Connected == true; sent++)
+        {
+            byte[] bytes = peer.PublicParts.Peek();
+            _connection.Send(peer: sender, payload: bytes, reliable: true);
+            peer.PublicParts = peer.PublicParts.Dequeue();
         }
     }
 
@@ -263,6 +448,61 @@ internal sealed partial class FoundationCoordinator
                 && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: peer.PlayerId)
                 && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: peer.ActorId)
                 && StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: peer.Baseline.AttemptId);
+    }
+
+    private (string session, string binding, string player)? RunIdentity(int sender)
+    {
+        if (!_active || _session is not { } session)
+        {
+            return null;
+        }
+
+        if (sender == 0)
+        {
+            return (session.Snapshot.SessionId, BindingId, PlayerId);
+        }
+
+        return CurrentReadyPeer(sender: sender) is { } peer
+                ? (session.Snapshot.SessionId, peer.BindingId, peer.PlayerId) : null;
+    }
+
+    private FoundationSession CreateSession(string sessionId, string actorId, bool observeWorld,
+            Func<string, int, byte[]?>? read, string? fixture)
+    {
+        if (read is not null)
+        {
+            return FoundationSession.CreateFromResources(sessionId: sessionId, playerId: PlayerId, actorId: actorId,
+                    read: read, observeWorld: observeWorld, fixture: fixture);
+        }
+
+#if DEBUG
+        if (observeWorld)
+        {
+            return FoundationSession.CreateObserved(sessionId: sessionId, playerId: PlayerId, actorId: actorId);
+        }
+#endif
+        return new FoundationSession(sessionId: sessionId, playerId: PlayerId, actorId: actorId);
+    }
+
+    private void ReadLocalWorld(FoundationSession session)
+    {
+        var current = session.LocalWorld;
+        var previous = LocalWorld;
+        LocalWorld = current;
+        if (previous?.insideCamp == current.insideCamp && previous?.safeDistance == current.safeDistance
+                && previous?.stashReachable == current.stashReachable)
+        {
+            return;
+        }
+
+        string camp = current.insideCamp ? "inside" : "outside";
+        string danger = current.safeDistance ? "danger-clear" : "danger-near";
+        string stash = current.stashReachable ? "stash-reachable" : "stash-blocked";
+        string status = camp + ":" + danger + ":" + stash;
+        long revision = session.Snapshot.Revision;
+        long position = session.Actor.PositionSubunits;
+        _worldTransition = FormattableString.Invariant(formattable:
+                $"run-world:{status}:{current.elapsedMilliseconds}:{revision}:{position}");
     }
 
     private void RecordEvent(string value)

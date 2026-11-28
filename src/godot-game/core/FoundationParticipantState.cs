@@ -24,4 +24,13 @@ public sealed record FoundationParticipantState
     public bool Ready { get; }
     /// <summary>Gets its distinct owned actor.</summary>
     public FoundationActorState Actor { get; }
+
+    internal FoundationParticipantState FollowControl(RunPopulation.Survivor survivor)
+    {
+        var projected = new FoundationActorState(sessionId: Actor.SessionId, playerId: Actor.PlayerId,
+                actorId: Actor.ActorId, positionSubunits: survivor.PositionSubunits, facing: survivor.Facing,
+                elapsedMilliseconds: Actor.ElapsedMilliseconds);
+        return new FoundationParticipantState(bindingId: BindingId, label: Label, slot: Slot, ready: Ready,
+                actor: projected);
+    }
 }

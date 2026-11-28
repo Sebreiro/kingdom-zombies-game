@@ -2269,7 +2269,7 @@
             "owners": [
               "src/godot-game/core/KingdomZombies.Core.csproj"
             ],
-            "sha256": "05b1d63392269755c826c87e37fcd349f3fe3dc12b35e6627a8ba994737a9660"
+            "sha256": "4bc215aebb221746004b54e7e0fce151036476cd8d3ce7af5a9c4448117fc0be"
           },
           {
             "path": "src/godot-game/core/ContentPack.cs",
@@ -2309,7 +2309,7 @@
             "owners": [
               "src/godot-game/core/KingdomZombies.Core.csproj"
             ],
-            "sha256": "86297a536f69c6bcc4dcc8e750bfaa543990ccc2b4bccdf44f4c99536bd43444"
+            "sha256": "93adff2cab05b20db32257a82db025bb627550fb16bdf71c00c014f43d025170"
           },
           {
             "path": "src/godot-game/core/FoundationMovementCommand.cs",
@@ -2325,7 +2325,7 @@
             "owners": [
               "src/godot-game/core/KingdomZombies.Core.csproj"
             ],
-            "sha256": "69bbdc8370457a50d87198e9d47899074c6732adf58a29361de52cb5764f5b03"
+            "sha256": "72f3f5bc1eca1b8f66ca5626849c97498d9722a384810072e7405ae15e46cc63"
           },
           {
             "path": "src/godot-game/core/FoundationSession.cs",
@@ -2333,7 +2333,7 @@
             "owners": [
               "src/godot-game/core/KingdomZombies.Core.csproj"
             ],
-            "sha256": "38a514aeebd08c485c84e4eb2bff4738a780bea72765abac828730a29d710e0f"
+            "sha256": "c90c3560b858e7a61568067bd1305caf777f784ec8892164576a1a5446154098"
           },
           {
             "path": "src/godot-game/core/FoundationSnapshot.cs",
@@ -2388,6 +2388,222 @@
               "src/godot-game/core/KingdomZombies.Core.csproj"
             ],
             "sha256": "d946bb2bceecbec44f5a2b23e5fbde0f8d41a57969e8b93affff59c78f975226"
+          },
+          {
+            "path": "src/godot-game/core/RunCombat.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "7763232203b226967f25ddd431eff12166982e84a494df8a3912bbdc77e29356"
+          },
+          {
+            "path": "src/godot-game/core/RunCombatDefinitions.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "b7920ef0ef87cb0b083a17c7d058702049a0dbe553a57e9ce131183ffdfc6020"
+          },
+          {
+            "path": "src/godot-game/core/RunCombatFixture.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "ac98b1ce92a16f60422223cc19dd396ca0a6d0833f84cd4c81054aa84048a248"
+          },
+          {
+            "path": "src/godot-game/core/RunDamage.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "2e11ff90e5eb166a3f79dda18e26a57594c0f4fc2c506a3d132c77de9d75ae66"
+          },
+          {
+            "path": "src/godot-game/core/RunDeathAndLoot.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "2e1eb9a31856c00bdc3e3cdb079e9cf59cfcbcf3ea1683e3a8dd7be807eb5d95"
+          },
+          {
+            "path": "src/godot-game/core/RunDefinitions.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "a74a6711eee05337f4bf0785b68345945a6ea6043df67a0106a79bd12d6aded6"
+          },
+          {
+            "path": "src/godot-game/core/RunExternalAccess.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "f6d712e2b7dd8983251136352bc7d42536b49e3507d752fc590c2232c2d4c444"
+          },
+          {
+            "path": "src/godot-game/core/RunFood.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "e307e87317fbe686205d0bfa3cbce8dfe170c6ed339823bde416129427e12904"
+          },
+          {
+            "path": "src/godot-game/core/RunInventory.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "e6fee4c7903246b1dad5c484e72d8279231b284641c10501be65e69cc231a933"
+          },
+          {
+            "path": "src/godot-game/core/RunInventoryRules.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "d9dc8ee0a9c38e2cbdec34792b7bbbd74fa6d51d9ab69837c7e18650a93e5526"
+          },
+          {
+            "path": "src/godot-game/core/RunItemActions.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "7e8a18c97d4df11551488e620a6bd5c966d48c35f88fad0467bc67503780e35e"
+          },
+          {
+            "path": "src/godot-game/core/RunItemTransfer.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "11bb992a2da43622b5b1b260c0388474bca2f7b041f1c342e8f4347412144279"
+          },
+          {
+            "path": "src/godot-game/core/RunLocomotion.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "1b38b51c056321e35b44d813b3ed20e03f731ba53a68cbf8cbddb12dab67b8e4"
+          },
+          {
+            "path": "src/godot-game/core/RunPopulation.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "2be7ef2226025199b2231d8a78d1ab61e574939bcd3f57182c55f4a7f26dea7f"
+          },
+          {
+            "path": "src/godot-game/core/RunProjectiles.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "152ece63203d7104ad4eea8ff22d23ea1b9bb17d79aea012ffdffc4345c5442f"
+          },
+          {
+            "path": "src/godot-game/core/RunProjections.Hud.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "168ed6911f27561e8ccda49028c68af84112155b5edad553de7a380107368c42"
+          },
+          {
+            "path": "src/godot-game/core/RunProjections.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "958daf9af34d7214bc37d69fbb571da84580e76527506a1a465f9fd0ce1fe31c"
+          },
+          {
+            "path": "src/godot-game/core/RunQuickReferences.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "481d6666cb289c3ef7a7d4c9772d3b428df872b0fa97808624203946b8d3d711"
+          },
+          {
+            "path": "src/godot-game/core/RunSavedLayout.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "03ddce5ddfd3103ae107d37a2d368bb09c7a6f2a254ba8647b0c053d07aec7df"
+          },
+          {
+            "path": "src/godot-game/core/RunSnapshotCodec.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "1c41c26e4eb494ac081965d7f1062e63c85bf62283dbac0c1c110f1d390340e9"
+          },
+          {
+            "path": "src/godot-game/core/RunSnapshotDocument.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "733e9c59102d999180202b529fba6cc382f602126538492249dca72df100d641"
+          },
+          {
+            "path": "src/godot-game/core/RunStash.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "b9ef05561fa05d1edbc7c4afb938ff9ef02f21e70165cf087c9431c20fec7cd6"
+          },
+          {
+            "path": "src/godot-game/core/RunSuccession.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "06670e592f727f477101001121468f904dd245e9a0bcfcac961c7bda107ac854"
+          },
+          {
+            "path": "src/godot-game/core/RunTrajectoryContact.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "bb0155df199f0c1684c9a5d457f6f8e9d26e487bf6f9343dd4a761c7ef36f49b"
+          },
+          {
+            "path": "src/godot-game/core/RunVitals.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "c0fb3083930c11f039a1d290f36e9661151b41b719d31a8884d66602ebecec08"
+          },
+          {
+            "path": "src/godot-game/core/RunWorld.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "d197ae9b613592168e841d759906f1cf3ca03db16a56707d39727ba1c021957a"
+          },
+          {
+            "path": "src/godot-game/core/RunWorldGeometry.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/core/KingdomZombies.Core.csproj"
+            ],
+            "sha256": "bd2dc5533af6725d3950f40156c708592b209e43e6aba329ff3c536cc48be0eb"
           },
           {
             "path": "src/godot-game/core/SnapshotCodec.cs",
@@ -2973,13 +3189,21 @@
             "sha256": null
           },
           {
+            "path": "src/godot-game/game/foundation/FoundationActorArt.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "121001270cd12c6d157fc73bd014e9db59e983984622a64e05c953c105bc4d3e"
+          },
+          {
             "path": "src/godot-game/game/foundation/FoundationActorNode.cs",
             "kind": "source",
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "1660a842a73628c3ae0ec910516442a124c689d07756b12217942d7d97069756"
+            "sha256": "b03cae9e20c2aaf8ed2bd45c78cc899e9c0adf6a4150768afee227c079909c33"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationAdmissionHistory.cs",
@@ -2991,12 +3215,28 @@
             "sha256": "8c502be32d853f84bd1a7367bd17268db32864542e1da364c971ac2a36059f25"
           },
           {
+            "path": "src/godot-game/game/foundation/FoundationAppearance.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "863f10ec03f9b69bbaa260c20ca35d1aadacc4520c673053bb700e3ce6ffeec6"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationAppearanceAssets.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "bdd6fa15665904e764b76e023f8e9997be8f6722c61cc86ac5b024127b6a6435"
+          },
+          {
             "path": "src/godot-game/game/foundation/FoundationAutomation.cs",
             "kind": "source",
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "4bb3637a499a6a92811545a53f4d1c74870e794dfe2806e6cddfe28cbfa0c14f"
+            "sha256": "73fd907845107aabcb599fe8decfc1c8f878b4b0e44762f41d9d84c9f7af89ca"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationBrowser.cs",
@@ -3023,7 +3263,7 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "2663a9811ebf6c58c5e063906006c3ff0ac542fba8d54861048d6527bc60ffc5"
+            "sha256": "662c3c9dd2e02222318a57df56d56397b655cbf0cab033a6e21d9b02b64ca28b"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs",
@@ -3032,7 +3272,7 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "d35c8a3178ffe95d3f1310a9f625abaacee52a30d9cd941ba88a7df139983a54"
+            "sha256": "b589e5b966a55db3592778ce7ceb2cb5d274f4839cb17dcdb14c41f7cb28bf75"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs",
@@ -3041,7 +3281,16 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "0c2338fc168043a838254c8c6dd1f4b2ff1aed4a5037fa1732957b5fe3c5fc73"
+            "sha256": "eb3158ff60be67d482f3781cc42e70f40ba1732dbe2789c799c8b7618fc1fbc2"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "ac6cfb1797f9a9507b3669f95bfa9bfd32ad9be742f54e394417240772f0a216"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationCoordinator.cs",
@@ -3050,7 +3299,7 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "22888110aeda742bbed897384aa4e4fef5904422706f49ad86663024e1ee9297"
+            "sha256": "b9701f11b910681ce7f1718459b7e59967ce16457d64868090c341ad10e73488"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationCopy.cs",
@@ -3066,7 +3315,7 @@
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "19b30719760214114eb7fb66d66af18d955b44560778cfe2969d229a8fb3953e"
+            "sha256": "23da605509da77640a02f7f5289772d46eec70775f0a491d5de72d5f038ebbd6"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationDisplay.cs",
@@ -3083,7 +3332,7 @@
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "a6dc2c920c57c1a40e0c78109fbebd565608e551199f53ff48b358a207030e73"
+            "sha256": "ff74fee89397270bc9e6347ff019d114af27f5369e8f8f974a20ccac55a91e1f"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationDrawRequest.cs",
@@ -3110,7 +3359,7 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "0bf12d1d94212dc30a1e8e57f665e79ca8c3eb2180d62d472860caac77e9a4a6"
+            "sha256": "3b99d49f3c962008360ebab2b8938f3d245988bb4c82ac02a6866c612cbac492"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationEphemeralProfile.cs",
@@ -3121,12 +3370,38 @@
             "sha256": "cb29d363e9fab9d5887ab1675ccd7421664498da80e9f518438bcc47741b49eb"
           },
           {
+            "path": "src/godot-game/game/foundation/FoundationEquipmentProjection.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "e646d9d22918542bab0ffdd4649449f1c2f6e056944e46bd49974c542f69f012"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationHud.Live.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "6a9e3ac38455d56a8aa741dd61d118518982c7b1442377d8aa987e14ee5757c7"
+          },
+          {
             "path": "src/godot-game/game/foundation/FoundationHud.cs",
             "kind": "source",
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "f59a5e31b8aed2f7b1d267c34c90c7478ca9cb69aae08bee46c24e78090ec63d"
+            "sha256": "2b5b85f26659150a6d172b7569891b81d4423a1493d746db9b2cb3aa701a1158"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationHudState.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "ff71f092708575fa8b6aef134502e024cdf65051b9be18700e987cedd8b8898d"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationInput.cs",
@@ -3135,7 +3410,64 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "caed7f7b5cd0eca46813aa7a0909f99307cf33d155407a063263cf3fca528b63"
+            "sha256": "55c477e859143b8c8a3429396518eb2094cece492f37df3cef6cce8fbe2d394a"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryArt.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "db4fd2679edf154e4384502999237c2fa0d83814be4dc5c02d95a79a1d29a3c8"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryGrid.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "0c2c4bf40218c42838d00fb6bd6ca8ab8bc053ab50c460ff1ed7026bf1354a19"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryInteraction.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "483d4458a4d282f8d71d1d13912331eb58ddedd85866145b6ec7b5fefc4018cc"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "0462a1278e30aa0a5e6c851ce1c998e2a4895bf25ad47160af4864c71bfab37b"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "75739ad59e07ff67b237afa879cf8f3f8230928214d38f6e89fc2bff17191f6d"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "7ba6cdf95fd35f71273c61aec8b65ac674ff017183c22685cebab2c349d103dd"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "dcc8138350d0dfacea241a101b2f53475edfd44b0d065eeb52eb6568f8834327"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationMenu.cs",
@@ -3143,7 +3475,7 @@
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "43132b83162cccb2523483fdd4d7a185b4637b56935b730eac3293522404c332"
+            "sha256": "877adfb58380c3a96405b279715401fc0e099baddc37b32d0ff03cd7908506f1"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationNativeRegression.cs",
@@ -3169,7 +3501,7 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "4c0749cc0221f2d5dc5f7ed479be67ffa78b660e0a3e55f86871f66cd52ef153"
+            "sha256": "b034e6d6d6516fb7df3641f44f854a013cceb67f5ae27b04f14401a47a20e182"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationPresentation.cs",
@@ -3187,7 +3519,16 @@
               "src/godot-game/game/KingdomZombies.csproj",
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "185359ce9cefb0296b946665aefe35f6d37929a363497130111bb20a8e9c9f78"
+            "sha256": "1d0984cb61834633d7d49b5bddb0225beb5c2f729f788a620b7631b2e8e8fd4e"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationPublicWorld.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "9b5f88dfdaba705d8f8b992c095e3fc6c24ef322810bbef70350174faf0b8242"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationRegressionDiscovery.cs",
@@ -3203,7 +3544,34 @@
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "55f1c50156a178cd44c7e51138b62263d69eb950b91c82bb500eae7b2081dce0"
+            "sha256": "96e0f4c449dac1b9fe72d1190d0cb59ced401dfe2316230a689c7fe4e4deccfb"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationRunFrame.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "694c429b66f6c144a081aa70a1801d23c60de63f27a22d137f01c72907a60fe2"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationRunReadback.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "965654a92f6388b042451439c0944c2c47c22d99d6e8fbdd907038bde0ea6712"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationRunView.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "65e24aa99121d619b771e8c4dd752e2ba9439593f0f6ae2e0ffff54ddee2355e"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationRuntimeState.cs",
@@ -3223,12 +3591,38 @@
             "sha256": "d5e6dbd4148027feacbee4bfdfb332171e8fc48ab1a3709a3b8d23a238f3a444"
           },
           {
+            "path": "src/godot-game/game/foundation/FoundationSpectator.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "9ac3b7781ccf8762d89f8938c488e801ec448346b782d1ad3da8fd1f57fd3bfe"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationSpectatorPanel.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "1dadc697c7f438d51a6f82198aeb4efa29efd115983262ef67fb95632c783d75"
+          },
+          {
             "path": "src/godot-game/game/foundation/FoundationView.cs",
             "kind": "source",
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "ad0bad27bee096ccbc13add9135bfd2347dc183ede6dfe325d088c85c92eb9bc"
+            "sha256": "98e87c5ad209ee4b0d426f0b6a49474727a114a9d6b3c920d41ffc88b70758dd"
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationViewInbox.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj",
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "c6feab142b2642fe31cdca34c300efcf47ac52eed1a4991f99d49afefb2119d4"
           },
           {
             "path": "src/godot-game/game/foundation/FoundationWireFrame.cs",
@@ -3244,6 +3638,14 @@
             "kind": "outside-validator",
             "owners": [],
             "sha256": null
+          },
+          {
+            "path": "src/godot-game/game/foundation/FoundationWorldInput.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/game/KingdomZombies.csproj"
+            ],
+            "sha256": "3bff5f1d8101ad593b19e3847b6a8ac460666eaf5c96899f699f09cbe1906101"
           },
           {
             "path": "src/godot-game/game/foundation/LanDiscoveryService.cs",
@@ -3314,7 +3716,7 @@
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "5211cf70413447b4874418eb88bedd6ea62e6a3fa3cd7c0f8d2bb71953ab090c"
+            "sha256": "8f17990fc41244119ef8503ebc6d0138103bf824740a95d2fa4aa8418350d888"
           },
           {
             "path": "src/godot-game/game/inspection/CorpsePreview.cs",
@@ -3322,7 +3724,7 @@
             "owners": [
               "src/godot-game/game/KingdomZombies.csproj"
             ],
-            "sha256": "f3739163a2920a65597e719d1021a7ea2c72344a5b415040de076c15ef3624a2"
+            "sha256": "fb9c89d81037159ef7f9b6d675bff77c32c83e45f93d983eadb36f6f7d0528c8"
           },
           {
             "path": "src/godot-game/game/inspection/CrowdPreview.cs",
@@ -3633,6 +4035,48 @@
             "sha256": null
           },
           {
+            "path": "src/godot-game/tests/scenarios/phase06-drivers.test.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "src/godot-game/tests/scenarios/phase06-inspection.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "src/godot-game/tests/scenarios/phase06-lan.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "src/godot-game/tests/scenarios/phase06-packaged.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "src/godot-game/tests/scenarios/phase06-rendered.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
             "path": "src/godot-game/tests/verification/AnalyzerInputIdentityTests.cs",
             "kind": "source",
             "owners": [
@@ -3798,7 +4242,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "ba290db5d88efbd33d2fd494244ffe7f95670c0467811bd0710b035d891e8716"
+            "sha256": "d9d11bf48532911d8a251d8c0ddc270b36d92cce7ddddb1ebc9b9f307d97e2ae"
           },
           {
             "path": "src/godot-game/tests/verification/BuildingPresentationTests.cs",
@@ -3822,7 +4266,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "449ee32c54b73a08547b1c49818e714cdd2531141233c21d30dc4daff0288ca7"
+            "sha256": "a088f5f2a44943946fe5ea997ffb485a1d45c30418bf938ef85f839486fd224e"
           },
           {
             "path": "src/godot-game/tests/verification/CharacterFitTests.cs",
@@ -3838,7 +4282,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "9f2bac1b8b096f78554aa73aab6c74e99c6cb62ba6521a440f8db1f36036f0a2"
+            "sha256": "bdbb6e6cc3da55b0d6963c3fef14ef2ca73a85c2ae7c348ed2aed4a0fa29f718"
           },
           {
             "path": "src/godot-game/tests/verification/ConfigurationTests.cs",
@@ -3854,7 +4298,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "07c310f7fd25ba22af76d866e2e054c9e9f19c8a10f1f615e5b42b0f15e4c511"
+            "sha256": "7df29a6be2f0270d3482b404c6ad3baf8ffb3f153503fc6be291cfbf5b638898"
           },
           {
             "path": "src/godot-game/tests/verification/ConsumerPolicyTests.cs",
@@ -3878,7 +4322,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "d83a2f7d9a639349ac9cb292142e41c2bce1ada8bb821ad261db5a25bbd1a0df"
+            "sha256": "db096543a52f044bd450d6dadbd1e932785fe8679c70bee67918188eec9aafe4"
           },
           {
             "path": "src/godot-game/tests/verification/ControlledElapsed.cs",
@@ -3903,6 +4347,14 @@
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
             "sha256": "1e26aba445f0af13c1da75d0b6398c7f57e5c031737973d1e39fa3a51714fa50"
+          },
+          {
+            "path": "src/godot-game/tests/verification/CurrentReplayTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "24615cec5d0acd86088badfeaea6f054913c0df874cc8ee572140e52edd11471"
           },
           {
             "path": "src/godot-game/tests/verification/DocumentationAnchors.cs",
@@ -3998,7 +4450,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "bfc49731ddf1a875e8709acbf22be25f9cac3ed7e97c03efce898e0f51ac679b"
+            "sha256": "a376e38dee3bc931d99ce4f1977c222d8c0d4f07a85ef2add50c6a29be19d6f7"
           },
           {
             "path": "src/godot-game/tests/verification/EngineBoundaryTests.cs",
@@ -4038,7 +4490,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "d6ab7c8a7e9c889dd0035773301cbdb979d2f8162b055307c2065899776f7b56"
+            "sha256": "ffdb0c6848af5f148960b0996e96c3e0be7dd9c8ecb50ba152d8d706e6a05d5d"
           },
           {
             "path": "src/godot-game/tests/verification/EngineOperationTests.cs",
@@ -4062,7 +4514,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "16e7d55b6688fb0d375629fd73329a6080d11885c4b7030a837274cc17543fc0"
+            "sha256": "489397722677f6480f3d0608f5ccac069b87c53f80681430e8855193ea00b023"
           },
           {
             "path": "src/godot-game/tests/verification/ExemptionValidator.cs",
@@ -4070,7 +4522,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "b26d4bf189c318e61c0a787a858cb33cca190f3542d3578b540eea59a0ea6b5e"
+            "sha256": "c4894cf4d82feefe3b8fbb8029dd67bf2499d09ab48609fa8009ed0171adec5a"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationCapturePublicationTests.cs",
@@ -4102,7 +4554,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "a47c5a8acf6f4fe8779934b5f11ffcf336db3b5c14556df483230c55b5203564"
+            "sha256": "7713a3118b89c4a75a5e6a9d1e571802ffed5eaf24f8d91f4924f827fea8bd3d"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationIdentityReplacement.cs",
@@ -4126,7 +4578,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "abf9f7408366e9162e89cc9fb378087b0e15681e3118fd58f801162c32ab3d32"
+            "sha256": "073163e9cab39aeed391c37458cf5db776a45631110bb1030f1922e88c8efa03"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationLanInputTests.cs",
@@ -4134,7 +4586,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "e073b3d9de40b0e925e4c054925cb0ff5124357195164e875e0f0d36a0c2b4eb"
+            "sha256": "9fba371b5e0b22baf36bd1ce3b336a889ebaa6d6fd62da8075ab96e9dbcc27cb"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationLanLifecycleTests.cs",
@@ -4142,7 +4594,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "d9444e153eb49d0514ea3d5514c26255847985c20ba0205d4daa1b3ee12d6b48"
+            "sha256": "6edccff38dfdf7f8d976e29c8e496bd510c67d9be08412e629df168665ebe213"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationLanOrderingTests.cs",
@@ -4150,7 +4602,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "e97c2a6be2075115468cd7b40ce8b47048e437cf6a980ef3b89dba541a0c87f0"
+            "sha256": "2b4357a021310a82efc12b517026df2bfc2bf0ce0cf3d9fd924d70acc9df4060"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationLanPermissionTests.cs",
@@ -4158,7 +4610,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "478a760d19cc946e32307e577a80dde0de102ce2e2477eedd2e25fe756aaa1e0"
+            "sha256": "7e359bef5abc251d49299b94431c35eb95a84c1601bcc04a4d40901d83980cf8"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationLanProtocolTests.cs",
@@ -4166,7 +4618,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "d9008080ddd7714ee82f14d47ac5797e0f9feb4d8533a30ac0ad97b320c21b8d"
+            "sha256": "6c15a6b80a6ff1da1c48e202f136b087ccad94dc7498de0e9c55667b0a138fe3"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationLanRunnerTests.cs",
@@ -4198,7 +4650,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "7036b88ff24253fd6f7f3167c623ec75a751ec8d17fd222ad18ae88557577fec"
+            "sha256": "e209e0044965f53dcd0cc889e3029f0f40842103db49127471c09462e1a644c6"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationMovementTests.cs",
@@ -4214,7 +4666,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "af5a8e46ea71ab2348428abfac83bb90a46b51c8201ade577a85b71d25c9a858"
+            "sha256": "38d12b57850f64cf59840baf7f8eae82d4b953689537011bdcee8222397aa242"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationRunnerTests.cs",
@@ -4238,7 +4690,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "73b63c0e580073d99134a84c91e4f1d9be63d938110be50d8904b87dfbbd215b"
+            "sha256": "5d3d3b8498333833b525a70c290e68563ddbffae93ccf903c88b26b1d78c34f6"
           },
           {
             "path": "src/godot-game/tests/verification/FoundationTestConnection.cs",
@@ -4383,6 +4835,166 @@
             "sha256": "4903c91b912a5f7ce09f3887fe36f624a038c063fdea7ff406fda78723abbba3"
           },
           {
+            "path": "src/godot-game/tests/verification/Phase06AccessTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "d165ec6f7c910758e267b5e4e0c4dd941abc1a57fd6f6848e0eec86ff71b7185"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06AppearanceTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "a215e7e2a66bdcc7e0cf16d7e7501f3019fcd46535b3e5da2de3f619a5393169"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06BowTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "f2a054be402884a7971eb017da16e7e746e529e2dd871e15b9084599b6bc8b12"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06DeathTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "97fdba7614c46e6f78a80da5e656179345e71497ab9bfef181cdb8274bffab67"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06ExternalInteractionTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "117690c7e2dc8c54c19174f2b33e3e19205e3eb4152af47ec3064ddf2fecc878"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06FixtureTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "9d475f13c616eaae40cc0ab7171f8d5ace30e1c5c628c6a7006b24bd35b4a668"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "6a1e1459d3b24de0ed4d7d5079338ec0357bfed709251bdddde6d562ecee013b"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06InventoryTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "45706917baf62ff1cf2326a665d82740225c6acd796b628cda7c3bc680c0fd42"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06LoadTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "ba601f67707e1083b316b3a3c282cbfd1bbd3fa3a9954a25f19b55483e4e2fc7"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06MeleeTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "306b59182943fb6295ea5f3b87cf49dc3cf1091f66d162e5663f6b1078fc6fc9"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06MovementTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "2ccb914695c4ac2fe8ddc5a955c523262a894f3fbc1b9968bbc12f802bbafb83"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06NestingTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "bce600822ce439b183f9de64307ea459e264cec176aafae0f70c20cc6f46d84d"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06PopulationTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "702b79e5f582f37b1fc863cebcc3d71ceadb78115620d8f7ba7cc149af4f8bac"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06PublicationTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "163fe39bc17bf04346d83c702db857e93a63d993a381448c40e79f05986532f1"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06RecoveryTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "843b4d0e5e4c8aca7b9301ee99126b6d8d7f5052093048472f9fac5742cbab1b"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06SnapshotTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "326daadc62e530a983d6a36ec79f3cd0c7adb382f1d8c5cdd41e602fa569f8bd"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06StashTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "091b0f7437df81bffd58f138d0f42e2a390aadd2dde390c511692eea489d6db4"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06SuccessionTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "08aa698a4cab12c609ec9de36ff394d5d89fe4372ab75b786b5f07fdf146bcab"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06UiStateTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "1680736f6fa1cf8727be59f4f100f0c3166885f5bc241f3063f06a5e49e5f0f4"
+          },
+          {
+            "path": "src/godot-game/tests/verification/Phase06WorldTests.cs",
+            "kind": "source",
+            "owners": [
+              "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
+            ],
+            "sha256": "a3b256167a90173adbe4864361f58df380bb829ae5d647b2465d3ad2e696d56c"
+          },
+          {
             "path": "src/godot-game/tests/verification/PinEdgeTests.cs",
             "kind": "source",
             "owners": [
@@ -4460,7 +5072,7 @@
             "owners": [
               "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "b360e19d0cd5f0a528280054d02f400b8f8d3c83db022adb78cbaca996c6db26"
+            "sha256": "b8d6310c3d002369f1c8859b62c789f6624d016d5091c7f68479ae41ca6656bb"
           },
           {
             "path": "src/godot-game/tests/verification/RuleBindingTests.cs",
@@ -5515,6 +6127,12 @@
             "sha256": null
           },
           {
+            "path": "src/godot-game/tools/verification/current-replay.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
             "path": "src/godot-game/tools/verification/linux-vm/start-vm.cjs",
             "kind": "outside-validator",
             "owners": [],
@@ -5587,15 +6205,15 @@
             "sha256": null
           }
         ],
-        "sourceSetSha256": "34e7d42da3065b541b07f16d921f6467e797fe8fefedaf96f8ff12f9074a0e66",
+        "sourceSetSha256": "242bcbff4043be8febfe4a220f39e92e6d5e150864505ac326354d8480d92996",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
-            "sha256": "43078b67b27037d7ce810abbecc931ca5d36eb5681518874ef6b19fdea7a8763"
+            "sha256": "a2bd41043b0990a61d4210192e0a4a8fb1a3307cfa36af74e2d2287a2bb9ebd0"
           },
           {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "054e71e07a13fd72ff0a62207608e9eafd5eb955b68ba903f5818f37acc1f976"
+            "sha256": "cf651d3451a22a631a0c036ecec7e8a8e456e4ee8403ff2e86e439bce21ba375"
           },
           {
             "path": "docs/code/generated-layout-adaptations.json",
@@ -5668,7 +6286,7 @@
             "rowIds": [
               "KZ-EX-MTP-CALLS-01"
             ],
-            "sourceInputsSha256": "8c78e497d54f49777c5cc46b78a59f233804e20a393196f9a4bb0263af43c4b3",
+            "sourceInputsSha256": "571639791a2dc0e006d1e29c313b5c5efc45548599cab64d99599dce8ca17648",
             "observationsSha256": null
           },
           {
@@ -5784,30 +6402,73 @@
             "action": "repository-sources",
             "sources": [
               "src/godot-game/core/ReplayRandom.cs",
-              "src/godot-game/core/SnapshotCodec.cs",
-              "src/godot-game/core/SnapshotDto.cs",
-              "src/godot-game/core/SnapshotJson.cs",
-              "src/godot-game/core/SnapshotWriter.cs",
-              "src/godot-game/core/StableIdentity.cs",
-              "src/godot-game/game/.editorconfig",
-              "src/godot-game/game/GeneratedCallSiteAdapters.cs",
-              "src/godot-game/game/GeneratedReportAdapter.cs",
-              "src/godot-game/game/foundation/DiscoveryCodec.cs",
-              "src/godot-game/game/foundation/EnetConnectionService.cs",
-              "src/godot-game/game/foundation/FoundationActorNode.cs",
-              "src/godot-game/game/foundation/FoundationAdmissionHistory.cs",
-              "src/godot-game/game/foundation/FoundationAutomation.cs",
-              "src/godot-game/game/foundation/FoundationBrowser.cs",
-              "src/godot-game/game/foundation/FoundationCapturePublication.cs"
+              "src/godot-game/core/RunCombat.cs",
+              "src/godot-game/core/RunCombatDefinitions.cs",
+              "src/godot-game/core/RunCombatFixture.cs",
+              "src/godot-game/core/RunDamage.cs",
+              "src/godot-game/core/RunDeathAndLoot.cs",
+              "src/godot-game/core/RunDefinitions.cs",
+              "src/godot-game/core/RunExternalAccess.cs",
+              "src/godot-game/core/RunFood.cs",
+              "src/godot-game/core/RunInventory.cs",
+              "src/godot-game/core/RunInventoryRules.cs",
+              "src/godot-game/core/RunItemActions.cs",
+              "src/godot-game/core/RunItemTransfer.cs",
+              "src/godot-game/core/RunLocomotion.cs",
+              "src/godot-game/core/RunPopulation.cs",
+              "src/godot-game/core/RunProjectiles.cs"
             ]
           },
           {
             "id": "repository-sources-2",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/core/RunProjections.Hud.cs",
+              "src/godot-game/core/RunProjections.cs",
+              "src/godot-game/core/RunQuickReferences.cs",
+              "src/godot-game/core/RunSavedLayout.cs",
+              "src/godot-game/core/RunSnapshotCodec.cs",
+              "src/godot-game/core/RunSnapshotDocument.cs",
+              "src/godot-game/core/RunStash.cs",
+              "src/godot-game/core/RunSuccession.cs",
+              "src/godot-game/core/RunTrajectoryContact.cs",
+              "src/godot-game/core/RunVitals.cs",
+              "src/godot-game/core/RunWorld.cs",
+              "src/godot-game/core/RunWorldGeometry.cs",
+              "src/godot-game/core/SnapshotCodec.cs",
+              "src/godot-game/core/SnapshotDto.cs",
+              "src/godot-game/core/SnapshotJson.cs",
+              "src/godot-game/core/SnapshotWriter.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-3",
+            "action": "repository-sources",
+            "sources": [
+              "src/godot-game/core/StableIdentity.cs",
+              "src/godot-game/game/.editorconfig",
+              "src/godot-game/game/GeneratedCallSiteAdapters.cs",
+              "src/godot-game/game/GeneratedReportAdapter.cs",
+              "src/godot-game/game/foundation/DiscoveryCodec.cs",
+              "src/godot-game/game/foundation/EnetConnectionService.cs",
+              "src/godot-game/game/foundation/FoundationActorArt.cs",
+              "src/godot-game/game/foundation/FoundationActorNode.cs",
+              "src/godot-game/game/foundation/FoundationAdmissionHistory.cs",
+              "src/godot-game/game/foundation/FoundationAppearance.cs",
+              "src/godot-game/game/foundation/FoundationAppearanceAssets.cs",
+              "src/godot-game/game/foundation/FoundationAutomation.cs",
+              "src/godot-game/game/foundation/FoundationBrowser.cs",
+              "src/godot-game/game/foundation/FoundationCapturePublication.cs",
               "src/godot-game/game/foundation/FoundationCoordinator.Admission.cs",
-              "src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs",
+              "src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-4",
+            "action": "repository-sources",
+            "sources": [
               "src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs",
+              "src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs",
               "src/godot-game/game/foundation/FoundationCoordinator.cs",
               "src/godot-game/game/foundation/FoundationCopy.cs",
               "src/godot-game/game/foundation/FoundationDiagnostics.cs",
@@ -5817,38 +6478,62 @@
               "src/godot-game/game/foundation/FoundationEndpoint.cs",
               "src/godot-game/game/foundation/FoundationEnvelope.cs",
               "src/godot-game/game/foundation/FoundationEphemeralProfile.cs",
+              "src/godot-game/game/foundation/FoundationEquipmentProjection.cs",
+              "src/godot-game/game/foundation/FoundationHud.Live.cs",
               "src/godot-game/game/foundation/FoundationHud.cs",
-              "src/godot-game/game/foundation/FoundationInput.cs",
-              "src/godot-game/game/foundation/FoundationMenu.cs",
-              "src/godot-game/game/foundation/FoundationNativeRegression.cs"
+              "src/godot-game/game/foundation/FoundationHudState.cs",
+              "src/godot-game/game/foundation/FoundationInput.cs"
             ]
           },
           {
-            "id": "repository-sources-3",
+            "id": "repository-sources-5",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/game/foundation/FoundationInventoryArt.cs",
+              "src/godot-game/game/foundation/FoundationInventoryGrid.cs",
+              "src/godot-game/game/foundation/FoundationInventoryInteraction.cs",
+              "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs",
+              "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs",
+              "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs",
+              "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs",
+              "src/godot-game/game/foundation/FoundationMenu.cs",
+              "src/godot-game/game/foundation/FoundationNativeRegression.cs",
               "src/godot-game/game/foundation/FoundationObservationScope.cs",
               "src/godot-game/game/foundation/FoundationPeerBinding.cs",
               "src/godot-game/game/foundation/FoundationPresentation.cs",
               "src/godot-game/game/foundation/FoundationProtocol.cs",
+              "src/godot-game/game/foundation/FoundationPublicWorld.cs",
               "src/godot-game/game/foundation/FoundationRegressionDiscovery.cs",
-              "src/godot-game/game/foundation/FoundationRoot.cs",
+              "src/godot-game/game/foundation/FoundationRoot.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-6",
+            "action": "repository-sources",
+            "sources": [
+              "src/godot-game/game/foundation/FoundationRunFrame.cs",
+              "src/godot-game/game/foundation/FoundationRunReadback.cs",
+              "src/godot-game/game/foundation/FoundationRunView.cs",
               "src/godot-game/game/foundation/FoundationRuntimeState.cs",
               "src/godot-game/game/foundation/FoundationServices.cs",
+              "src/godot-game/game/foundation/FoundationSpectator.cs",
+              "src/godot-game/game/foundation/FoundationSpectatorPanel.cs",
               "src/godot-game/game/foundation/FoundationView.cs",
+              "src/godot-game/game/foundation/FoundationViewInbox.cs",
               "src/godot-game/game/foundation/FoundationWireFrame.cs",
+              "src/godot-game/game/foundation/FoundationWorldInput.cs",
               "src/godot-game/game/foundation/LanDiscoveryService.cs",
               "src/godot-game/game/foundation/LocalProfileService.cs",
               "src/godot-game/game/foundation/LocalProfileStorage.cs",
               "src/godot-game/game/inspection/AudioPreview.cs",
-              "src/godot-game/game/inspection/BuildingPreview.cs",
-              "src/godot-game/game/inspection/CampLayouts.cs"
+              "src/godot-game/game/inspection/BuildingPreview.cs"
             ]
           },
           {
-            "id": "repository-sources-4",
+            "id": "repository-sources-7",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/game/inspection/CampLayouts.cs",
               "src/godot-game/game/inspection/CharacterPreview.cs",
               "src/godot-game/game/inspection/CorpsePreview.cs",
               "src/godot-game/game/inspection/CrowdPreview.cs",
@@ -5863,14 +6548,14 @@
               "src/godot-game/game/proofs/LifecycleFixture.cs",
               "src/godot-game/game/proofs/LifetimeToken.cs",
               "src/godot-game/game/proofs/MainThreadGateway.cs",
-              "src/godot-game/game/proofs/Phase1.cs",
-              "src/godot-game/game/proofs/ProofResource.cs"
+              "src/godot-game/game/proofs/Phase1.cs"
             ]
           },
           {
-            "id": "repository-sources-5",
+            "id": "repository-sources-8",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/game/proofs/ProofResource.cs",
               "src/godot-game/game/proofs/ProofSequence.cs",
               "src/godot-game/multiplayer-abstractions/ConnectionPacket.cs",
               "src/godot-game/multiplayer-abstractions/IConnectionService.cs",
@@ -5885,14 +6570,14 @@
               "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs",
               "src/godot-game/tests/verification/Analyzers/ContinuationIndentAnalyzerTests.cs",
               "src/godot-game/tests/verification/Analyzers/LineLengthAnalyzerTests.cs",
-              "src/godot-game/tests/verification/Analyzers/LocalNewDeclarationAnalyzerTests.cs",
-              "src/godot-game/tests/verification/Analyzers/MemberOrderAnalyzerTests.cs"
+              "src/godot-game/tests/verification/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
             ]
           },
           {
-            "id": "repository-sources-6",
+            "id": "repository-sources-9",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/tests/verification/Analyzers/MemberOrderAnalyzerTests.cs",
               "src/godot-game/tests/verification/Analyzers/NamedArgumentAnalyzerTests.cs",
               "src/godot-game/tests/verification/Analyzers/NullForgivingAnalyzerTests.cs",
               "src/godot-game/tests/verification/Analyzers/PrimaryConstructorAnalyzerTests.cs",
@@ -5907,14 +6592,14 @@
               "src/godot-game/tests/verification/BoundaryFixture.cs",
               "src/godot-game/tests/verification/BuildFixture.cs",
               "src/godot-game/tests/verification/BuildingPresentationTests.cs",
-              "src/godot-game/tests/verification/CampLayoutTests.cs",
-              "src/godot-game/tests/verification/CharacterBowTests.cs"
+              "src/godot-game/tests/verification/CampLayoutTests.cs"
             ]
           },
           {
-            "id": "repository-sources-7",
+            "id": "repository-sources-10",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/tests/verification/CharacterBowTests.cs",
               "src/godot-game/tests/verification/CharacterFitTests.cs",
               "src/godot-game/tests/verification/CharacterPresentationTests.cs",
               "src/godot-game/tests/verification/ConfigurationTests.cs",
@@ -5925,18 +6610,19 @@
               "src/godot-game/tests/verification/ControlledElapsed.cs",
               "src/godot-game/tests/verification/ControlledInputPolicy.cs",
               "src/godot-game/tests/verification/ControlledRandom.cs",
+              "src/godot-game/tests/verification/CurrentReplayTests.cs",
               "src/godot-game/tests/verification/DocumentationAnchors.cs",
               "src/godot-game/tests/verification/DocumentationDecisions.cs",
               "src/godot-game/tests/verification/DocumentationFixture.cs",
-              "src/godot-game/tests/verification/DocumentationLinks.cs",
-              "src/godot-game/tests/verification/DocumentationPath.cs",
-              "src/godot-game/tests/verification/DocumentationProjectTests.cs"
+              "src/godot-game/tests/verification/DocumentationLinks.cs"
             ]
           },
           {
-            "id": "repository-sources-8",
+            "id": "repository-sources-11",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/tests/verification/DocumentationPath.cs",
+              "src/godot-game/tests/verification/DocumentationProjectTests.cs",
               "src/godot-game/tests/verification/DocumentationProjects.cs",
               "src/godot-game/tests/verification/DocumentationTests.cs",
               "src/godot-game/tests/verification/DocumentationValidator.cs",
@@ -5950,15 +6636,15 @@
               "src/godot-game/tests/verification/EngineGeneratedTests.cs",
               "src/godot-game/tests/verification/EngineOperationTests.cs",
               "src/godot-game/tests/verification/EngineRun.cs",
-              "src/godot-game/tests/verification/ExemptionTests.cs",
-              "src/godot-game/tests/verification/ExemptionValidator.cs",
-              "src/godot-game/tests/verification/FoundationCapturePublicationTests.cs"
+              "src/godot-game/tests/verification/ExemptionTests.cs"
             ]
           },
           {
-            "id": "repository-sources-9",
+            "id": "repository-sources-12",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/tests/verification/ExemptionValidator.cs",
+              "src/godot-game/tests/verification/FoundationCapturePublicationTests.cs",
               "src/godot-game/tests/verification/FoundationConnectionReplacement.cs",
               "src/godot-game/tests/verification/FoundationDiscoveryReplacement.cs",
               "src/godot-game/tests/verification/FoundationHarnessConnection.cs",
@@ -5972,15 +6658,15 @@
               "src/godot-game/tests/verification/FoundationLanProtocolTests.cs",
               "src/godot-game/tests/verification/FoundationLanRunnerTests.cs",
               "src/godot-game/tests/verification/FoundationLanServicesTests.cs",
-              "src/godot-game/tests/verification/FoundationLifecycleTests.cs",
-              "src/godot-game/tests/verification/FoundationLinkedSources.cs",
-              "src/godot-game/tests/verification/FoundationMovementTests.cs"
+              "src/godot-game/tests/verification/FoundationLifecycleTests.cs"
             ]
           },
           {
-            "id": "repository-sources-10",
+            "id": "repository-sources-13",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/tests/verification/FoundationLinkedSources.cs",
+              "src/godot-game/tests/verification/FoundationMovementTests.cs",
               "src/godot-game/tests/verification/FoundationPermissionTests.cs",
               "src/godot-game/tests/verification/FoundationRunnerTests.cs",
               "src/godot-game/tests/verification/FoundationScenarioClock.cs",
@@ -5994,37 +6680,63 @@
               "src/godot-game/tests/verification/GeneratedSurfaceScanner.cs",
               "src/godot-game/tests/verification/GeneratedSyntaxAdapterTests.cs",
               "src/godot-game/tests/verification/GodotCallSiteAdapterTests.cs",
-              "src/godot-game/tests/verification/GraphFixture.cs",
-              "src/godot-game/tests/verification/GraphTests.cs",
-              "src/godot-game/tests/verification/InventoryLayoutTests.cs"
+              "src/godot-game/tests/verification/GraphFixture.cs"
             ]
           },
           {
-            "id": "repository-sources-11",
+            "id": "repository-sources-14",
             "action": "repository-sources",
             "sources": [
+              "src/godot-game/tests/verification/GraphTests.cs",
+              "src/godot-game/tests/verification/InventoryLayoutTests.cs",
               "src/godot-game/tests/verification/Models/BoundaryEntity.cs",
               "src/godot-game/tests/verification/Models/BoundaryKind.cs",
               "src/godot-game/tests/verification/Models/BoundaryMapper.cs",
               "src/godot-game/tests/verification/Models/BoundaryOptions.cs",
               "src/godot-game/tests/verification/Models/BoundarySnapshotDto.cs",
+              "src/godot-game/tests/verification/Phase06AccessTests.cs",
+              "src/godot-game/tests/verification/Phase06AppearanceTests.cs",
+              "src/godot-game/tests/verification/Phase06BowTests.cs",
+              "src/godot-game/tests/verification/Phase06DeathTests.cs",
+              "src/godot-game/tests/verification/Phase06ExternalInteractionTests.cs",
+              "src/godot-game/tests/verification/Phase06FixtureTests.cs",
+              "src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs",
+              "src/godot-game/tests/verification/Phase06InventoryTests.cs",
+              "src/godot-game/tests/verification/Phase06LoadTests.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-15",
+            "action": "repository-sources",
+            "sources": [
+              "src/godot-game/tests/verification/Phase06MeleeTests.cs",
+              "src/godot-game/tests/verification/Phase06MovementTests.cs",
+              "src/godot-game/tests/verification/Phase06NestingTests.cs",
+              "src/godot-game/tests/verification/Phase06PopulationTests.cs",
+              "src/godot-game/tests/verification/Phase06PublicationTests.cs",
+              "src/godot-game/tests/verification/Phase06RecoveryTests.cs",
+              "src/godot-game/tests/verification/Phase06SnapshotTests.cs",
+              "src/godot-game/tests/verification/Phase06StashTests.cs",
+              "src/godot-game/tests/verification/Phase06SuccessionTests.cs",
+              "src/godot-game/tests/verification/Phase06UiStateTests.cs",
+              "src/godot-game/tests/verification/Phase06WorldTests.cs",
               "src/godot-game/tests/verification/PinEdgeTests.cs",
               "src/godot-game/tests/verification/PinsTests.cs",
               "src/godot-game/tests/verification/ProjectEvaluator.cs",
               "src/godot-game/tests/verification/ProofProtocol.cs",
-              "src/godot-game/tests/verification/RandomContractTests.cs",
+              "src/godot-game/tests/verification/RandomContractTests.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-16",
+            "action": "repository-sources",
+            "sources": [
               "src/godot-game/tests/verification/RegisterTests.cs",
               "src/godot-game/tests/verification/RegisterValidator.cs",
               "src/godot-game/tests/verification/RestoreAtomicityTests.cs",
               "src/godot-game/tests/verification/RestoreConcurrencyProof.cs",
               "src/godot-game/tests/verification/RestoreMutationProof.cs",
-              "src/godot-game/tests/verification/RuleBindingTests.cs"
-            ]
-          },
-          {
-            "id": "repository-sources-12",
-            "action": "repository-sources",
-            "sources": [
+              "src/godot-game/tests/verification/RuleBindingTests.cs",
               "src/godot-game/tests/verification/RuleBindingValidator.cs",
               "src/godot-game/tests/verification/RuleDefinitions.cs",
               "src/godot-game/tests/verification/RuleMatrix.cs",
@@ -6034,19 +6746,19 @@
               "src/godot-game/tests/verification/SnapshotProofData.cs",
               "src/godot-game/tests/verification/SnapshotShapePolicy.cs",
               "src/godot-game/tests/verification/SnapshotTests.cs",
-              "src/godot-game/tests/verification/SourceFileFormat.cs",
+              "src/godot-game/tests/verification/SourceFileFormat.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-17",
+            "action": "repository-sources",
+            "sources": [
               "src/godot-game/tests/verification/StateInputTests.cs",
               "src/godot-game/tests/verification/SuppressionPolicy.cs",
               "src/godot-game/tests/verification/SuppressionTests.cs",
               "src/godot-game/tests/verification/TestMethodNameTests.cs",
               "src/godot-game/tests/verification/TestSourceIndex.cs",
-              "src/godot-game/tests/verification/ThemeLayoutTests.cs"
-            ]
-          },
-          {
-            "id": "repository-sources-13",
-            "action": "repository-sources",
-            "sources": [
+              "src/godot-game/tests/verification/ThemeLayoutTests.cs",
               "src/godot-game/tests/verification/ThresholdTests.cs",
               "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
               "src/godot-game/tests/verification/Verification/AdapterTargets.cs",
@@ -6056,19 +6768,19 @@
               "src/godot-game/tests/verification/WorldInspectorTests.cs",
               "src/godot-game/tools/code-rules/BodyCommentAnalyzer.cs",
               "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs",
-              "src/godot-game/tools/code-rules/ContinuationIndentAnalyzer.cs",
+              "src/godot-game/tools/code-rules/ContinuationIndentAnalyzer.cs"
+            ]
+          },
+          {
+            "id": "repository-sources-18",
+            "action": "repository-sources",
+            "sources": [
               "src/godot-game/tools/code-rules/EngineGeneratedSyntax.cs",
               "src/godot-game/tools/code-rules/GeneratedLayout.cs",
               "src/godot-game/tools/code-rules/GeneratedSyntax.cs",
               "src/godot-game/tools/code-rules/LineLengthAnalyzer.cs",
               "src/godot-game/tools/code-rules/LocalNewDeclarationAnalyzer.cs",
-              "src/godot-game/tools/code-rules/MemberBodies.cs"
-            ]
-          },
-          {
-            "id": "repository-sources-14",
-            "action": "repository-sources",
-            "sources": [
+              "src/godot-game/tools/code-rules/MemberBodies.cs",
               "src/godot-game/tools/code-rules/MemberOrderAnalyzer.cs",
               "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs",
               "src/godot-game/tools/code-rules/NullForgivingAnalyzer.cs",
@@ -8983,10 +9695,10 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "b40d9a9993e434aa11b596c6f5e6d52f1946ba4401381fa4cd11390f441d0db2",
+        "repositorySha256": "73968bc562f568206a678cefdca51778f45d2a2f7bf4d65a74cb7aac2ce9d78e",
         "childMs": 45000,
         "setupMs": 60000,
-        "overallMs": 1044000,
+        "overallMs": 1236000,
         "stages": [
           {
             "id": "r50-game-build",
@@ -9076,6 +9788,26 @@
             "id": "r50-repository-sources-14",
             "action": "repository",
             "sourceStageId": "repository-sources-14"
+          },
+          {
+            "id": "r50-repository-sources-15",
+            "action": "repository",
+            "sourceStageId": "repository-sources-15"
+          },
+          {
+            "id": "r50-repository-sources-16",
+            "action": "repository",
+            "sourceStageId": "repository-sources-16"
+          },
+          {
+            "id": "r50-repository-sources-17",
+            "action": "repository",
+            "sourceStageId": "repository-sources-17"
+          },
+          {
+            "id": "r50-repository-sources-18",
+            "action": "repository",
+            "sourceStageId": "repository-sources-18"
           }
         ]
       }
@@ -12228,7 +12960,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "b40d9a9993e434aa11b596c6f5e6d52f1946ba4401381fa4cd11390f441d0db2",
+        "repositorySha256": "73968bc562f568206a678cefdca51778f45d2a2f7bf4d65a74cb7aac2ce9d78e",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -16644,7 +17376,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "b40d9a9993e434aa11b596c6f5e6d52f1946ba4401381fa4cd11390f441d0db2",
+        "repositorySha256": "73968bc562f568206a678cefdca51778f45d2a2f7bf4d65a74cb7aac2ce9d78e",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16762,7 +17494,7 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "b40d9a9993e434aa11b596c6f5e6d52f1946ba4401381fa4cd11390f441d0db2",
+        "repositorySha256": "73968bc562f568206a678cefdca51778f45d2a2f7bf4d65a74cb7aac2ce9d78e",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16915,10 +17647,10 @@
         "catalog": "src/godot-game/tools/verification/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "b40d9a9993e434aa11b596c6f5e6d52f1946ba4401381fa4cd11390f441d0db2",
+        "repositorySha256": "73968bc562f568206a678cefdca51778f45d2a2f7bf4d65a74cb7aac2ce9d78e",
         "childMs": 45000,
         "setupMs": 60000,
-        "overallMs": 1044000,
+        "overallMs": 1236000,
         "stages": [
           {
             "id": "exempt-repository-auth",
@@ -17004,6 +17736,26 @@
             "id": "exempt-repository-sources-14",
             "action": "repository",
             "sourceStageId": "repository-sources-14"
+          },
+          {
+            "id": "exempt-repository-sources-15",
+            "action": "repository",
+            "sourceStageId": "repository-sources-15"
+          },
+          {
+            "id": "exempt-repository-sources-16",
+            "action": "repository",
+            "sourceStageId": "repository-sources-16"
+          },
+          {
+            "id": "exempt-repository-sources-17",
+            "action": "repository",
+            "sourceStageId": "repository-sources-17"
+          },
+          {
+            "id": "exempt-repository-sources-18",
+            "action": "repository",
+            "sourceStageId": "repository-sources-18"
           },
           {
             "id": "exempt-bypass-restored",
@@ -17881,7 +18633,7 @@
         "registries": {
           "spans": {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "054e71e07a13fd72ff0a62207608e9eafd5eb955b68ba903f5818f37acc1f976",
+            "sha256": "cf651d3451a22a631a0c036ecec7e8a8e456e4ee8403ff2e86e439bce21ba375",
             "cohorts": [
               {
                 "id": "phase1-baseline",
@@ -18349,7 +19101,7 @@
           },
           "calls": {
             "path": "docs/code/generated-callsite-adaptations.json",
-            "sha256": "43078b67b27037d7ce810abbecc931ca5d36eb5681518874ef6b19fdea7a8763",
+            "sha256": "a2bd41043b0990a61d4210192e0a4a8fb1a3307cfa36af74e2d2287a2bb9ebd0",
             "cohorts": [
               {
                 "id": "phase1-baseline-mtp",
@@ -18942,7 +19694,7 @@
         "registries": {
           "spans": {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "054e71e07a13fd72ff0a62207608e9eafd5eb955b68ba903f5818f37acc1f976",
+            "sha256": "cf651d3451a22a631a0c036ecec7e8a8e456e4ee8403ff2e86e439bce21ba375",
             "cohorts": [
               {
                 "id": "phase1-baseline",
@@ -19410,7 +20162,7 @@
           },
           "calls": {
             "path": "docs/code/generated-callsite-adaptations.json",
-            "sha256": "43078b67b27037d7ce810abbecc931ca5d36eb5681518874ef6b19fdea7a8763",
+            "sha256": "a2bd41043b0990a61d4210192e0a4a8fb1a3307cfa36af74e2d2287a2bb9ebd0",
             "cohorts": [
               {
                 "id": "phase1-baseline-mtp",
@@ -21204,7 +21956,7 @@
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner.",
   "callerAuthority": {
     "registry": "docs/code/generated-callsite-adaptations.json",
-    "sha256": "43078b67b27037d7ce810abbecc931ca5d36eb5681518874ef6b19fdea7a8763",
+    "sha256": "a2bd41043b0990a61d4210192e0a4a8fb1a3307cfa36af74e2d2287a2bb9ebd0",
     "collisionRowIds": [
       "KZ-EX-GODOT-CALLS-1",
       "KZ-EX-GODOT-CALLS-2",

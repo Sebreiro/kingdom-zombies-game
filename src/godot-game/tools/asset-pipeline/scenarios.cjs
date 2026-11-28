@@ -182,7 +182,10 @@ function impactClosure(cases, files) {
   const starts = (...prefixes) => files.some(file => prefixes.some(prefix => file === prefix || file.startsWith(prefix+'/')));
   const shared = starts('src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets',
     'src/godot-game/Directory.Packages.props','src/godot-game/global.json','src/godot-game/NuGet.config');
-  const runtime = shared || starts('src','src/godot-game/tools/code-rules','src/godot-game/tests/verification');
+  // Runtime source is the game, core and multiplayer abstraction projects that lived under src/ before the workspace
+  // moved under src/godot-game; the moved tools, tests, references and production inputs are not runtime source.
+  const runtime = shared || starts('src/godot-game/core','src/godot-game/game','src/godot-game/multiplayer-abstractions',
+    'src/godot-game/tools/code-rules','src/godot-game/tests/verification');
   const inheritedGroups = {
     engine:['src/godot-game/game','docs/code','src/godot-game/tools/code-rules','src/godot-game/tests/verification'],
     graph:['src','docs/architecture','docs/code','src/godot-game/tests/verification','src/godot-game/tools/verification/projects.json'],
@@ -966,7 +969,10 @@ function treePaths(raw, types = null) {
 async function nativeObserver(budget, signal) {
   const {encode, decode} = require('./native-observer.cjs');
   const {hash} = require('./content.cjs');
-  let channel, pid, pidPacket, thread, pending, trouble, received = 0;
+  let channel, pid, pidPacket, thread, trouble, received = 0;
+  // Requests awaiting a response, oldest first. A request abandoned at its deadline keeps its place, so its late
+  // response is discarded instead of answering the next request that expects the same message.
+  const outstanding = [];
   const server = net.createServer(socket => {
     if (channel || socket.remoteAddress !== '127.0.0.1') {socket.destroy();return;}
     channel = socket;
@@ -990,9 +996,11 @@ async function nativeObserver(budget, signal) {
             [pid]=payload;thread=sourceThread;pidPacket=raw;
           }
           if (['error','debug_enter'].includes(message)) throw new Error('RENDERED_NATIVE_ERROR ' + message);
-          if (pending?.response === message) {
-            e.need(sourceThread===thread && !pending.value,'RENDERED_NATIVE_RESPONSE');
-            pending.value = {payload,raw,sha256:hash(raw)};
+          const index = outstanding.findIndex(entry => entry.response === message);
+          if (index >= 0) {
+            const [entry] = outstanding.splice(index,1);
+            e.need(sourceThread===thread,'RENDERED_NATIVE_RESPONSE');
+            if (!entry.abandoned) entry.value = {payload,raw,sha256:hash(raw)};
           }
         }
       } catch (error) {trouble ??= error;socket.destroy();}
@@ -1010,12 +1018,14 @@ async function nativeObserver(budget, signal) {
     }
   }
   async function request(message, response, args, deadline) {
-    e.need(!pending && channel && !channel.destroyed, 'RENDERED_NATIVE_CONNECTION');
+    e.need(outstanding.every(entry => entry.abandoned) && channel && !channel.destroyed, 'RENDERED_NATIVE_CONNECTION');
+    e.need(outstanding.length < 16, 'RENDERED_NATIVE_BACKLOG');
     const body = encode([message,thread,args]), header = Buffer.alloc(4);
     header.writeUInt32LE(body.length);
-    pending = {response};
+    const entry = {response,abandoned:false,value:null};
+    outstanding.push(entry);
     channel.write(Buffer.concat([header,body]));
-    try {return await waitFor(() => pending.value,deadline);} finally {pending = null;}
+    try {return await waitFor(() => entry.value,deadline);} finally {entry.abandoned = !entry.value;}
   }
   async function snapshot(ownedPid, checks, deadline=Date.now()+budget(12000)) {
     await waitFor(() => pid,deadline);
@@ -1237,8 +1247,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       packet:e.writeExclusive(root,prefix+'-object-'+index+'.bin',packet.raw)}));
     return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
   }
-  // Phase 5 resolves controls from the owned live scene instead of a Phase 4 driver declaration.
-  async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
+  async function controlBounds(node) {
     const position = {node,property:'global_position'};
     const size = {node,property:'size'};
     const ancestors = [];
@@ -1251,15 +1260,60 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     e.need(vector(extent) && (vector(global) || locals.every(vector)), 'HUB_SMOKE_CONTROL_GEOMETRY',node);
     const origin = vector(global) ? global.values : locals.reduce(
       ([x,y],{values}) => [x+values[0],y+values[1]], [0,0]);
-    const [width,height] = extent.values;
+    return {origin, width:extent.values[0], height:extent.values[1]};
+  }
+  // Resolve controls from the owned live scene, including controls inside an authored scroll container.
+  async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
+    const bounds=await controlBounds(node), {origin,width,height}=bounds;
     // Click the inspector vertical scrollbar track above or below its handle.
     if (scrollPage) e.need(width>0 && height>=32, 'HUB_SMOKE_SCROLL_TRACK',node);
     const xOffset = firstRow ? Math.min(width/2,24) : width/2;
     const yOffset = scrollPage ? (scrollPage>0 ? height-18 : 12) : firstRow ? Math.min(height/2,12) : height/2;
+    // A whole-control click lands in the middle of the part its clipping ancestors leave visible.
+    const span = scrollPage || firstRow ? null : visibleSpan(bounds,await clippingRects(node));
     const x = Math.floor(origin[0] + xOffset);
-    const y = Math.floor(origin[1] + yOffset);
+    const y = Math.floor(span && span.bottom>span.top ? (span.top+span.bottom)/2 : origin[1] + yOffset);
     e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
+    await requireUnclipped(node,x,y);
     return {x,y};
+  }
+  async function clippingRects(node) {
+    const ancestors=[];
+    for (let current=path.posix.dirname(node); current!=='/root'; current=path.posix.dirname(current)) {
+      ancestors.push(current);
+    }
+    const flags=await native.snapshot(pid,ancestors.map(ancestor => ({node:ancestor,property:'clip_contents'})));
+    const rects=[];
+    for (const [index,ancestor] of ancestors.entries()) {
+      if (flags.values[index].value===true) rects.push({ancestor,...await controlBounds(ancestor)});
+    }
+    return rects;
+  }
+  // A clipping ancestor hides its children outside its rectangle and stops input there, so a click at such a point
+  // would reach whatever control lies under it instead.
+  async function requireUnclipped(node,x,y) {
+    for (const clip of await clippingRects(node)) {
+      const [left,top]=clip.origin;
+      e.need(x>=left && x<left+clip.width && y>=top && y<top+clip.height,'HUB_SMOKE_CONTROL_CLIPPED',
+        node+' point='+x+','+y+' clip='+clip.ancestor+' rect='+[left,top,clip.width,clip.height].map(Math.round).join(','));
+    }
+  }
+  async function reveal(node,scroll,act) {
+    e.need(node.startsWith(scroll+'/'),'INSPECTION_SCROLL_TARGET',node);
+    const trace=[];
+    let height=0;
+    for(let attempt=0;attempt<20;attempt++){
+      budget();
+      const target=await controlBounds(node), clip=await controlBounds(scroll);
+      height=clip.height;
+      const page=revealPage(target,clip,visibleSpan(target,await clippingRects(node)));
+      if(page===0)return;
+      trace.push(Math.round(target.origin[1]+target.height/2-clip.origin[1])+(page<0?'up':'down'));
+      const point=await clickControl(scroll+'/_v_scroll',{scrollPage:page});
+      await act('click',point.x,point.y,0);
+    }
+    throw new Error('INSPECTION_SCROLL_REQUIRED '+node+' clipHeight='+Math.round(height)+
+      ' centerFromClipTop='+trace.join(','));
   }
   async function checkpoint(item,step,invocation,recovery=false) {
     const prefix = relative + '/' + item.id + (recovery?'-recovery-':'-') + step.id;
@@ -1310,10 +1364,13 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       };
       await step.drive({
         async click(node, options) {
+          if (options?.scroll) await reveal(node,options.scroll,act);
           const {x,y}=await clickControl(node,options);
           await act('click',x,y,0);
         },
-        tap(key) { return act('tap',0,0,key); }
+        tap(key) { return act('tap',0,0,key); },
+        hold(key) { return act('down',0,0,key); },
+        release(key) { return act('up',0,0,key); }
       });
       e.need(actions.length>0,'HUB_SMOKE_INPUT_EMPTY',step.id);
     } else {
@@ -1380,9 +1437,27 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     if (runtime && subject && fs.existsSync(path.join(root,trace))) record.hostTrace=e.reference(root,trace,16*1024*1024);
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
-  return {checkpoint,restore,close,get usable(){return Boolean(pid && !terminal && !error);}};
+  return {checkpoint,restore,close,release:()=>input.release(),inspect:checks=>native.snapshot(pid,checks),
+    get usable(){return Boolean(pid && !terminal && !error);}};
 }
 
+// The vertical part of a control that every clipping ancestor leaves visible; empty when bottom <= top.
+function visibleSpan(bounds,clips) {
+  let top=bounds.origin[1], bottom=top+bounds.height;
+  for (const clip of clips) {
+    top=Math.max(top,clip.origin[1]);
+    bottom=Math.min(bottom,clip.origin[1]+clip.height);
+  }
+  return {top,bottom};
+}
+// A scroll page moves the content by at most the view height. A target counts as revealed once the smaller of half
+// its height and 16 pixels is visible, so the accepted band of target centres is at least one view high and a page
+// cannot step over it. The former rule required the centre 8 pixels inside the view; a 290-pixel page then skipped
+// that 274-pixel band and alternated between 287 and -3 (Run 2a R2a-9). Returns 0, -1 (page up) or 1 (page down).
+function revealPage(target,clip,span) {
+  if (span.bottom-span.top>=Math.min(target.height/2,16)) return 0;
+  return target.origin[1]+target.height/2<clip.origin[1]+clip.height/2 ? -1 : 1;
+}
 function resetSequence(steps,lifetime) {
   const reset=steps.at(-1);
   e.need(reset?.id==='reset-'+lifetime,'RENDERED_RECOVERY_DECLARATION');
@@ -1813,11 +1888,11 @@ async function verifyCompletion(root, relative, registered) {
   return {status:'pass',invocation:final.invocation,executed:receipts.size,scope:'Current Windows resource delivery'};
 }
 
-module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, coverageRows, validateProcedure, validateCatalog, loadCatalog,
+module.exports = {visibleSpan, revealPage, CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
   repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
-  runInspectionLane, inspectionSession,
+  runInspectionLane, inspectionSession, nativeObserver,
   sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
   runRendered, verifyCompletion};

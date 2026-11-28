@@ -90,6 +90,38 @@ public sealed class CharacterBowTests
         subject.Snapshot.GetProperty(propertyName: "intervalSeconds").GetDouble().ShouldBe(expected: 0.7);
     }
 
+    /// <summary>The committed last arrow drives a detached recovery cue without replay or visual inventory.</summary>
+    [Fact]
+    public void LastArrow_CommittedRelease_SamplesRecoveryThenQuietAim()
+    {
+        CharacterPresentation subject = Create(bow: true);
+        subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
+                rightItem: "Empty", facing: 1);
+        subject.ConfigureBow(aimRadians: -0.37, leftArrows: 0, rightArrows: 0, leftUsable: true,
+                rightUsable: true, stackIdentity: "accepted-shot", intrinsicAmmunition: false, holdUnloaded: true);
+        JsonElement unloaded = subject.Snapshot;
+        unloaded.GetProperty(propertyName: "bowStage").GetString().ShouldBe(expected: "aim");
+        long generation = unloaded.GetProperty(propertyName: "generation").GetInt64();
+        subject.ReadCommittedBowRelease(ageSeconds: 0);
+        JsonElement release = subject.Snapshot;
+        release.GetProperty(propertyName: "bowStage").GetString().ShouldBe(expected: "recovery");
+        subject.Advance(elapsedSeconds: 0.55);
+        subject.ReadCommittedBowRelease(ageSeconds: 0.55);
+        JsonElement recovery = subject.Snapshot;
+        recovery.GetProperty(propertyName: "actionSeconds").GetDouble().ShouldBeGreaterThan(expected:
+                release.GetProperty(propertyName: "actionSeconds").GetDouble());
+        recovery.GetProperty(propertyName: "generation").GetInt64().ShouldBe(expected: generation);
+        recovery.GetProperty(propertyName: "spentVisualArrows").GetInt32().ShouldBe(expected: 0);
+        recovery.GetProperty(propertyName: "gameplayEvents").GetInt32().ShouldBe(expected: 0);
+        subject.Configure(body: "CH-01", movement: "walk", action: "none", leftItem: "IT-07",
+                rightItem: "Empty", facing: 1);
+        subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
+                rightItem: "Empty", facing: 1);
+        subject.ConfigureBow(aimRadians: -0.37, leftArrows: 0, rightArrows: 0, leftUsable: true,
+                rightUsable: true, stackIdentity: "accepted-shot", intrinsicAmmunition: false, holdUnloaded: true);
+        subject.Snapshot.GetProperty(propertyName: "bowStage").GetString().ShouldBe(expected: "aim");
+    }
+
     /// <summary>Actual authored stack bounds and finite angle bounds reject impossible presentation inputs.</summary>
     [Fact]
     public void BowSelection_ActualStack_UsesDefinitionAndFiniteAngles()

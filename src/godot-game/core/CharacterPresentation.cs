@@ -39,7 +39,8 @@ public sealed class CharacterPresentation
             }
 
             double interval = attack.GetProperty(propertyName: "intervalSeconds").GetDouble();
-            if (interval is <= 0 or > 60 || !double.IsFinite(d: interval)
+            if (interval < (double)RunDefinitions.MinimumAttackIntervalSeconds
+                    || interval > RunDefinitions.MaximumDurationSeconds || !double.IsFinite(d: interval)
                     || !_intervals.TryAdd(key: key, value: interval))
             {
                 throw new InvalidDataException(message: "ANIMATION_INTERVAL " + key);
@@ -121,7 +122,8 @@ public sealed class CharacterPresentation
                 spentVisualArrows = _spent,
                 stackIdentity = _stack,
                 intrinsicAmmunition = _intrinsicAmmunition,
-                fallback = _action is "bow" && !BowReady() && !_released ? "melee-or-fists" : "none",
+                fallback = _action is "bow" && !BowReady() && !_released && !_holdUnloaded
+                        ? "melee-or-fists" : "none",
                 pickupCreated = false,
                 gameplayEvents = 0,
                 nextSampleSeconds = Math.Min(val1: Remaining(clip: _movement, time: _stride),
@@ -166,7 +168,9 @@ public sealed class CharacterPresentation
             _contactAccepted = false;
             _spent = 0;
             _released = false;
+            _committedBow = false;
             _intrinsicAmmunition = false;
+            _holdUnloaded = false;
         }
 
         _body = body;
@@ -186,9 +190,9 @@ public sealed class CharacterPresentation
                 intrinsicAmmunition: false);
     }
 
-    /// <summary>Explicit structural ammunition has no inventory stack and retains one release per generation.</summary>
+    /// <summary>Reconciles loaded, unloaded or intrinsic bow presentation without changing gameplay state.</summary>
     public void ConfigureBow(double aimRadians, int leftArrows, int rightArrows, bool leftUsable, bool rightUsable,
-            string stackIdentity, bool intrinsicAmmunition)
+            string stackIdentity, bool intrinsicAmmunition, bool holdUnloaded = false)
     {
         if (_bow.ValueKind is not JsonValueKind.Object || !double.IsFinite(d: aimRadians)
                 || Math.Abs(value: aimRadians) > Math.PI / 2 || leftArrows < 0 || leftArrows > _maximumArrows
@@ -209,6 +213,7 @@ public sealed class CharacterPresentation
             _actionTime = 0;
             _spent = 0;
             _released = false;
+            _committedBow = false;
         }
 
         _aim = aimRadians;
@@ -218,6 +223,7 @@ public sealed class CharacterPresentation
         _rightUsable = rightUsable;
         _stack = stackIdentity;
         _intrinsicAmmunition = intrinsicAmmunition;
+        _holdUnloaded = holdUnloaded;
     }
 
     /// <summary>Releases one visual arrow in the current generation without creating gameplay events.</summary>
@@ -248,7 +254,7 @@ public sealed class CharacterPresentation
         _flinch = Math.Max(val1: 0, val2: _flinch - elapsedSeconds);
         _transition = Math.Max(val1: 0, val2: _transition - elapsedSeconds);
         _contact = Math.Max(val1: 0, val2: _contact - elapsedSeconds);
-        if (_action is "melee" or "bow")
+        if (_action is "melee" or "bow" && !_committedBow)
         {
             double interval = Interval();
             double next = _actionTime + elapsedSeconds;
@@ -283,6 +289,20 @@ public sealed class CharacterPresentation
         return true;
     }
 
+    /// <summary>Samples the recovery of a shot already accepted by the run authority.</summary>
+    public void ReadCommittedBowRelease(double ageSeconds)
+    {
+        if (_action is not "bow" || !double.IsFinite(d: ageSeconds) || ageSeconds < 0 || ageSeconds >= Interval())
+        {
+            return;
+        }
+
+        double release = _bow.GetProperty(propertyName: "releaseFraction").GetDouble();
+        _actionTime = Interval() * release + ageSeconds * (1 - release);
+        _released = true;
+        _committedBow = true;
+    }
+
     private static readonly int[] _zeroOffset = [0, 0];
     private readonly JsonElement _definition;
     private readonly Dictionary<string, double> _intervals = new(comparer: StringComparer.Ordinal);
@@ -308,7 +328,9 @@ public sealed class CharacterPresentation
     private bool _leftUsable = true;
     private bool _rightUsable = true;
     private bool _released;
+    private bool _committedBow;
     private bool _intrinsicAmmunition;
+    private bool _holdUnloaded;
     private string _stack = "initial";
     private readonly int _maximumArrows;
 
@@ -520,9 +542,14 @@ public sealed class CharacterPresentation
 
     private string BowStage()
     {
-        if (_action is not "bow" || !BowReady() && !_released)
+        if (_action is not "bow")
         {
             return "inactive";
+        }
+
+        if (!BowReady() && !_released)
+        {
+            return _holdUnloaded ? "aim" : "inactive";
         }
 
         double fraction = _actionTime / _intervals["IT-07"];
@@ -562,16 +589,19 @@ public sealed class CharacterPresentation
                 .Sum(selector: value => value.GetProperty(propertyName: "duration").GetDouble());
     }
 
+    /// <summary>Selects a sample with the boundary tolerance of Remaining, so a step lands on the next one.</summary>
     private JsonElement Sample(string clip, double time)
     {
         JsonElement samples = _definition.GetProperty(propertyName: "clips").GetProperty(propertyName: clip);
         foreach (JsonElement sample in samples.EnumerateArray())
         {
-            time -= sample.GetProperty(propertyName: "duration").GetDouble();
-            if (time < 0)
+            double duration = sample.GetProperty(propertyName: "duration").GetDouble();
+            if (time < duration - 0.00000001)
             {
                 return sample;
             }
+
+            time -= duration;
         }
 
         return samples[samples.GetArrayLength() - 1];

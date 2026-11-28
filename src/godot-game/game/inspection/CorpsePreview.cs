@@ -117,30 +117,7 @@ internal sealed class CorpsePreview
         }
     }
 
-    private static readonly string[] _requiredSources = ["content/packs/common.json", "assets/common/donor-kit.png",
-        "content/animation/fits-a.json", "content/animation/fits-b.json", "content/animation/fits-c.json",
-        "content/packs/bodies-a.json", "content/packs/bodies-b.json", "content/packs/bodies-c.json",
-        "assets/characters/bodies-a.png", "assets/characters/bodies-b.png", "assets/characters/bodies-c.png",
-        "content/packs/items-01-10.json", "content/packs/items-11-24.json", "assets/equipment/items-01-10.png",
-        "assets/equipment/items-11-24.png"];
-    private readonly Node2D _root;
-    private readonly MainThreadGateway _gateway;
-    private readonly Func<string, byte[]?> _read;
-    private readonly JsonElement _definition;
-    private readonly JsonElement _common;
-    private readonly JsonElement[] _packs;
-    private readonly AppearanceState _state;
-    private readonly List<Texture2D> _owned = [];
-    private CharacterPreview? _character;
-    private bool _closed;
-    private int _facing = 1;
-
-    private static string MissingText()
-    {
-        throw new InvalidDataException(message: "CORPSE_STRING");
-    }
-
-    private static JsonElement ReadPack(Func<string, byte[]?> read, string id)
+    internal static JsonElement ReadPack(Func<string, byte[]?> read, string id)
     {
         byte[] bytes = read(arg: "content/packs/" + id + ".json")
                 ?? throw new InvalidDataException(message: "CORPSE_PACK_MISSING " + id);
@@ -167,6 +144,29 @@ internal sealed class CorpsePreview
         }
 
         return result.Clone();
+    }
+
+    private static readonly string[] _requiredSources = ["content/packs/common.json", "assets/common/donor-kit.png",
+        "content/animation/fits-a.json", "content/animation/fits-b.json", "content/animation/fits-c.json",
+        "content/packs/bodies-a.json", "content/packs/bodies-b.json", "content/packs/bodies-c.json",
+        "assets/characters/bodies-a.png", "assets/characters/bodies-b.png", "assets/characters/bodies-c.png",
+        "content/packs/items-01-10.json", "content/packs/items-11-24.json", "assets/equipment/items-01-10.png",
+        "assets/equipment/items-11-24.png"];
+    private readonly Node2D _root;
+    private readonly MainThreadGateway _gateway;
+    private readonly Func<string, byte[]?> _read;
+    private readonly JsonElement _definition;
+    private readonly JsonElement _common;
+    private readonly JsonElement[] _packs;
+    private readonly AppearanceState _state;
+    private readonly List<Texture2D> _owned = [];
+    private CharacterPreview? _character;
+    private bool _closed;
+    private int _facing = 1;
+
+    private static string MissingText()
+    {
+        throw new InvalidDataException(message: "CORPSE_STRING");
     }
 
     private static void ValidateCommon(JsonElement value)

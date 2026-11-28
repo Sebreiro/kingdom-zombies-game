@@ -402,9 +402,9 @@ Completed on independently reviewed `b7e419c` with 92/92 selected Windows checks
 
 ### Phase 6: Survivors, inventory, and combat
 
-Include the rendered case IDs assigned to Phase ### Phase 6: Survivors, inventory, and combat in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+Include the rendered case IDs assigned to Phase 6 in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
-**Goal:** Players in solo and LAN play can control ordinary survivors, manage real belongings, fight with actual equipment, and recover from a player's death without duplication or loss.
+**Goal:** As a solo or LAN player, I want to control an ordinary survivor, manage real belongings, fight with actual equipment, and continue after a player's death without losing or duplicating survivors or items.
 **Mode:** mvp
 **Depends on:** Phase 5
 **Requirements:** CHAR-01, CHAR-02, CHAR-03, CHAR-04, CHAR-05, CHAR-06, INV-01, INV-02, INV-03, INV-04, INV-05, INV-06, INV-07, INV-08, INV-09, INV-10, INV-11, INV-12, INV-13, COMBAT-01, COMBAT-02, COMBAT-03, COMBAT-05, COMBAT-06, COMBAT-08, RUN-01, RUN-02, RUN-03, RUN-04
@@ -416,7 +416,80 @@ Include the rendered case IDs assigned to Phase ### Phase 6: Survivors, inventor
 4. Players can fight with fists, one or two one-handed weapons, or a mouse-aimed bow consuming real opposite-hand arrows with manual refill. Costs/timing, armor, retained broken gear, no friendly damage, friendly arrow passthrough, and blocking-defense hits match the specification.
 5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Respawn enables one second after death and requires an explicit request before assignment or waiting. Random succession preserves the eligible survivor's state/location/gear, concurrent requests never share a successor, and queued requests automatically receive newly available survivors in request order without gaining loot from crowns. Spectating follows living teammates through Previous/Next and a teammate list. Camera handover is smooth nearby and cuts when distant.
 
-**Plans:** TBD
+**Plans:** 23/25 plans executed (06-16–06-25 close the gaps in [06-VERIFICATION](phases/06-survivors-inventory-and-combat/06-VERIFICATION.md))
+**Wave 1**
+- [x] 06-01 — [Authoritative world time, camp safety and access](phases/06-survivors-inventory-and-combat/06-01-PLAN.md)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [x] 06-02 — [Configured survivor population and starting belongings](phases/06-survivors-inventory-and-combat/06-02-PLAN.md)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [x] 06-03 — [Equipment, grids, stacks and nested containers](phases/06-survivors-inventory-and-combat/06-03-PLAN.md)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [x] 06-04 — [Local access, shared stash and transfers](phases/06-survivors-inventory-and-combat/06-04-PLAN.md)
+- [x] 06-05 — [Movement, load, recovery and actual food](phases/06-survivors-inventory-and-combat/06-05-PLAN.md)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [x] 06-06 — [Melee, bows, armor and projectile rules](phases/06-survivors-inventory-and-combat/06-06-PLAN.md)
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [x] 06-07 — [Corpse belongings, cleanup and survivor succession](phases/06-survivors-inventory-and-combat/06-07-PLAN.md)
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [x] 06-08 — [Coherent snapshots and saved inventory layouts](phases/06-survivors-inventory-and-combat/06-08-PLAN.md)
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [x] 06-09 — [LAN action authority and private publications](phases/06-survivors-inventory-and-combat/06-09-PLAN.md)
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [x] 06-10 — [Live equipment, character and corpse presentation](phases/06-survivors-inventory-and-combat/06-10-PLAN.md)
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [x] 06-11 — [Inventory, stash and loot controls](phases/06-survivors-inventory-and-combat/06-11-PLAN.md)
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [x] 06-12 — [HUD, input priority and spectating](phases/06-survivors-inventory-and-combat/06-12-PLAN.md)
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [x] 06-13 — [Playable combat fixture and shared scenarios](phases/06-survivors-inventory-and-combat/06-13-PLAN.md)
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [x] 06-14 — [Asset integration and whole-phase code review](phases/06-survivors-inventory-and-combat/06-14-PLAN.md)
+
+**Wave 14** *(blocked on Wave 13 completion; gap closure)*
+- [x] 06-16 — [Rule-suite fixture inventory and MTP producer pin](phases/06-survivors-inventory-and-combat/06-16-PLAN.md)
+
+**Wave 15** *(blocked on Wave 14 completion; gap closure)*
+- [x] 06-17 — [Test-name rule conformance](phases/06-survivors-inventory-and-combat/06-17-PLAN.md)
+
+**Wave 16** *(blocked on Wave 15 completion; gap closure)*
+- [x] 06-18 — [Debug export, LAN permission consumer and native census](phases/06-survivors-inventory-and-combat/06-18-PLAN.md)
+
+**Wave 17** *(blocked on Wave 16 completion; gap closure)*
+- [x] 06-19 — [Inherited rendered runner import preparation and run reporting](phases/06-survivors-inventory-and-combat/06-19-PLAN.md)
+
+**Wave 18** *(blocked on Wave 17 completion; gap closure)*
+- [x] 06-20 — [Inventory workspace and HUD contract repairs](phases/06-survivors-inventory-and-combat/06-20-PLAN.md)
+
+**Wave 19** *(blocked on Wave 18 completion; gap closure)*
+- [x] 06-21 — [Solo rendered driver, shared evidence and key receipts](phases/06-survivors-inventory-and-combat/06-21-PLAN.md)
+
+**Wave 20** *(blocked on Wave 19 completion; gap closure)*
+- [x] 06-22 — [Four-role LAN driver and receipt race](phases/06-survivors-inventory-and-combat/06-22-PLAN.md)
+
+**Wave 21** *(blocked on Wave 20 completion; gap closure)*
+- [x] 06-23 — [Original inspection handoff driver](phases/06-survivors-inventory-and-combat/06-23-PLAN.md)
+
+**Wave 22** *(blocked on Wave 21 completion; gap closure)*
+- [x] 06-24 — [Final bindings, no-window gate and independent review](phases/06-survivors-inventory-and-combat/06-24-PLAN.md)
+
+**Wave 23** *(blocked on Wave 22 completion; gap closure)*
+- [ ] 06-25 — [Focused repair rerun and evidence record](phases/06-survivors-inventory-and-combat/06-25-PLAN.md)
+
+**Wave 24** *(blocked on Wave 23 completion)*
+- [ ] 06-15 — [Grouped gameplay verification and phase closeout](phases/06-survivors-inventory-and-combat/06-15-PLAN.md)
+
 **UI hint:** yes
 
 **Delivery boundary:** Begin with real authoritative elapsed-time, safety/danger, and reachable-access services needed for recovery, cooldowns, cleanup, and interaction; prove these with representative camp/defense/enemy fixtures before integrating the rest of the phase. Include the actual inventory/stash/loot/equipment/health/stamina/quick-slot/succession interfaces and feedback now. Snapshot round trips cover identity, ownership graphs, quantities, condition, cleanup, control eligibility, and saved layout dimensions/placements; legacy representation begins here. NPC/zombie ammunition consumers use the shared combat contract as they arrive, with complete cross-archetype automatic refill/fallback and spit/cosmetic-acid acceptance owned by Phase 8. Autonomous NPC economy and full world campaign remain later increments.
@@ -648,7 +721,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
 | 4. Asset production | 35/37, 2 waived | Complete under closure exception | 2026-11-22 |
 | 5. CI and repeatable game testing | 4/4 | Complete | 2026-11-24 |
-| 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
+| 6. Survivors, inventory, and combat | 23/25 | In Progress | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |
 | 8. Zombie campaign and outcomes | 0/TBD | Not started | - |
 | 9. Persistence and complete player experience | 0/TBD | Not started | - |
@@ -665,6 +738,16 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 
 **Goal:** [Captured for future planning]
 Scope: rename the identifiers that still carry delivery-phase numbers after the folder move to `.local/`: `Phase1.cs`/`Phase1.tscn`, the `KingdomZombies.Phase1.Tests` project, the `PHASE1_*`, `PHASE2_*`, `PHASE3_*` and `KZ_PHASE4_*` environment variables, the `phase1`/`phase2`/`phase3` case families, the `Phase4 Windows inspection` export preset and the Linux VM user. Renaming changes test fully qualified names and case IDs across the registers, so it needs its own rebinding plan. Captured by quick task 261123-ltj on 2026-11-23.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
+
+### Phase 999.2: Derive the producer registry and pin its cohort identity once (BACKLOG)
+
+**Goal:** [Captured for future planning]
+Scope: (a) a script that regenerates `docs/code/engine-generated-spans.json` from current sources, extending what `src/godot-game/tools/verification/current-replay.cjs` does for `currentProducerReplay`. (b) Keep the Godot producer cohort id and its hashes in one pinned place instead of the ~37 copies in `ExemptionValidator.cs`, `ExemptionTests.cs` and `required-cases.json`. Changing the pin must stay a separate, reviewed edit, and tests must never read their expected id from the file they check. Captured by the creator during Phase 6 plan 06-16 on 2026-11-25. Not to be implemented in Phase 6.
 **Requirements:** TBD
 **Plans:** 0 plans
 

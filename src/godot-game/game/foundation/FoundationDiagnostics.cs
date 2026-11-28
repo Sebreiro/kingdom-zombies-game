@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.Json;
@@ -48,7 +49,10 @@ internal sealed class FoundationDiagnostics
 
     internal void Observe(FoundationCoordinator? coordinator, long inputEvents, int direction,
             int nativeActors, bool polledRight, string? feedback = null, long nowMilliseconds = 0,
-            FoundationServices? services = null)
+            FoundationServices? services = null, FoundationEquipmentProjection.Frame? appearance = null,
+            (decimal x, decimal y)? attackAim = null, bool inventoryOpen = false, int inventorySlots = 0,
+            (string kind, int page)? nearby = null, bool inventoryDetails = false, FoundationHudState? hud = null,
+            FoundationSpectator? spectator = null, FoundationInventoryInteraction.ItemPress? itemPress = null)
     {
         string? output = FoundationObservationScope.Directory();
         string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -57,9 +61,14 @@ internal sealed class FoundationDiagnostics
             return;
         }
 
+        string? local = coordinator?.LocalRunControl?.survivorId;
+        FoundationEquipmentProjection.Subject? subject = appearance?.Actors.FirstOrDefault(predicate: actor =>
+                StringComparer.Ordinal.Equals(x: actor.Id, y: local));
+        var authority = coordinator?.RunActionFeedback;
         string record = JsonSerializer.Serialize(value: new
         {
             nonce, pid = Environment.ProcessId, provenance = "read-only-state-observation", nowMilliseconds,
+            runtimeVersion = Environment.Version.ToString(),
             inputDriver = Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER"),
             frame = ++_frame, inputEvents, direction, nativeActors, polledRight, lastInput = _lastInput,
             focusLosses = _focusLosses, observationKind = "process-state-not-rendered",
@@ -71,6 +80,22 @@ internal sealed class FoundationDiagnostics
             events = coordinator?.Events, error = coordinator?.Error ?? feedback, snapshot = coordinator?.Snapshot,
             profile = services?.Identity.Selected, profileError = services?.Identity.FailureReason,
             discoveryRows = services?.Browser.Rows, discoveryError = services?.Discovery.FailureReason,
+            runPose = subject is null || appearance is null ? null : new { subject.Movement, subject.StrikeAt,
+                Height = subject.At.y - appearance.Ground, appearance.Revision },
+            runAction = authority.HasValue ? new { authority.Value.sequence, authority.Value.kind,
+                authority.Value.status, authority.Value.replayed } : null,
+            aim = attackAim.HasValue ? new { attackAim.Value.x, attackAim.Value.y } : null,
+            inventoryOpen, inventorySlots, inventoryDetails,
+            phase06 = ReadPhase06(coordinator: coordinator, itemPress: itemPress),
+            nearby = nearby.HasValue ? new { nearby.Value.kind, nearby.Value.page }
+                    : null,
+            hud = hud is null ? null : new { hud.Health, hud.Stamina, hud.Load, hud.Ammo, slots = hud.Food.Length },
+            spectator = spectator is null ? null : new { spectator.Visible, spectator.CanRespawn, spectator.Status,
+                spectator.Camera, spectator.TransferNotice, survivor = local,
+                generation = coordinator?.LocalRunControl?.generation, spectator.DeathEpoch,
+                Followed = spectator.Followed is { } selected
+                        ? new { selected.Binding, selected.Survivor, selected.Slot } : null,
+                spectator.FollowNotice, spectator.Smoothing },
         });
         File.AppendAllText(path: Path.Combine(path1: output, path2: "frames.ndjson"),
                 contents: record + Environment.NewLine);
@@ -81,6 +106,48 @@ internal sealed class FoundationDiagnostics
     private long _focusLosses;
     private object? _lastInput;
     private FoundationDrawObserver? _draw;
+
+    private static object? ReadPhase06(FoundationCoordinator? coordinator,
+            FoundationInventoryInteraction.ItemPress? itemPress)
+    {
+#if DEBUG
+        if (!FoundationAutomation.OwnedPhase() || coordinator?.ReadRunRender() is not { } current)
+        {
+            return null;
+        }
+
+        string? branch = itemPress?.Branch switch
+        {
+            null => null,
+            FoundationInventoryInteraction.ItemPressBranch.Pending => "pending",
+            FoundationInventoryInteraction.ItemPressBranch.Token => "token",
+            FoundationInventoryInteraction.ItemPressBranch.Menu => "menu",
+            FoundationInventoryInteraction.ItemPressBranch.Quick => "quick",
+            FoundationInventoryInteraction.ItemPressBranch.Split => "split",
+            FoundationInventoryInteraction.ItemPressBranch.Drag => "drag",
+            FoundationInventoryInteraction.ItemPressBranch.NoExternal => "no-external",
+            FoundationInventoryInteraction.ItemPressBranch.NotStash => "not-stash",
+            _ => throw new InvalidOperationException(message: "ITEM_PRESS_BRANCH"),
+        };
+        return new { coordinator.FixtureName, current.Roster.Revision, current.World,
+            Views = current.Views.ToDictionary(keySelector: entry => entry.Key, elementSelector: entry => new
+            {
+                entry.Value.Revision,
+                entry.Value.Epoch,
+                entry.Value.Token,
+                entry.Value.Header,
+                entry.Value.Rows,
+            }, comparer: StringComparer.Ordinal),
+            control = coordinator.LocalRunControl?.survivorId, epoch = coordinator.LocalRunControl?.generation,
+            deathEpoch = coordinator.LocalRunControl?.deathGeneration,
+            ItemPress = itemPress is null ? null : new { itemPress.Sequence, itemPress.Item, itemPress.External,
+                Button = itemPress.Right ? "right" : "left", itemPress.CtrlFlag, itemPress.CtrlHeld,
+                itemPress.ShiftFlag, itemPress.ShiftHeld, itemPress.DrawnToken, itemPress.ExternalToken,
+                itemPress.Pending, itemPress.ExternalPending, itemPress.ExternalKind, Branch = branch } };
+#else
+        return null;
+#endif
+    }
 
     private static void RecordLoadedAssemblies()
     {

@@ -18,7 +18,8 @@ These programs prepare, inspect and test KingdomZombies. They are game-specific,
 | [workspace-cleanup.cjs](workspace-cleanup.cjs) | Task-end deletion of ignored outputs and finished worktrees; see [workspace cleanup](../../../docs/workflow/cleanup.md) |
 | [workspace-migrate.cjs](workspace-migrate.cjs) | One-time, dry-run-first move of a main checkout's legacy `.phase1/` caches into `.local/`; see [setup](../../../docs/workflow/setup.md#moving-a-checkout-to-the-local-folder) |
 | [node-setup](node-setup/setup.sh) | Pinned Node download, verification and shared install, and the agent SessionStart PATH hooks; see [setup](../../../docs/workflow/setup.md#shared-node) |
-| [verification/ac08-bindings.cjs](verification/ac08-bindings.cjs), [verification/asset-bindings.cjs](verification/asset-bindings.cjs) | Regenerate and check the ac-08 repository stages and caller hashes, and the asset catalog, delivery and pack-index bindings |
+| [verification/ac08-bindings.cjs](verification/ac08-bindings.cjs), [verification/asset-bindings.cjs](verification/asset-bindings.cjs) | Regenerate and check the ac-08 repository stages, the caller hashes and repository stages and the matching theory rows, and the asset catalog, delivery and pack-index bindings |
+| [verification/current-replay.cjs](verification/current-replay.cjs) | Derive and check the current Godot producer replay in `docs/code/engine-generated-spans.json` from the committed game sources |
 | [verification/rebind-gates.cjs](verification/rebind-gates.cjs) | Fail-closed gates for a repository-wide move: unchanged history, no new machine paths, legacy-literal residue, case lists, tools tests, roots, the strict build, bindings and the docs group |
 | [verification/linux-vm/start-vm.cjs](verification/linux-vm/start-vm.cjs) | Launcher for the owned Linux VM in the shared `.local/tools/linux-vm/` |
 

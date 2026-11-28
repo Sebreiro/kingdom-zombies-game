@@ -31,6 +31,51 @@ test('PR scope has exactly four checks and tier 1 runs the one pure test command
   assert.deepEqual(ids(select(catalog, {mode: 'tier', value: '1'}).selected), ['basic.pure']);
 });
 
+test('Phase 6 headless rows select six active ordered cases with exact roles', () => {
+  const catalog = loadCatalog(root);
+  const group = 'phase06.headless';
+  const suffixes = ['world', 'start', 'inventory', 'combat', 'lifecycle', 'lan-privacy'];
+  const {selected} = select(catalog, {mode: 'group', value: group});
+  assert.deepEqual(ids(selected), suffixes.map(suffix => group + '.' + suffix));
+  const driver = require('../../tests/scenarios/phase06-headless.cjs');
+  assert.deepEqual(Object.keys(driver.cases), ids(selected));
+  assert(selected.every(row => row.owner === 6 && row.tier === 2 && row.status === 'required'));
+  assert(selected.slice(0, 5).every(row => row.roles.length === 1 && row.roles[0] === 'solo'));
+  assert.deepEqual(selected.at(-1).roles, ['host', 'guest-1', 'guest-2', 'guest-3']);
+  assert(select(catalog, {mode: 'phase-end', value: 6, changes: ['src/godot-game/core/RunCombat.cs']})
+    .selected.some(row => row.id === group + '.combat'));
+});
+
+test('Phase 6 rendered cases select only the saved roles and preserve aggregate ownership', () => {
+  const catalog = loadCatalog(root);
+  const groups = [
+    ['solo', ['world', 'movement', 'inventory', 'stash', 'combat', 'life'], ['solo']],
+    ['lan', ['population', 'conflicts', 'succession'], ['host', 'guest-1', 'guest-2', 'guest-3']]
+  ];
+  for (const [name, suffixes, roles] of groups) {
+    const group = 'phase06.' + name;
+    const {selected} = select(catalog, {mode: 'group', value: group});
+    assert.deepEqual(ids(selected), suffixes.map(suffix => group + '.' + suffix));
+    const driver = require('../../tests/scenarios/phase06-' + name + '.cjs');
+    assert.deepEqual(Object.keys(driver.cases), ids(selected));
+    assert(['open', 'reset', 'close'].every(method => typeof driver[method] === 'function'));
+    for (const row of selected) {
+      assert(row.tier === 3 && row.owner === 6 && row.needsGameWindow && row.status === 'required');
+      assert.deepEqual(row.roles, roles);
+    }
+    const impact = select(catalog, {mode: 'phase-end', value: 6, changes: ['src/godot-game/game/content/config/run.json']});
+    assert(selected.every(row => impact.selected.some(changed => changed.id === row.id)));
+  }
+  const stable = {'A-01': 8, 'A-04': 9, 'A-05': 6, 'A-06': 7, 'A-14': 8, 'A-22': 6, 'A-23': 6,
+    'A-24': 9, 'A-25': 7, 'A-26': 8, 'A-27': 6, 'A-28': 9, 'A-31': 8, 'A-43': 9};
+  for (const [id, owner] of Object.entries(stable)) {
+    const matches = catalog.cases.filter(row => row.id === id);
+    assert.equal(matches.length, 1, id);
+    assert.equal(matches[0].owner, owner, id);
+    assert.equal(matches[0].status, 'planned', id);
+  }
+});
+
 test('Phase 10 tracks distinct planned release procedures without replacing A-47', () => {
   const catalog = loadCatalog(root);
   const procedures = catalog.cases.filter(row => row.group === 'release.environments');
@@ -91,6 +136,21 @@ test('direct changed Low and transitive affected consumer both enter phase-end s
     changes: [low.inputs[0], 'src/godot-game/core/Movement.cs']});
   assert(selected.some(row => row.id === low.id && row.reason === 'declared input changed'));
   assert(selected.some(row => row.id === 'lan-checks.rendered.profiles' && row.reason.startsWith('affected by')));
+});
+
+test('changed native character sources select only their real active appearance consumers without moving owners', () => {
+  const catalog = loadCatalog(root);
+  const from = file => select(catalog, {mode: 'phase-end', value: 6, changes: [file]}).selected
+    .filter(row => row.reason === 'declared input changed' && row.adapter === 'asset-pipeline');
+  const animation = from('src/godot-game/core/CharacterPresentation.cs');
+  assert.deepEqual(ids(animation).sort(), ['animation.bow', 'animation.melee', 'animation.replacement',
+    'animation.work-special', 'appearance.corpses', 'appearance.crowds'].map(id => 'asset-pipeline.' + id).sort());
+  assert(animation.every(row => row.owner === 4 && row.status === 'required' && !row.needsGameWindow));
+  assert.deepEqual(ids(from('src/godot-game/game/inspection/CorpsePreview.cs')).sort(),
+    ['asset-pipeline.appearance.corpses', 'asset-pipeline.appearance.crowds']);
+  assert.deepEqual(ids(from('src/godot-game/game/content/animation/bow.json')).sort(),
+    ['asset-pipeline.animation.bow', 'asset-pipeline.animation.work-special']);
+  assert.equal(select(catalog, {mode: 'group', value: 'phase06.inspection'}).selected.length, 18);
 });
 
 test('a rule input triggers its legacy group and gameplay-only change triggers none', () => {
@@ -167,4 +227,8 @@ test('a source support rebind is distinct from a content helper behavior change'
   assert.equal(supportStampOnly(before, after), true);
   assert.equal(supportStampOnly(before, before), false);
   assert.equal(supportStampOnly(before, after.replace('reference(file)', 'reference(other)')), false);
+  assert.equal(supportStampOnly(before.replace('FoundationRoot', 'FoundationInput'),
+    after.replace('FoundationRoot', 'FoundationInput')), true);
+  assert.equal(supportStampOnly(before.replace('FoundationRoot', 'FoundationWorldInput'),
+    after.replace('FoundationRoot', 'FoundationWorldInput')), false);
 });

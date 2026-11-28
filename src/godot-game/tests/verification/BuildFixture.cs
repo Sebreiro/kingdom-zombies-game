@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using KingdomZombies.Core;
 using Shouldly;
 
 namespace KingdomZombies.Phase1.Tests;
@@ -32,6 +33,14 @@ internal sealed class BuildFixture
 
         CopyTree(relative: "src/godot-game/core");
         CopyTree(relative: "src/godot-game/tools/code-rules");
+        if (!game)
+        {
+            foreach (string path in FoundationSession.RequiredRunResources.paths)
+            {
+                CopyFile(relative: "src/godot-game/game/" + path);
+            }
+        }
+
         if (tests)
         {
             CopyTree(relative: "src/godot-game/tests/verification");

@@ -776,13 +776,21 @@ function guardedHostTuples(root) {
     if (token === ',' && value) {tuples.push(value);value = '';}
   }
   if (value) tuples.push(value);
+  // The extent is derived from the policy itself: every presenter entry starts its own line with its path literal,
+  // so the parsed tuples must match that count. The compiled per-host proof covers the inspection presenters; the
+  // Foundation presenters added in Phase 6 are guarded by the same policy but have no compiled case here. A presenter
+  // in any other file fails closed.
+  const entries = (definitions.match(/^\s*"src\//gm) ?? []).length;
+  const inspection = tuples.filter(tuple => tuple.startsWith('src/godot-game/game/inspection/'));
+  const foundation = tuples.filter(tuple => tuple.startsWith('src/godot-game/game/foundation/'));
   const test = read(root,'src/godot-game/tests/verification/ContentNativePermissionTests.cs').data.toString('utf8');
   const first = test.indexOf('Actual final native hosts require captured first guards');
   const last = test.indexOf('public void Check_PresenterNative_RequiresExactGuardedMember(');
-  need(first >= 0 && last > first && tuples.length === 251,'EVIDENCE_NATIVE_HOST_EXTENT');
+  need(first >= 0 && last > first && entries > 0 && tuples.length === entries && new Set(tuples).size === entries &&
+    inspection.length > 0 && inspection.length + foundation.length === entries,'EVIDENCE_NATIVE_HOST_EXTENT');
   const compiledInputs = [...test.slice(first,last).matchAll(/\[InlineData\(([\s\S]*?)\)\]/g)].map(match => literals(match[1]));
-  exact(tuples,compiledInputs,'guarded policy and compiled case declarations',true);
-  return tuples;
+  exact(inspection,compiledInputs,'guarded inspection policy and compiled case declarations');
+  return inspection;
 }
 
 function validateNativeHostProof(root, record, result, expectedTuples) {

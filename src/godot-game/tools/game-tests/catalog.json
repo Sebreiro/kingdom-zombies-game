@@ -1,8 +1,635 @@
 {
   "schemaVersion": 1,
-  "groups": ["basic.pr", "phase11.certification", "release.environments"],
-  "runGroups": ["basic.pr", "phase11.certification", "release.physical-lan", "release.reference-pc", "release.endurance"],
+  "groups": ["basic.pr", "phase06.headless", "phase06.solo", "phase06.lan", "phase06.packaged", "phase11.certification", "release.environments"],
+  "runGroups": ["basic.pr", "phase06.headless", "phase06.solo", "phase06.lan", "phase06.packaged", "phase11.certification", "release.physical-lan", "release.reference-pc", "release.endurance"],
   "cases": [
+    {
+      "id": "phase06.solo.world",
+      "adapter": "scenario",
+      "group": "phase06.solo",
+      "runGroup": "phase06.solo",
+      "order": 1,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Walk the native seeded world",
+      "requirements": [
+        "CHAR-01"
+      ],
+      "sourceIds": [
+        "A-05"
+      ],
+      "importance": "High",
+      "rationale": "The presentation must show the current camp and stable subjects while the controlled actor moves.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+      "setup": "Field seed, one Windows viewport.",
+      "actions": [
+        "Use normal Start and physical D, then release."
+      ],
+      "expected": "A current native draw shows a moved local actor, stationary bodies and distinct living/broken defense states.",
+      "reset": "Use ordinary Escape to return to the menu in the same owned viewport. Quit normally after the group.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The group owns one physical viewport separate from the four-peer session.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.solo.movement",
+      "adapter": "scenario",
+      "group": "phase06.solo",
+      "runGroup": "phase06.solo",
+      "order": 2,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Exercise movement and panel capture",
+      "requirements": [
+        "CHAR-02",
+        "CHAR-03"
+      ],
+      "sourceIds": [
+        "A-23"
+      ],
+      "importance": "High",
+      "rationale": "The real input poll, stamina and air control must agree with the HUD.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+      "setup": "Field seed with actual carried load.",
+      "actions": [
+        "Walk, hold Shift+D, jump, reverse in air, land, open I and press Space."
+      ],
+      "expected": "Distinct walk, sprint and airborne state, real stamina cost and no world jump while the panel owns input.",
+      "reset": "Use ordinary Escape to return to the menu in the same owned viewport. Quit normally after the group.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The group owns one physical viewport separate from the four-peer session.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.solo.inventory",
+      "adapter": "scenario",
+      "group": "phase06.solo",
+      "runGroup": "phase06.solo",
+      "order": 3,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Handle real nested inventory and quick food",
+      "requirements": [
+        "INV-01",
+        "INV-06",
+        "INV-08",
+        "INV-09"
+      ],
+      "sourceIds": [
+        "A-22",
+        "A-23",
+        "A-43"
+      ],
+      "importance": "High",
+      "rationale": "Only actual native controls can prove physical inventory and preview behavior.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+      "setup": "Field seed with a nested pouch, six berries and rotatable arrows.",
+      "actions": [
+        "Open equipment and bags, assign a berry stack, split it, rotate arrows into an empty cell and use slot 1."
+      ],
+      "expected": "Eleven slots, current nested identities, exact quantities, committed rotation and a visible cooldown.",
+      "reset": "Use ordinary Escape to return to the menu in the same owned viewport. Quit normally after the group.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The group owns one physical viewport separate from the four-peer session.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.solo.stash",
+      "adapter": "scenario",
+      "group": "phase06.solo",
+      "runGroup": "phase06.solo",
+      "order": 4,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Page and withdraw from the reachable stash",
+      "requirements": [
+        "INV-05",
+        "INV-10",
+        "INV-11"
+      ],
+      "sourceIds": [
+        "A-24",
+        "A-25"
+      ],
+      "importance": "High",
+      "rationale": "Native paging and scoped withdrawal must stay consistent with actual authority.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+      "setup": "Field seed with the stash within reach and two configured pages.",
+      "actions": [
+        "Open E, select stash, move page forward/back, Ctrl-click money, close and leave reach."
+      ],
+      "expected": "Native page index follows committed pages. The real amount moves and remote scope disappears.",
+      "reset": "Use ordinary Escape to return to the menu in the same owned viewport. Quit normally after the group.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The group owns one physical viewport separate from the four-peer session.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.solo.combat",
+      "adapter": "scenario",
+      "group": "phase06.solo",
+      "runGroup": "phase06.solo",
+      "order": 5,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Aim, fire, exhaust ammunition and resolve a defense hit",
+      "requirements": [
+        "COMBAT-01",
+        "COMBAT-03",
+        "COMBAT-05"
+      ],
+      "sourceIds": [
+        "A-14",
+        "A-26",
+        "A-31"
+      ],
+      "importance": "High",
+      "rationale": "Real ammunition and aim must drive the appearance and wear seen by the player.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+      "setup": "Bow seed, one opposite-hand arrow and stationary hostile bowman.",
+      "actions": [
+        "Move pointer to aim and click twice, then trigger the stationary hostile through its fixture route."
+      ],
+      "expected": "Current crosshair and one-arrow HUD, one wear change, quiet empty aim and a destroyed defense.",
+      "reset": "Use ordinary Escape to return to the menu in the same owned viewport. Quit normally after the group.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The group owns one physical viewport separate from the four-peer session.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.solo.life",
+      "adapter": "scenario",
+      "group": "phase06.solo",
+      "runGroup": "phase06.solo",
+      "order": 6,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Observe a real corpse, Respawn and cleanup",
+      "requirements": [
+        "RUN-01",
+        "RUN-02",
+        "RUN-04"
+      ],
+      "sourceIds": [
+        "A-04",
+        "A-26",
+        "A-27"
+      ],
+      "importance": "High",
+      "rationale": "A native death and explicit transfer must keep the actual old gear on the corpse.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-solo.cjs",
+      "setup": "Life seed with actual armor and a one-health controlled survivor.",
+      "actions": [
+        "Trigger stationary melee, inspect spectator card, click Respawn and step the empty lifetime."
+      ],
+      "expected": "The committed corpse has actual gear and no crown. The same binding controls a fresh survivor and empty-only cleanup is visible.",
+      "reset": "Use ordinary Escape to return to the menu in the same owned viewport. Quit normally after the group.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The group owns one physical viewport separate from the four-peer session.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.lan.population",
+      "adapter": "scenario",
+      "group": "phase06.lan",
+      "runGroup": "phase06.lan",
+      "order": 1,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Observe a normal four-role production roster",
+      "requirements": [
+        "CHAR-04",
+        "CHAR-05"
+      ],
+      "sourceIds": [
+        "A-01",
+        "A-05"
+      ],
+      "importance": "High",
+      "rationale": "Four real instruments are needed to verify shared presentation and separate private views.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-lan.cjs",
+      "setup": "Ordinary Host and three isolated guest profiles on an owned loopback port.",
+      "actions": [
+        "Physically join each role then move one guest with D."
+      ],
+      "expected": "Four distinct bindings and crowns across a normal eight-survivor roster, with matching guest movement and disjoint scopes.",
+      "reset": "Return the guests then host to normal menus, re-form the group on the same owned processes, then quit all roles.",
+      "roles": [
+        "host",
+        "guest-1",
+        "guest-2",
+        "guest-3"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The whole group needs the same four native windows, isolated profiles and port.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.lan.conflicts",
+      "adapter": "scenario",
+      "group": "phase06.lan",
+      "runGroup": "phase06.lan",
+      "order": 2,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Observe contested stash and recipient correction",
+      "requirements": [
+        "INV-10",
+        "INV-11",
+        "INV-13"
+      ],
+      "sourceIds": [
+        "A-24",
+        "A-28"
+      ],
+      "importance": "High",
+      "rationale": "Only the first withdrawal may take the shared item, and each physical panel must show its current rights.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-lan.cjs",
+      "setup": "Field seed with host and three guests near the same stash.",
+      "actions": [
+        "Open nearby Stash, try the original cell from two guests, test movement capture and leave reach."
+      ],
+      "expected": "One actual withdrawal, a corrected or denied losing action, preserved personal totals and revoked remote scope.",
+      "reset": "Return the guests then host to normal menus, re-form the group on the same owned processes, then quit all roles.",
+      "roles": [
+        "host",
+        "guest-1",
+        "guest-2",
+        "guest-3"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The whole group needs the same four native windows, isolated profiles and port.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.lan.succession",
+      "adapter": "scenario",
+      "group": "phase06.lan",
+      "runGroup": "phase06.lan",
+      "order": 3,
+      "owner": 6,
+      "tier": 3,
+      "needsGameWindow": true,
+      "title": "Follow, lose a teammate and explicitly Respawn",
+      "requirements": [
+        "CHAR-04",
+        "RUN-02",
+        "RUN-03"
+      ],
+      "sourceIds": [
+        "A-04",
+        "A-05",
+        "A-06",
+        "A-28"
+      ],
+      "importance": "High",
+      "rationale": "Same-lifetime control and camera require actual separate native roles.",
+      "tags": [
+        "phase06",
+        "rendered"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-lan.cjs",
+      "setup": "Life seed with host and three ordinary bound guest profiles.",
+      "actions": [
+        "Trigger real melee, follow Next/Previous/list, leave and rejoin the selected guest, then click Respawn."
+      ],
+      "expected": "Fixed hold after loss, no automatic transfer, rejoined persistent teammate and one new same-binding crowned survivor.",
+      "reset": "Return the guests then host to normal menus, re-form the group on the same owned processes, then quit all roles.",
+      "roles": [
+        "host",
+        "guest-1",
+        "guest-2",
+        "guest-3"
+      ],
+      "evidence": [
+        "owned physical input receipts",
+        "current role and draw state",
+        "decoded 1280 by 720 frame captures",
+        "ordinary process terminal records"
+      ],
+      "freshProcessReason": "The whole group needs the same four native windows, isolated profiles and port.",
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.headless.world",
+      "adapter": "scenario",
+      "group": "phase06.headless",
+      "runGroup": "phase06.headless",
+      "order": 1,
+      "owner": 6,
+      "tier": 2,
+      "title": "Exercise the seeded world and native movement",
+      "requirements": [
+        "CHAR-01"
+      ],
+      "importance": "High",
+      "rationale": "Stationary range and air control must be observable in the production scene.",
+      "tags": [
+        "phase06",
+        "headless"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+      "setup": "Start the field fixture with ordinary Start.",
+      "actions": [
+        "Hold and release D, then press Space."
+      ],
+      "expected": "Distinct adjacent hostiles stay put, defenses retain their authored states and the controlled actor walks and jumps.",
+      "reset": "Return to the menu in the same solo process and start a distinct authority session.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "current scoped observations",
+        "owned process and terminal records"
+      ],
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.headless.start",
+      "adapter": "scenario",
+      "group": "phase06.headless",
+      "runGroup": "phase06.headless",
+      "order": 2,
+      "owner": 6,
+      "tier": 2,
+      "title": "Check a normal run and exact initial stash",
+      "requirements": [
+        "INV-05"
+      ],
+      "importance": "High",
+      "rationale": "The fixture must leave normal roster and stash construction unchanged.",
+      "tags": [
+        "phase06",
+        "headless"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+      "setup": "Start normally with a fresh run in the same process.",
+      "actions": [
+        "Move into stash reach and browse every actual page."
+      ],
+      "expected": "Eight ordinary survivors, the configured outfit and every configured distinct stack are present.",
+      "reset": "Return to the menu in the same solo process and start a distinct authority session.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "current scoped observations",
+        "owned process and terminal records"
+      ],
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.headless.inventory",
+      "adapter": "scenario",
+      "group": "phase06.headless",
+      "runGroup": "phase06.headless",
+      "order": 3,
+      "owner": 6,
+      "tier": 2,
+      "title": "Read nested possessions and spend assigned food",
+      "requirements": [
+        "INV-08"
+      ],
+      "importance": "High",
+      "rationale": "Nested carried identity and stale stamps must survive the native authority boundary.",
+      "tags": [
+        "phase06",
+        "headless"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+      "setup": "Start the field fixture with a worn bag and pouch.",
+      "actions": [
+        "Open I, request matching nested scopes, assign berries, close and press 1 twice, then submit the stale item reference."
+      ],
+      "expected": "The current item spends one berry, cooldown denies the second request and the stale stamp cannot assign.",
+      "reset": "Return to the menu in the same solo process and start a distinct authority session.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "current scoped observations",
+        "owned process and terminal records"
+      ],
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.headless.combat",
+      "adapter": "scenario",
+      "group": "phase06.headless",
+      "runGroup": "phase06.headless",
+      "order": 4,
+      "owner": 6,
+      "tier": 2,
+      "title": "Spend a real arrow and resolve a hostile shot",
+      "requirements": [
+        "COMBAT-03"
+      ],
+      "importance": "High",
+      "rationale": "The native input must consume actual ammo and the fixture must use actual defense damage.",
+      "tags": [
+        "phase06",
+        "headless"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+      "setup": "Start the bow fixture with one opposite-hand arrow.",
+      "actions": [
+        "Click to shoot twice, then trigger the stationary bowman and advance host time."
+      ],
+      "expected": "One arrow and weapon condition are spent. The empty bow does not wear and a real hostile projectile destroys the living wall.",
+      "reset": "Return to the menu in the same solo process and start a distinct authority session.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "current scoped observations",
+        "owned process and terminal records"
+      ],
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.headless.lifecycle",
+      "adapter": "scenario",
+      "group": "phase06.headless",
+      "runGroup": "phase06.headless",
+      "order": 5,
+      "owner": 6,
+      "tier": 2,
+      "title": "Lose control, transfer by explicit Respawn and preserve remains",
+      "requirements": [
+        "RUN-02"
+      ],
+      "importance": "High",
+      "rationale": "Death must revoke private authority immediately and permit only a fresh eligible survivor.",
+      "tags": [
+        "phase06",
+        "headless"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+      "setup": "Start the one-health life fixture.",
+      "actions": [
+        "Trigger stationary melee, wait the gate, activate Respawn and advance host time."
+      ],
+      "expected": "One real corpse remains with actual gear, the same binding transfers, and only the empty pile expires.",
+      "reset": "Return to the menu in the same solo process and start a distinct authority session.",
+      "roles": [
+        "solo"
+      ],
+      "evidence": [
+        "current scoped observations",
+        "owned process and terminal records"
+      ],
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.headless.lan-privacy",
+      "adapter": "scenario",
+      "group": "phase06.headless",
+      "runGroup": "phase06.headless",
+      "order": 6,
+      "owner": 6,
+      "tier": 2,
+      "title": "Verify four independent scopes and contested stash",
+      "requirements": [
+        "INV-11"
+      ],
+      "importance": "High",
+      "rationale": "Real ENet recipients must not receive another player’s private stamps or remote stash results.",
+      "tags": [
+        "phase06",
+        "headless"
+      ],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-headless.cjs",
+      "setup": "Host the field fixture and join three isolated profiles on one owned loopback port.",
+      "actions": [
+        "Observe all roles, race two current references to one stash item then leave its reach."
+      ],
+      "expected": "Four distinct live bindings have disjoint private rows. One withdrawal applies and the other loses access to the moved instance. Remote scope is revoked.",
+      "reset": "Quit the distinct four-peer set and the idle solo process normally.",
+      "roles": [
+        "host",
+        "guest-1",
+        "guest-2",
+        "guest-3"
+      ],
+      "evidence": [
+        "current scoped observations",
+        "owned process and terminal records"
+      ],
+      "phaseEnd": true
+    },
     {
       "id": "basic.strict-build",
       "adapter": "basic",
@@ -90,6 +717,31 @@
       "roles": ["headless game"],
       "evidence": ["game process log", "state observations", "normal exit"],
       "pr": true,
+      "phaseEnd": true
+    },
+    {
+      "id": "phase06.packaged",
+      "adapter": "scenario",
+      "group": "phase06.packaged",
+      "runGroup": "phase06.packaged",
+      "order": 1,
+      "owner": 6,
+      "tier": 2,
+      "title": "Start the pinned portable release without a window",
+      "requirements": ["CHAR-01", "INV-01", "RUN-01"],
+      "importance": "High",
+      "rationale": "Editor resources can resolve correctly while the released runtime has a missing or invalid dependency.",
+      "tags": ["phase06", "headless"],
+      "procedure": ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md",
+      "driver": "src/godot-game/tests/scenarios/phase06-packaged.cjs",
+      "setup": "Export the current source with the pinned Windows release template and a clean isolated profile.",
+      "actions": ["Boot the unmodified release into the normal menu.",
+        "Use the owned probe companion for Start, movement, inventory and the two invalid configuration paths."],
+      "expected": "The unmodified release boots normally. Its executable and immutable gameplay resources drive actual production in the companion. Invalid variants stay at the menu and report their exact reasons.",
+      "reset": "Use isolated profiles. Require bounded exit from the unmodified boot and ordinary Quit from all probe variants.",
+      "roles": ["unmodified portable release", "normal gameplay proof", "missing configuration", "invalid configuration"],
+      "evidence": ["verified release template and package closure", "managed runtime and resource identities",
+        "four current native receipts and process termination records"],
       "phaseEnd": true
     },
     {
@@ -211,6 +863,7 @@
     }
   ],
   "impact": {
+    "phase06": ["src/godot-game/core/", "src/godot-game/game/foundation/", "src/godot-game/game/content/config/", "src/godot-game/tests/scenarios/", "src/godot-game/tools/lan-checks/", "src/godot-game/game/export_presets.cfg", "src/godot-game/tools/asset-pipeline/export.cjs", "src/godot-game/tools/asset-pipeline/handoff.json", ".planning/phases/06-survivors-inventory-and-combat/06-SCENARIOS.md"],
     "pure": ["src/godot-game/core/", "src/godot-game/tests/verification/", "src/godot-game/multiplayer-abstractions/"],
     "foundation": ["src/godot-game/game/foundation/", "src/godot-game/game/project.godot", "src/godot-game/game/KingdomZombies.csproj", "src/godot-game/game/export_presets.cfg"],
     "solo-proof": ["src/godot-game/tools/gameplay-checks/"],

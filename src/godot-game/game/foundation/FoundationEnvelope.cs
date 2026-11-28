@@ -7,7 +7,7 @@ internal sealed class FoundationEnvelope
 {
     public FoundationEnvelope(string kind, string sessionId = "", string playerId = "", string actorId = "",
             string bindingId = "", string label = "", long sequence = 0, int direction = 0, long revision = 0,
-            FoundationSnapshot? snapshot = null, string attemptId = "")
+            FoundationSnapshot? snapshot = null, string attemptId = "", FoundationRunFrame? game = null)
     {
         Kind = kind;
         SessionId = sessionId;
@@ -20,6 +20,7 @@ internal sealed class FoundationEnvelope
         Revision = revision;
         Snapshot = snapshot;
         AttemptId = attemptId;
+        Game = game;
     }
 
     public string Kind { get; }
@@ -33,6 +34,7 @@ internal sealed class FoundationEnvelope
     public long Revision { get; }
     public FoundationSnapshot? Snapshot { get; }
     public string AttemptId { get; }
-    public int ProtocolVersion { get; } = 1;
+    public FoundationRunFrame? Game { get; }
+    public int ProtocolVersion { get; } = FoundationProtocol.Version;
     public string ContentId { get; } = FoundationProtocol.Content;
 }

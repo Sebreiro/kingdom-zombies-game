@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json;
 using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
@@ -33,6 +34,39 @@ public sealed class FoundationLanLifecycleTests
         CheckPendingBaselineDeadline();
         CheckCancelAndOutcome();
         ProofProtocol.Record(id: "core.lifecycle", diagnostic: "30000_10000_TRIPLETS_RESPONSE_FIRST_LIFETIME_FENCES");
+    }
+
+    /// <summary>Provider loss has no replacement identity and uses the configured response deadline.</summary>
+    [Fact]
+    public void Lifetime_ProviderDisconnect_PreservesExactResponseDeadline()
+    {
+        (FoundationCoordinator host, FoundationHarnessConnection port, FoundationEnvelope baseline,
+                FoundationScenarioClock clock) = Pending();
+        port.Enqueue(sender: 2, envelope: Reply(kind: "ack", baseline: baseline));
+        host.Update(elapsedMilliseconds: 0);
+        (string survivorId, long generation, _) = host.ReadBoundRunControl(sender: 2)
+                ?? throw new InvalidOperationException(message: "GUEST_CONTROL");
+        (string status, _, _) = host.DispatchBoundRunAction(sender: 2, key: (survivorId, generation, 1),
+                kind: "move", request: JsonSerializer.SerializeToElement(value: new
+                {
+                    Direction = 1,
+                    Sprint = false,
+                    Jump = false,
+                }));
+        status.ShouldBe(expected: "Accepted");
+        host.Update(elapsedMilliseconds: 100);
+        long moved = host.Snapshot.ShouldNotBeNull().Participants[1].Actor.PositionSubunits;
+        moved.ShouldBe(expected: -7700);
+        port.PeerGenerations[2] = "";
+        clock.Now = 9999;
+        host.Update(elapsedMilliseconds: 25);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 2);
+        host.Snapshot.ShouldNotBeNull().Participants[1].Actor.PositionSubunits.ShouldBe(expected: moved);
+        clock.Now = 10000;
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 1);
+        host.Events.ShouldContain(elementPredicate: value => value.EndsWith(value: ":response-timeout",
+                comparisonType: StringComparison.Ordinal));
     }
 
     private static void CheckPendingDeadlines()

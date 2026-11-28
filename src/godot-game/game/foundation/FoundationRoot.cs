@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
@@ -15,6 +16,20 @@ public sealed partial class FoundationRoot : Control
     public FoundationRoot()
     {
         _gateway.RequireThread();
+        _spectator = new FoundationSpectatorPanel(root: this, gateway: _gateway, authority: () => _coordinator);
+        _worldInput = new FoundationWorldInput(root: this, gateway: _gateway, input: _input,
+                coordinator: () => _coordinator, workspace: () => WorkspaceInput,
+                controlVisible: () => _spectator.State.CanDrive);
+        _inventory = new FoundationInventoryWorkspace(root: this, gateway: _gateway, coordinator: () => _coordinator);
+        _hud = new FoundationHud(root: this, gateway: _gateway, open: () =>
+        {
+            if (_inventory.Handle(command: FoundationInput.WorkspaceCommand.Inventory))
+            {
+                _worldInput.Refresh(popup: false);
+                _worldInput.Move();
+            }
+        });
+        WorkspaceInput = _inventory;
     }
 
     /// <summary>Connects guarded callbacks and starts in the ordinary menu.</summary>
@@ -49,22 +64,42 @@ public sealed partial class FoundationRoot : Control
         _menu.Attach();
         _diagnostics.Attach(root: this, gateway: _gateway);
         GetWindow().FocusExited += LoseFocus;
+        GetWindow().FocusEntered += _worldInput.GainFocus;
         ReturnToMenu();
     }
 
-    /// <summary>Consumes native key events through the same route used by player controls.</summary>
+    /// <summary>
+    /// Records every delivered key before routing, including keys the inventory workspace consumes, then consumes
+    /// native key events through the same route used by player controls.
+    /// </summary>
     public override void _Input(InputEvent @event)
     {
         _gateway.RequireThread();
-        if (@event is not InputEventKey key)
+        if (@event is InputEventKey received)
+        {
+            _inputEvents++;
+            _diagnostics.RecordInput(key: (int)received.PhysicalKeycode, pressed: received.Pressed,
+                    echo: received.Echo);
+        }
+
+        bool handled = _inventory.Input(input: @event);
+        if (handled)
+        {
+            GetViewport().SetInputAsHandled();
+        }
+        bool popup = _menu?.PopupOpen() == true;
+        _worldInput.Refresh(popup: popup);
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left } mouse)
+        {
+            _input.Mouse(pressed: mouse.Pressed);
+            return;
+        }
+        if (handled || @event is not InputEventKey key)
         {
             return;
         }
 
-        _inputEvents++;
-        _diagnostics.RecordInput(key: (int)key.PhysicalKeycode, pressed: key.Pressed, echo: key.Echo);
-        _input.SetContext(gameplay: _coordinator?.Ready == true);
-        if (_menu?.PopupOpen() == true)
+        if (popup)
         {
             return;
         }
@@ -73,7 +108,13 @@ public sealed partial class FoundationRoot : Control
         {
             _input.Set(key: (int)key.PhysicalKeycode, pressed: key.Pressed);
         }
+        if (_worldInput.HandleKey(key: key))
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (key.Keycode == Key.Escape && _input.FreshPress && !key.Echo
+                && GetViewport().GuiGetFocusOwner() is not TextEdit
                 && !(GetViewport().GuiGetFocusOwner() is LineEdit edit && edit.IsEditing()))
         {
             _menu?.Escape();
@@ -98,18 +139,14 @@ public sealed partial class FoundationRoot : Control
         _gateway.RequireThread();
         _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
 #if DEBUG
-        FoundationAutomation.Tick(root: this, gateway: _gateway);
+        FoundationAutomation.Tick(root: this, gateway: _gateway, coordinator: _coordinator);
 #endif
+        _worldInput.Refresh(popup: _menu?.PopupOpen() == true);
         PollKeys();
         double exact = delta * 1000 + _remainder;
         long elapsed = checked((long)exact);
         _remainder = exact - elapsed;
-        if (_coordinator?.Ready == true && _lastDirection != _input.Direction)
-        {
-            _coordinator.Submit(direction: _input.Direction);
-            _lastDirection = _input.Direction;
-        }
-
+        _worldInput.Move();
         _coordinator?.Update(elapsedMilliseconds: elapsed);
         _closing?.Update(elapsedMilliseconds: 0);
         _runtime.TickRetired();
@@ -137,10 +174,16 @@ public sealed partial class FoundationRoot : Control
 
         _menu?.Tick(nowMilliseconds: _runtime.NowMilliseconds);
 
-        _diagnostics.Observe(coordinator: _coordinator, inputEvents: _inputEvents, direction: _input.Direction,
+        _lastDirection = _input.Direction;
+        _diagnostics.Observe(coordinator: _coordinator, inputEvents: _inputEvents, direction: _lastDirection,
                 nativeActors: GetTree().GetNodesInGroup(group: "foundation-actor").Count,
                 polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D), feedback: _runtime.Feedback,
-                nowMilliseconds: _runtime.NowMilliseconds, services: _services);
+                nowMilliseconds: _runtime.NowMilliseconds, services: _services, appearance: _appearance?.Frame,
+                attackAim: _worldInput.LastAttackAim, inventoryOpen: _inventory.CapturesWorld,
+                inventorySlots: _inventory.VisibleSlotCount,
+                nearby: (_inventory.ExternalKind, _inventory.ExternalPage),
+                inventoryDetails: _inventory.FocusDetailsVisible, hud: _hud.Current, spectator: _spectator.State,
+                itemPress: _inventory.LastPress);
         Observe();
     }
 
@@ -148,6 +191,12 @@ public sealed partial class FoundationRoot : Control
     public override void _ExitTree()
     {
         _gateway.RequireThread();
+        _inventory.Dispose();
+        _hud.Dispose();
+        _spectator.Dispose();
+        _worldInput.Dispose();
+        _appearance?.Dispose();
+        _appearance = null;
         _coordinator?.Close();
         _closing?.Close();
         _runtime.CloseRetired();
@@ -161,20 +210,28 @@ public sealed partial class FoundationRoot : Control
         GetNode<Button>(path: "Browser/JoinAddress").Pressed -= JoinAddress;
         _menu?.Detach();
         GetWindow().FocusExited -= LoseFocus;
+        GetWindow().FocusEntered -= _worldInput.GainFocus;
         if (_capture is not null)
         {
             RenderingServer.FramePostDraw -= Capture;
         }
     }
 
+    internal FoundationInput.IWorkspace? WorkspaceInput { get; set; }
+
     private readonly MainThreadGateway _gateway = new();
     private readonly FoundationInput _input = new();
+    private readonly FoundationWorldInput _worldInput;
+    private readonly FoundationInventoryWorkspace _inventory;
+    private readonly FoundationHud _hud;
+    private readonly FoundationSpectatorPanel _spectator;
     private FoundationCoordinator? _coordinator;
     private FoundationCoordinator? _closing;
     private readonly FoundationRuntimeState _runtime = new();
     private readonly FoundationDiagnostics _diagnostics = new();
     private FoundationServices? _services;
     private FoundationMenu? _menu;
+    private FoundationAppearance? _appearance;
     private int _lastDirection = int.MinValue;
     private long _generation;
     private long _inputEvents;
@@ -200,7 +257,6 @@ public sealed partial class FoundationRoot : Control
         {
             return;
         }
-
         _input.Clear();
         try
         {
@@ -210,18 +266,40 @@ public sealed partial class FoundationRoot : Control
             _runtime.Hosting = host;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: host, nowMilliseconds: () => _runtime.NowMilliseconds);
-            _coordinator.Start(host: host, port: Port());
+            bool observeWorld = !host && FoundationCoordinator.UseObservedWorld(generation: _generation)
+                    && DisplayServer.GetName() is "headless";
+            var resources = new Dictionary<string, byte[]?>(comparer: StringComparer.Ordinal);
+            var (paths, limit) = FoundationSession.RequiredRunResources;
+            foreach (string path in paths)
+            {
+                using Godot.FileAccess? file = Godot.FileAccess.Open(path: "res://" + path,
+                        flags: Godot.FileAccess.ModeFlags.Read);
+                ulong length = file?.GetLength() ?? 0;
+                if (file is null || length is 0 || length > (ulong)limit)
+                {
+                    continue;
+                }
+
+                int expected = checked((int)length);
+                byte[] bytes = file.GetBuffer(length: expected);
+                resources.Add(key: path, value: bytes.Length == expected
+                        && file.GetError() is Error.Ok or Error.FileEof ? bytes : null);
+            }
+
+            string? fixture = null;
 #if DEBUG
-            if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
-                    is string fault && StringComparer.Ordinal.Equals(x: fault,
-                            y: System.Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE")))
+            fixture = FoundationAutomation.TakeFixture(host: host);
+#endif
+            _coordinator.Start(host: host, port: Port(), observeWorld: observeWorld,
+                    read: (path, _) => resources.GetValueOrDefault(key: path), fixture: fixture);
+#if DEBUG
+            if (FoundationCoordinator.ShouldFailEntry(generation: _generation))
             {
                 throw new InvalidOperationException(message: "Scoped one-shot scene construction fixture");
             }
 #endif
 
             _remainder = 0;
-            _lastDirection = int.MinValue;
             ShowWorld();
         }
         catch (Exception error)
@@ -270,12 +348,10 @@ public sealed partial class FoundationRoot : Control
             _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
             _runtime.Feedback = "";
             _input.Clear();
-            _input.SetContext(gameplay: true);
             _runtime.Hosting = false;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: true, nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Join(address: host, port: port, expectedSessionId: _menu?.RequestedSessionId ?? "");
-            _lastDirection = int.MinValue;
             GetNode<Label>(path: "Browser/Feedback").Text = "Connecting to " + host + "…";
             _menu?.Attempt(origin: GetViewport().GuiGetFocusOwner()?.GetPath().ToString()
                     .EndsWith(value: "JoinSession", comparisonType: StringComparison.Ordinal) == true
@@ -305,24 +381,49 @@ public sealed partial class FoundationRoot : Control
             world.Name = "World";
             AddChild(node: world);
             MoveChild(childNode: world, toIndex: 1);
-            _input.Clear();
+            _worldInput.AttachWorld(world: world);
         }
 
+        FoundationRunReadback? readback = _coordinator.ReadRunRender();
+        (string survivorId, long generation, long deathGeneration)? control = _coordinator.LocalRunControl;
+        _spectator.Observe(world: world, readback: readback, coordinator: _coordinator, now: _runtime.NowMilliseconds);
+        _inventory.Observe(readback: readback, owner: control?.survivorId, epoch: control?.generation ?? 0,
+                connected: _spectator.State.CanDrive && !_coordinator.WaitingForHost);
+        _inventory.UpdateTargetMarker(world: world);
+        (double x, double y)? aim = _worldInput.Point(readback: readback, frame: _appearance?.Frame);
+        if (readback is not null && (readback.World.HasValue || _appearance is not null))
+        {
+            if (_appearance is null)
+            {
+                _appearance = new FoundationAppearance(world: world, gateway: _gateway);
+            }
+            else
+            {
+                _appearance.RetiredLocal = _spectator.State.RetiredSurvivor;
+                _appearance.Project(readback: readback, local: _coordinator.LocalRunControl?.survivorId, aim: aim);
+            }
+        }
         FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: _coordinator.BindingId,
-                gateway: _gateway);
+                gateway: _gateway, camera: _spectator.State.Camera, ownLiving: _spectator.State.CanDrive);
+        _spectator.Remember(world: world);
         GetNode<Control>(path: "Menu/Error").Visible = false;
         GetNode<Control>(path: "Menu").Visible = false;
         GetNode<Control>(path: "Browser").Visible = false;
-        GetNode<Control>(path: "Hint").Visible = true;
         FoundationHud.Project(root: this, snapshot: snapshot, bindingId: _coordinator.BindingId,
                 hosting: _runtime.Hosting, waitingForHost: _coordinator.WaitingForHost, gateway: _gateway);
+        _hud.Observe(readback: readback, coordinator: _coordinator, browsing: _inventory.CapturesWorld,
+                now: _runtime.NowMilliseconds, visible: _spectator.State.CanDrive);
+        Label hint = GetNode<Label>(path: "Hint");
+        hint.Text = _coordinator.WorldHint(instructions: hint.Text);
+        hint.Visible = _spectator.State.CanDrive && !_inventory.CapturesWorld;
+        _coordinator.ObserveWorldHint(hint: hint.Text, visible: hint.IsVisibleInTree());
     }
 
     private void PollKeys()
     {
         _gateway.RequireThread();
         foreach (Key physical in new[] { Key.A, Key.D, Key.Left, Key.Right, Key.Escape,
-            Key.Enter, Key.Space, Key.KpEnter })
+            Key.Enter, Key.Space, Key.KpEnter, Key.Shift, Key.E, Key.I, Key.Key1, Key.Key2, Key.Key3, Key.Key4 })
         {
             if (!Input.IsPhysicalKeyPressed(keycode: physical))
             {
@@ -352,6 +453,12 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
+        _inventory.Release();
+        _hud.Hide();
+        _spectator.Reset();
+        _worldInput.DetachWorld();
+        _appearance?.Dispose();
+        _appearance = null;
         _runtime.Retire(current: ref _coordinator, closing: ref _closing);
         _services?.Discovery.Advertise(advertisement: null);
         _input.Clear();
@@ -386,7 +493,8 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _diagnostics.LostFocus();
-        _input.Clear();
+        _inventory.LoseFocus();
+        _worldInput.LoseFocus();
     }
 
     private void Observe()

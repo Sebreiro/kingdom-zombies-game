@@ -33,10 +33,14 @@ jobs:
           node-version: 24.22.1
           package-manager-cache: false
       - uses: actions/setup-dotnet@v6
+        env:
+          # Godot's editor host selects the newest runtime in its .NET installation.
+          DOTNET_INSTALL_DIR: ${{ runner.temp }}/kz-dotnet
         with:
           global-json-file: src/godot-game/global.json
           # The 8.0.410 SDK supplies Godot's 8.0.16 editor runtime.
           dotnet-version: 8.0.410
+          skip-lts-prepass: true
       - uses: actions/cache@v6
         id: dependencies
         with:
@@ -49,6 +53,7 @@ jobs:
         shell: pwsh
         env:
           KZ_DEPENDENCY_CACHE_HIT: ${{ steps.dependencies.outputs.cache-hit }}
+          DOTNET_ROOT_X64: ${{ runner.temp }}/kz-dotnet
         run: |
           $started = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
           $externalSetupSeconds = ($started - [long]$env:KZ_SETUP_STARTED) / 1000

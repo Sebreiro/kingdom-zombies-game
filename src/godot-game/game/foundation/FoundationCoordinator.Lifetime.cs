@@ -43,14 +43,32 @@ internal sealed partial class FoundationCoordinator
     {
         long now = Now();
         ExpireAdmissions(now: now);
+        _runInbox.Expire(now: now);
+        if (!IsHost && _connection?.Connected != true)
+        {
+            _runInbox.Disconnect(revision: _remote?.Revision ?? 0);
+            _remoteWorld = null;
+            _guestRunReadback = null;
+        }
+
         if (_session is not null)
         {
             foreach ((int sender, FoundationPeerBinding peer) in _peers.ToArray())
             {
-                if (peer.Ready ? now - peer.LastResponse >= ResponseTimeoutMilliseconds
+                string? current = _connection?.PeerGeneration(peer: sender);
+                if (!string.IsNullOrEmpty(value: current) && !StringComparer.Ordinal.Equals(
+                        x: peer.ConnectionGeneration, y: current))
+                {
+                    RemovePeer(sender: sender, peer: peer, reason: "connection-replaced");
+                }
+                else if (peer.Ready ? now - peer.LastResponse >= ResponseTimeoutMilliseconds
                         : now - peer.StartedAt >= JoinTimeoutMilliseconds)
                 {
                     RemovePeer(sender: sender, peer: peer, reason: "response-timeout");
+                }
+                else if (string.IsNullOrEmpty(value: current))
+                {
+                    _session.StopHeldMovement(bindingId: peer.BindingId);
                 }
             }
         }
@@ -103,6 +121,7 @@ internal sealed partial class FoundationCoordinator
         }
 
         _active = false;
+        _guestRunReadback = null;
         _lifetime = checked(_lifetime + 1);
         _session?.Close();
         SendDeparture();
@@ -112,8 +131,22 @@ internal sealed partial class FoundationCoordinator
         _closingAt = Now();
         _session = null;
         _remote = null;
+        _remoteWorld = null;
+        _runInbox.Clear();
+        _publicWorld.Clear();
+        _localOwnGrid = null;
+        _localExternalGrid = null;
+        _localOwnWindows = [];
+        _localExternalWindows = [];
+        _localNearby = default;
+        _localExternalPage = default;
+        _respawnPoll.Clear();
+        RunActionFeedback = null;
+        ActionHudFeedback = null;
+        VitalsHudFeedback = null;
         BindingId = "";
         _localActor = "";
+        _hostPeerGeneration = "";
         _sequence = 0;
         if (!_draining)
         {

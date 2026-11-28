@@ -24,8 +24,25 @@ public static class FoundationDesktop {
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr window, out Rect rect);
     [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point point);
     [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr window, uint flags);
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    public static extern int GetWindowText(IntPtr window, System.Text.StringBuilder text, int count);
+    [DllImport("user32.dll")] public static extern IntPtr GetWindowLongPtr(IntPtr window, int index);
 }
 '@
+# Names the root window at a screen point, so a point-ownership failure identifies what covers the owned window.
+function Describe-PointWindow([FoundationDesktop+Point]$Point) {
+    $root = [FoundationDesktop]::GetAncestor([FoundationDesktop]::WindowFromPoint($Point), 2)
+    [uint32]$ownerId = 0
+    [void][FoundationDesktop]::GetWindowThreadProcessId($root, [ref]$ownerId)
+    $title = [System.Text.StringBuilder]::new(256)
+    [void][FoundationDesktop]::GetWindowText($root, $title, $title.Capacity)
+    $rect = [FoundationDesktop+Rect]::new()
+    [void][FoundationDesktop]::GetWindowRect($root, [ref]$rect)
+    $name = (Get-Process -Id $ownerId -ErrorAction SilentlyContinue).ProcessName
+    $topmost = ([FoundationDesktop]::GetWindowLongPtr($root, -20).ToInt64() -band 8) -ne 0
+    return "point=$($Point.X),$($Point.Y) covering window=$root pid=$ownerId process=$name " +
+        "title='$($title.ToString())' rect=$($rect.L),$($rect.T),$($rect.R),$($rect.B) topmost=$topmost"
+}
 $owned = Get-Process -Id $OwnedPid -ErrorAction Stop
 $script:window = [IntPtr]::Zero
 [FoundationDesktop]::EnumWindows({ param($candidate, $data)
@@ -109,7 +126,7 @@ switch ($Action) {
                 $sinkPoint.X = $sinkRect.L + 50
                 $sinkPoint.Y = $sinkRect.T + 10
                 if ([FoundationDesktop]::GetAncestor([FoundationDesktop]::WindowFromPoint($sinkPoint), 2) -ne $sink.Handle) {
-                    throw 'SINK_POINT_NOT_OWNED'
+                    throw "SINK_POINT_NOT_OWNED sink=$($sink.Handle) $(Describe-PointWindow $sinkPoint)"
                 }
                 [void][FoundationDesktop]::SetCursorPos($sinkPoint.X, $sinkPoint.Y)
                 [FoundationDesktop]::mouse_event(2, 0, 0, 0, [UIntPtr]::Zero)

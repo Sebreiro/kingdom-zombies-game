@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
@@ -16,7 +17,51 @@ internal static class FoundationAutomation
         return value is null ? fallback : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
     }
 
-    internal static void Tick(Control root, MainThreadGateway gateway)
+    internal static bool OwnedPhase()
+    {
+#if DEBUG
+        string? nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
+        string? owner = System.Environment.GetEnvironmentVariable(variable: "KZ_PHASE06_OWNED");
+        return nonce is not null && StringComparer.Ordinal.Equals(x: nonce, y: owner)
+                && FoundationObservationScope.Directory() is not null;
+#else
+        return false;
+#endif
+    }
+
+    internal static string? TakeFixture(bool host)
+    {
+        string? role = System.Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE");
+        if (!OwnedPhase() || role is not ("solo" or "host") || (role is "host") != host
+                || FoundationObservationScope.Directory() is not { } directory)
+        {
+            return null;
+        }
+
+        string file = Path.Combine(path1: directory, path2: "fixture.request");
+        var info = new FileInfo(fileName: file);
+        if (!info.Exists)
+        {
+            return null;
+        }
+
+        if (info.Length is < 1 or > 16 || info.Attributes.HasFlag(flag: FileAttributes.ReparsePoint))
+        {
+            throw new InvalidDataException(message: "FIXTURE_SELECTION_OWNERSHIP");
+        }
+
+        string mode = File.ReadAllText(path: file);
+        File.Delete(path: file);
+        return mode;
+    }
+
+    /// <summary>
+    /// Delivers one input.request, deletes it and writes one newline-terminated input.ack line: the request's sequence,
+    /// then, for a phase06-action request only, a space and the sequence that request allocated. Every other request,
+    /// including phase06-workspace, fixture-attack and spectator-proof-lethal requests, acks its own sequence alone.
+    /// An error thrown before Deliver returns (for example DRIVER_ACTION) leaves the request in place, with no ack.
+    /// </summary>
+    internal static void Tick(Control root, MainThreadGateway gateway, FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
         string? nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
@@ -45,11 +90,13 @@ internal static class FoundationAutomation
             throw new InvalidOperationException(message: "DRIVER_NONCE");
         }
 
-        Deliver(root: root, request: request, gateway: gateway);
+        long submitted = Deliver(root: root, request: request, gateway: gateway, coordinator: coordinator);
         File.Delete(path: file);
-        File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents:
-                request.GetProperty(propertyName: "sequence").GetInt64().ToString(
-                        provider: CultureInfo.InvariantCulture));
+        string acknowledged = request.GetProperty(propertyName: "sequence").GetInt64().ToString(
+                provider: CultureInfo.InvariantCulture);
+        File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents: (submitted > 0
+                ? acknowledged + " " + submitted.ToString(provider: CultureInfo.InvariantCulture) : acknowledged)
+                + "\n");
     }
 
     private static string? ReadRequest(string file)
@@ -64,7 +111,9 @@ internal static class FoundationAutomation
         }
     }
 
-    private static void Deliver(Control root, JsonElement request, MainThreadGateway gateway)
+    /// <summary>Delivers one request; returns the sequence a phase06-action request allocated, else 0.</summary>
+    private static long Deliver(Control root, JsonElement request, MainThreadGateway gateway,
+            FoundationCoordinator? coordinator)
     {
         gateway.RequireThread();
         string action = request.GetProperty(propertyName: "action").GetString() ?? "";
@@ -89,9 +138,73 @@ internal static class FoundationAutomation
                 Pressed = request.GetProperty(propertyName: "pressed").GetBoolean() };
             Input.ParseInputEvent(@event: key);
         }
+        else if (action is "click-world")
+        {
+            ClickWorld(root: root, request: request, gateway: gateway);
+        }
+#if DEBUG
+        else if (action is "spectator-proof-lethal" && DisplayServer.GetName() is "headless"
+                && coordinator?.ObserveLethalAttack() == true)
+        {
+            return 0;
+        }
+        else if (action is "fixture-attack" or "fixture-step" && OwnedPhase()
+                && coordinator?.FixtureAction(action: action, request: request) == true)
+        {
+            return 0;
+        }
+        else if (action is "phase06-focused" && OwnedPhase() && DisplayServer.GetName() is "headless")
+        {
+            string target = request.GetProperty(propertyName: "control").GetString() ?? "";
+            if (root.GetNodeOrNull<Control>(path: target)?.HasFocus() != true)
+            {
+                throw new InvalidOperationException(message: "DRIVER_FOCUS " + target);
+            }
+        }
+        else if (action is "phase06-action" or "phase06-workspace" && OwnedPhase()
+                && DisplayServer.GetName() is "headless" && coordinator is not null
+                && SubmitPhase06(coordinator: coordinator, action: action, request: request) is { } submitted)
+        {
+            return submitted;
+        }
+#endif
         else
         {
             throw new InvalidOperationException(message: "DRIVER_ACTION");
         }
+
+        return 0;
+    }
+
+#if DEBUG
+    /// <summary>Null when refused; else the allocated run-action sequence, or 0 for any workspace request.</summary>
+    private static long? SubmitPhase06(FoundationCoordinator coordinator, string action, JsonElement request)
+    {
+        if (action is "phase06-workspace")
+        {
+            return coordinator.RequestRunWorkspace(own: request.GetProperty(propertyName: "own")
+                    .Deserialize<ImmutableArray<long>>(), external: request.GetProperty(propertyName: "external")
+                            .Deserialize<ImmutableArray<long>>()) ? 0 : null;
+        }
+
+        string? kind = request.GetProperty(propertyName: "kind").GetString();
+        return kind is "select" or "browse" or "quick" or "place" or "merge" or "drop" or "assign" or "food" or "close"
+                ? coordinator.SubmitRunAction(kind: kind, request: request.GetProperty(propertyName: "request"))
+                        ?.sequence : null;
+    }
+#endif
+
+    private static void ClickWorld(Control root, JsonElement request, MainThreadGateway gateway)
+    {
+        gateway.RequireThread();
+        var point = new Vector2(x: request.GetProperty(propertyName: "x").GetSingle(),
+                y: request.GetProperty(propertyName: "y").GetSingle());
+        bool pressed = request.GetProperty(propertyName: "pressed").GetBoolean();
+        using var movement = new InputEventMouseMotion { Position = point, GlobalPosition = point };
+        Viewport viewport = root.GetViewport();
+        viewport.PushInput(@event: movement, inLocalCoords: true);
+        using var click = new InputEventMouseButton { Position = point, GlobalPosition = point,
+            ButtonIndex = MouseButton.Left, Pressed = pressed };
+        viewport.PushInput(@event: click, inLocalCoords: true);
     }
 }

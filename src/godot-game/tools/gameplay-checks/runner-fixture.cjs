@@ -50,13 +50,29 @@ async function run(mode) {
         fs.writeFileSync(project,source);
       }
     }
+    const art=path.join(current.isolatedInputRoot,'src/godot-game/game/foundation/FoundationInventoryArt.cs');
+    const themed=fs.readFileSync(art,'utf8');
+    assert.ok(themed.includes('res://assets/ui/InspectionTheme.tres'));
+    // The current project admits the theme but still rejects a static res:// literal in a Foundation file that names
+    // a resource outside Foundation and the declared inspection set, even the icon another project role declares and
+    // copies. Paths Foundation builds at runtime ("res://" + path) are outside this literal check.
+    fs.writeFileSync(art,themed+'\n// res://assets/ui/kingdom-zombies-icon.png\n');
+    try {
+      rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'outside-inspection')}),
+        error=>error.message==='UNDECLARED_RESOURCE assets/ui/kingdom-zombies-icon.png');
+    } finally {
+      fs.writeFileSync(art,themed);
+    }
     fs.copyFileSync(path.join(root,'src/godot-game/game/icon.svg'),path.join(path.dirname(project),'icon.svg'));
     const historical=source.replace(/^run\/main_scene\.asset_inspection=.*\r?\n/m,'')
       .replace('res://assets/ui/kingdom-zombies-icon.png','res://icon.svg');
     fs.writeFileSync(project,historical);
+    rejects(()=>validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'theme-without-inspection')}),
+      error=>error.message==='UNDECLARED_RESOURCE assets/ui/InspectionTheme.tres');
+    fs.writeFileSync(art,themed.replaceAll('res://assets/ui/InspectionTheme.tres','res://foundation/Foundation.tscn'));
     const foundation=validateResources({root:current.isolatedInputRoot,directory:path.join(directory,'foundation')});
     assert.deepEqual(foundation.projectResourceRoles,{'run/main_scene':'foundation/Foundation.tscn','config/icon':'icon.svg'});
-    console.log('PASS current three resource roles, historical Foundation roles and two undeclared resource controls');
+    console.log('PASS current three resource roles, historical Foundation roles and four undeclared resource controls');
     return {directory,mode};
   }
   const context={directory,nonce:crypto.randomUUID(),input:'input',tool:'tool',platform:process.platform+'-'+process.arch};
@@ -167,6 +183,9 @@ async function run(mode) {
     rejects(()=>select(catalog,['--case','core.authority,missing']),/^Error: SELECTION_UNKNOWN$/);
     rejects(()=>select(catalog,['--case','core.authority,core.authority']),/^Error: SELECTION_DUPLICATE$/);
     rejects(()=>select({cases:selected},['--all','--group','rendered']),/USAGE/);
+    // The resource isolation controls also run here, so they execute in the runner.integrity case as well as in the
+    // asset-pipeline prelaunch-source case.
+    await run('resource-roles');
     console.log('PASS empty, missing, duplicate, unknown, stale, corrupt, missing-image, traversal and invalid selection controls');
   } else if(mode==='processes') {
     await command(process.execPath,['-e','process.stdout.write("positive")']).then(row=>assert.equal(row.stdout,'positive'));

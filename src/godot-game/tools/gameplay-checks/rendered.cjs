@@ -81,13 +81,27 @@ function ownedInput(dispatch) {
   }
   return {input,release};
 }
-function createSession(context) {
+// The engine starts from an imported copy because a source checkout has no import cache for its atlases.
+const PREPARED_ASSEMBLIES = '.godot/mono/temp/bin/Debug';
+async function prepareRenderedProject(context, prepare = require('../lan-checks/network.cjs').prepareProject) {
+  const project = await prepare(context);
+  requireTrue(path.dirname(path.resolve(project)) === path.resolve(context.directory), 'PREPARED_PROJECT_OWNERSHIP');
+  const digest = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+  const assemblies = ['KingdomZombies.dll', 'KingdomZombies.Core.dll'].map(name => {
+    const sha256 = digest(path.join(project, PREPARED_ASSEMBLIES, name));
+    requireTrue(sha256 === digest(path.join(context.root, 'src/godot-game/game', PREPARED_ASSEMBLIES, name)),
+      'PREPARED_ASSEMBLY_IDENTITY ' + name);
+    return {name, sha256};
+  });
+  return {project, assemblies};
+}
+function createSession(context, start = spawn) {
   const { root, directory, nonce, engine, env } = context;
   const width = 1280, height = 720;
   const userData = path.join(directory, 'userdata');
   fs.mkdirSync(userData);
   const launch = context.beforeGame?.('solo',directory,engine);
-  const game = spawn(engine, ['--path', context.project ?? path.join(root, 'src/godot-game/game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
+  const game = start(engine, ['--path', context.project ?? path.join(root, 'src/godot-game/game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
     cwd: root, env: { ...(launch?.env ?? env), APPDATA:userData, LOCALAPPDATA:userData,
       XDG_DATA_HOME:userData, XDG_CONFIG_HOME:userData, XDG_CACHE_HOME:userData, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
       PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
@@ -349,7 +363,10 @@ function validateResources(context) {
       }
     }
   }
-  validateReferences(foundation,foundation);
+  // Foundation may name only its own files and, in the current project, the declared inspection resources copied
+  // above, such as the shared inventory theme. Without the inspection roles those resources are neither declared nor
+  // copied, so a Foundation reference to them is rejected.
+  validateReferences(foundation,current?[...foundation,...inspection]:foundation);
   // The inspection scene and theme declare their static dependencies. InspectionRoot owns its dynamic pack separately.
   if(current)validateReferences(['inspection/Inspection.tscn','assets/ui/InspectionTheme.tres'],inspection);
   for(const resource of resources) {
@@ -389,16 +406,18 @@ async function runScenarios(context,items,session) {
   let blocked;
   for (const item of ordered) {
       const identity={id:item.id,nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform};
-      if(blocked || session.exited) {results.push({...identity,status:'blocked',message:blocked??'GAME_PROCESS_LOST'});continue;}
+      if(blocked || session.exited) {results.push({...identity,status:'blocked',message:blocked??'GAME_PROCESS_LOST',durationMilliseconds:0});continue;}
       // The first scenario owns startup output; later scenarios start after recovery.
-      const logStart=results.length===0?0:session.log.length;
-      try { results.push({...identity,status:'pass',...await tracer(context,item.id,session,logStart),nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0}}); }
+      const logStart=results.length===0?0:session.log.length,started=performance.now();
+      const duration=()=>Math.round(performance.now()-started);
+      try { results.push({...identity,status:'pass',...await tracer(context,item.id,session,logStart),nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0},durationMilliseconds:duration()}); }
       catch(error) {
-        results.push({...identity,...error.partial,status:'fail',message:error.message,nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0}});
+        results.push({...identity,...error.partial,status:'fail',message:error.message,nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0},durationMilliseconds:duration()});
         if(!session.exited) try {await session.reset();} catch(resetError){blocked='SESSION_UNUSABLE '+resetError.message;}
         else blocked='GAME_PROCESS_LOST';
       }
   }
   return results;
 }
-module.exports = { tracer, rendered, runScenarios, closeSession, ownedInput, decodePng, command, killTree, validateResources };
+module.exports = { tracer, rendered, runScenarios, closeSession, ownedInput, decodePng, command, killTree, validateResources,
+  createSession, prepareRenderedProject };

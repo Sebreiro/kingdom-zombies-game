@@ -358,7 +358,8 @@ internal sealed class FoundationMenu
             _services.Discovery.Advertise(advertisement: new SessionAdvertisement(sessionId: snapshot.SessionId,
                     sessionName: FoundationDisplay.Label(value: profile.DisplayName + "'s camp"),
                     hostLabel: FoundationDisplay.Label(value: profile.DisplayName), address: "",
-                    port: port, occupied: count, availability: count >= 4 ? "Full" : "Available", protocol: 1,
+                    port: port, occupied: count, availability: count >= 4 ? "Full" : "Available",
+                    protocol: FoundationProtocol.Version,
                     content: FoundationProtocol.Content));
         }
     }
@@ -450,7 +451,8 @@ internal sealed class FoundationMenu
         var row = new Button
         {
             Name = "Session" + _rows.Count.ToString(provider: CultureInfo.InvariantCulture),
-            CustomMinimumSize = new Vector2(x: 0, y: 64), Alignment = HorizontalAlignment.Left,
+            CustomMinimumSize = new Vector2(x: 0, y: 64),
+            Alignment = HorizontalAlignment.Left,
             TooltipText = advertisement.SessionName + "\n" + advertisement.HostLabel + "\n" + advertisement.Address
                     + ":" + advertisement.Port.ToString(provider: CultureInfo.InvariantCulture),
             ClipText = true,
@@ -497,9 +499,14 @@ internal sealed class FoundationMenu
         _gateway.RequireThread();
         var label = new Label
         {
-            Text = text, MouseFilter = Control.MouseFilterEnum.Ignore, AnchorRight = 1,
-            AnchorLeft = right ? 1 : 0, OffsetLeft = right ? -120 : 16, OffsetRight = right ? -16 : -136,
-            OffsetTop = top, OffsetBottom = top + (size == 24 ? 36 : 24),
+            Text = text,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            AnchorRight = 1,
+            AnchorLeft = right ? 1 : 0,
+            OffsetLeft = right ? -120 : 16,
+            OffsetRight = right ? -16 : -136,
+            OffsetTop = top,
+            OffsetBottom = top + (size == 24 ? 36 : 24),
             HorizontalAlignment = right ? HorizontalAlignment.Right : HorizontalAlignment.Left,
             TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis,
         };

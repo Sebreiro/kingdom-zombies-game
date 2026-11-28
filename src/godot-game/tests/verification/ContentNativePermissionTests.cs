@@ -854,6 +854,9 @@ public sealed class ContentNativePermissionTests
                     + "review|GuardArrow(Node2D,Vector2,int,float)")]
     [InlineData(
             "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+                    + "review|DrawComposition(JsonElement,JsonElement,JsonElement,int,JsonElement)")]
+    [InlineData(
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|GuardLayer(Node2D,string,Image,Vector2,int,float,Vector2)")]
     [InlineData(
             "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
@@ -867,7 +870,7 @@ public sealed class ContentNativePermissionTests
                     + "g)")]
     [InlineData(
             "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
-                    + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string)")]
+                    + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string,bool)")]
     [InlineData(
             "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Play()")]
@@ -897,7 +900,8 @@ public sealed class ContentNativePermissionTests
                     + "review|Reset()")]
     [InlineData(
             "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
-                    + "review|RestoreComposition(string,string,int,JsonElement)")]
+                    + "review|RestoreComposition(string,string,int,JsonElement,string?,JsonElement,IReadOnlySet<str"
+                    + "ing>?)")]
     [InlineData(
             "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|RetireArt()")]

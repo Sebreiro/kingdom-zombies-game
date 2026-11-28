@@ -6,7 +6,14 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
   </PropertyGroup>
+  <!-- The game's Godot SDK defines DEBUG in ExportDebug; Core matches it so the game's DEBUG-only callers compile.
+       ExportRelease and Release keep DEBUG undefined, so fixture-only members stay out of release builds. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'ExportDebug'">
+    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="KingdomZombies.Phase1.Tests" />
+    <EmbeddedResource Include="../game/content/config/run.json;../game/content/config/survivors.json;../game/content/config/items.json;../game/content/config/inventory.json;../game/content/config/combat.json;../game/content/config/food-wildlife.json"
+                      LogicalName="content/config/%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

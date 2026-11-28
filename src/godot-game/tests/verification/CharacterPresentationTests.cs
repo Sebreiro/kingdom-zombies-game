@@ -165,6 +165,26 @@ public sealed class CharacterPresentationTests
         }
     }
 
+    /// <summary>A frame step by nextSampleSeconds lands on each authored sample, including at 0.08 + 0.16.</summary>
+    [Theory]
+    [InlineData("jump", "run,walk-far,walk-near,run", "takeoff,airborne-up,airborne-down,landing")]
+    [InlineData("walk", "walk-near,walk-far,walk-near", "near,far,near")]
+    public void Step_NextSampleSeconds_LandsOnEachAuthoredSample(string movement, string poses, string stages)
+    {
+        CharacterPresentation subject = Create();
+        subject.Configure(body: "CH-01", movement: movement, action: "none", leftItem: "Empty",
+                rightItem: "Empty", facing: 1);
+        string[] expected = stages.Split(separator: ',');
+        string[] lower = poses.Split(separator: ',');
+        for (int index = 0; index < expected.Length; index++)
+        {
+            JsonElement sample = subject.Snapshot;
+            sample.GetProperty(propertyName: "stage").GetString().ShouldBe(expected: expected[index]);
+            sample.GetProperty(propertyName: "lowerPose").GetString().ShouldBe(expected: lower[index]);
+            subject.Advance(elapsedSeconds: sample.GetProperty(propertyName: "nextSampleSeconds").GetDouble());
+        }
+    }
+
     /// <summary>Invalid elapsed values cannot introduce hidden clocks or poison the current sample.</summary>
     [Theory]
     [InlineData(double.NaN)]

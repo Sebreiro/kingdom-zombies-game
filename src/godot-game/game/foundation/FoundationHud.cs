@@ -8,7 +8,7 @@ using KingdomZombies.Proofs;
 namespace KingdomZombies.Foundation;
 
 /// <summary>Projects a nonfocus-stealing ready roster and explicit temporary-session controls.</summary>
-internal static class FoundationHud
+internal sealed partial class FoundationHud : IDisposable
 {
     internal static void Project(Control root, FoundationSnapshot snapshot, string bindingId, bool hosting,
             bool waitingForHost, MainThreadGateway gateway)

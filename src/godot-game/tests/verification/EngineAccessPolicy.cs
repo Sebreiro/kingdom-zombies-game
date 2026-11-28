@@ -126,6 +126,249 @@ internal static class EngineAccessPolicy
 
     private static readonly HashSet<string> _presenters = new(comparer: StringComparer.Ordinal)
     {
+        "src/godot-game/game/foundation/FoundationDrawObserver.cs|KingdomZombies.Foundation."
+                + "FoundationDrawObserver|ObserveAppearance()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Dispose()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Observe(Node2D,FoundationRunReadback?,FoundationCoordinator,long)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Remember(Node2D)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Build()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Draw()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|DrawChoices()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|AddButton(Control,string,string,Action,Rect2)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Text(Control,string,Rect2)",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Backplate()",
+        "src/godot-game/game/foundation/FoundationSpectatorPanel.cs|KingdomZombies.Foundation."
+                + "FoundationSpectatorPanel|Place(Control,Rect2)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Dispose()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Hide()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Build()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "BuildVitals(Control)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "BuildActions(Control)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "BuildDamage()",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateVitals(FoundationHudState,string?,float)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateActions(FoundationHudState,string?,bool)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "AddMeter(Control,string,Rect2,Color)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "AddTile(Control,string,int,int)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "DrawTile(Tile?,Item?,decimal,bool)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateAmmo(int?)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "UpdateMeter(Meter?,string,decimal,decimal)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Emphasize(Label?,bool)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Text(Control,string,Rect2)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "SetText(Label?,string)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Fill(Control,string,Rect2,Color)",
+        "src/godot-game/game/foundation/FoundationHud.Live.cs|KingdomZombies.Foundation.FoundationHud|"
+                + "Place(Control,Rect2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Fou"
+                + "ndation.FoundationInventoryWorkspace|ShowNotice(string)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Fou"
+                + "ndation.FoundationInventoryWorkspace|UpdateNotice()",
+        "src/godot-game/game/foundation/FoundationInventoryArt.cs|KingdomZombies.Foundation.Foundati"
+                + "onInventoryArt|Dispose()",
+        "src/godot-game/game/foundation/FoundationInventoryArt.cs|KingdomZombies.Foundation.Foundati"
+                + "onInventoryArt|FoundationInventoryArt(MainThreadGateway)",
+        "src/godot-game/game/foundation/FoundationInventoryArt.cs|KingdomZombies.Foundation.Foundati"
+                + "onInventoryArt|Atlas(string,string,string)",
+        "src/godot-game/game/foundation/FoundationInventoryArt.cs|KingdomZombies.Foundation.Foundati"
+                + "onInventoryArt|Read(string)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|Add(Control,Grid,ImmutableArray<(int x, int y)>,Action<Button, Item, InputEvent>)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|AddHighlights(Control,ImmutableArray<(int x, int y)>)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|DrawHighlights(Control,ImmutableArray<(int x, int y)>)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|Decorate(Button,Item,bool)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|ShowFocusDetails(Button,string)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|HideFocusDetails()",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|DrawCells(Control,int,int)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|AddCount(Button,int)",
+        "src/godot-game/game/foundation/FoundationInventoryGrid.cs|KingdomZombies.Foundation.Foundat"
+                + "ionInventoryGrid|AddCondition(Button,decimal,decimal)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|EnsureLayer()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|Draw()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|RestoreFocus(string?,Button)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|DrawEquipment()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|DrawSlot(Control,string,Item?,string,string,long,Rect,ScrollContainer?)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|DrawQuick()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|AddBoard(VBoxContainer,Grid,bool,ImmutableArray<(int x, int y)>)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.cs|KingdomZombies.Foundation.Fo"
+                + "undationInventoryWorkspace|DrawBag(Window)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|Input(InputEvent)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|ItemInput(Button,Item,bool,long,InputEvent)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|PointerMove(Vector2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|PlacementAt(Vector2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|Hits(TargetRegion,Vector2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|PaintPreview(Vector2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|DrawPreviewOutline()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|PaintSlots(Item?)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|ItemMenu(Button,Item,bool)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|SplitMenu(Item)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|Half(int)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|ConfirmSplitField(int)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|UpdateSplit(string,int)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|ConfirmSplit(string,int)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|OpenBag(Button,Item,bool)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|Grip(Window,InputEvent)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|MoveBag(long,Vector2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|RemovePopup()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs|KingdomZombies.Foundat"
+                + "ion.FoundationInventoryWorkspace|Feedback(string)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|Bounds()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|Surface(Control,string,Rect,float)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|Put(Control,Rect)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|ScrollFlow(Control,string,Rect)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|ButtonAt(Control,string,string,Rect,Action)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|LabelAt(Control,string,Rect,bool)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|TextLine(Control,string)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|Option(VBoxContainer,string,Action)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|Popup(string,Rect2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|FocusFirst(VBoxContainer)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|Retire(Control?)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs|KingdomZombies.Founda"
+                + "tion.FoundationInventoryWorkspace|From(Rect2)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|UpdateTargetMarker(Node2D)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawExternal()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawNearbySelector(Control)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawNearbyChoices(Control,"
+                + "ImmutableArray<(string kind, string id)>)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawListPages(Control,int,int,bool,Action<int>)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|BrowseEntry(LineEdit,FoundationRunView)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawPager(Control,FoundationRunView)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawNearbyGear("
+                + "VBoxContainer,FoundationRunView,ImmutableArray<Item>)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|DrawGroundItem(VBoxContainer,Item,long)",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|InspectExternal()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|RemoveTargetMarker()",
+        "src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs|KingdomZombies."
+                + "Foundation.FoundationInventoryWorkspace|NearbyFeedback(string)",
+        "src/godot-game/game/foundation/FoundationActorArt.cs|KingdomZombies.Foundation.FoundationAc"
+                + "torArt|Dispose()",
+        "src/godot-game/game/foundation/FoundationActorArt.cs|KingdomZombies.Foundation.FoundationAc"
+                + "torArt|FoundationActorArt(Node2D,MainThreadGateway,FoundationAppearanceAssets,string,bool)",
+        "src/godot-game/game/foundation/FoundationActorArt.cs|KingdomZombies.Foundation.FoundationAc"
+                + "torArt|Apply(Subject,long,Vector2,(double x, double y)?)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|Dispose()",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|FoundationAppearance(Node2D,MainThreadGateway)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|ProjectActors(Dictionary<string, FoundationActorArt>,IEnumerable<Subject>,Frame,"
+                + "string?,(double x, double y)?,int)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|Project(FoundationRunReadback,string?,(double x, double y)?)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|ProjectArrows(Frame)",
+        "src/godot-game/game/foundation/FoundationAppearance.cs|KingdomZombies.Foundation.Foundation"
+                + "Appearance|Point(Frame,(double x, double y))",
+        "src/godot-game/game/foundation/FoundationAppearanceAssets.cs|KingdomZombies.Foundation.Foun"
+                + "dationAppearanceAssets|Dispose()",
+        "src/godot-game/game/foundation/FoundationAppearanceAssets.cs|KingdomZombies.Foundation.Foun"
+                + "dationAppearanceAssets|Read(string)",
+        "src/godot-game/game/foundation/FoundationAppearanceAssets.cs|KingdomZombies.Foundation.Foun"
+                + "dationAppearanceAssets|SpriteTexture(JsonElement,string,string,string,string)",
+        "src/godot-game/game/foundation/FoundationAutomation.cs|KingdomZombies.Foundation.Foundation"
+                + "Automation|ClickWorld(Control,JsonElement,MainThreadGateway)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|AttachWorld(Node2D)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|DetachWorld()",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|GainFocus()",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Refresh(bool)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Move()",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|HandleKey(InputEventKey)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Point(FoundationRunReadback?,Frame?)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|HandleWorkspace(InputEventKey)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Click(InputEvent)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Aim(Vector2?)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|SetAimVisible(bool)",
+        "src/godot-game/game/foundation/FoundationWorldInput.cs|KingdomZombies.Foundation.Foundation"
+                + "WorldInput|Stroke(Vector2,Vector2)",
         "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
                 + "dmit(string,JsonElement)",
         "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
@@ -286,6 +529,8 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|Detach()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+                + "review|DrawComposition(JsonElement,JsonElement,JsonElement,int,JsonElement)",
+        "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|FitGeometry(JsonElement,JsonElement,JsonElement,string,string,JsonElement,V"
                 + "ector2)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
@@ -304,7 +549,7 @@ internal static class EngineAccessPolicy
                 + "review|OpenAttached(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,strin"
                 + "g)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
-                + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string)",
+                + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string,bool)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|Play()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
@@ -324,7 +569,8 @@ internal static class EngineAccessPolicy
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|Reset()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
-                + "review|RestoreComposition(string,string,int,JsonElement)",
+                + "review|RestoreComposition(string,string,int,JsonElement,string?,JsonElement,IReadOnlySet<str"
+                + "ing>?)",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                 + "review|RetireArt()",
         "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"

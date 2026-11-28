@@ -15,8 +15,7 @@ function frames(peer){
   const text=fs.readFileSync(file,'utf8'),lines=text.split('\n');lines.pop();
   return lines.filter(Boolean).map(line=>JSON.parse(line));
 }
-function launch(context,role,port,retainedRoot=null){
-  const directory=path.join(context.directory,role);fs.mkdirSync(directory);
+function engineIdentity(context){
   const pins=JSON.parse(fs.readFileSync(path.join(context.root,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   const archive=pins.archives[context.platform];requireTrue(archive,'ENGINE_PLATFORM');
   const consoleEngine=workspace.locations(context.root).tools('godot',archive.directory,archive.executable);
@@ -26,18 +25,66 @@ function launch(context,role,port,retainedRoot=null){
   const engine=process.platform==='win32'?consoleEngine.replace('_console.exe','.exe'):consoleEngine;
   if(process.platform==='win32')requireTrue(crypto.createHash('sha256').update(fs.readFileSync(engine)).digest('hex')===
     '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','ENGINE_NATIVE_HASH');
+  return {engine,consoleEngine,digest};
+}
+async function prepareProject(context){
+  const {consoleEngine}=engineIdentity(context);
+  const project=path.join(context.directory,'imported-game');
+  const original=path.join(context.root,'src/godot-game/game');
+  fs.mkdirSync(project);
+  const assemblies='.godot/mono/temp/bin/Debug';
+  for(const entry of ['project.godot','assets','content','foundation','inspection','proofs',assemblies]){
+    fs.cpSync(path.join(original,entry),path.join(project,entry),
+      {recursive:true,filter:source=>!source.endsWith('.import')});
+  }
+  const userdata=path.join(context.directory,'import-userdata');
+  fs.mkdirSync(userdata);
+  const env={...context.env,APPDATA:userdata,LOCALAPPDATA:userdata,XDG_DATA_HOME:userdata,
+    XDG_CONFIG_HOME:userdata,XDG_CACHE_HOME:userdata};
+  const result=await require('../asset-pipeline/check.cjs').command(context,'game-import',consoleEngine,
+    ['--headless','--path',project,'--editor','--import','--quit'],{env});
+  requireTrue(!result.stderr.trim()&&!/ERROR:|Failed to load|Error importing/.test(result.stdout),'GAME_IMPORT_LOG');
+  return project;
+}
+// Rendered peers tile a 2x2 grid of 1280x720 client areas, in physical desktop pixels, so no owned peer window
+// covers another (Run 2a R2a-5 to R2a-8). Each origin leaves room above for a caption scaled up to 300 percent and
+// beside for the frame, so the grid needs a desktop of at least 2700x1780 physical pixels (the development desktop
+// is 3840x2160). A fifth or later live peer shares a slot; the driver names any window that covers its point.
+const WINDOW_SLOTS=Object.freeze([[32,120],[1376,120],[32,1000],[1376,1000]].map(slot=>Object.freeze(slot)));
+const liveSlots=new Map();
+function windowSlot(occupied,count=WINDOW_SLOTS.length){
+  for(let slot=0;slot<count;slot++)if(!occupied.has(slot))return slot;
+  return occupied.size%count;
+}
+function windowPosition(slot){
+  const origin=WINDOW_SLOTS[slot];requireTrue(origin,'WINDOW_SLOT '+slot);return origin[0]+','+origin[1];
+}
+function claimWindowSlot(){
+  const claim={slot:windowSlot(new Set(liveSlots.values()))};liveSlots.set(claim,claim.slot);
+  claim.release=()=>liveSlots.delete(claim);
+  return claim;
+}
+function launch(context,role,port,retainedRoot=null){
+  const directory=path.join(context.directory,role);fs.mkdirSync(directory);
+  const {engine,digest}=engineIdentity(context);
   const profileRoot=retainedRoot??path.join(directory,"profiles");fs.mkdirSync(profileRoot,{recursive:true});
   const profileFile=path.join(profileRoot,"profiles.json");
   if(!fs.existsSync(profileFile)){const id=crypto.randomUUID().replaceAll("-","");fs.writeFileSync(profileFile,JSON.stringify({schema:1,selected:id,profiles:[{id,name:"Player 1",ordinal:1}]}));}
   const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
-  const args=context.rendered?['--path',context.project??path.join(context.root,'src/godot-game/game'),'--rendering-method','gl_compatibility','--resolution','1280x720']
-    :['--headless','--path',path.join(context.root,'src/godot-game/game')];
+  const window=context.rendered?claimWindowSlot():null;
+  const args=context.rendered?['--path',context.project??path.join(context.root,'src/godot-game/game'),'--rendering-method','gl_compatibility','--resolution','1280x720',
+    '--position',windowPosition(window.slot)]
+    :['--headless','--path',context.project??path.join(context.root,'src/godot-game/game')];
   const userData=path.join(directory,'userdata');fs.mkdirSync(userData);
-  const attestation=context.beforeGame?.(role,directory,engine);
-  const child=spawn(engine,args,{cwd:context.root,windowsHide:!context.rendered,
-    env:{...(attestation?.env??context.env),APPDATA:userData,LOCALAPPDATA:userData,
-      XDG_DATA_HOME:userData,XDG_CONFIG_HOME:userData,XDG_CACHE_HOME:userData,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
-      PHASE3_ROLE:role,PHASE3_INPUT_DRIVER:context.rendered?"declared-per-event-external-driver":"synthetic-native-ParseInputEvent",PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
+  let attestation,child;
+  try{
+    attestation=context.beforeGame?.(role,directory,engine);
+    child=spawn(engine,args,{cwd:context.root,windowsHide:!context.rendered,
+      env:{...(attestation?.env??context.env),APPDATA:userData,LOCALAPPDATA:userData,
+        XDG_DATA_HOME:userData,XDG_CONFIG_HOME:userData,XDG_CACHE_HOME:userData,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
+        PHASE3_ROLE:role,PHASE3_INPUT_DRIVER:context.rendered?"declared-per-event-external-driver":"synthetic-native-ParseInputEvent",PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
+  }catch(error){window?.release();throw error;}
+  if(window){child.once('exit',window.release);child.once('error',window.release);}
   context.watchChild?.(child,attestation);
   const peer={role,directory,profile,profileRoot,child,pid:child.pid,sequence:0,output:'',exit:null,error:null,budget:context.budget};
   child.stdout.on('data',bytes=>peer.output+=bytes);child.stderr.on('data',bytes=>peer.output+=bytes);
@@ -45,7 +92,7 @@ function launch(context,role,port,retainedRoot=null){
   fs.writeFileSync(path.join(directory,'launch.json'),JSON.stringify({role,profile,pid:child.pid,port,headless:!context.rendered,
     inputDriver:context.rendered?'declared-per-event-external-driver':'synthetic-native-ParseInputEvent',
     mainScene:'res://foundation/Foundation.tscn',engine,engineHash:crypto.createHash('sha256').update(fs.readFileSync(engine)).digest('hex'),
-    consoleEngineHash:digest,nonce:context.nonce},null,2));
+    consoleEngineHash:digest,nonce:context.nonce,windowSlot:window?.slot??null,windowPosition:window?windowPosition(window.slot):null},null,2));
   return peer;
 }
 async function waitFor(peers,deadline,predicate,message){
@@ -56,7 +103,12 @@ async function waitFor(peers,deadline,predicate,message){
 async function input(peer,context,deadline,request){
   const sequence=++peer.sequence,file=path.join(peer.directory,'input.request');
   fs.writeFileSync(file+'.tmp',JSON.stringify({nonce:context.nonce,sequence,...request}));fs.renameSync(file+'.tmp',file);
-  await waitFor([peer],deadline,()=>{const ack=path.join(peer.directory,'input.ack');return fs.existsSync(ack)&&fs.readFileSync(ack,'utf8')===String(sequence);},'input ack '+peer.role);
+  // The ack line holds this request's sequence, then, for a phase06-action request only, the sequence that request
+  // allocated. Every other request, including phase06-workspace, fixture-attack and spectator-proof-lethal requests,
+  // acks its own sequence alone.
+  const ack=await waitFor([peer],deadline,()=>{const file=path.join(peer.directory,'input.ack');if(!fs.existsSync(file))return null;
+    const match=/^(\d+)(?: (\d+))?\n$/.exec(fs.readFileSync(file,'utf8'));return match?.[1]===String(sequence)?{submitted:match[2]===undefined?null:Number(match[2])}:null;},'input ack '+peer.role);
+  return ack.submitted;
 }
 async function key(peer,context,deadline,code,pressed){await input(peer,context,deadline,{action:'key',key:code,pressed});}
 async function activate(peer,context,deadline,control){
@@ -352,11 +404,14 @@ async function lifetime(context,item){
 }
 async function observed(context,item){
   const directory=path.join(context.directory,item.id);fs.mkdirSync(directory);
-  const result=await tracer({...context,directory,runRoot:context.directory},item);
+  const subject={...context,directory,runRoot:context.directory};
+  const project=await prepareProject(subject);
+  const result=await tracer({...subject,project},item);
   const evidence=require('./evidence.cjs');
   const ref=file=>({path:path.relative(context.directory,file),sha256:evidence.hash(fs.readFileSync(file))});
   return {...result,revision:context.revision,osFingerprint:context.osFingerprint,peers:result.peers.map(peer=>({...peer,
     launch:ref(path.join(directory,peer.role,'launch.json')),log:ref(path.join(directory,peer.role,'console.log')),
     frames:ref(path.join(directory,peer.role,'frames.ndjson'))}))};
 }
-module.exports={tracer,observed,frames,coherent,allocatePort,launch,waitFor,input,key,activate,actor,cleanup,stop,matchingRoster};
+module.exports={WINDOW_SLOTS,windowSlot,windowPosition,claimWindowSlot,tracer,observed,frames,coherent,allocatePort,launch,waitFor,input,key,activate,actor,cleanup,stop,
+  matchingRoster,prepareProject};

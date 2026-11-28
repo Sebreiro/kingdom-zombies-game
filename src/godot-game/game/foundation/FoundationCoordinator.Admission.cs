@@ -9,6 +9,13 @@ internal sealed partial class FoundationCoordinator
 {
     private readonly Dictionary<int, FoundationAdmissionHistory> _admissions = [];
 
+    private FoundationPeerBinding? CurrentReadyPeer(int sender)
+    {
+        return _peers.TryGetValue(key: sender, value: out FoundationPeerBinding? peer) && peer.Ready
+                && peer.ConnectionGeneration.Length > 0 && StringComparer.Ordinal.Equals(
+                        x: peer.ConnectionGeneration, y: _connection?.PeerGeneration(peer: sender)) ? peer : null;
+    }
+
     private void ReceiveHost(int sender, FoundationEnvelope envelope)
     {
         RetireReplacedConnection(sender: sender);
@@ -42,21 +49,16 @@ internal sealed partial class FoundationCoordinator
             {
                 peer.Ready = true;
                 peer.LastResponse = Now();
+                _session?.MarkReady(bindingId: peer.BindingId);
+                RecordEvent(value: "ready:" + peer.BindingId);
+                PublishPeerRunViews(sender: sender, peer: peer, force: true);
             }
 
-            _session?.MarkReady(bindingId: peer.BindingId);
-            RecordEvent(value: "ready:" + peer.BindingId);
             BroadcastState();
         }
-        else if (envelope.Kind is "intent")
+        else if (envelope.Kind is "action")
         {
-            var command = new FoundationMovementCommand(sessionId: envelope.SessionId, playerId: envelope.PlayerId,
-                    actorId: envelope.ActorId, direction: envelope.Direction, bindingId: envelope.BindingId,
-                    sequence: envelope.Sequence);
-            if (Accept(command: command, binding: peer.BindingId, player: peer.PlayerId, actor: peer.ActorId))
-            {
-                peer.LastResponse = Now();
-            }
+            ReceiveRunAction(sender: sender, peer: peer, envelope: envelope);
         }
         else if (envelope.Kind is "bye")
         {

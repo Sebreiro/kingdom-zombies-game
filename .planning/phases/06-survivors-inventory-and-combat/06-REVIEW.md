@@ -1,0 +1,1518 @@
+---
+phase: 06-survivors-inventory-and-combat
+reviewed: 2026-11-28T03:25:28Z
+depth: deep
+revision: f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6
+base_revision: a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d
+files_reviewed: 78
+files_reviewed_list:
+  - docs/code/engine-generated-spans.json
+  - docs/code/generated-callsite-adaptations.json
+  - docs/content/fields.md
+  - docs/workflow/foundation-checks.md
+  - src/godot-game/core/CharacterPresentation.cs
+  - src/godot-game/core/KingdomZombies.Core.csproj
+  - src/godot-game/game/content/fixtures/crowds.json
+  - src/godot-game/game/content/pack-index.json
+  - src/godot-game/game/content/packs/compatibility.json
+  - src/godot-game/game/content/packs/delivery.json
+  - src/godot-game/game/content/packs/player-identities.json
+  - src/godot-game/game/content/packs/text-data.json
+  - src/godot-game/game/content/packs/ui-camp.json
+  - src/godot-game/game/content/packs/ui-identity.json
+  - src/godot-game/game/content/packs/ui-inventory.json
+  - src/godot-game/game/content/packs/ui-legacy-stash.json
+  - src/godot-game/game/content/packs/ui-map-warnings.json
+  - src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs
+  - src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs
+  - src/godot-game/game/foundation/FoundationCoordinator.cs
+  - src/godot-game/game/foundation/FoundationDiagnostics.cs
+  - src/godot-game/game/foundation/FoundationDrawObserver.cs
+  - src/godot-game/game/foundation/FoundationHud.Live.cs
+  - src/godot-game/game/foundation/FoundationInventoryGrid.cs
+  - src/godot-game/game/foundation/FoundationInventoryInteraction.cs
+  - src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs
+  - src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs
+  - src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs
+  - src/godot-game/game/foundation/FoundationInventoryWorkspace.cs
+  - src/godot-game/game/foundation/FoundationRoot.cs
+  - src/godot-game/tests/scenarios/phase06-drivers.test.cjs
+  - src/godot-game/tests/scenarios/phase06-headless.cjs
+  - src/godot-game/tests/scenarios/phase06-inspection.cjs
+  - src/godot-game/tests/scenarios/phase06-lan.cjs
+  - src/godot-game/tests/scenarios/phase06-packaged.cjs
+  - src/godot-game/tests/scenarios/phase06-rendered.cjs
+  - src/godot-game/tests/scenarios/phase06-solo.cjs
+  - src/godot-game/tests/verification/CharacterBowTests.cs
+  - src/godot-game/tests/verification/CharacterPresentationTests.cs
+  - src/godot-game/tests/verification/ConsumerCompilation.cs
+  - src/godot-game/tests/verification/CurrentReplayTests.cs
+  - src/godot-game/tests/verification/EngineAccessPolicy.cs
+  - src/godot-game/tests/verification/EngineGeneratedTests.cs
+  - src/godot-game/tests/verification/ExemptionTests.cs
+  - src/godot-game/tests/verification/ExemptionValidator.cs
+  - src/godot-game/tests/verification/FoundationLanInputTests.cs
+  - src/godot-game/tests/verification/FoundationLanLifecycleTests.cs
+  - src/godot-game/tests/verification/FoundationLanPermissionTests.cs
+  - src/godot-game/tests/verification/FoundationLinkedSources.cs
+  - src/godot-game/tests/verification/FoundationPermissionTests.cs
+  - src/godot-game/tests/verification/Phase06BowTests.cs
+  - src/godot-game/tests/verification/Phase06ExternalInteractionTests.cs
+  - src/godot-game/tests/verification/Phase06FixtureTests.cs
+  - src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs
+  - src/godot-game/tests/verification/Phase06PopulationTests.cs
+  - src/godot-game/tests/verification/Phase06PublicationTests.cs
+  - src/godot-game/tests/verification/Phase06SnapshotTests.cs
+  - src/godot-game/tests/verification/Phase06StashTests.cs
+  - src/godot-game/tests/verification/Phase06UiStateTests.cs
+  - src/godot-game/tests/verification/RestoreMutationProof.cs
+  - src/godot-game/tools/README.md
+  - src/godot-game/tools/asset-pipeline/cases/census.cjs
+  - src/godot-game/tools/asset-pipeline/cases/runner.cjs
+  - src/godot-game/tools/asset-pipeline/content.cjs
+  - src/godot-game/tools/asset-pipeline/required-cases.json
+  - src/godot-game/tools/asset-pipeline/scenarios.cjs
+  - src/godot-game/tools/game-tests/runner.test.cjs
+  - src/godot-game/tools/game-tests/scenario-group.cjs
+  - src/godot-game/tools/game-tests/suites.cjs
+  - src/godot-game/tools/gameplay-checks/check.cjs
+  - src/godot-game/tools/gameplay-checks/rendered.cjs
+  - src/godot-game/tools/gameplay-checks/required-cases.json
+  - src/godot-game/tools/gameplay-checks/runner-fixture.cjs
+  - src/godot-game/tools/lan-checks/scenarios.cjs
+  - src/godot-game/tools/verification/ac08-bindings.cjs
+  - src/godot-game/tools/verification/bindings.test.cjs
+  - src/godot-game/tools/verification/current-replay.cjs
+  - src/godot-game/tools/verification/required-cases.json
+findings:
+  critical: 0
+  warning: 0
+  info: 3
+  total: 3
+  necessity: 0
+status: clean
+rereview_files_reviewed: 29
+rereview_delta: 62952c3..f0890ca
+prior_review:
+  reviewed: 2026-11-24T21:42:39Z
+  depth: deep
+  revision: 17fb851c2bfd81ba050fa094527ef21d7707690c
+  initial_review_revision: d05115541a751c574b1dde3b70bc42a8a5a347fe
+  base_revision: b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6
+  files_reviewed: 121
+  files_reviewed_list:
+    - src/godot-game/core/CharacterPresentation.cs
+    - src/godot-game/core/FoundationHeldIntent.cs
+    - src/godot-game/core/FoundationParticipantState.cs
+    - src/godot-game/core/FoundationSession.cs
+    - src/godot-game/core/KingdomZombies.Core.csproj
+    - src/godot-game/core/RunCombat.cs
+    - src/godot-game/core/RunCombatDefinitions.cs
+    - src/godot-game/core/RunCombatFixture.cs
+    - src/godot-game/core/RunDamage.cs
+    - src/godot-game/core/RunDeathAndLoot.cs
+    - src/godot-game/core/RunDefinitions.cs
+    - src/godot-game/core/RunExternalAccess.cs
+    - src/godot-game/core/RunFood.cs
+    - src/godot-game/core/RunInventory.cs
+    - src/godot-game/core/RunInventoryRules.cs
+    - src/godot-game/core/RunItemActions.cs
+    - src/godot-game/core/RunItemTransfer.cs
+    - src/godot-game/core/RunLocomotion.cs
+    - src/godot-game/core/RunPopulation.cs
+    - src/godot-game/core/RunProjectiles.cs
+    - src/godot-game/core/RunProjections.Hud.cs
+    - src/godot-game/core/RunProjections.cs
+    - src/godot-game/core/RunQuickReferences.cs
+    - src/godot-game/core/RunSavedLayout.cs
+    - src/godot-game/core/RunSnapshotCodec.cs
+    - src/godot-game/core/RunSnapshotDocument.cs
+    - src/godot-game/core/RunStash.cs
+    - src/godot-game/core/RunSuccession.cs
+    - src/godot-game/core/RunVitals.cs
+    - src/godot-game/core/RunWorld.cs
+    - src/godot-game/core/RunWorldGeometry.cs
+    - src/godot-game/game/content/pack-index.json
+    - src/godot-game/game/foundation/FoundationActorArt.cs
+    - src/godot-game/game/foundation/FoundationActorNode.cs
+    - src/godot-game/game/foundation/FoundationAppearance.cs
+    - src/godot-game/game/foundation/FoundationAppearanceAssets.cs
+    - src/godot-game/game/foundation/FoundationAutomation.cs
+    - src/godot-game/game/foundation/FoundationCoordinator.Admission.cs
+    - src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs
+    - src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs
+    - src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs
+    - src/godot-game/game/foundation/FoundationCoordinator.cs
+    - src/godot-game/game/foundation/FoundationDiagnostics.cs
+    - src/godot-game/game/foundation/FoundationDrawObserver.cs
+    - src/godot-game/game/foundation/FoundationEnvelope.cs
+    - src/godot-game/game/foundation/FoundationEquipmentProjection.cs
+    - src/godot-game/game/foundation/FoundationHud.Live.cs
+    - src/godot-game/game/foundation/FoundationHud.cs
+    - src/godot-game/game/foundation/FoundationHudState.cs
+    - src/godot-game/game/foundation/FoundationInput.cs
+    - src/godot-game/game/foundation/FoundationInventoryArt.cs
+    - src/godot-game/game/foundation/FoundationInventoryGrid.cs
+    - src/godot-game/game/foundation/FoundationInventoryInteraction.cs
+    - src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs
+    - src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs
+    - src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs
+    - src/godot-game/game/foundation/FoundationInventoryWorkspace.cs
+    - src/godot-game/game/foundation/FoundationMenu.cs
+    - src/godot-game/game/foundation/FoundationPeerBinding.cs
+    - src/godot-game/game/foundation/FoundationProtocol.cs
+    - src/godot-game/game/foundation/FoundationRoot.cs
+    - src/godot-game/game/foundation/FoundationRunFrame.cs
+    - src/godot-game/game/foundation/FoundationRunReadback.cs
+    - src/godot-game/game/foundation/FoundationRunView.cs
+    - src/godot-game/game/foundation/FoundationSpectator.cs
+    - src/godot-game/game/foundation/FoundationSpectatorPanel.cs
+    - src/godot-game/game/foundation/FoundationView.cs
+    - src/godot-game/game/foundation/FoundationViewInbox.cs
+    - src/godot-game/game/foundation/FoundationWorldInput.cs
+    - src/godot-game/game/inspection/CharacterPreview.cs
+    - src/godot-game/game/inspection/CorpsePreview.cs
+    - src/godot-game/tests/scenarios/phase06-headless.cjs
+    - src/godot-game/tests/scenarios/phase06-inspection.cjs
+    - src/godot-game/tests/scenarios/phase06-lan.cjs
+    - src/godot-game/tests/scenarios/phase06-packaged.cjs
+    - src/godot-game/tests/scenarios/phase06-rendered.cjs
+    - src/godot-game/tests/scenarios/phase06-solo.cjs
+    - src/godot-game/tests/verification/BuildFixture.cs
+    - src/godot-game/tests/verification/ContentNativePermissionTests.cs
+    - src/godot-game/tests/verification/EngineAccessPolicy.cs
+    - src/godot-game/tests/verification/FoundationHarnessConnection.cs
+    - src/godot-game/tests/verification/FoundationLanAuthorityTests.cs
+    - src/godot-game/tests/verification/FoundationLanInputTests.cs
+    - src/godot-game/tests/verification/FoundationLanLifecycleTests.cs
+    - src/godot-game/tests/verification/FoundationLanOrderingTests.cs
+    - src/godot-game/tests/verification/FoundationLanPermissionTests.cs
+    - src/godot-game/tests/verification/FoundationLanProtocolTests.cs
+    - src/godot-game/tests/verification/FoundationLinkedSources.cs
+    - src/godot-game/tests/verification/FoundationServiceSubstitutionProof.cs
+    - src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj
+    - src/godot-game/tests/verification/Phase06AccessTests.cs
+    - src/godot-game/tests/verification/Phase06AppearanceTests.cs
+    - src/godot-game/tests/verification/Phase06BowTests.cs
+    - src/godot-game/tests/verification/Phase06DeathTests.cs
+    - src/godot-game/tests/verification/Phase06ExternalInteractionTests.cs
+    - src/godot-game/tests/verification/Phase06FixtureTests.cs
+    - src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs
+    - src/godot-game/tests/verification/Phase06InventoryTests.cs
+    - src/godot-game/tests/verification/Phase06LoadTests.cs
+    - src/godot-game/tests/verification/Phase06MeleeTests.cs
+    - src/godot-game/tests/verification/Phase06MovementTests.cs
+    - src/godot-game/tests/verification/Phase06NestingTests.cs
+    - src/godot-game/tests/verification/Phase06PopulationTests.cs
+    - src/godot-game/tests/verification/Phase06PublicationTests.cs
+    - src/godot-game/tests/verification/Phase06RecoveryTests.cs
+    - src/godot-game/tests/verification/Phase06SnapshotTests.cs
+    - src/godot-game/tests/verification/Phase06StashTests.cs
+    - src/godot-game/tests/verification/Phase06SuccessionTests.cs
+    - src/godot-game/tests/verification/Phase06UiStateTests.cs
+    - src/godot-game/tests/verification/Phase06WorldTests.cs
+    - src/godot-game/tools/asset-pipeline/content.cjs
+    - src/godot-game/tools/asset-pipeline/export.cjs
+    - src/godot-game/tools/asset-pipeline/scenarios.cjs
+    - src/godot-game/tools/game-tests/basic.cjs
+    - src/godot-game/tools/game-tests/catalog.cjs
+    - src/godot-game/tools/game-tests/catalog.json
+    - src/godot-game/tools/game-tests/catalog.test.cjs
+    - src/godot-game/tools/game-tests/headless.cjs
+    - src/godot-game/tools/lan-checks/network.cjs
+    - src/godot-game/tools/lan-checks/rendered.cjs
+    - src/godot-game/tools/lan-checks/windows-input.ps1
+  findings:
+    critical: 0
+    warning: 0
+    info: 0
+    total: 0
+    necessity: 0
+  status: clean
+---
+
+# Phase 06 Code Review
+
+Latest review: see [Orchestrator acceptance (2026-11-28)](#orchestrator-acceptance-2026-11-28) at the end of this file. Its status is `clean`: the orchestrator accepted the open RR repair review findings RR-06 to RR-08 (all P3) as non-blocking for the focused attempt Run 2a. They, and two older known failures, are deferred to the next repair round before the 06-15 final run. The underlying review is [RR repair review (2026-11-28)](#rr-repair-review-2026-11-28).
+
+**Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
+
+**Target revision** `b9aaa2b951e6f5dc128a17c7d58e0d17ffe10cb6` (`origin/dev`)
+
+**Depth** Deep
+
+**Status** Clean independent source review. The phase still requires rendered evidence.
+
+## Final disposition
+
+The independent reviewer cleared every original blocker and warning on the final source revision. The review covers the cumulative Phase 6 changes against `origin/dev`, with the original 121-file review inventory retained above and subsequent repair revisions listed below.
+
+| Reviewed source | Result |
+| --- | --- |
+| `d051155` | Seven blockers and four warnings in the initial whole-phase review. |
+| `176e1298` | The first repair kept post-impact recovery ahead of early hits and could hide every nearby target in a sufficiently crowded run. |
+| `8c948bb` | Impact chronology and nearby target paging fixed. Oversized loose loot and stash-effect messages could still revoke valid recipient views. Open bag capacity needed explicit handling. |
+| `5b41a04` | Bounded loose-item pages, exact stash changed-cell encoding, maximum-size escaped target IDs and explicit window capacity verified. An off-page authorized bag window still closed. |
+| `8d0cc81` | A selected bag and its descendants survived page navigation and closed on real transfer. A later review reproduced a gap on an unrelated multipart inventory refresh and a focus change to the wrong bag. |
+| `f642777` | Clean game code. The host retains the previous coherent view when its new capture confirms the same recipient scope. A changed token, container, target, ground placement or control epoch revokes the affected view. A delayed revoked part cannot reopen it. The workspace restores focus to the exact control path. |
+| `17fb851` | Clean. The saved LAN scenario waits for the first equipment-window response and confirms paging preserves the exact owned rows and revision. This source change is confined to the scenario driver. |
+
+The original public view, movement predicate, saved cues, native appearance selection, combat range, bow release, camera evidence, exact package crops and nearby outline findings remain closed. The inventory refresh and focus repair changed six files. The reviewer checked the host/guest publication boundary, the exact focus path and the focused native and wire receipts. The staged RED receipts reproduced both final findings. The staged GREEN `ffdd9c6d-48c4-4c59-873d-4c131f0b53b3` passed 204 pure tests and the native host-plus-three-guest case. The earlier clean asset replay `1dc1a810-ed21-4906-af64-6c8166508e73` passed all four repaired rows on `8d0cc81`, including all 180 source obligations across 19 native cohorts. Rendered outcomes belong to the phase evidence.
+
+## Original review record
+
+The original observations below refer to `d05115541a751c574b1dde3b70bc42a8a5a347fe`. Their closed dispositions are recorded above.
+
+## Summary
+
+The review compared the complete changed source and verification scope against the target revision and traced the boundaries between run authority, inventory and transport, native input and appearance, snapshots, and the verification drivers. The normal start kit, production transactions, scoped fixture, and local Windows package have supporting source or no-window evidence. The public LAN feed, passive nearby discovery, snapshot action continuity, projectile timing and test selection have concrete defects. A required rendered movement case also contains an impossible predicate.
+
+## Narrative Findings (AI reviewer)
+
+### Critical Issues
+
+#### CR-01 — Oversized public state freezes guest world updates
+
+**Severity** BLOCKER · P1
+
+**File** `src/godot-game/game/foundation/FoundationCoordinator.cs:390-402`
+
+A valid public world that exceeds the application byte budget is sent as a roster-only state. The public projection includes all current actors, corpses, loot anchors and arrows (`core/RunProjections.cs:48-74`). Explicit drops allocate a pile at each distinct ground position and nonempty piles remain indefinitely (`core/RunDeathAndLoot.cs:46-49,66-80,121-137`). Neither the projection nor pile lifetime limits the accumulated public state to one frame. The available starting quantities can be split and dropped into separate piles. Larger configurations accepted by the same authority make the boundary easier to reach.
+
+The guest accepts the new roster revision, sets its world to null and skips the public control observation (`FoundationCoordinator.GuestPublication.cs:85-93`). Existing appearance keeps the last frame and stops following committed world changes (`FoundationAppearance.cs:43-59`). A fresh peer has no authored world projection, while an existing peer can see old positions, corpses, arrow sprites and equipment indefinitely. Successor presentation requires the current survivor's public pose. Reliable private status and scope revocation can still arrive, so those paths cannot supply the missing world state. The 06-09 summary records the fallback. AC-25, AC-28 and AC-33 still require a live guest world.
+
+**Fix** Transmit byte-bounded public parts or another complete bounded world representation and install the world and matching roster coherently. Preserve the last complete public state while a newer publication is incomplete, and fence control changes independently from oversized world data. Exercise actual encoded guest state with a legal public world over the frame cap and prove both current world convergence and private isolation.
+
+#### CR-02 — Guest nearby inventories remain stale after crossing range
+
+**Severity** BLOCKER · P1
+
+**File** `src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs:427-444`
+
+The host includes the `own` view only when the control epoch, selected target token or inventory identity changes, or a correction forces a refresh. The fence has no nearby-set input (`core/FoundationSession.cs:80-89`), and Nearby and Availability appear only in the own header (`core/RunProjections.cs:303-325`). After a fresh guest walks into an unselected stash, NPC or loot target's range, ordinary movement leaves all three values unchanged. The periodic status publications contain no new selection list. The production selector consumes only the cached own header and refuses to select a target absent from it (`FoundationInventoryWorkspace.External.cs:62-105`). A legal interaction can stay unavailable until an unrelated inventory action refreshes the projection. The commit path still validates range, so a stale list does not grant remote inventory mutation.
+
+**Fix** Publish scoped nearby metadata when authoritative reachability changes, including the empty-to-nonempty and nonempty-to-empty transitions without a selection. Keep unrelated private rows independently fenced. Add a guest scenario that approaches and leaves a target before selecting anything, observing both the visible list and the permission result. AC-01, AC-15, AC-33.
+
+#### CR-03 — A successful sprint always times out the required rendered case
+
+**Severity** BLOCKER · P1
+
+**File** `src/godot-game/tests/scenarios/phase06-solo.cjs:49-53`
+
+The movement driver waits for `Movement === 'sprint'`. The sprint transition sets `MovementPose = "faster"` (`core/RunLocomotion.cs:93-101`), the public projection sends that pose unchanged (`core/RunProjections.cs:248-249`), and appearance accepts `idle`, `walk`, `faster` and `jump` (`game/foundation/FoundationEquipmentProjection.cs:91`). A healthy production sprint cannot meet the saved predicate, so its screenshot and remaining movement steps cannot pass. AC-05, AC-37.
+
+**Fix** Match the production pose and also assert motion over an elapsed interval and a committed stamina change. Exercise the predicate against real-shaped pre-render state so an invalid pose cannot recur.
+
+#### CR-04 — Run snapshot drops active motion and combat cue state
+
+**Severity** BLOCKER · P2
+
+**File** `src/godot-game/core/RunSnapshotCodec.cs:846-884`
+
+The survivor snapshot captures jump, rest and cooldown timestamps but leaves out `MovementPose`, `MovementAt`, `StrikeAt`, `StrikeAim` and `FlinchAt` from `RunPopulation.Survivor` (lines 176–180). The public view uses those fields directly (`RunProjections.cs:239-254`). Capturing during a walk/sprint, accepted bow or melee action, or live flinch and then restoring to the same authoritative elapsed value changes what the world publishes immediately. The cooldown and arrow can survive while the associated action pose and aim disappear. AC-30 explicitly requires motion/action state continuity.
+
+**Fix** Encode and validate the missing active state or derive equivalent values from complete saved authoritative facts. Compare pre-capture and immediate restored projections and confirm that restoring cues never repeats damage, ammo spending or other accepted actions.
+
+#### CR-05 — Projectile hits change with elapsed-step grouping during jumps
+
+**Severity** BLOCKER · P1
+
+**File** `src/godot-game/core/RunProjectiles.cs:125-138`
+
+The survivor collision code linearly interpolates between the two positions surrounding an entire authority step. Locomotion uses a parabola during jumps and can switch from air motion to ground motion within that same step (`RunLocomotion.cs:48-76`). For a step spanning a full jump, the survivor begins and ends at ground height. A near-ground arrow crossing the survivor at the jump apex can hit that interpolated collider. Dividing the same elapsed interval around the apex produces airborne endpoints and misses. The normal native update passes its elapsed interval directly through the coordinator to `FoundationSession.Step`, which advances the whole population before tracing arrows once (`FoundationSession.cs:250-266`, `game/foundation/FoundationRoot.cs:129-143`). Hit and death results can change with frame timing. AC-05, AC-22, AC-39.
+
+**Fix** Sweep against the authoritative movement trajectory or use a deterministic simulation partition independent of render frames, including jump and landing transitions. Compare hit identity, timestamp, health and spent-arrow outcomes for equivalent whole and partitioned intervals with airborne and landing targets.
+
+#### CR-06 — Phase-end impact selection skips affected native appearance cases
+
+**Severity** BLOCKER · P2
+
+**File** `src/godot-game/tools/game-tests/catalog.cjs:15-25,240-258`
+
+The affected source appearance cases lack input declarations for the Core and Godot code they execute. `animation.bow` uses `bow-work.cjs` and the `animation.cjs` source set and native harness. `appearance.corpses` directly loads and exercises `CorpsePreview` and its character composition. This revision changes `CharacterPresentation.cs`, `CharacterPreview.cs` and `CorpsePreview.cs`. The case rows are active-source and their asset-source/group tags do not match a changed inspection or Core path. Catalog tests cover the 18 relocated rendered cases and distinguish the exact support-stamp edit but never exercise these native source dependencies. The exact branch-versus-target selection omits both cases. The focused runs retained in the 06-10 summary identify an earlier revision. AC-36 and the current local testing policy require affected active rows regardless of ownership or importance.
+
+**Fix** Declare the actual live inputs for the affected native cases and inspect adjacent animation and corpse consumers for the same dependency gap. Prefer exact input edges to broad asset tags. Add a selector regression covering both omissions, keep the original owners, and run the selected checks on the repaired candidate.
+
+#### CR-07 — A valid combat interval can fail production scene presentation
+
+**Severity** BLOCKER · P2
+
+**File** `src/godot-game/core/RunDefinitions.cs:451-456`
+
+The typed combat loader accepts an attack interval up to 600 seconds through `Milliseconds` (lines 253–255). `CharacterPresentation` rejects the same authored attack above 60 seconds (`CharacterPresentation.cs:41-45`). Production uses both consumers on the same `DT-05` bytes (`game/foundation/FoundationAppearanceAssets.cs:49-55`). A present, syntactically valid 61-second interval can enter authority and then fail character construction. This is a disagreement inside Phase 06's authored configuration path.
+
+**Fix** Unify the supported range in the two consumers or make the earlier typed load reject unsupported presentation data with the ordinary startup diagnostic. Test both sides of the shared upper bound through normal scene entry.
+
+### Warnings
+
+#### WR-01 — A fired bow never enters the authored release and recovery presentation
+
+**Severity** WARNING · P2
+
+**File** `src/godot-game/game/foundation/FoundationActorArt.cs:108-135`
+
+Accepted shots have an authoritative strike timestamp and aim. On a fresh shot this consumer resets the visual action, sets the presentation arrow count to zero while the strike aim is present, and advances the track. There is no production call to `CharacterPresentation.TryRelease` or equivalent transition. `BowStage` returns the unloaded aim branch when the bow has no visual arrow and no release flag (`core/CharacterPresentation.cs:525-539`). The projectile still flies and inventory spends the arrow, but loaded-to-fired art switches directly to the same visual state as an empty held aim. The saved combat row checks expenditure and crosshair but would also pass with this missing firing cue.
+
+**Fix** Drive the non-authoritative release/recovery animation from the accepted strike identity once without spending inventory again. Prove the release cue on the first shot and the quiet unchanged unloaded aim on the subsequent empty press.
+
+#### WR-02 — Rendered succession predicates do not prove a camera hold
+
+**Severity** WARNING · P2
+
+**File** `src/godot-game/tests/scenarios/phase06-lan.cjs:114-137`
+
+The saved case requires the death and follow-loss camera holds. The predicates only require a finite camera value and no followed teammate. The follow checks compare the teammate identity with no deliberate movement separating the views. A camera snap at loss, drift after loss, or a followed camera that never moves with its subject can meet those predicates. The pure camera tests check model transitions, which leaves the actual native camera path unproved.
+
+**Fix** Separate camera poses through actual teammate movement and compare the current draw camera before and after death/follow loss over distinct committed draws. Check that the selected teammate subsequently moves the camera. Exercise explicit near-smooth and distant-cut handover observations where required by the approved UI spec.
+
+#### WR-03 — Package gameplay marker does not identify exact loaded artwork
+
+**Severity** WARNING · P2
+
+**File** `src/godot-game/tests/scenarios/phase06-packaged.cjs:46-67,253-257`
+
+The marker checks eight child nodes and three nonempty icon rectangles from one atlas path, plus a crown atlas path. It does not verify any expected body texture or exact icon/crown rectangles. A wrong valid crop in the correct atlas can pass this probe, as can a body node lacking its intended texture. The manifest and PCK byte comparisons establish that the shipped resources are present. They do not establish which exact regions the native consumer selected.
+
+**Fix** Assert each applicable composed node's expected pack identity and atlas rectangle against independently read authored definitions. Add a negative control for a wrong but otherwise valid rectangle or identity. Label the release-versus-companion observations distinctly.
+
+#### WR-04 — Game target selection supplies a marker without the required outline
+
+**Severity** WARNING · P2
+
+**File** `src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs:19-45`
+
+The target update creates and moves the gold `NearbySelection` polygon. The appearance projection has no selected-subject input and the old roster outline is unrelated to nearby selection. This implements the selection marker portion of the UI contract. The steady target-local outline requested by the UI spec at line 124 is absent when the player picks an overlapping NPC, corpse or pile.
+
+**Fix** Project a steady outline onto the same currently permitted subject as the marker, and clear both on deselection, lost access or loss of control. Capture the production selection design on overlapping targets.
+
+## Verification and evidence limits
+
+- Independently ran `node --test --test-isolation=none src/godot-game/tools/game-tests/catalog.test.cjs` with 15 passes and zero failures or skips. The initial default isolation attempt encountered sandbox `spawn EPERM`. The regular exact selector's Git child was likewise denied in this review session. The two concrete missing input edges were verified against the manifest and harness sources, and the orchestrator independently reported those same omissions from the exact selector.
+- `git diff --check origin/dev HEAD` reported eight new blank lines at EOF in the phase documents/scenario drivers. These were outside the actionable findings.
+- Inspected the existing exact-revision Windows shared PR report `537f7c8a-bdc2-4324-bdb8-c75f8d6e1cc6` with four passes, including strict build, repository checks, 191 pure tests with zero failures or skips, and the PR no-window solo smoke. Its successful pure and repository proof does not cover the missing public/nearby scenarios. Inspected the 06-13 edge census and phase summaries as supporting historical evidence. Those summaries do not replace current source review or a newly selected result.
+- Inspected exact-revision package invocation `7b3faf5f-5aca-43d4-9e35-d510a26e91a3` and inner proof `8b0a990d-0f4e-434a-9c42-7a53df42540b`. The clean Windows package case passed. Untouched release PCK `1e3c1868e770ea9e1fc4e0ef1b7dd4f0334ba71f723e88491c80cc79a0571513` booted the Foundation menu in PID 7328. Partner package PID 4900 exercised production Start, movement, starting inventory theme/icons/crown and ordinary Quit. Its differing members were `project.binary`, the UID cache and added probe resources. Managed/runtime members and gameplay content matched the release build. The missing and duplicate-key configuration variants, PIDs 7352 and 38204, produced the `bytes` and `id` diagnostics. This is a headless companion gameplay observation and an unmodified release boot.
+- The source review traced immutable inventory candidates, stable path stamps, access and control checks at commit, recipient-only view publication, combat spending and corpse retention, snapshot validation before replacement, guarded engine integration, debug fixture ownership, and scenario transport and screenshot checks. Positive atomicity and privacy evidence exists for named tested paths. The exact public oversized case, passive nearby change, animated active snapshot restore and nonlinear collision cross-checks are missing.
+- The 18 handoff IDs match the Phase 06 ownership list and have driver recipes. This review did not launch any rendered game or inspection window. Current production visual judgments, actual four-role rendered input and images, all inspection checkpoints, human qualitative review, hosted/platform acceptance and the final complete phase-end result remain open.
+
+_Reviewer: independent GSD code reviewer_
+
+## Gap-repair review (2026-11-26)
+
+**Reviewed revision** `0e8b8596307fe909f2851c3af4dc679409fad4d8` (clean tree)
+
+**Base revision** `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d` (run-1 revision; the workflow diff base `70723ba` differs from it only in `.planning/`)
+
+**Depth** Deep. The reviewer followed the changed C# to its call sites (`FoundationRoot` input and world projection, coordinator receipts, HUD, workspace and draw observer) and the changed tools to the runners and catalogs that load them (`game-tests/suites.cjs`, `scenario-group.cjs`, `gameplay-checks/check.cjs`, `lan-checks/scenarios.cjs`, `lan-checks/network.cjs`, `lan-checks/rendered.cjs`, `verification/check.cjs` caller stages and `ExemptionTests` theory rows).
+
+**Status** Issues found: 0 P0/P1, 2 P2, 7 P3. All findings are open for the orchestrator to route to fixes. Summaries were treated as narration only.
+
+**Reviewer** gsd-code-reviewer, independent of the repair executor.
+
+### Files reviewed (73)
+
+The files are exactly `git diff --name-only a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d..0e8b8596307fe909f2851c3af4dc679409fad4d8`, excluding `.planning/`.
+
+- `docs/code/engine-generated-spans.json`
+- `docs/code/generated-callsite-adaptations.json`
+- `docs/content/fields.md`
+- `src/godot-game/core/CharacterPresentation.cs`
+- `src/godot-game/core/KingdomZombies.Core.csproj`
+- `src/godot-game/game/content/fixtures/crowds.json`
+- `src/godot-game/game/content/pack-index.json`
+- `src/godot-game/game/content/packs/compatibility.json`
+- `src/godot-game/game/content/packs/delivery.json`
+- `src/godot-game/game/content/packs/player-identities.json`
+- `src/godot-game/game/content/packs/text-data.json`
+- `src/godot-game/game/content/packs/ui-camp.json`
+- `src/godot-game/game/content/packs/ui-identity.json`
+- `src/godot-game/game/content/packs/ui-inventory.json`
+- `src/godot-game/game/content/packs/ui-legacy-stash.json`
+- `src/godot-game/game/content/packs/ui-map-warnings.json`
+- `src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs`
+- `src/godot-game/game/foundation/FoundationCoordinator.RunWire.cs`
+- `src/godot-game/game/foundation/FoundationCoordinator.cs`
+- `src/godot-game/game/foundation/FoundationDiagnostics.cs`
+- `src/godot-game/game/foundation/FoundationDrawObserver.cs`
+- `src/godot-game/game/foundation/FoundationHud.Live.cs`
+- `src/godot-game/game/foundation/FoundationInventoryGrid.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.External.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.Layout.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs`
+- `src/godot-game/game/foundation/FoundationRoot.cs`
+- `src/godot-game/tests/scenarios/phase06-drivers.test.cjs`
+- `src/godot-game/tests/scenarios/phase06-headless.cjs`
+- `src/godot-game/tests/scenarios/phase06-inspection.cjs`
+- `src/godot-game/tests/scenarios/phase06-lan.cjs`
+- `src/godot-game/tests/scenarios/phase06-packaged.cjs`
+- `src/godot-game/tests/scenarios/phase06-rendered.cjs`
+- `src/godot-game/tests/scenarios/phase06-solo.cjs`
+- `src/godot-game/tests/verification/CharacterBowTests.cs`
+- `src/godot-game/tests/verification/CharacterPresentationTests.cs`
+- `src/godot-game/tests/verification/ConsumerCompilation.cs`
+- `src/godot-game/tests/verification/CurrentReplayTests.cs`
+- `src/godot-game/tests/verification/EngineAccessPolicy.cs`
+- `src/godot-game/tests/verification/EngineGeneratedTests.cs`
+- `src/godot-game/tests/verification/ExemptionTests.cs`
+- `src/godot-game/tests/verification/ExemptionValidator.cs`
+- `src/godot-game/tests/verification/FoundationLanInputTests.cs`
+- `src/godot-game/tests/verification/FoundationLanLifecycleTests.cs`
+- `src/godot-game/tests/verification/FoundationLanPermissionTests.cs`
+- `src/godot-game/tests/verification/FoundationLinkedSources.cs`
+- `src/godot-game/tests/verification/FoundationPermissionTests.cs`
+- `src/godot-game/tests/verification/Phase06BowTests.cs`
+- `src/godot-game/tests/verification/Phase06ExternalInteractionTests.cs`
+- `src/godot-game/tests/verification/Phase06FixtureTests.cs`
+- `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs`
+- `src/godot-game/tests/verification/Phase06PopulationTests.cs`
+- `src/godot-game/tests/verification/Phase06PublicationTests.cs`
+- `src/godot-game/tests/verification/Phase06SnapshotTests.cs`
+- `src/godot-game/tests/verification/Phase06StashTests.cs`
+- `src/godot-game/tests/verification/Phase06UiStateTests.cs`
+- `src/godot-game/tests/verification/RestoreMutationProof.cs`
+- `src/godot-game/tools/README.md`
+- `src/godot-game/tools/asset-pipeline/cases/census.cjs`
+- `src/godot-game/tools/asset-pipeline/content.cjs`
+- `src/godot-game/tools/asset-pipeline/required-cases.json`
+- `src/godot-game/tools/asset-pipeline/scenarios.cjs`
+- `src/godot-game/tools/game-tests/runner.test.cjs`
+- `src/godot-game/tools/game-tests/scenario-group.cjs`
+- `src/godot-game/tools/game-tests/suites.cjs`
+- `src/godot-game/tools/gameplay-checks/check.cjs`
+- `src/godot-game/tools/gameplay-checks/rendered.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/lan-checks/scenarios.cjs`
+- `src/godot-game/tools/verification/ac08-bindings.cjs`
+- `src/godot-game/tools/verification/bindings.test.cjs`
+- `src/godot-game/tools/verification/current-replay.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Results of the eight required checks
+
+| # | Check | Result |
+| --- | --- | --- |
+| 1 | F1 preparation keeps evidence bound to current source | **Pass, with a stated limit.** `lan-checks/network.cjs:30-48` copies `project.godot`, `assets`, `content`, `foundation`, `inspection`, `proofs` and the built `.godot/mono/temp/bin/Debug` into the run directory. It filters every `.import` file and copies no `.godot/imported` cache, then runs a fresh headless editor import with its own user data and fails on import errors. `gameplay-checks/rendered.cjs` `prepareRenderedProject` requires the copy to be owned by the invocation directory and its two game assemblies to equal the checkout build. `phase06-rendered.cjs` `open` repeats that check for the scenario groups. One copy serves each invocation. In the phase-end path, `game-tests/suites.cjs:224-255` runs `basic.strict-build` first and rebuilds whenever `runtimeBuildIdentity` changes before a tier-2+ group. That binds the copied assemblies to the current source. The copy-versus-checkout comparison on its own proves only the copy step (Question Q5). |
+| 2 | Receipt observation does not change input routing | **Pass.** `FoundationRoot._Input` (`FoundationRoot.cs:75-84`) now increments `_inputEvents` and calls `FoundationDiagnostics.RecordInput` before `_inventory.Input`. `RecordInput` only assigns `_lastInput` (`FoundationDiagnostics.cs:28-31`). No branch of `_Input`, `_Process`, the workspace or world input reads either value. The inventory-first order, the popup, world-key, Escape and menu-activation branches and every `SetInputAsHandled` call are unchanged. The four consumers of the counter (`lan-checks/rendered.cjs` `nativeKey`, `lan-checks/evidence.cjs:148`, `game-tests/headless.cjs:264` and `gameplay-checks/rendered.cjs:285`) compare monotonic increases or the same counter's acknowledgement, so counting workspace-consumed keys keeps them valid. |
+| 3 | F13 receipts matched exactly, without retries | **Pass for the reproduced cause, with P3 gaps.** `RunActionFeedback` now carries the action kind on every producer: host dispatch, guest `action-result`, respawn and the DEBUG fixture path. Diagnostics publish `kind` and `replayed`. `phase06-headless.cjs` `receipt()` reads every retained frame since submission and accepts only the first non-replayed receipt of the submitted kind with a newer sequence. It records other receipts as `interleaved` and never resubmits. The drivers test reproduces the 45 ms `place` Applied receipt followed by workspace Ready. Gaps: the match is not bound to the submitted sequence (GR-04), interleaved receipts leak across cases (GR-05), and the frame reader can drop rows (GR-03). |
+| 4 | ExportDebug does not leak DEBUG into Release | **Pass.** `KingdomZombies.Core.csproj:11-13` appends `DEBUG` only when `'$(Configuration)' == 'ExportDebug'`. `Debug` gets `DEBUG` from the SDK. `Release` and `ExportRelease` do not. The game project removes `FoundationAutomation.cs` and `FoundationNativeRegression.cs` outside Debug and ExportDebug (`game/KingdomZombies.csproj:14-16`). The gameplay (release) export publishes `ExportRelease` (`asset-pipeline/export.cjs:541`). |
+| 5 | Rebound pins derived, not hand-edited | **Pass.** `ac08-bindings.cjs --check` re-derived and matched the ac-08 repository stages, all six callers' hashes, stages and `overallMs`, and the `ExemptionTests` theory rows. `current-replay.cjs --check` re-derived `currentProducerReplay` in `engine-generated-spans.json` exactly. Recomputed SHA-256 values matched every pin in the cascade: `player-identities.json`, `ui-identity.json`, `text-data.json`, `crowds.json`, `fields.md`, the test project and `FoundationRoot.cs` (23601 bytes, `bab43117…5f21`). Their pins appear in `pack-index.json`, `delivery.json`, `compatibility.json`, `crowds.json`, `player-identities.json`, the `ui-*.json` packs, `asset-pipeline/content.cjs`, `generated-callsite-adaptations.json` and `fields.md`. The 34 `moduleSha256` rows in `asset-pipeline/required-cases.json` equal the SHA-256 of `cases/census.cjs`. `asset-bindings.cjs --check` was not run. |
+| 6 | Census count matches the reviewed tuples | **Pass.** `ContentNativePermissionTests.cs` has exactly 252 `[InlineData]` rows above `Check_PresenterNative_RequiresExactGuardedMember`, and the file is unchanged in the range. `census.cjs:747-749` requires 252 tests, 252 distinct uids and 252 distinct testUids. The new `CharacterPreview.DrawComposition(JsonElement,JsonElement,JsonElement,int,JsonElement)` tuple is present (line 857) and matches `CharacterPreview.cs:479`. |
+| 7 | UI fixes against 06-UI-SPEC, D-08/D-14/D-37 and E068/E126/E128 | **Mostly consistent. GR-07 and GR-08 are open.** The equipment columns sit at x 16 and 208 around the 80 px silhouette at x 120, which matches the UI-SPEC 96/80/8 px allocation. With Liberation Sans advance widths at 16 px, only "Torso clothing" (≈100.5 px) exceeds the 88 px label width. The left column then ends at y 448, above the quick slots moved to y 464, and the two-line label (≈41 px) fits its 46 px region. The world help wraps to four lines (≈87 px) in its 91 px interior. D-08: default focus now lands on the headwear slot, whose button has no `Pressed` action. Space therefore no longer activates *Close inventory*, consistent with UI-SPEC line 132 ("Enter and Space activate the focused control"). The headless case asserts every committed frame stays open and grounded for 250 ms. D-14: the driver's Escape order (drag/split, item menu, nearby list, bag window, workspace, menu) matches `FoundationInventoryWorkspace.Escape()` at `Input.cs:423-453`. D-37/E068/E128: panel-first routing is unchanged. E126: empty equipment slots show an explicit *Empty* marker and tooltip, and empty HUD tiles read "{title} / empty". |
+| 8 | New predicates reject unsettled, clipped or single-draw evidence | **Partial. GR-01 and GR-02 are P2, GR-03 is P3.** Every solo picture goes through `shot()` and `settledView`, and the drivers test enforces this. `cameraHold` needs at least two distinct committed draws, a constant camera and a minimum teammate displacement. `respawnGate` checks the exact one-second gate over committed frames. `drag` and `withdraw` frame-separate press, threshold and click. Five LAN picture sites skip `settledView`, and the clipped gate ignores four observed text layers. |
+
+### Findings
+
+#### GR-01 — LAN pictures bypass the settled-view gate
+
+**Severity** WARNING · P2 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-lan.cjs:36-39,123-124,164-167,255-260,267-270`
+
+**Trigger** `allPictures` passes the case condition straight to `run.picture`. The `conflict-original` (each guest's stash plus own inventory), `conflict-revoked`, `conflict-current`, `succession-transfer` and `succession-current` pictures never apply `run.settledView`. Only `population` and five succession pictures use it.
+
+**Consequence** A LAN image can be accepted while carried containers still read "Opening inventory…" or "Opening stash page…", or while HUD or workspace text is clipped. The `conflict-original` pictures show exactly the inventory and stash surfaces where run 1 captured the pending "Opening inventory…" rows (06-RENDERED-EVIDENCE qualitative findings). The 06-24 Task 2 requirement that the drivers reject unsettled evidence is not met for these cases.
+
+**Rule** 06-24-PLAN Task 2 check 8. UI-SPEC lines 57 and 180. `docs/workflow/code-review.md` step 3 (false-positive passes).
+
+**Fix** Apply the settled gate inside `allPictures` and at the two direct `run.picture` calls, for example `(row, draw) => run.settledView(draw) && condition(row, draw, peer)`. Extend the drivers test the way it already asserts solo coverage, so every `run.picture` call in `phase06-lan.cjs` goes through the settled wrapper.
+
+#### GR-02 — The clipped-text gate ignores the world help, roster and spectator layers
+
+**Severity** WARNING · P2 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-rendered.cjs:24,33`. The observer side is `src/godot-game/game/foundation/FoundationDrawObserver.cs:60-64,183-200`.
+
+**Trigger** `textLayers = /^(?:RunHud|InventoryWorkspace)\//`. The observer also reports `clipped` for `Hint`, `Roster/Header`, `Roster/Player1-4`, `Roster/Waiting` and every Label or Button under `SpectatorCard` and `ControlTransferred`. These are visible in the solo world and life pictures and the LAN population and succession pictures. `settledView` never examines them.
+
+**Consequence** A picture with cut-off world help still counts as settled. Run 1 recorded exactly that defect: help text cut off at "Rest is unsafe with an enemy nearby". The same applies to a clipped roster row or a truncated "Control transferred · {id}" notice. The repair moved and restyled the help (`FoundationHud.Live.cs:128-136`), but no objective predicate guards it.
+
+**Rule** 06-24-PLAN Task 2 check 8. UI-SPEC line 57 ("Wrap help, errors and item details on a stable backplate").
+
+**Fix** Gate every visible observed text control, or at least extend the pattern to `^(?:RunHud|InventoryWorkspace|SpectatorCard|ControlTransferred)\/|^(?:Hint|Roster\/[^/]+)$`. Add drivers-test rows for a clipped `Hint` and a clipped `SpectatorCard` label.
+
+#### GR-03 — Frame and draw spans can silently skip rows
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-headless.cjs:178-214,327-342`, `src/godot-game/tests/scenarios/phase06-lan.cjs:111-114,278-285,304-311`. The shared input is `src/godot-game/tools/lan-checks/rendered.cjs:22`, which is unchanged in the range.
+
+**Trigger** `lines()` keeps only the latest 256 rows per stream and splices older rows on each read. `receipt()`/`receiptsAfter()`, `jumpWhileBrowsing()`, `recorder()` (death, transfer and loss spans) and `quick()` read whatever rows are retained. Their comments claim "every frame written since submission" and "every row seen". Headless peers are not frame-capped (`project.godot` sets no `max_fps`), and lan-privacy rows exceed 32 KB. More than 256 rows can therefore pass between two reads, for example during an `inject` acknowledgement or a guest-side wait.
+
+**Consequence** A dropped receipt row turns into a 15 s timeout, which is the F13 symptom shape. A dropped span can let `jumpWhileBrowsing`, `cameraHold` or the `laterReceipts` denial check judge an incomplete interval and pass.
+
+**Rule** 06-24-PLAN Task 2 checks 3 and 8.
+
+**Fix** Fail closed on gaps. Diagnostics write `frame = ++_frame` and the observer writes `drawFrame = ++_frame`, so require consecutive values from the reference row through the last judged row and throw `FRAME_SPAN_GAP` otherwise. Alternatively, read from a recorded byte offset rather than the shared rolling buffer.
+
+#### GR-04 — The receipt match is not bound to the submitted request's sequence
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-headless.cjs:178-199`, as used by `action()`, the inventory and combat receipts and `phase06-lan.cjs:136,147`
+
+**Trigger** A receipt is accepted when `kind` matches, `replayed === false` and its sequence exceeds the last *received* receipt in `before`. It is not compared with the sequence of the request the driver submitted. A same-kind request still in flight from earlier in the case would satisfy the wait.
+
+**Consequence** Today's cases submit distinct kinds or wait for each receipt before the next submission, so this is latent. The check is still weaker than the "exact receipt of each submitted request" the F13 repair claims.
+
+**Rule** 06-24-PLAN Task 2 check 3.
+
+**Fix** Have the DEBUG `phase06-action` handler write the sequence it allocated (`FoundationCoordinator.cs:249` or the guest `SubmitRunAction` result) into `input.ack`, and match `entry.sequence === submitted`.
+
+#### GR-05 — Interleaved receipts from a failed case are attributed to the next case
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-headless.cjs:155-157,165-171,180`
+
+**Trigger** `receipt()` appends to `state.interleaved`, and only `evidence()` drains it. A case that fails before writing its evidence leaves its entries in place. Neither the headless `reset` nor `run.reset` clears them, and the entries carry no case id.
+
+**Consequence** The next passing case's evidence file lists receipts that belong to a different case. That misattributes the evidence the F13 repair added for diagnosis.
+
+**Rule** `docs/workflow/code-review.md` step 5 (accurate evidence). 06-24-PLAN check 3.
+
+**Fix** Clear `state.interleaved` at the start of each case or in both resets, and record the case id with each entry.
+
+#### GR-06 — The contested withdrawal decides "stale" from a draw sampled before the pointer moves
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-lan.cjs:142-151,99-108`
+
+**Trigger** `staleCell` is computed from `before = run.last(second)` before `withdraw()` moves the pointer. If the host's correction reaches guest 2 between that draw and the click, the click lands on an empty cell. No quick request is sent, but `native.receipt(... 'quick' ...)` still waits and fails with `SUBJECT_TIMEOUT contested withdrawal denial`.
+
+**Consequence** The rendered conflicts case can fail with a deadline, which was its run-1 failure shape (F12), even though the game behaved correctly.
+
+**Rule** `docs/workflow/local-testing.md` (no flaky saved scenarios). 06-24-PLAN check 8.
+
+**Fix** Return the `resting` draw from `withdraw()` and decide `staleCell` from it. Alternatively, wait for either a quick receipt newer than `before` or a corrected view with no quick receipt, then branch on which one occurred.
+
+#### GR-07 — World-help visibility has two writers through a re-entrant signal
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/game/foundation/FoundationHud.Live.cs:128-136,255-277`, `src/godot-game/game/foundation/FoundationRoot.cs:415-418`
+
+**Trigger** On every frame `ShowWorld` sets `hint.Visible = CanDrive`. While browsing, the HUD's `VisibilityChanged` handler immediately sets it back to false from inside the engine's visibility notification. `_browsing` is refreshed only in `UpdateActions`, which is skipped when the status view is momentarily absent and `Current` is unchanged (`Live.cs:44-53`).
+
+**Consequence** Two components own one property. The help toggles visible and hidden twice per browsing frame through nested notifications, and a stale `_browsing` can hide the help after the workspace closes. The D-08 intent ("hide help while any inventory surface captures the world") belongs to the single writer.
+
+**Rule** `docs/code/review-checklist.md` (cohesion and ownership). UI-SPEC line 114.
+
+**Fix** Compute the value once in the root: `hint.Visible = _spectator.State.CanDrive && !_inventory.CapturesWorld;`. Then remove `KeepHintClosed`, its subscription and unsubscription, `_browsing`, and its `EngineAccessPolicy` row.
+
+#### GR-08 — Equipment slot buttons lost their text name
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs:312-330`
+
+**Trigger** The slot label moved from `Button.Text` into a mouse-ignored child `Label`. The button now has no text, and an occupied slot's tooltip carries only item details, not the slot name. The project sets no `AccessibilityName` anywhere.
+
+**Consequence** Focus traversal and assistive technology now meet an unnamed button for each of the eleven own slots and the nearby/corpse slots. UI-SPEC line 132 requires accessible names for icon-only controls.
+
+**Rule** UI-SPEC lines 118 and 132.
+
+**Fix** Give each slot button an explicit name, for example `AccessibilityName = label + (item is null ? " empty" : " · " + itemName)`, or keep the label in `TooltipText` with the item details.
+
+#### GR-09 — New blank line at end of file
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-drivers.test.cjs:715`
+
+**Trigger and consequence** `git diff --check` reports a new blank line at EOF.
+
+**Fix** Remove the trailing blank line.
+
+### Questions (not defect findings)
+
+- **Q1** `FoundationDrawObserver` flags a Button whose full text exceeds its room as clipped, including deliberate `TrimEllipsis` rows such as `NearbyChoice_*`. UI-SPEC line 57 permits ellipsis in compact rows. Conversely, an autowrapping Label that grows past its allotted rect through its minimum size is never flagged, so overlap with neighbouring controls goes undetected. Is that the intended clip semantics?
+- **Q2** In `asset-pipeline/scenarios.cjs:996-1001,1018-1025`, if the native side never answers an abandoned request, each later response of the same type is consumed by the older abandoned entry and discarded. Every following request of that type then times out until `RENDERED_NATIVE_BACKLOG`. Can the inspection handler drop a reply? If so, correlate responses with a request id.
+- **Q3** The population targets are 1500 subunits apart, but `spread` requires 1000 subunits (16 px). A relative key-release overshoot above 500 subunits, about 167 ms at 3 u/s, would fail the picture. Is that margin enough for guest round trips?
+- **Q4** The solo `stash-withdrawal` picture (`phase06-solo.cjs:182`) still matches `runAction.status === 'Applied'` without `kind === 'quick'`. Its state predicates guard it, but the kind is now available.
+- **Q5** `prepareRenderedProject` compares the copied assemblies with the checkout build, not with a build of the current source. Direct standalone invocations of `gameplay-checks/check.cjs` or `lan-checks` therefore rely on whatever the checkout last built. The phase-end path through `game-tests` is bound by its strict build.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 60 pass, 0 fail, 0 skip |
+| `node --test --test-isolation=none src/godot-game/tools/verification/bindings.test.cjs` | 21 pass, 0 fail |
+| `node --test --test-isolation=none src/godot-game/tools/game-tests/runner.test.cjs` | 9 pass, 0 fail |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings 0e8b8596307f rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=ee8b61987aae5b0277f9049b507dc10dd9524a1f755aa78b500e886a8d74230a` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` (read-only, beyond the listed checks) | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 482fcebf635c8103c0582dcd79b33cfb8f095f61f172b475ea98ee2d53f6f8e8` |
+| `git diff --check a9ac95f..HEAD -- . ':!.planning'` | One new blank line at EOF (GR-09) |
+| `sha256sum` and `wc -c` over the clean tree | Every pin listed in check 5 matches |
+| Manual count of `[InlineData]` rows above `Check_PresenterNative_RequiresExactGuardedMember` | 252 |
+
+### Evidence limits
+
+- No Godot process, build, xUnit run, rendered, LAN, inspection or packaged run was launched. C# behavior was judged from source and its callers. The new and renamed xUnit tests were read but not executed.
+- `asset-bindings.cjs --check` was not run. The asset cascade was checked by recomputing the individual hashes.
+- The text-fit numbers in check 7 are estimates from Liberation Sans advance widths and the theme's line spacing, not rendered measurements. Final layout, overlap and readability judgments belong to the rendered run and the P1–P4 human review.
+- The Task 1 no-window results were not re-run here. This review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (independent; spawned fresh by the /gsd-code-review workflow; did not author the repairs)_
+
+## Gap-repair re-review (2026-11-27)
+
+**Reviewed revision** `860bb9348054077ac7a647cfb5661ed71046dbbf` (clean tree)
+
+**Fix-delta range** `25470d0..860bb93`. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `25470d0` differs from the earlier reviewed source `0e8b859` only in `.planning/`.
+
+**Depth** Deep. The reviewer followed every changed symbol to its callers and consumers, including some outside the 28 files:
+
+- the `input.ack` writer and its only reader (`lan-checks/network.cjs`), and every driver that goes through it (`game-tests/headless.cjs`, `phase06-headless/-lan/-packaged`, `lan-checks/scenarios.cjs`)
+- the coordinator's host and guest sequence allocation and receipt echo (`FoundationCoordinator.RunWire.cs`, `.GuestPublication.cs`, `.cs`)
+- the diagnostics and draw-observer frame counters and the shared 256-row reader (`lan-checks/rendered.cjs` `lines()`)
+- the observer's control paths and clip rule, and every `settledView` and `run.picture` caller (solo and LAN)
+- the `EngineAccessPolicy` `_presenters` set against `ContentNativePermissionTests` and `asset-pipeline/evidence.cjs`
+- the `FoundationLanPermissionTests` native tuple list
+- the scenario-group case invocation and the `catalog.test.cjs` key checks
+- the GodotSharp 4.7.2 API docs and the banned-symbol lists
+
+**Status** Issues found: 0 P0/P1/P2 and 2 new P3 findings, both open. All nine GR findings are resolved. Deviations D1–D4 are acceptable. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform the review of `0e8b859`.
+
+### Files reviewed (28)
+
+These are exactly the files from `git diff --name-only 25470d0..860bb93`, excluding `.planning/`:
+
+- `docs/code/engine-generated-spans.json`
+- `docs/content/fields.md`
+- `src/godot-game/game/content/fixtures/crowds.json`
+- `src/godot-game/game/content/pack-index.json`
+- `src/godot-game/game/content/packs/compatibility.json`
+- `src/godot-game/game/content/packs/delivery.json`
+- `src/godot-game/game/content/packs/player-identities.json`
+- `src/godot-game/game/content/packs/text-data.json`
+- `src/godot-game/game/content/packs/ui-camp.json`
+- `src/godot-game/game/content/packs/ui-identity.json`
+- `src/godot-game/game/content/packs/ui-inventory.json`
+- `src/godot-game/game/content/packs/ui-legacy-stash.json`
+- `src/godot-game/game/content/packs/ui-map-warnings.json`
+- `src/godot-game/game/foundation/FoundationAutomation.cs`
+- `src/godot-game/game/foundation/FoundationHud.Live.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs`
+- `src/godot-game/game/foundation/FoundationRoot.cs`
+- `src/godot-game/tests/scenarios/phase06-drivers.test.cjs`
+- `src/godot-game/tests/scenarios/phase06-headless.cjs`
+- `src/godot-game/tests/scenarios/phase06-lan.cjs`
+- `src/godot-game/tests/scenarios/phase06-rendered.cjs`
+- `src/godot-game/tests/verification/EngineAccessPolicy.cs`
+- `src/godot-game/tests/verification/FoundationLanPermissionTests.cs`
+- `src/godot-game/tools/asset-pipeline/content.cjs`
+- `src/godot-game/tools/asset-pipeline/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/lan-checks/network.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Dispositions of GR-01..GR-09
+
+| ID | Disposition | Fix commit(s) | Evidence at `860bb93` |
+| --- | --- | --- | --- |
+| GR-01 | **Resolved** | 760e71f | `phase06-lan.cjs:37-43` adds the `shot` wrapper, which calls `run.settledView(draw)` before the case predicate. `allPictures` maps every peer through `shot`. `run.picture(` now appears once, inside the wrapper. `conflict-original` (:131), `conflict-revoked` (:177), `conflict-current` (:179), `succession-transfer` (:267) and `succession-current` (:279) now pass through the gate, along with the five succession pictures that already used it. `phase06-drivers.test.cjs:276-285` pins the single `run.picture` call, the wrapper shape, `allPictures` and the seven direct labels. |
+| GR-02 | **Resolved** | f9e61fd | `phase06-rendered.cjs:26` changes `textLayers` to `^(?:(?:RunHud\|InventoryWorkspace\|SpectatorCard\|ControlTransferred)(?:\/\|$)\|Hint$\|Roster\/[^/]+$)`. That pattern covers every run text path the observer emits: the fixed paths `Hint` and `Roster/*` (`FoundationDrawObserver.cs:60-64`) and every Label, Button or LineEdit under the `SpectatorCard` and `ControlTransferred` layers (:183-200). `DamageTint` carries no text. `phase06-drivers.test.cjs:254-268` rejects a clipped `Hint`, `Roster/Header`, `Roster/Player1`, `SpectatorCard/FollowStatus`, `SpectatorCard/Respawn` and `ControlTransferred`, and it accepts the unclipped set. |
+| GR-03 | **Resolved** (listed sites). One site of the same class remained outside the reviewed range (NR-01). | 1ed3aa5, af69841 | `phase06-headless.cjs:189-204` adds `contiguous()` and `framesAfter()`, which collect rows across reads and throw `FRAME_SPAN_GAP` on any missing number, including a missing first row. `receipt()` reads through it (:214-218). The food receipt (:349-353) and the empty-ammo receipt (:394-397) are collected from their reference frames, and so is `jumpWhileBrowsing` (:368-376). In LAN, `withdraw` polls the reader at every drawn step (:105-114). The winner and loser receipts and `quick()` use gap-free readers (:143-146, :154-170). The death, loss and transfer spans use `native.contiguous` (:192-196, :205, :263). The counters are per process and consecutive: `frame = ++_frame` (`FoundationDiagnostics.cs:73`) and `_frame++` with an unconditional `Write` (`FoundationDrawObserver.cs:71,259`). They never reset in a scenario. The root scene is never reloaded. `ReturnToMenu`, rejoin and reset keep the process. `network.launch` creates the role directory without `recursive` (`network.cjs:50`), so a restarted process cannot append to an old stream. A gap check therefore cannot fire on a legitimate counter reset. |
+| GR-04 | **Resolved**. The physical-input residual is accepted as D1. | 1ed3aa5, bc1fce6, ec42745 | `FoundationAutomation.cs:91-97` writes `"<request>[ <allocated>]\n"`. `Deliver` returns the sequence that `SubmitPhase06` allocated (:162-167, :178-192). The host allocates the sequence and stores the same number in `RunActionFeedback` (`FoundationCoordinator.RunWire.cs:32,52`). The guest echoes the host's `action-result` under the guest's own envelope sequence (`FoundationCoordinator.GuestPublication.cs:146-149`). `network.cjs:83-85` returns that number. `action()` requires a safe integer above the baseline and passes it as `submitted` (`phase06-headless.cjs:252-260`). `matches()` then accepts only `entry.sequence === submitted` (:235-236). `phase06-drivers.test.cjs:406-416` shows that the earlier same-kind receipt is rejected and that an unmatched sequence times out. `FoundationLanPermissionTests.cs:141-147` stubs `long` with `return 0;`. |
+| GR-05 | **Resolved** | 1ed3aa5 | `begin()` resets `state.interleaved` and sets `state.case` (`phase06-headless.cjs:167-174`). Every headless and LAN case runs through `tracked()`, at :637 and `phase06-lan.cjs:342`. Both resets clear the list (`phase06-headless.cjs:177`, `phase06-rendered.cjs:219`). Each entry carries `case` (:223), and `evidence()` writes only entries whose `case` equals its id (:156). Every headless and LAN `evidence`/`run.finish` id equals its case key. `catalog.test.cjs:41` still sees the same ordered keys. Solo cases are not wrapped and call no `receipt()`, so they record nothing. `phase06-drivers.test.cjs:447-471` proves the isolation. |
+| GR-06 | **Resolved**. A residual of about one frame is accepted as D2. | 1ed3aa5 | `withdraw` returns the `resting` draw, the one drawn with the pointer on the cell (`phase06-lan.cjs:105-115`). `staleCell` is decided from that draw (:158), after the pointer moves, not from `before`. `phase06-drivers.test.cjs:425-430` pins this. |
+| GR-07 | **Resolved** | 798ee3e | `FoundationRoot.cs:417` is now the only per-frame writer: `hint.Visible = _spectator.State.CanDrive && !_inventory.CapturesWorld`. `FoundationHud.Live.cs` no longer has `_hint`, `_browsing`, `KeepHintClosed` or any `VisibilityChanged` subscription; `Build` only styles and places the label (:120-127). The other remaining writer is the menu teardown at `FoundationRoot.cs:473`, which hides the hint. The `KeepHintClosed()` row left `EngineAccessPolicy._presenters` (373 → 372 rows). That row was never one of the 252 `ContentNativePermissionTests` `[InlineData]` tuples, so the census and its subset relation still hold. |
+| GR-08 | **Resolved** | 27cc231 | `FoundationInventoryWorkspace.cs:316-322` gives every slot button an `AccessibilityName`: "{slot} empty", or "{slot} · {item name}". Occupied slots also put the slot name ahead of the item details in the tooltip (:357). `DrawSlot` serves own, nearby and corpse slots. |
+| GR-09 | **Resolved** | cab791f | `phase06-drivers.test.cjs` ends with a single `});\n` (810 lines). `git diff --check 25470d0..HEAD -- . ':!.planning'` prints nothing. |
+
+### Verdicts on fixer deviations
+
+| ID | Verdict | Reason |
+| --- | --- | --- |
+| D1: exact binding only for injected `phase06-action` | **Acceptable** | A physical Ctrl+click, food key or attack click allocates its sequence inside the game, and no observation exposes that number, so the driver cannot bind it exactly. The remaining match is still strict. `receiptsAfter` needs a frame and a sequence after the baseline (`phase06-headless.cjs:240-249`) and excludes replays. The span is gap-free. Each physical wait follows exactly one request of its kind: one food tap per wait (:352-356), one second shot (:396-397) and one Ctrl+click per peer (`phase06-lan.cjs:144-146,155-160`). A stray same-kind receipt fails the status assertion that follows (`Consumed`, `EmptyAmmo`, `Applied`, or `AccessLost`/`StaleItem`). It cannot produce a false pass. Q1 describes how to close this gap. |
+| D2: GR-06 race window of about one frame | **Acceptable residual** | The window now lies between the resting draw and the game's handling of the click. Before the fix it ran from a draw sampled before the focus switch and the pointer move. Guest 2's correction comes from the host publication that the winner has already shown (`phase06-lan.cjs:149-150`), so it normally lands before guest 2 is even focused. If the race does occur, the case fails loudly with `SUBJECT_TIMEOUT contested withdrawal denial`. It does not pass falsely: `laterReceipts` still rejects any `Applied`, and `observedStale \|\| !staleCell` still holds. Q1 names a deterministic alternative. |
+| D3: the project's first `AccessibilityName` | **Acceptable** | The project pins `Godot.NET.Sdk/4.7.2` (`game/KingdomZombies.csproj:1`, `project.godot` features `4.7`). GodotSharp 4.7.2 documents `P:Godot.Control.AccessibilityName` as "The human-readable node name that is reported to assistive apps" (`GodotSharp.xml:84165`). `docs/workflow/engine-defects.md` has no accessibility entry. `build/BannedSymbols*.txt` bans no `Control` or accessibility member. `DrawSlot` is already a guarded presenter row (`EngineAccessPolicy.cs:226`), so the property set adds no new engine-access surface. The `_art?.Name(item) ?? item.Definition` fallback matches existing uses (`FoundationInventoryWorkspace.External.cs:389`, `.Input.cs:255,266`). |
+| D4: `input.ack` = `"<request>[ <allocated>]\n"` | **Acceptable** | A repository-wide search finds one reader: `network.cjs:83-85`. All drivers reach it through `network.input`/`key`/`activate`, including `game-tests/headless.cjs:9,119,139,196`, `phase06-headless.cjs:33` and `lan-checks/scenarios.cjs` through `net`. Callers other than `action()` ignore the new return value. The writer always ends the line with `\n` (`FoundationAutomation.cs:95-97`), and the reader's regular expression `^(\d+)(?: (\d+))?\n$` requires it, so the reader never accepts a partial write. `WriteAllText` truncates and then writes. A stale earlier line cannot match the new request sequence. `stop()` still treats process exit as the acknowledgement (`network.cjs:104-112`). The DEBUG-only writer is not built into Release or ExportRelease. No evidence validator or copied artifact parses `input.ack`. |
+
+### New findings
+
+#### NR-01: The solo handover spans still read the rolling draw buffer
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/tests/scenarios/phase06-solo.cjs:278-282`, used at `:258` (near handover, `travelled`) and `:291-293` (distant handover, `cut`). This code is pre-existing and unchanged in `25470d0..HEAD`, but it belongs to the class of defect the GR-03 repair claims to close.
+
+**Trigger** `handover()` filters the shared 256-row `draws(peer)` buffer once, after the `life-transfer` or `life-distant-cut` picture returns, from `gate.draw.drawFrame` or `dead.draw.drawFrame`. Nothing polls the stream while the Respawn click, the handover and the picture capture run. Rendered draws follow the monitor refresh rate. At 144–240 Hz, that interval plus the capture can exceed 256 draws. The function has no contiguity check.
+
+**Consequence** The earliest transfer draws can be missing without any error. `farHandover` asserts "distant handover cuts on the first committed draw without an intermediate position" through `cut[0]` and `cut.every(...)`. If the first transfer draws, including any smoothed intermediate one, were dropped, the check passes over the remaining tail. That is the false pass GR-03 described, and `travelled` can likewise be judged over a partial span.
+
+**Rule** 06-24-PLAN Task 2 check 8 (predicates must reject incomplete evidence). This is the same rule as GR-03.
+
+**Fix** Before `run.choose(state, peer, named('Respawn'))`, create `const after = native.contiguous(() => draws(peer), 'drawFrame', previous.drawFrame + 1)`, using the `phase06-headless.cjs` helpers. Poll it in the `life-transfer` and `life-distant-cut` `shot` predicates, as LAN `transferring` does (`phase06-lan.cjs:263-267`). Build `handover` from `after().filter(draw => draw.drawFrame <= last.drawFrame)`. Add a drivers-test source assertion like the LAN one.
+
+#### NR-02: `SubmitPhase06` and `Tick` misdescribe the guest workspace acknowledgement
+
+**Severity** INFO · P3 · **Disposition** open
+
+**File** `src/godot-game/game/foundation/FoundationAutomation.cs:178` (also the `Tick` summary at `:58-61`)
+
+**Trigger** The summary says "otherwise the allocated run-action sequence, or 0 for a host workspace". The `Tick` summary says the acknowledgement names "the run-action sequence a DEBUG phase06 action submitted, if any". On a guest, `RequestRunWorkspace` submits a `workspace` run action and allocates a sequence (`FoundationCoordinator.RunWire.cs:138-142`). `SubmitPhase06` turns the bool into `0` (`:183-185`), so the acknowledgement omits a sequence the game did allocate.
+
+**Consequence** The documented contract differs from the actual behavior. A future driver that relies on it to bind a guest workspace receipt would read `null`. It would then either fall back to kind matching or fail its `Number.isSafeInteger` precondition. No current caller is affected, because `phase06-headless.cjs:339,520` ignores the workspace result.
+
+**Rule** `docs/code/review-checklist.md` (comments and contracts describe actual behavior). `docs/workflow/code-review.md` step 5 (accurate evidence).
+
+**Fix** Either reword both summaries ("0 for any workspace request; its window sequence is not reported"), or have `RequestRunWorkspace` return the guest's allocated sequence as `long?` and pass it through.
+
+### Re-confirmed 06-24 Task 2 checks touched by the delta
+
+| # | Check | Result |
+| --- | --- | --- |
+| 3 | F13 receipts matched exactly, without retries | **Pass.** Injected actions bind to the exact allocated sequence. Physical inputs bind to the first non-replayed receipt of their kind after the baseline, read over a gap-free span (D1). `receipt()` never resubmits. Interleaved receipts are recorded per case. |
+| 5 | Rebound pins derived, not hand-edited | **Pass.** `ac08-bindings.cjs --check`, `current-replay.cjs --check` and `asset-bindings.cjs --check` all pass on HEAD. Recomputed SHA-256 values match every pin of the changed files: `FoundationRoot.cs` `5149af83…0193` (23630 bytes, in `pack-index.json`, `ui-identity.json`, `content.cjs:348`, verification `required-cases.json` and `engine-generated-spans.json`), plus `FoundationAutomation.cs`, `FoundationHud.Live.cs`, `FoundationInventoryWorkspace.cs`, `player-identities.json`, `ui-identity.json`, `text-data.json`, `crowds.json`, `fields.md`, `delivery.json` and `compatibility.json`. No previous hash of the four changed game sources remains anywhere under `src/` or `docs/`. The spans registry SHA-256 `21e51b9b…01b1` appears three times in verification `required-cases.json`. The 34 `moduleSha256` rows still equal `cases/census.cjs`. The `content.cjs:348` literal is a checked constant, enforced by `SUPPORT_SOURCE_IDENTITY` and `asset-bindings --check`. |
+| 8 | Predicates reject unsettled, clipped or single-draw evidence | **Pass for the delta, with NR-01 open.** Every solo and LAN picture goes through `settledView`. The clip gate covers every observed run text layer. Headless and LAN spans fail closed on gaps. The solo handover span still reads the rolling buffer (NR-01). |
+
+### Questions (not defect findings)
+
+- **Q1** D1 and D2 could both be closed if diagnostics published the local run-action sequence the game last allocated, per kind, as a read-only observation. A physical Ctrl+click, food key or attack would then bind exactly. The contested withdrawal could also branch on whether guest 2 actually submitted a request instead of inferring it from the resting draw. Is that worth adding?
+- **Q2** The guest installs an `action-result` only when its sequence is at least the current feedback's (`FoundationCoordinator.GuestPublication.cs:146-149`). If the result of a later workspace request arrived before a submitted action's result, the exact receipt would never appear, and the driver would time out rather than mismatch. Does the host guarantee that results arrive in submission order on one connection?
+- **Q3** GR-08 names the equipment slots. Grid item buttons, quick slots and HUD tiles are also icon-only and still have only tooltips. Does UI-SPEC line 132 require an `AccessibilityName` on them too, or does Godot 4.7's tooltip fallback meet it?
+- **Q4** Gap margins: the retained headless streams in `.local/runs/game-tests/069f23d0…` and `045430ad…` show about 115–160 rows/s and no frame gaps. The 256-row buffer therefore holds about 1.6 s headless, or about 1 s at a 240 Hz rendered refresh. The longest unpolled waits in the delta are a few input acknowledgements, so a `FRAME_SPAN_GAP` should not fire spuriously. If one ever does, read from recorded byte offsets instead of enlarging the timeouts.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 70 pass, 0 fail, 0 skip |
+| `node --test --test-isolation=none src/godot-game/tools/verification/bindings.test.cjs` | 21 pass, 0 fail |
+| `node --test --test-isolation=none src/godot-game/tools/game-tests/runner.test.cjs` | 9 pass, 0 fail |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings 860bb9348054 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=88a5db9885effea21a17273beff4b69cec535d06577145c2526ba7d63c5c6c29` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 d58431d3d7716635892c30c54af80000f87cd3cb4d2268f57c249e7672e46eab` |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `git diff --check 25470d0..HEAD -- . ':!.planning'` | No output |
+| SHA-256 and byte counts (Node `crypto`) over the clean tree, plus a pin-location search under `src/` and `docs/` | Every pin listed in check 5 matches. No stale previous hash of the changed game sources remains. |
+| `_presenters` count against `ContentNativePermissionTests` `[InlineData]` (Node parse of base and HEAD) | 373 → 372 presenter rows (only `KeepHintClosed()` removed). 252 inline rows, all still present in the policy set. |
+| Retained headless frame streams (read-only) | About 115–160 rows/s, no frame-number gaps |
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The C# changes were judged from source, their callers and the GodotSharp 4.7.2 XML docs. That the code compiles is inferred from the fixer's game-tests history in the commit messages, which the reviewer did not re-run. The `FoundationLanPermissionTests` switch and the `AccessibilityName` setter were not executed.
+- The frame-rate margins in Q4 come from retained earlier runs on this machine. The rendered refresh rate depends on the display.
+- The D2 likelihood is a judgment from the scenario order, not a measured distribution.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or the review of 0e8b859)_
+
+## Gap-repair re-review 2 (2026-11-27)
+
+**Reviewed revision** `607ce09b6d4350abd64c2d55801e59fdf82d833d` (clean tree)
+
+**Fix-delta range** `f177954..607ce09`. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `f177954` is the commit that recorded the re-review of `860bb93`. The four fixer commits are 24d7de9 (NR-01), d5b2566 (NR-02), 9285731 (current-replay rebind) and 607ce09 (ac-08 rebind).
+
+**Depth** Deep. The reviewer followed every changed symbol to its callers and consumers, including some outside the 6 files:
+
+- `native.contiguous` / `contiguous()` and `framesAfter()` in `phase06-headless.cjs:185-204`, and how solo now gets `native` (`phase06-solo.cjs:5`, the module that `phase06-rendered.cjs:9` already loads; there is no require cycle)
+- the shared 256-row reader `lines()`/`draws()` and `until()` (`lan-checks/rendered.cjs:9-32`), and `capture()` (`:68-82`)
+- `run.picture`, `committed`, `after`, `choose`, `control`, `click` and `settledView` (`phase06-rendered.cjs:32-46,71-138,243-257`), which decide when a `shot` predicate, and so the span poll, runs
+- the draw observer's numbering and write order (`FoundationDrawObserver.cs:67-80,254-261`): `_frame++` on every draw, the `draws.ndjson` row appended before the capture JSON is published
+- the LAN `transferring` span used as the model (`phase06-lan.cjs:263-275`)
+- `Tick`, `Deliver` and `SubmitPhase06` (`FoundationAutomation.cs:58-98,120-193`), `SubmitRunAction` and `RequestRunWorkspace` (`FoundationCoordinator.RunWire.cs:19-57,123-143`), the only `input.ack` reader (`lan-checks/network.cjs:79-86`) and its injected-action caller `action()` (`phase06-headless.cjs:252-260`), plus the workspace callers (`:339`, `:520`)
+- the game-tests catalog wiring of `phase06.solo.*` (`game-tests/catalog.json:29-256`, `catalog.test.cjs`), the drivers test's helper-definition check (`phase06-drivers.test.cjs:153-170`)
+- the pin consumers `ac08-bindings.cjs`, `current-replay.cjs` and `asset-bindings.cjs`, and every pin location of the changed sources under `src/` and `docs/`
+- the R-10 line-length rule (`docs/code/rule-matrix.md:25`, `tools/code-rules/LineLengthAnalyzer.cs`)
+
+**Status** Issues found: 0 P0/P1/P2 and 1 new P3 finding (NR-03), open. NR-01 and NR-02 are resolved. Deviations (a), (b), (c) and (d) are acceptable. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (6)
+
+These are exactly the files from `git diff --name-only f177954..607ce09`, excluding `.planning/`:
+
+- `docs/code/engine-generated-spans.json`
+- `src/godot-game/game/foundation/FoundationAutomation.cs`
+- `src/godot-game/tests/scenarios/phase06-drivers.test.cjs`
+- `src/godot-game/tests/scenarios/phase06-solo.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Dispositions of NR-01 and NR-02
+
+| ID | Disposition | Fix commit(s) | Evidence at `607ce09` |
+| --- | --- | --- | --- |
+| NR-01 | **Resolved** | 24d7de9 | `since()` (`phase06-solo.cjs:283-287`) builds `native.contiguous(() => draws(peer), 'drawFrame', previousDraw.drawFrame + 1)`, so the span starts on the frame after the reference draw, and a missing first row throws `FRAME_SPAN_GAP` (`phase06-headless.cjs:189-200`). It reads once at once, while the reference is still in the 256-row buffer. The near span is anchored on `gate.draw` (:255) and the distant span on `dead.draw` (:300), both before `run.choose(... 'Respawn')` (:256, :301). `nearSpan()` / `farSpan()` is the first conjunct of the `life-transfer` and `life-distant-cut` predicates (:257, :302), so `after()` polls it on every latest draw it evaluates during the Respawn, handover and match wait (`phase06-rendered.cjs:71-80`). `picture()` polls it once more after the capture (:251), and `handover()` polls it a final time (:291). `until()` does not catch predicate errors (`rendered.cjs:27-32`), so a gap fails the case. The upper bound is correct: the observer appends the `draws.ndjson` row before it publishes the capture JSON (`FoundationDrawObserver.cs:259-261`), so when `capture()` returns, the row for `lastDraw.drawFrame` is already in the file, and `handover()` keeps `drawFrame <= lastDraw.drawFrame` (:291). The span is therefore gap-free from reference+1 through the captured draw, or the case fails. `phase06-drivers.test.cjs:432-447` pins the `+ 1` anchor, the initial read, the order "span, then Respawn, then the shot", the span as the first predicate conjunct, the `<= lastDraw.drawFrame` bound, and the absence of any `draws(peer).filter`. A mutation run of those assertions against eight altered copies of the solo source killed all eight: no `+ 1`, no initial read, poll moved behind other conjuncts, span created after Respawn, no upper bound, wrong reference, rolling-buffer read, tail slice. A behavioral run of the extracted `since`/`handover` over synthetic buffers confirmed the start frame, the bound, and `FRAME_SPAN_GAP` on a dropped first row and on a roll-over between polls. |
+| NR-02 | **Resolved** at the two cited summaries. A sibling comment in the only reader still states the older wording (NR-03). | d5b2566 | `Tick` (`FoundationAutomation.cs:58-61`) now says the line carries "the sequence a DEBUG phase06 run action allocated, if any; never for a workspace request, even a guest's". `SubmitPhase06` (:178) says "Null when refused; else the allocated run-action sequence, or 0 for any workspace request." Both match the code. `phase06-action` returns `SubmitRunAction(...)?.sequence` (:188-191). That value is always `++_sequence` > 0, on host and guest (`RunWire.cs:32,54,58`), and `Tick` writes it as the second number (:95-97). `phase06-workspace` returns `0` whenever `RequestRunWorkspace` succeeds, on host (`RunWire.cs:131-136`) and on guest, where a `workspace` run action is allocated but not reported (:138-142). So `Tick` writes the request sequence alone. A refusal (`null`) falls through to `DRIVER_ACTION` (:164-171), and no ack is written. Other actions return 0. The change touches only two `///` lines (git diff), and both are 120 characters or fewer (118 max). |
+
+### Verdicts on fixer deviations
+
+| ID | Verdict | Reason |
+| --- | --- | --- |
+| (a) Shared `since()` that reads once immediately and fails closed with `FRAME_SPAN_GAP` | **Acceptable** | The immediate read is needed. `contiguous()` keeps only rows it has seen. Without that first read, the span would begin collecting only at the first predicate evaluation, after the `choose` lookup and the click acknowledgement, and the earliest rows could already be gone. With the read, the rows are captured while the reference is still buffered, and a lost row surfaces as a gap error rather than a short span. One helper serves both handovers, so the two cannot drift. It matches the LAN pattern (`phase06-lan.cjs:263`), and the drivers test pins its exact shape. |
+| (b) A capture longer than the 256-row buffer fails loudly (`FRAME_SPAN_GAP`) instead of passing falsely; LAN `transferring` has the same exposure | **Acceptable** | The unpolled windows are: `choose` (a lookup of the already-visible Respawn button plus one acknowledged click), any draws where `settledView` or the `World` precondition stops `after()` before the predicate, and `capture()` (one main-thread `SavePng` plus PNG validation). They are short compared with the buffer, which lasts about 1 s at a 240 Hz refresh (re-review Q4). If one ever overflows, the case fails with a named error; it cannot judge a partial span. LAN `transferring` (`phase06-lan.cjs:263-267`) behaves the same way. Q1 below names the structural fix if the error ever fires. |
+| (c) NR-02 comment-only: guest workspace sequences are still not reported in `input.ack` | **Acceptable** | NR-02 offered that option. No caller needs the number: `phase06-headless.cjs:339,520` ignore the workspace result, and `action()` is the only consumer of a reported sequence (:252-260). The writer contract now states the behavior exactly. Reporting the guest number later would be an additive change to an optional field the reader already parses (`network.cjs:84`). The remaining gap is the reader's own comment (NR-03). |
+| (d) Pre-existing lines over 120 characters left alone; new lines are 120 characters or fewer | **Acceptable**, with one correction to the narration | Both halves hold. Comparing HEAD with `f177954` line by line, every line over 120 is unchanged: `phase06-solo.cjs:164,213,232` (121, 121, 123), and also `phase06-drivers.test.cjs:139,206,311,313,661` (125, 121, 126, 126, 121), which the fixer did not mention. The fixer cited 164, 213 and 232 for both files, but those are the solo lines only. The added lines are at most 115 characters (solo), 120 (drivers) and 118 (`FoundationAutomation.cs`). The project's only enforced length rule is R-10 / SCR0007, a Roslyn analyzer for "Project-owned C# and configuration" (`rule-matrix.md:25`, `LineLengthAnalyzer.cs:9-19`). `.editorconfig` sets no limit for `.cjs`. The long `.cjs` lines break no enforced rule, and the C# change stays within SCR0007. |
+
+### New findings
+
+#### NR-03: The `input.ack` reader still states the acknowledgement contract that NR-02 corrected
+
+**Severity** INFO · P3 · **Disposition** open (not accepted: a one-line fix, and it is the consumer side of the contract NR-02 just corrected)
+
+**File** `src/godot-game/tools/lan-checks/network.cjs:82`. This line is pre-existing and outside the delta, but it is the only reader of the contract the delta corrected.
+
+**Trigger** The comment above the only `input.ack` parser says: "The ack line names this request's sequence, then the run-action sequence a DEBUG phase06 action submitted, if any." That is word for word the `Tick` wording NR-02 found misleading. A guest `phase06-workspace` request does submit a `workspace` run action and allocate a sequence (`FoundationCoordinator.RunWire.cs:138-142`), but the ack never reports it (`FoundationAutomation.cs:181-186`). The writer summary (:58-61) now says so explicitly. The reader comment does not.
+
+**Consequence** The writer and the reader document different contracts. Someone extending a driver reads `network.cjs`, not the C# summary, and may expect `input()` to return the guest workspace sequence. They would get `null`, which `action()`-style checks reject with `Number.isSafeInteger`, or they would fall back to kind matching. No current caller is affected.
+
+**Rule** `docs/code/review-checklist.md:7` (comments explain intent and describe actual behavior). `docs/workflow/code-review.md` step 5 (accurate evidence). This is the same rule as NR-02.
+
+**Fix** Reword `network.cjs:82` to match the writer, for example: `// The ack line names this request's sequence, then the sequence an injected phase06-action allocated, if any; never one for phase06-workspace, even a guest's.` Then rerun `ac08-bindings.cjs --write`/`--check` if the repository digest covers the file.
+
+### Re-confirmed 06-24 Task 2 checks touched by the delta
+
+| # | Check | Result |
+| --- | --- | --- |
+| 3 | F13 receipts matched exactly, without retries | **Pass (unchanged).** The delta changes no executable code on the receipt path. `Deliver`/`SubmitPhase06` are byte-identical apart from the two summaries. |
+| 5 | Rebound pins derived, not hand-edited | **Pass.** `ac08-bindings.cjs --check`, `current-replay.cjs --check` and `asset-bindings.cjs --check` all pass on HEAD. The recomputed SHA-256 of `FoundationAutomation.cs` is `718cee23…8e40` (8539 bytes). It appears once in verification `required-cases.json` and twice in `engine-generated-spans.json`: the hashed input list and the current `sourceSnapshots` row, whose `contentBase64` decodes byte-for-byte to the current file. The other `FoundationAutomation.cs` snapshot (`f08fd4ab…`) is a historical cohort row, unchanged by the delta. The spans registry hash `5764ed51…4ad9` equals the recomputed file hash and appears 3 times in verification `required-cases.json`. The repository digest `3c65f396…8924` appears 5 times there and once in gameplay-checks `required-cases.json`, matching the `ac08-bindings --check` output. `sourceInputsSha256` `d004298d…8463` matches the `current-replay --check` output. `sourceSetSha256` `3f36a2e8…5375` appears once. No previous value remains anywhere under `src/` or `docs/`: `FoundationAutomation.cs` `d195ee73…d702`, solo `84e5c238…5cad`, drivers `e83c68c5…07a6`, spans `21e51b9b…01b1`, repository `88a5db98…6c29`, inputs `d58431d3…6eab`, source set `0cd001eb…58e2`. `phase06-solo.cjs` and `phase06-drivers.test.cjs` have no hash pin (the solo row is `outside-validator` with `sha256: null`, `required-cases.json:4074-4077`). Their change reaches the pins only through the repository digest, which 607ce09 rebound after both source commits. |
+| 8 | Predicates reject unsettled, clipped or single-draw evidence | **Pass.** Every solo picture still goes through `shot` → `settledView` (`phase06-solo.cjs:13-14`). Both solo handover spans are now gap-free from the reference draw through the captured draw, or they fail with `FRAME_SPAN_GAP` (NR-01). The near handover still needs at least two monotone intermediate draws (:264-268), and the distant cut is judged from the first committed transfer draw of a complete span (:304-307). Headless and LAN spans are unchanged. |
+
+### Questions (not defect findings)
+
+- **Q1** Both rendered handover spans (solo here, LAN `transferring`) depend on in-process polling staying ahead of a 256-row window. If a `FRAME_SPAN_GAP` ever fires on a fast display, would you rather read `draws.ndjson` from a recorded byte offset, which is bounded by file size rather than row count, than enlarge the shared buffer?
+- **Q2** `handover()` keeps only draws that already show `TransferNotice` in the new epoch (`phase06-solo.cjs:292-293`, pre-existing). If the epoch changed one draw before the notice appeared, a smoothed first draw of the new epoch would be filtered out instead of failing the distant "cuts on the first committed draw" assertion. Does the spectator publish `TransferNotice` in the same snapshot that raises the epoch? If so, no change is needed.
+- **Q3** The new drivers test reads the raw solo source and does not strip comments first, unlike the helper-definition test (`phase06-drivers.test.cjs:154`), so a commented copy of the pinned shape would also satisfy it. Should it use `stripped()` for consistency?
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --short` | `607ce09b6d4350abd64c2d55801e59fdf82d833d`; clean |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 71 pass, 0 fail, 0 skip (70 before, plus `SoloHandover_Spans_ReadWithoutGaps`) |
+| `node --test --test-isolation=none src/godot-game/tools/verification/bindings.test.cjs` | 21 pass, 0 fail |
+| `node --test --test-isolation=none src/godot-game/tools/game-tests/runner.test.cjs` | 9 pass, 0 fail |
+| `node --test --test-isolation=none src/godot-game/tools/game-tests/catalog.test.cjs` | 16 pass, 0 fail |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings 607ce09b6d43 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=3c65f396053327b0887116cffe58159d5da571e130188bb6be09ded4bc7a8924` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 d004298da3da1358bdcd060fe2bfe8fc94bf055abd46b3cae424530547068463` |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `git diff --check f177954..HEAD -- . ':!.planning'` | No output, exit 0 |
+| Load check: `require('phase06-solo.cjs')` | Six case keys load; `helpers.contiguous` is a function |
+| SHA-256 and byte counts (Node `crypto`) of the six changed files at HEAD and the three changed sources at `f177954`, plus a pin search of every old and new value under `src/` and `docs/` | Results as listed in check 5 |
+| Decode the `engine-generated-spans.json` `FoundationAutomation.cs` snapshots | The current row equals the file byte-for-byte |
+| Line-length comparison of HEAD against `f177954` for the three changed sources | As listed in deviation (d) |
+| Behavioral run of extracted `since`/`handover` over synthetic buffers, and a mutation run of the new drivers-test assertions (scratch scripts outside the repository, deleted afterward) | All behavioral assertions hold; 8/8 mutants killed |
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The span polling was judged from source, a synthetic behavioral run and the observer's write order. It was not observed on a real rendered stream.
+- That the comment-only C# change still compiles and passes SCR rules is inferred from its being confined to two `///` lines of 118 characters or fewer. No build was run.
+- Whether polling keeps ahead of the 256-row window on a given display (deviation (b)) depends on the refresh rate and capture time. The about 1 s margin comes from the earlier re-review's Q4 measurements, not from a new run.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Gap-repair re-review 3 (2026-11-27)
+
+**Reviewed revision** `0ae513a926a0a5d78a6c7a170cd0848635de52d5` (clean tree)
+
+**Fix-delta range** `a80595e..0ae513a`. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `a80595e` is the commit that recorded gap-repair re-review 2. The only fixer commit is 0ae513a (NR-03). It changes only `src/godot-game/tools/lan-checks/network.cjs` (`git diff --stat`: 1 file, 2 insertions, 1 deletion).
+
+**Depth** Deep. The reviewer compared the new reader comment with every writer-side statement of the same contract and with the code behind it, and followed the reader's return value to its callers:
+
+- the reader itself: the `input.ack` regex `/^(\d+)(?: (\d+))?\n$/` and the `{submitted: null | Number}` return (`network.cjs:79-87`)
+- the writer: the `Tick` summary and the ack write (`FoundationAutomation.cs:58-61,91-97`), the `Deliver` summary and branches (`:112-175`, including the refusal fall-through to `DRIVER_ACTION` at `:169-171`), and the `SubmitPhase06` summary and body (`:177-192`)
+- `SubmitRunAction` (`FoundationCoordinator.RunWire.cs:19-57`), where every non-null result carries `checked(++_sequence)` (`:32`), and `RequestRunWorkspace` (`:123-142`): it returns `true` without allocating a sequence on the host (`:131-136`), and on a guest it allocates one through `SubmitRunAction(kind: "workspace", ...)` but returns only `.HasValue` (`:138-142`)
+- the callers of `input()`: `inject` (`phase06-headless.cjs:33`), `action()` (`:252-260`, the only consumer of a reported sequence, which requires `Number.isSafeInteger(submitted)`), the two `phase06-workspace` callers that ignore the result (`:339`, `:520`), the receipt-matching comment (`:206-213`), and the `network.cjs` callers `key`, `activate`, `stop`, which ignore it
+- every pin that could cover `network.cjs`: `ac08-bindings.cjs`, `current-replay.cjs`, `asset-bindings.cjs`, both `required-cases.json` files, and a search of `src/` and `docs/` for the old and new file hashes
+
+**Status** Issues found: 0 P0/P1/P2 and 1 new P3 finding (NR-04), open. NR-03 is resolved. The delta introduces no defect and no executable change. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (1)
+
+This is exactly the file from `git diff --name-only a80595e..0ae513a`:
+
+- `src/godot-game/tools/lan-checks/network.cjs`
+
+### Disposition of NR-03
+
+| ID | Disposition | Fix commit | Evidence at `0ae513a` |
+| --- | --- | --- | --- |
+| NR-03 | **Resolved** | 0ae513a | The reader comment (`network.cjs:82-83`) now says: "The ack line names this request's sequence, then the run-action sequence a DEBUG phase06 run action allocated, if any; never for a workspace request, even a guest's." That matches the `Tick` summary (`FoundationAutomation.cs:59-60`) almost word for word and matches the code. (1) **When the second number appears.** `Tick` writes `sequence + " " + submitted` only when `submitted > 0`, else the sequence alone, always ending with `\n` (`:95-97`). That is the shape the regex accepts. (2) **Which requests produce it.** `submitted` is non-zero only from the `#if DEBUG` `phase06-action` branch (`:162-167`). `SubmitPhase06` returns `SubmitRunAction(...)?.sequence` (`:188-190`), which is `++_sequence` > 0 on host and guest (`RunWire.cs:32,41,54,58`). Every other action returns 0 (`:147`, `:152`, `:174`). A release build has no such branch, which the comment's "DEBUG" covers. (3) **Workspace requests never produce it.** `phase06-workspace` maps a successful `RequestRunWorkspace` to `0` (`:180-185`), on the host (no sequence allocated, `RunWire.cs:131-136`) and on a guest (a `workspace` sequence is allocated but dropped by `.HasValue`, `:138-142`). "even a guest's" names exactly that case. (4) **Refusal.** A refused request (`SubmitPhase06` returns `null`, or `SubmitRunAction` returns `null`) falls through to `DRIVER_ACTION` (`:169-171`). `Tick` propagates the throw from `Deliver` (`:91`) before `File.Delete` and the ack write (`:92-97`), so no ack line exists. The comment, which describes the ack line, makes no claim about that case, and "if any" claims nothing false. The reader then times out with `SUBJECT_TIMEOUT input ack <role>` or fails on the child's exit (`network.cjs:74-78`). (5) **Reader's own return.** `match[2]` absent gives `submitted: null`, else `Number(match[2])` (`:85`), which matches "then ..., if any". The writer never writes `0` as the second number, so no caller can see `0`. The callers' use agrees: `action()` relies on the number for `phase06-action` (`phase06-headless.cjs:254-256`), and both workspace callers discard the result (`:339`, `:520`). |
+
+### New findings
+
+#### NR-04: The `Deliver` summary still says it returns the run-action sequence it submitted
+
+**Severity** INFO · P3 · **Disposition** open (not accepted: it is the last comment that still states the contract NR-02 and NR-03 corrected; see the cost note under Fix)
+
+**File** `src/godot-game/game/foundation/FoundationAutomation.cs:112`. This line is pre-existing (1ed3aa5) and outside this delta and outside the one-file review scope. It is reported because NR-03's disposition required a comparison with the writer, and this is the writer's middle layer between `SubmitPhase06` and `Tick`. Neither NR-02 nor re-review 2 named it.
+
+**Trigger** The summary says: "Delivers one request; returns the run-action sequence it submitted, or 0 for none." For a guest `phase06-workspace` request, `Deliver` does submit a run action: `RequestRunWorkspace` calls `SubmitRunAction(kind: "workspace", ...)`, which allocates `++_sequence` and sends it (`FoundationCoordinator.RunWire.cs:32,57-58,138-142`). But `SubmitPhase06` maps the result to `0` (`FoundationAutomation.cs:180-185`), so `Deliver` returns `0` (`:162-166`), which its summary defines as "none". The two summaries around it, `Tick` (`:59-60`) and `SubmitPhase06` (`:178`), and now the reader (`network.cjs:82-83`), all say a workspace request never reports a sequence. `Deliver` says the opposite.
+
+**Consequence** The documentation is now consistent everywhere except at the function that actually returns the value. A maintainer who reads `Deliver` to extend the driver would believe a guest workspace already returns its sequence, or that a `0` from `Deliver` means no run action was sent. No current caller is affected: `Deliver` is `private`, and its only caller `Tick` documents and implements the actual behavior.
+
+**Rule** `docs/code/review-checklist.md:7` (comments explain intent; the qualitative review checks that comments describe actual behavior). `docs/workflow/code-review.md:33` (P3, a minor actionable issue). This is the same rule as NR-02 and NR-03, reported once for the one remaining site.
+
+**Fix** Reword `:112` to match `:178`, within the 120-character SCR0007 limit, for example:
+
+```csharp
+    /// <summary>
+    /// Delivers one request; returns the sequence a DEBUG phase06 run action allocated, else 0, always for a workspace.
+    /// </summary>
+```
+
+Cost: `FoundationAutomation.cs` is hash-pinned (verification `required-cases.json` and the `engine-generated-spans.json` `sourceSnapshots` row), so the change needs the same rebinding as d5b2566: `ac08-bindings.cjs --write` / `current-replay.cjs --write`, then `--check`. If that cost is judged out of proportion for a `private` summary, accepting NR-04 explicitly as non-blocking is a reasonable alternative. The reviewer leaves that decision to the phase owner and records it as open.
+
+### Questions (not defect findings)
+
+- **Q1** A refused DEBUG phase06 request produces no ack line at all. `Tick` throws `DRIVER_ACTION` and leaves `input.request` in place, so the reader waits until its deadline (`SUBJECT_TIMEOUT input ack <role>`), unless the throw ends the child first. The new comment is accurate, because it describes only the ack line. Would you like the reader comment, or the `Tick` summary, to also say "a refused request is never acknowledged", so a driver author expects a timeout rather than `null`? This is optional and not a defect.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --porcelain` | `0ae513a926a0a5d78a6c7a170cd0848635de52d5`; clean (no output) |
+| `git log --oneline a80595e..HEAD`; `git diff --stat a80595e..HEAD`; `git diff a80595e..HEAD` | One commit, 0ae513a. One file, `network.cjs`, 2 insertions and 1 deletion. The only change is the `//` comment at `:82` becoming `:82-83`. |
+| `git diff --check a80595e..HEAD` | No output, exit 0 |
+| `node --check src/godot-game/tools/lan-checks/network.cjs`; `require()` of the module | Syntax OK; 15 exports load, `input` is a function |
+| Comment-stripped comparison (Node) of `network.cjs` at `a80595e` and HEAD, with every whole-line `//` comment removed | Identical (stripped SHA-256 prefix `daccb3f4bf0dfc26`). The file SHA-256 changed from `285b89d6…2de9` (28386 bytes) to `2259e22c…7bc9` (28442 bytes). |
+| Line lengths (Node) | New `:82` is 115 characters, new `:83` is 59 (the old `:82` was 119). The file has 36 lines over 120 before and after the delta, and none is new. R-10 / SCR0007 is a Roslyn analyzer for project-owned C# and configuration (`docs/code/rule-matrix.md:25`), so it does not apply to `.cjs`. Observation only. |
+| Pin search: `grep -rl` of both `network.cjs` hash prefixes under `src/` and `docs/`; reading the verification `required-cases.json` row | No match. The row (`required-cases.json:5931-5935`) is `kind: outside-validator`, `sha256: null`, so no hash pin covers the file. |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings 0ae513a926a0 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=3c65f396053327b0887116cffe58159d5da571e130188bb6be09ded4bc7a8924`. This is the same repository digest as at `607ce09`, so the digest does not cover `network.cjs` and nothing needed rebinding. |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 d004298da3da1358bdcd060fe2bfe8fc94bf055abd46b3cae424530547068463` (unchanged) |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` (loads `network.cjs`) | 71 pass, 0 fail, 0 skip |
+| `git blame -L 112,112` and `-L 58,61` of `FoundationAutomation.cs` | `:112` comes from 1ed3aa5, unchanged by d5b2566, which rewrote only `:60` (and `:178`) |
+| Read-only searches of `//` comments that mention sequence or ack in `FoundationAutomation.cs`, `FoundationCoordinator.RunWire.cs`, `phase06-headless.cjs` and `network.cjs` | `:112` is the only remaining statement that disagrees with the corrected contract |
+
+The scratch copy of the pre-delta `network.cjs` was written outside the repository and deleted afterward.
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The writer behavior was judged from source only.
+- What happens to the child process after `Tick` throws `DRIVER_ACTION` (logged or fatal) was not traced beyond `Tick`. Q1 and the refusal part of the NR-03 evidence rely only on the ack not being written, which is visible in `Tick`.
+- The fixer's reported runs at 0ae513a (101/101 node tests, game-tests `ebdc80a0` 21/21 no-window with nested lan-checks `969d44dd` 20/20) were not repeated, apart from the drivers test above. They are narration, not evidence used here.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Gap-repair re-review 4 (2026-11-27)
+
+**Reviewed revision** `ad960f33e223da15e75fcda294c3cb57114fc51c` (clean tree)
+
+**Fix-delta range** `5f7ca93..ad960f3`. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `5f7ca93` is the commit that recorded gap-repair re-review 3. The fixer commits are 1e8c124 (NR-04, `FoundationAutomation.cs` only: 5 insertions, 1 deletion), 898a85d (current-replay rebind: `engine-generated-spans.json` and verification `required-cases.json`) and ad960f3 (ac-08 rebind: both `required-cases.json` files).
+
+**Depth** Deep. The reviewer compared the two new summaries with the code behind every branch they describe and searched the whole tree for other statements of the same contract:
+
+- the writer: `Tick` (`FoundationAutomation.cs:58-99`), `Deliver` (`:113-179`), `SubmitPhase06` (`:181-196`), and the only caller of `Tick`, `FoundationRoot._Process` (`FoundationRoot.cs:137-143`, DEBUG only)
+- every sequence allocation reachable from `Deliver`: `SubmitRunAction` (`FoundationCoordinator.RunWire.cs:19-57`, `checked(++_sequence)` at `:32`), `RequestRunWorkspace` (`:123-142`), `ObserveLethalAttack` and `FixtureAction` (`FoundationCoordinator.cs:216-254`, allocations at `:221` and `:249`), and the counter's only reset (`FoundationCoordinator.Lifetime.cs:150`)
+- the reader and its callers: `input()` (`lan-checks/network.cjs:79-87`), `stop()` (`:106-113`), `action()` and `receipt()` (`phase06-headless.cjs:206-260`), the fixture callers (`phase06-headless.cjs:400-423`, `phase06-solo.cjs:236-298`, `phase06-lan.cjs:199`) and `game-tests/headless.cjs:196` (`spectator-proof-lethal`)
+- the pins: the decoded `engine-generated-spans.json` snapshot rows, every occurrence of each old and new hash under `src/` and `docs/`, and the three `--check` tools
+
+**Status** Issues found: 0 P0/P1/P2 and 1 new P3 finding (NR-05), open. NR-04 is resolved. The delta changes no executable code, and every re-derived hash matches its check. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (4)
+
+These are exactly the files from `git diff --name-only 5f7ca93..ad960f3`:
+
+- `docs/code/engine-generated-spans.json`
+- `src/godot-game/game/foundation/FoundationAutomation.cs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Disposition of NR-04
+
+| ID | Disposition | Fix commit(s) | Evidence at `ad960f3` |
+| --- | --- | --- | --- |
+| NR-04 | **Resolved** for its trigger. A wider wording gap shared by the same contract statements remains (NR-05). | 1e8c124, rebound by 898a85d and ad960f3 | The `Deliver` summary (`FoundationAutomation.cs:113-116`) now says: "returns the run-action sequence a DEBUG phase06 run action allocated, else 0, also for every workspace request, even a guest's; a refused request throws DRIVER_ACTION." (1) **Non-zero return.** Only the `phase06-action` branch can return non-zero (`:166-171`). `SubmitPhase06` returns `SubmitRunAction(...)?.sequence` (`:192-195`), which is `checked(++_sequence)` > 0 (`RunWire.cs:32`; `_sequence` starts at 0 and is only reset to 0, `FoundationCoordinator.Lifetime.cs:150`). (2) **Workspace.** A successful `phase06-workspace` maps to `0` (`:185-190`), on the host (no allocation, `RunWire.cs:131-136`) and on a guest (a `workspace` sequence is allocated and dropped by `.HasValue`, `:138-142`). "also for every workspace request, even a guest's" states exactly that, which was the NR-04 trigger. (3) **Refusal.** A `null` from `SubmitPhase06`, a `false` from `ObserveLethalAttack` or `FixtureAction`, an unknown action and a release build all fall through to `throw new InvalidOperationException("DRIVER_ACTION")` (`:173-176`). The summary now agrees with the `Tick` summary (`:59-60`), the `SubmitPhase06` summary (`:182`) and the reader (`network.cjs:82-83`) on the workspace case. The new `Tick` clause (`:61`), "A refused request throws DRIVER_ACTION before any ack is written and stays in input.request", is accurate: `Deliver` runs at `:92` before `File.Delete` (`:93`) and the ack write (`:96-98`), so a throw leaves the file in place and writes nothing. This answers re-review 3 Q1, with the qualification in Q1 below. Both summaries sit outside member bodies, and the changed lines are 118, 118, 100, 17, 116, 88 and 18 characters long (SCR0007 limit 120). |
+
+### New findings
+
+#### NR-05: The ack contract names the workspace request as the only unreported allocation, but `fixture-attack` and `spectator-proof-lethal` also allocate a run-action sequence that `Deliver` drops
+
+**Severity** INFO · P3 · **Disposition** open (not accepted; a phase-owner acceptance is a reasonable alternative, see the cost note under Fix)
+
+**File** `src/godot-game/game/foundation/FoundationAutomation.cs:59-60` and `:114-115`, `src/godot-game/tools/lan-checks/network.cjs:82-83`, and `src/godot-game/tests/scenarios/phase06-headless.cjs:207-208`. The `:114-115` wording is new in 1e8c124. The others are pre-existing (d5b2566, 0ae513a, 1ed3aa5), but they state the same contract that 1e8c124 says it swept.
+
+**Trigger** All four comments define the reported sequence as the one "a DEBUG phase06 run action allocated" (or "a DEBUG phase06 action", headless `:207-208`), and the three writer and reader comments name the workspace request as the only exception. Two other DEBUG branches of `Deliver` also allocate a run-action sequence and then return `0`:
+
+- `fixture-attack` is gated by `OwnedPhase()`, which requires `KZ_PHASE06_OWNED` (`FoundationAutomation.cs:20-30,153-157`). `FixtureAction` allocates `checked(++_sequence)`, dispatches it through `DispatchBoundRunAction` with the run key `(survivor, generation, sequence)` and publishes it as `RunActionFeedback` (`FoundationCoordinator.cs:249-253`). `Deliver` then returns `0` (`:156`), so the ack carries the request sequence alone.
+- `spectator-proof-lethal` allocates `checked(++_sequence)` for a `proof-lethal` run action through `session.DispatchRunAction` (`FoundationCoordinator.cs:216-222`), and `Deliver` returns `0` (`:151`). It is not phase06-gated, so it falls outside "phase06" but not outside "run action".
+
+Read literally, "returns the run-action sequence a DEBUG phase06 run action allocated, else 0" is false for `fixture-attack`: it is a DEBUG, phase06-owned run action, it allocated a sequence, and `Deliver` returned `0`. The intended meaning, which every earlier review used, is "the `phase06-action` request branch". The text never names that branch.
+
+**Consequence** The comments describe a different contract from the code for one phase06 action. A driver author who passes the `input()` result of a `fixture-attack` as `submitted` to `receipt()` gets `null`. `receipt()` then silently falls back to kind matching (`phase06-headless.cjs:235-236`) instead of exact-sequence matching, which is the F13 interleaving risk that the exact-sequence path exists to avoid. No current caller is affected: every `fixture-attack` and `spectator-proof-lethal` caller discards the result (`phase06-headless.cjs:400,409`, `phase06-solo.cjs:236,249,298`, `phase06-lan.cjs:199`, `game-tests/headless.cjs:196`).
+
+**Rule** `docs/code/review-checklist.md:7` (comments explain intent; the qualitative review checks that comments describe actual behavior). `docs/workflow/code-review.md:33` (P3, a minor actionable issue). This is the same rule as NR-02, NR-03 and NR-04.
+
+**Fix** Name the request action instead of describing it, at all four sites at once, within the 120-character SCR0007 limit for the C# lines. For example:
+
+```csharp
+    /// Delivers one owned input request and acknowledges it with one newline-terminated line: the request's sequence,
+    /// then the sequence an injected phase06-action allocated, if any; never for any other action, even one that
+    /// allocates a sequence (a guest's phase06-workspace, fixture-attack, spectator-proof-lethal).
+```
+
+```csharp
+    /// <summary>
+    /// Delivers one request; returns the sequence an injected phase06-action allocated, else 0, also when another
+    /// action allocated one (a guest's phase06-workspace, fixture-attack, spectator-proof-lethal).
+    /// </summary>
+```
+
+Apply the same wording to `network.cjs:82-83` and change "a DEBUG phase06 action names it" to "an injected phase06-action names it" at `phase06-headless.cjs:207-208`. Cost: `FoundationAutomation.cs` is hash-pinned, so the change needs the same `current-replay.cjs` / `ac08-bindings.cjs` rebinding as 898a85d and ad960f3. If the phase owner judges that out of proportion for a DEBUG driver comment with no affected caller, an explicit acceptance of NR-05 as non-blocking is reasonable. The reviewer records it as open.
+
+### Questions (not defect findings)
+
+- **Q1** The new `Tick` clause is accurate, but "refused" applies to one delivery only. `Tick` runs on every DEBUG `_Process` frame (`FoundationRoot.cs:141-143`). Nothing in `src/` installs an exception handler (no `UnhandledException` hook), and the Godot .NET glue logs an exception thrown from `_Process` and keeps calling it. So the request that stays in `input.request` is re-delivered on every later frame. That has two effects. First, a transient refusal (for example `Ready` false, or generation 0 in `SubmitRunAction`, `RunWire.cs:21-30`) is acknowledged later, once a re-delivery succeeds. Re-review 3 Q1's premise, "the reader waits until its deadline", holds only for a permanent refusal. Second, `FixtureAction` and `ObserveLethalAttack` refuse after they have allocated and dispatched (`FoundationCoordinator.cs:218-222,249-253`). A refused `fixture-attack` therefore allocates and dispatches a new sequence and overwrites `RunActionFeedback` on every frame until the driver gives up. Should the clause say "and is re-delivered every frame", and should those two branches refuse before they allocate? The Godot behavior is inferred from the engine's .NET glue, not observed in a run.
+- **Q2** Both summaries name `DRIVER_ACTION` as the refusal. Three other throws also leave no ack and keep the request: `DRIVER_NONCE` (`:87-90`), `DRIVER_FOCUS <target>` from a failed `phase06-focused` probe (`:158-165`), and `System.Text.Json` / `KeyNotFoundException` errors from a malformed request. No driver matches on the error name, so this is optional. Would "throws (DRIVER_ACTION for a refusal)" be clearer?
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --short` | `ad960f33e223da15e75fcda294c3cb57114fc51c`; clean (no output) before this file was edited |
+| `git log 5f7ca93..ad960f3`; `git diff --stat 5f7ca93..ad960f3`; `git show --stat` of each commit | Three commits: 1e8c124 (`FoundationAutomation.cs`, +5/-1), 898a85d (spans +4/-4, verification `required-cases.json` +2/-2), ad960f3 (gameplay-checks +1/-1, verification +8/-8). Four files, 20 insertions and 16 deletions. The fixer's "swept every comment" is narration: no other source file changed. |
+| `git diff --check 5f7ca93..ad960f3` | No output, exit 0 |
+| Comment-stripped comparison of `FoundationAutomation.cs` at `5f7ca93` (scratch copy) and HEAD, with every `///` line removed | Identical (stripped SHA-256 `e9a79f94d58f518a98155d2c71536b2f9a20e386fd90092be00affb5972ddff8`). File SHA-256 `718cee23…8e40` (8539 bytes) became `70354e2c…cc6f` (8773 bytes). No CR characters. No line over 120. |
+| `git diff --word-diff=porcelain` of the three JSON files | Only hash strings changed: the `FoundationAutomation.cs` source hash (spans x2, verification x1), the spans `contentBase64` snapshot, `sourceInputsSha256` (spans x1), `sourceSetSha256` (verification x1), the spans registry hash (verification x3: the source-set `bindings` row and both `registries.spans.sha256` rows) and `repositorySha256` (verification x5, gameplay-checks x1). |
+| `sha256sum docs/code/engine-generated-spans.json` | `b663e054cebe59a3a16f1bd8e78c143eab796c482b4394df5e86da2223cfc80b`, equal to the three verification rows |
+| Decode (Node, scratch script) of every `FoundationAutomation.cs` `contentBase64` row in the spans registry | `currentProducerReplay.sourceSnapshots[2]` decodes byte-for-byte to the current file (`70354e2c…`). `producerSources[4]` (`f08fd4ab…`) is the historical row, unchanged by the delta. |
+| Pin search (`grep -r`) under `src/` and `docs/` | No occurrence of any old value (`718cee23…`, `5764ed51…`, `3c65f396…`, `d004298d…`, `3f36a2e8…`). New values: `70354e2c…` 3, `b663e054…` 3, `cba40be7…` 6, `8a25b7c0…` 1, `4efa0d9b…` 1. |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings ad960f33e223 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=cba40be7b2a54da393c65e9e41aede9da13d70cbc3695b92c035cb5fcbf96e51` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 8a25b7c0f301a2510752bd4c71488df2cc2ebbebf22b1395256758021395226f` |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 71 pass, 0 fail, 0 skip |
+| `git grep -n -i -E 'input\.ack\|input ack\|run-action sequence\|returns the run\|sequence it submitted\|acknowledg' -- src docs` (JSON excluded), plus a read of every hit on the `input.ack` path | The only statements of the ack and sequence contract are `FoundationAutomation.cs:59-61,114-115,182`, `network.cjs:82-83` and `phase06-headless.cjs:207-208,256`. `:182` and `:256` match the code. The other four carry NR-05. `network.cjs:109` (exit before the ack on Quit) is hedged with "can", and `stop()` does not wait for that ack. The other hits are unrelated acknowledgements (native input, quit, baseline, capture publication). |
+| `git blame` of `FoundationAutomation.cs:148-157` and `phase06-headless.cjs:206-209` | The `fixture-attack` and `spectator-proof-lethal` branches (9f3c923, cc7a890) and their `return 0` (1ed3aa5) predate the delta. The headless wording comes from 1ed3aa5. |
+
+The scratch copy of the pre-delta `FoundationAutomation.cs` and the decode script were written outside the repository and deleted afterward.
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The writer behavior was judged from source only.
+- That the comment-only C# change still compiles and passes the SCR rules is inferred from the identical comment-stripped file and the line lengths. No build was run.
+- The per-frame re-delivery in Q1 relies on the Godot .NET glue logging and continuing after an exception thrown from `_Process`. It was not observed in a run.
+- The fixer's reported runs were not repeated, apart from the checks above. They are narration, not evidence used here.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Gap-repair re-review 5 (2026-11-27)
+
+**Reviewed revision** `c2d24563389c22628deb301dda4f4d2a8e791997` (clean tree)
+
+**Fix-delta range** `ab9df14..c2d2456`, source commit c2d2456. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. `ab9df14` is the commit that recorded gap-repair re-review 4. The three fixer commits are:
+
+- 3470f15 (NR-05): rewrites the `Tick` summary (`FoundationAutomation.cs:58-63`) and the `Deliver` summary (`:114`, now one line), the reader comment in `lan-checks/network.cjs:82-84`, and the receipt comment in `phase06-headless.cjs:207-208`. Only comment lines change.
+- 2b2cd34 (current-replay rebind): `engine-generated-spans.json` (the `FoundationAutomation.cs` source hash twice, the `currentProducerReplay.sourceSnapshots` `contentBase64` row, `sourceInputsSha256`) and verification `required-cases.json` (the source hash row, `sourceSetSha256`, the spans registry hash in the source-set `bindings` row and both `registries.spans.sha256` rows).
+- c2d2456 (ac-08 rebind): `repositorySha256` in both `required-cases.json` files (verification x5, gameplay-checks x1, including the `core.permissions` caller row).
+
+`git diff --stat ab9df14..c2d2456`: 6 files, 25 insertions, 26 deletions.
+
+**Depth** Deep. The reviewer checked every clause of the four rewritten comments against the code behind it, and searched `src/` and `docs/` for any other statement of the `input.request` / `input.ack` contract:
+
+- the writer, in execution order: `Tick` (`FoundationAutomation.cs:64-100`), with the early returns (`:69-84`, including the `IOException` swallow in `ReadRequest`, `:102-112`), `JsonDocument.Parse` (`:86`), the nonce check that throws `DRIVER_NONCE` (`:88-91`), `Deliver` (`:93`), `File.Delete` (`:94`), the `sequence` read (`:95-96`) and the ack write (`:97-99`)
+- every `Deliver` branch (`:115-177`): the plain native actions that fall through to `return 0` (`:120-144,176`), `spectator-proof-lethal` (`:146-150`), `fixture-attack` / `fixture-step` (`:151-155`), `phase06-focused` and its `DRIVER_FOCUS` throw (`:156-163`), `phase06-action` / `phase06-workspace` (`:164-169`) and the `DRIVER_ACTION` fall-through (`:171-174`); and `SubmitPhase06` (`:180-194`)
+- every sequence allocation those branches reach: `SubmitRunAction` (`FoundationCoordinator.RunWire.cs:19-59`, `checked(++_sequence)` at `:32`, returned at `:54` on the host and `:58` on a guest), `RequestRunWorkspace` (`:123-143`), `ObserveLethalAttack` (`FoundationCoordinator.cs:216-223`, allocation at `:221`) and `FixtureAction` (`:225-254`, allocation at `:249`)
+- the reader and its callers: `input()` (`lan-checks/network.cjs:79-88`), `stop()` (`:107-115`), `receipt()`, `matches()` and `action()` (`phase06-headless.cjs:206-260`), and every caller that sends `phase06-action`, `phase06-workspace`, `fixture-attack`, `fixture-step` or `spectator-proof-lethal` (`phase06-headless.cjs:254,339,400-423,520`, `phase06-solo.cjs:236-298`, `phase06-lan.cjs:199`, `game-tests/headless.cjs:196`)
+- the pins: a decode of each `FoundationAutomation.cs` `contentBase64` row, every occurrence of each old and new hash under `src/` and `docs/`, the pin rows of `network.cjs` and `phase06-headless.cjs`, and the three `--check` tools
+
+**Status** Clean: 0 P0/P1/P2/P3 findings open. NR-05 is resolved, and the delta introduces no defect. Every GR-* and NR-* finding in this file is now resolved or explicitly accepted: GR-01 to GR-09 in re-review 1 (with residuals accepted as D1 and D2), NR-01 and NR-02 in re-review 2, NR-03 in re-review 3, NR-04 in re-review 4 and NR-05 here. The delta changes no executable code, and every re-derived hash matches its check. Fixer commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent). This reviewer did not author the repairs and did not perform any earlier review in this file.
+
+### Files reviewed (6)
+
+These are exactly the files from `git diff --name-only ab9df14..c2d2456`:
+
+- `docs/code/engine-generated-spans.json`
+- `src/godot-game/game/foundation/FoundationAutomation.cs`
+- `src/godot-game/tests/scenarios/phase06-headless.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/lan-checks/network.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Disposition of NR-05
+
+| ID | Disposition | Fix commit(s) | Evidence at `c2d2456` |
+| --- | --- | --- | --- |
+| NR-05 | **Resolved** | 3470f15, rebound by 2b2cd34 and c2d2456 | All four comments now name the request action (`phase06-action`) instead of describing it as "a DEBUG phase06 run action", and the writer and reader comments list `fixture-attack` and `spectator-proof-lethal` with `phase06-workspace` as requests whose ack carries their own sequence alone. Clause by clause: (1) **"Delivers one input.request, deletes it and writes one newline-terminated input.ack line: the request's sequence"** (`FoundationAutomation.cs:59`). `Deliver` (`:93`), then `File.Delete` (`:94`), then the request's `sequence` formatted with the invariant culture (`:95-96`), written to `input.ack` and ending with `"\n"` (`:97-99`). (2) **"then, for a phase06-action request only, a space and the sequence that request allocated"** (`:60`). The second number is written only when `submitted > 0` (`:97-98`). Only the `phase06-action` / `phase06-workspace` branch can return a non-zero value (`:164-169`). Every other branch that returns does so with `0` (`:149`, `:154`, `:176`). Within that branch, `phase06-workspace` maps success to `0` (`:183-188`). `phase06-action` returns `SubmitRunAction(...)?.sequence` (`:190-193`). That value is the `checked(++_sequence)` allocated for this request (`RunWire.cs:32`) and returned at `:54` on the host and `:58` on a guest, so it is always > 0. A `null` (refused, or a kind outside the list) fails the `is { } submitted` pattern and falls through to `DRIVER_ACTION` (`:171-174`), so a reported second number always belongs to a `phase06-action` request. (3) **"Every other request, including phase06-workspace, fixture-attack and spectator-proof-lethal requests, acks its own sequence alone"** (`:60-61`). A guest `phase06-workspace` allocates a `workspace` sequence, which `.HasValue` drops (`RunWire.cs:138-142`). `FixtureAction` allocates at `FoundationCoordinator.cs:249` and `ObserveLethalAttack` at `:221`. `Deliver` returns `0` for all three (`FoundationAutomation.cs:149`, `:154`, and `:168` with the `0` from `SubmitPhase06` `:187`). This is the NR-05 trigger, and the comment now states it correctly. (4) **"An error thrown before Deliver returns (for example DRIVER_ACTION) leaves the request in place, with no ack"** (`:62`). Every throw that can happen before `Deliver` returns comes before `File.Delete` (`:94`): `JsonDocument.Parse` (`:86`), the `nonce` read and `DRIVER_NONCE` (`:88-91`), and inside `Deliver` the `GetProperty` / `GetNode` / `Deserialize` errors, `DRIVER_FOCUS` (`:161`) and `DRIVER_ACTION` (`:173`). None of them touches the file. The fixer's stated reason for the "before Deliver returns" limit also holds: the `sequence` property is first read at `:95`, after `File.Delete` at `:94`, so a missing or non-integer `sequence` would throw after the request was deleted. The clause therefore does not claim more than is true. "for example" also resolves re-review 4 Q2, which noted that only `DRIVER_ACTION` was named. (5) **`Deliver` summary** (`:114`): "returns the sequence a phase06-action request allocated, else 0." This matches (2) and (3). It no longer mentions the throw, but that is an omission, not a false statement. (6) **`network.cjs:82-84`** repeats (2) and (3) in reader terms. That matches the regex `/^(\d+)(?: (\d+))?\n$/` and the `submitted: null` / `Number(match[2])` return (`:85-86`). (7) **`phase06-headless.cjs:207-208`**, "(only a phase06-action request's input ack names it)", matches `action()`, the only caller that passes `submitted` (`:252-260`), and `matches()` (`:235-236`). The other comments on the contract are unchanged and correct: `SubmitPhase06` (`FoundationAutomation.cs:180`), `action()`'s assertion message (`phase06-headless.cjs:256`) and `stop()` (`network.cjs:110`). The changed C# lines are 120, 118, 117, 116 and 113 characters long (SCR0007 limit: at most 120, `LineLengthAnalyzer.cs:8,32`). They are all `///` lines outside member bodies, and the file has no `//` or `/* */` comment. |
+
+### New findings
+
+None.
+
+### Questions (not defect findings)
+
+- **Q1** The `Tick` summary covers errors thrown before `Deliver` returns, but not the three statements after it. If `File.Delete` throws (`:94`), the request has already taken effect, stays in place and is delivered again on the next frame, with no ack. If the `sequence` read (`:95-96`) or `File.WriteAllText` (`:97-99`) throws, the request is gone and no ack is written, so the reader times out. No current writer can cause the `sequence` case: `input()` always writes `sequence: ++peer.sequence` (`network.cjs:80-81`), and `stop()` writes a numeric one (`:113-114`). No caller passes a top-level `sequence` that the `...request` spread could override (`phase06-headless.cjs:254,339,400-423,520`, `phase06-solo.cjs:236-298`, `phase06-lan.cjs:199`, `game-tests/headless.cjs:196`). The comment states nothing false about these cases. Would you like `Tick` to read `sequence` before `Deliver`, so that only the I/O calls can fail after delivery? This is optional and not a defect.
+- **Q1 of re-review 4** (a refused request stays in `input.request` and is delivered again on every frame) still applies unchanged. It is a question, not a finding.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `git rev-parse HEAD`; `git status --short` | `c2d24563389c22628deb301dda4f4d2a8e791997`; clean (no output) before this file was edited |
+| `git log --oneline ab9df14..c2d2456`; `git diff --stat ab9df14..c2d2456`; `git show 3470f15` | Three commits: 3470f15, 2b2cd34, c2d2456. 6 files, 25 insertions and 26 deletions. 3470f15 changes only comment lines in its three source files. |
+| `git diff --check ab9df14..c2d2456` | No output, exit 0 |
+| Comment-stripped comparison (Node, scratch script) of each source file at `ab9df14` (scratch copy) and HEAD. `///` lines were removed for C#, whole-line `//` comments for `.cjs` | `FoundationAutomation.cs` identical (stripped SHA-256 prefix `e9a79f94d58f518a`, the same prefix re-review 4 recorded). `network.cjs` identical (`daccb3f4bf0dfc26`, the same as re-reviews 3 and 4). `phase06-headless.cjs` identical (`ef60b559a50b3317`). |
+| `node --check` of `network.cjs` and `phase06-headless.cjs` | Syntax OK |
+| Line lengths (awk and Node) | `FoundationAutomation.cs` has no line over 120, and no CR or non-ASCII character. Changed lines: `:59` 120, `:60` 118, `:61` 117, `:62` 116, `:114` 113. `network.cjs:82-84`: 115, 117, 33. `phase06-headless.cjs:206-208`: 115, 115, 119. SCR0007 does not apply to `.cjs`. |
+| `git diff --word-diff=porcelain ab9df14..c2d2456` of the three JSON files, tokens counted per file, and a filter for any changed token that is not a 64-hex hash or a base64 string | Only hash strings changed. Spans: `70354e2c…` → `73fd9078…` x2, `8a25b7c0…` → `3673e23d…` x1, `contentBase64` x1. Verification: `70354e2c…` → `73fd9078…` x1, `4efa0d9b…` → `6ace63da…` x1 (`sourceSetSha256`), `b663e054…` → `d3dc8550…` x3 (`:6216` source-set row, `:18636` and `:19697` `registries.spans.sha256`), `cba40be7…` → `a3390f2a…` x5. Gameplay-checks: `cba40be7…` → `a3390f2a…` x1 (`core.permissions` caller row, `:43`). The non-hash filter printed nothing. |
+| `sha256sum` of `engine-generated-spans.json`, `FoundationAutomation.cs`, `network.cjs`, `phase06-headless.cjs` | `d3dc8550fc15b2aef5a561075f98adcd64ecc2e766555dac00125759648445aa` (equal to the three verification rows); `73fd907845107aabcb599fe8decfc1c8f878b4b0e44762f41d9d84c9f7af89ca` (8780 bytes, equal to the three source-hash rows); `3d8c430c…a328`; `d9d23bc9…7a5c` |
+| Decode (Node, scratch script) of every `FoundationAutomation.cs` `contentBase64` row in the spans registry | `currentProducerReplay.sourceSnapshots[2]` decodes byte-for-byte to the current file (`73fd9078…`, 8780 bytes, `equalsCurrent=true`, and its `sha256` field agrees). `producerSources[4]` (`f08fd4ab…`, 3143 bytes) is the historical row, unchanged by the delta. |
+| Pin search (`grep -r`) under `src/` and `docs/` | No occurrence of any old value (`70354e2c…`, `8a25b7c0…`, `cba40be7…`, `4efa0d9b…`, `b663e054…`), and none of the old or new `network.cjs` / `phase06-headless.cjs` file hashes (`2259e22c…`, `5a99c645…`, `3d8c430c…`, `d9d23bc9…`). Both files are `kind: outside-validator`, `sha256: null` (verification `required-cases.json:4044-4047,5932-5935`). New values: `73fd9078…` 3, `3673e23d…` 1, `a3390f2a…` 6, `6ace63da…` 1, `d3dc8550…` 3. |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings c2d24563389c rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=a3390f2a554ee0d51b5346e94ecd8a710a233a89a335ecd4ceff88d10d33e90b` |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 3673e23d6bfe262a005a0c9ea4495197416bceacbe79906bf14b0f544f8fb2b8` |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` |
+| `node --test --test-isolation=none src/godot-game/tests/scenarios/phase06-drivers.test.cjs` | 71 pass, 0 fail, 0 skip |
+| `git grep -n -i -E 'input\.ack\|input\.request\|input ack\|run-action sequence\|acknowledg\|DRIVER_ACTION\|DRIVER_NONCE' -- src docs ':!*.json'`; a `git grep` of comments mentioning `ack`, `submitted` or `sequence` in the scenario, lan-checks, game-tests and foundation sources; a `git grep` of `docs/` and `*.md` for `phase06-action`, `phase06-workspace`, `fixture-attack`, `spectator-proof-lethal` and `driver ack` | The only statements of the ack and sequence contract are `FoundationAutomation.cs:59-62,114,180`, `network.cjs:82-84,110` and `phase06-headless.cjs:207-208,256`. All of them match the code. No document under `docs/` describes the contract. Outside `.planning/`, the other hits are unrelated acknowledgements: native input, quit, baseline, capture publication, respawn receipts and the Windows `DRIVER_ACTION` in `lan-checks/windows-input.ps1:244`, which is a different helper's error. |
+| `git blame -L 58,63 -L 114,114 -L 180,180` of `FoundationAutomation.cs` | `:59-62` and `:114` come from 3470f15. `:180` comes from d5b2566 and is unchanged. |
+
+The scratch copies of the pre-delta sources, the word diff and the decode and strip scripts were written outside the repository and deleted afterward.
+
+### Evidence limits
+
+- No Godot process, build, xUnit, rendered, LAN, inspection or packaged run was launched. The writer behavior was judged from source only.
+- That the comment-only C# change still compiles and passes the SCR rules is inferred from the identical comment-stripped file and the line lengths. No build was run.
+- Q1's statements about what happens after `Deliver` returns are read from source order. No failing `File.Delete` or malformed `sequence` was produced in a run.
+- The fixer's reported runs were not repeated, apart from the checks above. They are narration, not evidence used here.
+- This re-review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Run 2 repair review (2026-11-27)
+
+**Reviewed revision** `ea3e2ad9ff8312eea5ae3a10bbe7390e085bbdfe` (clean tree, pushed)
+
+**Fix-delta range** `784a0c5..ea3e2ad`, source commit ea3e2ad. The cumulative base stays `a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d`. The delta repairs the Run 2 failures R2-1, R2-2/R2-5, R2-3 and R2-7 recorded in `06-RENDERED-EVIDENCE.md` (invocation `a0e0ad44-adde-4344-b584-75e7f99bc5e3`). The repair commits are:
+
+- a3769d3 (E, R2-7): `rendered.cjs` calls `validateReferences(foundation, current ? [...foundation, ...inspection] : foundation)`. The creator approved this widening of the Phase 2 resource-isolation proof. A new rejection control in `runner-fixture.cjs` strips the theme from the historical Foundation copy, and `foundation-checks.md` is updated.
+- 25b5357 (C, R2-3): `FoundationDrawObserver.cs:75` looks up `WorldInput/Aim` instead of `Aim`.
+- c1ac475 (D, R2-1): the inventory projection fingerprint moves into the engine-free model as `Model.Version`, `Projected` and `Stale(...)`. Each draw records its version, and close/reset clears it.
+- 58c3749 (B, R2-2/R2-5): an item press counts as modified when `mouse.CtrlPressed`/`ShiftPressed` is set or `Godot.Input.IsKeyPressed(Key.Ctrl/Shift)` reports the key held (the new `Modifier`). The cause is inferred, not observed.
+- 2b30e5e, ea3e2ad: mechanical rederivations (current-replay spans, the two producer `registries.spans.sha256` rows, and the ac-08 bindings including the gameplay-checks `core.permissions` caller row).
+
+`git diff --stat 784a0c5..ea3e2ad`: 11 files, 147 insertions, 49 deletions.
+
+**Depth** Deep.
+
+**Status** Issues found: 0 P0/P1, 1 P2 (RR-01) and 4 P3 (RR-02 to RR-05, one of them a necessity finding), all open. The R2-1, R2-3 and R2-7 repairs hold when traced against source. The R2-2/R2-5 repair is the weak point: nothing in source or evidence shows it addresses the observed failure. Every re-derived hash matches its check. Commit messages were read as narration only. Every claim was checked against the current source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow at deep depth). This reviewer did not author the repairs and did not perform any earlier review in this file. Severity mapping: Critical = P0/P1, Warning = P2, Info = P3.
+
+### Files reviewed (11)
+
+These are exactly the files from `git diff --name-only 784a0c5..ea3e2ad`:
+
+- `docs/code/engine-generated-spans.json`
+- `docs/workflow/foundation-checks.md`
+- `src/godot-game/game/foundation/FoundationDrawObserver.cs`
+- `src/godot-game/game/foundation/FoundationInventoryInteraction.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs`
+- `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs`
+- `src/godot-game/tools/gameplay-checks/rendered.cjs`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/runner-fixture.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Per-commit verification
+
+**a3769d3 (R2-7).**
+
+- The declared, byte-identical copy rule still holds. `inspection` (`rendered.cjs:341-343`) is part of `inputs` (`:344`) whenever `current` is true. Every input is copied into `isolated-input` and hashed (`:348-357`), `validateReferences` reads the isolated copies (`:360`), and the copy hashes are re-checked at `:372-374`. The theme's own dependencies are still checked against `inspection` at `:371`.
+- The historical path still rejects the theme. When `current` is false, `inspection` is `[]` and the declared set is `foundation`. The only static `res://` literals in `game/foundation/` are `Foundation.tscn:3`, `FoundationNativeRegression.cs:70`, `FoundationRoot.cs:378` and `FoundationInventoryArt.cs:31` (the theme), so the theme is the only undeclared literal and the new control's exact-message expectation (`runner-fixture.cjs:57-58`) is deterministic. The control rewrites the literal only in the temporary isolated copy (`:59-62`).
+- The widening admits nothing outside the declared inspection list, but it admits the whole eight-entry list (including `inspection/Inspection.tscn` and `inspection/InspectionRoot.cs`), not only the theme. See RR-03.
+- `foundation-checks.md:22` and the new comment at `rendered.cjs:366-368` are true: `current` is keyed on the `run/main_scene.asset_inspection` role (`:322`). The PASS line's "three undeclared resource controls" count is right, and its consumer (`asset-pipeline/cases/runner.cjs:81`) matches the unchanged prefix.
+
+**25b5357 (R2-3).**
+
+- `WorldInput/Aim` is the right node. `FoundationWorldInput.AttachWorld` (`FoundationWorldInput.cs:35-45`) adds the `WorldInput` Control to the FoundationRoot and `Aim` under it. The observer's `_root` is the same node (`FoundationRoot.cs:65`, `FoundationDiagnostics.cs:19`). `Aim` has lived under `WorldInput` since 729d651, so the bare lookup could never resolve, matching "false in all 2619 solo draws".
+- The semantics match D-41. The observer reports `IsVisibleInTree()`, not existence. `WorldInput` is never hidden, so the value equals `Aim.Visible`, which `Point()` (`:172-191`) sets true only in gameplay with IT-07 in a hand, and which `Refresh` (`:117-120`), `LoseFocus` (`:89`) and `DetachWorld` clear.
+
+**c1ac475 (R2-1).**
+
+- Pre-repair cause confirmed from source: `_version` was updated only in `Observe` and never cleared on close, so a reopen through `Handle` drew without recording a version, and byte-identical returning windows matched the stale value.
+- `Draw` now records `Projected(Version(_readback))` on every successful draw (`FoundationInventoryWorkspace.cs:221`), `Model.Close` clears it (`FoundationInventoryInteraction.cs:37`), as do `Reset` and `Release`, and `Observe` redraws on `_dirty || Stale(...)` (`:91`).
+- Traces of a normal reopen, a same-frame close and reopen on the host, and a guest with a lagging readback found no missed or extra redraw. `Version` is a verbatim move of `Fingerprint`. A `Draw` that throws never records, and its `Close` clears the record. `AccessLost` does not close the model. No dangling reference to the removed helper remains.
+- The new tests fail on the pre-repair tree only by not compiling. See RR-02.
+
+**58c3749 (R2-2/R2-5).**
+
+- D-21 placement is unchanged: `Model.Quick`, the `External is { } target && (external || Kind is "Stash")` gate and the `Send(...)` call are byte-identical. Only the modifier predicate changed.
+- The engine-access policy is met: `Godot.Input.IsKeyPressed` is called inside `ItemInput`, which is registered in `EngineAccessPolicy.cs:235-236` and begins with `_gateway.RequireThread()` (`Input.cs:45`). `Modifier` is engine-free.
+- No realistic new false positive was found. Godot releases pressed keys on focus-out (engine knowledge, not read from the pinned engine source). Each LAN peer is its own process with its own `Input` state. No other Ctrl binding exists in `game/`. Shift is the sprint key, but a physically held Shift already set `ShiftPressed` before this change.
+- The cause remains unproven. See RR-01.
+
+**2b30e5e, ea3e2ad (rederivations).** The word diff over the three JSON files shows only SHA-256 tokens and the four `currentProducerReplay.sourceSnapshots[].contentBase64` values. Each new hash equals the working-tree bytes (`FoundationDrawObserver.cs` `ff74fee8…`, `FoundationInventoryInteraction.cs` `bd93a079…`, `FoundationInventoryWorkspace.Input.cs` `7104189f…`, `FoundationInventoryWorkspace.cs` `dcc81383…`, `Phase06InventoryInteractionTests.cs` `b6cc48a7…`, `engine-generated-spans.json` `ba95a5a4…`), and all four decoded snapshots equal the files on disk. The historical `producerSources` rows are unchanged. No pre-delta hash of the changed files is still referenced at HEAD outside `.planning/`. The aggregates (`sourceInputsSha256`, `sourceSetSha256`, six `repositorySha256` caller rows) are confirmed by the check tools below.
+
+### Findings
+
+| ID | Severity | File:line | Problem | Fix |
+| --- | --- | --- | --- | --- |
+| RR-01 | P2 (Warning) | `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs:193-196`; `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs:46-68` | False statement and unobserved repair. The test summary states as fact that the rendered Ctrl-click carries no modifier flag, which was never observed (R2-2/R2-5 say the cause is not proven). Source points the other way: the driver sends Ctrl through `SendInput` (`lan-checks/windows-input.ps1:46-56`), which updates the OS key state, so `mouse.CtrlPressed` would normally already be true. `ItemInput` has four other silent no-request exits that match the symptom and are not recorded: `_pending.HasValue`, a stale drawn token against `External?.Token` (`:46`, plausible given the R2-1 stale projection in the same run), `External` null or unauthorized, and `Kind` not `Stash` (`:59`). The next run can tell neither which predicate carried a passing click nor which guard dropped a failing one. | Reword the summary to state only the rule ("A held Ctrl or Shift counts even when the click event carries no modifier flag"). Add a read-only record of the last item press, taken inside the guarded `ItemInput` and exposed to the `phase06` sample of `FoundationDrawObserver`: `{ctrlFlag, ctrlHeld, shiftFlag, shiftHeld, external, drawnToken, currentToken, pending, externalKind, branch}`, with `branch` one of `pending`, `token`, `quick`, `press`, `menu`, `no-external` or `kind`. Have the stash and conflicts scenarios report or assert it. |
+| RR-02 | P3 (Info) | `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs:145-191`; wiring at `src/godot-game/game/foundation/FoundationInventoryWorkspace.cs:91,221` | The reopen tests call `workspace.Projected(...)` themselves, so they assume the Draw-time recording whose absence caused R2-1. Deleting `_model.Projected(...)` from `Draw` (`:221`) or moving it back under `Observe` leaves every test green. The tests drive the host/solo coordinator only; the guest `_guestRunReadback` path is not exercised. "Reproduce the rendered reopen" overstates what they bind. | Soften the summary to "models the reopen contract", or add a source-structure (Roslyn method-body) assertion that `Draw` records `_model.Projected(version: Model.Version(readback: _readback))` and `Observe` uses `_model.Stale(...)`, as `FoundationLanPermissionTests` already does elsewhere. Optionally add a guest-coordinator variant. |
+| RR-03 | P3 (Info) | `src/godot-game/tools/gameplay-checks/rendered.cjs:369`; `src/godot-game/tools/gameplay-checks/runner-fixture.cjs:56-62` | No control shows the widened current path still rejects a Foundation `res://` literal outside the Foundation and inspection sets (for example `res://assets/ui/kingdom-zombies-icon.png`), so a further widening would pass unnoticed. The widening admits all eight inspection entries, not only the theme. The new control's only caller (`asset-pipeline/cases/runner.cjs:77`) sits after the pre-existing `rejectsMissingCompletion` break, so it does not currently run. | Add a current-path rejection control that injects `res://assets/ui/kingdom-zombies-icon.png` into the isolated `FoundationInventoryArt.cs` and expects `UNDECLARED_RESOURCE assets/ui/kingdom-zombies-icon.png`. Optionally narrow `:369` to `current ? [...foundation, 'assets/ui/InspectionTheme.tres'] : foundation`; the theme's fonts are already checked at `:371`. |
+| RR-04 | P3 (Info, necessity) | `src/godot-game/game/foundation/FoundationInventoryInteraction.cs:43` | `_projected = Open ? version : null` guards a state no caller can produce: the only caller, `Draw` (`FoundationInventoryWorkspace.cs:221`), returns early unless `_layer` exists (`:197`), and `_layer` exists only while the model is open. The guard is cheap and pinned by `ProjectionVersion_Closed_RecordsNothing`. | Human scope decision: keep it as a documented model invariant, or drop the conditional together with the first two assertions of `ProjectionVersion_Closed_RecordsNothing`. |
+| RR-05 | P3 (Info) | `src/godot-game/game/foundation/FoundationInventoryInteraction.cs:64-74` | The `Version` summary says it hashes views "by scope, token, header and committed row stamps", but `nearby` rows contribute their full `GetRawText()` (`:72-73`) and the `status` view is excluded (`:68`). The exclusion matters: status changes alone never cause a redraw. | Reword, for example: "Identifies the drawn views except status, by scope, token, header and committed row stamps (full rows for nearby)." |
+
+### Notes and questions (not findings)
+
+- **N1** The creator approved the R2-7 widening. The code widens to the whole inspection list, including the inspection scene and script, not only the theme the commit names. Confirm the approval covers that, or narrow as in RR-03.
+- **N2** Foundation also loads `"res://" + path` dynamically (`FoundationAppearanceAssets.cs:71,117`, `FoundationInventoryArt.cs:97,107,125`, `FoundationRoot.cs:274`). The static literal scan cannot see these. This predates the delta.
+- **N3** The new code uses `Godot.Input.IsKeyPressed` (logical keycode), while `FoundationRoot.PollKeys` and `FoundationLanPermissionTests` use `IsPhysicalKeyPressed`. For Ctrl and Shift the two agree, and `Key.Ctrl` matches either Ctrl key.
+- **N4** `draw.crosshair` proves visibility only. A scenario that wants the crosshair at the cursor would also need `Aim.Position` against the cursor.
+- **N5** Project rules: no changed C# line exceeds 120 characters; no comments inside member bodies (the new XML docs sit on members); new calls use named arguments; the new test names follow Method_State_Expected; `ItemInput` stays under the body-length limit.
+- **Modifier observation.** The brief asked whether a read-only observation of the item-press modifier state should be added so the next on-screen run proves the cause. The reviewer judged that it should and made it part of the RR-01 fix.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings ea3e2ad9ff83 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=7998eb1180c9e2af3b055dc69d2daa73947e0c00440efc82bf01ed3014727ac7` (exit 0) |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 54043277453bf0fc44e9e47344d4d1a13c5d1ba3e4bfd5f02ad42fc03d3be0be` (exit 0) |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` (exit 0) |
+| Scratch script: SHA-256 of the six changed bound files against every spans and cases row, and `contentBase64` decode with byte comparison | All current rows match; all four decoded snapshots equal the disk bytes |
+| Scratch script: `git grep` at HEAD for the pre-delta hashes of `rendered.cjs`, `runner-fixture.cjs`, `foundation-checks.md` and `gameplay-checks/required-cases.json` | None referenced |
+| `git diff --word-diff=porcelain 784a0c5..ea3e2ad` on the three JSON files | Only hash and `contentBase64` tokens changed |
+| awk line-length check on the five changed C# files | No line over 120 characters |
+
+The scratch scripts were written outside the repository and deleted afterward.
+
+### Pre-existing break (out of scope)
+
+`asset-pipeline.runner.prelaunch-source` fails in `rejectsMissingCompletion` (`src/godot-game/tools/asset-pipeline/cases/runner.cjs:14-21`). It spawns `tools/phase4/check.cjs`, which has not existed since 11a7ca3 (`src/godot-game/tools/phase4` is absent). This is not a finding against this delta. Its one effect on this delta is that the changed `runner-fixture.cjs` resource-roles control, called at `runner.cjs:77`, does not currently run (RR-03).
+
+### Evidence limits
+
+- Source review plus the three `--check` tools only. No Godot launch, build, xUnit, rendered, LAN or fixture run. The three new xUnit tests and the new runner-fixture control were not executed.
+- The engine and Win32 claims (focus-out key release, `MK_CONTROL` on `SendInput` clicks) come from knowledge of the engine and platform, not from the pinned 4.7.2 engine source.
+- The Run 2 artifacts under `.local/runs/game-tests/a0e0ad44-adde-4344-b584-75e7f99bc5e3/` were not reopened. Run facts come from `06-RENDERED-EVIDENCE.md`.
+- This review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## RR repair review (2026-11-28)
+
+**Reviewed revision** `f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6` (clean tree, pushed)
+
+**Fix-delta range** `62952c3..f0890ca`, source commit f0890ca. The delta repairs the Run 2 repair review findings RR-01 to RR-05 (section "Run 2 repair review (2026-11-27)"). The repair commits are:
+
+- 5dfe7a5 (RR-01): adds `Model.ItemPress` and `Model.PressBranch`. `ItemInput` builds a press record for every left or right press, stores it as `LastPress`, and dispatches on `Branch`. `FoundationRoot` passes `_inventory.LastPress` into `FoundationDiagnostics.Observe(itemPress:)`, and the DEBUG `phase06` sample carries it as `ItemPress`. Adds the `itemPress` and `explainPress` helpers to the stash and conflicts scenarios, a driver test, a branch unit test, and the Modifier test-summary rewording.
+- 91c08ab (RR-02): adds a Roslyn source-binding test for the `Draw`/`Observe` projection wiring and rewords the reopen test summary.
+- 20ee592 (RR-04): `Projected` assigns unconditionally. The closed-model test is renamed and now checks Close and Reset separately.
+- 0a9355b (RR-05): rewrites the `Version` summary.
+- ae3c5b0, f0890ca (RR-03): adds a current-path icon-reference rejection control to `runner-fixture.cjs` and calls `resource-roles` from the integrity mode. `asset-pipeline/cases/runner.cjs:16` is repointed to `src/godot-game/tools/asset-pipeline/check.cjs`. Adds one sentence to `foundation-checks.md`.
+- 0057d41, ac8b369, 371a44b, ca17819: mechanical rebinding of the identity closure, asset bindings, current producer replay and ac-08 bindings.
+
+`git diff --stat 62952c3..f0890ca`: 29 files, 342 insertions, 135 deletions.
+
+**Depth** Deep.
+
+**Status** Issues found: 0 P0/P1, 0 P2 and 3 new P3 findings (RR-06 to RR-08), all open. All five earlier findings, RR-01 to RR-05, are resolved. The RR-01 dispatch rewrite was traced branch by branch against `62952c3`. Apart from the two declared edges, it changes no outcome. Every rebound hash and byte count matches the bytes on disk. Commit messages were read as narration only, and every claim was checked against the source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow at deep depth). This reviewer did not author the repairs and did not perform any earlier review in this file. Severity mapping: Critical = P0/P1, Warning = P2, Info = P3.
+
+### Files reviewed (29)
+
+These are exactly the files from `git diff --name-only 62952c3..f0890ca`, none of which is under `.planning/`:
+
+- `docs/code/engine-generated-spans.json`
+- `docs/content/fields.md`
+- `docs/workflow/foundation-checks.md`
+- `src/godot-game/game/content/fixtures/crowds.json`
+- `src/godot-game/game/content/pack-index.json`
+- `src/godot-game/game/content/packs/compatibility.json`
+- `src/godot-game/game/content/packs/delivery.json`
+- `src/godot-game/game/content/packs/player-identities.json`
+- `src/godot-game/game/content/packs/text-data.json`
+- `src/godot-game/game/content/packs/ui-camp.json`
+- `src/godot-game/game/content/packs/ui-identity.json`
+- `src/godot-game/game/content/packs/ui-inventory.json`
+- `src/godot-game/game/content/packs/ui-legacy-stash.json`
+- `src/godot-game/game/content/packs/ui-map-warnings.json`
+- `src/godot-game/game/foundation/FoundationDiagnostics.cs`
+- `src/godot-game/game/foundation/FoundationInventoryInteraction.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs`
+- `src/godot-game/game/foundation/FoundationRoot.cs`
+- `src/godot-game/tests/scenarios/phase06-drivers.test.cjs`
+- `src/godot-game/tests/scenarios/phase06-lan.cjs`
+- `src/godot-game/tests/scenarios/phase06-rendered.cjs`
+- `src/godot-game/tests/scenarios/phase06-solo.cjs`
+- `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs`
+- `src/godot-game/tools/asset-pipeline/cases/runner.cjs`
+- `src/godot-game/tools/asset-pipeline/content.cjs`
+- `src/godot-game/tools/asset-pipeline/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/runner-fixture.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Per-commit verification
+
+**5dfe7a5 (RR-01).** The old `ItemInput` (`git show 62952c3:…/FoundationInventoryWorkspace.Input.cs:43-75`) was compared with the new one (`Input.cs:46-80`), branch by branch:
+
+- **`_pending` exit.** The old code returned on any input when `_pending.HasValue`. The new code handles left and right presses as `PressBranch` → `"pending"`, its first test (`FoundationInventoryInteraction.cs:76-79`), and dispatches nothing. Key input keeps the guard inline (`Input.cs:73`). Same outcome.
+- **Drawn token against `External?.Token`.** The old code had `external && token != External?.Token`. The new code tests `press.External && press.DrawnToken != press.ExternalToken` (`:81-84`), where `ExternalToken` is `target?.Token` and `target` is `External` read once (`Input.cs:51`). The lifted `long != long?` comparison is true for a null target, as before. The key path has `!external || token == External?.Token`, which is the exact De Morgan negation. Same outcome.
+- **Menu.** A right click maps to `"menu"` only after the pending and token checks (`:86-89`), so a Ctrl-right-click still opens the menu. Same outcome.
+- **Modifier predicate.** `Modifier(flagged: CtrlFlag, held: CtrlHeld)`, where the record reads `mouse.CtrlPressed` and `Godot.Input.IsKeyPressed(Key.Ctrl)` (`Input.cs:53-54`). `IsKeyPressed` is now also read for right presses and pending presses. It has no side effect. Same outcome.
+- **D-21 quick placement.** The old gate was `External is { } target && (external || Kind is "Stash")`. The new code returns `"no-external"` when `ExternalKind` is null, which happens only when `target` is null because `Text` (`:485-488`) never returns null. It returns `"quick"` for `External || ExternalKind is "Stash"`, and `"not-stash"` otherwise (`:96-97`). `Send(command: Model.Quick(item: item, token: target.Token, deposit: !external), nearby: true)` is byte-identical (`Input.cs:65`). The added `&& target is not null` is required by nullable flow analysis, not a behavioural change.
+- **Split and press start.** Every left fallback (`split`, `drag`, `no-external`, `not-stash`) creates the same `Press` with `split: press.Split`, which is `Modifier(shiftFlag, shiftHeld)` (`Input.cs:67-71`; constructor `:697`). Same outcome.
+- **Middle, wheel and release events.** They match neither branch: the first pattern requires Left or Right, and the second requires `InputEventKey`. Before the change they entered the mouse branch and did nothing. Same outcome. This is declared edge (2).
+- **Shift-F10 and Menu key.** The condition and `SetInputAsHandled()` are unchanged (`Input.cs:73-79`).
+- **Declared edge (1) is true and safe.** With a header that has no `Kind`, the old deposit path (`!external`) called `GetProperty("Kind")` and threw `KeyNotFoundException` out of a GUI signal. An external item with Ctrl already short-circuited to quick, and still does. The new code reads `""` and falls back to a drag press (`"not-stash"`). A missing kind can never be `Stash`, so no transfer is lost. Evaluating `External`/`ExternalTarget` on more paths adds no new throw: `FoundationRoot.cs:184` already evaluates `_inventory.ExternalKind`, which runs the same `AuthorizedExternal` and `ExternalTarget` on every frame.
+- **Record fields.** The record carries every field RR-01 asked for: `CtrlFlag`, `CtrlHeld`, `ShiftFlag`, `ShiftHeld`, `External`, `DrawnToken`, `ExternalToken` (current token), `Pending`, `ExternalKind` and `Branch`. It adds `Sequence`, `Item`, `Button` and `ExternalPending`. The branch names differ from the suggestion (`split`/`drag` instead of `press`, `not-stash` instead of `kind`), but they are more specific.
+- **Where the record is taken.** It is built after `_gateway.RequireThread()` (`Input.cs:48`, `:52-58`) inside the registered `ItemInput(Button,Item,bool,long,InputEvent)` (`EngineAccessPolicy.cs:235-236`). The emission is DEBUG-only and phase-owned (`FoundationDiagnostics.cs:112-136`, under `#if DEBUG` and `FoundationAutomation.OwnedPhase()`). The record itself must exist in release builds, because it now drives dispatch (see RR-07). The default `JsonSerializer` keeps the `ItemPress` key in PascalCase, which matches the reader `draw?.input?.phase06?.ItemPress` (`phase06-rendered.cjs:86`).
+- **Scenario helpers.** `explainPress` appends `itemPress=` to the rejected wait's message (`phase06-rendered.cjs:90-95`). It wraps the solo `stash-withdrawal` wait (`phase06-solo.cjs:183`) and the LAN `one authority withdrawal` and `contested withdrawal denial` receipts (`phase06-lan.cjs:145`, `:160`). Both cases also save the press in their observations (`solo.cjs:186,192`; `lan.cjs:147,162,185`). Failures are reported through `error.message` (`game-tests/scenario-group.cjs:35`, `report.cjs:48`), so the appended text reaches the report. The deadline `Error` (`lan-checks/rendered.cjs:32`) is mutated before anything reads its `stack`. See RR-06 for what the attached press can prove.
+- **Test-summary rewording.** `Phase06InventoryInteractionTests.cs:228-231` now states the rule and calls the rendered no-flag cause an inference. This resolves RR-01's false-statement part.
+
+**91c08ab (RR-02).** `ProjectionWiring_WorkspaceSource_RecordsEachDrawAndReprojectsStaleReadback` (`Phase06InventoryInteractionTests.cs:206-226`) parses every `FoundationInventoryWorkspace*.cs`. It requires the set of methods that call `_model.Projected` to be exactly `["Draw"]`. It requires `Draw`'s last two statements to be the `Projected` call and `_dirty = false;`. It requires `Observe`'s last top-level `if` to be `_dirty || _model.Stale(version: Model.Version(readback: _readback))` with body `Project();`.
+
+- **The test fails on each mutation.** Removing the call gives `[]`. Moving it under `Observe` or `Project` gives `["Observe"]` or `["Project"]`. Keeping it in both gives two entries. Moving it inside a nested block breaks the `TakeLast(2)` assertion.
+- **The test passes at HEAD.** `Draw` and `Observe` are unique in the four partial files, and the expected texts match `FoundationInventoryWorkspace.cs:91-94,221-222`.
+- **Guest-path acceptance: accepted.** `FoundationRoot.cs:386-391` passes `_coordinator.ReadRunRender()` to the single `_inventory.Observe`. For a guest, `_session` is null and `ReadRunRender` returns `_guestRunReadback` (`FoundationCoordinator.RunWire.cs:69-74`). The wiring that R2-1 broke is therefore the same code for solo, host and guest, and the source binding covers it. A guest-coordinator variant would test lagging readback content, which is a different property.
+- **Reworded reopen summary.** It now says the test "models" the contract and records each draw itself (`:148-152`). That is true.
+
+**20ee592 (RR-04).** `Projected` assigns unconditionally (`FoundationInventoryInteraction.cs:44-47`). The new summary ("Only a draw of the open workspace records one; closing or resetting forgets it") holds:
+
+- `Draw` is the only caller (bound by the RR-02 test).
+- `Draw` runs only from `Project`, at `Handle` after `Show` and at `Observe` after the `!_model.Open` return.
+- Nothing inside `Draw` closes the model.
+- `Close` (`:37`) and `Reset` (via `Close`) clear the record.
+
+`ProjectionVersion_ClosedOrReset_ForgetsDrawnVersion` (`Phase06InventoryInteractionTests.cs:184-198`) now exercises Close and Reset separately.
+
+**0a9355b (RR-05).** The new `Version` summary (`FoundationInventoryInteraction.cs:100-103`) matches the code at `:104-113`. It names the status exclusion, scope+token+header raw text, committed `Stamp`s, and full row text for `nearby`. "A change to the status view alone never makes a projection stale" is true of `Stale`. `_dirty` is a separate trigger.
+
+**ae3c5b0, f0890ca (RR-03).**
+
+- **The control stays in the isolated copy.** It edits only `current.isolatedInputRoot/…/FoundationInventoryArt.cs` (`runner-fixture.cjs:53`) and restores it in `finally` (`:61-63`).
+- **The exact message is deterministic.** It expects `UNDECLARED_RESOURCE assets/ui/kingdom-zombies-icon.png` (`:60`). In the current project the declared Foundation set is `[...foundation, ...inspection]` (`rendered.cjs:369`), and it does not include the `config/icon` resource. The unmodified tree passes the first `validateResources`, so the injected literal is the only undeclared one.
+- **The control now runs.** `runner.cjs:16` was repointed. Running the repointed command gives exit 1 with `EVIDENCE_PATH_MISSING`, which is what `rejectsMissingCompletion` expects, so `prelaunch-source` now reaches the `resource-roles` spawn at `:77`. `integrity` also runs it (`runner-fixture.cjs:187`), and that path is reached through `FoundationRunnerTests.Evidence_InvalidRecords_CannotPass`.
+- **Consumers match.** The PASS line's "four undeclared resource controls" is right: `undeclared_fixture`, `extra_icon`, `outside-inspection` and `theme-without-inspection`. Its only consumer matches the unchanged prefix `/PASS current three resource roles/` (`runner.cjs:81`).
+- **Docs.** See RR-08 for the new `foundation-checks.md` sentence.
+
+**0057d41 (identity closure).**
+
+- **FoundationRoot pin.** `content.cjs:348` pins `FoundationRoot.cs` at 23679 bytes and `96e0f4c4…`, which equals the disk.
+- **Rebound hashes.** The cascade rebinds hashes and byte counts for ui-identity, player-identities, crowds, ui-camp, ui-inventory, ui-legacy-stash, ui-map-warnings, compatibility, text-data, delivery, `fields.md` and `asset-pipeline/required-cases.json` (pinned under the legacy label `tools/phase4/required-cases.json`). Each one equals the disk; the hash results below list them all.
+- **fields.md.** All 47 `Source SHA256` lines in `fields.md` equal their files on disk, including the 7 changed ones.
+
+**ac8b369, 371a44b, ca17819 (rederivations).**
+
+- **Changed hash tokens.** Every changed SHA-256 token resolves either to its file on disk or to an aggregate that the matching `--check` tool confirms. The aggregates are `sourceInputsSha256 9997be01…`, `sourceSetSha256 837bc469…` and six `repositorySha256 b3049f18…` rows.
+- **Snapshots.** The four changed `currentProducerReplay.sourceSnapshots[].contentBase64` entries decode byte-identically to the disk. They are `FoundationDiagnostics.cs` (9324 bytes), `FoundationRoot.cs` (23679), `FoundationInventoryInteraction.cs` (28341) and `FoundationInventoryWorkspace.Input.cs` (23471).
+- **Historical rows.** The historical `producerSources` rows are unchanged.
+
+### RR-01 to RR-05 status
+
+- **RR-01 (P2): resolved.** The false test summary is reworded. The read-only press record covers every requested field, is taken inside the guarded `ItemInput`, and is emitted to the DEBUG `phase06` sample. Both scenarios attach it to failures and save it in their observations. The dispatch rewrite preserves every outcome except the two declared edges, and both edges are safe. Residual weaknesses are filed as RR-06 and RR-07.
+- **RR-02 (P3): resolved.** The source binding fails on each removal or move of the `Projected`/`Stale` wiring. Guest-path coverage through the shared `Observe` entry is accepted, because guest readback enters through the same `FoundationRoot.cs:390` call.
+- **RR-03 (P3): resolved.** The icon-reference rejection control exists, edits only the isolated copy, expects the exact message, and passes when run. Its callers, `prelaunch-source` (now past the repaired `rejectsMissingCompletion`) and `runner.integrity`, both reach it. The optional narrowing of `rendered.cjs:369` was not taken; it was optional.
+- **RR-04 (P3, necessity): resolved.** The unreachable guard was removed. The invariant now lives with the only caller and is bound by the RR-02 test.
+- **RR-05 (P3): resolved.** The `Version` summary is now true against the code.
+
+### Findings
+
+| ID | Severity | File:line | Problem | Fix |
+| --- | --- | --- | --- | --- |
+| RR-06 | P3 (Info) | `src/godot-game/tests/scenarios/phase06-rendered.cjs:86,90-95`; callers `phase06-solo.cjs:183,186`, `phase06-lan.cjs:145,147,160,162`; `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs:13,58` | The scenario may report an earlier press as the press of the awaited click. `explainPress` and `itemPress` report whatever `LastPress` is in the latest draw, but `LastPress` is set only at `Input.cs:58` and never cleared, not even by `Close`, `Release` or `Reset`. If the awaited Ctrl-click never reaches `ItemInput` (one of the causes RR-01 wanted to tell apart), the failure message and the saved `press`/`winnerPress`/`loserPress` show an earlier press, possibly from an earlier case in the same game process, as if it were that click. `Sequence` exists, but no helper compares it against the value before the click, so the next run still cannot tell "press dropped by guard X" from "no press arrived". | Read `run.itemPress(run.last(peer))?.Sequence` before the click. In `explainPress` and the saved observations, report `itemPress=none-since-click` when the sequence has not advanced, or assert that it advanced (and that `Item` equals the clicked id) before trusting `Branch`. |
+| RR-07 | P3 (Info) | `src/godot-game/game/foundation/FoundationInventoryInteraction.cs:673-677,714-715`; `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs:59-71` | The summary says "kept for read-only observation", but the record decides what a click does. `ItemPress` and its `Branch` string now drive `ItemInput`'s dispatch (`"menu"`, `"quick"`, `"split" or "drag" or "no-external" or "not-stash"`), so the summary at `:674` is false. Nothing binds the dispatch literals to `PressBranch`'s return values: `PressBranch_ObservedPress_NamesTakenBranch` tests only `PressBranch`. A renamed or added branch would silently drop the click, and a change to the observation would change input behaviour, which is the opposite of the "read-only record" RR-01 asked for. The derived `Split` and `Branch` also have `init` setters, so an object initializer or a `with` expression can make `Branch` disagree with the fields. | Make the branch an enum, for example `PressBranch { Pending, Token, Menu, Quick, Split, Drag, NoExternal, NotStash }`. Dispatch with an exhaustive `switch` whose default throws, and emit a kebab-case name only in `FoundationDiagnostics`. Make `Split`/`Branch` get-only. Reword the summary, for example: "One left or right item press as item input read it and the branch it takes; the last one is exposed for read-only observation." |
+| RR-08 | P3 (Info) | `docs/workflow/foundation-checks.md:22` (new sentence); `src/godot-game/tools/gameplay-checks/runner-fixture.cjs:57-58` | False statement. The new sentence says "A Foundation reference to any other resource, even one another project role declares, is always rejected", and the control's comment says it "still rejects any other Foundation reference". The check reads only static `res://` literals (`rendered.cjs:358-365`). Foundation builds six runtime paths with `"res://" + path`, at `FoundationAppearanceAssets.cs:71,117`, `FoundationInventoryArt.cs:97,107,125` and `FoundationRoot.cs:275`. These load content packs and textures outside both declared sets and are never rejected. | Qualify both texts, for example: "A static `res://` literal in a Foundation file that names any other resource, even one another project role declares, is rejected. Paths built at runtime are outside this check." |
+
+### Hash results
+
+Scratch scripts compared each changed SHA-256 and byte-count token against the working tree.
+
+- **Hash tokens.** 81 added hash tokens and 81 removed ones. Every added token resolves to a file on disk or to a check-confirmed aggregate. 54 of the rows that changed name a path, and 52 of them resolve directly and match. The other 2 (`pack-index.json` `/files/132` and `delivery.json` `/fixtureCatalog`) use the legacy label `tools/phase4/required-cases.json`. Their value `d62a67d3…` equals `src/godot-game/tools/asset-pipeline/required-cases.json` on disk.
+
+| File | SHA-256 (disk) | Bytes | Result |
+| --- | --- | --- | --- |
+| `FoundationRoot.cs` | `96e0f4c449da…` | 23679 | matches `content.cjs`, `pack-index.json` (bytes too), `ui-identity.json`, spans and verification rows |
+| `FoundationDiagnostics.cs` | `3fb5a32f0315…` | 9324 | matches spans and verification rows; snapshot decodes equal |
+| `FoundationInventoryInteraction.cs` | `caa1c36321ae…` | 28341 | matches; snapshot decodes equal |
+| `FoundationInventoryWorkspace.Input.cs` | `66d91ecd8172…` | 23471 | matches; snapshot decodes equal |
+| `Phase06InventoryInteractionTests.cs` | `4cd72877e17f…` | 17453 | matches `verification/required-cases.json` |
+| `engine-generated-spans.json` | `5f27d3d3c0ae…` | 2954722 | matches `verification/required-cases.json` |
+| `asset-pipeline/cases/runner.cjs` | `f0b652615330…` | 87729 | matches `asset-pipeline/required-cases.json` |
+| `asset-pipeline/required-cases.json` | `d62a67d34975…` | 691440 | matches `pack-index.json`, `delivery.json` |
+| `crowds.json` | `bb0bd39be6f6…` | 207148 | matches `fields.md`, `pack-index.json`, `delivery.json`, `asset-pipeline/required-cases.json` (bytes too) |
+| `player-identities.json` | `00a19d61448f…` | 88969 | matches `fields.md`, `crowds.json`, `pack-index.json` |
+| `ui-identity.json` | `6e7c5548603b…` | 28424 | matches `fields.md`, `pack-index.json`, `delivery.json`, `player-identities.json`, four ui packs, `asset-pipeline/required-cases.json` |
+| `ui-camp.json` | `b8bebd310ab2…` | 2212 | matches `fields.md`, `pack-index.json` |
+| `ui-inventory.json` | `27db8db58a19…` | 2060 | matches `fields.md`, `pack-index.json` |
+| `ui-legacy-stash.json` | `3116d3c44bd4…` | 2074 | matches `fields.md`, `pack-index.json` |
+| `ui-map-warnings.json` | `aa301bbcacd6…` | 1603 | matches `fields.md`, `pack-index.json` |
+| `compatibility.json` | `5d504c131f44…` | 1123 | matches `pack-index.json` |
+| `text-data.json` | `cdb54339c69e…` | 235847 | matches `pack-index.json` (bytes too), `compatibility.json`, `delivery.json` |
+| `delivery.json` | `d7a339cb351a…` | 102611 | matches `pack-index.json` (bytes too) |
+| `docs/content/fields.md` | `db8622f0a73a…` | 2669521 | matches `pack-index.json`, `text-data.json` |
+
+- **Pre-delta hashes.** None of the pre-delta hashes of the 29 changed files is still referenced at HEAD outside `.planning/`. They were computed from `git archive 62952c3`, and every tracked text file was searched.
+- **pack-index.json.** All 113 resolvable `pack-index.json` `files` rows match the disk by hash and byte count. The other 20 are `production/phase4/*` rows that the scratch resolver could not map. They are outside the delta.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings f0890cab1a02 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=b3049f18bbf78b4dcde04e5ee1638c2a9e895750d05c694a16c7cef2362b56c1` (exit 0) |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 9997be01dc99a5b9ee629611e22ff7eda4fbbf40e3f82926f9520f6d2680e1cf` (exit 0) |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` (exit 0) |
+| `node src/godot-game/tools/gameplay-checks/runner-fixture.cjs resource-roles` | `PASS current three resource roles, historical Foundation roles and four undeclared resource controls` (exit 0). The temporary `.local/temp/gameplay-checks/controls/ba8c92ee-…` directory it created was deleted afterward. |
+| `node src/godot-game/tools/asset-pipeline/check.cjs --verify-completion .local/temp/asset-pipeline/missing-phase4-runner-negative-fixture/completion.json` | `Error: EVIDENCE_PATH_MISSING …` (exit 1), as `rejectsMissingCompletion` expects. No file was created. |
+| Scratch script: word diff `62952c3..f0890ca` hash tokens against SHA-256 of all tracked files; per-row path/hash/byte checks; `contentBase64` decode | Results as listed under Hash results |
+| Scratch script: all `fields.md` `Source SHA256` lines against the disk | 47 of 47 match |
+| Scratch script: line lengths of the 5 changed C# files | Longest lines 117, 118, 120, 119 and 120; none over 120 |
+| `git status --short` after the runs | Clean |
+
+The scratch scripts and extracted files were written to the session scratchpad and deleted afterward.
+
+### Project rules on changed C# lines
+
+- **Comments.** No comments inside member bodies. All new prose is XML documentation on members.
+- **Line length.** No line exceeds 120 characters (`Input.cs:49` and the test file reach exactly 120).
+- **Named arguments.** Every new call uses them, including `PressBranch(press: this)`, `Modifier(flagged:, held:)`, `ReadPhase06(coordinator:, itemPress:)`, the Roslyn calls and the test `Press(...)` helper.
+- **Test names.** New and renamed tests follow `Method_State_Expected`.
+- **Body length.** `ItemInput`, `PressBranch`, the `ItemPress` constructor, `ReadPhase06` and the new tests are all under the 60-line limit (`BodyLengthAnalyzer.cs:44`).
+- **Engine access.** All new engine use is in the registered, guarded `ItemInput`: the `MouseButton` pattern, `IsKeyPressed` and `CtrlPressed`/`ShiftPressed`. `PressBranch`, `ItemPress`, `LastPress`, the diagnostics change and the `FoundationRoot` argument are engine-free. `EngineAccessPolicy.cs` needs no change.
+
+### Pre-existing notes (not findings)
+
+- **`asset-pipeline.runner.prelaunch-source` fails with `SELECTION_IMPACT_MISMATCH phase2/core.unaffected` at `cases/runner.cjs:847`.** The cause is the broad `'src'` runtime prefix in `impactClosure` (`asset-pipeline/scenarios.cjs:185`), which this delta does not touch. The control at `:847` uses literal file arguments. Before this delta the case failed earlier, in `rejectsMissingCompletion` (`:14-21`). The RR-03 repoint unmasks this later failure but does not cause it.
+- **`asset-pipeline.acceptance.artifacts-source` fails with `EVIDENCE_NATIVE_HOST_EXTENT`.** `evidence.cjs:782` hard-codes `tuples.length === 251` against the 372 presenter tuples. The delta changes neither `evidence.cjs` nor `EngineAccessPolicy.cs` nor `ContentNativePermissionTests.cs`, so the tuple count is unchanged by it.
+- **Docs not updated for the new integrity step.** `runner.integrity` now also runs the resource-isolation controls (`runner-fixture.cjs:187`). Its `foundation-checks.md:45` row ("Empty/missing/duplicate/stale/image/path rejection") and the `FoundationRunnerTests.Evidence_InvalidRecords_CannotPass` summary do not mention this. They are incomplete, not false.
+- **Temporary directories.** `run('resource-roles')` from `integrity` leaves its temporary directory under `.local/temp/gameplay-checks/controls/`, the same as the existing nested `run(...)` calls at `:231-233`. Many older directories are already there.
+- **Paths in `fields.md`.** `fields.md` headings still name pre-move paths (`src/godot-game/content/...`). This predates the delta.
+
+### Evidence limits
+
+- This review covers source, three `--check` tools, one `resource-roles` control run and one repointed command run. There was no Godot launch, build, xUnit, rendered, LAN or fixture-suite run. The three new or renamed xUnit tests, the new driver test and `runner.integrity` were not executed. No compiler confirmed that the new C# compiles.
+- The two pre-existing failures were confirmed from source only. Neither case was run.
+- RR-06's scenario (an awaited click that never reaches `ItemInput`) is inferred from code paths, not observed.
+- This review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## Orchestrator acceptance (2026-11-28)
+
+**Reviewed source** `f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6`, the source reviewed in "RR repair review (2026-11-28)". Only `.planning/` paths change after it.
+
+**Status** Clean for the focused attempt Run 2a. This is an orchestrator decision, not a new review. No source was re-read or changed for it.
+
+The orchestrator accepts the three open P3 (Info) findings of the RR repair review as non-blocking for the focused on-screen attempt Run 2a:
+
+| ID | Finding | Reason for acceptance |
+| --- | --- | --- |
+| RR-06 | A stale `LastPress` can be reported for a click that never reached `ItemInput`. | It affects only diagnostic reporting in the scenarios, not game behavior. Whoever diagnoses a Ctrl-click failure must compare `ItemPress.Sequence` across the draws before and after the click, so a stale record cannot be mistaken for the awaited press. |
+| RR-07 | The enum/string dispatch and the `init` setters in `PressBranch`. | It is a robustness and wording issue. The reviewer traced the current dispatch branch by branch and found no outcome change apart from the two declared safe edges, so game behavior is unchanged. |
+| RR-08 | "Always rejected" wording in `docs/workflow/foundation-checks.md:22` and `src/godot-game/tools/gameplay-checks/runner-fixture.cjs:57-58`. | It is an overstated sentence and comment. The check itself and game behavior are unchanged. |
+
+All three will be repaired in the next repair round, before the 06-15 final run. None of them changes game behavior.
+
+Two older known failures are deferred to the same repair round. Neither is caused by the RR delta (see "Pre-existing notes" in the RR repair review):
+
+- `asset-pipeline.runner.prelaunch-source` fails with `SELECTION_IMPACT_MISMATCH`. The cause is the too-broad `src` prefix in `impactClosure` at `src/godot-game/tools/asset-pipeline/scenarios.cjs:185`.
+- `asset-pipeline.acceptance.artifacts-source` fails with `EVIDENCE_NATIVE_HOST_EXTENT`. The cause is the hard-coded count of 251 presenter tuples at `src/godot-game/tools/asset-pipeline/evidence.cjs:782`, against the 372 tuples that exist.
+
+This acceptance authorizes only the focused attempt. It gives no Phase 6 credit, and the fresh full selected-set run and all judgments stay with 06-15.
+
+_Orchestrator acceptance recorded by the 06-25 executor at the orchestrator's instruction._

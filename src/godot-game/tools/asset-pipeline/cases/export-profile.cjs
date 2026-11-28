@@ -194,7 +194,7 @@ async function observe(root,context,name='profile',expected={qualified:INSPECTIO
   need(/^[a-f0-9]{64}$/.test(authentication.stdout.trim())&&engineSha256===authentication.stdout.trim(),
     'PROFILE_NATIVE_ENGINE_HASH',nativeName);
   const version=await runner.command(context,name+'-version',executable,['--headless','--version']);
-  need(version.stdout.trim()===pins.engineFullVersion,'PROFILE_ENGINE_VERSION',relative);
+  need(version.stdout.trim()===pins.engineFullVersion,'PROFILE_ENGINE_VERSION',console);
   const project=runner.inside(context.directory,name+'-project');fs.mkdirSync(project);
   const profile=runner.document(root,PROFILE),inputs={},sources=productionSources();
   const closure=sceneClosure(root,profile.resources),expectations='src/godot-game/content/expected-obligations.json';
