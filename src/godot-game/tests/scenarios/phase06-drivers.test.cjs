@@ -427,16 +427,46 @@ test('ExplainPress_FailedWait_NamesLastItemPress', async t => {
   const press = {Sequence: 3, Item: 25, External: true, Button: 'left', CtrlFlag: false, CtrlHeld: true,
     ShiftFlag: false, ShiftHeld: false, DrawnToken: 4, ExternalToken: 4, Pending: null, ExternalPending: false,
     ExternalKind: 'Stash', Branch: 'quick'};
+  assert.equal(run.pressMark(peer), 0);
   const draw = writeDraw(peer, {phase06: {World: {}, ItemPress: press}}, []);
   assert.deepEqual(run.itemPress(draw), press);
   assert.equal(run.itemPress({input: {phase06: {World: {}}}}), null);
-  assert.equal(await run.explainPress(peer, Promise.resolve(draw)), draw);
-  await assert.rejects(run.explainPress(peer, Promise.reject(new Error('RENDERED_DEADLINE solo stash-withdrawal'))),
+  assert.equal(await run.explainPress(peer, 2, Promise.resolve(draw)), draw);
+  await assert.rejects(run.explainPress(peer, 2, Promise.reject(new Error('RENDERED_DEADLINE solo stash-withdrawal'))),
     error => error.message === 'RENDERED_DEADLINE solo stash-withdrawal itemPress=' + JSON.stringify(press));
   const source = fs.readFileSync(soloFile, 'utf8') + fs.readFileSync(lanFile, 'utf8');
   for (const label of ['stash-withdrawal', 'one authority withdrawal', 'contested withdrawal denial']) {
-    assert.match(source, new RegExp('explainPress\\([^;]*\'' + label + '\''), label + ' names the last item press');
+    assert.match(source, new RegExp('explainPress\\(\\w+, \\w+, [^;]*\'' + label + '\''),
+      label + ' names the item press since its mark');
   }
+});
+
+test('PressSince_StalePressAfterReopen_ReportsNoneSinceClick', async t => {
+  const peer = fakePeer(scratch(t), 'solo', 4101);
+  const press = sequence => ({Sequence: sequence, Item: 25, External: true, Button: 'left', CtrlFlag: false,
+    CtrlHeld: true, ShiftFlag: false, ShiftHeld: false, DrawnToken: 4, ExternalToken: 4, Pending: null,
+    ExternalPending: false, ExternalKind: 'Stash', Branch: 'quick'});
+  writeDraw(peer, {phase06: {World: {}, ItemPress: press(1)}}, []);
+  writeDraw(peer, {phase06: {World: {}}}, []);
+  const mark = run.pressMark(peer);
+  assert.equal(mark, 1, 'the mark is the highest press seen, even when the latest draw shows none');
+  writeDraw(peer, {phase06: {World: {}, ItemPress: press(1)}}, []);
+  assert.equal(run.pressSince(peer, mark), 'none-since-click', 'a reopened earlier press is not the awaited one');
+  await assert.rejects(run.explainPress(peer, mark, Promise.reject(new Error('RENDERED_DEADLINE solo stash'))),
+    error => error.message === 'RENDERED_DEADLINE solo stash itemPress=none-since-click');
+  writeDraw(peer, {phase06: {World: {}, ItemPress: press(2)}}, []);
+  writeDraw(peer, {phase06: {World: {}}}, []);
+  assert.deepEqual(run.pressSince(peer, mark), press(2), 'a newer press is found even after the record is hidden');
+  const solo = fs.readFileSync(soloFile, 'utf8');
+  const lan = fs.readFileSync(lanFile, 'utf8');
+  assert.match(solo, /const mark = run\.pressMark\(peer\);\n\s+await run\.press\(state, peer, key\.control, true\);/,
+    'the solo mark is read before the Ctrl-click');
+  assert.match(solo, /const press = run\.pressSince\(peer, mark\);/);
+  assert.match(lan, /const winnerMark = run\.pressMark\(first\);\n\s+await withdraw\(state, first,/);
+  assert.match(lan, /const winnerPress = run\.pressSince\(first, winnerMark\);/);
+  assert.match(lan, /const loserMark = run\.pressMark\(second\);\n[^]*?const resting = await withdraw\(state, second,/);
+  assert.match(lan, /const loserPress = run\.pressSince\(second, loserMark\);/);
+  assert.doesNotMatch(solo + lan, /run\.itemPress\(/, 'no saved press reads only the latest draw');
 });
 
 test('Conflicts_StaleCell_DecidedFromTheRestingDraw', () => {

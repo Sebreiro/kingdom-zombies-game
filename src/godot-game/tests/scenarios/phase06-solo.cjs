@@ -177,13 +177,14 @@ async function stash(state) {
   await run.choose(state, peer, named('PreviousStashPage'));
   const back = await run.committed(peer, row => external(row)?.Header.Page === 1, 'returned to original stash page');
   const money = item(back.input, 'external', 'IT-01');
+  const mark = run.pressMark(peer);
   await run.press(state, peer, key.control, true);
   try { await run.choose(state, peer, within('/NearbyStorage/', 'Item_' + money.Id)); }
   finally { await run.press(state, peer, key.control, false); }
-  const committed = await run.explainPress(peer, shot(state, peer, 'stash-withdrawal', row =>
+  const committed = await run.explainPress(peer, mark, shot(state, peer, 'stash-withdrawal', row =>
     row.runAction?.status === 'Applied' && external(row)?.Rows.every(entry => entry.Id !== money.Id)
     && row.phase06.Views.status.Header.Hud.Money >= money.Quantity, back.drawFrame));
-  const press = run.itemPress(committed.draw);
+  const press = run.pressSince(peer, mark);
   await run.choose(state, peer, named('CloseInventory'));
   await run.moveUntil(state, peer, key.left, row => !nearby(row).some(entry => entry.Kind === 'Stash'),
     'walk out of the stash access range');

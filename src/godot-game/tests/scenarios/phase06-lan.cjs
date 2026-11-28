@@ -141,10 +141,11 @@ async function conflicts(state) {
   await run.focus(state, first);
   const winnerBefore = run.last(first);
   const winnerFrames = native.framesAfter(first, winnerBefore.input);
+  const winnerMark = run.pressMark(first);
   await withdraw(state, first, await run.control(first, occupied), winnerFrames);
-  const winnerReceipt = await run.explainPress(first, native.receipt(state, first, 'quick', winnerBefore.input,
-    'one authority withdrawal', {frames: winnerFrames}));
-  const winnerPress = run.itemPress(run.last(first));
+  const winnerReceipt = await run.explainPress(first, winnerMark, native.receipt(state, first, 'quick',
+    winnerBefore.input, 'one authority withdrawal', {frames: winnerFrames}));
+  const winnerPress = run.pressSince(first, winnerMark);
   assert.equal(winnerReceipt.runAction.status, 'Applied', 'the first withdrawal applies');
   committed.set(first, committed.get(first) + source.Quantity);
   const winner = await run.committed(first, row => external(row)?.Rows.every(entry => entry.Id !== source.Id)
@@ -153,13 +154,14 @@ async function conflicts(state) {
   await run.focus(state, second);
   const before = run.last(second);
   const secondFrames = native.framesAfter(second, before.input);
+  const loserMark = run.pressMark(second);
   const resting = await withdraw(state, second, losingPoint, secondFrames);
   // The click follows the resting draw: a cell still visible there sends a quick request, whose own receipt must
   // deny it; a cell already corrected there sends none. A draw sampled before the pointer moved cannot decide it.
   const staleCell = resting.controls.some(entry => occupied(entry) && entry.visible);
-  const denial = staleCell ? await run.explainPress(second, native.receipt(state, second, 'quick', before.input,
-    'contested withdrawal denial', {frames: secondFrames})) : null;
-  const loserPress = run.itemPress(run.last(second));
+  const denial = staleCell ? await run.explainPress(second, loserMark, native.receipt(state, second, 'quick',
+    before.input, 'contested withdrawal denial', {frames: secondFrames})) : null;
+  const loserPress = run.pressSince(second, loserMark);
   assert(!denial || ['AccessLost', 'StaleItem'].includes(denial.runAction.status),
     'the losing attempt is denied, not applied: ' + denial?.runAction.status);
   const corrected = await run.committed(second, row => secondFrames().length > 0

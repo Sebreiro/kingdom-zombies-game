@@ -80,16 +80,31 @@ function after(peer, predicate, label, before = 0) {
   }, peer.role + ' ' + label);
 }
 
-// The last left or right item press the peer's workspace observed (`phase06.ItemPress` in its latest draw): the
-// click's Ctrl and Shift flags beside the held keys, the drawn and current external tokens, the pending request,
-// the external kind and the branch item input took. Null before any press.
+// The last left or right item press the peer's workspace observed (`phase06.ItemPress` in one draw): the click's
+// Ctrl and Shift flags beside the held keys, the drawn and current external tokens, the pending request, the external
+// kind and the branch item input took. Null before any press. The workspace never clears it, so a later draw can
+// still show an earlier press; only a higher `Sequence` proves a new one.
 const itemPress = draw => draw?.input?.phase06?.ItemPress ?? null;
 
-// Awaits a wait that follows an item click; when it fails, its message also names the peer's last item press, so a
-// Ctrl-click that submitted nothing reports which branch the workspace took.
-async function explainPress(peer, waiting) {
+// The highest item press `Sequence` among the peer's retained draws, 0 before any press. Read it before an item
+// click while the inventory is open: a closed inventory hides the record, and the draw stream keeps only recent draws.
+const pressMark = peer => Math.max(0, ...render.draws(peer).map(draw => itemPress(draw)?.Sequence ?? 0));
+
+// The newest item press whose `Sequence` is above mark, from any of the peer's draws, or 'none-since-click' when no
+// draw shows one, so an earlier press is never reported as the press of the awaited click.
+function pressSince(peer, mark) {
+  const presses = render.draws(peer).map(itemPress).filter(press => press && press.Sequence > mark);
+  return presses.reduce((newest, press) => !newest || press.Sequence > newest.Sequence ? press : newest, null)
+    ?? 'none-since-click';
+}
+
+// Awaits a wait that follows an item click; when it fails, its message also names the item press observed since
+// mark (pressMark before the click), so a Ctrl-click that submitted nothing reports which branch the workspace took,
+// or that no press reached item input.
+async function explainPress(peer, mark, waiting) {
   try { return await waiting; } catch (error) {
-    error.message += ' itemPress=' + JSON.stringify(itemPress(last(peer)));
+    const press = pressSince(peer, mark);
+    error.message += ' itemPress=' + (typeof press === 'string' ? press : JSON.stringify(press));
     throw error;
   }
 }
@@ -319,6 +334,6 @@ async function drag(state, peer, from, to, held = async () => null) {
 
 module.exports = {open, close, reset, enter, join, menu, key, last, after, committed, focus, send, press, tap,
   pointer, click, choose, control, named, title, within, actor, own, nearby, item, external, moveUntil, picture, finish,
-  stash, bagWindow, drag, settledView, itemPress, explainPress, fixture: native.inject, privacy: native.privacy,
-  motionInterval: native.motionInterval, profileNames: native.profileNames};
+  stash, bagWindow, drag, settledView, itemPress, pressMark, pressSince, explainPress, fixture: native.inject,
+  privacy: native.privacy, motionInterval: native.motionInterval, profileNames: native.profileNames};
 
