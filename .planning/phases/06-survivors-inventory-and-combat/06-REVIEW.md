@@ -1,10 +1,10 @@
 ---
 phase: 06-survivors-inventory-and-combat
-reviewed: 2026-11-27T22:50:35Z
+reviewed: 2026-11-28T03:25:28Z
 depth: deep
-revision: ea3e2ad9ff8312eea5ae3a10bbe7390e085bbdfe
+revision: f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6
 base_revision: a9ac95f88a3f1b4cfe5b733ba707d6b038dad06d
-files_reviewed: 77
+files_reviewed: 78
 files_reviewed_list:
   - docs/code/engine-generated-spans.json
   - docs/code/generated-callsite-adaptations.json
@@ -68,6 +68,7 @@ files_reviewed_list:
   - src/godot-game/tests/verification/RestoreMutationProof.cs
   - src/godot-game/tools/README.md
   - src/godot-game/tools/asset-pipeline/cases/census.cjs
+  - src/godot-game/tools/asset-pipeline/cases/runner.cjs
   - src/godot-game/tools/asset-pipeline/content.cjs
   - src/godot-game/tools/asset-pipeline/required-cases.json
   - src/godot-game/tools/asset-pipeline/scenarios.cjs
@@ -85,13 +86,13 @@ files_reviewed_list:
   - src/godot-game/tools/verification/required-cases.json
 findings:
   critical: 0
-  warning: 1
-  info: 4
-  total: 5
-  necessity: 1
+  warning: 0
+  info: 3
+  total: 3
+  necessity: 0
 status: issues_found
-rereview_files_reviewed: 11
-rereview_delta: 784a0c5..ea3e2ad
+rereview_files_reviewed: 29
+rereview_delta: 62952c3..f0890ca
 prior_review:
   reviewed: 2026-11-24T21:42:39Z
   depth: deep
@@ -232,7 +233,7 @@ prior_review:
 
 # Phase 06 Code Review
 
-Latest review: see [Run 2 repair review (2026-11-27)](#run-2-repair-review-2026-11-27) at the end of this file. Its status is `issues_found`: RR-01 (P2) and RR-02 to RR-05 (P3) are open.
+Latest review: see [RR repair review (2026-11-28)](#rr-repair-review-2026-11-28) at the end of this file. Its status is `issues_found`: RR-01 to RR-05 are resolved, and the new findings RR-06 to RR-08 (all P3) are open.
 
 **Reviewed revision** `17fb851c2bfd81ba050fa094527ef21d7707690c`
 
@@ -1287,6 +1288,206 @@ The scratch scripts were written outside the repository and deleted afterward.
 - Source review plus the three `--check` tools only. No Godot launch, build, xUnit, rendered, LAN or fixture run. The three new xUnit tests and the new runner-fixture control were not executed.
 - The engine and Win32 claims (focus-out key release, `MK_CONTROL` on `SendInput` clicks) come from knowledge of the engine and platform, not from the pinned 4.7.2 engine source.
 - The Run 2 artifacts under `.local/runs/game-tests/a0e0ad44-adde-4344-b584-75e7f99bc5e3/` were not reopened. Run facts come from `06-RENDERED-EVIDENCE.md`.
+- This review does not replace the phase-end rendered evidence or the human qualitative components.
+
+_Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
+
+## RR repair review (2026-11-28)
+
+**Reviewed revision** `f0890cab1a02f80371a8dc52a8fc67fbb0ce8fe6` (clean tree, pushed)
+
+**Fix-delta range** `62952c3..f0890ca`, source commit f0890ca. The delta repairs the Run 2 repair review findings RR-01 to RR-05 (section "Run 2 repair review (2026-11-27)"). The repair commits are:
+
+- 5dfe7a5 (RR-01): adds `Model.ItemPress` and `Model.PressBranch`. `ItemInput` builds a press record for every left or right press, stores it as `LastPress`, and dispatches on `Branch`. `FoundationRoot` passes `_inventory.LastPress` into `FoundationDiagnostics.Observe(itemPress:)`, and the DEBUG `phase06` sample carries it as `ItemPress`. Adds the `itemPress` and `explainPress` helpers to the stash and conflicts scenarios, a driver test, a branch unit test, and the Modifier test-summary rewording.
+- 91c08ab (RR-02): adds a Roslyn source-binding test for the `Draw`/`Observe` projection wiring and rewords the reopen test summary.
+- 20ee592 (RR-04): `Projected` assigns unconditionally. The closed-model test is renamed and now checks Close and Reset separately.
+- 0a9355b (RR-05): rewrites the `Version` summary.
+- ae3c5b0, f0890ca (RR-03): adds a current-path icon-reference rejection control to `runner-fixture.cjs` and calls `resource-roles` from the integrity mode. `asset-pipeline/cases/runner.cjs:16` is repointed to `src/godot-game/tools/asset-pipeline/check.cjs`. Adds one sentence to `foundation-checks.md`.
+- 0057d41, ac8b369, 371a44b, ca17819: mechanical rebinding of the identity closure, asset bindings, current producer replay and ac-08 bindings.
+
+`git diff --stat 62952c3..f0890ca`: 29 files, 342 insertions, 135 deletions.
+
+**Depth** Deep.
+
+**Status** Issues found: 0 P0/P1, 0 P2 and 3 new P3 findings (RR-06 to RR-08), all open. All five earlier findings, RR-01 to RR-05, are resolved. The RR-01 dispatch rewrite was traced branch by branch against `62952c3`. Apart from the two declared edges, it changes no outcome. Every rebound hash and byte count matches the bytes on disk. Commit messages were read as narration only, and every claim was checked against the source.
+
+**Reviewer** gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow at deep depth). This reviewer did not author the repairs and did not perform any earlier review in this file. Severity mapping: Critical = P0/P1, Warning = P2, Info = P3.
+
+### Files reviewed (29)
+
+These are exactly the files from `git diff --name-only 62952c3..f0890ca`, none of which is under `.planning/`:
+
+- `docs/code/engine-generated-spans.json`
+- `docs/content/fields.md`
+- `docs/workflow/foundation-checks.md`
+- `src/godot-game/game/content/fixtures/crowds.json`
+- `src/godot-game/game/content/pack-index.json`
+- `src/godot-game/game/content/packs/compatibility.json`
+- `src/godot-game/game/content/packs/delivery.json`
+- `src/godot-game/game/content/packs/player-identities.json`
+- `src/godot-game/game/content/packs/text-data.json`
+- `src/godot-game/game/content/packs/ui-camp.json`
+- `src/godot-game/game/content/packs/ui-identity.json`
+- `src/godot-game/game/content/packs/ui-inventory.json`
+- `src/godot-game/game/content/packs/ui-legacy-stash.json`
+- `src/godot-game/game/content/packs/ui-map-warnings.json`
+- `src/godot-game/game/foundation/FoundationDiagnostics.cs`
+- `src/godot-game/game/foundation/FoundationInventoryInteraction.cs`
+- `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs`
+- `src/godot-game/game/foundation/FoundationRoot.cs`
+- `src/godot-game/tests/scenarios/phase06-drivers.test.cjs`
+- `src/godot-game/tests/scenarios/phase06-lan.cjs`
+- `src/godot-game/tests/scenarios/phase06-rendered.cjs`
+- `src/godot-game/tests/scenarios/phase06-solo.cjs`
+- `src/godot-game/tests/verification/Phase06InventoryInteractionTests.cs`
+- `src/godot-game/tools/asset-pipeline/cases/runner.cjs`
+- `src/godot-game/tools/asset-pipeline/content.cjs`
+- `src/godot-game/tools/asset-pipeline/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/required-cases.json`
+- `src/godot-game/tools/gameplay-checks/runner-fixture.cjs`
+- `src/godot-game/tools/verification/required-cases.json`
+
+### Per-commit verification
+
+**5dfe7a5 (RR-01).** The old `ItemInput` (`git show 62952c3:…/FoundationInventoryWorkspace.Input.cs:43-75`) was compared with the new one (`Input.cs:46-80`), branch by branch:
+
+- **`_pending` exit.** The old code returned on any input when `_pending.HasValue`. The new code handles left and right presses as `PressBranch` → `"pending"`, its first test (`FoundationInventoryInteraction.cs:76-79`), and dispatches nothing. Key input keeps the guard inline (`Input.cs:73`). Same outcome.
+- **Drawn token against `External?.Token`.** The old code had `external && token != External?.Token`. The new code tests `press.External && press.DrawnToken != press.ExternalToken` (`:81-84`), where `ExternalToken` is `target?.Token` and `target` is `External` read once (`Input.cs:51`). The lifted `long != long?` comparison is true for a null target, as before. The key path has `!external || token == External?.Token`, which is the exact De Morgan negation. Same outcome.
+- **Menu.** A right click maps to `"menu"` only after the pending and token checks (`:86-89`), so a Ctrl-right-click still opens the menu. Same outcome.
+- **Modifier predicate.** `Modifier(flagged: CtrlFlag, held: CtrlHeld)`, where the record reads `mouse.CtrlPressed` and `Godot.Input.IsKeyPressed(Key.Ctrl)` (`Input.cs:53-54`). `IsKeyPressed` is now also read for right presses and pending presses. It has no side effect. Same outcome.
+- **D-21 quick placement.** The old gate was `External is { } target && (external || Kind is "Stash")`. The new code returns `"no-external"` when `ExternalKind` is null, which happens only when `target` is null because `Text` (`:485-488`) never returns null. It returns `"quick"` for `External || ExternalKind is "Stash"`, and `"not-stash"` otherwise (`:96-97`). `Send(command: Model.Quick(item: item, token: target.Token, deposit: !external), nearby: true)` is byte-identical (`Input.cs:65`). The added `&& target is not null` is required by nullable flow analysis, not a behavioural change.
+- **Split and press start.** Every left fallback (`split`, `drag`, `no-external`, `not-stash`) creates the same `Press` with `split: press.Split`, which is `Modifier(shiftFlag, shiftHeld)` (`Input.cs:67-71`; constructor `:697`). Same outcome.
+- **Middle, wheel and release events.** They match neither branch: the first pattern requires Left or Right, and the second requires `InputEventKey`. Before the change they entered the mouse branch and did nothing. Same outcome. This is declared edge (2).
+- **Shift-F10 and Menu key.** The condition and `SetInputAsHandled()` are unchanged (`Input.cs:73-79`).
+- **Declared edge (1) is true and safe.** With a header that has no `Kind`, the old deposit path (`!external`) called `GetProperty("Kind")` and threw `KeyNotFoundException` out of a GUI signal. An external item with Ctrl already short-circuited to quick, and still does. The new code reads `""` and falls back to a drag press (`"not-stash"`). A missing kind can never be `Stash`, so no transfer is lost. Evaluating `External`/`ExternalTarget` on more paths adds no new throw: `FoundationRoot.cs:184` already evaluates `_inventory.ExternalKind`, which runs the same `AuthorizedExternal` and `ExternalTarget` on every frame.
+- **Record fields.** The record carries every field RR-01 asked for: `CtrlFlag`, `CtrlHeld`, `ShiftFlag`, `ShiftHeld`, `External`, `DrawnToken`, `ExternalToken` (current token), `Pending`, `ExternalKind` and `Branch`. It adds `Sequence`, `Item`, `Button` and `ExternalPending`. The branch names differ from the suggestion (`split`/`drag` instead of `press`, `not-stash` instead of `kind`), but they are more specific.
+- **Where the record is taken.** It is built after `_gateway.RequireThread()` (`Input.cs:48`, `:52-58`) inside the registered `ItemInput(Button,Item,bool,long,InputEvent)` (`EngineAccessPolicy.cs:235-236`). The emission is DEBUG-only and phase-owned (`FoundationDiagnostics.cs:112-136`, under `#if DEBUG` and `FoundationAutomation.OwnedPhase()`). The record itself must exist in release builds, because it now drives dispatch (see RR-07). The default `JsonSerializer` keeps the `ItemPress` key in PascalCase, which matches the reader `draw?.input?.phase06?.ItemPress` (`phase06-rendered.cjs:86`).
+- **Scenario helpers.** `explainPress` appends `itemPress=` to the rejected wait's message (`phase06-rendered.cjs:90-95`). It wraps the solo `stash-withdrawal` wait (`phase06-solo.cjs:183`) and the LAN `one authority withdrawal` and `contested withdrawal denial` receipts (`phase06-lan.cjs:145`, `:160`). Both cases also save the press in their observations (`solo.cjs:186,192`; `lan.cjs:147,162,185`). Failures are reported through `error.message` (`game-tests/scenario-group.cjs:35`, `report.cjs:48`), so the appended text reaches the report. The deadline `Error` (`lan-checks/rendered.cjs:32`) is mutated before anything reads its `stack`. See RR-06 for what the attached press can prove.
+- **Test-summary rewording.** `Phase06InventoryInteractionTests.cs:228-231` now states the rule and calls the rendered no-flag cause an inference. This resolves RR-01's false-statement part.
+
+**91c08ab (RR-02).** `ProjectionWiring_WorkspaceSource_RecordsEachDrawAndReprojectsStaleReadback` (`Phase06InventoryInteractionTests.cs:206-226`) parses every `FoundationInventoryWorkspace*.cs`. It requires the set of methods that call `_model.Projected` to be exactly `["Draw"]`. It requires `Draw`'s last two statements to be the `Projected` call and `_dirty = false;`. It requires `Observe`'s last top-level `if` to be `_dirty || _model.Stale(version: Model.Version(readback: _readback))` with body `Project();`.
+
+- **The test fails on each mutation.** Removing the call gives `[]`. Moving it under `Observe` or `Project` gives `["Observe"]` or `["Project"]`. Keeping it in both gives two entries. Moving it inside a nested block breaks the `TakeLast(2)` assertion.
+- **The test passes at HEAD.** `Draw` and `Observe` are unique in the four partial files, and the expected texts match `FoundationInventoryWorkspace.cs:91-94,221-222`.
+- **Guest-path acceptance: accepted.** `FoundationRoot.cs:386-391` passes `_coordinator.ReadRunRender()` to the single `_inventory.Observe`. For a guest, `_session` is null and `ReadRunRender` returns `_guestRunReadback` (`FoundationCoordinator.RunWire.cs:69-74`). The wiring that R2-1 broke is therefore the same code for solo, host and guest, and the source binding covers it. A guest-coordinator variant would test lagging readback content, which is a different property.
+- **Reworded reopen summary.** It now says the test "models" the contract and records each draw itself (`:148-152`). That is true.
+
+**20ee592 (RR-04).** `Projected` assigns unconditionally (`FoundationInventoryInteraction.cs:44-47`). The new summary ("Only a draw of the open workspace records one; closing or resetting forgets it") holds:
+
+- `Draw` is the only caller (bound by the RR-02 test).
+- `Draw` runs only from `Project`, at `Handle` after `Show` and at `Observe` after the `!_model.Open` return.
+- Nothing inside `Draw` closes the model.
+- `Close` (`:37`) and `Reset` (via `Close`) clear the record.
+
+`ProjectionVersion_ClosedOrReset_ForgetsDrawnVersion` (`Phase06InventoryInteractionTests.cs:184-198`) now exercises Close and Reset separately.
+
+**0a9355b (RR-05).** The new `Version` summary (`FoundationInventoryInteraction.cs:100-103`) matches the code at `:104-113`. It names the status exclusion, scope+token+header raw text, committed `Stamp`s, and full row text for `nearby`. "A change to the status view alone never makes a projection stale" is true of `Stale`. `_dirty` is a separate trigger.
+
+**ae3c5b0, f0890ca (RR-03).**
+
+- **The control stays in the isolated copy.** It edits only `current.isolatedInputRoot/…/FoundationInventoryArt.cs` (`runner-fixture.cjs:53`) and restores it in `finally` (`:61-63`).
+- **The exact message is deterministic.** It expects `UNDECLARED_RESOURCE assets/ui/kingdom-zombies-icon.png` (`:60`). In the current project the declared Foundation set is `[...foundation, ...inspection]` (`rendered.cjs:369`), and it does not include the `config/icon` resource. The unmodified tree passes the first `validateResources`, so the injected literal is the only undeclared one.
+- **The control now runs.** `runner.cjs:16` was repointed. Running the repointed command gives exit 1 with `EVIDENCE_PATH_MISSING`, which is what `rejectsMissingCompletion` expects, so `prelaunch-source` now reaches the `resource-roles` spawn at `:77`. `integrity` also runs it (`runner-fixture.cjs:187`), and that path is reached through `FoundationRunnerTests.Evidence_InvalidRecords_CannotPass`.
+- **Consumers match.** The PASS line's "four undeclared resource controls" is right: `undeclared_fixture`, `extra_icon`, `outside-inspection` and `theme-without-inspection`. Its only consumer matches the unchanged prefix `/PASS current three resource roles/` (`runner.cjs:81`).
+- **Docs.** See RR-08 for the new `foundation-checks.md` sentence.
+
+**0057d41 (identity closure).**
+
+- **FoundationRoot pin.** `content.cjs:348` pins `FoundationRoot.cs` at 23679 bytes and `96e0f4c4…`, which equals the disk.
+- **Rebound hashes.** The cascade rebinds hashes and byte counts for ui-identity, player-identities, crowds, ui-camp, ui-inventory, ui-legacy-stash, ui-map-warnings, compatibility, text-data, delivery, `fields.md` and `asset-pipeline/required-cases.json` (pinned under the legacy label `tools/phase4/required-cases.json`). Each one equals the disk; the hash results below list them all.
+- **fields.md.** All 47 `Source SHA256` lines in `fields.md` equal their files on disk, including the 7 changed ones.
+
+**ac8b369, 371a44b, ca17819 (rederivations).**
+
+- **Changed hash tokens.** Every changed SHA-256 token resolves either to its file on disk or to an aggregate that the matching `--check` tool confirms. The aggregates are `sourceInputsSha256 9997be01…`, `sourceSetSha256 837bc469…` and six `repositorySha256 b3049f18…` rows.
+- **Snapshots.** The four changed `currentProducerReplay.sourceSnapshots[].contentBase64` entries decode byte-identically to the disk. They are `FoundationDiagnostics.cs` (9324 bytes), `FoundationRoot.cs` (23679), `FoundationInventoryInteraction.cs` (28341) and `FoundationInventoryWorkspace.Input.cs` (23471).
+- **Historical rows.** The historical `producerSources` rows are unchanged.
+
+### RR-01 to RR-05 status
+
+- **RR-01 (P2): resolved.** The false test summary is reworded. The read-only press record covers every requested field, is taken inside the guarded `ItemInput`, and is emitted to the DEBUG `phase06` sample. Both scenarios attach it to failures and save it in their observations. The dispatch rewrite preserves every outcome except the two declared edges, and both edges are safe. Residual weaknesses are filed as RR-06 and RR-07.
+- **RR-02 (P3): resolved.** The source binding fails on each removal or move of the `Projected`/`Stale` wiring. Guest-path coverage through the shared `Observe` entry is accepted, because guest readback enters through the same `FoundationRoot.cs:390` call.
+- **RR-03 (P3): resolved.** The icon-reference rejection control exists, edits only the isolated copy, expects the exact message, and passes when run. Its callers, `prelaunch-source` (now past the repaired `rejectsMissingCompletion`) and `runner.integrity`, both reach it. The optional narrowing of `rendered.cjs:369` was not taken; it was optional.
+- **RR-04 (P3, necessity): resolved.** The unreachable guard was removed. The invariant now lives with the only caller and is bound by the RR-02 test.
+- **RR-05 (P3): resolved.** The `Version` summary is now true against the code.
+
+### Findings
+
+| ID | Severity | File:line | Problem | Fix |
+| --- | --- | --- | --- | --- |
+| RR-06 | P3 (Info) | `src/godot-game/tests/scenarios/phase06-rendered.cjs:86,90-95`; callers `phase06-solo.cjs:183,186`, `phase06-lan.cjs:145,147,160,162`; `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs:13,58` | The scenario may report an earlier press as the press of the awaited click. `explainPress` and `itemPress` report whatever `LastPress` is in the latest draw, but `LastPress` is set only at `Input.cs:58` and never cleared, not even by `Close`, `Release` or `Reset`. If the awaited Ctrl-click never reaches `ItemInput` (one of the causes RR-01 wanted to tell apart), the failure message and the saved `press`/`winnerPress`/`loserPress` show an earlier press, possibly from an earlier case in the same game process, as if it were that click. `Sequence` exists, but no helper compares it against the value before the click, so the next run still cannot tell "press dropped by guard X" from "no press arrived". | Read `run.itemPress(run.last(peer))?.Sequence` before the click. In `explainPress` and the saved observations, report `itemPress=none-since-click` when the sequence has not advanced, or assert that it advanced (and that `Item` equals the clicked id) before trusting `Branch`. |
+| RR-07 | P3 (Info) | `src/godot-game/game/foundation/FoundationInventoryInteraction.cs:673-677,714-715`; `src/godot-game/game/foundation/FoundationInventoryWorkspace.Input.cs:59-71` | The summary says "kept for read-only observation", but the record decides what a click does. `ItemPress` and its `Branch` string now drive `ItemInput`'s dispatch (`"menu"`, `"quick"`, `"split" or "drag" or "no-external" or "not-stash"`), so the summary at `:674` is false. Nothing binds the dispatch literals to `PressBranch`'s return values: `PressBranch_ObservedPress_NamesTakenBranch` tests only `PressBranch`. A renamed or added branch would silently drop the click, and a change to the observation would change input behaviour, which is the opposite of the "read-only record" RR-01 asked for. The derived `Split` and `Branch` also have `init` setters, so an object initializer or a `with` expression can make `Branch` disagree with the fields. | Make the branch an enum, for example `PressBranch { Pending, Token, Menu, Quick, Split, Drag, NoExternal, NotStash }`. Dispatch with an exhaustive `switch` whose default throws, and emit a kebab-case name only in `FoundationDiagnostics`. Make `Split`/`Branch` get-only. Reword the summary, for example: "One left or right item press as item input read it and the branch it takes; the last one is exposed for read-only observation." |
+| RR-08 | P3 (Info) | `docs/workflow/foundation-checks.md:22` (new sentence); `src/godot-game/tools/gameplay-checks/runner-fixture.cjs:57-58` | False statement. The new sentence says "A Foundation reference to any other resource, even one another project role declares, is always rejected", and the control's comment says it "still rejects any other Foundation reference". The check reads only static `res://` literals (`rendered.cjs:358-365`). Foundation builds six runtime paths with `"res://" + path`, at `FoundationAppearanceAssets.cs:71,117`, `FoundationInventoryArt.cs:97,107,125` and `FoundationRoot.cs:275`. These load content packs and textures outside both declared sets and are never rejected. | Qualify both texts, for example: "A static `res://` literal in a Foundation file that names any other resource, even one another project role declares, is rejected. Paths built at runtime are outside this check." |
+
+### Hash results
+
+Scratch scripts compared each changed SHA-256 and byte-count token against the working tree.
+
+- **Hash tokens.** 81 added hash tokens and 81 removed ones. Every added token resolves to a file on disk or to a check-confirmed aggregate. 54 of the rows that changed name a path, and 52 of them resolve directly and match. The other 2 (`pack-index.json` `/files/132` and `delivery.json` `/fixtureCatalog`) use the legacy label `tools/phase4/required-cases.json`. Their value `d62a67d3…` equals `src/godot-game/tools/asset-pipeline/required-cases.json` on disk.
+
+| File | SHA-256 (disk) | Bytes | Result |
+| --- | --- | --- | --- |
+| `FoundationRoot.cs` | `96e0f4c449da…` | 23679 | matches `content.cjs`, `pack-index.json` (bytes too), `ui-identity.json`, spans and verification rows |
+| `FoundationDiagnostics.cs` | `3fb5a32f0315…` | 9324 | matches spans and verification rows; snapshot decodes equal |
+| `FoundationInventoryInteraction.cs` | `caa1c36321ae…` | 28341 | matches; snapshot decodes equal |
+| `FoundationInventoryWorkspace.Input.cs` | `66d91ecd8172…` | 23471 | matches; snapshot decodes equal |
+| `Phase06InventoryInteractionTests.cs` | `4cd72877e17f…` | 17453 | matches `verification/required-cases.json` |
+| `engine-generated-spans.json` | `5f27d3d3c0ae…` | 2954722 | matches `verification/required-cases.json` |
+| `asset-pipeline/cases/runner.cjs` | `f0b652615330…` | 87729 | matches `asset-pipeline/required-cases.json` |
+| `asset-pipeline/required-cases.json` | `d62a67d34975…` | 691440 | matches `pack-index.json`, `delivery.json` |
+| `crowds.json` | `bb0bd39be6f6…` | 207148 | matches `fields.md`, `pack-index.json`, `delivery.json`, `asset-pipeline/required-cases.json` (bytes too) |
+| `player-identities.json` | `00a19d61448f…` | 88969 | matches `fields.md`, `crowds.json`, `pack-index.json` |
+| `ui-identity.json` | `6e7c5548603b…` | 28424 | matches `fields.md`, `pack-index.json`, `delivery.json`, `player-identities.json`, four ui packs, `asset-pipeline/required-cases.json` |
+| `ui-camp.json` | `b8bebd310ab2…` | 2212 | matches `fields.md`, `pack-index.json` |
+| `ui-inventory.json` | `27db8db58a19…` | 2060 | matches `fields.md`, `pack-index.json` |
+| `ui-legacy-stash.json` | `3116d3c44bd4…` | 2074 | matches `fields.md`, `pack-index.json` |
+| `ui-map-warnings.json` | `aa301bbcacd6…` | 1603 | matches `fields.md`, `pack-index.json` |
+| `compatibility.json` | `5d504c131f44…` | 1123 | matches `pack-index.json` |
+| `text-data.json` | `cdb54339c69e…` | 235847 | matches `pack-index.json` (bytes too), `compatibility.json`, `delivery.json` |
+| `delivery.json` | `d7a339cb351a…` | 102611 | matches `pack-index.json` (bytes too) |
+| `docs/content/fields.md` | `db8622f0a73a…` | 2669521 | matches `pack-index.json`, `text-data.json` |
+
+- **Pre-delta hashes.** None of the pre-delta hashes of the 29 changed files is still referenced at HEAD outside `.planning/`. They were computed from `git archive 62952c3`, and every tracked text file was searched.
+- **pack-index.json.** All 113 resolvable `pack-index.json` `files` rows match the disk by hash and byte count. The other 20 are `production/phase4/*` rows that the scratch resolver could not map. They are outside the delta.
+
+### Checks actually run
+
+| Command | Result |
+| --- | --- |
+| `node src/godot-game/tools/verification/ac08-bindings.cjs --check` | `PASS ac08-bindings f0890cab1a02 rows=612 checked=301 sourceStages=19 callers=6 repositorySha256=b3049f18bbf78b4dcde04e5ee1638c2a9e895750d05c694a16c7cef2362b56c1` (exit 0) |
+| `node src/godot-game/tools/verification/current-replay.cjs --check` | `PASS current-replay 57 historical, 22 changed, 22 added; sourceInputsSha256 9997be01dc99a5b9ee629611e22ff7eda4fbbf40e3f82926f9520f6d2680e1cf` (exit 0) |
+| `node src/godot-game/tools/verification/asset-bindings.cjs --check` | `PASS asset-bindings modules=423 valid=180` (exit 0) |
+| `node src/godot-game/tools/gameplay-checks/runner-fixture.cjs resource-roles` | `PASS current three resource roles, historical Foundation roles and four undeclared resource controls` (exit 0). The temporary `.local/temp/gameplay-checks/controls/ba8c92ee-…` directory it created was deleted afterward. |
+| `node src/godot-game/tools/asset-pipeline/check.cjs --verify-completion .local/temp/asset-pipeline/missing-phase4-runner-negative-fixture/completion.json` | `Error: EVIDENCE_PATH_MISSING …` (exit 1), as `rejectsMissingCompletion` expects. No file was created. |
+| Scratch script: word diff `62952c3..f0890ca` hash tokens against SHA-256 of all tracked files; per-row path/hash/byte checks; `contentBase64` decode | Results as listed under Hash results |
+| Scratch script: all `fields.md` `Source SHA256` lines against the disk | 47 of 47 match |
+| Scratch script: line lengths of the 5 changed C# files | Longest lines 117, 118, 120, 119 and 120; none over 120 |
+| `git status --short` after the runs | Clean |
+
+The scratch scripts and extracted files were written to the session scratchpad and deleted afterward.
+
+### Project rules on changed C# lines
+
+- **Comments.** No comments inside member bodies. All new prose is XML documentation on members.
+- **Line length.** No line exceeds 120 characters (`Input.cs:49` and the test file reach exactly 120).
+- **Named arguments.** Every new call uses them, including `PressBranch(press: this)`, `Modifier(flagged:, held:)`, `ReadPhase06(coordinator:, itemPress:)`, the Roslyn calls and the test `Press(...)` helper.
+- **Test names.** New and renamed tests follow `Method_State_Expected`.
+- **Body length.** `ItemInput`, `PressBranch`, the `ItemPress` constructor, `ReadPhase06` and the new tests are all under the 60-line limit (`BodyLengthAnalyzer.cs:44`).
+- **Engine access.** All new engine use is in the registered, guarded `ItemInput`: the `MouseButton` pattern, `IsKeyPressed` and `CtrlPressed`/`ShiftPressed`. `PressBranch`, `ItemPress`, `LastPress`, the diagnostics change and the `FoundationRoot` argument are engine-free. `EngineAccessPolicy.cs` needs no change.
+
+### Pre-existing notes (not findings)
+
+- **`asset-pipeline.runner.prelaunch-source` fails with `SELECTION_IMPACT_MISMATCH phase2/core.unaffected` at `cases/runner.cjs:847`.** The cause is the broad `'src'` runtime prefix in `impactClosure` (`asset-pipeline/scenarios.cjs:185`), which this delta does not touch. The control at `:847` uses literal file arguments. Before this delta the case failed earlier, in `rejectsMissingCompletion` (`:14-21`). The RR-03 repoint unmasks this later failure but does not cause it.
+- **`asset-pipeline.acceptance.artifacts-source` fails with `EVIDENCE_NATIVE_HOST_EXTENT`.** `evidence.cjs:782` hard-codes `tuples.length === 251` against the 372 presenter tuples. The delta changes neither `evidence.cjs` nor `EngineAccessPolicy.cs` nor `ContentNativePermissionTests.cs`, so the tuple count is unchanged by it.
+- **Docs not updated for the new integrity step.** `runner.integrity` now also runs the resource-isolation controls (`runner-fixture.cjs:187`). Its `foundation-checks.md:45` row ("Empty/missing/duplicate/stale/image/path rejection") and the `FoundationRunnerTests.Evidence_InvalidRecords_CannotPass` summary do not mention this. They are incomplete, not false.
+- **Temporary directories.** `run('resource-roles')` from `integrity` leaves its temporary directory under `.local/temp/gameplay-checks/controls/`, the same as the existing nested `run(...)` calls at `:231-233`. Many older directories are already there.
+- **Paths in `fields.md`.** `fields.md` headings still name pre-move paths (`src/godot-game/content/...`). This predates the delta.
+
+### Evidence limits
+
+- This review covers source, three `--check` tools, one `resource-roles` control run and one repointed command run. There was no Godot launch, build, xUnit, rendered, LAN or fixture-suite run. The three new or renamed xUnit tests, the new driver test and `runner.integrity` were not executed. No compiler confirmed that the new C# compiles.
+- The two pre-existing failures were confirmed from source only. Neither case was run.
+- RR-06's scenario (an awaited click that never reaches `ItemInput`) is inferred from code paths, not observed.
 - This review does not replace the phase-end rendered evidence or the human qualitative components.
 
 _Reviewer: gsd-code-reviewer (fresh and independent; spawned by the /gsd-code-review workflow; did not author the repairs or any earlier review in this file)_
