@@ -937,3 +937,33 @@ test('WindowSlot_RenderedPeers_TileWithoutOverlap', async t => {
     }
   });
 });
+
+test('RevealPage_PageOfViewHeight_ConvergesWithoutOscillation', async t => {
+  const {revealPage, visibleSpan} = require('../../tools/asset-pipeline/scenarios.cjs');
+  const view = {origin: [949, 294], height: 290};
+  const at = (center, height = 48) => ({origin: [949, view.origin[1] + center - height / 2], height});
+  const decide = (center, height) => revealPage(at(center, height), view, visibleSpan(at(center, height), [view]));
+
+  await t.test('the Run 2a R2a-9 centre 287 is revealed instead of paged down to -3', () => {
+    assert.equal(decide(287), 0);
+    assert.equal(decide(-3), 0);
+    assert.equal(decide(1157), 1);
+    assert.equal(decide(-200), -1);
+  });
+  await t.test('a page of the view height reaches every target from either side', () => {
+    for (const height of [12, 32, 48, 80]) for (let start = -3000; start <= 3000; start++) {
+      let center = start, pages = 0;
+      for (let page = decide(center, height); page !== 0; page = decide(center, height)) {
+        center -= page * view.height;
+        pages++;
+        assert(pages <= 12, 'height ' + height + ' start ' + start + ' did not converge');
+      }
+    }
+  });
+  await t.test('a click point stays inside the visible part of a partly clipped control', () => {
+    const span = visibleSpan(at(287), [view]);
+    assert.deepEqual(span, {top: 557, bottom: 584});
+    const y = Math.floor((span.top + span.bottom) / 2);
+    assert(y >= view.origin[1] && y < view.origin[1] + view.height);
+  });
+});

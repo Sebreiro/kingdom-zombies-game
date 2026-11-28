@@ -1264,31 +1264,38 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   }
   // Resolve controls from the owned live scene, including controls inside an authored scroll container.
   async function clickControl(node, {firstRow=false,scrollPage=0}={}) {
-    const {origin,width,height}=await controlBounds(node);
+    const bounds=await controlBounds(node), {origin,width,height}=bounds;
     // Click the inspector vertical scrollbar track above or below its handle.
     if (scrollPage) e.need(width>0 && height>=32, 'HUB_SMOKE_SCROLL_TRACK',node);
     const xOffset = firstRow ? Math.min(width/2,24) : width/2;
     const yOffset = scrollPage ? (scrollPage>0 ? height-18 : 12) : firstRow ? Math.min(height/2,12) : height/2;
+    // A whole-control click lands in the middle of the part its clipping ancestors leave visible.
+    const span = scrollPage || firstRow ? null : visibleSpan(bounds,await clippingRects(node));
     const x = Math.floor(origin[0] + xOffset);
-    const y = Math.floor(origin[1] + yOffset);
+    const y = Math.floor(span && span.bottom>span.top ? (span.top+span.bottom)/2 : origin[1] + yOffset);
     e.need(width>0 && height>0 && x>=0 && x<1280 && y>=0 && y<720, 'HUB_SMOKE_CONTROL_OUTSIDE_CLIENT',node);
     await requireUnclipped(node,x,y);
     return {x,y};
   }
-  // A clipping ancestor hides its children outside its rectangle and stops input there, so a click at such a point
-  // would reach whatever control lies under it instead.
-  async function requireUnclipped(node,x,y) {
+  async function clippingRects(node) {
     const ancestors=[];
     for (let current=path.posix.dirname(node); current!=='/root'; current=path.posix.dirname(current)) {
       ancestors.push(current);
     }
     const flags=await native.snapshot(pid,ancestors.map(ancestor => ({node:ancestor,property:'clip_contents'})));
+    const rects=[];
     for (const [index,ancestor] of ancestors.entries()) {
-      if (flags.values[index].value!==true) continue;
-      const clip=await controlBounds(ancestor);
+      if (flags.values[index].value===true) rects.push({ancestor,...await controlBounds(ancestor)});
+    }
+    return rects;
+  }
+  // A clipping ancestor hides its children outside its rectangle and stops input there, so a click at such a point
+  // would reach whatever control lies under it instead.
+  async function requireUnclipped(node,x,y) {
+    for (const clip of await clippingRects(node)) {
       const [left,top]=clip.origin;
       e.need(x>=left && x<left+clip.width && y>=top && y<top+clip.height,'HUB_SMOKE_CONTROL_CLIPPED',
-        node+' point='+x+','+y+' clip='+ancestor+' rect='+[left,top,clip.width,clip.height].map(Math.round).join(','));
+        node+' point='+x+','+y+' clip='+clip.ancestor+' rect='+[left,top,clip.width,clip.height].map(Math.round).join(','));
     }
   }
   async function reveal(node,scroll,act) {
@@ -1298,11 +1305,10 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     for(let attempt=0;attempt<20;attempt++){
       budget();
       const target=await controlBounds(node), clip=await controlBounds(scroll);
-      const center=target.origin[1]+target.height/2, top=clip.origin[1], bottom=top+clip.height;
       height=clip.height;
-      if(center>=top+8&&center<=bottom-8)return;
-      const page=center<top? -1:1;
-      trace.push(Math.round(center-top)+(page<0?'up':'down'));
+      const page=revealPage(target,clip,visibleSpan(target,await clippingRects(node)));
+      if(page===0)return;
+      trace.push(Math.round(target.origin[1]+target.height/2-clip.origin[1])+(page<0?'up':'down'));
       const point=await clickControl(scroll+'/_v_scroll',{scrollPage:page});
       await act('click',point.x,point.y,0);
     }
@@ -1435,6 +1441,23 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     get usable(){return Boolean(pid && !terminal && !error);}};
 }
 
+// The vertical part of a control that every clipping ancestor leaves visible; empty when bottom <= top.
+function visibleSpan(bounds,clips) {
+  let top=bounds.origin[1], bottom=top+bounds.height;
+  for (const clip of clips) {
+    top=Math.max(top,clip.origin[1]);
+    bottom=Math.min(bottom,clip.origin[1]+clip.height);
+  }
+  return {top,bottom};
+}
+// A scroll page moves the content by at most the view height. A target counts as revealed once the smaller of half
+// its height and 16 pixels is visible, so the accepted band of target centres is at least one view high and a page
+// cannot step over it. The former rule required the centre 8 pixels inside the view; a 290-pixel page then skipped
+// that 274-pixel band and alternated between 287 and -3 (Run 2a R2a-9). Returns 0, -1 (page up) or 1 (page down).
+function revealPage(target,clip,span) {
+  if (span.bottom-span.top>=Math.min(target.height/2,16)) return 0;
+  return target.origin[1]+target.height/2<clip.origin[1]+clip.height/2 ? -1 : 1;
+}
 function resetSequence(steps,lifetime) {
   const reset=steps.at(-1);
   e.need(reset?.id==='reset-'+lifetime,'RENDERED_RECOVERY_DECLARATION');
@@ -1865,7 +1888,7 @@ async function verifyCompletion(root, relative, registered) {
   return {status:'pass',invocation:final.invocation,executed:receipts.size,scope:'Current Windows resource delivery'};
 }
 
-module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, coverageRows, validateProcedure, validateCatalog, loadCatalog,
+module.exports = {visibleSpan, revealPage, CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, familyRuns, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
