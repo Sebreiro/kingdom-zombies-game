@@ -101,6 +101,7 @@ const sample = (key, value, node = character, property = 'metadata/sample') =>
   ({node, property, key, value, match: 'field'});
 const view = (key, value) => sample(key, value, resource, 'metadata/resource_view');
 const appearance = (key, value) => sample(key, value, corpse, 'metadata/appearance');
+const library = (key, value) => sample(key, value, collection, 'metadata/ui_library');
 const oneBody = {node: corpse, property: null, childClass: 'Node2D', value: 1, match: 'child-count'};
 const positive = (node, property) => ({node, property, match: 'positive-count'});
 const click = (id, control, checks, scroll) => ({id, control, checks, drive: driver => driver.click(control, {scroll})});
@@ -380,7 +381,7 @@ function collectionStep(state, suffix) {
   });
   const gridCount = {node: contents + '/Grids', property: null, childClass: 'VBoxContainer',
     value: sample.grids.length, match: 'child-count'};
-  const checks = [view('controller', 'InventoryLayouts'), view('state', id), ...declaredRows, gridCount,
+  const checks = [library('controller', 'InventoryLayouts'), view('state', id), ...declaredRows, gridCount,
     text(contents + '/Title', sample.name + ' · ' + id),
     text(collection + '/Warning', 'World continues. ' + sample.warning),
     text(contents + '/Scope', 'Layout example — gameplay actions are not active.')];
@@ -390,7 +391,7 @@ function collectionStep(state, suffix) {
 }
 
 const openCollection = () => resourceStep('source-inventory-fixture', 'UI', 'UI-12',
-  [view('controller', 'InventoryLayouts'), view('state', 'inventory.broken'), exists(contents + '/Slots')]);
+  [library('controller', 'InventoryLayouts'), view('state', 'inventory.broken'), exists(contents + '/Slots')]);
 for (const [scope, fixtureName] of Object.entries({empty: 'empty', loading: 'loading', error: 'error',
   populated: 'normal', partial: 'partial', overflow: 'overflow', 'long-text': 'long-text'})) {
   recipes.set('UIH.UI-COLLECTIONS.' + scope, async state => {

@@ -872,3 +872,27 @@ test('InspectionReset_AfterFailedStep_RestoresFixtureAndBaseline', async t => {
       /INSPECTION_RESET_BASELINE asset-pipeline\.heldout\.H17: RENDERED_NATIVE_SETTLE baseline/);
   });
 });
+
+test('UiCollections_ControllerCheck_ReadsLibrarySurface', async t => {
+  const root = path.resolve(gameRoot, '../../..');
+  const kit = fs.readFileSync(path.join(gameRoot, 'inspection/IdentityKit.cs'), 'utf8');
+
+  await t.test('InventoryLayouts is named only in the library surface metadata (run 2a R2a-11)', () => {
+    assert.match(kit, /Surface\.SetMeta\(name: "ui_library"[\s\S]{0,200}controller = _inventory is not null/);
+    assert.match(kit, /controller = UiHandles\(id: _id\) \? "Source-bound UI presenter"/);
+  });
+  await t.test('collection steps read the controller from the library surface, the state from the view', async () => {
+    for (const scope of ['empty', 'loading', 'error', 'populated', 'partial', 'overflow', 'long-text']) {
+      const {steps} = await inspection.recipes.get('UIH.UI-COLLECTIONS.' + scope)({root});
+      for (const step of steps.slice(0, 2)) {
+        const controller = step.checks.filter(check => check.key === 'controller');
+        assert.equal(controller.length, 1, scope + ' ' + step.id);
+        assert.match(controller[0].node, /\/ResourcePreview\/Art\/LibraryScroll\/Surface$/);
+        assert.equal(controller[0].property, 'metadata/ui_library');
+        assert.equal(controller[0].value, 'InventoryLayouts');
+        assert(step.checks.some(check => check.key === 'state' && check.property === 'metadata/resource_view'),
+          scope + ' ' + step.id);
+      }
+    }
+  });
+});
